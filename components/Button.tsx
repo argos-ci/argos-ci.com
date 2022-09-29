@@ -30,6 +30,10 @@ const InnerButton = styled.buttonBox(
       border-radius: lg;
       cursor: default;
 
+      &:is(a) {
+        cursor: pointer;
+      }
+
       &:disabled {
         opacity: 0.38;
       }
