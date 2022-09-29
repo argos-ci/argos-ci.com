@@ -1,6 +1,9 @@
 import { defaultTheme, DefaultTheme, th } from "@xstyled/styled-components";
 
 export interface Theme extends DefaultTheme {
+  fonts: DefaultTheme["fonts"] & {
+    default: string;
+  };
   colors: DefaultTheme["colors"] & {
     "slate-50": string;
     "slate-100": string;
@@ -43,6 +46,10 @@ export interface Theme extends DefaultTheme {
 
 export const theme: Theme = {
   ...defaultTheme,
+  fonts: {
+    ...defaultTheme.fonts,
+    default: "Lato, sans-serif",
+  },
   colors: {
     ...defaultTheme.colors,
     "slate-50": "#f8fafc",

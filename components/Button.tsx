@@ -19,6 +19,7 @@ const InnerButton = styled.buttonBox(
   ({ $color = "primary", $variant }: ButtonStyledProps) => {
     return css`
       padding: 2 4;
+      font-family: default;
       font-size: sm;
       font-weight: 500;
       line-height: 1;
