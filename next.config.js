@@ -7,7 +7,10 @@ const withMDX = require("@next/mdx")({
   },
 });
 
-module.exports = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+  swcMinify: true,
   ...withMDX({
     i18n: {
       locales: ["en"],
@@ -27,3 +30,5 @@ module.exports = {
     ];
   },
 };
+
+module.exports = nextConfig;
