@@ -1,9 +1,41 @@
-import { defaultTheme, DefaultTheme, th } from "@xstyled/styled-components";
+import {
+  defaultTheme,
+  DefaultTheme,
+  th,
+  up,
+  css,
+  FontSize,
+  ThemeFontWeight,
+  LineHeight,
+} from "@xstyled/styled-components";
 
 export interface Theme extends DefaultTheme {
   fonts: DefaultTheme["fonts"] & {
     default: string;
   };
+  texts: {
+    h1: {
+      fontSize: FontSize,
+      fontWeight: string,
+      color:string,
+    }
+    h2: {
+      fontSize: FontSize,
+      fontWeight: string,
+      color:string,
+      lineHeight: LineHeight,
+    }
+    "hero-paragraph": {
+      fontWeight: string,
+      lineHeight: number;
+      color: string,
+    }
+    paragraph: {
+      fontWeight: string,
+      lineHeight: number;
+      color: string,
+    }
+  }
   colors: DefaultTheme["colors"] & {
     "slate-50": string;
     "slate-100": string;
@@ -40,6 +72,10 @@ export interface Theme extends DefaultTheme {
 
     on: any;
     "button-contained-text": any;
+    "button-outline-text": any;
+    "hero-paragraph": any,
+    paragraph: any,
+    title: any,
   };
 }
 
@@ -48,6 +84,29 @@ export const theme: Theme = {
   fonts: {
     ...defaultTheme.fonts,
     default: "Lato, sans-serif",
+  },
+  texts: {
+    h1: {
+      fontSize: "5xl",
+      fontWeight: "bold",
+      color: "title"
+    },
+    h2: {
+      fontSize: "2rem",
+      fontWeight: "bold",
+      lineHeight: 1.25,
+      color: "title",
+    },
+    "hero-paragraph": {
+      fontWeight: "medium",
+      lineHeight: 1.5,
+      color: "paragraph"
+    },
+    paragraph: {
+      fontWeight: "medium",
+      lineHeight: 1.5,
+      color: "paragraph"
+    },
   },
   colors: {
     ...defaultTheme.colors,
@@ -97,5 +156,9 @@ export const theme: Theme = {
 
     on: th.color("slate-900"),
     "button-contained-text": th.color("white"),
+    "button-outline-text": th.color("on"),
+    "hero-paragraph": th.color("slate-600"),
+    paragraph: th.color("slate-500"),
+    title: th.color("slate-900"),
   },
 };
