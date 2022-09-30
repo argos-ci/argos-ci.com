@@ -61,7 +61,7 @@ const InnerButton = styled.buttonBox(
 
       ${$variant === "outline" &&
       css`
-        color: button-outline-text;
+        color: ${th.color(`${$color}-600`)};
         background-color: transparent;
         border: 1;
         border-color: ${th.color(`${$color}-400`)};

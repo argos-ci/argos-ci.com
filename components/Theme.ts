@@ -40,7 +40,6 @@ export interface Theme extends DefaultTheme {
 
     on: any;
     "button-contained-text": any;
-    "button-outline-text": any;
   };
 }
 
@@ -98,6 +97,5 @@ export const theme: Theme = {
 
     on: th.color("slate-900"),
     "button-contained-text": th.color("white"),
-    "button-outline-text": th.color("on"),
   },
 };
