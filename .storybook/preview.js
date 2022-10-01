@@ -1,6 +1,6 @@
 import { ThemeProvider, Preflight } from "@xstyled/styled-components";
 // import { GlobalStyle } from "../components/GlobalStyle";
-import { theme } from "../components/Theme";
+import { GlobalStyles, theme } from "../components/Theme";
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
@@ -15,7 +15,7 @@ export const parameters = {
 export const decorators = [
   (Story) => (
     <ThemeProvider theme={theme}>
-      {/* <GlobalStyle /> */}
+      <GlobalStyles />
       <Preflight />
       <Story />
     </ThemeProvider>

@@ -2,18 +2,30 @@ import {
   defaultTheme,
   DefaultTheme,
   th,
-  up,
-  css,
   FontSize,
-  ThemeFontWeight,
   LineHeight,
+  createGlobalStyle,
+  generateHexAlphaVariants,
 } from "@xstyled/styled-components";
+
+
+export const GlobalStyles = createGlobalStyle`
+  @keyframes x-slide {
+    from {
+      transform: translateX(0%);
+    }
+    to {
+      transform: translateX(-100%);
+    }
+  }
+`
+
 
 export interface Theme extends DefaultTheme {
   fonts: DefaultTheme["fonts"] & {
     default: string;
   };
-  texts: {
+  texts: DefaultTheme["texts"] & {
     h1: {
       fontSize: FontSize,
       fontWeight: string,
@@ -35,7 +47,13 @@ export interface Theme extends DefaultTheme {
       lineHeight: number;
       color: string,
     }
-  }
+    testimonial: {
+      fontSize:string,
+      fontStyle:string,
+      fontWeight:number,
+      lineHeight:number,
+    }
+  };
   colors: DefaultTheme["colors"] & {
     "slate-50": string;
     "slate-100": string;
@@ -47,6 +65,28 @@ export interface Theme extends DefaultTheme {
     "slate-700": string;
     "slate-800": string;
     "slate-900": string;
+
+    "fuchsia-50": string;
+    "fuchsia-100": string;
+    "fuchsia-200": string;
+    "fuchsia-300": string;
+    "fuchsia-400": string;
+    "fuchsia-500": string;
+    "fuchsia-600": string;
+    "fuchsia-700": string;
+    "fuchsia-800": string;
+    "fuchsia-900": string;
+
+    "sky-50": string;
+    "sky-100": string;
+    "sky-200": string;
+    "sky-300": string;
+    "sky-400": string;
+    "sky-500": string;
+    "sky-600": string;
+    "sky-700": string;
+    "sky-800": string;
+    "sky-900": string;
 
     "primary-50": any;
     "primary-100": any;
@@ -76,7 +116,11 @@ export interface Theme extends DefaultTheme {
     "hero-paragraph": any,
     paragraph: any,
     title: any,
+    border: any,
   };
+  animations: DefaultTheme["animations"] & {
+    slide: string,
+  }
 }
 
 export const theme: Theme = {
@@ -107,6 +151,12 @@ export const theme: Theme = {
       lineHeight: 1.5,
       color: "paragraph"
     },
+    testimonial: {
+      fontSize:"3xl",
+      fontStyle:"italic",
+      fontWeight:500,
+      lineHeight:1.15,
+    }
   },
   colors: {
     ...defaultTheme.colors,
@@ -160,5 +210,34 @@ export const theme: Theme = {
     "hero-paragraph": th.color("slate-600"),
     paragraph: th.color("slate-500"),
     title: th.color("slate-900"),
+    border: th.color("purple-200"),
+    
+    ...generateHexAlphaVariants({
+      "fuchsia-50": "#fdf4ff",
+      "fuchsia-100": "#fae8ff",
+      "fuchsia-200": "#f5d0fe",
+      "fuchsia-300": "#f0abfc",
+      "fuchsia-400": "#e879f9",
+      "fuchsia-500": "#d946ef",
+      "fuchsia-600": "#c026d3",
+      "fuchsia-700": "#a21caf",
+      "fuchsia-800": "#86198f",
+      "fuchsia-900": "#701a75",
+
+      "sky-50": "#f0f9ff",
+      "sky-100": "#e0f2fe",
+      "sky-200": "#bae6fd",
+      "sky-300": "#7dd3fc",
+      "sky-400": "#38bdf8",
+      "sky-500": "#0ea5e9",
+      "sky-600": "#0284c7",
+      "sky-700": "#0369a1",
+      "sky-800": "#075985",
+      "sky-900": "#0c4a6e",
+    }),
+
   },
+  animations: {
+    slide: 'x-slide 50s linear infinite',
+  }
 };

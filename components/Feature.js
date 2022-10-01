@@ -1,4 +1,4 @@
-import { x, th } from "@xstyled/styled-components";
+import { x } from "@xstyled/styled-components";
 
 export const Features = (props) => (
   <x.div

@@ -24,6 +24,13 @@ import {
 import { CompatibilityIllustration } from "@/components/CompatibilityIllustration";
 import argosDiagramMobile from "@/images/argos-diagram-mobile.png";
 import argosDiagramDesktop from "@/images/argos-diagram-desktop.png";
+import tassinariProfile from "@/images/tassinari-profile.png";
+import { InfiniteLooper } from "@/components/AnimatedHorizontalSlider";
+import { AntDesign } from "@/components/AntDesign";
+import { GitBook } from "@/components/GitBook";
+import { LeMonde } from "@/components/LeMonde";
+import { Doctolib } from "@/components/Doctolib";
+import { Mui } from "@/components/Mui";
 
 const main = {
   title: "Home Sections",
@@ -159,6 +166,63 @@ export const Universal = () => {
         ) : (
           <x.img src={argosDiagramMobile} alt="argos-diagram" w={300} />
         )}
+      </x.div>
+    </x.div>
+  );
+};
+
+export const Testimonial = () => {
+  return (
+    <x.div position="relative" mt={200}>
+      <x.div
+        backgroundImage="gradient-to-b"
+        gradientFrom="fuchsia-100-a70"
+        gradientTo="sky-100-a70"
+        position="absolute"
+        h="180%"
+        w="150%"
+        top={0}
+        left={0}
+        zIndex={-1}
+        opacity={0.5}
+        transform
+        rotate={-6}
+        translateY={-150}
+        translateX={-150}
+      />
+      <x.div
+        display="flex"
+        flexDirection="column"
+        gap={8}
+        textAlign="center"
+        alignItems="center"
+      >
+        <x.div text="testimonial">
+          "Argos helps us every day to avoid regression on all MUI components."
+        </x.div>
+        <x.img src={tassinariProfile} w={20} h={20} borderRadius="full" />
+        <x.div lineHeight={1.5} fontWeight="semibold">
+          Olivier Tassinari
+          <br />
+          Founder & CEO of MUI
+        </x.div>
+        <x.hr borderBottom={1} borderColor="border" w={1} />
+        <x.div
+          color="slate-700"
+          fontWeight={700}
+          fontSize="sm"
+          lineHeight={1.3}
+        >
+          TRUSTED BY THE BEST FRONT-END TEAMS
+        </x.div>
+
+        <InfiniteLooper gap={10} repeat={4}>
+          <x.svg as={Mui} />
+          <x.svg as={AntDesign} />
+          <x.svg as={Doctolib} />
+          <x.svg as={LeMonde} />
+          <x.svg as={GitBook} />
+        </InfiniteLooper>
       </x.div>
     </x.div>
   );
