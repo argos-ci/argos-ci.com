@@ -1,9 +1,10 @@
-import Image from "next/image";
-import { x } from "@xstyled/styled-components";
+/* eslint-disable react/no-unescaped-entities */
+import { x, useUp } from "@xstyled/styled-components";
 import {
   SparklesIcon,
   EyeIcon,
   Square3Stack3DIcon,
+  RocketLaunchIcon,
 } from "@heroicons/react/24/solid";
 import {
   CameraIcon,
@@ -20,7 +21,9 @@ import {
   FeatureTitle,
   FeatureText,
 } from "../components/Feature";
-import { Compatibility } from "@/components/Compatibility";
+import { CompatibilityIllustration } from "@/components/CompatibilityIllustration";
+import argosDiagramMobile from "@/images/argos-diagram-mobile.png";
+import argosDiagramDesktop from "@/images/argos-diagram-desktop.png";
 
 const main = {
   title: "Home Sections",
@@ -96,7 +99,7 @@ export const HowDoesItWorks = () => (
   </x.div>
 );
 
-export const CompatibilitySection = () => (
+export const Compatibility = () => (
   <x.div
     display="flex"
     flexDirection={{ _: "column", md: "row" }}
@@ -104,7 +107,7 @@ export const CompatibilitySection = () => (
     alignItems="center"
   >
     <x.div flex={1} display="flex" justifyContent="center">
-      <Compatibility />
+      <CompatibilityIllustration />
     </x.div>
     <x.div display="flex" flexDirection="column" gap={6} flex={1}>
       <Chip>
@@ -120,3 +123,43 @@ export const CompatibilitySection = () => (
     </x.div>
   </x.div>
 );
+
+export const Universal = () => {
+  const md = useUp("md");
+
+  return (
+    <x.div
+      display="flex"
+      flexDirection={{ _: "column-reverse", md: "row" }}
+      gap={20}
+    >
+      <x.div flex={1} display="flex" flexDirection="column" gap={6}>
+        <Chip>
+          <x.svg as={RocketLaunchIcon} w={4} />
+          Unified platform
+        </Chip>
+        <x.div text="h2">Review websites, apps and components together</x.div>
+        <x.div text="paragraph">
+          Argos has no limit. Whether it's a single component or a website in
+          multiple resolutions, everything is possible. Use a single tool for
+          Visual Testing.
+        </x.div>
+      </x.div>
+
+      <x.div flex={1} display="flex" justifyContent="center">
+        {md ? (
+          <x.img
+            src={argosDiagramDesktop}
+            alt="argos-diagram"
+            objectFit="contain"
+            w={1}
+            h="auto"
+            mt={-4}
+          />
+        ) : (
+          <x.img src={argosDiagramMobile} alt="argos-diagram" w={300} />
+        )}
+      </x.div>
+    </x.div>
+  );
+};

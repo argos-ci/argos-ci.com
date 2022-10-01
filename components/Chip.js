@@ -13,7 +13,7 @@ export function Chip({ children, link, ...props }) {
       w="fit-content"
       py={2}
       px={4}
-      font-size="sm"
+      fontSize="sm"
       fontWeight="500"
       {...props}
     >

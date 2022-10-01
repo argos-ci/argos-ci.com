@@ -1,7 +1,7 @@
 import * as React from "react"
 import { SVGProps } from "react"
 
-export const Compatibility = (props: SVGProps<SVGSVGElement>) => (
+export const CompatibilityIllustration = (props: SVGProps<SVGSVGElement>) => (
   <svg
     width={363}
     height={402}
