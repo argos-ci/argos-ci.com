@@ -1,6 +1,10 @@
 import Image from "next/image";
 import { x } from "@xstyled/styled-components";
-import { SparklesIcon, EyeIcon } from "@heroicons/react/24/solid";
+import {
+  SparklesIcon,
+  EyeIcon,
+  Square3Stack3DIcon,
+} from "@heroicons/react/24/solid";
 import {
   CameraIcon,
   ArrowUpOnSquareStackIcon,
@@ -16,6 +20,7 @@ import {
   FeatureTitle,
   FeatureText,
 } from "../components/Feature";
+import { Compatibility } from "@/components/Compatibility";
 
 const main = {
   title: "Home Sections",
@@ -88,5 +93,30 @@ export const HowDoesItWorks = () => (
         </FeatureText>
       </Feature>
     </Features>
+  </x.div>
+);
+
+export const CompatibilitySection = () => (
+  <x.div
+    display="flex"
+    flexDirection={{ _: "column", md: "row" }}
+    gap={16}
+    alignItems="center"
+  >
+    <x.div flex={1} display="flex" justifyContent="center">
+      <Compatibility />
+    </x.div>
+    <x.div display="flex" flexDirection="column" gap={6} flex={1}>
+      <Chip>
+        <x.div as={Square3Stack3DIcon} w={4} />
+        Easy integration
+      </Chip>
+      <x.h2 text="h2">Compatible with your stack</x.h2>
+      <x.p text="paragraph">
+        Argos offers SDK for most frameworks, testing libraries and CI
+        providers. This is not mandatory, as long as you can take screenshots,
+        you can use Argos.
+      </x.p>
+    </x.div>
   </x.div>
 );
