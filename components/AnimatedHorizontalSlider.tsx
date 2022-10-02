@@ -10,12 +10,12 @@ export function InfiniteLooper({
   gap: number;
   repeat: number;
 }) {
-  const [count] = useState(repeat)
+  const [count] = useState(repeat);
 
   return (
     <x.div w={1} overflow="hidden">
       <x.div display="flex" justifyContent="center" w="fit-content">
-        {[...Array(count)].map((_, ind) => (
+        {Array.from({ length }).map((_, ind) => (
           <x.div
             key={ind}
             display="flex"
