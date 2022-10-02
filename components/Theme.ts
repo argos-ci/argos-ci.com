@@ -11,6 +11,7 @@ import {
 export const GlobalStyles = createGlobalStyle`
   html, body {
     font-family: ${th.font("default")};
+    color: ${th.color("on")};
   }
 
   @keyframes x-slide {
@@ -85,7 +86,6 @@ export interface Theme extends DefaultTheme {
 
     on: any;
     "button-contained-text": any;
-    "button-outline-text": any;
     "text-emphasis": any;
     "text-primary": any;
     "text-title": any;
@@ -212,9 +212,9 @@ export const theme: Theme = {
       "sky-800": "#075985",
       "sky-900": "#0c4a6e",
     }),
+
     on: th.color("slate-900"),
     "button-contained-text": th.color("white"),
-    "button-outline-text": th.color("on"),
     "text-emphasis": th.color("slate-600"),
     "text-primary": th.color("slate-500"),
     "text-title": th.color("slate-900"),
