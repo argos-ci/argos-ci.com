@@ -5,6 +5,8 @@ import {
   EyeIcon,
   Square3Stack3DIcon,
   RocketLaunchIcon,
+  HeartIcon,
+  ChatBubbleLeftRightIcon,
 } from "@heroicons/react/24/solid";
 import {
   CameraIcon,
@@ -171,59 +173,76 @@ export const Universal = () => {
   );
 };
 
-export const Testimonial = () => {
-  return (
-    <x.div position="relative" mt={200}>
-      <x.div
-        backgroundImage="gradient-to-b"
-        gradientFrom="fuchsia-100-a70"
-        gradientTo="sky-100-a70"
-        position="absolute"
-        h="180%"
-        w="150%"
-        top={0}
-        left={0}
-        zIndex={-1}
-        opacity={0.5}
-        transform
-        rotate={-6}
-        translateY={-150}
-        translateX={-150}
-      />
-      <x.div
-        display="flex"
-        flexDirection="column"
-        gap={8}
-        textAlign="center"
-        alignItems="center"
-      >
-        <x.div text="testimonial">
-          "Argos helps us every day to avoid regression on all MUI components."
-        </x.div>
-        <x.img src={tassinariProfile} w={20} h={20} borderRadius="full" />
-        <x.div lineHeight={1.5} fontWeight="semibold">
-          Olivier Tassinari
-          <br />
-          Founder & CEO of MUI
-        </x.div>
-        <x.hr borderBottom={1} borderColor="border" w={1} />
-        <x.div
-          color="slate-700"
-          fontWeight={700}
-          fontSize="sm"
-          lineHeight={1.3}
-        >
-          TRUSTED BY THE BEST FRONT-END TEAMS
-        </x.div>
-
-        <InfiniteLooper gap={10} repeat={4}>
-          <x.svg as={Mui} />
-          <x.svg as={AntDesign} />
-          <x.svg as={Doctolib} />
-          <x.svg as={LeMonde} />
-          <x.svg as={GitBook} />
-        </InfiniteLooper>
+export const Testimonial = () => (
+  <x.div position="relative" mt={200}>
+    <x.div
+      backgroundImage="gradient-to-b"
+      gradientFrom="fuchsia-100-a70"
+      gradientTo="sky-100-a70"
+      position="absolute"
+      h="180%"
+      w="150%"
+      top={0}
+      left={0}
+      zIndex={-1}
+      opacity={0.5}
+      transform
+      rotate={-6}
+      translateY={-150}
+      translateX={-150}
+    />
+    <x.div
+      display="flex"
+      flexDirection="column"
+      gap={8}
+      textAlign="center"
+      alignItems="center"
+    >
+      <x.div text="testimonial">
+        "Argos helps us every day to avoid regression on all MUI components."
       </x.div>
+      <x.img src={tassinariProfile} w={20} h={20} borderRadius="full" />
+      <x.div lineHeight={1.5} fontWeight="semibold">
+        Olivier Tassinari
+        <br />
+        Founder & CEO of MUI
+      </x.div>
+      <x.hr borderBottom={1} borderColor="border" w={1} />
+      <x.div color="slate-700" fontWeight={700} fontSize="sm" lineHeight={1.3}>
+        TRUSTED BY THE BEST FRONT-END TEAMS
+      </x.div>
+
+      <InfiniteLooper gap={10} repeat={4}>
+        <x.svg as={Mui} />
+        <x.svg as={AntDesign} />
+        <x.svg as={Doctolib} />
+        <x.svg as={LeMonde} />
+        <x.svg as={GitBook} />
+      </InfiniteLooper>
     </x.div>
-  );
-};
+  </x.div>
+);
+
+export const Community = () => (
+  <x.div
+    display="flex"
+    flexDirection="column"
+    gap={6}
+    textAlign="center"
+    alignItems="center"
+  >
+    <Chip>
+      <x.svg as={HeartIcon} w={4} />
+      Open source
+    </Chip>
+    <x.h2 text="h2">Join the community</x.h2>
+    <x.div text="paragraph">
+      Argos is open source and community driven. Supported by a network of early
+      advocates, contributors, and champions.
+    </x.div>
+    <Button display="flex" gap={1} w="fit-content">
+      <x.svg as={ChatBubbleLeftRightIcon} w={4} />
+      Chat about Argos on Discord
+    </Button>
+  </x.div>
+);
