@@ -44,8 +44,7 @@ export default main;
 export const AboveTheFold = () => (
   <x.div display="flex" gap={11} alignItems="center">
     <x.div display="flex" flexDirection="column" gap={6} flex={1}>
-      <Chip link>
-        <x.div as={SparklesIcon} w={4} />
+      <Chip icon={SparklesIcon} clickable>
         <x.span fontWeight="700">New · </x.span>
         Storybook support
       </Chip>
@@ -70,10 +69,7 @@ export const AboveTheFold = () => (
 
 export const HowDoesItWorks = () => (
   <x.div display="flex" flexDirection="column" gap={6} alignItems="center">
-    <Chip link>
-      <x.div as={EyeIcon} w={4} />
-      What is Argos?
-    </Chip>
+    <Chip icon={EyeIcon}>What is Argos?</Chip>
     <x.h2 text="h2" textAlign="center">
       Get instant value from a simple screenshot
     </x.h2>
@@ -120,10 +116,7 @@ export const Compatibility = () => (
       <CompatibilityIllustration />
     </x.div>
     <x.div display="flex" flexDirection="column" gap={6} flex={1}>
-      <Chip>
-        <x.div as={Square3Stack3DIcon} w={4} />
-        Easy integration
-      </Chip>
+      <Chip icon={Square3Stack3DIcon}>Easy integration</Chip>
       <x.h2 text="h2">Compatible with your stack</x.h2>
       <x.p text="paragraph">
         Argos offers SDK for most frameworks, testing libraries and CI
@@ -144,10 +137,7 @@ export const Universal = () => {
       gap={20}
     >
       <x.div flex={1} display="flex" flexDirection="column" gap={6}>
-        <Chip>
-          <x.svg as={RocketLaunchIcon} w={4} />
-          Unified platform
-        </Chip>
+        <Chip icon={RocketLaunchIcon}>Unified platform</Chip>
         <x.div text="h2">Review websites, apps and components together</x.div>
         <x.div text="paragraph">
           Argos has no limit. Whether it's a single component or a website in
@@ -232,10 +222,7 @@ export const Community = () => (
     textAlign="center"
     alignItems="center"
   >
-    <Chip>
-      <x.svg as={HeartIcon} w={4} />
-      Open source
-    </Chip>
+    <Chip icon={HeartIcon}>Open source</Chip>
     <x.h2 text="h2">Join the community</x.h2>
     <x.div text="paragraph">
       Argos is open source and community driven. Supported by a network of early
