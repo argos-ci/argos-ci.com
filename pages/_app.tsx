@@ -1,18 +1,11 @@
 import { StrictMode } from "react";
 import Head from "next/head";
-import {
-  ThemeProvider,
-  Preflight,
-  createGlobalStyle,
-} from "@xstyled/styled-components";
+import { ThemeProvider, createGlobalStyle } from "@xstyled/styled-components";
 import { theme } from "@/components/Theme";
+import { GlobalStyle } from "@/components/GlobalStyle";
 import type { AppProps } from "next/app";
 // import { AppNavbar } from "@/components/Navbar";
 // import { AppFooter } from "@/components/Footer";
-
-const GlobalStyle = createGlobalStyle`
-  /* Put global styles here */
-`;
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
@@ -44,7 +37,6 @@ const App = ({ Component, pageProps }: AppProps) => {
         />
       </Head>
       <ThemeProvider theme={theme}>
-        <Preflight />
         <GlobalStyle />
         {/* <AppNavbar /> */}
         <main>

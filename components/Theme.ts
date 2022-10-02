@@ -9,6 +9,10 @@ import {
 } from "@xstyled/styled-components";
 
 export const GlobalStyles = createGlobalStyle`
+  html, body {
+    font-family: ${th.font("default")};
+  }
+
   @keyframes x-slide {
     from {
       transform: translateX(0%);
