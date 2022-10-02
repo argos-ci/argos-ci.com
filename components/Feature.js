@@ -37,13 +37,13 @@ export const FeatureIcon = ({ icon: Icon, color = "primary", ...props }) => (
 );
 
 export const FeatureTitle = ({ children, ...props }) => (
-  <x.div fontWeight="semibold" color="title" lineHeight={1.5} {...props}>
+  <x.div fontWeight="semibold" color="text-title" lineHeight={1.5} {...props}>
     {children}
   </x.div>
 );
 
 export const FeatureText = ({ children, ...props }) => (
-  <x.div text="paragraph" {...props}>
+  <x.div text="text-primary" {...props}>
     {children}
   </x.div>
 );

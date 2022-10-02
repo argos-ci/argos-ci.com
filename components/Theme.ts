@@ -113,10 +113,11 @@ export interface Theme extends DefaultTheme {
     on: any;
     "button-contained-text": any;
     "button-outline-text": any;
-    "hero-paragraph": any,
-    paragraph: any,
-    title: any,
+    "text-emphasis": any,
+    "text-primary": any,
+    "text-title": any,
     border: any,
+    "footer-border": any,
   };
   animations: DefaultTheme["animations"] & {
     slide: string,
@@ -133,13 +134,13 @@ export const theme: Theme = {
     h1: {
       fontSize: "5xl",
       fontWeight: "bold",
-      color: "title"
+      color: "text-title"
     },
     h2: {
       fontSize: "2rem",
       fontWeight: "bold",
       lineHeight: 1.25,
-      color: "title",
+      color: "text-title",
     },
     "hero-paragraph": {
       fontWeight: "medium",
@@ -149,7 +150,7 @@ export const theme: Theme = {
     paragraph: {
       fontWeight: "medium",
       lineHeight: 1.5,
-      color: "paragraph"
+      color: "text-primary"
     },
     testimonial: {
       fontSize:"3xl",
@@ -204,14 +205,6 @@ export const theme: Theme = {
     "secondary-800": th.color("slate-800"),
     "secondary-900": th.color("slate-900"),
 
-    on: th.color("slate-900"),
-    "button-contained-text": th.color("white"),
-    "button-outline-text": th.color("on"),
-    "hero-paragraph": th.color("slate-600"),
-    paragraph: th.color("slate-500"),
-    title: th.color("slate-900"),
-    border: th.color("purple-200"),
-    
     ...generateHexAlphaVariants({
       "fuchsia-50": "#fdf4ff",
       "fuchsia-100": "#fae8ff",
@@ -235,7 +228,14 @@ export const theme: Theme = {
       "sky-800": "#075985",
       "sky-900": "#0c4a6e",
     }),
-
+    on: th.color("slate-900"),
+    "button-contained-text": th.color("white"),
+    "button-outline-text": th.color("on"),
+    "text-emphasis": th.color("slate-600"),
+    "text-primary": th.color("slate-500"),
+    "text-title": th.color("slate-900"),
+    border: th.color("purple-200"),
+    "footer-border": th.color("slate-200"),
   },
   animations: {
     slide: 'x-slide 50s linear infinite',

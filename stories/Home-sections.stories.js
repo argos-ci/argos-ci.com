@@ -33,6 +33,7 @@ import { GitBook } from "@/components/GitBook";
 import { LeMonde } from "@/components/LeMonde";
 import { Doctolib } from "@/components/Doctolib";
 import { Mui } from "@/components/Mui";
+import { AppFooter } from "@/components/Footer";
 
 const main = {
   title: "Home Sections",
@@ -246,3 +247,5 @@ export const Community = () => (
     </Button>
   </x.div>
 );
+
+export const Footer = () => <AppFooter />;
