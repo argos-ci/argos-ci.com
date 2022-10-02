@@ -1,4 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
+import NextLink from "next/link";
 import { x, useUp } from "@xstyled/styled-components";
 import {
   SparklesIcon,
@@ -33,7 +34,9 @@ import { GitBook } from "@/components/GitBook";
 import { LeMonde } from "@/components/LeMonde";
 import { Doctolib } from "@/components/Doctolib";
 import { Mui } from "@/components/Mui";
-import { AppFooter } from "@/components/Footer";
+import { AppFooter } from "@/containers/AppFooter";
+import { AppNavbar } from "@/containers/AppNavbar";
+import { Container } from "@/components/Container";
 
 const main = {
   title: "Home Sections",
@@ -42,28 +45,31 @@ const main = {
 export default main;
 
 export const AboveTheFold = () => (
-  <x.div display="flex" gap={11} alignItems="center">
-    <x.div display="flex" flexDirection="column" gap={6} flex={1}>
-      <Chip icon={SparklesIcon} clickable>
-        <x.span fontWeight="700">New · </x.span>
-        Storybook support
-      </Chip>
-      <x.h1 text="h1">Ship pixel perfect apps with no bug.</x.h1>
-      <x.p text="teaser">
-        Argos detects all visual changes in websites, components or applications
-        and notifies in pull-requests.
-      </x.p>
-      <x.div display="flex" gap={{ _: 4, sm: 6 }}>
-        <Button>View a demo build</Button>
-        <Button color="secondary" variant="outline">
-          Documentation
-        </Button>
+  <x.div minH={2000}>
+    <AppNavbar />
+    <Container display="flex" gap={11} alignItems="center" mt={20}>
+      <x.div display="flex" flexDirection="column" gap={6} flex={1}>
+        <Chip icon={SparklesIcon} clickable>
+          <x.span fontWeight="700">New · </x.span>
+          Storybook support
+        </Chip>
+        <x.h1 text="h1">Ship pixel perfect apps with no bug.</x.h1>
+        <x.p text="teaser">
+          Argos detects all visual changes in websites, components or
+          applications and notifies in pull-requests.
+        </x.p>
+        <x.div display="flex" gap={{ _: 4, sm: 6 }}>
+          <Button>View a demo build</Button>
+          <Button color="secondary" variant="outline">
+            Documentation
+          </Button>
+        </x.div>
       </x.div>
-    </x.div>
 
-    <x.div flex={1} display={{ _: "none", md: "block" }}>
-      <x.img src={heroIllustration} alt="hero-illustration" w={1} />
-    </x.div>
+      <x.div flex={1} display={{ _: "none", md: "block" }}>
+        <x.img src={heroIllustration} alt="hero-illustration" w={1} mb={-5} />
+      </x.div>
+    </Container>
   </x.div>
 );
 

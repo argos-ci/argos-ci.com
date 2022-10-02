@@ -87,11 +87,14 @@ export interface Theme extends DefaultTheme {
     on: any;
     "on-light": any;
     "button-contained-text": any;
-    "text-emphasis": any;
-    "text-primary": any;
-    "text-title": any;
-    border: any;
-    "footer-border": any;
+    "button-outline-text": any;
+    accent: any,
+    "text-primary": any,
+    title: any,
+    border: any,
+    "footer-border": any,
+    lighter: any,
+    darker: any,
   };
   animations: DefaultTheme["animations"] & {
     slide: string;
@@ -119,12 +122,13 @@ export const theme: Theme = {
     h1: {
       fontSize: "5xl",
       fontWeight: "bold",
-      color: "text-title",
+      color: "title"
     },
     h2: {
       fontSize: "2rem",
       lineHeight: 1.25,
       fontWeight: "bold",
+      color: "title",
     },
     quote: {
       fontSize: "3xl",
@@ -135,6 +139,7 @@ export const theme: Theme = {
     },
     "feature-title": {
       fontSize: "default",
+      color:"title",
       lineHeight: 1.5,
       fontWeight: "semibold",
     },
@@ -217,11 +222,14 @@ export const theme: Theme = {
     on: th.color("slate-900"),
     "on-light": th.color("slate-500"),
     "button-contained-text": th.color("white"),
-    "text-emphasis": th.color("slate-600"),
+    "button-outline-text": th.color("on"),
+    accent: th.color("slate-600"),
     "text-primary": th.color("slate-500"),
-    "text-title": th.color("slate-900"),
+    title: th.color("slate-900"),
     border: th.color("purple-200"),
     "footer-border": th.color("slate-200"),
+    lighter: th.color("white"),
+    darker: th.color("black"),
   },
   animations: {
     ...defaultTheme.animations,
