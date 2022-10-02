@@ -17,12 +17,12 @@ import { Button } from "@/components/Button";
 import { Chip } from "@/components/Chip";
 import heroIllustration from "@/images/hero-illustration.png";
 import {
-  Features,
+  FeatureList,
   Feature,
   FeatureIcon,
   FeatureTitle,
   FeatureText,
-} from "../components/Feature";
+} from "@/components/Feature";
 import { CompatibilityIllustration } from "@/components/CompatibilityIllustration";
 import argosDiagramMobile from "@/images/argos-diagram-mobile.png";
 import argosDiagramDesktop from "@/images/argos-diagram-desktop.png";
@@ -49,7 +49,7 @@ export const AboveTheFold = () => (
         Storybook support
       </Chip>
       <x.h1 text="h1">Ship pixel perfect apps with no bug.</x.h1>
-      <x.p text="hero-paragraph">
+      <x.p text="teaser">
         Argos detects all visual changes in websites, components or applications
         and notifies in pull-requests.
       </x.p>
@@ -68,16 +68,20 @@ export const AboveTheFold = () => (
 );
 
 export const HowDoesItWorks = () => (
-  <x.div display="flex" flexDirection="column" gap={6} alignItems="center">
+  <x.section
+    display="flex"
+    flexDirection="column"
+    gap={6}
+    alignItems="center"
+    textAlign="center"
+  >
     <Chip icon={EyeIcon}>What is Argos?</Chip>
-    <x.h2 text="h2" textAlign="center">
-      Get instant value from a simple screenshot
-    </x.h2>
-    <x.p text="paragraph" textAlign="center">
+    <x.h2 text="h2">Get instant value from a simple screenshot</x.h2>
+    <x.p text="teaser">
       Take screenshots, upload them and get instant value by being notified of
       changes.
     </x.p>
-    <Features>
+    <FeatureList>
       <Feature>
         <FeatureIcon icon={CameraIcon} />
         <FeatureTitle>Take screenshots</FeatureTitle>
@@ -101,16 +105,16 @@ export const HowDoesItWorks = () => (
           changes.
         </FeatureText>
       </Feature>
-    </Features>
-  </x.div>
+    </FeatureList>
+  </x.section>
 );
 
 export const Compatibility = () => (
-  <x.div
+  <x.section
     display="flex"
     flexDirection={{ _: "column", md: "row" }}
-    gap={16}
     alignItems="center"
+    gap={16}
   >
     <x.div flex={1} display="flex" justifyContent="center">
       <CompatibilityIllustration />
@@ -118,32 +122,32 @@ export const Compatibility = () => (
     <x.div display="flex" flexDirection="column" gap={6} flex={1}>
       <Chip icon={Square3Stack3DIcon}>Easy integration</Chip>
       <x.h2 text="h2">Compatible with your stack</x.h2>
-      <x.p text="paragraph">
+      <x.p text="teaser">
         Argos offers SDK for most frameworks, testing libraries and CI
         providers. This is not mandatory, as long as you can take screenshots,
         you can use Argos.
       </x.p>
     </x.div>
-  </x.div>
+  </x.section>
 );
 
 export const Universal = () => {
   const md = useUp("md");
 
   return (
-    <x.div
+    <x.section
       display="flex"
       flexDirection={{ _: "column-reverse", md: "row" }}
       gap={20}
     >
       <x.div flex={1} display="flex" flexDirection="column" gap={6}>
         <Chip icon={RocketLaunchIcon}>Unified platform</Chip>
-        <x.div text="h2">Review websites, apps and components together</x.div>
-        <x.div text="paragraph">
+        <x.h2 text="h2">Review websites, apps and components together</x.h2>
+        <x.p text="teaser">
           Argos has no limit. Whether it's a single component or a website in
           multiple resolutions, everything is possible. Use a single tool for
           Visual Testing.
-        </x.div>
+        </x.p>
       </x.div>
 
       <x.div flex={1} display="flex" justifyContent="center">
@@ -160,12 +164,12 @@ export const Universal = () => {
           <x.img src={argosDiagramMobile} alt="argos-diagram" w={300} />
         )}
       </x.div>
-    </x.div>
+    </x.section>
   );
 };
 
 export const Testimonial = () => (
-  <x.div position="relative" mt={200}>
+  <x.section position="relative" mt={200}>
     <x.div
       backgroundImage="gradient-to-b"
       gradientFrom="fuchsia-100-a70"
@@ -185,9 +189,9 @@ export const Testimonial = () => (
     <x.div
       display="flex"
       flexDirection="column"
+      alignItems="center"
       gap={8}
       textAlign="center"
-      alignItems="center"
     >
       <x.div text="testimonial">
         "Argos helps us every day to avoid regression on all MUI components."
@@ -211,28 +215,28 @@ export const Testimonial = () => (
         <x.svg as={GitBook} />
       </InfiniteLooper>
     </x.div>
-  </x.div>
+  </x.section>
 );
 
 export const Community = () => (
-  <x.div
+  <x.section
     display="flex"
     flexDirection="column"
+    alignItems="center"
     gap={6}
     textAlign="center"
-    alignItems="center"
   >
     <Chip icon={HeartIcon}>Open source</Chip>
     <x.h2 text="h2">Join the community</x.h2>
-    <x.div text="paragraph">
+    <x.p text="teaser">
       Argos is open source and community driven. Supported by a network of early
       advocates, contributors, and champions.
-    </x.div>
+    </x.p>
     <Button display="flex" gap={1} w="fit-content">
       <x.svg as={ChatBubbleLeftRightIcon} w={4} />
       Chat about Argos on Discord
     </Button>
-  </x.div>
+  </x.section>
 );
 
 export const Footer = () => <AppFooter />;

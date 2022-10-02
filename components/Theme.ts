@@ -85,6 +85,7 @@ export interface Theme extends DefaultTheme {
     "secondary-900": any;
 
     on: any;
+    "on-light": any;
     "button-contained-text": any;
     "text-emphasis": any;
     "text-primary": any;
@@ -100,7 +101,9 @@ export interface Theme extends DefaultTheme {
     h2: any;
     "hero-paragraph": any;
     paragraph: any;
-    testimonial: any;
+    quote: any;
+    "feature-title": any;
+    teaser: any;
   };
   radii: DefaultTheme["radii"] & {
     chip: string;
@@ -122,9 +125,8 @@ export const theme: Theme = {
     },
     h2: {
       fontSize: "2rem",
-      fontWeight: "bold",
       lineHeight: 1.25,
-      color: "text-title",
+      fontWeight: "bold",
     },
     "hero-paragraph": {
       fontWeight: "medium",
@@ -136,11 +138,22 @@ export const theme: Theme = {
       lineHeight: 1.5,
       color: "text-primary",
     },
-    testimonial: {
+    quote: {
       fontSize: "3xl",
       fontStyle: "italic",
-      fontWeight: 500,
+      color: "black",
+      fontWeight: "medium",
       lineHeight: 1.15,
+    },
+    "feature-title": {
+      fontSize: "default",
+      lineHeight: 1.5,
+      fontWeight: "semibold",
+    },
+    teaser: {
+      fontSize: "default",
+      lineHeight: 1.5,
+      color: "on-light",
     },
   },
   colors: {
@@ -214,6 +227,7 @@ export const theme: Theme = {
     }),
 
     on: th.color("slate-900"),
+    "on-light": th.color("slate-500"),
     "button-contained-text": th.color("white"),
     "text-emphasis": th.color("slate-600"),
     "text-primary": th.color("slate-500"),
