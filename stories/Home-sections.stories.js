@@ -193,7 +193,7 @@ export const Testimonial = () => (
       gap={8}
       textAlign="center"
     >
-      <x.div text="testimonial">
+      <x.div text="quote">
         "Argos helps us every day to avoid regression on all MUI components."
       </x.div>
       <x.img src={tassinariProfile} w={20} h={20} borderRadius="full" />

@@ -15,7 +15,7 @@ export function InfiniteLooper({
   return (
     <x.div w={1} overflow="hidden">
       <x.div display="flex" justifyContent="center" w="fit-content">
-        {Array.from({ length }).map((_, ind) => (
+        {Array.from({ length: count }).map((_, ind) => (
           <x.div
             key={ind}
             display="flex"

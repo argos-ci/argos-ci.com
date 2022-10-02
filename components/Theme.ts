@@ -99,8 +99,6 @@ export interface Theme extends DefaultTheme {
   texts: DefaultTheme["texts"] & {
     h1: any;
     h2: any;
-    "hero-paragraph": any;
-    paragraph: any;
     quote: any;
     "feature-title": any;
     teaser: any;
@@ -127,16 +125,6 @@ export const theme: Theme = {
       fontSize: "2rem",
       lineHeight: 1.25,
       fontWeight: "bold",
-    },
-    "hero-paragraph": {
-      fontWeight: "medium",
-      lineHeight: 1.5,
-      color: "paragraph",
-    },
-    paragraph: {
-      fontWeight: "medium",
-      lineHeight: 1.5,
-      color: "text-primary",
     },
     quote: {
       fontSize: "3xl",
