@@ -8,7 +8,6 @@ import {
   generateHexAlphaVariants,
 } from "@xstyled/styled-components";
 
-
 export const GlobalStyles = createGlobalStyle`
   @keyframes x-slide {
     from {
@@ -18,41 +17,11 @@ export const GlobalStyles = createGlobalStyle`
       transform: translateX(-100%);
     }
   }
-`
-
+`;
 
 export interface Theme extends DefaultTheme {
   fonts: DefaultTheme["fonts"] & {
     default: string;
-  };
-  texts: DefaultTheme["texts"] & {
-    h1: {
-      fontSize: FontSize,
-      fontWeight: string,
-      color:string,
-    }
-    h2: {
-      fontSize: FontSize,
-      fontWeight: string,
-      color:string,
-      lineHeight: LineHeight,
-    }
-    "hero-paragraph": {
-      fontWeight: string,
-      lineHeight: number;
-      color: string,
-    }
-    paragraph: {
-      fontWeight: string,
-      lineHeight: number;
-      color: string,
-    }
-    testimonial: {
-      fontSize:string,
-      fontStyle:string,
-      fontWeight:number,
-      lineHeight:number,
-    }
   };
   colors: DefaultTheme["colors"] & {
     "slate-50": string;
@@ -113,15 +82,25 @@ export interface Theme extends DefaultTheme {
     on: any;
     "button-contained-text": any;
     "button-outline-text": any;
-    "text-emphasis": any,
-    "text-primary": any,
-    "text-title": any,
-    border: any,
-    "footer-border": any,
+    "text-emphasis": any;
+    "text-primary": any;
+    "text-title": any;
+    border: any;
+    "footer-border": any;
   };
   animations: DefaultTheme["animations"] & {
-    slide: string,
-  }
+    slide: string;
+  };
+  texts: DefaultTheme["texts"] & {
+    h1: any;
+    h2: any;
+    "hero-paragraph": any;
+    paragraph: any;
+    testimonial: any;
+  };
+  radii: DefaultTheme["radii"] & {
+    chip: string;
+  };
 }
 
 export const theme: Theme = {
@@ -131,10 +110,11 @@ export const theme: Theme = {
     default: "Lato, sans-serif",
   },
   texts: {
+    ...defaultTheme.texts,
     h1: {
       fontSize: "5xl",
       fontWeight: "bold",
-      color: "text-title"
+      color: "text-title",
     },
     h2: {
       fontSize: "2rem",
@@ -145,19 +125,19 @@ export const theme: Theme = {
     "hero-paragraph": {
       fontWeight: "medium",
       lineHeight: 1.5,
-      color: "paragraph"
+      color: "paragraph",
     },
     paragraph: {
       fontWeight: "medium",
       lineHeight: 1.5,
-      color: "text-primary"
+      color: "text-primary",
     },
     testimonial: {
-      fontSize:"3xl",
-      fontStyle:"italic",
-      fontWeight:500,
-      lineHeight:1.15,
-    }
+      fontSize: "3xl",
+      fontStyle: "italic",
+      fontWeight: 500,
+      lineHeight: 1.15,
+    },
   },
   colors: {
     ...defaultTheme.colors,
@@ -238,6 +218,11 @@ export const theme: Theme = {
     "footer-border": th.color("slate-200"),
   },
   animations: {
-    slide: 'x-slide 50s linear infinite',
-  }
+    ...defaultTheme.animations,
+    slide: "x-slide 50s linear infinite",
+  },
+  radii: {
+    ...defaultTheme.radii,
+    chip: "20px",
+  },
 };
