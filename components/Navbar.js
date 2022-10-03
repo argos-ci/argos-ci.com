@@ -12,7 +12,7 @@ export const Nav = styled.nav`
   left: 0;
   z-index: 2000;
   backdrop-filter: saturate(180%) blur(5px);
-  padding: 12px 0;
+  padding: 6 0;
   font-size: sm;
 
   ${up(
@@ -45,10 +45,10 @@ export const NavbarLink = (props) => (
   />
 );
 
-const MobileMenuContainer = styled.div`
+const MobileMenuContainer = styled(Container)`
   position: fixed;
   background-color: lighter;
-  top: 60;
+  top: 92px;
   right: 0;
   bottom: 0;
   left: 0;
@@ -57,7 +57,6 @@ const MobileMenuContainer = styled.div`
 
   display: flex;
   flex-direction: column;
-  padding: 50px 60px 0 73px;
 
   &:focus {
     outline: none;

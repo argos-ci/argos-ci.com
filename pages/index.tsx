@@ -39,12 +39,13 @@ import { AppFooter } from "@/containers/AppFooter";
 import { AppNavbar } from "@/containers/AppNavbar";
 import { Container } from "@/components/Container";
 import { RotateBackground } from "@/components/RotateBackground";
+import Link from "next/link";
 
 export default function Home() {
   const md = useUp("md");
 
   return (
-    <>
+    <x.div overflow="hidden">
       <AppNavbar />
 
       <RotateBackground
@@ -207,6 +208,7 @@ export default function Home() {
           alignItems="center"
           gap={8}
           textAlign="center"
+          mb={8}
         >
           <x.div text="quote">
             "Argos helps us every day to avoid regression on all MUI
@@ -234,15 +236,14 @@ export default function Home() {
           >
             TRUSTED BY THE BEST FRONT-END TEAMS
           </x.div>
-
-          <InfiniteLooper gap={10} repeat={4}>
-            <Mui />
-            <AntDesign />
-            <Doctolib />
-            <LeMonde />
-            <GitBook />
-          </InfiniteLooper>
         </Container>
+        <InfiniteLooper gap={10} repeat={4}>
+          <Mui />
+          <AntDesign />
+          <Doctolib />
+          <LeMonde />
+          <GitBook />
+        </InfiniteLooper>
       </RotateBackground>
 
       <Container>
@@ -261,13 +262,15 @@ export default function Home() {
             Argos is open source and community driven. Supported by a network of
             early advocates, contributors, and champions.
           </x.p>
-          <Button display="flex" gap={1} w="fit-content">
-            <x.svg as={ChatBubbleLeftRightIcon} w={4} />
-            Chat about Argos on Discord
-          </Button>
+          <Link href="https://discord.gg/FNGFpJS9" passHref>
+            <Button display="flex" gap={1} w="fit-content" as="a">
+              <x.svg as={ChatBubbleLeftRightIcon} w={4} />
+              Chat about Argos on Discord
+            </Button>
+          </Link>
         </x.section>
       </Container>
       <AppFooter />
-    </>
+    </x.div>
   );
 }

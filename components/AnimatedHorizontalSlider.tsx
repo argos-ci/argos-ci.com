@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { useUp, x } from "@xstyled/styled-components";
+import { Container } from "./Container";
 
 export function InfiniteLooper({
   children,
@@ -14,13 +15,12 @@ export function InfiniteLooper({
 
   return (
     <>
-      <x.div
+      <Container
         display={{ _: "none", lg: "flex" }}
         justifyContent="space-between"
-        w={1}
       >
         {children}
-      </x.div>
+      </Container>
 
       <x.div w={1} overflow="hidden" display={{ _: "block", lg: "none" }}>
         <x.div display="flex" justifyContent="center" w="fit-content">
