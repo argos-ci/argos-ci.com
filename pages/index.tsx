@@ -57,20 +57,29 @@ export default function Home() {
       >
         <Container display="flex" gap={11} alignItems="center">
           <x.div display="flex" flexDirection="column" gap={6} flex={1}>
-            <Chip icon={SparklesIcon} clickable>
-              <x.span fontWeight="700">New · </x.span>
-              Storybook support
-            </Chip>
+            <Link href="https://docs.argos-ci.com/puppeteer" passHref>
+              <Chip icon={SparklesIcon} clickable as="a">
+                <x.span fontWeight="700">New · </x.span>
+                Puppeteer support
+              </Chip>
+            </Link>
             <x.h1 text="h1">Ship pixel perfect apps with no bug.</x.h1>
             <x.p text="teaser">
               Argos detects all visual changes in websites, components or
               applications and notifies in pull-requests.
             </x.p>
             <x.div display="flex" gap={{ _: 4, sm: 6 }}>
-              <Button>View a demo build</Button>
-              <Button color="secondary" variant="outline">
-                Documentation
-              </Button>
+              <Link
+                href="https://app.argos-ci.com/mui/material-ui/builds/3915"
+                passHref
+              >
+                <Button as="a">View a demo build</Button>
+              </Link>
+              <Link href="https://docs.argos-ci.com" passHref>
+                <Button color="secondary" variant="outline">
+                  Documentation
+                </Button>
+              </Link>
             </x.div>
           </x.div>
 

@@ -26,6 +26,7 @@ const InnerChip = styled.box(
     padding: 2 4;
     font-size: sm;
     font-weight: 500;
+    text-decoration: none;
 
     > [data-chip-icon] {
       width: 1em;
