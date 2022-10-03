@@ -34,6 +34,13 @@ export const AppFooter = (props) => (
         </FooterSection>
 
         <FooterSection>
+          <FooterSectionTitle>Legal</FooterSectionTitle>
+          <FooterLink href="/terms">Terms</FooterLink>
+          <FooterLink href="/privacy">Privacy</FooterLink>
+          <FooterLink href="/security">Security</FooterLink>
+        </FooterSection>
+
+        <FooterSection>
           <FooterSectionTitle>Community</FooterSectionTitle>
           <FooterLink href="https://github.com/argos-ci/argos">
             GitHub
@@ -42,13 +49,6 @@ export const AppFooter = (props) => (
           <FooterLink href="https://twitter.com/argos_ci?s=20&t=lOyYmPfhjDeHIKiGdNMTMw">
             Twitter
           </FooterLink>
-        </FooterSection>
-
-        <FooterSection>
-          <FooterSectionTitle>Legal</FooterSectionTitle>
-          <FooterLink href="/terms">Terms</FooterLink>
-          <FooterLink href="/privacy">Privacy</FooterLink>
-          <FooterLink href="/security">Security</FooterLink>
         </FooterSection>
       </FooterSections>
 

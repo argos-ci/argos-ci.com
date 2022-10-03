@@ -10,7 +10,7 @@ export function AppNavbar() {
   return (
     <Navbar>
       <Link cursor="pointer" href="/">
-        <x.svg as={ArgosLogo} w={210} mt={2} />
+        <x.svg as={ArgosLogo} h={10} mt={1} />
       </Link>
       <NavbarSecondary>
         <NavbarLink href="https://github.com/marketplace/argos-ci#pricing-and-setup">

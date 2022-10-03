@@ -33,7 +33,7 @@ export const FooterSectionTitle = ({ children, ...props }) => (
 
 export const FooterLink = ({ children, ...props }) => (
   <div>
-    <Link color={{ _: "accent", hover: "text-primary" }} {...props}>
+    <Link color={{ _: "accent", hover: "darker" }} {...props}>
       {children}
     </Link>
   </div>

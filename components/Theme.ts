@@ -89,6 +89,7 @@ export interface Theme extends DefaultTheme {
     "button-contained-text": any;
     "button-outline-text": any;
     accent: any,
+    "strong-accent": any,
     "text-primary": any,
     title: any,
     border: any,
@@ -225,6 +226,7 @@ export const theme: Theme = {
     "button-contained-text": th.color("white"),
     "button-outline-text": th.color("on"),
     accent: th.color("slate-600"),
+    "strong-accent": th.color("slate-700"),
     "text-primary": th.color("slate-500"),
     title: th.color("slate-900"),
     border: th.color("purple-200"),

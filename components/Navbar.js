@@ -12,13 +12,13 @@ export const Nav = styled.nav`
   left: 0;
   z-index: 2000;
   backdrop-filter: saturate(180%) blur(5px);
-  h: 60px;
+  padding: 12px 0;
+  font-size: sm;
 
   ${up(
     "md",
     css`
       background-color: transparent;
-      height: 16;
     `
   )};
 `;
@@ -38,7 +38,6 @@ export const NavbarLink = (props) => (
   <Link
     passHref
     display="block"
-    fontSize={18}
     color={{ _: "darker", hover: "accent", focus: "accent" }}
     outline="none"
     py={3}

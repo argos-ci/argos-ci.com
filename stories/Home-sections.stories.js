@@ -209,7 +209,13 @@ export const Testimonial = () => (
         Founder & CEO of MUI
       </x.div>
       <x.hr borderBottom={1} borderColor="border" w={1} />
-      <x.div color="slate-700" fontWeight={700} fontSize="sm" lineHeight={1.3}>
+      <x.div
+        color="strong-accent"
+        fontWeight="bold"
+        fontSize="sm"
+        lineHeight={1.3}
+        letterSpacing="wide"
+      >
         TRUSTED BY THE BEST FRONT-END TEAMS
       </x.div>
 
