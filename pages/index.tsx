@@ -48,7 +48,7 @@ export default function Home() {
       <RotateBackground
         backgroundImage="gradient-to-b"
         gradientFrom="lighter"
-        gradientTo="sky-100-a60"
+        gradientTo="hero-bg"
         py={20}
       >
         <Container display="flex" gap={11} alignItems="center">
@@ -201,8 +201,8 @@ export default function Home() {
       <RotateBackground
         as="section"
         backgroundImage="gradient-to-b"
-        gradientFrom="fuchsia-100-a30"
-        gradientTo="sky-100-a30"
+        gradientFrom="testimonials-bg-top"
+        gradientTo="testimonials-bg-bottom"
         pt={120}
         pb={150}
         mt={200}

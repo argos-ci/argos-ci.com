@@ -3,6 +3,8 @@ import { th, createGlobalStyle, Preflight } from "@xstyled/styled-components";
 const ArgosGlobalStyle = createGlobalStyle`
   html, body {
     font-family: ${th.font("default")};
+    background-color: lighter;
+    color: on;
   }
 
   @keyframes slide {

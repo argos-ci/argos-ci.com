@@ -19,8 +19,8 @@ const InnerChip = styled.box(
     display: inline-flex;
     align-items: center;
     gap: 2;
-    background-color: primary-50;
-    color: primary-600;
+    background-color: chip-bg;
+    color: chip-on;
     border-radius: chip;
     width: fit-content;
     padding: 2 4;

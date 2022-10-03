@@ -68,11 +68,16 @@ export interface Theme extends DefaultTheme {
     "on-dark": any;
     on: any;
     "on-light": any;
-    "button-contained-text": any;
     "primary-border": any;
     "layout-border": any;
     lighter: any;
     darker: any;
+    "button-contained-text": any;
+    "chip-on": any;
+    "chip-bg": any;
+    "hero-bg": any;
+    "testimonials-bg-top": any;
+    "testimonials-bg-bottom": any;
   };
   animations: DefaultTheme["animations"] & {
     slide: string;
@@ -112,7 +117,7 @@ export const theme: Theme = {
     quote: {
       fontSize: "3xl",
       fontStyle: "italic",
-      color: "black",
+      color: "darker",
       fontWeight: "medium",
       lineHeight: 1.15,
     },
@@ -201,11 +206,31 @@ export const theme: Theme = {
     "on-dark": th.color("black"),
     on: th.color("slate-900"),
     "on-light": th.color("slate-500"),
-    "button-contained-text": th.color("white"),
     "primary-border": th.color("purple-200"),
     "layout-border": th.color("slate-200"),
     lighter: th.color("white"),
     darker: th.color("black"),
+    "button-contained-text": th.color("white"),
+    "chip-on": th.color("primary-600"),
+    "chip-bg": th.color("primary-50"),
+    "hero-bg": th.color("sky-100-a60"),
+    "testimonials-bg-top": th.color("fuchsia-100-a30"),
+    "testimonials-bg-bottom": th.color("sky-100-a30"),
+
+    // Try dark mode
+    // "on-dark": th.color("white"),
+    // on: th.color("slate-100"),
+    // "on-light": th.color("slate-400"),
+    // "primary-border": th.color("purple-800"),
+    // "layout-border": th.color("slate-800"),
+    // lighter: th.color("black"),
+    // darker: th.color("white"),
+    // "button-contained-text": th.color("white"),
+    // "chip-on": th.color("primary-300"),
+    // "chip-bg": th.color("primary-900"),
+    // "hero-bg": th.color("sky-800-a80"),
+    // "testimonials-bg-top": th.color("fuchsia-800-a70"),
+    // "testimonials-bg-bottom": th.color("sky-800-a70"),
   },
   animations: {
     ...defaultTheme.animations,

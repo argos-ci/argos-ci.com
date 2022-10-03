@@ -1,5 +1,4 @@
-import * as React from "react"
-import { SVGProps } from "react"
+import { SVGProps } from "react";
 
 export const LeMonde = (props: SVGProps<SVGSVGElement>) => (
   <svg
@@ -22,4 +21,4 @@ export const LeMonde = (props: SVGProps<SVGSVGElement>) => (
       fill="#1A171B"
     />
   </svg>
-)
+);
