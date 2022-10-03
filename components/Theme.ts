@@ -115,7 +115,8 @@ export const theme: Theme = {
   ...defaultTheme,
   fonts: {
     ...defaultTheme.fonts,
-    default: "Lato, sans-serif",
+    default:
+      '"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",sans-serif',
   },
   texts: {
     ...defaultTheme.texts,
