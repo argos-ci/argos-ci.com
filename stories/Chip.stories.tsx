@@ -1,6 +1,6 @@
 import { x } from "@xstyled/styled-components";
 import { SparklesIcon } from "@heroicons/react/24/solid";
-import { Chip, ChipIcon } from "@/components/Chip";
+import { Chip } from "@/components/Chip";
 
 const main = {
   title: "Chip",

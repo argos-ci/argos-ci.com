@@ -1,4 +1,4 @@
-import React from "react";
+import { forwardRef } from "react";
 import styled, { th, up, css } from "@xstyled/styled-components";
 
 const StyledBurger = styled.button`
@@ -55,12 +55,20 @@ const StyledBurger = styled.button`
   )}
 `;
 
-export const Burger = React.forwardRef((props, ref) => {
-  return (
-    <StyledBurger ref={ref} aria-expanded={props.open} {...props}>
-      <span />
-      <span />
-      <span />
-    </StyledBurger>
-  );
-});
+interface BurgerProps {
+  onClick: JSX.IntrinsicElements["button"]["onClick"];
+  "aria-expanded": JSX.IntrinsicElements["button"]["aria-expanded"];
+  "aria-label": JSX.IntrinsicElements["button"]["aria-label"];
+}
+
+export const Burger = forwardRef<HTMLButtonElement, BurgerProps>(
+  (props, ref) => {
+    return (
+      <StyledBurger ref={ref} {...props}>
+        <span />
+        <span />
+        <span />
+      </StyledBurger>
+    );
+  }
+);

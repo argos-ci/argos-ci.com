@@ -29,12 +29,12 @@ import { CompatibilityIllustration } from "@/components/CompatibilityIllustratio
 import argosDiagramMobile from "@/images/argos-diagram-mobile.png";
 import argosDiagramDesktop from "@/images/argos-diagram-desktop.png";
 import tassinariProfile from "@/images/tassinari-profile.png";
-import { InfiniteLooper } from "@/components/AnimatedHorizontalSlider";
-import { AntDesign } from "@/components/AntDesign";
-import { GitBook } from "@/components/GitBook";
-import { LeMonde } from "@/components/LeMonde";
-import { Doctolib } from "@/components/Doctolib";
-import { Mui } from "@/components/Mui";
+import { Testimonials } from "@/components/Testimonials";
+import { AntDesign } from "@/components/brands/AntDesign";
+import { GitBook } from "@/components/brands/GitBook";
+import { LeMonde } from "@/components/brands/LeMonde";
+import { Doctolib } from "@/components/brands/Doctolib";
+import { Mui } from "@/components/brands/Mui";
 import { AppFooter } from "@/containers/AppFooter";
 import { AppNavbar } from "@/containers/AppNavbar";
 import { Container } from "@/components/Container";
@@ -42,14 +42,11 @@ import { RotateBackground } from "@/components/RotateBackground";
 import Link from "next/link";
 
 export default function Home() {
-  const md = useUp("md");
-
   return (
     <x.div overflow="hidden">
       <AppNavbar />
 
       <RotateBackground
-        as="section"
         backgroundImage="gradient-to-b"
         gradientFrom="lighter"
         gradientTo="sky-100-a60"
@@ -235,24 +232,24 @@ export default function Home() {
             <br />
             Founder & CEO of MUI
           </x.div>
-          <x.hr borderBottom={1} borderColor="border" w={1} />
+          <x.hr borderBottom={1} borderColor="primary-border" w={1} />
           <x.div
-            color="slate-700"
-            fontWeight={700}
+            color="on"
+            fontWeight="medium"
             fontSize="sm"
-            lineHeight={1.3}
-            letterSpacing="wide"
+            lineHeight={1.4}
+            letterSpacing="widest"
           >
             TRUSTED BY THE BEST FRONT-END TEAMS
           </x.div>
         </Container>
-        <InfiniteLooper gap={10} repeat={4}>
+        <Testimonials gap={10} repeat={4}>
           <Mui />
           <AntDesign />
           <Doctolib />
           <LeMonde />
           <GitBook />
-        </InfiniteLooper>
+        </Testimonials>
       </RotateBackground>
 
       <Container>

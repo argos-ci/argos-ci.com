@@ -1,18 +1,17 @@
-import { useRef, useState } from "react";
-import { useUp, x } from "@xstyled/styled-components";
+import { x } from "@xstyled/styled-components";
 import { Container } from "./Container";
 
-export function InfiniteLooper({
-  children,
-  gap,
-  repeat,
-}: {
+export interface TestimonialsProps {
   children: React.ReactNode;
   gap: number;
   repeat: number;
-}) {
-  const [count] = useState(repeat);
+}
 
+export const Testimonials: React.FC<TestimonialsProps> = ({
+  children,
+  gap,
+  repeat,
+}) => {
   return (
     <>
       <Container
@@ -21,12 +20,11 @@ export function InfiniteLooper({
       >
         {children}
       </Container>
-
       <x.div w={1} overflow="hidden" display={{ _: "block", lg: "none" }}>
         <x.div display="flex" justifyContent="center" w="fit-content">
-          {Array.from({ length: count }).map((_, ind) => (
+          {Array.from({ length: repeat }).map((_, index) => (
             <x.div
-              key={ind}
+              key={index}
               display="flex"
               w="max-content"
               animation="slide"
@@ -40,4 +38,4 @@ export function InfiniteLooper({
       </x.div>
     </>
   );
-}
+};

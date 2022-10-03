@@ -28,12 +28,12 @@ import { CompatibilityIllustration } from "@/components/CompatibilityIllustratio
 import argosDiagramMobile from "@/images/argos-diagram-mobile.png";
 import argosDiagramDesktop from "@/images/argos-diagram-desktop.png";
 import tassinariProfile from "@/images/tassinari-profile.png";
-import { InfiniteLooper } from "@/components/AnimatedHorizontalSlider";
-import { AntDesign } from "@/components/AntDesign";
-import { GitBook } from "@/components/GitBook";
-import { LeMonde } from "@/components/LeMonde";
-import { Doctolib } from "@/components/Doctolib";
-import { Mui } from "@/components/Mui";
+import { Testimonials } from "@/components/Testimonials";
+import { AntDesign } from "@/components/brands/AntDesign";
+import { GitBook } from "@/components/brands/GitBook";
+import { LeMonde } from "@/components/brands/LeMonde";
+import { Doctolib } from "@/components/brands/Doctolib";
+import { Mui } from "@/components/brands/Mui";
 import { AppFooter } from "@/containers/AppFooter";
 import { AppNavbar } from "@/containers/AppNavbar";
 import { Container } from "@/components/Container";
@@ -208,7 +208,7 @@ export const Testimonial = () => (
         <br />
         Founder & CEO of MUI
       </x.div>
-      <x.hr borderBottom={1} borderColor="border" w={1} />
+      <x.hr borderBottom={1} borderColor="primary-border" w={1} />
       <x.div
         color="strong-accent"
         fontWeight="bold"
@@ -219,13 +219,13 @@ export const Testimonial = () => (
         TRUSTED BY THE BEST FRONT-END TEAMS
       </x.div>
 
-      <InfiniteLooper gap={10} repeat={4}>
-        <x.svg as={Mui} />
-        <x.svg as={AntDesign} />
-        <x.svg as={Doctolib} />
-        <x.svg as={LeMonde} />
-        <x.svg as={GitBook} />
-      </InfiniteLooper>
+      <Testimonials gap={10} repeat={4}>
+        <Mui />
+        <AntDesign />
+        <Doctolib />
+        <LeMonde />
+        <GitBook />
+      </Testimonials>
     </x.div>
   </x.section>
 );

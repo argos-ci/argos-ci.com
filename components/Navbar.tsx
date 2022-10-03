@@ -1,9 +1,10 @@
-import React from "react";
 import styled, { css, up, x } from "@xstyled/styled-components";
 import { Dialog, useDialogState } from "ariakit/dialog";
 import { Burger } from "./Burger";
 import { Container } from "./Container";
 import { Link } from "./Link";
+
+import type { DialogState } from "ariakit/dialog";
 
 export const Nav = styled.nav`
   background-color: white;
@@ -23,22 +24,27 @@ export const Nav = styled.nav`
   )};
 `;
 
-export const NavbarSecondary = (props) => (
+export const NavbarSecondary: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => (
   <x.div
     display={{ _: "none", md: "flex" }}
     flex={1}
     alignItems="center"
     justifyContent="flex-end"
     gap={8}
-    {...props}
-  />
+  >
+    {children}
+  </x.div>
 );
 
-export const NavbarLink = (props) => (
+export const NavbarLink: React.FC<{
+  href: string;
+  children: React.ReactNode;
+}> = (props) => (
   <Link
-    passHref
     display="block"
-    color={{ _: "darker", hover: "accent", focus: "accent" }}
+    color={{ _: "darker", hover: "on-light", focus: "on-light" }}
     outline="none"
     py={3}
     {...props}
@@ -62,21 +68,6 @@ const MobileMenuContainer = styled(Container)`
     outline: none;
   }
 
-  &[data-animated] {
-    transition: 300ms ease-out;
-    transition-property: opacity, transform;
-
-    &[data-animating="true"] {
-      opacity: 1;
-      transform: translateY(0);
-
-      &.hidden {
-        opacity: 0;
-        transform: translateX(-30vw);
-      }
-    }
-  }
-
   ${up(
     "md",
     css`
@@ -85,50 +76,54 @@ const MobileMenuContainer = styled(Container)`
   )}
 `;
 
-function MobileMenu({ children, state, ...props }) {
-  const handleClick = (event) => {
-    if (event.target.tagName === "A") {
-      state.hide();
-    }
-  };
+interface MobileMenuProps {
+  children: React.ReactNode;
+  dialog: DialogState;
+}
 
+const MobileMenu: React.FC<MobileMenuProps> = ({ children, dialog }) => {
   return (
     <Dialog
-      onClick={handleClick}
+      onClick={(event) => {
+        if ((event.target as HTMLElement).tagName === "A") {
+          dialog.hide();
+        }
+      }}
       aria-label="Menu"
-      data-animated={state.unstable_animated}
-      data-animating={state.unstable_animating}
-      state={state}
-      {...props}
+      state={dialog}
     >
       <MobileMenuContainer>{children}</MobileMenuContainer>
     </Dialog>
   );
+};
+
+interface NavbarProps {
+  primary: React.ReactNode;
+  secondary: React.ReactNode;
 }
 
-export function Navbar({ children }) {
-  const dialog = useDialogState({ unstable_animated: true, visible: false });
-  const childrenArray = React.Children.toArray(children);
-  const secondary = childrenArray.find(
-    (child) => child.type === NavbarSecondary
-  );
+export const Navbar: React.FC<NavbarProps> = ({ primary, secondary }) => {
+  const dialog = useDialogState();
 
   return (
     <Nav>
-      <MobileMenu state={dialog}>{secondary.props.children}</MobileMenu>
+      <MobileMenu dialog={dialog}>{secondary}</MobileMenu>
 
       <Container
         display="flex"
         alignItems="center"
         justifyContent={{ _: "space-between", md: "flex-start" }}
       >
-        {children}
+        {primary}
+        <NavbarSecondary>{secondary}</NavbarSecondary>
         <Burger
           aria-label="Toggle menu"
-          onClick={dialog.toggle}
-          open={dialog.open}
+          onClick={() => {
+            dialog.toggle();
+          }}
+          aria-expanded={dialog.open}
         />
       </Container>
     </Nav>
   );
-}
+};

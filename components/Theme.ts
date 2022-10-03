@@ -2,27 +2,8 @@ import {
   defaultTheme,
   DefaultTheme,
   th,
-  FontSize,
-  LineHeight,
-  createGlobalStyle,
   generateHexAlphaVariants,
 } from "@xstyled/styled-components";
-
-export const GlobalStyles = createGlobalStyle`
-  html, body {
-    font-family: ${th.font("default")};
-    color: ${th.color("on")};
-  }
-
-  @keyframes x-slide {
-    from {
-      transform: translateX(0%);
-    }
-    to {
-      transform: translateX(-100%);
-    }
-  }
-`;
 
 export interface Theme extends DefaultTheme {
   fonts: DefaultTheme["fonts"] & {
@@ -84,18 +65,14 @@ export interface Theme extends DefaultTheme {
     "secondary-800": any;
     "secondary-900": any;
 
+    "on-dark": any;
     on: any;
     "on-light": any;
     "button-contained-text": any;
-    "button-outline-text": any;
-    accent: any,
-    "strong-accent": any,
-    "text-primary": any,
-    title: any,
-    border: any,
-    "footer-border": any,
-    lighter: any,
-    darker: any,
+    "primary-border": any;
+    "layout-border": any;
+    lighter: any;
+    darker: any;
   };
   animations: DefaultTheme["animations"] & {
     slide: string;
@@ -124,7 +101,7 @@ export const theme: Theme = {
     h1: {
       fontSize: "5xl",
       fontWeight: "bold",
-      color: "title"
+      color: "title",
     },
     h2: {
       fontSize: "2rem",
@@ -141,7 +118,7 @@ export const theme: Theme = {
     },
     "feature-title": {
       fontSize: "default",
-      color:"title",
+      color: "title",
       lineHeight: 1.5,
       fontWeight: "semibold",
     },
@@ -221,22 +198,18 @@ export const theme: Theme = {
       "sky-900": "#0c4a6e",
     }),
 
+    "on-dark": th.color("black"),
     on: th.color("slate-900"),
     "on-light": th.color("slate-500"),
     "button-contained-text": th.color("white"),
-    "button-outline-text": th.color("on"),
-    accent: th.color("slate-600"),
-    "strong-accent": th.color("slate-700"),
-    "text-primary": th.color("slate-500"),
-    title: th.color("slate-900"),
-    border: th.color("purple-200"),
-    "footer-border": th.color("slate-200"),
+    "primary-border": th.color("purple-200"),
+    "layout-border": th.color("slate-200"),
     lighter: th.color("white"),
     darker: th.color("black"),
   },
   animations: {
     ...defaultTheme.animations,
-    slide: "x-slide 50s linear infinite",
+    slide: "slide 50s linear infinite",
   },
   radii: {
     ...defaultTheme.radii,

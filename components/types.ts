@@ -74,5 +74,5 @@ export type Component<O extends Options> = {
  * type ButtonComponent = Component<Options<"button">>;
  */
 export type SystemComponent<O extends Options> = Component<
-  O & Omit<SystemProps, keyof O> & { color?: string }
+  O & Omit<SystemProps & { color?: any }, keyof O>
 >;

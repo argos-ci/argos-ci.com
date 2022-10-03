@@ -5,7 +5,7 @@ const ArgosGlobalStyle = createGlobalStyle`
     font-family: ${th.font("default")};
   }
 
-  @keyframes x-slide {
+  @keyframes slide {
     from {
       transform: translateX(0%);
     }

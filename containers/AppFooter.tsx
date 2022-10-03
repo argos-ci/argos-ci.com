@@ -8,17 +8,15 @@ import {
   FooterLink,
 } from "@/components/Footer";
 
-export const AppFooter = (props) => (
+export const AppFooter: React.FC = () => (
   <x.footer
     borderTop={1}
-    borderTopColor="footer-border"
-    backgroundColor="alternate-bg"
+    borderTopColor="layout-border"
     my={10}
     pt={{ _: 10, sm: 20 }}
     pb={16}
     lineHeight="24px"
     fontSize="14px"
-    {...props}
   >
     <Container>
       <FooterSections>
@@ -52,8 +50,8 @@ export const AppFooter = (props) => (
         </FooterSection>
       </FooterSections>
 
-      <x.hr mt={16} mb={10} borderBottom={1} borderColor="footer-border" />
-      <ArgosLogo w="160px" />
+      <x.hr mt={16} mb={10} borderBottom={1} borderColor="layout-border" />
+      <ArgosLogo width="160" />
     </Container>
   </x.footer>
 );

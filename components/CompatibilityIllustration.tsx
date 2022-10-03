@@ -1,5 +1,5 @@
-import * as React from "react"
-import { SVGProps } from "react"
+import * as React from "react";
+import { SVGProps } from "react";
 
 export const CompatibilityIllustration = (props: SVGProps<SVGSVGElement>) => (
   <svg
@@ -797,6 +797,4 @@ export const CompatibilityIllustration = (props: SVGProps<SVGSVGElement>) => (
       </radialGradient>
     </defs>
   </svg>
-)
-
-
+);

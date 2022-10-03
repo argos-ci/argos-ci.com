@@ -29,7 +29,7 @@ const InnerButton = styled.buttonBox(
       white-space: nowrap;
       border-radius: lg;
       cursor: default;
-      text-align:center;
+      text-align: center;
 
       &:is(a) {
         cursor: pointer;
