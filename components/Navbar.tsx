@@ -13,7 +13,7 @@ export const Nav = styled.nav`
   left: 0;
   z-index: 2000;
   backdrop-filter: saturate(180%) blur(5px);
-  padding: 6 0;
+  padding: 3 0;
   font-size: sm;
 
   ${up(

@@ -1,7 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
-import NextLink from "next/link";
 import Image from "next/image";
-import { x, useUp } from "@xstyled/styled-components";
+import { x } from "@xstyled/styled-components";
 import {
   SparklesIcon,
   EyeIcon,
@@ -43,7 +42,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <x.div overflow="hidden">
+    <div>
       <AppNavbar />
 
       <RotateBackground
@@ -277,6 +276,6 @@ export default function Home() {
         </x.section>
       </Container>
       <AppFooter />
-    </x.div>
+    </div>
   );
 }
