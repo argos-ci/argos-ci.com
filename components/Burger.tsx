@@ -55,20 +55,16 @@ const StyledBurger = styled.button`
   )}
 `;
 
-interface BurgerProps {
-  onClick: JSX.IntrinsicElements["button"]["onClick"];
-  "aria-expanded": JSX.IntrinsicElements["button"]["aria-expanded"];
-  "aria-label": JSX.IntrinsicElements["button"]["aria-label"];
-}
-
-export const Burger = forwardRef<HTMLButtonElement, BurgerProps>(
-  (props, ref) => {
-    return (
-      <StyledBurger ref={ref} {...props}>
-        <span />
-        <span />
-        <span />
-      </StyledBurger>
-    );
-  }
-);
+export const Burger = forwardRef<
+  HTMLButtonElement,
+  JSX.IntrinsicElements["button"]
+>((props, ref) => {
+  return (
+    // @ts-ignore
+    <StyledBurger ref={ref} {...props}>
+      <span />
+      <span />
+      <span />
+    </StyledBurger>
+  );
+});

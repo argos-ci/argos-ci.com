@@ -25,7 +25,12 @@ export const AppNavbar: React.FC = () => {
           </NavbarLink>
 
           <NextLink href="https://docs.argos-ci.com/" passHref>
-            <Button mt={{ _: 3, md: 0 }} as="a">
+            <Button
+              mt={{ _: 3, md: 0 }}
+              as="a"
+              order={{ _: -1, md: 0 }}
+              mb={{ _: 4, md: 0 }}
+            >
               Get Started
             </Button>
           </NextLink>

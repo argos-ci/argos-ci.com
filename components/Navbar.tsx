@@ -1,5 +1,5 @@
 import styled, { css, up, x } from "@xstyled/styled-components";
-import { Dialog, useDialogState } from "ariakit/dialog";
+import { Dialog, DialogDisclosure, useDialogState } from "ariakit/dialog";
 import { Burger } from "./Burger";
 import { Container } from "./Container";
 import { Link } from "./Link";
@@ -11,7 +11,7 @@ export const Nav = styled.nav`
   position: sticky;
   top: 0;
   left: 0;
-  z-index: 2000;
+  z-index: 1;
   backdrop-filter: saturate(180%) blur(5px);
   padding: 3 0;
   font-size: sm;
@@ -32,7 +32,7 @@ export const NavbarSecondary: React.FC<{ children: React.ReactNode }> = ({
     flex={1}
     alignItems="center"
     justifyContent="flex-end"
-    gap={8}
+    gap={{ md: 8 }}
   >
     {children}
   </x.div>
@@ -54,19 +54,17 @@ export const NavbarLink: React.FC<{
 const MobileMenuContainer = styled(Container)`
   position: fixed;
   background-color: lighter;
-  top: 92px;
+  top: 68px;
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 2000;
+  z-index: 1;
   overflow: auto;
+  padding: 6;
 
   display: flex;
   flex-direction: column;
-
-  &:focus {
-    outline: none;
-  }
+  gap: 3;
 
   ${up(
     "md",
@@ -108,7 +106,6 @@ export const Navbar: React.FC<NavbarProps> = ({ primary, secondary }) => {
   return (
     <Nav>
       <MobileMenu dialog={dialog}>{secondary}</MobileMenu>
-
       <Container
         display="flex"
         alignItems="center"
@@ -116,13 +113,7 @@ export const Navbar: React.FC<NavbarProps> = ({ primary, secondary }) => {
       >
         {primary}
         <NavbarSecondary>{secondary}</NavbarSecondary>
-        <Burger
-          aria-label="Toggle menu"
-          onClick={() => {
-            dialog.toggle();
-          }}
-          aria-expanded={dialog.open}
-        />
+        <DialogDisclosure state={dialog} as={Burger} />
       </Container>
     </Nav>
   );
