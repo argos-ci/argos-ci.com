@@ -42,7 +42,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div>
+    <main>
       <AppNavbar />
 
       <RotateBackground
@@ -213,7 +213,7 @@ export default function Home() {
           <x.div lineHeight={1.5} fontWeight="semibold">
             Olivier Tassinari
             <br />
-            Founder & CEO of MUI
+            Co-founder & CEO of MUI
           </x.div>
           <x.hr borderBottom={1} borderColor="primary-border" w={1} />
           <x.div
@@ -260,6 +260,6 @@ export default function Home() {
         </x.section>
       </Container>
       <AppFooter />
-    </div>
+    </main>
   );
 }

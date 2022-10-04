@@ -7,6 +7,10 @@ const ArgosGlobalStyle = createGlobalStyle`
     color: on;
   }
 
+  main {
+    contain: paint;
+  }
+
   @keyframes slide {
     from {
       transform: translateX(0%);
