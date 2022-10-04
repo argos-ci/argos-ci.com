@@ -5,6 +5,7 @@ const ArgosGlobalStyle = createGlobalStyle`
     font-family: ${th.font("default")};
     background-color: lighter;
     color: on;
+    accent-color: ${th.color("primary-500")};
   }
 
   #content {
