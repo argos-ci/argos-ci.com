@@ -17,6 +17,10 @@ interface ButtonStyledProps {
 
 const InnerButton = styled.buttonBox(
   ({ $color = "primary", $variant }: ButtonStyledProps) => {
+    const bgColor = `button-${$color}-bg`;
+    const bgHoverColor = `button-${$color}-bg-hover`;
+    const outlineColor = `button-${$color}-outline`;
+    const outlineHoverColor = `button-${$color}-outline-hover`;
     return css`
       padding: 3 6;
       font-family: default;
@@ -52,22 +56,23 @@ const InnerButton = styled.buttonBox(
       ${$variant === "contained" &&
       css`
         color: button-contained-text;
-        background-color: ${th.color(`${$color}-600`)};
+        background-color: ${bgColor};
 
         &:hover:not(:disabled) {
-          background-color: ${th.color(`${$color}-700`)};
+          background-color: ${bgHoverColor};
         }
       `}
 
       ${$variant === "outline" &&
       css`
-        color: ${th.color(`${$color}-600`)};
+        color: ${outlineColor};
         background-color: transparent;
         border: 1;
-        border-color: ${th.color(`${$color}-400`)};
+        border-color: ${outlineColor};
 
         &:hover:not(:disabled) {
-          border-color: ${th.color(`${$color}-600`)};
+          color: ${outlineHoverColor};
+          border-color: ${outlineHoverColor};
         }
       `}
     `;

@@ -9,76 +9,7 @@ export interface Theme extends DefaultTheme {
   fonts: DefaultTheme["fonts"] & {
     default: string;
   };
-  colors: DefaultTheme["colors"] & {
-    "slate-50": string;
-    "slate-100": string;
-    "slate-200": string;
-    "slate-300": string;
-    "slate-400": string;
-    "slate-500": string;
-    "slate-600": string;
-    "slate-700": string;
-    "slate-800": string;
-    "slate-900": string;
-
-    "fuchsia-50": string;
-    "fuchsia-100": string;
-    "fuchsia-200": string;
-    "fuchsia-300": string;
-    "fuchsia-400": string;
-    "fuchsia-500": string;
-    "fuchsia-600": string;
-    "fuchsia-700": string;
-    "fuchsia-800": string;
-    "fuchsia-900": string;
-
-    "sky-50": string;
-    "sky-100": string;
-    "sky-200": string;
-    "sky-300": string;
-    "sky-400": string;
-    "sky-500": string;
-    "sky-600": string;
-    "sky-700": string;
-    "sky-800": string;
-    "sky-900": string;
-
-    "primary-50": any;
-    "primary-100": any;
-    "primary-200": any;
-    "primary-300": any;
-    "primary-400": any;
-    "primary-500": any;
-    "primary-600": any;
-    "primary-700": any;
-    "primary-800": any;
-    "primary-900": any;
-
-    "secondary-50": any;
-    "secondary-100": any;
-    "secondary-200": any;
-    "secondary-300": any;
-    "secondary-400": any;
-    "secondary-500": any;
-    "secondary-600": any;
-    "secondary-700": any;
-    "secondary-800": any;
-    "secondary-900": any;
-
-    "on-dark": any;
-    on: any;
-    "on-light": any;
-    "primary-border": any;
-    "layout-border": any;
-    lighter: any;
-    darker: any;
-    "button-contained-text": any;
-    "chip-on": any;
-    "chip-bg": any;
-    "hero-bg": any;
-    "testimonials-bg-top": any;
-    "testimonials-bg-bottom": any;
-  };
+  colors: any;
   animations: DefaultTheme["animations"] & {
     slide: string;
   };
@@ -210,27 +141,65 @@ export const theme: Theme = {
     "layout-border": th.color("slate-200"),
     lighter: th.color("white"),
     darker: th.color("black"),
+
+    "feature-primary-bg": th.color("primary-50"),
+    "feature-orange-bg": th.color("orange-50"),
+    "feature-green-bg": th.color("green-50"),
+    "feature-primary-icon": th.color("primary-600"),
+    "feature-orange-icon": th.color("orange-600"),
+    "feature-green-icon": th.color("green-600"),
+
+    "button-primary-bg": th.color("primary-600"),
+    "button-primary-bg-hover": th.color("primary-700"),
+    "button-primary-outline": th.color("primary-600"),
+    "button-primary-outline-hover": th.color("primary-800"),
+    "button-secondary-bg": th.color("secondary-600"),
+    "button-secondary-bg-hover": th.color("secondary-700"),
+    "button-secondary-outline": th.color("secondary-600"),
+    "button-secondary-outline-hover": th.color("secondary-800"),
     "button-contained-text": th.color("white"),
+
     "chip-on": th.color("primary-600"),
     "chip-bg": th.color("primary-50"),
+    "chip-bg-hover": th.color("primary-100"),
+
     "hero-bg": th.color("sky-100-a60"),
+
     "testimonials-bg-top": th.color("fuchsia-100-a30"),
     "testimonials-bg-bottom": th.color("sky-100-a30"),
 
-    // Try dark mode
-    // "on-dark": th.color("white"),
-    // on: th.color("slate-100"),
-    // "on-light": th.color("slate-400"),
-    // "primary-border": th.color("purple-800"),
-    // "layout-border": th.color("slate-800"),
-    // lighter: th.color("black"),
-    // darker: th.color("white"),
-    // "button-contained-text": th.color("white"),
-    // "chip-on": th.color("primary-300"),
-    // "chip-bg": th.color("primary-900"),
-    // "hero-bg": th.color("sky-800-a80"),
-    // "testimonials-bg-top": th.color("fuchsia-800-a70"),
-    // "testimonials-bg-bottom": th.color("sky-800-a70"),
+    modes: {
+      dark: {
+        "on-dark": th.color("white"),
+        on: th.color("slate-100"),
+        "on-light": th.color("slate-400"),
+        "primary-border": th.color("primary-800"),
+        "layout-border": th.color("slate-800"),
+        lighter: th.color("black"),
+        darker: th.color("white"),
+
+        "button-primary-outline": th.color("primary-400"),
+        "button-primary-outline-hover": th.color("primary-200"),
+        "button-secondary-outline": th.color("secondary-400"),
+        "button-secondary-outline-hover": th.color("secondary-200"),
+
+        "feature-primary-bg": th.color("primary-900"),
+        "feature-orange-bg": th.color("orange-900"),
+        "feature-green-bg": th.color("green-900"),
+        "feature-primary-icon": th.color("primary-300"),
+        "feature-orange-icon": th.color("orange-300"),
+        "feature-green-icon": th.color("green-300"),
+
+        "chip-on": th.color("primary-100"),
+        "chip-bg": th.color("primary-900"),
+        "chip-bg-hover": th.color("primary-700"),
+
+        "hero-bg": th.color("blue-800-a30"),
+
+        "testimonials-bg-top": th.color("fuchsia-800-a30"),
+        "testimonials-bg-bottom": th.color("blue-800-a30"),
+      },
+    },
   },
   animations: {
     ...defaultTheme.animations,

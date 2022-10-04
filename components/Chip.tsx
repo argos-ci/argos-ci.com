@@ -45,7 +45,7 @@ const InnerChip = styled.box(
       }
 
       &:hover {
-        background-color: primary-100;
+        background-color: chip-bg-hover;
 
         > [data-chip-arrow] {
           transform: translateX(4px) scale(1.1);

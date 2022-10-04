@@ -1,4 +1,5 @@
-import { x } from "@xstyled/styled-components";
+import { useEffect, useState } from "react";
+import styled, { x, useColorMode } from "@xstyled/styled-components";
 import { Container } from "@/components/Container";
 import { ArgosLogo } from "@/components/ArgosLogo";
 import {
@@ -7,6 +8,59 @@ import {
   FooterSectionTitle,
   FooterLink,
 } from "@/components/Footer";
+import {
+  ComputerDesktopIcon,
+  MoonIcon,
+  SunIcon,
+} from "@heroicons/react/24/solid";
+
+const Select = styled.select`
+  appearance: none;
+  border: 1px solid;
+  border-color: layout-border;
+  border-radius: default;
+  padding: 2 4;
+  background-color: transparent;
+  color: on-light;
+`;
+
+const ColorModeSelector = () => {
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    setVisible(true);
+  }, []);
+  const [_colorMode, setColorMode] = useColorMode();
+  const [mode, setMode] = useState(() =>
+    typeof window === "undefined"
+      ? null
+      : window.localStorage.getItem("xstyled-color-mode") ?? null
+  );
+  useEffect(() => {
+    setTimeout(() => {
+      if (mode === null) {
+        window.localStorage.removeItem("xstyled-color-mode");
+      } else {
+        window.localStorage.setItem("xstyled-color-mode", mode);
+      }
+    });
+  }, [mode, setColorMode]);
+  if (!visible) return null;
+  return (
+    <Select
+      value={mode ?? "system"}
+      onChange={(event) => {
+        const mode =
+          event.target.value === "system" ? null : event.target.value;
+        setMode(mode);
+        setColorMode(mode);
+      }}
+    >
+      <option value="system">System</option>
+      <option value="dark">Dark</option>
+      <option value="default">Light</option>
+    </Select>
+  );
+};
 
 export const AppFooter: React.FC = () => (
   <x.footer
@@ -51,7 +105,10 @@ export const AppFooter: React.FC = () => (
       </FooterSections>
 
       <x.hr mt={16} mb={10} borderBottom={1} borderColor="layout-border" />
-      <ArgosLogo width="160" />
+      <x.div display="flex" justifyContent="space-between">
+        <ArgosLogo width="160" />
+        <ColorModeSelector />
+      </x.div>
     </Container>
   </x.footer>
 );

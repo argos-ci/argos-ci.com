@@ -18,8 +18,8 @@ export const Feature: React.FC<{ children: React.ReactNode }> = ({
 
 export const FeatureIcon: React.FC<{
   icon: React.ComponentType;
-  color?: string;
-}> = ({ icon: Icon, color = "primary" }) => (
+  color: "primary" | "orange" | "green";
+}> = ({ icon: Icon, color }) => (
   <x.div
     borderRadius="full"
     w={10}
@@ -28,8 +28,8 @@ export const FeatureIcon: React.FC<{
     alignItems="center"
     justifyContent="center"
     margin="auto"
-    backgroundColor={`${color}-50`}
-    color={`${color}-600`}
+    backgroundColor={`feature-${color}-bg`}
+    color={`feature-${color}-icon`}
   >
     <x.svg as={Icon} w={6} />
   </x.div>

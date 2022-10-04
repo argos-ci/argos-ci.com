@@ -78,7 +78,7 @@ export default function Home() {
           <x.div flex={1} display={{ _: "none", md: "block" }} mt={10}>
             <Image
               src={heroIllustration}
-              alt="hero-illustration"
+              alt="Visual Testing"
               width={1016}
               height={678}
               layout="responsive"
@@ -104,7 +104,7 @@ export default function Home() {
           </x.p>
           <FeatureList>
             <Feature>
-              <FeatureIcon icon={CameraIcon} />
+              <FeatureIcon icon={CameraIcon} color="primary" />
               <FeatureTitle>Take screenshots</FeatureTitle>
               <FeatureText>
                 Use one of Argos’ many integrations to take screenshots or do it
@@ -203,7 +203,7 @@ export default function Home() {
             "Argos helps us every day to avoid regression on all MUI
             components."
           </x.div>
-          <x.div w={20} h={20} borderRadius="full">
+          <x.div w={20} h={20} borderRadius="full" overflow="hidden">
             <Image src={tassinariProfile} alt="Olivier Tassinari" />
           </x.div>
           <x.div lineHeight={1.5} fontWeight="semibold">
@@ -223,11 +223,11 @@ export default function Home() {
           </x.div>
         </Container>
         <Testimonials gap={10} repeat={4}>
-          <Image src={antDesign} alt="Ant Design" />
-          <Image src={mui} alt="MUI" />
-          <Image src={doctolib} alt="Doctolib" />
-          <Image src={lemonde} alt="Le Monde" />
-          <Image src={gitbook} alt="GitBook" />
+          <Image className="testimonial" src={antDesign} alt="Ant Design" />
+          <Image className="testimonial" src={mui} alt="MUI" />
+          <Image className="testimonial" src={doctolib} alt="Doctolib" />
+          <Image className="testimonial" src={lemonde} alt="Le Monde" />
+          <Image className="testimonial" src={gitbook} alt="GitBook" />
         </Testimonials>
       </RotateBackground>
 
