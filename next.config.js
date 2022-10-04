@@ -8,18 +8,16 @@ const withMDX = require("@next/mdx")({
 });
 
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig = withMDX({
   reactStrictMode: true,
   swcMinify: true,
-  ...withMDX({
-    i18n: {
-      locales: ["en"],
-      defaultLocale: "en",
-    },
-    pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
-  }),
-
-  async redirects() {
+  images: {},
+  i18n: {
+    locales: ["en"],
+    defaultLocale: "en",
+  },
+  pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
+  redirects: async () => {
     return [
       {
         source: "/:organization/:repository/builds/:path*",
@@ -29,6 +27,6 @@ const nextConfig = {
       },
     ];
   },
-};
+});
 
 module.exports = nextConfig;

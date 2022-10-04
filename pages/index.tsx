@@ -24,10 +24,10 @@ import {
   FeatureTitle,
   FeatureText,
 } from "@/components/Feature";
-import { CompatibilityIllustration } from "@/components/CompatibilityIllustration";
-import argosDiagramMobile from "@/images/argos-diagram-mobile.png";
-import argosDiagramDesktop from "@/images/argos-diagram-desktop.png";
-import tassinariProfile from "@/images/tassinari-profile.png";
+import integrationImage from "@/images/integration.svg";
+import unifiedDesktopImage from "@/images/unified-desktop.svg";
+import unifiedMobileImage from "@/images/unified-mobile.svg";
+import tassinariProfile from "@/images/tassinari-profile.jpg";
 import { Testimonials } from "@/components/Testimonials";
 import { AntDesign } from "@/components/brands/AntDesign";
 import { GitBook } from "@/components/brands/GitBook";
@@ -141,7 +141,7 @@ export default function Home() {
           mt={200}
         >
           <x.div flex={1} display="flex" justifyContent="center">
-            <CompatibilityIllustration />
+            <Image src={integrationImage} alt="Argos Integrations" />
           </x.div>
           <x.div display="flex" flexDirection="column" gap={6} flex={1}>
             <Chip icon={Square3Stack3DIcon}>Easy integration</Chip>
@@ -167,13 +167,7 @@ export default function Home() {
             justifyContent="center"
             w={1}
           >
-            <Image
-              src={argosDiagramMobile}
-              alt="argos-diagram"
-              width={300}
-              height={340}
-              layout="fixed"
-            />
+            <Image src={unifiedMobileImage} alt="Unified platform" />
           </x.div>
 
           <x.div flex={1} display="flex" flexDirection="column" gap={6}>
@@ -187,13 +181,7 @@ export default function Home() {
           </x.div>
 
           <x.div flex={1} display={{ _: "none", md: "block" }}>
-            <Image
-              src={argosDiagramDesktop}
-              alt="argos-diagram"
-              width={884}
-              height={529}
-              layout="responsive"
-            />
+            <Image src={unifiedDesktopImage} alt="Unified platform" />
           </x.div>
         </x.section>
       </Container>
@@ -220,11 +208,7 @@ export default function Home() {
             components."
           </x.div>
           <x.div w={20} h={20} borderRadius="full">
-            <Image
-              src={tassinariProfile}
-              alt="argos-diagram"
-              layout="responsive"
-            />
+            <Image src={tassinariProfile} alt="Olivier Tassinari" />
           </x.div>
           <x.div lineHeight={1.5} fontWeight="semibold">
             Olivier Tassinari
