@@ -34,17 +34,13 @@ import gitbook from "@/images/brands/gitbook.svg";
 import lemonde from "@/images/brands/lemonde.svg";
 import mui from "@/images/brands/mui.svg";
 import { Testimonials } from "@/components/Testimonials";
-import { AppFooter } from "@/containers/AppFooter";
-import { AppNavbar } from "@/containers/AppNavbar";
 import { Container } from "@/components/Container";
 import { RotateBackground } from "@/components/RotateBackground";
 import Link from "next/link";
 
 export default function Home() {
   return (
-    <main>
-      <AppNavbar />
-
+    <>
       <RotateBackground
         backgroundImage="gradient-to-b"
         gradientFrom="lighter"
@@ -259,7 +255,6 @@ export default function Home() {
           </Link>
         </x.section>
       </Container>
-      <AppFooter />
-    </main>
+    </>
   );
 }

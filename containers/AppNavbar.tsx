@@ -3,7 +3,7 @@ import { ArgosLogo } from "@/components/ArgosLogo";
 import { x } from "@xstyled/styled-components";
 import { Button } from "@/components/Button";
 import React from "react";
-import { Navbar, NavbarSecondary, NavbarLink } from "../components/Navbar";
+import { Navbar, NavbarLink } from "@/components/Navbar";
 import { Link } from "@/components/Link";
 
 export const AppNavbar: React.FC = () => {

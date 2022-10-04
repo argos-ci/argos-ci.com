@@ -1,4 +1,4 @@
-import { ThemeProvider, Preflight } from "@xstyled/styled-components";
+import { ThemeProvider } from "@xstyled/styled-components";
 import { GlobalStyle } from "../components/GlobalStyle";
 import { theme } from "../components/Theme";
 

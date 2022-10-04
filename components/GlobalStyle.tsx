@@ -7,7 +7,7 @@ const ArgosGlobalStyle = createGlobalStyle`
     color: on;
   }
 
-  main {
+  #content {
     contain: paint;
   }
 

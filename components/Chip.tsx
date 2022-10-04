@@ -59,7 +59,7 @@ const InnerChip = styled.box(
 export const Chip: SystemComponent<ChipOptions> = forwardRef(
   ({ children, clickable, icon: Icon, ...props }, ref) => {
     return (
-      <InnerChip $clickable={clickable} {...props}>
+      <InnerChip ref={ref} $clickable={clickable} {...props}>
         {Icon && <Icon data-chip-icon="true" />}
         {children}
         {clickable ? (
