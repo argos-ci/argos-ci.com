@@ -28,12 +28,12 @@ import integrationImage from "@/images/integration.svg";
 import unifiedDesktopImage from "@/images/unified-desktop.svg";
 import unifiedMobileImage from "@/images/unified-mobile.svg";
 import tassinariProfile from "@/images/tassinari-profile.jpg";
+import antDesign from "@/images/brands/ant-design.svg";
+import doctolib from "@/images/brands/doctolib.svg";
+import gitbook from "@/images/brands/gitbook.svg";
+import lemonde from "@/images/brands/lemonde.svg";
+import mui from "@/images/brands/mui.svg";
 import { Testimonials } from "@/components/Testimonials";
-import { AntDesign } from "@/components/brands/AntDesign";
-import { GitBook } from "@/components/brands/GitBook";
-import { LeMonde } from "@/components/brands/LeMonde";
-import { Doctolib } from "@/components/brands/Doctolib";
-import { Mui } from "@/components/brands/Mui";
 import { AppFooter } from "@/containers/AppFooter";
 import { AppNavbar } from "@/containers/AppNavbar";
 import { Container } from "@/components/Container";
@@ -227,11 +227,11 @@ export default function Home() {
           </x.div>
         </Container>
         <Testimonials gap={10} repeat={4}>
-          <Mui />
-          <AntDesign />
-          <Doctolib />
-          <LeMonde />
-          <GitBook />
+          <Image src={antDesign} alt="Ant Design" />
+          <Image src={mui} alt="MUI" />
+          <Image src={doctolib} alt="Doctolib" />
+          <Image src={lemonde} alt="Le Monde" />
+          <Image src={gitbook} alt="GitBook" />
         </Testimonials>
       </RotateBackground>
 
