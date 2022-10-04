@@ -18,7 +18,7 @@ interface ButtonStyledProps {
 const InnerButton = styled.buttonBox(
   ({ $color = "primary", $variant }: ButtonStyledProps) => {
     return css`
-      padding: 2 4;
+      padding: 3 6;
       font-family: default;
       font-size: sm;
       font-weight: 500;
@@ -28,11 +28,10 @@ const InnerButton = styled.buttonBox(
       text-decoration: none;
       white-space: nowrap;
       border-radius: lg;
-      cursor: default;
       text-align: center;
 
-      &:is(a) {
-        cursor: pointer;
+      @media (min-width: md) {
+        padding: 2 4;
       }
 
       &:disabled {
