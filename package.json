@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "@argos-ci/cli": "^0.2.3",
+    "@argos-ci/cypress": "^0.0.4",
     "@babel/core": "^7.19.3",
     "@netlify/plugin-nextjs": "^4.13.1",
     "@storybook/addon-actions": "^6.5.12",
