@@ -1,5 +1,8 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
-import { ServerStyleSheet } from "@xstyled/styled-components";
+import {
+  ServerStyleSheet,
+  getColorModeInitScriptElement,
+} from "@xstyled/styled-components";
 import type { DocumentContext } from "next/document";
 
 export default class MyDocument extends Document {
@@ -39,6 +42,7 @@ export default class MyDocument extends Document {
           />
         </Head>
         <body>
+          {getColorModeInitScriptElement()}
           <Main />
           <NextScript />
         </body>
