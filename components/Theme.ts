@@ -47,7 +47,6 @@ export const theme: Theme = {
     },
     quote: {
       fontSize: "3xl",
-      fontStyle: "italic",
       color: "darker",
       fontWeight: "medium",
       lineHeight: 1.15,
@@ -98,6 +97,7 @@ export const theme: Theme = {
     "primary-700": th.color("purple-700"),
     "primary-800": th.color("purple-800"),
     "primary-900": th.color("purple-900"),
+    "primary-900-a50": th.color("purple-900-a50"),
 
     "secondary-50": th.color("slate-50"),
     "secondary-100": th.color("slate-100"),
@@ -178,8 +178,12 @@ export const theme: Theme = {
         lighter: th.color("black"),
         darker: th.color("white"),
 
+        "button-primary-bg": th.color("primary-700"),
+        "button-primary-bg-hover": th.color("primary-600"),
         "button-primary-outline": th.color("primary-400"),
         "button-primary-outline-hover": th.color("primary-200"),
+        "button-secondary-bg": th.color("secondary-700"),
+        "button-secondary-bg-hover": th.color("secondary-600"),
         "button-secondary-outline": th.color("secondary-400"),
         "button-secondary-outline-hover": th.color("secondary-200"),
 
@@ -190,9 +194,9 @@ export const theme: Theme = {
         "feature-orange-icon": th.color("orange-300"),
         "feature-green-icon": th.color("green-300"),
 
-        "chip-on": th.color("primary-100"),
-        "chip-bg": th.color("primary-900"),
-        "chip-bg-hover": th.color("primary-700"),
+        "chip-on": th.color("primary-300"),
+        "chip-bg": th.color("primary-900-a50"),
+        "chip-bg-hover": th.color("primary-900"),
 
         "hero-bg": th.color("blue-800-a30"),
 

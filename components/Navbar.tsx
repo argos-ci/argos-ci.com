@@ -8,7 +8,7 @@ import { Link } from "./Link";
 import type { DialogState } from "ariakit/dialog";
 
 export const Nav = styled.nav<{ $scrolled: boolean }>`
-  background-color: white;
+  background-color: lighter;
   position: sticky;
   top: 0;
   left: 0;
@@ -148,7 +148,11 @@ export const Navbar: React.FC<NavbarProps> = ({ primary, secondary }) => {
       >
         {primary}
         <NavbarSecondary>{secondary}</NavbarSecondary>
-        <DialogDisclosure state={dialog} as={Burger} />
+        <DialogDisclosure
+          state={dialog}
+          aria-label="Toggle navigation"
+          as={Burger}
+        />
       </Container>
     </Nav>
   );
