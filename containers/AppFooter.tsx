@@ -24,6 +24,8 @@ const Select = styled.select`
   color: on-light;
 `;
 
+const STORAGE_KEY = "xstyled-color-mode";
+
 const ColorModeSelector = () => {
   const [visible, setVisible] = useState(false);
   useEffect(() => {
@@ -33,17 +35,8 @@ const ColorModeSelector = () => {
   const [mode, setMode] = useState(() =>
     typeof window === "undefined"
       ? null
-      : window.localStorage.getItem("xstyled-color-mode") ?? null
+      : window.localStorage.getItem(STORAGE_KEY) ?? null
   );
-  useEffect(() => {
-    setTimeout(() => {
-      if (mode === null) {
-        window.localStorage.removeItem("xstyled-color-mode");
-      } else {
-        window.localStorage.setItem("xstyled-color-mode", mode);
-      }
-    });
-  }, [mode, setColorMode]);
   if (!visible) return null;
   return (
     <Select

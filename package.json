@@ -19,7 +19,6 @@
     "@next/mdx": "^12.2.3",
     "@xstyled/styled-components": "^3.6.0",
     "ariakit": "^2.0.0-next.41",
-    "framer-motion": "^6.5.1",
     "next": "^12.1.5",
     "react": "^18.0.2",
     "react-dom": "^18.0.2",
