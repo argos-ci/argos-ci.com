@@ -142,6 +142,8 @@ export const theme: Theme = {
     lighter: th.color("white"),
     darker: th.color("black"),
 
+    link: th.color("primary-600"),
+
     "feature-primary-bg": th.color("primary-50"),
     "feature-orange-bg": th.color("orange-50"),
     "feature-green-bg": th.color("green-50"),
@@ -165,8 +167,8 @@ export const theme: Theme = {
 
     "hero-bg": th.color("sky-100-a60"),
 
-    "testimonials-bg-top": th.color("fuchsia-100-a30"),
-    "testimonials-bg-bottom": th.color("sky-100-a30"),
+    "testimonials-bg-top": th.color("fuchsia-200-a30"),
+    "testimonials-bg-bottom": th.color("sky-200-a30"),
 
     modes: {
       dark: {
@@ -177,6 +179,8 @@ export const theme: Theme = {
         "layout-border": th.color("slate-800"),
         lighter: th.color("black"),
         darker: th.color("white"),
+
+        link: th.color("primary-400"),
 
         "button-primary-bg": th.color("primary-700"),
         "button-primary-bg-hover": th.color("primary-600"),

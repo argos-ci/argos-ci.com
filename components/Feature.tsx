@@ -3,7 +3,7 @@ import { x } from "@xstyled/styled-components";
 export const FeatureList: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => (
-  <x.div display="flex" flexDirection={{ _: "column", md: "row" }} gap={4}>
+  <x.div display="flex" flexDirection={{ _: "column", md: "row" }} gap={8}>
     {children}
   </x.div>
 );

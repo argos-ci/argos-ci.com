@@ -98,7 +98,7 @@ export default function Home() {
         >
           <Chip icon={EyeIcon}>What is Argos?</Chip>
           <x.h2 text="h2">Get instant value from a simple screenshot</x.h2>
-          <x.p text="teaser">
+          <x.p text="teaser" mb={8}>
             Take screenshots, upload them and get instant value by being
             notified of changes.
           </x.p>
