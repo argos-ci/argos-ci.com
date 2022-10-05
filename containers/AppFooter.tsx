@@ -8,11 +8,6 @@ import {
   FooterSectionTitle,
   FooterLink,
 } from "@/components/Footer";
-import {
-  ComputerDesktopIcon,
-  MoonIcon,
-  SunIcon,
-} from "@heroicons/react/24/solid";
 
 const Select = styled.select`
   appearance: none;

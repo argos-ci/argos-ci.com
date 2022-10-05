@@ -1,6 +1,6 @@
 import { forwardRef } from "react";
 import { Button as AriakitButton } from "ariakit/button";
-import styled, { css, th, system } from "@xstyled/styled-components";
+import styled, { css, system } from "@xstyled/styled-components";
 
 import type { As, Options, SystemComponent } from "./types";
 
