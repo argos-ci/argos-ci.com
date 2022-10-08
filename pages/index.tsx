@@ -220,11 +220,31 @@ export default function Home() {
           </x.div>
         </Container>
         <Testimonials gap={10} repeat={4}>
-          <Image className="testimonial" src={antDesign} alt="Ant Design" />
-          <Image className="testimonial" src={mui} alt="MUI" />
-          <Image className="testimonial" src={doctolib} alt="Doctolib" />
-          <Image className="testimonial" src={lemonde} alt="Le Monde" />
-          <Image className="testimonial" src={gitbook} alt="GitBook" />
+          <Image
+            className="testimonial"
+            src={antDesign}
+            alt="Ant Design"
+            priority={true}
+          />
+          <Image className="testimonial" src={mui} alt="MUI" priority={true} />
+          <Image
+            className="testimonial"
+            src={doctolib}
+            alt="Doctolib"
+            priority={true}
+          />
+          <Image
+            className="testimonial"
+            src={lemonde}
+            alt="Le Monde"
+            priority={true}
+          />
+          <Image
+            className="testimonial"
+            src={gitbook}
+            alt="GitBook"
+            priority={true}
+          />
         </Testimonials>
       </RotateBackground>
 
