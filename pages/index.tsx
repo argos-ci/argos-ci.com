@@ -6,8 +6,6 @@ import {
   EyeIcon,
   Square3Stack3DIcon,
   RocketLaunchIcon,
-  HeartIcon,
-  ChatBubbleLeftRightIcon,
 } from "@heroicons/react/24/solid";
 import {
   CameraIcon,
@@ -262,30 +260,6 @@ export default function Home() {
           />
         </Testimonials>
       </RotateBackground>
-
-      <Container>
-        <x.section
-          display="flex"
-          flexDirection="column"
-          alignItems="center"
-          gap={6}
-          textAlign="center"
-          mb={200}
-        >
-          <Chip icon={HeartIcon}>Open source</Chip>
-          <x.h2 text="h2">Join the community</x.h2>
-          <x.p text="teaser">
-            Argos is open source and community driven. Supported by a network of
-            early advocates, contributors, and champions.
-          </x.p>
-          <Link href="https://discord.gg/FNGFpJS9" passHref>
-            <Button display="flex" gap={1} w="fit-content" as="a">
-              <x.svg as={ChatBubbleLeftRightIcon} w={4} />
-              Chat about Argos on Discord
-            </Button>
-          </Link>
-        </x.section>
-      </Container>
     </x.div>
   );
 }
