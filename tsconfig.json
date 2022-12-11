@@ -21,12 +21,6 @@
       "@/*": ["*"]
     }
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "stories/*.stories.js",
-    "components/*.js"
-  ],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "components/*.js"],
   "exclude": ["node_modules"]
 }
