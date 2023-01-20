@@ -15,6 +15,7 @@ import {
 import { Separator } from "@/components/Separator";
 import visualTestingImage from "@/articles/visual-testing/main.jpg";
 import improveDxImage from "@/articles/improve-dx/main.jpg";
+import playwrightImage from "@/articles/playwright/main-16-9.jpg";
 
 export default function Blog() {
   return (
@@ -33,19 +34,50 @@ export default function Blog() {
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-y-20 gap-x-16 mt-12">
-        <Link href="/blog/improve-dx" className="contents">
+        <Link href="/blog/playwright" className="contents">
           <PostCard extended>
+            <PostCardImage
+              width={playwrightImage.width}
+              height={playwrightImage.height}
+              src={playwrightImage.src}
+              blurDataURL={playwrightImage.blurDataURL}
+              alt=""
+              extended
+            />
+            <PostCardBody>
+              <PostCardTag>Integration</PostCardTag>
+              <PostCardTitle extended>
+                Automating Visual Testing with Playwright and Argos
+              </PostCardTitle>
+              <PostCardDescription>
+                Playwright is a leader testing framework for automating web
+                browsers and end-to-end testing. In this guide, we will show you
+                how to automate visual testing with Playwright, Argos, and
+                GitHub CI. The goal is to be notified of visual changes on each
+                pull-request directly within GitHub, so you can catch and fix
+                visual bugs before they make it into production.
+              </PostCardDescription>
+              <PostCardFooter>
+                <PostCardAuthor>Jeremy Sfez</PostCardAuthor>
+                <Separator />
+                <PostCardDate>Dec 23, 2023</PostCardDate>
+              </PostCardFooter>
+            </PostCardBody>
+          </PostCard>
+        </Link>
+
+        <Link href="/blog/improve-dx" className="contents">
+          <PostCard>
             <PostCardImage
               width={improveDxImage.width}
               height={improveDxImage.height}
               src={improveDxImage.src}
               blurDataURL={improveDxImage.blurDataURL}
               alt="Cosy guy with dog — Photo by devn"
-              extended
             />
             <PostCardBody>
               <PostCardTag>Testing</PostCardTag>
-              <PostCardTitle extended>
+              <PostCardTitle>
                 How to improve developer experience with visual testing
               </PostCardTitle>
               <PostCardDescription>
