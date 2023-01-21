@@ -16,9 +16,11 @@
     "@mdx-js/react": "^2.1.5",
     "@next/font": "^13.0.7",
     "@next/mdx": "^13.0.6",
+    "@types/prismjs": "^1.26.0",
     "ariakit": "^2.0.0-next.41",
     "clsx": "^1.2.1",
     "next": "^13.0.6",
+    "prismjs": "^1.29.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-syntax-highlighter": "^15.5.0"

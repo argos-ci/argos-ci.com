@@ -1,4 +1,5 @@
 import "@/styles/globals.css";
+import "@/styles/prism-night-owl.css";
 import { StrictMode } from "react";
 import Head from "next/head";
 import type { AppProps } from "next/app";
