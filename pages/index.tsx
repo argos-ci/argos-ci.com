@@ -47,7 +47,7 @@ export default function Home() {
             </Chip>
             <h1 className="text-4xl sm:leading-tight sm:text-6xl font-bold bg-clip-text">
               <span className="bg-clip-text text-transparent bg-gradient-to-b from-white to-[#AAAAAA]">
-                Detect bugs
+                Detect all bugs
               </span>
               <br />
               <span className="bg-clip-text text-transparent bg-gradient-to-b from-white to-[#AAAAAA]">
