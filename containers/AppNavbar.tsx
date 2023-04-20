@@ -19,10 +19,7 @@ export const AppNavbar: React.FC = () => {
             Pricing
           </NavbarLink>
           <NavbarLink href="/blog">Blog</NavbarLink>
-          <NavbarLink href="https://github.com/login/oauth/authorize?scope=user:email&client_id=Iv1.d1a5403395ac817e">
-            Login
-          </NavbarLink>
-
+          <NavbarLink href="/login">Login</NavbarLink>
           <Button className="mt-3 md:mt-0 -order-1 md:order-[0] mb-4 md:mb-0">
             {(buttonProps) => (
               <a {...buttonProps} href="https://docs.argos-ci.com/">

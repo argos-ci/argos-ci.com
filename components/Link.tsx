@@ -1,16 +1,17 @@
 import NextLink from "next/link";
-import { ComponentProps } from "react";
+import { ComponentProps, forwardRef } from "react";
 
-export const Link = ({
-  children,
-  href,
-  ...props
-}: ComponentProps<typeof NextLink>) => (
+export const Link = forwardRef<
+  HTMLAnchorElement,
+  ComponentProps<typeof NextLink>
+>(({ children, href, ...props }, ref) => (
   <NextLink
     href={href}
     className="transition no-underline text-white hover:text-on-light"
+    ref={ref}
+    passHref
     {...props}
   >
     {children}
   </NextLink>
-);
+));

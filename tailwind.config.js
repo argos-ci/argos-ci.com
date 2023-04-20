@@ -17,6 +17,8 @@ module.exports = {
         "on-light": colors.slate[400],
         primary: colors.purple,
         neutral: colors.slate,
+
+        border: colors.slate[600],
       },
     },
   },
