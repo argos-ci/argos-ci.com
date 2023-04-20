@@ -1,5 +1,6 @@
 const pages = {
   homepage: "/",
+  login: "/login",
   terms: "/terms",
   privacy: "/privacy",
   security: "/security",

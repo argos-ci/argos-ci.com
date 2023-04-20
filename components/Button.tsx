@@ -3,7 +3,7 @@ import type { ButtonProps as AriakitButtonProps } from "ariakit/button";
 import { clsx } from "clsx";
 import { forwardRef } from "react";
 
-export type ButtonColor = "primary" | "neutral";
+export type ButtonColor = "primary" | "neutral" | "black";
 export type ButtonVariant = "contained" | "outline";
 
 export interface ButtonProps extends AriakitButtonProps<"button"> {
@@ -17,11 +17,15 @@ const variantClassNames: Record<ButtonVariant, Record<ButtonColor, string>> = {
       "color-white border-transparent bg-primary-600 hover:bg-primary-700 active:bg-primary-800 aria-expanded:bg-primary-800",
     neutral:
       "color-white border-transparent bg-neutral-600 hover:bg-neutral-700 active:bg-neutral-800 aria-expanded:bg-neutral-800",
+    black:
+      "color-white border-transparent bg-black hover:bg-neutral-700 active:bg-neutral-600 aria-expanded:bg-neutral-600",
   },
   outline: {
     primary:
       "text-primary-100 border-primary-100 hover:text-primary-300 hover:border-primary-300 bg-transparent",
     neutral:
+      "text-neutral-100 border-neutral-100 hover:text-neutral-300 hover:border-neutral-300 bg-transparent",
+    black:
       "text-neutral-100 border-neutral-100 hover:text-neutral-300 hover:border-neutral-300 bg-transparent",
   },
 };
