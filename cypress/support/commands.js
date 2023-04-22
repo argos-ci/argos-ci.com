@@ -25,3 +25,35 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 import "@argos-ci/cypress/support";
+
+function injectStyles(document, styles) {
+  const css = document.createElement("style");
+  css.type = "text/css";
+  css.textContent = styles;
+  document.body.appendChild(css);
+}
+
+Cypress.Commands.add("stabilizePage", () => {
+  cy.wait(200);
+  cy.document().then((document) => {
+    injectStyles(
+      document,
+      `
+            /* No sticky header */
+            nav {
+              position: initial !important;
+            }
+          `
+    );
+  });
+  cy.waitUntil(() =>
+    cy.document().then((document) => {
+      const allImages = Array.from(document.images);
+      allImages.forEach((img) => {
+        img.loading = "eager";
+        img.decoding = "sync";
+      });
+      return allImages.every((img) => img.complete && img.naturalWidth > 0);
+    })
+  );
+});

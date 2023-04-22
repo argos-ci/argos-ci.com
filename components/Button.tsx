@@ -18,7 +18,7 @@ const variantClassNames: Record<ButtonVariant, Record<ButtonColor, string>> = {
     neutral:
       "color-white border-transparent bg-neutral-600 hover:bg-neutral-700 active:bg-neutral-800 aria-expanded:bg-neutral-800",
     black:
-      "color-white border-transparent bg-black hover:bg-neutral-700 active:bg-neutral-600 aria-expanded:bg-neutral-600",
+      "color-white border-transparent bg-neutral-700 hover:bg-neutral-800 active:bg-neutral-900 aria-expanded:bg-neutral-900",
   },
   outline: {
     primary:

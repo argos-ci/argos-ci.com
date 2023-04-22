@@ -12,13 +12,6 @@ const pages = {
 
 const viewportPresets = ["macbook-16", "ipad-2", "iphone-8"];
 
-function injectStyles(document, styles) {
-  const css = document.createElement("style");
-  css.type = "text/css";
-  css.textContent = styles;
-  document.body.appendChild(css);
-}
-
 viewportPresets.forEach((viewportPreset) => {
   describe(viewportPreset, () => {
     beforeEach(() => {
@@ -30,29 +23,7 @@ viewportPresets.forEach((viewportPreset) => {
       it(pageName, () => {
         cy.visit(pages[pageName]);
         cy.wait(200);
-        cy.document().then((document) => {
-          injectStyles(
-            document,
-            `
-            /* No sticky header */
-            nav {
-              position: initial !important;
-            }
-          `
-          );
-        });
-        cy.waitUntil(() =>
-          cy.document().then((document) => {
-            const allImages = Array.from(document.images);
-            allImages.forEach((img) => {
-              img.loading = "eager";
-              img.decoding = "sync";
-            });
-            return allImages.every(
-              (img) => img.complete && img.naturalWidth > 0
-            );
-          })
-        );
+        cy.stabilizePage();
         cy.argosScreenshot(name);
       });
     });

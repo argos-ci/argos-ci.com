@@ -15,10 +15,14 @@ module.exports = {
       colors: {
         on: colors.slate[100],
         "on-light": colors.slate[400],
+        "on-danger": colors.red[400],
         primary: colors.purple,
         neutral: colors.slate,
+        danger: colors.red,
+        link: colors.blue[500],
 
         border: colors.slate[600],
+        active: colors.slate[500],
       },
     },
   },

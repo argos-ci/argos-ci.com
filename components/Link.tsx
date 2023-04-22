@@ -15,3 +15,18 @@ export const Link = forwardRef<
     {children}
   </NextLink>
 ));
+
+export const TextLink = forwardRef<
+  HTMLAnchorElement,
+  ComponentProps<typeof NextLink>
+>(({ children, href, ...props }, ref) => (
+  <NextLink
+    href={href}
+    className="transition no-underline text-link hover:underline"
+    ref={ref}
+    passHref
+    {...props}
+  >
+    {children}
+  </NextLink>
+));
