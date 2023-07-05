@@ -16,28 +16,67 @@ import {
   AccordionTrigger,
 } from "@/components/Accordion";
 
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { ButtonProps } from "@/components/Button";
 import { BrandTestimonials } from "@/components/BrandTestimonials";
+import { EditInline } from "@/components/EditInline";
 
 const HOBBY_PLAN_SCREENSHOT_COUNT = 5000;
 const PRO_PLAN_SCREENSHOT_COUNT = 15000;
 const PRO_PLAN_BASE_PRICE = 30;
 const ADDITIONAL_SCREENSHOT_PRICE = 0.0025;
 
-const ExampleCostSection = ({
-  teamSize,
-  dailyPushFrequency,
-  screenshotCount,
+const strToNum = (str: string) => (str === "" ? 0 : parseInt(str, 10));
+
+const InlineNumber = ({
+  formatNum,
+  value,
+  setValue,
 }: {
-  teamSize: number;
-  dailyPushFrequency: number;
-  screenshotCount: number;
+  formatNum: (value: number) => string;
+  value: number;
+  setValue: (value: number) => void;
 }) => {
+  return (
+    <EditInline
+      value={String(value)}
+      placeholder={String(value)}
+      onChange={(value) => {
+        setValue(strToNum(value));
+      }}
+      renderValue={(value) => formatNum(strToNum(value))}
+    />
+  );
+};
+
+const getFormatters = (propLocale?: string) => {
+  const locale = propLocale ?? window.navigator.language;
+  const numberFormatter = new Intl.NumberFormat(locale);
+  const currencyFormatter = new Intl.NumberFormat(locale, {
+    style: "currency",
+    currency: "USD",
+    notation: "compact",
+  });
+  return {
+    formatNum: (value: number) => numberFormatter.format(value),
+    formatCurrency: (value: number) => currencyFormatter.format(value),
+    ready: !propLocale,
+  };
+};
+
+const ExampleCostSection = () => {
+  const [{ formatNum, formatCurrency, ready }, setFormatters] = useState(() =>
+    getFormatters("en-US")
+  );
+  useEffect(() => {
+    setFormatters(() => getFormatters());
+  }, []);
+  const [teamSize, setTeamSize] = useState(5);
+  const [dailyPushFrequency, setDailyPushFrequency] = useState(3);
+  const [screenshotCount, setScreenshotCount] = useState(170);
   const workingDays = 20;
   const dailyUsage = teamSize * dailyPushFrequency * screenshotCount;
-  const initialMonthlyUsage = dailyUsage * workingDays;
-  const [monthlyUsage, setMonthlyUsage] = useState(initialMonthlyUsage);
+  const monthlyUsage = dailyUsage * workingDays;
   const customPlanThreshold = 1e6;
   const totalPrice =
     PRO_PLAN_BASE_PRICE +
@@ -47,58 +86,68 @@ const ExampleCostSection = ({
     );
 
   return (
-    <div className="max-w-full">
-      <p className="text-2xl text-on antialiased max-w-xl">
+    <div
+      className={clsx(
+        "max-w-full transition",
+        ready ? "opacity-100" : "opacity-0"
+      )}
+    >
+      <div className="text-2xl text-on antialiased max-w-xl">
         <span className="text-on-light">A team of </span>
-        {teamSize} developers
+        <InlineNumber
+          value={teamSize}
+          setValue={setTeamSize}
+          formatNum={formatNum}
+        />{" "}
+        developers
         <span className="text-on-light"> each pushing</span>{" "}
-        {dailyPushFrequency} times daily{" "}
-        <span className="text-on-light">on a project with</span>{" "}
-        {screenshotCount} screenshots
-      </p>
+        <InlineNumber
+          value={dailyPushFrequency}
+          setValue={setDailyPushFrequency}
+          formatNum={formatNum}
+        />{" "}
+        times daily, <span className="text-on-light">on a project with</span>{" "}
+        <InlineNumber
+          value={screenshotCount}
+          setValue={setScreenshotCount}
+          formatNum={formatNum}
+        />{" "}
+        screenshots.
+      </div>
 
       <div className="overflow-auto py-4 my-6">
         <div className="grid grid-cols-[repeat(4,max-content)] text-left md:text-right md:justify-center gap-y-2 gap-x-2 text-on-light text-lg">
           <div>Daily usage:</div>
           <div className="text-left">
-            {teamSize} x {dailyPushFrequency} x {screenshotCount}
+            {formatNum(teamSize)} x {formatNum(dailyPushFrequency)} x{" "}
+            {formatNum(screenshotCount)}
           </div>
           <div>=</div>
-          <div>{dailyUsage.toLocaleString()} screenshots</div>
+          <div>
+            {formatNum(dailyUsage)} <small>screenshots</small>
+          </div>
 
           <div>Monthly usage: </div>
           <div className="text-left">
-            {teamSize} x {dailyPushFrequency} x {screenshotCount} x{" "}
-            {workingDays}
+            {formatNum(teamSize)} x {formatNum(dailyPushFrequency)} x{" "}
+            {formatNum(screenshotCount)} x {formatNum(workingDays)}
           </div>
           <div>=</div>
           <div className="text-on">
-            <span className="text-primary-300">
-              {initialMonthlyUsage.toLocaleString()}
-            </span>{" "}
-            screenshots
+            {formatNum(monthlyUsage)} <small>screenshots</small>
           </div>
         </div>
       </div>
 
-      <p className="text-xl">
-        Which costs: ${PRO_PLAN_BASE_PRICE} + (
-        <input
-          type="number"
-          min={0}
-          step={1000}
-          value={monthlyUsage}
-          onChange={(e) => {
-            setMonthlyUsage(parseInt(e.target.value, 10));
-          }}
-          className="text-primary-300 bg-neutral-900 rounded-t py-1 px-2 border-b border-primary-300 focus:border-primary-300 focus:ring-0 focus:ring-offset-0 outline-0 w-32"
-        />
-        - {PRO_PLAN_SCREENSHOT_COUNT.toLocaleString()}) x $
-        {ADDITIONAL_SCREENSHOT_PRICE} ={" "}
+      <div className="text-2xl">
+        <div className="text-on-light mb-2">Which costs:</div>
+        {formatCurrency(PRO_PLAN_BASE_PRICE)} + ({formatNum(monthlyUsage)} -{" "}
+        {formatNum(PRO_PLAN_SCREENSHOT_COUNT)}) ×{" "}
+        {formatCurrency(ADDITIONAL_SCREENSHOT_PRICE)} ={" "}
         <span className="text-on whitespace-nowrap">
-          ${totalPrice.toLocaleString()} per month
+          {formatCurrency(totalPrice)} <small>per month</small>
         </span>
-      </p>
+      </div>
 
       <div className="mt-4 text-lg">
         {monthlyUsage >= customPlanThreshold && (
@@ -308,11 +357,7 @@ export default function Pricing() {
         </div>
 
         <h2 className="text-3xl font-bold mt-20">How much does it cost?</h2>
-        <ExampleCostSection
-          teamSize={5}
-          dailyPushFrequency={3}
-          screenshotCount={170}
-        />
+        <ExampleCostSection />
 
         <h2 className="text-4xl font-bold mt-24 mb-8">FAQs</h2>
         <Accordion
