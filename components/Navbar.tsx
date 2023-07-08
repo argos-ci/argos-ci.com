@@ -9,7 +9,7 @@ import clsx from "clsx";
 const NavbarSecondary: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => (
-  <div className="hidden md:flex flex-1 items-center justify-end gap-8">
+  <div className="hidden md:flex flex-1 items-center justify-end gap-2">
     {children}
   </div>
 );
@@ -17,7 +17,12 @@ const NavbarSecondary: React.FC<{ children: React.ReactNode }> = ({
 export const NavbarLink: React.FC<{
   href: string;
   children: React.ReactNode;
-}> = (props) => <Link className="block py-3" {...props} />;
+}> = (props) => (
+  <Link
+    className="block py-1.5 hover:bg-slate-800 px-3 rounded-lg"
+    {...props}
+  />
+);
 
 interface NavbarProps {
   primary: React.ReactNode;
