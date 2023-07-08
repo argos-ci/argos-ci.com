@@ -6,6 +6,7 @@ import {
   HeartIcon,
   ChatBubbleLeftRightIcon,
   SparklesIcon,
+  ArrowRightIcon,
 } from "@heroicons/react/24/solid";
 import {
   CameraIcon,
@@ -45,27 +46,24 @@ export default function Home() {
                 Playwright support
               </a>
             </Chip>
-            <h1 className="text-4xl sm:leading-tight sm:text-6xl font-bold bg-clip-text">
+            <h1 className="text-4xl sm:leading-tight sm:text-6xl font-bold bg-clip-text max-w-2xl mx-auto">
               <span className="bg-clip-text text-transparent bg-gradient-to-b from-white to-[#AAAAAA]">
-                Detect bugs
-              </span>
-              <br />
-              <span className="bg-clip-text text-transparent bg-gradient-to-b from-white to-[#AAAAAA]">
-                without writing any test
+                Ship flawless apps with Argos Visual Testing
               </span>
             </h1>
-            <p className="text-on-light text-xl">
-              Argos is a testing platform built for developers,
-              <br />
-              it compares screenshots of your web applications to detect visual
-              regressions.
+            <p className="text-on-light text-xl max-w-2xl">
+              Enjoy the simplicity of seamlessly review changes throughout your
+              development workflow
             </p>
             <div className="flex gap-4 sm:gap-6 mt-6 mx-auto">
-              <Button color="neutral" variant="outline" asChild>
-                <a href="/docs">Documentation</a>
+              <Button asChild className="flex items-center gap-1 group/button">
+                <a href="https://app.argos-ci.com/signup">
+                  Get Started for Free
+                  <ArrowRightIcon className="h-3 w-3 shrink-0 transition-transform duration-150 ease-in-out group-hover/button:translate-x-0.5" />
+                </a>
               </Button>
-              <Button asChild>
-                <a href="https://app.argos-ci.com/signup">Get Started</a>
+              <Button color="neutral" variant="outline" asChild>
+                <a href="/docs">Read Docs</a>
               </Button>
             </div>
           </div>
