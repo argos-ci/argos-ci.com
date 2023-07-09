@@ -7,7 +7,11 @@ import { Container } from "@/components/Container";
 import { Head } from "@/components/Head";
 import { Link } from "@/components/Link";
 import { Tooltip } from "@/components/Tooltip";
-import { CheckCircleIcon, CurrencyDollarIcon } from "@heroicons/react/24/solid";
+import {
+  ArrowRightIcon,
+  CheckCircleIcon,
+  CurrencyDollarIcon,
+} from "@heroicons/react/24/solid";
 import clsx from "clsx";
 import {
   Accordion,
@@ -20,6 +24,7 @@ import { ReactNode, useEffect, useState } from "react";
 import { ButtonProps } from "@/components/Button";
 import { BrandTestimonials } from "@/components/BrandTestimonials";
 import { EditInline } from "@/components/EditInline";
+import { Arrow } from "@radix-ui/react-tooltip";
 
 const HOBBY_PLAN_SCREENSHOT_COUNT = 5000;
 const PRO_PLAN_SCREENSHOT_COUNT = 15000;
@@ -92,7 +97,7 @@ const ExampleCostSection = () => {
         ready ? "opacity-100" : "opacity-0"
       )}
     >
-      <div className="text-2xl text-on antialiased max-w-xl">
+      <div className="text-xl md:text-2xl text-on antialiased max-w-xl mx-auto">
         <span className="text-on-light">A team of </span>
         <InlineNumber
           value={teamSize}
@@ -139,7 +144,7 @@ const ExampleCostSection = () => {
         </div>
       </div>
 
-      <div className="text-2xl">
+      <div className="text-xl md:text-2xl">
         <div className="text-on-light mb-2">Which costs:</div>
         {formatCurrency(PRO_PLAN_BASE_PRICE)} + ({formatNum(monthlyUsage)} -{" "}
         {formatNum(PRO_PLAN_SCREENSHOT_COUNT)}) ×{" "}
@@ -259,10 +264,10 @@ const CTA = ({
 
 export default function Pricing() {
   return (
-    <div className="flex flex-col gap-[176px] md:gap-[240px]">
+    <div className="flex flex-col">
       <Head title="Argos - Pricing plans" />
 
-      <Container className="mt-6 flex flex-col items-center gap-6 text-center mb-24">
+      <Container className="mt-6 flex flex-col items-center gap-6 text-center">
         <h1 className="my-8 bg-clip-text text-4xl font-bold sm:text-6xl sm:leading-tight">
           Pricing plans
         </h1>
@@ -348,7 +353,26 @@ export default function Pricing() {
             </PricingCardBody>
           </PricingCard>
         </div>
+      </Container>
 
+      <div className="bg-gradient-to-br from-slate-900/40 to-slate-900 py-16 mt-16 transform -rotate-3 -mx-20">
+        <div className="transform rotate-3 mx-20 items-center flex flex-col px-4">
+          <h2 className="text-3xl font-bold mb-8">Open source sponsoring</h2>
+          <p className="text-on md:text-center text-lg">
+            We ❤️ open the source community and we are happy to support it.
+          </p>
+
+          <Link
+            href="https://docs.argos-ci.com/open-source"
+            className="group/link mt-3 text-on-light hover:text-on transition-colors duration-150 ease-in-out"
+          >
+            Read more about our open source sponsoring program
+            <ArrowRightIcon className="h-3 w-3 shrink-0 transition-transform duration-150 ease-in-out group-hover/link:translate-x-0.5 inline-block ml-2 -mt-0.5" />
+          </Link>
+        </div>
+      </div>
+
+      <Container className="flex flex-col items-center gap-6 text-center mb-24">
         <div className="mt-20 w-full">
           <div className="uppercase tracking-[.25em] text-sm font-semibold mb-8">
             Trusted by the best frontend teams
