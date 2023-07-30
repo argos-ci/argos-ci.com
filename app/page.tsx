@@ -30,8 +30,15 @@ import tassinariProfile from "@/images/tassinari-profile.jpg";
 import { Container } from "@/components/Container";
 import { RotateBackground } from "@/components/RotateBackground";
 import { BrandTestimonials } from "@/components/BrandTestimonials";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export default function Page() {
+  const cookieStore = cookies();
+  const jwtCookie = cookieStore.get("argos_jwt");
+  if (jwtCookie) {
+    return redirect("https://app.argos-ci.com");
+  }
   return (
     <div className="flex flex-col gap-[176px] md:gap-[240px]">
       <RotateBackground className="bg-gradient-to-b from-black to-blue-800/30 py-20">
