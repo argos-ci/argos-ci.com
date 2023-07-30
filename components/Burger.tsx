@@ -1,8 +1,8 @@
-import { forwardRef } from "react";
+import * as React from "react";
 
-export const Burger = forwardRef<
+export const Burger = React.forwardRef<
   HTMLButtonElement,
-  React.ComponentProps<"button">
+  React.HTMLAttributes<HTMLButtonElement>
 >((props, ref) => {
   return (
     <button ref={ref} className="burger-menu" {...props}>

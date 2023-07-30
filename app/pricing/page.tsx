@@ -1,10 +1,8 @@
-/* eslint-disable react/no-unescaped-entities */
 import { Button } from "@/components/Button";
 import { CardParagraph } from "@/components/Card";
 import { CardTitle } from "@/components/Card";
 import { Card, CardBody } from "@/components/Card";
 import { Container } from "@/components/Container";
-import { Head } from "@/components/Head";
 import { Link } from "@/components/Link";
 import { Tooltip } from "@/components/Tooltip";
 import {
@@ -20,157 +18,15 @@ import {
   AccordionTrigger,
 } from "@/components/Accordion";
 
-import { ReactNode, useEffect, useState } from "react";
+import * as React from "react";
 import { ButtonProps } from "@/components/Button";
 import { BrandTestimonials } from "@/components/BrandTestimonials";
-import { EditInline } from "@/components/EditInline";
-import { Arrow } from "@radix-ui/react-tooltip";
+import { Simulator } from "./Simulator";
+import { Metadata } from "next";
 
 const HOBBY_PLAN_SCREENSHOT_COUNT = 5000;
 const PRO_PLAN_SCREENSHOT_COUNT = 15000;
-const PRO_PLAN_BASE_PRICE = 30;
 const ADDITIONAL_SCREENSHOT_PRICE = 0.0025;
-
-const strToNum = (str: string) => (str === "" ? 0 : parseInt(str, 10));
-
-const InlineNumber = ({
-  formatNum,
-  value,
-  setValue,
-}: {
-  formatNum: (value: number) => string;
-  value: number;
-  setValue: (value: number) => void;
-}) => {
-  return (
-    <EditInline
-      value={String(value)}
-      placeholder={String(value)}
-      onChange={(value) => {
-        setValue(strToNum(value));
-      }}
-      renderValue={(value) => formatNum(strToNum(value))}
-    />
-  );
-};
-
-const getFormatters = (propLocale?: string) => {
-  const locale = propLocale ?? window.navigator.language;
-  const numberFormatter = new Intl.NumberFormat(locale);
-  const currencyFormatter = new Intl.NumberFormat(locale, {
-    style: "currency",
-    currency: "USD",
-    notation: "compact",
-  });
-  return {
-    formatNum: (value: number) => numberFormatter.format(value),
-    formatCurrency: (value: number) => currencyFormatter.format(value),
-    ready: !propLocale,
-  };
-};
-
-const ExampleCostSection = () => {
-  const [{ formatNum, formatCurrency, ready }, setFormatters] = useState(() =>
-    getFormatters("en-US")
-  );
-  useEffect(() => {
-    setFormatters(() => getFormatters());
-  }, []);
-  const [teamSize, setTeamSize] = useState(5);
-  const [dailyPushFrequency, setDailyPushFrequency] = useState(3);
-  const [screenshotCount, setScreenshotCount] = useState(170);
-  const workingDays = 20;
-  const dailyUsage = teamSize * dailyPushFrequency * screenshotCount;
-  const monthlyUsage = dailyUsage * workingDays;
-  const customPlanThreshold = 1e6;
-  const totalPrice =
-    PRO_PLAN_BASE_PRICE +
-    Math.max(
-      (monthlyUsage - PRO_PLAN_SCREENSHOT_COUNT) * ADDITIONAL_SCREENSHOT_PRICE,
-      0
-    );
-
-  return (
-    <div
-      className={clsx(
-        "max-w-full transition",
-        ready ? "opacity-100" : "opacity-0"
-      )}
-    >
-      <div className="text-xl md:text-2xl text-on antialiased max-w-xl mx-auto">
-        <span className="text-on-light">A team of </span>
-        <InlineNumber
-          value={teamSize}
-          setValue={setTeamSize}
-          formatNum={formatNum}
-        />{" "}
-        developers
-        <span className="text-on-light"> each pushing</span>{" "}
-        <InlineNumber
-          value={dailyPushFrequency}
-          setValue={setDailyPushFrequency}
-          formatNum={formatNum}
-        />{" "}
-        times daily, <span className="text-on-light">on a project with</span>{" "}
-        <InlineNumber
-          value={screenshotCount}
-          setValue={setScreenshotCount}
-          formatNum={formatNum}
-        />{" "}
-        screenshots.
-      </div>
-
-      <div className="overflow-auto py-4 my-6">
-        <div className="grid grid-cols-[repeat(4,max-content)] text-left md:text-right md:justify-center gap-y-2 gap-x-2 text-on-light text-lg">
-          <div>Daily usage:</div>
-          <div className="text-left">
-            {formatNum(teamSize)} x {formatNum(dailyPushFrequency)} x{" "}
-            {formatNum(screenshotCount)}
-          </div>
-          <div>=</div>
-          <div>
-            {formatNum(dailyUsage)} <small>screenshots</small>
-          </div>
-
-          <div>Monthly usage: </div>
-          <div className="text-left">
-            {formatNum(teamSize)} x {formatNum(dailyPushFrequency)} x{" "}
-            {formatNum(screenshotCount)} x {formatNum(workingDays)}
-          </div>
-          <div>=</div>
-          <div className="text-on">
-            {formatNum(monthlyUsage)} <small>screenshots</small>
-          </div>
-        </div>
-      </div>
-
-      <div className="text-xl md:text-2xl">
-        <div className="text-on-light mb-2">Which costs:</div>
-        {formatCurrency(PRO_PLAN_BASE_PRICE)} + ({formatNum(monthlyUsage)} -{" "}
-        {formatNum(PRO_PLAN_SCREENSHOT_COUNT)}) ×{" "}
-        {formatCurrency(ADDITIONAL_SCREENSHOT_PRICE)} ={" "}
-        <span className="text-on whitespace-nowrap">
-          {formatCurrency(totalPrice)} <small>per month</small>
-        </span>
-      </div>
-
-      <div className="mt-4 text-lg">
-        {monthlyUsage >= customPlanThreshold && (
-          <>
-            You should{" "}
-            <a
-              href="mailto:contact@argos-ci.com"
-              className="text-primary-300 hover:underline"
-            >
-              contact us
-            </a>{" "}
-            to discuss a custom plan.
-          </>
-        )}
-      </div>
-    </div>
-  );
-};
 
 const Price = ({
   amount,
@@ -197,11 +53,11 @@ const Price = ({
   </>
 );
 
-const Features = ({ children }: { children: ReactNode }) => (
+const Features = ({ children }: { children: React.ReactNode }) => (
   <ul className="my-6 flex flex-col gap-4">{children}</ul>
 );
 
-const Feature = ({ children }: { children: ReactNode }) => (
+const Feature = ({ children }: { children: React.ReactNode }) => (
   <li className="flex gap-2">
     <CheckCircleIcon className="h-5 w-5 shrink-0 text-on" />
     <div className="leading-tight">{children}</div>
@@ -212,7 +68,7 @@ const PricingCard = ({
   children,
   emphasis,
 }: {
-  children: ReactNode;
+  children: React.ReactNode;
   emphasis?: boolean;
 }) => (
   <Card
@@ -225,21 +81,21 @@ const PricingCard = ({
   </Card>
 );
 
-const PricingCardBody = ({ children }: { children: ReactNode }) => (
+const PricingCardBody = ({ children }: { children: React.ReactNode }) => (
   <CardBody className="p-8 text-left text-on-light antialiased">
     {children}
   </CardBody>
 );
 
-const Title = ({ children }: { children: ReactNode }) => (
+const Title = ({ children }: { children: React.ReactNode }) => (
   <CardTitle className="text-on">{children}</CardTitle>
 );
 
-const Description = ({ children }: { children: ReactNode }) => (
+const Description = ({ children }: { children: React.ReactNode }) => (
   <CardParagraph className="h-12">{children}</CardParagraph>
 );
 
-const Badges = ({ children }: { children?: ReactNode }) => (
+const Badges = ({ children }: { children?: React.ReactNode }) => (
   <div className="block h-8">{children}</div>
 );
 
@@ -248,7 +104,7 @@ const CTA = ({
   href,
   ...props
 }: ButtonProps & {
-  children: ReactNode;
+  children: React.ReactNode;
   href: string;
 }) => (
   <Link href={href} passHref>
@@ -262,11 +118,13 @@ const CTA = ({
   </Link>
 );
 
-export default function Pricing() {
+export const metadata: Metadata = {
+  title: "Argos Pricing Plans",
+};
+
+export default function Page() {
   return (
     <div className="flex flex-col">
-      <Head title="Argos - Pricing plans" />
-
       <Container className="mt-6 flex flex-col items-center gap-6 text-center">
         <h1 className="my-8 bg-clip-text text-4xl font-bold sm:text-6xl sm:leading-tight">
           Pricing plans
@@ -381,7 +239,7 @@ export default function Pricing() {
         </div>
 
         <h2 className="text-3xl font-bold mt-20">How much does it cost?</h2>
-        <ExampleCostSection />
+        <Simulator />
 
         <h2 className="text-4xl font-bold mt-24 mb-8">FAQs</h2>
         <Accordion

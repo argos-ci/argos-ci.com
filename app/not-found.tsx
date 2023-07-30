@@ -1,11 +1,9 @@
 import { Button } from "@/components/Button";
-import { Head } from "@/components/Head";
 import Link from "next/link";
 
 export default function NotFound() {
   return (
     <>
-      <Head title="404 — Not found" />
       <section className="flex items-center h-full p-16">
         <div className="container flex flex-col items-center justify-center px-5 mx-auto my-8">
           <div className="max-w-lg text-center">

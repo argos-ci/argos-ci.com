@@ -1,12 +1,13 @@
 import fg from "fast-glob";
 import * as matter from "gray-matter";
-import { serialize } from "next-mdx-remote/serialize";
+import { compileMDX } from "next-mdx-remote/rsc";
 import { readFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
 import remarkFrontmatter from "remark-frontmatter";
 import { StaticImageData } from "next/image";
+import { MainImage } from "@/components/Post";
 
 export interface Article {
   filepath: string;
@@ -85,10 +86,33 @@ export const getArticleBySlug = (articles: Article[], slug: string) => {
 
 export const getDocMdxSource = async (article: Article) => {
   const source = await readFile(article.filepath, "utf-8");
-  return serialize(source, {
-    mdxOptions: {
-      rehypePlugins: [rehypeHighlight],
-      remarkPlugins: [remarkGfm, remarkFrontmatter],
+  const result = await compileMDX({
+    source,
+    components: {
+      MainImage: ({ credit }: { credit: React.ReactNode }) => {
+        return (
+          <MainImage
+            width={article.image.width}
+            height={article.image.height}
+            src={article.image.src}
+            alt={article.imageAlt}
+            credit={credit}
+          />
+        );
+      },
+    },
+    options: {
+      mdxOptions: {
+        rehypePlugins: [rehypeHighlight],
+        remarkPlugins: [remarkGfm, remarkFrontmatter],
+      },
     },
   });
+  return result.content;
+  // return serialize(source, {
+  //   mdxOptions: {
+  //     rehypePlugins: [rehypeHighlight],
+  //     remarkPlugins: [remarkGfm, remarkFrontmatter],
+  //   },
+  // });
 };

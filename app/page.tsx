@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 import Image from "next/image";
 import {
   EyeIcon,
@@ -30,13 +29,11 @@ import unifiedMobileImage from "@/images/unified-mobile.svg";
 import tassinariProfile from "@/images/tassinari-profile.jpg";
 import { Container } from "@/components/Container";
 import { RotateBackground } from "@/components/RotateBackground";
-import { Head } from "@/components/Head";
 import { BrandTestimonials } from "@/components/BrandTestimonials";
 
-export default function Home() {
+export default function Page() {
   return (
     <div className="flex flex-col gap-[176px] md:gap-[240px]">
-      <Head />
       <RotateBackground className="bg-gradient-to-b from-black to-blue-800/30 py-20">
         <Container className="flex gap-11 items-center flex-col mb-20 text-center">
           <div className="flex flex-col gap-6 flex-1">
@@ -48,7 +45,7 @@ export default function Home() {
             </Chip>
             <h1 className="text-4xl sm:leading-tight sm:text-6xl font-bold bg-clip-text max-w-2xl mx-auto">
               <span className="bg-clip-text text-transparent bg-gradient-to-b from-white to-[#AAAAAA]">
-                Ship flawless apps with Argos Visual Testing
+                Visual Testing for modern web apps
               </span>
             </h1>
             <p className="text-on-light text-xl max-w-xl mx-auto">
@@ -176,8 +173,8 @@ export default function Home() {
       <RotateBackground className="bg-gradient-to-b from-fuchsia-800/30 to-blue-800/30 pt-[120px] pb-[150px]">
         <Container className="flex flex-col items-center gap-8 mb-8 text-center">
           <div className="text-3xl font-medium">
-            "Argos helps us every day to avoid regression on all MUI
-            components."
+            “Argos helps us every day to avoid regression on all MUI
+            components.”
           </div>
           <div className="rounded-full overflow-hidden">
             <Image
