@@ -1,7 +1,5 @@
-/* eslint-disable react/no-unescaped-entities */
 import { Container } from "@/components/Container";
 import { Link } from "@/components/Link";
-import { Head } from "@/components/Head";
 import {
   PostCard,
   PostCardBody,
@@ -14,17 +12,8 @@ import {
   PostCardImage,
 } from "@/components/PostCard";
 import { Separator } from "@/components/Separator";
-import { GetStaticProps, NextPage } from "next";
-import { Article, getArticles } from "@/lib/api";
-
-export const getStaticProps: GetStaticProps = async () => {
-  const articles = await getArticles();
-  return {
-    props: {
-      articles,
-    },
-  };
-};
+import { getArticles } from "@/lib/api";
+import { Metadata } from "next";
 
 const formatDate = (date: string) => {
   return new Intl.DateTimeFormat("en-US", {
@@ -32,13 +21,15 @@ const formatDate = (date: string) => {
   }).format(new Date(date));
 };
 
-const Page: NextPage<{
-  articles: Article[];
-}> = (props) => {
-  const firstArticle = props.articles[0];
+export const metadata: Metadata = {
+  title: "Updates from the Argos team",
+};
+
+export default async function Page() {
+  const articles = await getArticles();
+  const firstArticle = articles[0];
   return (
     <Container className="my-10" style={{ contain: "none" }}>
-      <Head title="Blog — Updates from the Argos team" />
       <div className="flex flex-col md:flex-row items-baseline gap-x-2">
         <h2 className="font-semibold text-white">Latest updates</h2>
         <div
@@ -79,7 +70,7 @@ const Page: NextPage<{
           </PostCard>
         </Link>
 
-        {props.articles.slice(1).map((article) => {
+        {articles.slice(1).map((article) => {
           return (
             <Link
               key={article.slug}
@@ -114,6 +105,4 @@ const Page: NextPage<{
       </div>
     </Container>
   );
-};
-
-export default Page;
+}

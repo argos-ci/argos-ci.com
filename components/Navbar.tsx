@@ -1,57 +1,35 @@
-import { useState, useEffect, useRef } from "react";
+"use client";
+import * as React from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { Burger } from "./Burger";
 import { Container } from "./Container";
 import { Link } from "./Link";
 
 import clsx from "clsx";
+import { useScrollListener } from "./useScrollListener";
 
-const NavbarSecondary: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => (
+const NavbarSecondary = ({ children }: { children: React.ReactNode }) => (
   <div className="hidden md:flex flex-1 items-center justify-end gap-8">
     {children}
   </div>
 );
 
-export const NavbarLink: React.FC<{
+export const NavbarLink = (props: {
   href: string;
   children: React.ReactNode;
-}> = (props) => <Link className="block py-3" {...props} />;
+}) => <Link className="block py-3" {...props} />;
 
 interface NavbarProps {
   primary: React.ReactNode;
   secondary: React.ReactNode;
 }
 
-const useScrollListener = (listener: (event: Event) => void) => {
-  const listenerRef = useRef(listener);
-  useEffect(() => {
-    listenerRef.current = listener;
-  });
-  useEffect(() => {
-    let ticking = false;
-    const listener = (ev: Event) => {
-      if (ticking) return;
-      requestAnimationFrame(() => {
-        listenerRef.current(ev);
-        ticking = false;
-      });
-      ticking = true;
-    };
-    document.addEventListener("scroll", listener, { passive: true });
-    return () => {
-      document.removeEventListener("scroll", listener);
-    };
-  }, []);
-};
-
-export const Navbar: React.FC<NavbarProps> = ({ primary, secondary }) => {
-  const [scrolled, setScrolled] = useState(false);
+export const Navbar = ({ primary, secondary }: NavbarProps) => {
+  const [scrolled, setScrolled] = React.useState(false);
   useScrollListener(() => {
     setScrolled(window.scrollY > 0);
   });
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = React.useState(false);
 
   return (
     <nav

@@ -1,9 +1,10 @@
+"use client";
 import clsx from "clsx";
-import { memo, useEffect, useState } from "react";
+import * as React from "react";
 
 const identity = (x: string) => x;
 
-export const EditInline = memo(
+export const EditInline = React.memo(
   ({
     value,
     placeholder,
@@ -17,7 +18,7 @@ export const EditInline = memo(
     className?: string;
     renderValue?: (value: string) => string;
   }) => {
-    const [editing, setEditing] = useState(false);
+    const [editing, setEditing] = React.useState(false);
     const renderedValue = renderValue(value);
     const empty = renderedValue === "";
     return (

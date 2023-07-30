@@ -1,6 +1,6 @@
 import { ArgosLogo } from "@/components/ArgosLogo";
 import { Button } from "@/components/Button";
-import React from "react";
+import * as React from "react";
 import { Navbar, NavbarLink } from "@/components/Navbar";
 import NextLink from "next/link";
 
