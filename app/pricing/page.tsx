@@ -217,7 +217,7 @@ export default function Page() {
         <div className="transform rotate-3 mx-20 items-center flex flex-col px-4">
           <h2 className="text-3xl font-bold mb-8">Open source sponsoring</h2>
           <p className="text-on md:text-center text-lg">
-            We ❤️ open the source community and we are happy to support it.
+            We ❤️ the open source community and we are happy to support it.
           </p>
 
           <Link
