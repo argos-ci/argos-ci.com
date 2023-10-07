@@ -1,0 +1,51 @@
+---
+title: "Startup Testing Dilemma: E2E or Not E2E?"
+description: In the race of startup growth, maintaining a rapid delivery pace is essential. Yet, to keep that pace, product quality can't take a back seat — it's the shield against disruptive rework and unexpected bugs. While E2E tests stand tall as quality gatekeepers, are they always the right pick? Explore with us to discern the nuances.
+slug: startup-testing-dilemma
+category: Visual Testing
+author: Jeremy Sfez
+date: 2023-10-09
+image: ./main.jpg
+imageAlt: Brown analog clock — Photo by Kevin Ku
+---
+
+<MainImage
+  credit={
+    <>
+      Photo by{" "}
+      <a href="https://unsplash.com/@ikukevk?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">
+        Kevin Ku
+      </a>{" "}
+      on{" "}
+      <a href="https://unsplash.com/photos/aiyBwbrWWlo?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">
+        Unsplash
+      </a>
+    </>
+  }
+/>
+
+In a fast-growing startup I worked at, we were on the cusp of onboarding some major clients. This sparked an intense discussion among senior developers: Should we fully commit to E2E testing, acknowledging both the setup time and ongoing maintenance? Or should we prioritize delivery speed, allowing a few bugs to bypass manual QA, and then handle them as they arise in production? We all valued fast delivery, but identifying the best strategy to uphold it became the heart of our discussions.
+
+## The E2E Test Paradox in Startups
+
+End-to-end (E2E) tests are frequently seen as the gold standard in quality assurance. They recreate real user actions and make sure everything in the application runs smoothly. But in a startup environment, they can be a double-edged sword.
+
+Imagine investing hours crafting a detailed E2E test suite for a feature. The next week, based on new insights, that feature undergoes a revamp or is replaced entirely. Now, not only do you need to rewrite the feature, but you also have the unenviable task of overhauling the test suite. This cycle can be both mentally exhausting and time-consuming.
+
+## Visual Testing: Agile’s Best Friend
+
+In the dynamic landscape of startups, where changes are frequent, visual testing emerges as the optimal solution. Here's why:
+
+1. **Trust in Every Change**: With visual testing, changes become transparent. Approve expected updates and reject unintended alterations.
+
+2. **Minimal Effort, Maximum Coverage**: Efficiently use one line of code to visually verify a full page's layout and content, eliminating the need for extensive scripts.
+
+3. **Cut the Maintenance Chain**: Even if your product evolves constantly, no need to update the test code. Simply approve or reject the updated screenshots.
+
+## Balancing Act: E2E and Visual Testing
+
+While visual tests shine in adaptability, the value of E2E tests remains unmatched for mission-critical functionalities. The key is balance. For core features with less frequent changes, E2E tests guarantee stability. For others that are in flux, visual tests provide adequate coverage without the maintenance headache.
+
+## Conclusion
+
+In the fast-paced world of startup development, agility is paramount. While robust testing remains essential, the type of testing needs to align with the product's stage and volatility. Visual testing provides the flexibility startups need without compromising on quality, making it a crucial part of any developer's toolkit today.
