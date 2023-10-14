@@ -24,15 +24,21 @@ imageAlt: Brown analog clock — Photo by Kevin Ku
   }
 />
 
-In a fast-growing startup I worked at, we were on the cusp of onboarding some major clients. This sparked an intense discussion among senior developers: Should we fully commit to E2E testing, acknowledging both the setup time and ongoing maintenance? Or should we prioritize delivery speed, allowing a few bugs to bypass manual QA, and then handle them as they arise in production? We all valued fast delivery, but identifying the best strategy to uphold it became the heart of our discussions.
+In a fast-growing startup I'm part of, a question sparked intense debates among senior developers: with all the setup and maintenance time it cost, is E2E testing really worth our time?
+
+**We all prioritize fast delivery, and figuring out how to keep that momentum in long term was the crux of our chats**
+
+_Quick note: The other perspective would be to bypass E2E, let a few bugs sneak by QA, and patched things up when they showed in production._
 
 ## The E2E Test Paradox in Startups
 
-End-to-end (E2E) tests are frequently seen as the gold standard in quality assurance. They recreate real user actions and make sure everything in the application runs smoothly. But in a startup environment, they can be a double-edged sword.
+End-to-end (E2E) tests are often seen as the gold standard in quality assurance. They replicate real user actions and make sure everything in the application runs smoothly. But in a startup environment, they can be a double-edged sword.
 
 Imagine investing hours crafting a detailed E2E test suite for a feature. The next week, based on new insights, that feature undergoes a revamp or is replaced entirely. Now, not only do you need to rewrite the feature, but you also have the unenviable task of overhauling the test suite. This cycle can be both mentally exhausting and time-consuming.
 
-## Visual Testing: Agile’s Best Friend
+To counter the challenges posed by E2E testing and its associated maintenance costs, we explored an alternative: visual testing.
+
+## 🧿 Visual Testing: Agile’s Best Friend
 
 In the dynamic landscape of startups, where changes are frequent, visual testing emerges as the optimal solution. Here's why:
 
@@ -42,10 +48,27 @@ In the dynamic landscape of startups, where changes are frequent, visual testing
 
 3. **Cut the Maintenance Chain**: Even if your product evolves constantly, no need to update the test code. Simply approve or reject the updated screenshots.
 
-## Balancing Act: E2E and Visual Testing
+## ⚒️ Our Go-To Tool
+
+We've been using [Argos](https://www.argos-ci.com/) for visual testing. It's a dev tool that allows to review the changes a pull request brings. It's easy to onboard and it slides right into our workflow.
+
+```js
+// Homepage test file. No maintenance needed!
+import { test } from "@playwright/test";
+import { argosScreenshot } from "@argos-ci/playwright";
+
+test("homepage", async ({ page }) => {
+  await page.goto("http://localhost:3000");
+  await argosScreenshot(page, "homepage");
+});
+```
+
+## ⚖️ Balancing Act: E2E and Visual Testing
 
 While visual tests shine in adaptability, the value of E2E tests remains unmatched for mission-critical functionalities. The key is balance. For core features with less frequent changes, E2E tests guarantee stability. For others that are in flux, visual tests provide adequate coverage without the maintenance headache.
 
 ## Conclusion
 
-In the fast-paced world of startup development, agility is paramount. While robust testing remains essential, the type of testing needs to align with the product's stage and volatility. Visual testing provides the flexibility startups need without compromising on quality, making it a crucial part of any developer's toolkit today.
+In the fast-paced world of startup development, agility is critical. While robust testing remains essential, the type of testing needs to align with the product's stage and volatility. Visual testing provides the flexibility startups need without compromising on quality, making it a crucial part of any developer's toolkit today.
+
+Have you faced similar testing dilemmas in your startup? How did you navigate them? Share your experiences in the comments.
