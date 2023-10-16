@@ -54,17 +54,23 @@ async function getArticleFromParams(params: Props["params"]) {
 
 export async function generateMetadata(
   { params }: Props,
-  parent?: ResolvingMetadata
+  parent?: ResolvingMetadata,
 ): Promise<Metadata> {
   const article = await getArticleFromParams(params);
   const previousImages = (await parent).openGraph?.images || [];
+  const ogImages = [article.image.src, ...previousImages];
 
   return {
     title: article.title,
     description: article.description,
     openGraph: {
       type: "article",
-      images: [article.image.src, ...previousImages],
+      images: ogImages,
+    },
+    twitter: {
+      card: "summary_large_image",
+      images: ogImages,
+      site: "@argos_ci",
     },
   };
 }
