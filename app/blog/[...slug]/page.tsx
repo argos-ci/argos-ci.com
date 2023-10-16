@@ -66,8 +66,12 @@ export async function generateMetadata(
     openGraph: {
       type: "article",
       images: ogImages,
+      title: article.title,
+      description: article.description,
     },
     twitter: {
+      title: article.title,
+      description: article.description,
       card: "summary_large_image",
       images: ogImages,
       site: "@argos_ci",
