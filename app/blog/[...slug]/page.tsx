@@ -57,23 +57,22 @@ export async function generateMetadata(
   parent?: ResolvingMetadata,
 ): Promise<Metadata> {
   const article = await getArticleFromParams(params);
-  const previousImages = (await parent).openGraph?.images || [];
-  const ogImages = [article.image.src, ...previousImages];
+  const images = [article.image.src];
 
   return {
     title: article.title,
     description: article.description,
     openGraph: {
-      type: "article",
-      images: ogImages,
       title: article.title,
       description: article.description,
+      images,
+      type: "article",
     },
     twitter: {
       title: article.title,
       description: article.description,
+      images,
       card: "summary_large_image",
-      images: ogImages,
       site: "@argos_ci",
     },
   };
