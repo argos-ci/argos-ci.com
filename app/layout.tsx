@@ -7,6 +7,7 @@ import { AppNavbar } from "@/containers/AppNavbar";
 import { AppFooter } from "@/containers/AppFooter";
 import { Metadata } from "next";
 import { TooltipProvider } from "@/components/Tooltip";
+import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -30,6 +31,13 @@ export default function RootLayout({
     <html lang="en" className={inter.className}>
       <head>
         <PlausibleProvider domain="argos-ci.com" />
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=AW-847457408"
+        />
+        <Script id="google-ads-conversion-tracking">
+          {`window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-847457408');`}
+        </Script>
       </head>
       <body>
         <TooltipProvider>
