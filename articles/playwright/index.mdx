@@ -51,6 +51,28 @@ npm install --save-dev @argos-ci/cli  @argos-ci/playwright
 - [@argos-ci/cli](https://argos-ci.com/docs/argos-cli): easiest and fastest way to upload screenshots to the Argos.
 - [@argos-ci/playwright](https://argos-ci.com/docs/playwright): improve screenshot stability and expose CSS to hide content.
 
+### Configure Argos Reporter
+
+The Argos reporter seamlessly uploads test screenshots to Argos in real-time.
+
+Install reporter in your Playwright config:
+
+```typescript
+import { defineConfig } from "@playwright/test";
+
+// "list" is the default reporter, if you use any other, don't forget to add it back
+const defaultReporters: PlaywrightTestConfig["reporter"] = [["list"]];
+
+export default defineConfig({
+  // ... other configuration
+
+  // Add Argos reporter only when it runs on CI
+  reporter: process.env.CI
+    ? [...defaultReporters, ["@argos-ci/playwright/reporter"]]
+    : defaultReporters,
+});
+```
+
 ## Capture the screenshots
 
 Once Playwright and Argos app are installed, you can create test files to capture screenshots of your application. Use the `argosScreenshot` function provided by `@argos-ci/playwright` insure stable screenshots.
@@ -75,7 +97,7 @@ To run the test, use the playwright test command:
 npx playwright test
 ```
 
-If everything is set up correctly, the test should pass and you should find a new screenshot in the `/screenshots` folder.
+If everything is set up correctly, the test should pass, on the CI screenshots will be uploaded to Argos.
 
 ## Integrate with GitHub Actions
 
@@ -95,26 +117,29 @@ jobs:
   e2e:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
+        uses: actions/setup-node@v4
+
       - name: Install dependencies
         run: npm ci
+
+      - name: Install Playwright browsers
+        run: npm exec playwright install --with-deps
+
       - name: Run tests
-        run: npx playwright test
-      - name: Upload screenshots to Argos
-        run: npx @argos-ci/cli upload screenshots
+        run: npm exec playwright test
 ```
 
 This workflow defines a job that runs on pull requests to the main branch. The job does the following:
 
 - Checkout the code from GitHub
-- Setup Node.js 18
+- Setup Node.js
 - Install dependencies
-- Run the tests with Playwright
-- Upload the screenshots to Argos
+- Install Playwright browsers
+- Run the tests with Playwright and upload screenshots to Argos
 
 Once you have added the workflow file, you can commit and push the changes to your repository. GitHub will automatically start running the workflow on each pull request.
 
@@ -130,6 +155,23 @@ By clicking on "Details" link, you can review the results of the comparison in A
 ![argos-build](https://res.cloudinary.com/smooth/image/upload/v1674471477/Argos/argos-build-example.png)
 
 Read [this documentation](https://argos-ci.com/docs/visual-testing) if you need more information about visual testing workflow.
+
+## Bonus: Capturing Screenshots on Test Failures
+
+Playwright's [recording options](https://playwright.dev/docs/test-use-options#recording-options) facilitate the automated capture of screenshots upon test failures. Notably, these captured screenshots are then automatically uploaded to Argos.
+
+```ts
+// playwright.config.{js,ts}
+
+import { defineConfig } from "@playwright/test";
+
+export default defineConfig({
+  use: {
+    // Setting to capture screenshot only when a test fails.
+    screenshot: "only-on-failure",
+  },
+});
+```
 
 ## Conclusion
 
