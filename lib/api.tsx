@@ -58,7 +58,7 @@ export const getArticles = async (): Promise<Article[]> => {
       const errors = getFrontMatterErrors(frontmatter);
       if (errors.length > 0) {
         throw new Error(
-          `Invalid frontmatter in ${filepath}: ${errors.join(", ")}`
+          `Invalid frontmatter in ${filepath}: ${errors.join(", ")}`,
         );
       }
 
@@ -73,10 +73,10 @@ export const getArticles = async (): Promise<Article[]> => {
         author: frontmatter.author,
         category: frontmatter.category,
       };
-    })
+    }),
   );
   return articles.sort(
-    (a, b) => Number(new Date(b.date)) - Number(new Date(a.date))
+    (a, b) => Number(new Date(b.date)) - Number(new Date(a.date)),
   );
 };
 
