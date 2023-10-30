@@ -1,15 +1,12 @@
-import { Button } from "@/components/Button";
-import { CardParagraph } from "@/components/Card";
-import { CardTitle } from "@/components/Card";
-import { Card, CardBody } from "@/components/Card";
+import { Button, ButtonProps } from "@/components/Button2";
 import { Container } from "@/components/Container";
 import { Link } from "@/components/Link";
 import { Tooltip } from "@/components/Tooltip";
 import {
   ArrowRightIcon,
   CheckCircleIcon,
-  CurrencyDollarIcon,
-} from "@heroicons/react/24/solid";
+  CircleDollarSignIcon,
+} from "lucide-react";
 import clsx from "clsx";
 import {
   Accordion,
@@ -19,7 +16,6 @@ import {
 } from "@/components/Accordion";
 
 import * as React from "react";
-import { ButtonProps } from "@/components/Button";
 import { BrandTestimonials } from "@/components/BrandTestimonials";
 import { Simulator } from "./Simulator";
 import { Metadata } from "next";
@@ -42,10 +38,10 @@ const Price = ({
       {fixedPrice ? null : "Starting at"}
     </div>
     <div className="flex items-baseline">
-      <span className="text-3xl font-semibold text-on">
+      <span className="text-3xl font-semibold text">
         $<span className="tracking-tight">{amount}</span>
       </span>
-      {recurring && <span className="ml-1 text-lg text-on-light">/mo</span>}
+      {recurring && <span className="ml-1 text-lg text-low">/mo</span>}
     </div>
     <div className="mt-1 block h-5 text-sm">
       {fixedPrice ? "forever" : "Billed monthly based on usage"}
@@ -59,7 +55,7 @@ const Features = ({ children }: { children: React.ReactNode }) => (
 
 const Feature = ({ children }: { children: React.ReactNode }) => (
   <li className="flex gap-2">
-    <CheckCircleIcon className="h-5 w-5 shrink-0 text-on" />
+    <CheckCircleIcon className="h-5 w-5 shrink-0 text-violet-11" />
     <div className="leading-tight">{children}</div>
   </li>
 );
@@ -71,28 +67,26 @@ const PricingCard = ({
   children: React.ReactNode;
   emphasis?: boolean;
 }) => (
-  <Card
+  <div
     className={clsx(
-      "flex-1 shrink-0 basis-80 max-w-[340px] md:max-w-[300px]",
-      emphasis ? "border-2 border-slate-500 pt-4" : "lg:mt-4"
+      "flex-1 shrink-0 basis-80 w-full rounded-xl border border-border bg-violet-1",
+      emphasis ? "border-2 border-violet-6 pt-4" : "lg:mt-4",
     )}
   >
     {children}
-  </Card>
+  </div>
 );
 
 const PricingCardBody = ({ children }: { children: React.ReactNode }) => (
-  <CardBody className="p-8 text-left text-on-light antialiased">
-    {children}
-  </CardBody>
+  <div className="p-8 text-left text-low">{children}</div>
 );
 
 const Title = ({ children }: { children: React.ReactNode }) => (
-  <CardTitle className="text-on">{children}</CardTitle>
+  <div className="mb-2 text-xl font-semibold text">{children}</div>
 );
 
 const Description = ({ children }: { children: React.ReactNode }) => (
-  <CardParagraph className="h-12">{children}</CardParagraph>
+  <div className="h-12 my-2 last-of-type:mb-0">{children}</div>
 );
 
 const Badges = ({ children }: { children?: React.ReactNode }) => (
@@ -107,15 +101,16 @@ const CTA = ({
   children: React.ReactNode;
   href: string;
 }) => (
-  <Link href={href} passHref>
-    <Button
-      className="mt-10 mb-6 w-full justify-center"
-      size="large"
-      {...props}
-    >
+  <Button
+    className="mt-10 mb-6 w-full justify-center"
+    size="large"
+    asChild
+    {...props}
+  >
+    <Link href={href} passHref>
       {children}
-    </Button>
-  </Link>
+    </Link>
+  </Button>
 );
 
 export const metadata: Metadata = {
@@ -125,10 +120,8 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <div className="flex flex-col">
-      <Container className="mt-6 flex flex-col items-center gap-6 text-center">
-        <h1 className="my-8 bg-clip-text text-4xl font-bold sm:text-6xl sm:leading-tight">
-          Pricing plans
-        </h1>
+      <Container className="mt-20 flex flex-col items-center gap-6 text-center">
+        <h1 className="my-8 text-5xl font-accent sm:text-6xl">Pricing plans</h1>
 
         <div className="flex flex-wrap gap-6 justify-center w-full">
           <PricingCard>
@@ -155,7 +148,7 @@ export default function Page() {
           <PricingCard emphasis>
             <PricingCardBody>
               <Badges>
-                <div className="mb-10 w-fit rounded border border-slate-500 px-2.5 py-0.5 text-xs  font-medium text-primary-300">
+                <div className="mb-10 w-fit rounded border border-violet-6 px-2.5 py-0.5 text-xs text font-medium text-primary-300">
                   Most popular
                 </div>
               </Badges>
@@ -175,7 +168,7 @@ export default function Page() {
                     <Tooltip
                       content={`Then $${ADDITIONAL_SCREENSHOT_PRICE} per screenshot after`}
                     >
-                      <CurrencyDollarIcon className="ml-1 inline-block h-4 w-4 text-on" />
+                      <CircleDollarSignIcon className="ml-1 inline-block h-5 w-5 text" />
                     </Tooltip>
                   </span>
                 </Feature>
@@ -194,7 +187,7 @@ export default function Page() {
               <Description>
                 Tailored solutions with premium features.
               </Description>
-              <div className="mb-6 mt-12 flex items-baseline text-3xl font-semibold text-on">
+              <div className="mb-6 mt-12 flex items-baseline text-3xl font-semibold text">
                 Custom
               </div>
               <CTA href="mailto:contact@argos-ci.com" variant="outline">
@@ -213,35 +206,41 @@ export default function Page() {
         </div>
       </Container>
 
-      <div className="bg-gradient-to-br from-slate-900/40 to-slate-900 py-16 mt-16 transform -rotate-3 -mx-20">
-        <div className="transform rotate-3 mx-20 items-center flex flex-col px-4">
-          <h2 className="text-3xl font-bold mb-8">Open source sponsoring</h2>
-          <p className="text-on md:text-center text-lg">
+      <Container className="py-16 mt-32 mb-12 border-2 border-plum-6 rounded">
+        <div className="items-center flex flex-col px-4">
+          <h2 className="text-4xl md:text-5xl font-accent mb-8">
+            Open source sponsoring
+          </h2>
+          <p className="text-lg md:text-center md:text-xl">
             We ❤️ the open source community and we are happy to support it.
           </p>
 
           <Link
             href="https://docs.argos-ci.com/open-source"
-            className="group/link mt-3 text-on-light hover:text-on transition-colors duration-150 ease-in-out"
+            className="group/link mt-6 hover:underline transition-colors duration-150 ease-in-out"
           >
             Read more about our open source sponsoring program
             <ArrowRightIcon className="h-3 w-3 shrink-0 transition-transform duration-150 ease-in-out group-hover/link:translate-x-0.5 inline-block ml-2 -mt-0.5" />
           </Link>
         </div>
-      </div>
+      </Container>
 
-      <Container className="flex flex-col items-center gap-6 text-center mb-24">
-        <div className="mt-20 w-full">
-          <div className="uppercase tracking-[.25em] text-sm font-semibold mb-8">
+      <Container className="flex flex-col items-center gap-6 text-center mb-32">
+        <div className="my-32 w-full">
+          <div className="text-xl text-center mb-8">
             Trusted by the best frontend teams
           </div>
           <BrandTestimonials />
         </div>
 
-        <h2 className="text-3xl font-bold mt-20">How much does it cost?</h2>
+        <h2 className="text-4xl md:text-5xl font-accent mb-6">
+          How much does it cost?
+        </h2>
         <Simulator />
 
-        <h2 className="text-4xl font-bold mt-24 mb-8">FAQs</h2>
+        <h2 className="text-4xl md:text-5xl font-accent mt-24 mb-8">
+          Frequently asked questions
+        </h2>
         <Accordion
           type="single"
           collapsible

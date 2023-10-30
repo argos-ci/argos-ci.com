@@ -11,7 +11,6 @@ import {
   PostCardDate,
   PostCardImage,
 } from "@/components/PostCard";
-import { Separator } from "@/components/Separator";
 import { getArticles } from "@/lib/api";
 import { Metadata } from "next";
 
@@ -31,7 +30,7 @@ export default async function Page() {
   return (
     <Container className="my-10" style={{ contain: "none" }}>
       <div className="flex flex-col md:flex-row items-baseline gap-x-2">
-        <h2 className="font-semibold text-white">Latest updates</h2>
+        <h2 className="font-semibold text">Latest updates</h2>
         <div
           role="separator"
           aria-orientation="vertical"
@@ -39,7 +38,7 @@ export default async function Page() {
         >
           |
         </div>
-        <div className="text-sm text-on-light">
+        <div className="text-sm text-low">
           All the latest Argos news, straight from the team.
         </div>
       </div>
@@ -63,7 +62,7 @@ export default async function Page() {
               </PostCardDescription>
               <PostCardFooter>
                 <PostCardAuthor>{firstArticle.author}</PostCardAuthor>
-                <Separator />
+                <span className="text-low">|</span>
                 <PostCardDate>{formatDate(firstArticle.date)}</PostCardDate>
               </PostCardFooter>
             </PostCardBody>
@@ -94,7 +93,7 @@ export default async function Page() {
                   </PostCardDescription>
                   <PostCardFooter>
                     <PostCardAuthor>{article.author}</PostCardAuthor>
-                    <Separator />
+                    <div className="text-mauve-10 text-xs">|</div>
                     <PostCardDate>{formatDate(article.date)}</PostCardDate>
                   </PostCardFooter>
                 </PostCardBody>

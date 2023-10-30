@@ -3,13 +3,20 @@ import "@/styles/globals.css";
 
 import PlausibleProvider from "next-plausible";
 import { Inter } from "next/font/google";
+import localFont from "next/font/local";
 import { AppNavbar } from "@/containers/AppNavbar";
 import { AppFooter } from "@/containers/AppFooter";
 import { Metadata } from "next";
 import { TooltipProvider } from "@/components/Tooltip";
 import Script from "next/script";
+import clsx from "clsx";
 
-const inter = Inter({ subsets: ["latin"] });
+// Fonts
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const calSans = localFont({
+  src: "../fonts/CalSans-SemiBold.woff2",
+  variable: "--font-calsans",
+});
 
 export const metadata: Metadata = {
   title: "Argos — Visual Testing for modern web apps",
@@ -28,7 +35,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.className}>
+    <html
+      lang="en"
+      className={clsx(inter.variable, calSans.variable, "antialiased")}
+    >
       <head>
         <PlausibleProvider domain="argos-ci.com" />
         <Script

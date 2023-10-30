@@ -32,8 +32,6 @@ export const MainImage = ({
         }}
       />
     </div>
-    <figcaption className="text-center text-sm text-on-light">
-      {credit}
-    </figcaption>
+    <figcaption className="text-center text-sm text-low">{credit}</figcaption>
   </figure>
 );
