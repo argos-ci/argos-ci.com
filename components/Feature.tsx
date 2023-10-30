@@ -23,7 +23,7 @@ export const FeatureIcon: React.FC<{
   <div
     className={clsx(
       "rounded-full w-10 h-10 flex items-center justify-center mx-auto",
-      iconColors[color]
+      iconColors[color],
     )}
   >
     <Icon className="w-6 h-6" />
@@ -36,4 +36,4 @@ export const FeatureTitle: React.FC<{ children: React.ReactNode }> = ({
 
 export const FeatureText: React.FC<{ children: React.ReactNode }> = ({
   children,
-}) => <div className="text-on-light text-xl">{children}</div>;
+}) => <div className="text-low text-xl">{children}</div>;

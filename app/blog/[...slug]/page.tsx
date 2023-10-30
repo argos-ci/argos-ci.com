@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import { getArticleBySlug, getDocMdxSource, getArticles } from "@/lib/api";
 import { MainImage } from "@/components/Post";
 import * as React from "react";
-import { Separator } from "@/components/Separator";
 import { Container } from "@/components/Container";
 import { Metadata, ResolvingMetadata } from "next";
 
@@ -86,19 +85,21 @@ export default async function Page({ params }: Props) {
   const source = await getDocMdxSource(article);
   return (
     <article
-      className="prose prose-invert mx-auto max-w-none mt-14 mb-24"
+      className="prose dark:prose-invert mx-auto max-w-none mt-14 mb-24"
       style={{ contain: "none" }}
     >
-      <Container>
+      <Container tight>
         {article.category && (
-          <div className="text-on-light mb-4">{article.category}</div>
+          <div className="mb-4 font-medium text-violet-11">
+            {article.category}
+          </div>
         )}
         <h1>{article.title}</h1>
-        <div className="text-on-light my-4 flex gap-2 text-sm">
+        <div className="text-low my-4 flex gap-2 text-sm items-center">
           {new Intl.DateTimeFormat("en-US", {
             dateStyle: "long",
           }).format(new Date(article.date))}
-          <Separator />
+          <div className="text-mauve-10 text-xs">|</div>
           {article.author}
         </div>
         {source}

@@ -8,7 +8,7 @@ import {
 } from "@/components/Footer";
 
 export const AppFooter: React.FC = () => (
-  <footer className="border-t border-t-slate-800 mb-10 pt-10 sm:pt-20 pb-16 leading-6 text-sm">
+  <footer className="border-t mb-10 pt-10 sm:pt-20 pb-16 leading-6 text-sm">
     <Container>
       <FooterSections>
         <FooterSection>
@@ -50,7 +50,7 @@ export const AppFooter: React.FC = () => (
         </FooterSection>
       </FooterSections>
 
-      <hr className="mt-16 mb-10 border-b border-slate-800" />
+      <hr className="mt-16 mb-10 border-0 border-b" />
       <div className="flex justify-between">
         <ArgosLogo width="160" />
       </div>

@@ -47,7 +47,7 @@ const getFormatters = (propLocale?: string) => {
 
 export const Simulator = () => {
   const [{ formatNum, formatCurrency, ready }, setFormatters] = React.useState(
-    () => getFormatters("en-US")
+    () => getFormatters("en-US"),
   );
   React.useEffect(() => {
     setFormatters(() => getFormatters());
@@ -63,31 +63,31 @@ export const Simulator = () => {
     PRO_PLAN_BASE_PRICE +
     Math.max(
       (monthlyUsage - PRO_PLAN_SCREENSHOT_COUNT) * ADDITIONAL_SCREENSHOT_PRICE,
-      0
+      0,
     );
 
   return (
     <div
       className={clsx(
         "max-w-full transition",
-        ready ? "opacity-100" : "opacity-0"
+        ready ? "opacity-100" : "opacity-0",
       )}
     >
-      <div className="text-xl md:text-2xl text-on antialiased max-w-xl mx-auto">
-        <span className="text-on-light">A team of </span>
+      <div className="text-xl md:text-2xl text-on max-w-xl mx-auto">
+        <span className="text-low">A team of </span>
         <InlineNumber
           value={teamSize}
           setValue={setTeamSize}
           formatNum={formatNum}
         />{" "}
         developers
-        <span className="text-on-light"> each pushing</span>{" "}
+        <span className="text-low"> each pushing</span>{" "}
         <InlineNumber
           value={dailyPushFrequency}
           setValue={setDailyPushFrequency}
           formatNum={formatNum}
         />{" "}
-        times daily, <span className="text-on-light">on a project with</span>{" "}
+        times daily, <span className="text-low">on a project with</span>{" "}
         <InlineNumber
           value={screenshotCount}
           setValue={setScreenshotCount}
@@ -97,7 +97,7 @@ export const Simulator = () => {
       </div>
 
       <div className="overflow-auto py-4 my-6">
-        <div className="grid grid-cols-[repeat(4,max-content)] text-left md:text-right md:justify-center gap-y-2 gap-x-2 text-on-light text-lg">
+        <div className="grid grid-cols-[repeat(4,max-content)] text-left md:text-right md:justify-center gap-y-2 gap-x-2 text-low text-lg">
           <div>Daily usage:</div>
           <div className="text-left">
             {formatNum(teamSize)} x {formatNum(dailyPushFrequency)} x{" "}
@@ -121,7 +121,7 @@ export const Simulator = () => {
       </div>
 
       <div className="text-xl md:text-2xl">
-        <div className="text-on-light mb-2">Which costs:</div>
+        <div className="text-low mb-2">Which costs:</div>
         {formatCurrency(PRO_PLAN_BASE_PRICE)} + ({formatNum(monthlyUsage)} -{" "}
         {formatNum(PRO_PLAN_SCREENSHOT_COUNT)}) ×{" "}
         {formatCurrency(ADDITIONAL_SCREENSHOT_PRICE)} ={" "}

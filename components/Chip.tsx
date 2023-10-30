@@ -5,7 +5,7 @@ import {
   Children,
   ReactElement,
 } from "react";
-import { ChevronRightIcon } from "@heroicons/react/24/solid";
+import { ChevronRightIcon } from "lucide-react";
 import clsx from "clsx";
 
 export interface ChipProps extends ComponentProps<"div"> {
@@ -21,7 +21,7 @@ export const Chip = forwardRef<HTMLDivElement, ChipProps>(
       className: clsx(
         className,
         "group/chip inline-flex items-center gap-2 text-primary-300 bg-primary-900/50 rounded-2xl text-sm font-medium py-2 px-4 no-underline w-fit",
-        clickable && "hover:bg-primary-900 transition"
+        clickable && "hover:bg-primary-900 transition",
       ),
       children: (
         <>
@@ -37,5 +37,5 @@ export const Chip = forwardRef<HTMLDivElement, ChipProps>(
       return cloneElement(Children.only(children as ReactElement), renderProps);
     }
     return <div ref={ref} {...renderProps} {...props} />;
-  }
+  },
 );

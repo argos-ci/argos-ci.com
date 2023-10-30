@@ -1,5 +1,6 @@
 import { ArgosLogo } from "@/components/ArgosLogo";
-import { Button } from "@/components/Button";
+
+import { Button } from "@/components/Button2";
 import * as React from "react";
 import { Navbar, NavbarLink } from "@/components/Navbar";
 import NextLink from "next/link";
@@ -9,7 +10,7 @@ export const AppNavbar: React.FC = () => {
     <Navbar
       primary={
         <NextLink href="/">
-          <ArgosLogo className="h-10 mt-1" />
+          <ArgosLogo className="h-6" />
         </NextLink>
       }
       secondary={
@@ -17,12 +18,15 @@ export const AppNavbar: React.FC = () => {
           <NavbarLink href="https://argos-ci.com/docs/">Docs</NavbarLink>
           <NavbarLink href="/pricing">Pricing</NavbarLink>
           <NavbarLink href="/blog">Blog</NavbarLink>
-          <NavbarLink href="https://app.argos-ci.com/login">Login</NavbarLink>
-          <Button
-            className="mt-3 md:mt-0 md:order-[0] mb-4 md:mb-0 self-start md:self-auto"
-            asChild
-          >
-            <a href="https://app.argos-ci.com/signup">Get Started</a>
+        </>
+      }
+      actions={
+        <>
+          <Button variant="outline" asChild>
+            <a href="https://app.argos-ci.com/login">Login</a>
+          </Button>
+          <Button>
+            <a href="https://app.argos-ci.com/login">Sign up</a>
           </Button>
         </>
       }

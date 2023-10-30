@@ -5,19 +5,22 @@
 @layer base {
   html,
   body {
-    color-scheme: dark;
-    accent-color: theme(colors.primary.500);
-    color: theme(colors.slate.100);
-    background-color: theme(colors.black);
+    /* color-scheme: dark; */
+    /* accent-color: theme(colors.primary.500); */
+    /* color: theme(colors.slate.100); */
+    font-family: theme(fontFamily.sans);
+    background-color: theme(backgroundColor.app);
+    color: theme(textColor.DEFAULT);
+    height: 100%;
   }
 
   #content {
     contain: paint;
   }
 
-  .prose.prose {
+  /* .prose.prose {
     --tw-prose-pre-bg: theme(colors.slate.900);
-  }
+  } */
 
   /* Hide number input arrows */
 
@@ -38,19 +41,19 @@
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    width: 20px;
-    height: 18px;
+    width: 36px;
+    height: 34px;
+    padding: 8px 8px;
     appearance: none;
     background: transparent;
     border: 0;
-    padding: 0;
     transition: 300ms;
     transition-property: opacity;
 
     & > span {
       width: 20px;
       height: 2px;
-      background-color: theme("colors.white");
+      background-color: theme(textColor.DEFAULT);
       transition: 300ms;
       transition-property: all;
       position: relative;
