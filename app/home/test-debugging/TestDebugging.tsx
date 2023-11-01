@@ -47,7 +47,7 @@ export function TestDebugging() {
         title="Time travel in your tests."
         text="Playwright traces (replays) offer a comprehensive snapshot of your test's breakdown."
       >
-        <div className="relative pt-6">
+        <div className="relative pt-10">
           <div className="flex justify-end mr-[10%]">
             <Image
               src={replayLight.src}
@@ -64,7 +64,7 @@ export function TestDebugging() {
               className="hidden dark:block"
             />
           </div>
-          <div className="absolute -mt-[15%] animate-float">
+          <div className="absolute -mt-[18%] animate-float">
             <Image
               src={doloreanLight.src}
               width={296}
