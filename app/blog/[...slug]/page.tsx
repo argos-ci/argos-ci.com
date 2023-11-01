@@ -1,38 +1,8 @@
-import { MDXRemote } from "next-mdx-remote/rsc";
 import { notFound } from "next/navigation";
 import { getArticleBySlug, getDocMdxSource, getArticles } from "@/lib/api";
-import { MainImage } from "@/components/Post";
 import * as React from "react";
 import { Container } from "@/components/Container";
 import { Metadata, ResolvingMetadata } from "next";
-
-// export const getStaticProps: GetStaticProps = async ({ params }) => {
-//   if (!params?.slug) return { notFound: true };
-//   const slugParam = params.slug as string[];
-//   const slug = slugParam.join("/");
-//   const articles = await getArticles();
-//   const article = getArticleBySlug(articles, slug);
-//   if (!article) return { notFound: true };
-//   const source = await getDocMdxSource(article);
-//   return {
-//     props: {
-//       article,
-//       source,
-//     },
-//   };
-// };
-
-// export const getStaticPaths: GetStaticPaths = async () => {
-//   const articles = await getArticles();
-//   const paths = articles
-//     .filter((article) => article.slug !== "")
-//     .map((article) => ({ params: { slug: article.slug.split("/") } }));
-
-//   return {
-//     paths,
-//     fallback: false,
-//   };
-// };
 
 type Props = {
   params: { slug: string[] };

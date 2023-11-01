@@ -114,7 +114,7 @@ const CTA = ({
 );
 
 export const metadata: Metadata = {
-  title: "Argos Pricing Plans",
+  title: "Pricing Plans — Argos",
 };
 
 export default function Page() {
