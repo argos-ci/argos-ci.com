@@ -77,7 +77,7 @@ module.exports = {
           },
           "50%": {
             filter: "dropShadow(0 25px 15px 0px rgba(0,0,0,0.2))",
-            transform: "translate3d(-8px, -16px, 0)",
+            transform: "translate3d(-2rem, -1rem, 0) scale(0.8)",
           },
           "100%": {
             filter: "dropShadow(0 5px 15px 0px rgba(0,0,0,0.6))",
