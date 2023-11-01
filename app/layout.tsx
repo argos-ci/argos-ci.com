@@ -8,7 +8,6 @@ import { AppNavbar } from "./navbar";
 import { AppFooter } from "./footer";
 import { Metadata } from "next";
 import { TooltipProvider } from "@/components/Tooltip";
-import Script from "next/script";
 import clsx from "clsx";
 
 // Fonts
@@ -19,9 +18,9 @@ const calSans = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Argos — Visual Testing for modern web apps",
+  title: "Argos — Visual Testing for developers",
   description:
-    "Enjoy the simplicity of seamlessly review visual changes throughout your development workflow.",
+    "Argos provides the developer tools to debug tests and detects visual regressions.",
   twitter: {
     site: "@argos_ci",
   },
@@ -41,13 +40,6 @@ export default function RootLayout({
     >
       <head>
         <PlausibleProvider domain="argos-ci.com" />
-        <Script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=AW-847457408"
-        />
-        <Script id="google-ads-conversion-tracking">
-          {`window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-847457408');`}
-        </Script>
       </head>
       <body>
         <TooltipProvider>
