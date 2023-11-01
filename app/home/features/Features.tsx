@@ -24,7 +24,7 @@ function Feature({
   text: React.ReactNode;
 }) {
   return (
-    <section className="py-12 flex-1 max-w-sm md:max-w-none">
+    <section className="py-8 md:py-12 flex-1 max-w-sm md:max-w-none">
       <h3 className="flex items-center gap-3 text-xl font-medium mb-4">
         <Icon className="text-violet-11 w-7 h-7" /> {title}
       </h3>
@@ -61,9 +61,9 @@ function Row({ children }: { children: React.ReactNode }) {
 
 export function Features() {
   return (
-    <Container asChild className="py-20">
+    <Container asChild className="py-16 md:py-20">
       <section>
-        <H2 className="mb-12">Meet the future of Visual Testing.</H2>
+        <H2 className="mb-6 md:mb-12">Meet the future of Visual Testing.</H2>
         <div className="flex flex-col md:gap-6">
           <Row>
             <Feature
@@ -82,8 +82,7 @@ export function Features() {
             <Feature
               title="Test context"
               icon={MonitorCheckIcon}
-              text="Capture visuals seamlessly across every browser for thorough
-            cross-platform testing."
+              text="From one screenshot: get resolution, link to test file, browser — every detail you need."
             />
           </Row>
           <Separator orientation="horizontal" />
@@ -103,7 +102,7 @@ export function Features() {
             <Feature
               title="Difference grouping"
               icon={GalleryHorizontal}
-              text="Experience a seamless, Figma-style zoom transition between diffs for intuitive visual comparisons."
+              text="Similar differences are grouped together for streamlined and efficient review."
             />
           </Row>
           <Separator orientation="horizontal" />
@@ -111,13 +110,13 @@ export function Features() {
             <Feature
               title="Smart baseline detection"
               icon={GitBranchIcon}
-              text="Argos choose the best comparison baseline ensures accurate screenshot comparisons."
+              text="Argos selects the optimal baseline branch for precise screenshot comparisons."
             />
             <Separator orientation="vertical" />
             <Feature
               title="Pull request comments"
               icon={GitPullRequestIcon}
-              text="Pull request comments displays a summary of visual differences right in your workflow."
+              text="Pull request comments display a summary of visual differences right in your workflow."
             />
             <Separator orientation="vertical" />
             <Feature

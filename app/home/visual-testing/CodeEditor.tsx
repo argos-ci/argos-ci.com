@@ -79,14 +79,16 @@ export function CodeEditor({
             <WordAnimation delay={1.05} className="text-blue-11">
               page
             </WordAnimation>
-            ,{" "}
-            <WordAnimation delay={1.25} className="text-jade-11">
+            <WordAnimation delay={1.2} className="text-blue-11">
+              ,
+            </WordAnimation>{" "}
+            <WordAnimation delay={1.3} className="text-jade-11">
               "purchase"
             </WordAnimation>
-            <WordAnimation delay={1.75} className="text-yellow-11">
+            <WordAnimation delay={1.8} className="text-yellow-11">
               )
             </WordAnimation>
-            <WordAnimation delay={1.8} className="text-low">
+            <WordAnimation delay={1.85} className="text-low">
               ;
             </WordAnimation>
           </motion.div>

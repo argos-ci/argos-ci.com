@@ -24,11 +24,11 @@ const characterAnimation: Variants = {
 const successAnimation: Variants = {
   hidden: {
     opacity: 0,
-    y: "-1em",
+    x: "-1em",
   },
   visible: {
     opacity: 1,
-    y: 0,
+    x: 0,
   },
 };
 
@@ -45,6 +45,7 @@ export const Terminal = React.forwardRef(
       animate: async () => {
         await windowCtrls.start({ opacity: 1, y: 0 });
         await cliCtrls.start("visible");
+        await cliCtrls.start("enter");
         await successCtrls.start("visible");
       },
     }));
@@ -59,7 +60,7 @@ export const Terminal = React.forwardRef(
           <div className="h-2 w-2 rounded-full bg-mauve-7" />
           <div className="h-2 w-2 rounded-full bg-mauve-7" />
         </div>
-        <div className="font-mono text-xs md:text-sm px-2 h-20 !leading-relaxed">
+        <div className="font-mono text-xs md:text-sm px-2 h-24 !leading-relaxed">
           <div>
             <span className="text-low">$ ~ project</span>{" "}
             {text.split(" ").map((word, index) => {
@@ -81,8 +82,16 @@ export const Terminal = React.forwardRef(
             initial="hidden"
             variants={successAnimation}
             animate={successCtrls}
+            transition={{ delay: 0.2 }}
           >
             ✔ 52 screenshots uploaded
+            <br />
+            <a
+              href="https://app.argos-ci.com/argos-ci/argos-ci.com/builds/20/"
+              className="underline"
+            >
+              → Build #20
+            </a>
           </motion.div>
         </div>
       </motion.div>

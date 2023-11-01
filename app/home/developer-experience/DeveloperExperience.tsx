@@ -10,7 +10,7 @@ import { H2 } from "../common/H2";
 
 export function DeveloperExperience() {
   return (
-    <Container className="py-20" asChild>
+    <Container className="py-16 md:py-20" asChild>
       <section>
         <H2 className="mb-6 text-center">First-class developer experience.</H2>
         <div className="text-low text-lg md:text-xl mb-12 text-center">

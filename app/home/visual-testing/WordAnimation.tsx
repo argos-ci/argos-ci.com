@@ -15,7 +15,7 @@ const characterAnimation: Variants = {
   visible: {
     opacity: 1,
     transition: {
-      duration: 0.1,
+      duration: 0.08,
     },
   },
 };

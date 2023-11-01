@@ -11,7 +11,7 @@ export function Feature({
   children: React.ReactNode;
 }) {
   return (
-    <Container className="py-20" asChild>
+    <Container className="py-16 md:py-20" asChild>
       <section>
         <div className="text-primary text-violet-11 font-medium text-lg mb-4">
           {surtitle}

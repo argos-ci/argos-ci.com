@@ -70,6 +70,20 @@ module.exports = {
           "50%": { opacity: 1 },
           "100%": { opacity: 0 },
         },
+        float: {
+          "0%": {
+            filter: "dropShadow(0 5px 15px 0px rgba(0,0,0,0.6))",
+            transform: "translate3d(0, 0, 0)",
+          },
+          "50%": {
+            filter: "dropShadow(0 25px 15px 0px rgba(0,0,0,0.2))",
+            transform: "translate3d(-8px, -16px, 0)",
+          },
+          "100%": {
+            filter: "dropShadow(0 5px 15px 0px rgba(0,0,0,0.6))",
+            transform: "translate3d(0, 0, 0)",
+          },
+        },
         "accordion-down": {
           from: { height: 0 },
           to: { height: "var(--radix-accordion-content-height)" },
@@ -84,6 +98,7 @@ module.exports = {
         slide: "slide 10s linear infinite",
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        float: "float 4s ease-in-out infinite",
       },
     },
   },
