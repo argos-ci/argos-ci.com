@@ -37,7 +37,7 @@ const CheckIcon = ({ status }: { status: Status }) => {
             );
           case "pending":
           default:
-            return <AlertCircleIcon className="text-orange-10 w-5 h-5" />;
+            return <AlertCircleIcon className="text-amber-10 w-5 h-5" />;
         }
       })()}
     </div>
@@ -57,7 +57,7 @@ const Check = ({
         "flex flex-1 gap-3 p-4 items-center rounded border relative z-10 transition duration-300 overflow-hidden",
         status === "approved" && "bg-grass-2 border-grass-6",
         status === "rejected" && "bg-red-2 border-red-6",
-        status === "pending" && "bg-orange-2 border-orange-6",
+        status === "pending" && "bg-amber-2 border-amber-6",
         className,
       )}
     >
@@ -114,7 +114,7 @@ export function CiCheck({
           <div className="border-t border-t-gray-8 border-dashed w-80 animate-slide" />
         </div>
         <div className="w-10 absolute bottom-4 right-8 overflow-hidden">
-          <div className="border-t border-t-orange-8 border-dashed w-80 animate-slide" />
+          <div className="border-t border-t-amber-8 border-dashed w-80 animate-slide" />
         </div>
       </div>
     </div>

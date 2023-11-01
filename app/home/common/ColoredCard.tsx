@@ -18,7 +18,7 @@ export function ColoredCard({
     <section
       className={clsx(
         "bg-gradient-to-b p-px rounded relative",
-        color === "amber" && "from-amber-8 to-pink-5",
+        color === "amber" && "from-amber-8 to-amber-5",
         color === "crimson" && "from-crimson-8 to-violet-5",
         color === "red" && "from-red-8 to-orange-5",
         color === "sky" && "from-sky-8 to-iris-5",
@@ -26,7 +26,7 @@ export function ColoredCard({
     >
       <div
         className={clsx(
-          "flex-5 rounded bg-amber-1 p-8 h-full",
+          "flex-5 rounded p-8 h-full",
           color === "amber" && "bg-amber-1",
           color === "crimson" && "bg-crimson-1",
           color === "red" && "bg-red-1",
@@ -35,7 +35,7 @@ export function ColoredCard({
       >
         <div
           className={clsx(
-            "text-amber-11 font-medium mb-2",
+            "font-medium mb-2",
             color === "amber" && "text-amber-11",
             color === "crimson" && "text-crimson-11",
             color === "red" && "text-red-11",
