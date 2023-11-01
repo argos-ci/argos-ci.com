@@ -1,6 +1,7 @@
 import { Container } from "@/components/Container";
 import { AppSvg } from "./AppSvg";
 import { AutomaticCheck } from "./AutomaticCheck";
+import { Button } from "@/components/Button";
 
 const BgGradient = () => {
   return (
@@ -35,16 +36,28 @@ export function Hero() {
       <section>
         <div className="flex items-center flex-col lg:flex-row py-24 gap-x-6 gap-y-12">
           <div className="flex flex-col items-center lg:items-start gap-6 text-center lg:text-left">
-            <h1 className="font-accent font-semibold text-5xl leading-tight lg:leading-none md:text-7xl bg-hero-text-gradient lg:bg-hero-text-gradient-lg bg-clip-text text-transparent">
+            <h1 className="font-accent text-[3.5rem] leading-tight lg:leading-none md:text-7xl bg-hero-text-gradient lg:bg-hero-text-gradient-lg bg-clip-text text-transparent">
               Visual Testing <br className="hidden lg:block" />
               for developers
             </h1>
-            <div className="text-low text-lg md:text-xl">
+            <div className="text-low text-xl">
               Argos provides the developer tools{" "}
               <br className="hidden lg:block" />
               to <strong className="font-medium text">debug tests</strong> and
               detects{" "}
               <strong className="font-medium text">visual regressions</strong>.
+            </div>
+            <div className="flex gap-4">
+              <Button size="large" variant="primary" asChild>
+                <a target="_blank" href="https://app.argos-ci.com/signup">
+                  Get started
+                </a>
+              </Button>
+              <Button size="large" variant="outline" asChild>
+                <a target="_blank" href="https://argos-ci.com/docs/">
+                  Documentation
+                </a>
+              </Button>
             </div>
           </div>
           <div className="flex-1 relative flex items-center justify-end">

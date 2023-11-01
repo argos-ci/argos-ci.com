@@ -1,6 +1,6 @@
 import { ArgosLogo } from "@/components/ArgosLogo";
 
-import { Button } from "@/components/Button2";
+import { Button } from "@/components/Button";
 import * as React from "react";
 import { Navbar, NavbarLink } from "@/components/Navbar";
 import NextLink from "next/link";
@@ -26,7 +26,7 @@ export const AppNavbar: React.FC = () => {
             <a href="https://app.argos-ci.com/login">Login</a>
           </Button>
           <Button>
-            <a href="https://app.argos-ci.com/login">Sign up</a>
+            <a href="https://app.argos-ci.com/signup">Sign up</a>
           </Button>
         </>
       }

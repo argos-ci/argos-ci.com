@@ -1,4 +1,4 @@
-import { Button, ButtonProps } from "@/components/Button2";
+import { Button, ButtonProps } from "@/components/Button";
 import { Container } from "@/components/Container";
 import { Link } from "@/components/Link";
 import { Tooltip } from "@/components/Tooltip";

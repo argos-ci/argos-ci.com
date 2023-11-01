@@ -8,7 +8,7 @@ import {
 } from "@/components/Footer";
 
 export const AppFooter: React.FC = () => (
-  <footer className="border-t mb-10 pt-10 sm:pt-20 pb-16 leading-6 text-sm">
+  <footer className="border-t mb-10 pt-10 sm:pt-20 mt-32 pb-16 leading-6 text-sm">
     <Container>
       <FooterSections>
         <FooterSection>

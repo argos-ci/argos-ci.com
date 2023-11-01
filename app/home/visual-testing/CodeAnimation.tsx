@@ -8,10 +8,12 @@ export function CodeAnimation() {
   const ref = React.useRef(null);
   const terminalRef = React.useRef(null);
   const editorCtrls = useAnimation();
-  const inView = useInView(ref, { once: true });
+  const inView = useInView(ref, { once: true, amount: 0.6 });
   React.useEffect(() => {
     const animate = async () => {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       await editorCtrls.start("visible");
+      await new Promise((resolve) => setTimeout(resolve, 300));
       await terminalRef.current.animate();
     };
     if (inView) {
