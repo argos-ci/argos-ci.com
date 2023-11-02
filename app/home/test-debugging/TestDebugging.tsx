@@ -28,9 +28,7 @@ export function TestDebugging() {
         title="Troubleshoot tests effortlessly."
         text="Screenshots of test failures happening on CI are automatically captured and visible in Argos."
       >
-        <div className="flex h-full w-full items-center">
-          <FailureScreenshotSvg />
-        </div>
+        <FailureScreenshotSvg />
       </ColoredCard>
       <ColoredCard
         color="sky"
