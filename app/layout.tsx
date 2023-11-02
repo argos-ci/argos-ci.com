@@ -22,18 +22,18 @@ const calSans = localFont({
 export const metadata: Metadata = {
   title: "Argos — Visual Testing for developers",
   description:
-    "Argos provides the developer tools to debug tests and detects visual regressions.",
+    "Argos provides the developer tools to debug tests and detect visual regressions.",
   openGraph: {
     title: "Visual Testing for developers",
     description:
-      "Argos provides the developer tools to debug tests and detects visual regressions.",
+      "Argos provides the developer tools to debug tests and detect visual regressions.",
   },
   twitter: {
     card: "summary_large_image",
     site: "@argos_ci",
     title: "Visual Testing for developers",
     description:
-      "Argos provides the developer tools to debug tests and detects visual regressions.",
+      "Argos provides the developer tools to debug tests and detect visual regressions.",
   },
 };
 

@@ -45,7 +45,7 @@ export function Hero() {
               Argos provides the developer tools{" "}
               <br className="hidden lg:block" />
               to <strong className="font-medium text">debug tests</strong> and
-              detects{" "}
+              detect{" "}
               <strong className="font-medium text">visual regressions</strong>.
             </div>
             <div className="flex gap-4">
