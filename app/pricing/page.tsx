@@ -124,7 +124,7 @@ export default function Page() {
       <Container className="mt-20 flex flex-col items-center gap-6 text-center">
         <h1 className="my-8 font-accent text-5xl sm:text-6xl">Pricing plans</h1>
 
-        <div className="flex w-full flex-wrap justify-center gap-6">
+        <div className="grid w-full grid-cols-1 justify-center gap-6 md:grid-cols-3">
           <PricingCard>
             <PricingCardBody>
               <Badges />
@@ -207,8 +207,8 @@ export default function Page() {
         </div>
       </Container>
 
-      <Container className="mb-12 mt-32 rounded border-2 border-plum-6 py-16">
-        <div className="flex flex-col items-center px-4">
+      <Container className="mb-12 mt-32">
+        <div className="flex flex-col items-center rounded border-2 border-plum-6 p-6 md:py-16">
           <h2 className="mb-8 font-accent text-4xl md:text-5xl">
             Open source sponsoring
           </h2>
@@ -227,7 +227,7 @@ export default function Page() {
       </Container>
 
       <Container className="mb-32 flex flex-col items-center gap-6 text-center">
-        <div className="my-32 w-full">
+        <div className="my-32">
           <div className="mb-8 text-center text-xl">
             Trusted by the best frontend teams
           </div>

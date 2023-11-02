@@ -35,9 +35,9 @@ export function Hero() {
   return (
     <Container className="relative" asChild>
       <section>
-        <div className="flex flex-col items-center gap-x-6 gap-y-12 py-24 lg:flex-row">
+        <div className="flex flex-col items-center gap-x-6 gap-y-12 py-8 md:py-24 lg:flex-row">
           <div className="flex flex-col items-center gap-6 text-center lg:items-start lg:text-left">
-            <h1 className="bg-hero-text-gradient bg-clip-text font-accent text-[3.5rem] leading-tight text-transparent md:text-7xl lg:bg-hero-text-gradient-lg lg:leading-none">
+            <h1 className="bg-hero-text-gradient bg-clip-text font-accent text-[3.2rem] leading-tight text-transparent md:text-7xl lg:bg-hero-text-gradient-lg lg:leading-none">
               Visual Testing <br className="hidden lg:block" />
               for developers
             </h1>
@@ -61,7 +61,7 @@ export function Hero() {
               </Button>
             </div>
           </div>
-          <div className="relative flex flex-1 items-center justify-end">
+          <div className="relative mt-4 flex flex-1 items-center justify-end md:mt-0">
             <div className="relative z-10 w-[80vw] lg:w-[85%]">
               <AppSvg />
               <AutomaticCheck className="-ml-5 mt-5" />
