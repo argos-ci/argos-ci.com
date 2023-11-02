@@ -63,7 +63,19 @@ export function Hero() {
           </div>
           <div className="relative mt-4 flex flex-1 items-center justify-end md:mt-0">
             <div className="relative z-10 w-[80vw] lg:w-[85%]">
-              <AppSvg />
+              <a
+                className="group relative"
+                target="_blank"
+                href="https://app.argos-ci.com/argos-ci/argos-ci.com/builds/20/31313699"
+              >
+                <div className="absolute inset-0 overflow-hidden rounded bg-gradient-to-br from-violetA-11 to-plumA-10 opacity-0 transition duration-500 group-hover:opacity-100" />
+                <div className="absolute inset-0 flex scale-50 transform items-center justify-center rounded opacity-0 transition duration-500 group-hover:scale-100 group-hover:opacity-100">
+                  <div className="font-accent text-4xl text-mauve-1 drop-shadow-lg">
+                    See a demo build
+                  </div>
+                </div>
+                <AppSvg />
+              </a>
               <AutomaticCheck className="-ml-5 mt-5" />
             </div>
             <BgGradient />
