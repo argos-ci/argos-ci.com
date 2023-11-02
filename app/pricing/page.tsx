@@ -121,7 +121,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <div className="flex flex-col">
-      <Container className="mt-20 flex flex-col items-center gap-6 text-center">
+      <Container className="mt-8 flex flex-col items-center gap-6 text-center md:mt-20">
         <h1 className="my-8 font-accent text-5xl sm:text-6xl">Pricing plans</h1>
 
         <div className="grid w-full grid-cols-1 justify-center gap-6 md:grid-cols-3">
