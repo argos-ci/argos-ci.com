@@ -26,7 +26,7 @@ export const EditInline = React.memo(
       <div
         className={clsx(
           className,
-          "text-primary-100 relative inline-block rounded bg-ui px-2 transition",
+          "text-primary-100 relative inline-block rounded bg-ui px-2 leading-normal transition",
           "cursor-text focus-within:bg-active hover:bg-hover hover:focus-within:bg-active",
         )}
         onClick={() => {

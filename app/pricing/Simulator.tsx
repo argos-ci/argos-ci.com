@@ -71,11 +71,11 @@ export const Simulator = () => {
   return (
     <div
       className={clsx(
-        "max-w-full transition",
+        "w-full max-w-3xl self-center transition",
         ready ? "opacity-100" : "opacity-0",
       )}
     >
-      <div className="text-on mx-auto max-w-xl text-xl md:text-2xl">
+      <div className="text-on mx-auto max-w-xl text-xl leading-loose md:text-2xl">
         <span className="text-low">A team of </span>
         <InlineNumber
           value={teamSize}
@@ -98,38 +98,49 @@ export const Simulator = () => {
         screenshots.
       </div>
 
-      <div className="my-6 overflow-auto py-4">
-        <div className="grid grid-cols-[repeat(4,max-content)] gap-x-2 gap-y-2 text-left text-lg text-low md:justify-center md:text-right">
-          <div>Daily usage:</div>
-          <div className="text-left">
-            {formatNum(teamSize)} x {formatNum(dailyPushFrequency)} x{" "}
-            {formatNum(screenshotCount)}
+      <div className="my-6 flex flex-wrap justify-center gap-4 py-4 text-left text-lg text-low md:justify-between">
+        <div>
+          <div className="mb-2 text-center font-medium text">Daily usage</div>
+          <div className="flex gap-4">
+            <div className="text-left">
+              {formatNum(teamSize)} x {formatNum(dailyPushFrequency)} x{" "}
+              {formatNum(screenshotCount)}
+            </div>
+            <div>=</div>
+            <div className="text">
+              {formatNum(dailyUsage)} <small>screenshots</small>
+            </div>
           </div>
-          <div>=</div>
-          <div>
-            {formatNum(dailyUsage)} <small>screenshots</small>
-          </div>
+        </div>
 
-          <div>Monthly usage: </div>
-          <div className="text-left">
-            {formatNum(teamSize)} x {formatNum(dailyPushFrequency)} x{" "}
-            {formatNum(screenshotCount)} x {formatNum(workingDays)}
-          </div>
-          <div>=</div>
-          <div className="text-on">
-            {formatNum(monthlyUsage)} <small>screenshots</small>
+        <div>
+          <div className="mb-2 text-center font-medium text">Monthly usage</div>
+          <div className="flex gap-4">
+            <div className="text-left">
+              {formatNum(teamSize)} x {formatNum(dailyPushFrequency)} x{" "}
+              {formatNum(screenshotCount)} x {formatNum(workingDays)}
+            </div>
+            <div>=</div>
+            <div className="text">
+              {formatNum(monthlyUsage)} <small>screenshots</small>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="text-xl md:text-2xl">
-        <div className="mb-2 text-low">Which costs:</div>
-        {formatCurrency(PRO_PLAN_BASE_PRICE)} + ({formatNum(monthlyUsage)} -{" "}
-        {formatNum(PRO_PLAN_SCREENSHOT_COUNT)}) ×{" "}
-        {formatCurrency(ADDITIONAL_SCREENSHOT_PRICE)} ={" "}
-        <span className="text-on whitespace-nowrap">
-          {formatCurrency(totalPrice)} <small>per month</small>
-        </span>
+      <div className="leading-loose text-low">
+        <div className="mb-2 text-2xl font-medium text">Total cost</div>
+        <div className="flex flex-wrap items-center justify-center gap-4">
+          <div>
+            {formatCurrency(PRO_PLAN_BASE_PRICE)} + ({formatNum(monthlyUsage)} -{" "}
+            {formatNum(PRO_PLAN_SCREENSHOT_COUNT)}) ×{" "}
+            {formatCurrency(ADDITIONAL_SCREENSHOT_PRICE)}
+          </div>
+          <div>=</div>
+          <div className="whitespace-nowrap text-2xl font-semibold text">
+            {formatCurrency(totalPrice)} <small>per month</small>
+          </div>
+        </div>
       </div>
 
       <div className="mt-4 text-lg">
