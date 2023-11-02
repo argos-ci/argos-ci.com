@@ -5,7 +5,12 @@ export const Burger = React.forwardRef<
   React.HTMLAttributes<HTMLButtonElement>
 >((props, ref) => {
   return (
-    <button ref={ref} className="burger-menu" {...props}>
+    <button
+      ref={ref}
+      className="burger-menu"
+      aria-label="Show navigation"
+      {...props}
+    >
       <span />
       <span />
       <span />
