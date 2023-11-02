@@ -36,29 +36,31 @@ export function Integrations() {
             </Button>
           </div>
         </div>
-        <div className="relative flex-1 self-stretch">
-          <Image
-            src={integrationsLight.src}
-            width={433}
-            height={500}
-            style={{
-              width: "100%",
-              height: "auto",
-            }}
-            alt=""
-            className="dark:hidden"
-          />
-          <Image
-            src={integrationsDark.src}
-            width={433}
-            height={500}
-            style={{
-              width: "100%",
-              height: "auto",
-            }}
-            alt=""
-            className="hidden dark:block"
-          />
+        <div className="relative w-full flex-1 md:w-auto">
+          <div className="flex w-full" style={{ aspectRatio: "1/1" }}>
+            <Image
+              src={integrationsLight.src}
+              width={1224}
+              height={1224}
+              style={{
+                width: "100%",
+                height: "auto",
+              }}
+              alt=""
+              className="dark:hidden"
+            />
+            <Image
+              src={integrationsDark.src}
+              width={1224}
+              height={1224}
+              style={{
+                width: "100%",
+                height: "auto",
+              }}
+              alt=""
+              className="hidden dark:block"
+            />
+          </div>
         </div>
       </section>
     </Container>
