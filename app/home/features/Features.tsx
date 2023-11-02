@@ -69,7 +69,7 @@ export function Features() {
         <div className="flex flex-col md:gap-6">
           <Row>
             <Feature
-              title="Cross browsers testing"
+              title="Cross-browser testing"
               icon={ChromeIcon}
               text="Capture visuals seamlessly across every browser for thorough
             cross-platform testing."
@@ -84,13 +84,13 @@ export function Features() {
             <Feature
               title="Test context"
               icon={MonitorCheckIcon}
-              text="From one screenshot: get resolution, link to test file, browser — every detail you need."
+              text="From a single screenshot, obtain resolution, link to test file, browser, and every other detail you need."
             />
           </Row>
           <Separator orientation="horizontal" />
           <Row>
             <Feature
-              title="Screenshot stabilisation"
+              title="Screenshot stabilization"
               icon={VibrateIcon}
               text="Argos' stabilization tech halts animations to reduce false-positives and ensure consistent rendering."
             />
@@ -118,7 +118,7 @@ export function Features() {
             <Feature
               title="Pull request comments"
               icon={GitPullRequestIcon}
-              text="Pull request comments display a summary of visual differences right in your workflow."
+              text="Pull request comments display summaries of visual differences directly in your workflow."
             />
             <Separator orientation="vertical" />
             <Feature
