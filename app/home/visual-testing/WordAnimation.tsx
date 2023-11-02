@@ -1,7 +1,8 @@
 "use client";
-import * as React from "react";
+
 import clsx from "clsx";
 import { HTMLMotionProps, Variants, motion } from "framer-motion";
+import * as React from "react";
 
 const wordAnimation: Variants = {
   hidden: {},

@@ -1,10 +1,9 @@
 "use client";
 
-import * as React from "react";
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
-import { ChevronDownIcon } from "lucide-react";
-
 import clsx from "clsx";
+import { ChevronDownIcon } from "lucide-react";
+import * as React from "react";
 
 const Accordion = AccordionPrimitive.Root;
 
@@ -28,7 +27,7 @@ const AccordionTrigger = React.forwardRef<
     <AccordionPrimitive.Trigger
       ref={ref}
       className={clsx(
-        "flex flex-1 items-center text-left justify-between py-4 font-medium transition-all text-low data-[state=open]:text hover:text cursor-pointer [&[data-state=open]>svg]:rotate-180",
+        "flex flex-1 cursor-pointer items-center justify-between py-4 text-left font-medium text-low transition-all hover:text data-[state=open]:text [&[data-state=open]>svg]:rotate-180",
         className,
       )}
       {...props}

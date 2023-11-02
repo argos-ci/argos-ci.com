@@ -10,7 +10,7 @@ export function H2({
   return (
     <h2
       className={clsx(
-        "text-4xl md:text-6xl md:leading-[1.1] font-accent",
+        "font-accent text-4xl md:text-6xl md:leading-[1.1]",
         className,
       )}
     >

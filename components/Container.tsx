@@ -1,5 +1,5 @@
-import { clsx } from "clsx";
 import { Slot } from "@radix-ui/react-slot";
+import { clsx } from "clsx";
 
 export type ContainerProps = React.HTMLAttributes<HTMLDivElement> & {
   asChild?: boolean;

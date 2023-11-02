@@ -1,8 +1,10 @@
 "use client";
+
+import { useAnimation, useInView } from "framer-motion";
 import * as React from "react";
+
 import { CodeEditor } from "./CodeEditor";
 import { Terminal } from "./Terminal";
-import { useAnimation, useInView } from "framer-motion";
 
 export function CodeAnimation() {
   const terminalRef = React.useRef(null);
@@ -21,11 +23,11 @@ export function CodeAnimation() {
     }
   }, [inView, editorCtrls]);
   return (
-    <div ref={ref} className="pt-8 pb-2 px-2">
+    <div ref={ref} className="px-2 pb-2 pt-8">
       <CodeEditor animate={editorCtrls} />
       <Terminal
         ref={terminalRef}
-        className="-mt-8 -ml-2 z-10 mr-2 md:mr-6 relative shadow-lg"
+        className="relative z-10 -ml-2 -mt-8 mr-2 shadow-lg md:mr-6"
       />
     </div>
   );

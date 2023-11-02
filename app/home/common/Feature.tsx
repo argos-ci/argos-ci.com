@@ -1,4 +1,5 @@
 import { Container } from "@/components/Container";
+
 import { H2 } from "./H2";
 
 export function Feature({
@@ -13,11 +14,11 @@ export function Feature({
   return (
     <Container className="py-16 md:py-20" asChild>
       <section>
-        <div className="text-primary text-violet-11 font-medium text-lg mb-4">
+        <div className="text-primary mb-4 text-lg font-medium text-violet-11">
           {surtitle}
         </div>
         <H2 className="mb-12">{title}</H2>
-        <div className="grid grid-cols-1 md:grid-cols-2 md:flex-row gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:flex-row">
           {children}
         </div>
       </section>

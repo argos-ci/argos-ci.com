@@ -1,9 +1,12 @@
 "use client";
-import * as React from "react";
+
 import clsx from "clsx";
-import { ChangesSvg } from "./ChangesSvg";
-import { CiCheck } from "../common/CiCheck";
+import * as React from "react";
+
 import { Button } from "@/components/Button";
+
+import { CiCheck } from "../common/CiCheck";
+import { ChangesSvg } from "./ChangesSvg";
 
 export function ReviewChanges({ className }: { className?: string }) {
   const [status, setStatus] = React.useState<
@@ -25,7 +28,7 @@ export function ReviewChanges({ className }: { className?: string }) {
   return (
     <div className={clsx("relative", className)}>
       <div className="relative">
-        <ChangesSvg className="border rounded md:w-[50%] mx-auto" />
+        <ChangesSvg className="mx-auto rounded border md:w-[50%]" />
       </div>
       <CiCheck className="mt-5 w-full" status={status} />
     </div>

@@ -8,7 +8,7 @@ export const Link = ({
 }: ComponentProps<typeof NextLink>) => (
   <NextLink
     href={href}
-    className="transition no-underline text-white hover:text-low"
+    className="text-white no-underline transition hover:text-low"
     {...props}
   >
     {children}

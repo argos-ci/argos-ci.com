@@ -1,24 +1,25 @@
-import { Button, ButtonProps } from "@/components/Button";
-import { Container } from "@/components/Container";
-import { Link } from "@/components/Link";
-import { Tooltip } from "@/components/Tooltip";
+import clsx from "clsx";
 import {
   ArrowRightIcon,
   CheckCircleIcon,
   CircleDollarSignIcon,
 } from "lucide-react";
-import clsx from "clsx";
+import { Metadata } from "next";
+import * as React from "react";
+
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/Accordion";
-
-import * as React from "react";
 import { BrandTestimonials } from "@/components/BrandTestimonials";
+import { Button, ButtonProps } from "@/components/Button";
+import { Container } from "@/components/Container";
+import { Link } from "@/components/Link";
+import { Tooltip } from "@/components/Tooltip";
+
 import { Simulator } from "./Simulator";
-import { Metadata } from "next";
 
 const HOBBY_PLAN_SCREENSHOT_COUNT = 5000;
 const PRO_PLAN_SCREENSHOT_COUNT = 15000;
@@ -69,7 +70,7 @@ const PricingCard = ({
 }) => (
   <div
     className={clsx(
-      "flex-1 shrink-0 basis-80 w-full rounded-xl border border-border bg-violet-1",
+      "border-border w-full flex-1 shrink-0 basis-80 rounded-xl border bg-violet-1",
       emphasis ? "border-2 border-violet-6 pt-4" : "lg:mt-4",
     )}
   >
@@ -86,7 +87,7 @@ const Title = ({ children }: { children: React.ReactNode }) => (
 );
 
 const Description = ({ children }: { children: React.ReactNode }) => (
-  <div className="h-12 my-2 last-of-type:mb-0">{children}</div>
+  <div className="my-2 h-12 last-of-type:mb-0">{children}</div>
 );
 
 const Badges = ({ children }: { children?: React.ReactNode }) => (
@@ -102,7 +103,7 @@ const CTA = ({
   href: string;
 }) => (
   <Button
-    className="mt-10 mb-6 w-full justify-center"
+    className="mb-6 mt-10 w-full justify-center"
     size="large"
     asChild
     {...props}
@@ -121,9 +122,9 @@ export default function Page() {
   return (
     <div className="flex flex-col">
       <Container className="mt-20 flex flex-col items-center gap-6 text-center">
-        <h1 className="my-8 text-5xl font-accent sm:text-6xl">Pricing plans</h1>
+        <h1 className="my-8 font-accent text-5xl sm:text-6xl">Pricing plans</h1>
 
-        <div className="flex flex-wrap gap-6 justify-center w-full">
+        <div className="flex w-full flex-wrap justify-center gap-6">
           <PricingCard>
             <PricingCardBody>
               <Badges />
@@ -148,7 +149,7 @@ export default function Page() {
           <PricingCard emphasis>
             <PricingCardBody>
               <Badges>
-                <div className="mb-10 w-fit rounded border border-violet-6 px-2.5 py-0.5 text-xs text font-medium text-primary-300">
+                <div className="text-primary-300 mb-10 w-fit rounded border border-violet-6 px-2.5 py-0.5 text-xs font-medium text">
                   Most popular
                 </div>
               </Badges>
@@ -206,9 +207,9 @@ export default function Page() {
         </div>
       </Container>
 
-      <Container className="py-16 mt-32 mb-12 border-2 border-plum-6 rounded">
-        <div className="items-center flex flex-col px-4">
-          <h2 className="text-4xl md:text-5xl font-accent mb-8">
+      <Container className="mb-12 mt-32 rounded border-2 border-plum-6 py-16">
+        <div className="flex flex-col items-center px-4">
+          <h2 className="mb-8 font-accent text-4xl md:text-5xl">
             Open source sponsoring
           </h2>
           <p className="text-lg md:text-center md:text-xl">
@@ -217,34 +218,34 @@ export default function Page() {
 
           <Link
             href="https://docs.argos-ci.com/open-source"
-            className="group/link mt-6 hover:underline transition-colors duration-150 ease-in-out"
+            className="group/link mt-6 transition-colors duration-150 ease-in-out hover:underline"
           >
             Read more about our open source sponsoring program
-            <ArrowRightIcon className="h-3 w-3 shrink-0 transition-transform duration-150 ease-in-out group-hover/link:translate-x-0.5 inline-block ml-2 -mt-0.5" />
+            <ArrowRightIcon className="-mt-0.5 ml-2 inline-block h-3 w-3 shrink-0 transition-transform duration-150 ease-in-out group-hover/link:translate-x-0.5" />
           </Link>
         </div>
       </Container>
 
-      <Container className="flex flex-col items-center gap-6 text-center mb-32">
+      <Container className="mb-32 flex flex-col items-center gap-6 text-center">
         <div className="my-32 w-full">
-          <div className="text-xl text-center mb-8">
+          <div className="mb-8 text-center text-xl">
             Trusted by the best frontend teams
           </div>
           <BrandTestimonials />
         </div>
 
-        <h2 className="text-4xl md:text-5xl font-accent mb-6">
+        <h2 className="mb-6 font-accent text-4xl md:text-5xl">
           How much does it cost?
         </h2>
         <Simulator />
 
-        <h2 className="text-4xl md:text-5xl font-accent mt-24 mb-8">
+        <h2 className="mb-8 mt-24 font-accent text-4xl md:text-5xl">
           Frequently asked questions
         </h2>
         <Accordion
           type="single"
           collapsible
-          className="max-w-2xl w-full text-left"
+          className="w-full max-w-2xl text-left"
         >
           <AccordionItem value="apart">
             <AccordionTrigger>
@@ -301,7 +302,7 @@ export default function Page() {
               What happens if I exceed the plan's screenshot limit?
             </AccordionTrigger>
             <AccordionContent>
-              <ul className="list-disc list-inside">
+              <ul className="list-inside list-disc">
                 <li>
                   <span className="font-semibold">Regular plans: </span> you
                   will not be able to upload any additional screenshots until

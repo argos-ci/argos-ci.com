@@ -10,11 +10,11 @@ export function DxCard({
   children: React.ReactNode;
 }) {
   return (
-    <section className="bg-subtle border rounded p-8 pt-0 flex-1 flex flex-col h-96">
-      <div className="flex items-center justify-center flex-1 min-h-0 relative">
+    <section className="flex h-96 flex-1 flex-col rounded border bg-subtle p-8 pt-0">
+      <div className="relative flex min-h-0 flex-1 items-center justify-center">
         {children}
       </div>
-      <h3 className="font-semibold text-xl mb-0.5">{title}</h3>
+      <h3 className="mb-0.5 text-xl font-semibold">{title}</h3>
       <p>{text}</p>
     </section>
   );

@@ -1,7 +1,9 @@
 "use client";
-import * as React from "react";
+
 import clsx from "clsx";
-import { useAnimation, motion, Variants, useInView } from "framer-motion";
+import { Variants, motion, useAnimation, useInView } from "framer-motion";
+import * as React from "react";
+
 import { WordAnimation } from "./WordAnimation";
 
 const wordAnimation: Variants = {
@@ -53,14 +55,14 @@ export const Terminal = React.forwardRef(
       <motion.div
         animate={windowCtrls}
         initial={{ opacity: 0, y: "1rem" }}
-        className={clsx("bg-app border rounded select-none", className)}
+        className={clsx("select-none rounded border bg-app", className)}
       >
         <div className="flex gap-2 p-2">
           <div className="h-2 w-2 rounded-full bg-mauve-7" />
           <div className="h-2 w-2 rounded-full bg-mauve-7" />
           <div className="h-2 w-2 rounded-full bg-mauve-7" />
         </div>
-        <div className="font-mono text-xs md:text-sm px-2 h-24 !leading-relaxed">
+        <div className="h-24 px-2 font-mono text-xs !leading-relaxed md:text-sm">
           <div>
             <span className="text-low">$ ~ project</span>{" "}
             {text.split(" ").map((word, index) => {
@@ -68,7 +70,7 @@ export const Terminal = React.forwardRef(
                 <WordAnimation
                   key={index}
                   delay={0.25 * index}
-                  className="inline-block mr-1"
+                  className="mr-1 inline-block"
                   initial="hidden"
                   animate={cliCtrls}
                 >

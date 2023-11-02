@@ -1,8 +1,9 @@
 import Image from "next/image";
+
 import antDesign from "@/images/brands/ant-design.svg";
 import doctolib from "@/images/brands/doctolib.svg";
-import meta from "@/images/brands/meta.svg";
 import lemonde from "@/images/brands/lemonde.svg";
+import meta from "@/images/brands/meta.svg";
 import mui from "@/images/brands/mui.svg";
 
 import { Container } from "./Container";
@@ -10,11 +11,11 @@ import { Container } from "./Container";
 const Testimonials = ({ children }: { children: React.ReactNode }) => {
   return (
     <div>
-      <Container className="hidden lg:flex justify-between items-baseline">
+      <Container className="hidden items-baseline justify-between lg:flex">
         {children}
       </Container>
-      <div className="lg:hidden overflow-hidden relative">
-        <div className="flex animate-[slide_20s_linear_infinite] w-max gap-10 pr-10 items-baseline">
+      <div className="relative overflow-hidden lg:hidden">
+        <div className="flex w-max animate-[slide_20s_linear_infinite] items-baseline gap-10 pr-10">
           {children}
           {children}
         </div>
@@ -29,25 +30,25 @@ export const BrandTestimonials = () => {
       <Image
         src={antDesign}
         alt="Ant Design"
-        className="dark:brightness-0 dark:invert shrink-0"
+        className="shrink-0 dark:brightness-0 dark:invert"
         style={{ paddingBottom: "8px" }}
       />
       <Image
         src={mui}
         alt="MUI"
-        className="dark:brightness-0 dark:invert shrink-0"
+        className="shrink-0 dark:brightness-0 dark:invert"
         style={{ paddingBottom: 0 }}
       />
       <Image
         src={doctolib}
         alt="Doctolib"
-        className="dark:brightness-0 dark:invert shrink-0"
+        className="shrink-0 dark:brightness-0 dark:invert"
         style={{ paddingBottom: "9px" }}
       />
       <Image
         src={lemonde}
         alt="Le Monde"
-        className="dark:brightness-0 dark:invert shrink-0"
+        className="shrink-0 dark:brightness-0 dark:invert"
         style={{ paddingBottom: "10px" }}
       />
       <Image
@@ -55,7 +56,7 @@ export const BrandTestimonials = () => {
         alt="Meta"
         height={28}
         width={139}
-        className="dark:brightness-0 dark:invert shrink-0"
+        className="shrink-0 dark:brightness-0 dark:invert"
         style={{ paddingBottom: "12px" }}
       />
     </Testimonials>

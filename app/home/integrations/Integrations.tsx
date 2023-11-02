@@ -1,20 +1,22 @@
-import { Container } from "@/components/Container";
-import { H2 } from "../common/H2";
 import Image from "next/image";
+
+import { Button } from "@/components/Button";
+import { Container } from "@/components/Container";
+
+import { H2 } from "../common/H2";
 import integrationsDark from "./integrations-dark.png";
 import integrationsLight from "./integrations-light.png";
-import { Button } from "@/components/Button";
 
 export function Integrations() {
   return (
     <Container
-      className="py-16 md:py-20 flex flex-col-reverse md:flex-row items-center"
+      className="flex flex-col-reverse items-center py-16 md:flex-row md:py-20"
       asChild
     >
       <section>
         <div className="flex-1">
           <H2 className="mb-8">Integrate Argos today.</H2>
-          <p className="text-xl mb-8">
+          <p className="mb-8 text-xl">
             Argos provides SDK integrations for test frameworks and CI/CD
             workflows. If you can capture screenshots, Argos is ready for you.
           </p>
@@ -34,7 +36,7 @@ export function Integrations() {
             </Button>
           </div>
         </div>
-        <div className="flex-1 self-stretch relative">
+        <div className="relative flex-1 self-stretch">
           <Image
             src={integrationsLight.src}
             width={433}

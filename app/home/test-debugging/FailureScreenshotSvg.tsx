@@ -1,6 +1,7 @@
 "use client";
-import * as React from "react";
+
 import { Variants, motion, useAnimation, useInView } from "framer-motion";
+import * as React from "react";
 
 const line: Variants = {
   hidden: {
@@ -109,7 +110,7 @@ export const FailureScreenshotSvg = (props: React.SVGProps<SVGSVGElement>) => {
               x={61}
               y={95}
               rx={2}
-              className="fill-mauve-6 scale-x-0"
+              className="scale-x-0 fill-mauve-6"
             />
             <motion.path
               variants={checkIconPath}
@@ -141,7 +142,7 @@ export const FailureScreenshotSvg = (props: React.SVGProps<SVGSVGElement>) => {
               x={61}
               y={127}
               rx={2}
-              className="fill-mauve-6 scale-x-0"
+              className="scale-x-0 fill-mauve-6"
             />
             <motion.path
               variants={checkIconPath}
@@ -173,7 +174,7 @@ export const FailureScreenshotSvg = (props: React.SVGProps<SVGSVGElement>) => {
               x={61}
               y={159}
               rx={2}
-              className="fill-mauve-6 scale-x-0"
+              className="scale-x-0 fill-mauve-6"
             />
             <motion.path
               variants={checkIconPath}

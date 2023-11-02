@@ -1,14 +1,15 @@
 import clsx from "clsx";
+import { AlertCircleIcon, CheckCircle2Icon, XCircleIcon } from "lucide-react";
+
 import { ArgosEmblem } from "@/components/ArgosEmblem";
-import { GitLabLogo } from "@/components/GitLabLogo";
 import { GitHubLogo } from "@/components/GitHubLogo";
-import { CheckCircle2Icon, XCircleIcon, AlertCircleIcon } from "lucide-react";
+import { GitLabLogo } from "@/components/GitLabLogo";
 
 export type Status = "pending" | "approved" | "rejected";
 
 const GitLabMark = () => {
   return (
-    <div className="rounded-full bg-[#fefefe] border border-[#E24329] flex items-center justify-center w-8 h-8">
+    <div className="flex h-8 w-8 items-center justify-center rounded-full border border-[#E24329] bg-[#fefefe]">
       <GitLabLogo className="w-5" />
     </div>
   );
@@ -16,7 +17,7 @@ const GitLabMark = () => {
 
 const GitHubMark = () => {
   return (
-    <div className="rounded-full bg-[#fefefe] border border-[#1A1523] flex items-center justify-center w-8 h-8">
+    <div className="flex h-8 w-8 items-center justify-center rounded-full border border-[#1A1523] bg-[#fefefe]">
       <GitHubLogo className="w-5" />
     </div>
   );
@@ -29,15 +30,15 @@ const CheckIcon = ({ status }: { status: Status }) => {
         switch (status) {
           case "approved":
             return (
-              <CheckCircle2Icon className="text-green-10 w-5 h-5 animate-in zoom-in duration-300" />
+              <CheckCircle2Icon className="h-5 w-5 text-green-10 duration-300 animate-in zoom-in" />
             );
           case "rejected":
             return (
-              <XCircleIcon className="text-red-10 w-5 h-5 animate-in zoom-in duration-300" />
+              <XCircleIcon className="h-5 w-5 text-red-10 duration-300 animate-in zoom-in" />
             );
           case "pending":
           default:
-            return <AlertCircleIcon className="text-amber-10 w-5 h-5" />;
+            return <AlertCircleIcon className="h-5 w-5 text-amber-10" />;
         }
       })()}
     </div>
@@ -54,18 +55,18 @@ const Check = ({
   return (
     <div
       className={clsx(
-        "flex flex-1 gap-3 p-4 items-center rounded border relative z-10 transition duration-300 overflow-hidden",
-        status === "approved" && "bg-grass-2 border-grass-6",
-        status === "rejected" && "bg-red-2 border-red-6",
-        status === "pending" && "bg-amber-2 border-amber-6",
+        "relative z-10 flex flex-1 items-center gap-3 overflow-hidden rounded border p-4 transition duration-300",
+        status === "approved" && "border-grass-6 bg-grass-2",
+        status === "rejected" && "border-red-6 bg-red-2",
+        status === "pending" && "border-amber-6 bg-amber-2",
         className,
       )}
     >
       <CheckIcon status={status} />
-      <div className="flex h-6 w-6 items-center justify-center border rounded bg-white">
+      <div className="flex h-6 w-6 items-center justify-center rounded border bg-white">
         <ArgosEmblem className="h-3" />
       </div>
-      <div className="text-xs md:text-sm text-low">
+      <div className="text-xs text-low md:text-sm">
         {(() => {
           switch (status) {
             case "approved":
@@ -107,14 +108,14 @@ export function CiCheck({
   return (
     <div className={clsx("flex items-center gap-10", className)}>
       <Check status={status} />
-      <div className="flex flex-col gap-2 relative">
+      <div className="relative flex flex-col gap-2">
         <GitHubMark />
         <GitLabMark />
-        <div className="w-10 absolute top-4 right-8 overflow-hidden">
-          <div className="border-t border-t-gray-8 border-dashed w-80 animate-slide" />
+        <div className="absolute right-8 top-4 w-10 overflow-hidden">
+          <div className="w-80 animate-slide border-t border-dashed border-t-gray-8" />
         </div>
-        <div className="w-10 absolute bottom-4 right-8 overflow-hidden">
-          <div className="border-t border-t-amber-8 border-dashed w-80 animate-slide" />
+        <div className="absolute bottom-4 right-8 w-10 overflow-hidden">
+          <div className="w-80 animate-slide border-t border-dashed border-t-amber-8" />
         </div>
       </div>
     </div>

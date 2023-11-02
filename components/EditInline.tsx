@@ -1,4 +1,5 @@
 "use client";
+
 import clsx from "clsx";
 import * as React from "react";
 
@@ -25,8 +26,8 @@ export const EditInline = React.memo(
       <div
         className={clsx(
           className,
-          "relative inline-block rounded transition bg-ui px-2 text-primary-100",
-          "hover:bg-hover hover:focus-within:bg-active focus-within:bg-active cursor-text",
+          "text-primary-100 relative inline-block rounded bg-ui px-2 transition",
+          "cursor-text focus-within:bg-active hover:bg-hover hover:focus-within:bg-active",
         )}
         onClick={() => {
           setEditing(true);
@@ -49,7 +50,7 @@ export const EditInline = React.memo(
             placeholder={placeholder}
             className={clsx(
               className,
-              "absolute left-0 top-0 w-full border-0 bg-transparent text-current placeholder:text-low focus:outline-none px-2",
+              "absolute left-0 top-0 w-full border-0 bg-transparent px-2 text-current placeholder:text-low focus:outline-none",
             )}
             value={value}
             onChange={(event) => {

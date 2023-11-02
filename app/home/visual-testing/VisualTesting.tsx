@@ -1,7 +1,7 @@
-import { ReviewChanges } from "./ReviewChanges";
 import { ColoredCard } from "../common/ColoredCard";
 import { Feature } from "../common/Feature";
 import { CodeAnimation } from "./CodeAnimation";
+import { ReviewChanges } from "./ReviewChanges";
 
 export function VisualTesting() {
   return (
@@ -20,7 +20,7 @@ export function VisualTesting() {
         title="Review changes"
         text="Get status on your pull request in GitHub and GitLab. Approve or reject changes in Argos."
       >
-        <div className="pt-10 pb-2">
+        <div className="pb-2 pt-10">
           <ReviewChanges />
         </div>
       </ColoredCard>

@@ -1,6 +1,8 @@
 "use client";
+
 import clsx from "clsx";
 import * as React from "react";
+
 import { EditInline } from "@/components/EditInline";
 
 const PRO_PLAN_SCREENSHOT_COUNT = 15000;
@@ -73,7 +75,7 @@ export const Simulator = () => {
         ready ? "opacity-100" : "opacity-0",
       )}
     >
-      <div className="text-xl md:text-2xl text-on max-w-xl mx-auto">
+      <div className="text-on mx-auto max-w-xl text-xl md:text-2xl">
         <span className="text-low">A team of </span>
         <InlineNumber
           value={teamSize}
@@ -96,8 +98,8 @@ export const Simulator = () => {
         screenshots.
       </div>
 
-      <div className="overflow-auto py-4 my-6">
-        <div className="grid grid-cols-[repeat(4,max-content)] text-left md:text-right md:justify-center gap-y-2 gap-x-2 text-low text-lg">
+      <div className="my-6 overflow-auto py-4">
+        <div className="grid grid-cols-[repeat(4,max-content)] gap-x-2 gap-y-2 text-left text-lg text-low md:justify-center md:text-right">
           <div>Daily usage:</div>
           <div className="text-left">
             {formatNum(teamSize)} x {formatNum(dailyPushFrequency)} x{" "}
@@ -121,7 +123,7 @@ export const Simulator = () => {
       </div>
 
       <div className="text-xl md:text-2xl">
-        <div className="text-low mb-2">Which costs:</div>
+        <div className="mb-2 text-low">Which costs:</div>
         {formatCurrency(PRO_PLAN_BASE_PRICE)} + ({formatNum(monthlyUsage)} -{" "}
         {formatNum(PRO_PLAN_SCREENSHOT_COUNT)}) ×{" "}
         {formatCurrency(ADDITIONAL_SCREENSHOT_PRICE)} ={" "}
