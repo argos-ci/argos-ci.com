@@ -23,8 +23,16 @@ export const metadata: Metadata = {
   title: "Argos — Visual Testing for developers",
   description:
     "Argos provides the developer tools to debug tests and detects visual regressions.",
+  openGraph: {
+    title: "Visual Testing for developers",
+    description:
+      "Argos provides the developer tools to debug tests and detects visual regressions.",
+  },
   twitter: {
     site: "@argos_ci",
+    title: "Visual Testing for developers",
+    description:
+      "Argos provides the developer tools to debug tests and detects visual regressions.",
   },
 };
 
