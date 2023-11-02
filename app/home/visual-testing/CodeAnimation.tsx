@@ -5,9 +5,9 @@ import { Terminal } from "./Terminal";
 import { useAnimation, useInView } from "framer-motion";
 
 export function CodeAnimation() {
-  const ref = React.useRef(null);
   const terminalRef = React.useRef(null);
   const editorCtrls = useAnimation();
+  const ref = React.useRef(null);
   const inView = useInView(ref, { once: true, amount: 0.6 });
   React.useEffect(() => {
     const animate = async () => {
