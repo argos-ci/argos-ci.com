@@ -7,6 +7,7 @@ import replayLight from "./replay-light.svg";
 import replayDark from "./replay-dark.svg";
 import doloreanLight from "./dolorean-light.svg";
 import doloreanDark from "./dolorean-dark.svg";
+import { FailureScreenshotSvg } from "./FailureScreenshotSvg";
 
 export function TestDebugging() {
   return (
@@ -26,45 +27,41 @@ export function TestDebugging() {
         title="Troubleshoot tests effortlessly."
         text="Screenshots of test failures happening on CI are automatically captured and visible in Argos."
       >
-        <Image
-          src={failureScreenshotLight.src}
-          width={460}
-          height={295}
-          alt=""
-          className="dark:hidden"
-        />
-        <Image
-          src={failureScreenshotDark.src}
-          width={460}
-          height={295}
-          alt=""
-          className="hidden dark:block"
-        />
+        <div className="w-full flex items-center h-full">
+          <FailureScreenshotSvg />
+        </div>
       </ColoredCard>
       <ColoredCard
         color="sky"
-        surtitle="Test replays"
+        surtitle={
+          <>
+            Test replays
+            <div className="ml-2 text-xs px-1 py-0.5 bg-plum-1 border border-plum-6 text-plum-10 rounded inline-block">
+              Coming soon
+            </div>
+          </>
+        }
         title="Time travel in your tests."
         text="Playwright traces (replays) offer a comprehensive snapshot of your test's breakdown."
       >
-        <div className="relative pt-10">
-          <div className="flex justify-end mr-[10%]">
+        <div className="relative pt-10 flex justify-center">
+          <div className="flex justify-end w-full md:w-2/3">
             <Image
               src={replayLight.src}
               width={310}
               height={214}
               alt=""
-              className="dark:hidden"
+              className="dark:hidden w-full"
             />
             <Image
               src={replayDark.src}
               width={310}
               height={214}
               alt=""
-              className="hidden dark:block"
+              className="hidden dark:block w-full"
             />
           </div>
-          <div className="absolute -mt-[18%] animate-float">
+          <div className="absolute left-0 -bottom-[20%] w-2/3 animate-float">
             <Image
               src={doloreanLight.src}
               width={296}
@@ -81,20 +78,6 @@ export function TestDebugging() {
             />
           </div>
         </div>
-        {/* <Image
-          src={replayDoloLight.src}
-          width={440}
-          height={295}
-          alt=""
-          className="pt-6 dark:hidden"
-        />
-        <Image
-          src={replayDoloDark.src}
-          width={440}
-          height={295}
-          alt=""
-          className="pt-6 hidden dark:block"
-        /> */}
       </ColoredCard>
     </Feature>
   );
