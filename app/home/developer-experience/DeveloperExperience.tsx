@@ -25,15 +25,23 @@ export function DeveloperExperience() {
           >
             <Image
               src={keyboardLight.src}
-              width={325}
-              height={341}
+              width={1024}
+              height={707}
+              style={{
+                height: "100%",
+                width: "auto",
+              }}
               alt=""
               className="py-6 dark:hidden"
             />
             <Image
               src={keyboardDark.src}
-              width={325}
-              height={341}
+              width={1024}
+              height={707}
+              style={{
+                height: "100%",
+                width: "auto",
+              }}
               alt=""
               className="py-6 hidden dark:block"
             />
@@ -42,8 +50,19 @@ export function DeveloperExperience() {
             title="Built to be fast."
             text="Nobody likes waiting for tests. With Argos, you won't have to. It is just fast."
           >
-            <div className="flex flex-col gap-2 items-center">
-              <Image src={zap.src} width={98} height={98} alt="" />
+            <div className="flex flex-col gap-2 items-center min-h-0 h-full py-6">
+              <div className="flex-1 min-h-0 relative">
+                <Image
+                  src={zap.src}
+                  width={98}
+                  height={98}
+                  style={{
+                    height: "100%",
+                    width: "auto",
+                  }}
+                  alt=""
+                />
+              </div>
               <div className="font-accent text-xl md:text-4xl text-center select-none bg-gradient-to-r from-violet-11 to-pink-12 bg-clip-text text-transparent">
                 2236 screenshots
                 <br />
@@ -59,6 +78,10 @@ export function DeveloperExperience() {
               src={openSource.src}
               width={200}
               height={200}
+              style={{
+                width: "auto",
+                height: "85%",
+              }}
               alt=""
               quality={95}
             />
@@ -71,6 +94,10 @@ export function DeveloperExperience() {
               src={neonDiscord.src}
               width={340}
               height={284}
+              style={{
+                height: "auto",
+                width: "auto",
+              }}
               alt=""
               quality={95}
             />
