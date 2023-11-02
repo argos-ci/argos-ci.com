@@ -3,7 +3,6 @@ import { Metadata } from "next";
 import PlausibleProvider from "next-plausible";
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
-import Script from "next/script";
 
 import { TooltipProvider } from "@/components/Tooltip";
 import "@/styles/globals.css";
@@ -44,22 +43,6 @@ export default function RootLayout({
     >
       <head>
         <PlausibleProvider domain="argos-ci.com" />
-        <Script>
-          {`
-          function updateColorModeClassName() {
-            if (
-              localStorage.theme === "dark" ||
-              (!("theme" in localStorage) &&
-                window.matchMedia("(prefers-color-scheme: dark)").matches)
-            ) {
-              document.documentElement.classList.add("dark");
-            } else {
-              document.documentElement.classList.remove("dark");
-            }
-          }
-          updateColorModeClassName();
-          `.trim()}
-        </Script>
       </head>
       <body>
         <ClientProviders>
