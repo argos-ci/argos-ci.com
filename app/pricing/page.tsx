@@ -227,7 +227,7 @@ export default function Page() {
       </Container>
 
       <Container className="mb-32 flex flex-col items-center gap-6 text-center">
-        <div className="my-32">
+        <div className="my-32 w-full">
           <div className="mb-8 text-center text-xl">
             Trusted by the best frontend teams
           </div>
