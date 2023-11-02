@@ -8,11 +8,11 @@ import { Button } from "@/components/Button";
 export function Integrations() {
   return (
     <Container
-      className="py-16 md:py-20 flex flex-col-reverse md:flex-row justify-between items-center"
+      className="py-16 md:py-20 flex flex-col-reverse md:flex-row items-center"
       asChild
     >
       <section>
-        <div>
+        <div className="flex-1">
           <H2 className="mb-8">Integrate Argos today.</H2>
           <p className="text-xl mb-8">
             Argos provides SDK integrations for test frameworks and CI/CD
@@ -34,20 +34,30 @@ export function Integrations() {
             </Button>
           </div>
         </div>
-        <Image
-          src={integrationsLight.src}
-          width={433}
-          height={500}
-          alt=""
-          className="dark:hidden"
-        />
-        <Image
-          src={integrationsDark.src}
-          width={433}
-          height={500}
-          alt=""
-          className="hidden dark:block"
-        />
+        <div className="flex-1 self-stretch relative">
+          <Image
+            src={integrationsLight.src}
+            width={433}
+            height={500}
+            style={{
+              width: "100%",
+              height: "auto",
+            }}
+            alt=""
+            className="dark:hidden"
+          />
+          <Image
+            src={integrationsDark.src}
+            width={433}
+            height={500}
+            style={{
+              width: "100%",
+              height: "auto",
+            }}
+            alt=""
+            className="hidden dark:block"
+          />
+        </div>
       </section>
     </Container>
   );

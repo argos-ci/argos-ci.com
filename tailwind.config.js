@@ -13,7 +13,7 @@ module.exports = {
     "./markdown/**/*.{js,ts,jsx,tsx}",
     "./styles/**/*.css",
   ],
-  darkMode: "media",
+  darkMode: "class",
   theme: {
     extend: {
       backgroundColor: {

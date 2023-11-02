@@ -6,6 +6,7 @@ import {
   FooterSectionTitle,
   FooterLink,
 } from "@/components/Footer";
+import { ColorModeSelector } from "@/components/ColorModeSelector";
 
 export const AppFooter: React.FC = () => (
   <footer className="border-t mb-10 pt-10 sm:pt-20 mt-32 pb-16 leading-6 text-sm">
@@ -53,6 +54,7 @@ export const AppFooter: React.FC = () => (
       <hr className="mt-16 mb-10 border-0 border-b" />
       <div className="flex justify-between">
         <ArgosLogo width="160" />
+        <ColorModeSelector />
       </div>
     </Container>
   </footer>

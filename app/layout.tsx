@@ -9,6 +9,8 @@ import { AppFooter } from "./footer";
 import { Metadata } from "next";
 import { TooltipProvider } from "@/components/Tooltip";
 import clsx from "clsx";
+import Script from "next/script";
+import { ClientProviders } from "./client-providers";
 
 // Fonts
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -37,18 +39,37 @@ export default function RootLayout({
     <html
       lang="en"
       className={clsx(inter.variable, calSans.variable, "antialiased")}
+      suppressHydrationWarning
     >
       <head>
         <PlausibleProvider domain="argos-ci.com" />
+        <Script>
+          {`
+          function updateColorModeClassName() {
+            if (
+              localStorage.theme === "dark" ||
+              (!("theme" in localStorage) &&
+                window.matchMedia("(prefers-color-scheme: dark)").matches)
+            ) {
+              document.documentElement.classList.add("dark");
+            } else {
+              document.documentElement.classList.remove("dark");
+            }
+          }
+          updateColorModeClassName();
+          `.trim()}
+        </Script>
       </head>
       <body>
-        <TooltipProvider>
-          <div id="content">
-            <AppNavbar />
-            <main>{children}</main>
-            <AppFooter />
-          </div>
-        </TooltipProvider>
+        <ClientProviders>
+          <TooltipProvider>
+            <div id="content">
+              <AppNavbar />
+              <main>{children}</main>
+              <AppFooter />
+            </div>
+          </TooltipProvider>
+        </ClientProviders>
       </body>
     </html>
   );
