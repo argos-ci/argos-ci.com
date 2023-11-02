@@ -43,6 +43,7 @@ export const ColorModeSelector = () => {
         <Tooltip content="System">
           <ColorModeButton
             aria-pressed={theme === "system"}
+            aria-label="System"
             onClick={() => setTheme("system")}
           >
             <MonitorIcon className="h-4 w-4" />
@@ -50,6 +51,7 @@ export const ColorModeSelector = () => {
         </Tooltip>
         <Tooltip content="Dark mode">
           <ColorModeButton
+            aria-label="Dark mode"
             aria-pressed={theme === ColorMode.Dark}
             onClick={() => setTheme(ColorMode.Dark)}
           >
@@ -58,6 +60,7 @@ export const ColorModeSelector = () => {
         </Tooltip>
         <Tooltip content="Light mode">
           <ColorModeButton
+            aria-label="Light mode"
             aria-pressed={theme === ColorMode.Light}
             onClick={() => setTheme(ColorMode.Light)}
           >
