@@ -226,14 +226,14 @@ export default function Page() {
         </div>
       </Container>
 
-      <Container className="mb-32 flex flex-col items-center gap-6 text-center">
-        <div className="my-32 w-full">
-          <div className="mb-8 text-center text-xl">
-            Trusted by the best frontend teams
-          </div>
-          <BrandTestimonials />
+      <div className="my-32 w-full">
+        <div className="mb-8 text-center text-xl">
+          Trusted by the best frontend teams
         </div>
+        <BrandTestimonials />
+      </div>
 
+      <Container className="mb-32 flex flex-col items-center gap-6 text-center">
         <h2 className="mb-6 font-accent text-4xl md:text-5xl">
           How much does it cost?
         </h2>
