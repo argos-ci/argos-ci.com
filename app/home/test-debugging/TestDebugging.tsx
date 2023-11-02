@@ -62,11 +62,15 @@ export function TestDebugging() {
               className="hidden w-full dark:block"
             />
           </div>
-          <div className="absolute -bottom-[20%] left-0 w-2/3 animate-float">
+          <div className="absolute -bottom-[20%] left-0 w-[80%] animate-float md:w-[60%]">
             <Image
               src={doloreanLight.src}
               width={296}
               height={130}
+              style={{
+                width: "100%",
+                height: "auto",
+              }}
               alt=""
               className="dark:hidden"
             />
@@ -74,6 +78,10 @@ export function TestDebugging() {
               src={doloreanDark.src}
               width={296}
               height={130}
+              style={{
+                width: "100%",
+                height: "auto",
+              }}
               alt=""
               className="hidden dark:block"
             />
