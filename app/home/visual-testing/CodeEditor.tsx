@@ -1,9 +1,12 @@
 "use client";
-import * as React from "react";
-import { TypeScriptLogo } from "@/components/TypeScriptLogo";
+
 import clsx from "clsx";
-import { motion, Variants, AnimationProps } from "framer-motion";
+import { AnimationProps, Variants, motion } from "framer-motion";
+import * as React from "react";
 import type { CSSProperties } from "react";
+
+import { TypeScriptLogo } from "@/components/TypeScriptLogo";
+
 import { WordAnimation } from "./WordAnimation";
 
 function Line({
@@ -14,8 +17,8 @@ function Line({
   style?: CSSProperties;
 }) {
   return (
-    <div className={clsx("py-1.5 relative", className)} style={style}>
-      <div className="h-2 rounded-sm bg-mauve-5 w-full"></div>
+    <div className={clsx("relative py-1.5", className)} style={style}>
+      <div className="h-2 w-full rounded-sm bg-mauve-5"></div>
     </div>
   );
 }
@@ -39,21 +42,21 @@ export function CodeEditor({
   return (
     <div
       className={clsx(
-        "rounded border bg-app select-none overflow-hidden",
+        "select-none overflow-hidden rounded border bg-app",
         className,
       )}
     >
-      <div className="flex items-center gap-2 text-low bg-subtle border-b px-4 py-2 text-sm">
+      <div className="flex items-center gap-2 border-b bg-subtle px-4 py-2 text-sm text-low">
         <TypeScriptLogo className="h-3 w-3 text-mauve-9" />
         purchase.spec.ts
       </div>
       <div className="flex">
-        <div className="bg-subtle shrink-0 flex flex-col text-[0.625rem] leading-5 py-1 px-1.5 font-mono select-none border-r">
+        <div className="flex shrink-0 select-none flex-col border-r bg-subtle px-1.5 py-1 font-mono text-[0.625rem] leading-5">
           {Array.from({ length: 9 }, (_, i) => (
             <div key={i}>{i + 1}</div>
           ))}
         </div>
-        <div className="px-2 py-1 overflow-x-auto">
+        <div className="overflow-x-auto px-2 py-1">
           <Line style={{ width: 148 }} />
           <Line className="pl-2" style={{ width: 160 }} />
           <Line className="pl-4" style={{ width: 280 }} />
@@ -65,7 +68,7 @@ export function CodeEditor({
               delayChildren: 0.4,
               staggerChildren: 0.05,
             }}
-            className="font-mono pl-4 text-xs md:text-sm leading-5 whitespace-nowrap"
+            className="whitespace-nowrap pl-4 font-mono text-xs leading-5 md:text-sm"
           >
             <WordAnimation delay={0} className="text-pink-11">
               await

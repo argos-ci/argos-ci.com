@@ -1,12 +1,12 @@
-import {
-  cloneElement,
-  ComponentProps,
-  forwardRef,
-  Children,
-  ReactElement,
-} from "react";
-import { ChevronRightIcon } from "lucide-react";
 import clsx from "clsx";
+import { ChevronRightIcon } from "lucide-react";
+import {
+  Children,
+  ComponentProps,
+  ReactElement,
+  cloneElement,
+  forwardRef,
+} from "react";
 
 export interface ChipProps extends ComponentProps<"div"> {
   icon?: React.ComponentType<{ className?: string }>;
@@ -25,10 +25,10 @@ export const Chip = forwardRef<HTMLDivElement, ChipProps>(
       ),
       children: (
         <>
-          {Icon && <Icon className="w-[1em] h-[1em]" />}
+          {Icon && <Icon className="h-[1em] w-[1em]" />}
           {child ? child.props.children : children}
           {clickable ? (
-            <ChevronRightIcon className="w-[1em] h-[1em] opacity-50 transition group-hover/chip:opacity-100 group-hover/chip:translate-x-1 group-hover/chip:scale-110" />
+            <ChevronRightIcon className="h-[1em] w-[1em] opacity-50 transition group-hover/chip:translate-x-1 group-hover/chip:scale-110 group-hover/chip:opacity-100" />
           ) : null}
         </>
       ),

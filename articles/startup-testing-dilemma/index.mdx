@@ -54,8 +54,8 @@ We've been using [Argos](https://www.argos-ci.com/) for visual testing. It's a d
 
 ```js
 // Homepage test file. No maintenance needed!
-import { test } from "@playwright/test";
 import { argosScreenshot } from "@argos-ci/playwright";
+import { test } from "@playwright/test";
 
 test("homepage", async ({ page }) => {
   await page.goto("http://localhost:3000");

@@ -38,7 +38,7 @@ viewportPresets.forEach((viewportPreset) => {
             nav {
               position: initial !important;
             }
-          `
+          `,
           );
         });
         cy.waitUntil(() =>
@@ -49,9 +49,9 @@ viewportPresets.forEach((viewportPreset) => {
               img.decoding = "sync";
             });
             return allImages.every(
-              (img) => img.complete && img.naturalWidth > 0
+              (img) => img.complete && img.naturalWidth > 0,
             );
-          })
+          }),
         );
         cy.argosScreenshot(name);
       });

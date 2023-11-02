@@ -1,11 +1,11 @@
-import type { ComponentProps, ReactNode } from "react";
-import Image, { ImageProps } from "next/image";
 import { clsx } from "clsx";
+import Image, { ImageProps } from "next/image";
+import type { ComponentProps, ReactNode } from "react";
 
 export const PostCard = ({ children }: { children: ReactNode }) => (
   <div
     className={clsx(
-      "rounded-lg border text-left bg-subtle hover:-translate-y-2 hover:scale-[101%] duration-300 transition",
+      "rounded-lg border bg-subtle text-left transition duration-300 hover:-translate-y-2 hover:scale-[101%]",
     )}
   >
     {children}
@@ -52,7 +52,7 @@ export const PostCardBody = (props: ComponentProps<"div">) => (
 );
 
 export const PostCardTag: React.FC<{ children: React.ReactNode }> = (props) => (
-  <p className="text-xs text-low mb-2" {...props} />
+  <p className="mb-2 text-xs text-low" {...props} />
 );
 
 export const PostCardTitle = ({
@@ -68,11 +68,11 @@ export const PostCardTitle = ({
 );
 
 export const PostCardDescription = (props: ComponentProps<"div">) => (
-  <div className="mb-8 text-low leading-normal" {...props} />
+  <div className="mb-8 leading-normal text-low" {...props} />
 );
 
 export const PostCardFooter = (props: ComponentProps<"div">) => (
-  <div className="text-sm text-low flex gap-2 items-center" {...props} />
+  <div className="flex items-center gap-2 text-sm text-low" {...props} />
 );
 
 export const PostCardAuthor = (props: ComponentProps<"div">) => (

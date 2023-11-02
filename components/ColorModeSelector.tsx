@@ -1,7 +1,9 @@
 "use client";
-import * as React from "react";
+
 import { MonitorIcon, MoonIcon, SunIcon } from "lucide-react";
 import { useTheme } from "next-themes";
+import * as React from "react";
+
 import { Tooltip } from "./Tooltip";
 
 enum ColorMode {
@@ -16,7 +18,7 @@ const ColorModeButton = React.forwardRef<
   return (
     <button
       ref={ref}
-      className="p-2 aria-pressed:bg-active hover:bg-hover rounded-full transition"
+      className="rounded-full p-2 transition hover:bg-hover aria-pressed:bg-active"
       type="button"
       {...props}
     />

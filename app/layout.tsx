@@ -1,16 +1,17 @@
-import "@/styles/highlight-js-github-dark.min.css";
-import "@/styles/globals.css";
-
+import clsx from "clsx";
+import { Metadata } from "next";
 import PlausibleProvider from "next-plausible";
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
-import { AppNavbar } from "./navbar";
-import { AppFooter } from "./footer";
-import { Metadata } from "next";
-import { TooltipProvider } from "@/components/Tooltip";
-import clsx from "clsx";
 import Script from "next/script";
+
+import { TooltipProvider } from "@/components/Tooltip";
+import "@/styles/globals.css";
+import "@/styles/highlight-js-github-dark.min.css";
+
 import { ClientProviders } from "./client-providers";
+import { AppFooter } from "./footer";
+import { AppNavbar } from "./navbar";
 
 // Fonts
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });

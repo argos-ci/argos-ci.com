@@ -1,8 +1,9 @@
-import { notFound } from "next/navigation";
-import { getArticleBySlug, getDocMdxSource, getArticles } from "@/lib/api";
-import * as React from "react";
-import { Container } from "@/components/Container";
 import { Metadata, ResolvingMetadata } from "next";
+import { notFound } from "next/navigation";
+import * as React from "react";
+
+import { Container } from "@/components/Container";
+import { getArticleBySlug, getArticles, getDocMdxSource } from "@/lib/api";
 
 type Props = {
   params: { slug: string[] };
@@ -55,7 +56,7 @@ export default async function Page({ params }: Props) {
   const source = await getDocMdxSource(article);
   return (
     <article
-      className="prose dark:prose-invert mx-auto max-w-none mt-14 mb-24"
+      className="prose mx-auto mb-24 mt-14 max-w-none dark:prose-invert"
       style={{ contain: "none" }}
     >
       <Container tight>
@@ -65,11 +66,11 @@ export default async function Page({ params }: Props) {
           </div>
         )}
         <h1>{article.title}</h1>
-        <div className="text-low my-4 flex gap-2 text-sm items-center">
+        <div className="my-4 flex items-center gap-2 text-sm text-low">
           {new Intl.DateTimeFormat("en-US", {
             dateStyle: "long",
           }).format(new Date(article.date))}
-          <div className="text-mauve-10 text-xs">|</div>
+          <div className="text-xs text-mauve-10">|</div>
           {article.author}
         </div>
         {source}

@@ -1,13 +1,13 @@
 import NextLink from "next/link";
 
 export const FooterSections = (props: { children: React.ReactNode }) => (
-  <div className="flex justify-between flex-wrap gap-x-10 gap-y-2">
+  <div className="flex flex-wrap justify-between gap-x-10 gap-y-2">
     {props.children}
   </div>
 );
 
 export const FooterSection = (props: { children: React.ReactNode }) => (
-  <div className="flex flex-col flex-grow flex-1 whitespace-nowrap basis-36 my-2 gap-2">
+  <div className="my-2 flex flex-1 flex-grow basis-36 flex-col gap-2 whitespace-nowrap">
     {props.children}
   </div>
 );
@@ -22,7 +22,7 @@ export const FooterLink = (props: {
 }) => (
   <div>
     <NextLink
-      className="transition no-underline text-low hover:text"
+      className="text-low no-underline transition hover:text"
       href={props.href}
     >
       {props.children}

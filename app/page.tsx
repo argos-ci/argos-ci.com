@@ -1,12 +1,13 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { Hero } from "./home/hero/Hero";
+
 import { Clients } from "./home/Clients";
-import { VisualTesting } from "./home/visual-testing/VisualTesting";
 import { DeveloperExperience } from "./home/developer-experience/DeveloperExperience";
-import { TestDebugging } from "./home/test-debugging/TestDebugging";
 import { Features } from "./home/features/Features";
+import { Hero } from "./home/hero/Hero";
 import { Integrations } from "./home/integrations/Integrations";
+import { TestDebugging } from "./home/test-debugging/TestDebugging";
+import { VisualTesting } from "./home/visual-testing/VisualTesting";
 
 export default function Page() {
   const cookieStore = cookies();

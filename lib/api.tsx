@@ -1,12 +1,13 @@
 import fg from "fast-glob";
 import * as matter from "gray-matter";
 import { compileMDX } from "next-mdx-remote/rsc";
+import { StaticImageData } from "next/image";
 import { readFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import rehypeHighlight from "rehype-highlight";
-import remarkGfm from "remark-gfm";
 import remarkFrontmatter from "remark-frontmatter";
-import { StaticImageData } from "next/image";
+import remarkGfm from "remark-gfm";
+
 import { MainImage } from "@/components/Post";
 
 export interface Article {

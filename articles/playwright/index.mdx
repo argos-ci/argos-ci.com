@@ -81,8 +81,9 @@ For example, the following test file will take a screenshot of your homepage:
 
 ```js
 // tests/homepage.spec.ts
-import { test } from "@playwright/test";
 import { argosScreenshot } from "@argos-ci/playwright";
+import { test } from "@playwright/test";
+
 test.describe("Homepage", () => {
   test("take screenshot", async ({ page }) => {
     await page.goto("http://localhost:3000/");
@@ -162,7 +163,6 @@ Playwright's [recording options](https://playwright.dev/docs/test-use-options#re
 
 ```ts
 // playwright.config.{js,ts}
-
 import { defineConfig } from "@playwright/test";
 
 export default defineConfig({

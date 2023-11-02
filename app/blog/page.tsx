@@ -1,18 +1,19 @@
+import { Metadata } from "next";
+
 import { Container } from "@/components/Container";
 import { Link } from "@/components/Link";
 import {
   PostCard,
+  PostCardAuthor,
   PostCardBody,
-  PostCardTag,
-  PostCardTitle,
+  PostCardDate,
   PostCardDescription,
   PostCardFooter,
-  PostCardAuthor,
-  PostCardDate,
   PostCardImage,
+  PostCardTag,
+  PostCardTitle,
 } from "@/components/PostCard";
 import { getArticles } from "@/lib/api";
-import { Metadata } from "next";
 
 const formatDate = (date: string) => {
   return new Intl.DateTimeFormat("en-US", {
@@ -29,12 +30,12 @@ export default async function Page() {
   const firstArticle = articles[0];
   return (
     <Container className="my-10" style={{ contain: "none" }}>
-      <div className="flex flex-col md:flex-row items-baseline gap-x-2">
+      <div className="flex flex-col items-baseline gap-x-2 md:flex-row">
         <h2 className="font-semibold text">Latest updates</h2>
         <div
           role="separator"
           aria-orientation="vertical"
-          className="text-slate-600 hidden md:block"
+          className="hidden text-slate-600 md:block"
         >
           |
         </div>
@@ -42,7 +43,7 @@ export default async function Page() {
           All the latest Argos news, straight from the team.
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-y-20 gap-x-16 mt-12">
+      <div className="mt-12 grid grid-cols-2 gap-x-16 gap-y-20">
         <Link href={`/blog/${firstArticle.slug}`} className="col-span-2">
           <PostCard>
             <PostCardImage
@@ -93,7 +94,7 @@ export default async function Page() {
                   </PostCardDescription>
                   <PostCardFooter>
                     <PostCardAuthor>{article.author}</PostCardAuthor>
-                    <div className="text-mauve-10 text-xs">|</div>
+                    <div className="text-xs text-mauve-10">|</div>
                     <PostCardDate>{formatDate(article.date)}</PostCardDate>
                   </PostCardFooter>
                 </PostCardBody>

@@ -1,5 +1,4 @@
-import { Container } from "@/components/Container";
-import { H2 } from "../common/H2";
+import clsx from "clsx";
 import {
   ChromeIcon,
   GalleryHorizontal,
@@ -12,7 +11,10 @@ import {
   TabletSmartphoneIcon,
   VibrateIcon,
 } from "lucide-react";
-import clsx from "clsx";
+
+import { Container } from "@/components/Container";
+
+import { H2 } from "../common/H2";
 
 function Feature({
   title,
@@ -24,9 +26,9 @@ function Feature({
   text: React.ReactNode;
 }) {
   return (
-    <section className="py-8 md:py-12 flex-1 max-w-sm md:max-w-none">
-      <h3 className="flex items-center gap-3 text-xl font-medium mb-4">
-        <Icon className="text-violet-11 w-7 h-7" /> {title}
+    <section className="max-w-sm flex-1 py-8 md:max-w-none md:py-12">
+      <h3 className="mb-4 flex items-center gap-3 text-xl font-medium">
+        <Icon className="h-7 w-7 text-violet-11" /> {title}
       </h3>
       <p>{text}</p>
     </section>
@@ -43,7 +45,7 @@ function Separator({
       role="separator"
       aria-orientation={orientation}
       className={clsx(
-        "self-stretch border-violet-6 border-dashed hidden md:block",
+        "hidden self-stretch border-dashed border-violet-6 md:block",
         orientation === "vertical" && "border-l",
         orientation === "horizontal" && "border-b",
       )}
@@ -53,7 +55,7 @@ function Separator({
 
 function Row({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex flex-col md:flex-row md:items-center md:gap-12 relative">
+    <div className="relative flex flex-col md:flex-row md:items-center md:gap-12">
       {children}
     </div>
   );

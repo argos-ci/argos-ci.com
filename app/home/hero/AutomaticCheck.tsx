@@ -1,5 +1,7 @@
 "use client";
+
 import * as React from "react";
+
 import { CiCheck, Status } from "../common/CiCheck";
 
 export function AutomaticCheck({ className }: { className?: string }) {

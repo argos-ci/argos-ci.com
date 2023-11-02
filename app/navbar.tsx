@@ -1,9 +1,9 @@
-import { ArgosLogo } from "@/components/ArgosLogo";
-
-import { Button } from "@/components/Button";
-import * as React from "react";
-import { Navbar, NavbarLink } from "@/components/Navbar";
 import NextLink from "next/link";
+import * as React from "react";
+
+import { ArgosLogo } from "@/components/ArgosLogo";
+import { Button } from "@/components/Button";
+import { Navbar, NavbarLink } from "@/components/Navbar";
 
 export const AppNavbar: React.FC = () => {
   return (
