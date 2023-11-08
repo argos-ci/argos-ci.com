@@ -1,3 +1,6 @@
+import { ChevronRightIcon } from "lucide-react";
+import Link from "next/link";
+
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 
@@ -37,6 +40,13 @@ export function Hero() {
       <section>
         <div className="flex flex-col items-center gap-x-6 gap-y-12 py-8 md:py-24 lg:flex-row">
           <div className="flex flex-col items-center gap-6 text-center lg:items-start lg:text-left">
+            <Link
+              className="rounded-lg border border-violet-6 bg-violet-2 px-2 py-1 text-sm transition hover:bg-violet-3"
+              href="/playwright"
+            >
+              Introducing Playwright Test Debugging{" "}
+              <ChevronRightIcon className="inline h-4 w-4" />
+            </Link>
             <h1 className="bg-hero-text-gradient bg-clip-text font-accent text-[3.2rem] leading-tight text-transparent md:text-7xl lg:bg-hero-text-gradient-lg lg:leading-none">
               Visual Testing <br />
               for developers
