@@ -29,30 +29,35 @@ export const BrandTestimonials = () => {
     <Testimonials>
       <Image
         src={antDesign}
+        priority
         alt="Ant Design"
         className="shrink-0 dark:brightness-0 dark:invert"
         style={{ paddingBottom: "8px" }}
       />
       <Image
         src={mui}
+        priority
         alt="MUI"
         className="shrink-0 dark:brightness-0 dark:invert"
         style={{ paddingBottom: 0 }}
       />
       <Image
         src={doctolib}
+        priority
         alt="Doctolib"
         className="shrink-0 dark:brightness-0 dark:invert"
         style={{ paddingBottom: "9px" }}
       />
       <Image
         src={lemonde}
+        priority
         alt="Le Monde"
         className="shrink-0 dark:brightness-0 dark:invert"
         style={{ paddingBottom: "10px" }}
       />
       <Image
         src={meta}
+        priority
         alt="Meta"
         height={28}
         width={139}
