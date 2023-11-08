@@ -2,8 +2,8 @@ import Image from "next/image";
 
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
+import { H2 } from "@/components/H2";
 
-import { H2 } from "../common/H2";
 import integrationsDark from "./integrations-dark.png";
 import integrationsLight from "./integrations-light.png";
 

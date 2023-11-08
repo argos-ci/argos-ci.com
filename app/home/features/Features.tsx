@@ -10,11 +10,11 @@ import {
   ScanSearchIcon,
   TabletSmartphoneIcon,
   VibrateIcon,
+  Wand2Icon,
 } from "lucide-react";
 
 import { Container } from "@/components/Container";
-
-import { H2 } from "../common/H2";
+import { H2 } from "@/components/H2";
 
 function Feature({
   title,
@@ -28,7 +28,7 @@ function Feature({
   return (
     <section className="max-w-sm flex-1 py-8 md:max-w-none md:py-12">
       <h3 className="mb-4 flex items-center gap-3 text-xl font-medium">
-        <Icon className="h-7 w-7 text-violet-11" /> {title}
+        <Icon className="h-7 w-7 text-violet-11" strokeWidth={1} /> {title}
       </h3>
       <p>{text}</p>
     </section>
@@ -91,7 +91,7 @@ export function Features() {
           <Row>
             <Feature
               title="Screenshot stabilization"
-              icon={VibrateIcon}
+              icon={Wand2Icon}
               text="Argos' stabilization tech halts animations to reduce false-positives and ensure consistent rendering."
             />
             <Separator orientation="vertical" />

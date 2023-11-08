@@ -1,8 +1,8 @@
 import Image from "next/image";
 
 import { Container } from "@/components/Container";
+import { H2 } from "@/components/H2";
 
-import { H2 } from "../common/H2";
 import { DxCard } from "./DxCard";
 import keyboardDark from "./keyboard-dark.png";
 import keyboardLight from "./keyboard-light.png";

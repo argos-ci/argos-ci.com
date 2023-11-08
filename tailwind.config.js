@@ -63,6 +63,12 @@ module.exports = {
         "hero-text-gradient-lg": `linear-gradient(96deg, theme(textColor.DEFAULT) 72%, ${radixColors.alias(
           "plum.10",
         )} 105%)`,
+        "hero-playwright-text-gradient": `linear-gradient(120deg, theme(textColor.DEFAULT) 0%, ${radixColors.alias(
+          "violet.11",
+        )} 70%, ${radixColors.alias("plum.10")} 80%)`,
+        "hero-playwright-text-gradient-dark": `linear-gradient(120deg, white 0%, ${radixColors.alias(
+          "violet.11",
+        )} 70%, ${radixColors.alias("plum.10")} 80%)`,
       },
       keyframes: {
         fade: {

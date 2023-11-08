@@ -6,6 +6,7 @@ import { DeveloperExperience } from "./home/developer-experience/DeveloperExperi
 import { Features } from "./home/features/Features";
 import { Hero } from "./home/hero/Hero";
 import { Integrations } from "./home/integrations/Integrations";
+import { Playwright } from "./home/playwright/Playwright";
 import { TestDebugging } from "./home/test-debugging/TestDebugging";
 import { VisualTesting } from "./home/visual-testing/VisualTesting";
 
@@ -23,6 +24,7 @@ export default function Page() {
       <DeveloperExperience />
       <TestDebugging />
       <Features />
+      <Playwright />
       <Integrations />
     </div>
   );
