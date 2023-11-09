@@ -9,6 +9,7 @@ import { Integrations } from "./home/integrations/Integrations";
 import { Playwright } from "./home/playwright/Playwright";
 import { TestDebugging } from "./home/test-debugging/TestDebugging";
 import { VisualTesting } from "./home/visual-testing/VisualTesting";
+import { Why } from "./home/why/Why";
 
 export default function Page() {
   const cookieStore = cookies();
@@ -20,6 +21,7 @@ export default function Page() {
     <div style={{ textWrap: "balance" } as any}>
       <Hero />
       <Clients />
+      <Why />
       <VisualTesting />
       <DeveloperExperience />
       <TestDebugging />

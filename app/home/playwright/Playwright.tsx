@@ -75,7 +75,7 @@ export function Playwright() {
           className="rounded border p-4 px-8 text-center text-xl font-medium transition hover:border-hover"
           href="/playwright"
         >
-          Read more about Argos + Playwright
+          Discover the future of Playwright testing
         </Link>
       </section>
     </Container>

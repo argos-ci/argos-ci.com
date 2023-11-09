@@ -22,8 +22,8 @@ export function Integrations() {
           </p>
           <div className="flex gap-4">
             <Button size="large" variant="primary" asChild>
-              <a target="_blank" href="https://argos-ci.com/docs/">
-                Get started
+              <a target="_blank" href="https://app.argos-ci.com/signup/">
+                Start for free
               </a>
             </Button>
             <Button size="large" variant="outline" asChild>

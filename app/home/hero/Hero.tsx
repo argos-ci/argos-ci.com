@@ -61,12 +61,15 @@ export function Hero() {
             <div className="flex gap-4">
               <Button size="large" variant="primary" asChild>
                 <a target="_blank" href="https://app.argos-ci.com/signup">
-                  Get started
+                  Start for free
                 </a>
               </Button>
               <Button size="large" variant="outline" asChild>
-                <a target="_blank" href="https://argos-ci.com/docs/">
-                  Documentation
+                <a
+                  target="_blank"
+                  href="https://app.argos-ci.com/argos-ci/argos-ci.com/builds/20/31313699"
+                >
+                  See a demo build
                 </a>
               </Button>
             </div>
