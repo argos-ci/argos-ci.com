@@ -1,9 +1,9 @@
-import { BugPlayIcon, ImageOffIcon } from "lucide-react";
+import { BugPlayIcon, ChevronRightIcon, ImageOffIcon } from "lucide-react";
 import Image from "next/image";
 
 import { Link } from "@/components/Link";
 
-import { Feature, FeatureDetail } from "../common/Feature";
+import { Feature, FeatureDetail, MoreLink } from "../common/Feature";
 import illuDark from "./illu-dark.svg";
 import illuLight from "./illu-light.svg";
 
@@ -36,6 +36,11 @@ export function TestDebugging() {
               </>
             }
           />
+          <div>
+            <MoreLink href="https://app.argos-ci.com/argos-ci/playwright-demo/builds/29/64334639">
+              See a demo build
+            </MoreLink>
+          </div>
         </>
       }
       illustration={
