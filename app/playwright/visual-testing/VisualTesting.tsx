@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 
-import { Feature, FeatureDetail } from "../common/Feature";
+import { Feature, FeatureDetail, MoreLink } from "../common/Feature";
 import illuDark from "./illu-dark.svg";
 import illuLight from "./illu-light.svg";
 
@@ -35,6 +35,11 @@ export function VisualTesting() {
             title="Eliminate Flakiness"
             text="Ensure stability and consistency in the screenshots captured. Fonts, images, animations, loaders, everything is just stable."
           />
+          <div>
+            <MoreLink href="https://app.argos-ci.com/argos-ci/playwright-demo/builds/28/64334445">
+              See a demo build
+            </MoreLink>
+          </div>
         </>
       }
       illustration={
