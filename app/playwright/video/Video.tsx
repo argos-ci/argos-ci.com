@@ -8,9 +8,9 @@ export function Video() {
         It's time to for a new Playwright experience.
       </H2>
       <p className="mb-6 text-center text-lg text-low">
-        Discover how Argos helps you to debug your tests in one click
+        Explore how Argos streamlines your test debugging with a single click
         <br />
-        and scale Visual Testing to the next level.
+        and upgrades Visual Testing to the next level.
       </p>
       <div className="relative mx-auto aspect-video w-full max-w-3xl overflow-hidden sm:rounded">
         <iframe
