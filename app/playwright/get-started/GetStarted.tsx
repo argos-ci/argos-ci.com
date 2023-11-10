@@ -136,7 +136,7 @@ export default defineConfig({
             <Title>Signup to Argos and import your project</Title>
             <Button size="large" variant="primary" asChild>
               <a target="_blank" href="https://app.argos-ci.com/signup">
-                Signup for free
+                Start for free
               </a>
             </Button>
           </Section>
