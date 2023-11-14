@@ -139,6 +139,7 @@ export default function Page() {
                   Up to {HOBBY_PLAN_SCREENSHOT_COUNT.toLocaleString()}{" "}
                   screenshots
                 </Feature>
+                <Feature>Unlimited Playwright Traces</Feature>
                 <Feature>Visual changes detection</Feature>
                 <Feature>GitHub integration</Feature>
                 <Feature>Community Support</Feature>
@@ -173,6 +174,7 @@ export default function Page() {
                     </Tooltip>
                   </span>
                 </Feature>
+                <Feature>Unlimited Playwright Traces</Feature>
                 <Feature>Visual changes detection</Feature>
                 <Feature>GitHub integration</Feature>
                 <Feature>Pro Support</Feature>
@@ -196,6 +198,7 @@ export default function Page() {
               </CTA>
               <Features>
                 <Feature>Custom amount of screenshots</Feature>
+                <Feature>Unlimited Playwright Traces</Feature>
                 <Feature>Visual changes detection</Feature>
                 <Feature>GitHub integration</Feature>
                 <Feature>Dedicated Support</Feature>
