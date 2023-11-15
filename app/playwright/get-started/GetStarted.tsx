@@ -107,9 +107,6 @@ export async function GetStarted() {
               code={`
 import { defineConfig } from "@playwright/test";
 
-// Default reporters
-const defaultReporters: PlaywrightTestConfig["reporter"] = [["list"]];
-
 export default defineConfig({
   use: {
     // Get screenshots on failure
@@ -120,8 +117,8 @@ export default defineConfig({
 
   // Add Argos reporter only when it runs on CI
   reporter: process.env.CI
-    ? [...defaultReporters, ["@argos-ci/playwright/reporter"]]
-    : defaultReporters,
+    ? [["list"], ["@argos-ci/playwright/reporter"]]
+    : "list",
 });
           `.trim()}
               lang="typescript"
