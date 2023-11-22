@@ -2,6 +2,7 @@ import { GetServerSideProps, Metadata } from "next";
 
 import { highlight } from "@/lib/shiki";
 
+import { Faq } from "./faq/Faq";
 import { GetStarted } from "./get-started/GetStarted";
 import { Hero } from "./hero/Hero";
 import { TestDebugging } from "./test-debugging/TestDebugging";
@@ -20,6 +21,7 @@ export default function Page() {
       <TestDebugging />
       <VisualTesting />
       <GetStarted />
+      <Faq />
     </div>
   );
 }
