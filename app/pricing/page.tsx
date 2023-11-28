@@ -141,7 +141,7 @@ export default function Page() {
                 </Feature>
                 <Feature>Unlimited Playwright Traces</Feature>
                 <Feature>Visual changes detection</Feature>
-                <Feature>GitHub integration</Feature>
+                <Feature>GitHub & GitLab integration</Feature>
                 <Feature>Community Support</Feature>
               </Features>
             </PricingCardBody>
@@ -176,7 +176,7 @@ export default function Page() {
                 </Feature>
                 <Feature>Unlimited Playwright Traces</Feature>
                 <Feature>Visual changes detection</Feature>
-                <Feature>GitHub integration</Feature>
+                <Feature>GitHub & GitLab integration</Feature>
                 <Feature>Pro Support</Feature>
                 <Feature>Collaborating visual review</Feature>
               </Features>
@@ -200,9 +200,10 @@ export default function Page() {
                 <Feature>Custom amount of screenshots</Feature>
                 <Feature>Unlimited Playwright Traces</Feature>
                 <Feature>Visual changes detection</Feature>
-                <Feature>GitHub integration</Feature>
+                <Feature>GitHub & GitLab integration</Feature>
                 <Feature>Dedicated Support</Feature>
                 <Feature>Collaborating visual review</Feature>
+                <Feature>SAML Single-Sign-On (SSO)</Feature>
                 <Feature>SLA for 99.99% Uptime</Feature>
               </Features>
             </PricingCardBody>

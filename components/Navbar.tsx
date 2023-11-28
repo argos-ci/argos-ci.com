@@ -60,7 +60,7 @@ export const Navbar = ({ primary, secondary, actions }: NavbarProps) => {
         </DialogPrimitive.Portal>
         <Container className="flex items-center justify-between gap-6 md:justify-start">
           {primary}
-          <div className="hidden flex-1 items-center gap-4 md:flex">
+          <div className="hidden flex-1 items-center gap-6 md:flex">
             {secondary}
           </div>
           <div className="hidden items-center gap-4 md:flex">{actions}</div>
