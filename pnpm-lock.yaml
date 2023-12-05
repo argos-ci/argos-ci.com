@@ -83,8 +83,8 @@ devDependencies:
     specifier: ^1.0.2
     version: 1.0.2
   '@argos-ci/cypress':
-    specifier: ^1.0.2
-    version: 1.0.2(cypress@13.4.0)
+    specifier: ^1.1.2
+    version: 1.1.2(cypress@13.4.0)
   '@babel/core':
     specifier: ^7.23.2
     version: 7.23.2
@@ -162,8 +162,8 @@ packages:
       '@jridgewell/gen-mapping': 0.3.3
       '@jridgewell/trace-mapping': 0.3.20
 
-  /@argos-ci/browser@1.0.0:
-    resolution: {integrity: sha512-v2Oi5+qX3hkBPgIeRbpUOBRL6M8QtDYFcOaK2krWzTy2Njrh8CPu+JHhnXpQTTrg7r12NJWtc3TEPAhYWJdh0A==}
+  /@argos-ci/browser@1.1.1:
+    resolution: {integrity: sha512-3PX/J09tDKPb8KNX+WjrGw+KAm42QGJy8LpJArlUCKjEK0tmR2GkoUWdEcSxlmRE5d2e6NVOSo+FCc0AK35NGA==}
     engines: {node: '>=16.0.0'}
     dev: true
 
@@ -195,13 +195,13 @@ packages:
       - supports-color
     dev: true
 
-  /@argos-ci/cypress@1.0.2(cypress@13.4.0):
-    resolution: {integrity: sha512-3eJPkP+WmK+3UuJWd1MtWlbVsehCNVk5ZiGogHquadS6Ixp9VZR8DWhM4p7HwZH4DdxrxkVCjI6GciS1oh2/Xw==}
+  /@argos-ci/cypress@1.1.2(cypress@13.4.0):
+    resolution: {integrity: sha512-in32R4bnqmosTkbIUEmM0E8GcH+isaIyNl1OoCgiCp+zAgvyViqxlA1A+nVCtwqGzgr3mWppA0HNgexvLZZ4iA==}
     engines: {node: '>=16.0.0'}
     peerDependencies:
       cypress: ^12.0.0 || ^13.0.0
     dependencies:
-      '@argos-ci/browser': 1.0.0
+      '@argos-ci/browser': 1.1.1
       '@argos-ci/util': 1.1.0
       cypress: 13.4.0
       cypress-wait-until: 1.7.2
