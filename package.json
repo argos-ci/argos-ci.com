@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "@argos-ci/cli": "^1.0.2",
-    "@argos-ci/cypress": "^1.0.2",
+    "@argos-ci/cypress": "^1.1.2",
     "@babel/core": "^7.23.2",
     "@radix-ui/colors": "^3.0.0",
     "@tailwindcss/typography": "^0.5.10",
