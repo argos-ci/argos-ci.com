@@ -13,7 +13,7 @@ import {
   PostCardTag,
   PostCardTitle,
 } from "@/components/PostCard";
-import { getArticles } from "@/lib/api";
+import { getArticles } from "@/lib/blog-api";
 
 const formatDate = (date: string) => {
   return new Intl.DateTimeFormat("en-US", {

@@ -12,7 +12,7 @@ type Twc = (<T extends ElementType>(component: T) => Template<T>) & {
 
 const template =
   (Component: ComponentType) =>
-  (strings: TemplateStringsArray, ...values) => {
+  (strings: TemplateStringsArray, ...values: unknown[]) => {
     const twClassName = String.raw({ raw: strings }, ...values);
     return forwardRef(({ className, ...props }: any, ref) => (
       <Component
@@ -29,7 +29,7 @@ export const twc = new Proxy(
   },
   {
     get(_, name) {
-      return (strings: TemplateStringsArray, ...values) => {
+      return (strings: TemplateStringsArray, ...values: unknown[]) => {
         const Component = name as "div";
         const twClassName = String.raw({ raw: strings }, ...values);
         return forwardRef(({ className, ...props }: any, ref) => (
