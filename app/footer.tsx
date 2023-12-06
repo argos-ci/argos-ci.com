@@ -14,8 +14,8 @@ export const AppFooter: React.FC = () => (
       <FooterSections>
         <FooterSection>
           <FooterSectionTitle>Product</FooterSectionTitle>
-          <FooterLink href="/docs/introduction">What is Argos?</FooterLink>
-          <FooterLink href="/docs/review-changes">Review changes</FooterLink>
+          <FooterLink href="docs/getting-started">Quickstart</FooterLink>
+          <FooterLink href="docs/why-argos">Why Argos?</FooterLink>
           <FooterLink href="/pricing">Pricing</FooterLink>
           <FooterLink href="https://github.com/orgs/argos-ci/projects/1">
             Roadmap
@@ -24,11 +24,13 @@ export const AppFooter: React.FC = () => (
 
         <FooterSection>
           <FooterSectionTitle>Developers</FooterSectionTitle>
-          <FooterLink href="/docs/installation">Installation</FooterLink>
-          <FooterLink href="/docs/introduction">Documentation</FooterLink>
-          <FooterLink href="/docs/upload-screenshots">Configure CI</FooterLink>
+          <FooterLink href="/docs">Documentation</FooterLink>
+          <FooterLink href="/docs/screenshot-pages-script">
+            Screenshot pages
+          </FooterLink>
+          <FooterLink href="/docs/viewports">Support Responsive</FooterLink>
           <FooterLink href="https://github.com/argos-ci/argos/tree/main/examples">
-            Examples
+            Setup Examples
           </FooterLink>
         </FooterSection>
 
