@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import * as React from "react";
 
 import { Container } from "@/components/Container";
-import { getArticleBySlug, getArticles, getDocMdxSource } from "@/lib/api";
+import { getArticleBySlug, getArticles, getDocMdxSource } from "@/lib/blog-api";
 
 type Props = {
   params: { slug: string[] };
@@ -18,15 +18,15 @@ export async function generateStaticParams() {
 
 async function getArticleFromParams(params: Props["params"]) {
   const slug = params.slug.join("/");
-  const articles = await getArticles();
-  return getArticleBySlug(articles, slug);
+  return getArticleBySlug(slug);
 }
 
-export async function generateMetadata(
-  { params }: Props,
-  parent?: ResolvingMetadata,
-): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const article = await getArticleFromParams(params);
+  if (!article) {
+    notFound();
+  }
+
   const images = [article.image.src];
 
   return {
@@ -51,7 +51,7 @@ export async function generateMetadata(
 export default async function Page({ params }: Props) {
   const article = await getArticleFromParams(params);
   if (!article) {
-    return notFound();
+    notFound();
   }
   const source = await getDocMdxSource(article);
   return (
@@ -74,22 +74,6 @@ export default async function Page({ params }: Props) {
           {article.author}
         </div>
         {source}
-        {/* <MDXRemote
-          source={source}
-          components={{
-            MainImage: ({ credit }: { credit: React.ReactNode }) => {
-              return (
-                <MainImage
-                  width={article.image.width}
-                  height={article.image.height}
-                  src={article.image.src}
-                  alt={article.imageAlt}
-                  credit={credit}
-                />
-              );
-            },
-          }}
-        /> */}
       </Container>
     </article>
   );

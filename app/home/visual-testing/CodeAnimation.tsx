@@ -7,7 +7,9 @@ import { CodeEditor } from "./CodeEditor";
 import { Terminal } from "./Terminal";
 
 export function CodeAnimation() {
-  const terminalRef = React.useRef(null);
+  const terminalRef = React.useRef<{
+    animate: () => Promise<void>;
+  }>(null);
   const editorCtrls = useAnimation();
   const ref = React.useRef(null);
   const inView = useInView(ref, { once: true, amount: 0.6 });
@@ -16,7 +18,7 @@ export function CodeAnimation() {
       await new Promise((resolve) => setTimeout(resolve, 1000));
       await editorCtrls.start("visible");
       await new Promise((resolve) => setTimeout(resolve, 300));
-      await terminalRef.current.animate();
+      await terminalRef.current?.animate();
     };
     if (inView) {
       animate();

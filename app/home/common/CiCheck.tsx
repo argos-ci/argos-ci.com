@@ -50,7 +50,7 @@ const Check = ({
   status,
 }: {
   className?: string;
-  status?: Status;
+  status: Status;
 }) => {
   return (
     <div

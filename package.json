@@ -35,7 +35,8 @@
     "rehype-highlight": "^6.0.0",
     "remark-frontmatter": "^4.0.1",
     "remark-gfm": "^3.0.1",
-    "shiki": "^0.14.5"
+    "shiki": "^0.14.5",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@argos-ci/cli": "^1.0.2",
