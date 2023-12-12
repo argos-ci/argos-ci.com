@@ -20,6 +20,7 @@ const calSans = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://argos-ci.com"),
   title: "Argos — Visual Testing for developers",
   description:
     "Argos provides the developer tools to debug tests and detect visual regressions.",
