@@ -8,15 +8,24 @@ image: ./main.png
 imageAlt: Developer at work
 ---
 
-API changes frequently result in broken applications, largely due to the difficulty in monitoring their ripple effects. This article discusses the practical benefits of using Zod in tandem with Argos to tackle this issue and enhance API stability. It focuses on enforcing the integrity of API responses and detecting regressions through visual testing.
+API changes frequently result in broken applications, largely due to the difficulty in monitoring their ripple effects. This article discusses the practical benefits of using Zod to enforce API stability and detect regressions through visual testing with Argos.
 
 <MainImage />
 
+Let's see the advantages of this method before diving into the technical stuff.
+
+**Key Benefits for Developers**
+
+- **Fast Feedback**: Quick identification of API contract issues.
+- **Reliability**: Detects both type and visual regressions effectively.
+- **High Coverage**: Covers all pages with a single line of code.
+- **No Maintenance**: No need to update your tests when UI or API changes.
+
 ## Zod: Streamlining Type Safety
 
-[Zod](https://zod.dev/) is a TypeScript-first library for schema declaration and validation. It excels in enforcing type safety, a crucial aspect in early error detection.
+[Zod](https://zod.dev/) is a TypeScript-first library for schema declaration and validation. As it excels in enforcing type safety, we can use it to ensuring API response integrity and maintains the API contract over time.
 
-In addition, Zod serves as an excellent tool for ensuring API response integrity and maintains the API contract over time. With Zod, frontend developers can rely on type safety, while backend developers can quickly identify regressions in API responses.
+**With this method frontend developers can rely on type safety, while backend developers can quickly identify regressions in API responses.**
 
 ```typescript
 // Zod schema example for API response testing
@@ -38,14 +47,16 @@ const getSneakers = async () => {
 };
 ```
 
-Zod ensures API integrity, but manually checking each route after updates is impractical. Argos streamlines this, safeguarding the entire app more efficiently.
+Zod can be used to ensure API integrity, but manually checking each route response after each update is impractical. Argos streamlines this, safeguarding the entire app more efficiently.
 
 ## Argos: Simplifying Visual Testing
 
-[Argos](https://argos-ci.com/docs) integrates with CI/CD pipelines, facilitating UI change verification within pull requests. It streamlines visual regression detection, essential for maintaining consistent user experiences.
+[Argos](https://argos-ci.com/docs) integrates with CI/CD pipelines, facilitating UI change verification within pull requests. Basically, it streamlines visual regression detection and give feedback into GitHub directly.
+
+It takes a few lines in your E2E test suite to cover your whole application:
 
 ```typescript
-// Capture screenshots of your app with Argos
+// Playwright E2E test: screenshot app's pages
 import { argosScreenshot } from "@argos-ci/playwright";
 import { test } from "@playwright/test";
 
@@ -54,7 +65,6 @@ const pages = [
   { name: "homepage", path: "/" },
   { name: "product-list", path: "/explore" },
   { name: "product-detail", path: "/preview/404758" },
-  { name: "faq", path: "/faq" },
   { name: "contact", path: "/contact-us" },
 ];
 
@@ -68,19 +78,16 @@ test("screenshot pages", async ({ page }) => {
 
 ## The Combined Impact of Zod and Argos
 
-Utilizing Zod in tandem with Argos empowers developers to swiftly pinpoint and address broken pages caused by API modifications throughout their application. When Zod flags a type error during runtime, which might lead to a blank page, Argos steps in to detect this visual regression. It then delivers prompt feedback during code reviews, enhancing the overall development process.
+Utilizing Zod in tandem with Argos empowers developers to swiftly pinpoint and address broken pages caused by API modifications throughout their application.
 
-The best part is that this approach is easy to implement. All you need to do is add a few lines of code to your E2E test suite to get feedback directly on your pull-request.
+When Zod flags a type error during runtime, it throws an error in console and render a blank page. That's where Argos steps in to detect this visual regression, and then delivers prompt feedback during code reviews, enhancing the overall development process.
 
-[![Zod error detected in Argos](https://res.cloudinary.com/smooth/image/upload/v1702403606/Argos/app.argos-ci.com_argos-ci_snkr-shop_builds_24_67606393_1.png)](https://app.argos-ci.com/argos-ci/snkr-shop/builds/24/67606393)
+![Argos check status on PR](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/iaevfaxd6rcolrqwc8ng.png)
 
-### Key Benefits for Developers
+[![Zod error detected in Argos](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/yx8fffmph76r31kjn3g8.png)](https://app.argos-ci.com/argos-ci/snkr-shop/builds/24/67606393)
 
-- **Fast Feedback**: Quick identification of API contract issues.
-- **High Coverage**: Cover all pages with a single line of code.
-- **No Maintenance**: No need to update your tests when UI or API changes.
-- **Reliability**: Detects both type and visual regressions effectively.
+The synergy of Argos and Zod redefine API contract testing, seamlessly bridging data integrity with UI consistency.
 
 ## Conclusion
 
-The synergy of Argos and Zod redefine API contract testing, seamlessly bridging data integrity with UI consistency. This powerful combination not only makes monitoring API changes across applications both efficient and cost-effective but also integrates effortlessly into your workflow. It's a tool set that empowers developers with rapid feedback, streamlining the path to a more robust and swiftly delivered product.
+This powerful combination not only makes monitoring API changes across applications both efficient and cost-effective but also integrates effortlessly into your workflow. It's a toolset that empowers developers with rapid feedback, streamlining the path to a more robust and swiftly delivered product.
