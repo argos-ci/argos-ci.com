@@ -22,6 +22,7 @@ const formatDate = (date: string) => {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://argos-ci.com"),
   title: "Updates from the Argos team",
 };
 
