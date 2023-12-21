@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { Clients } from "./home/Clients";
+import { DemoVideo } from "./home/demo-video/demoVideo";
 import { DeveloperExperience } from "./home/developer-experience/DeveloperExperience";
 import { Features } from "./home/features/Features";
 import { Hero } from "./home/hero/Hero";
@@ -21,6 +22,7 @@ export default function Page() {
     <div style={{ textWrap: "balance" } as any}>
       <Hero />
       <Clients />
+      <DemoVideo />
       <Why />
       <VisualTesting />
       <DeveloperExperience />
