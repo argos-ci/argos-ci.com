@@ -1,4 +1,3 @@
-import { clsx } from "clsx";
 import {
   BugOffIcon,
   CheckCircleIcon,
@@ -6,17 +5,10 @@ import {
   RocketIcon,
   SparklesIcon,
 } from "lucide-react";
-import {
-  ComponentProps,
-  ComponentType,
-  DetailedHTMLProps,
-  HTMLAttributes,
-  forwardRef,
-} from "react";
+import { twc } from "react-twc";
 
 import { Container } from "@/components/Container";
 import { H2 } from "@/components/H2";
-import { twc } from "@/lib/twc";
 
 const H3 = twc.h3`mb-4 text-xl md:text-2xl font-medium`;
 
