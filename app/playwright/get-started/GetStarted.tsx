@@ -108,24 +108,31 @@ export async function GetStarted() {
 import { defineConfig } from "@playwright/test";
 
 export default defineConfig({
+  reporter: [
+    ["list"],
+    [
+      "@argos-ci/playwright/reporter",
+      {
+        // Enable upload to Argos only when it runs on CI.
+        uploadToArgos: !!process.env.CI,
+      },
+    ],
+  ],
+
+  // Setup test debugging on CI.
   use: {
-    // Get screenshots on failure
     screenshot: "only-on-failure",
-    // Get Playwright traces on failure
     trace: "retain-on-failure",
   },
-
-  // Add Argos reporter only when it runs on CI
-  reporter: process.env.CI
-    ? [["list"], ["@argos-ci/playwright/reporter"]]
-    : "list",
 });
           `.trim()}
               lang="typescript"
             />
             <div className="mt-4">
               Checkout{" "}
-              <Link href="https://argos-ci.com/docs/playwright">the docs</Link>{" "}
+              <Link href="https://argos-ci.com/docs/quickstart/playwright">
+                our quickstart guide
+              </Link>{" "}
               for more information.
             </div>
           </Section>
@@ -133,7 +140,7 @@ export default defineConfig({
             <Title>Signup to Argos and import your project</Title>
             <Button size="large" variant="primary" asChild>
               <a target="_blank" href="https://app.argos-ci.com/signup">
-                Start for free
+                Import my project in Argos
               </a>
             </Button>
           </Section>
