@@ -32,6 +32,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-syntax-highlighter": "^15.5.0",
+    "react-twc": "^1.2.1",
     "rehype-highlight": "^6.0.0",
     "remark-frontmatter": "^4.0.1",
     "remark-gfm": "^3.0.1",
