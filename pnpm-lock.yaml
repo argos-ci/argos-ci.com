@@ -65,6 +65,9 @@ dependencies:
   react-syntax-highlighter:
     specifier: ^15.5.0
     version: 15.5.0(react@18.2.0)
+  react-twc:
+    specifier: ^1.2.1
+    version: 1.2.1(@types/react@18.2.36)(react@18.2.0)
   rehype-highlight:
     specifier: ^6.0.0
     version: 6.0.0
@@ -6267,6 +6270,16 @@ packages:
       prismjs: 1.29.0
       react: 18.2.0
       refractor: 3.6.0
+    dev: false
+
+  /react-twc@1.2.1(@types/react@18.2.36)(react@18.2.0):
+    resolution: {integrity: sha512-VuJZPZMzHuleYqHFwQqothJKJAAXVv0Rn9+rFOsMlHW4Dwj5JnweIczmxhwvPHs+w+YK2qkG22x06IpaBiIAKA==}
+    dependencies:
+      '@radix-ui/react-slot': 1.0.2(@types/react@18.2.36)(react@18.2.0)
+      clsx: 2.0.0
+    transitivePeerDependencies:
+      - '@types/react'
+      - react
     dev: false
 
   /react@18.2.0:
