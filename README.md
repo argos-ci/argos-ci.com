@@ -10,5 +10,5 @@ Argos website available on [argos-ci.com](https://argos-ci.com).
 
 ## Links
 
-- [Documentation](https://argos-ci.com/docs)
+- [Documentation](https://argos-ci.com/docs/getting-started)
 - [Join us on Discord](https://argos-ci.com/discord)

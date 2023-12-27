@@ -40,9 +40,9 @@ export default async function Page() {
         >
           |
         </div>
-        <div className="text-sm text-low">
+        <h1 className="text-sm text-low">
           All the latest Argos news, straight from the team.
-        </div>
+        </h1>
       </div>
       <div className="mt-12 grid grid-cols-2 gap-x-16 gap-y-20">
         <Link href={`/blog/${firstArticle.slug}`} className="col-span-2">
