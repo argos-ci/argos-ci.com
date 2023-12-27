@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -11,6 +12,12 @@ import { Playwright } from "./home/playwright/Playwright";
 import { TestDebugging } from "./home/test-debugging/TestDebugging";
 import { VisualTesting } from "./home/visual-testing/VisualTesting";
 import { Why } from "./home/why/Why";
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "/",
+  },
+};
 
 export default function Page() {
   const cookieStore = cookies();

@@ -221,7 +221,7 @@ export default function Page() {
           </p>
 
           <Link
-            href="https://docs.argos-ci.com/open-source"
+            href="https://argos-ci.com/docs/open-source"
             className="group/link mt-6 transition-colors duration-150 ease-in-out hover:underline"
           >
             Read more about our open source sponsoring program

@@ -27,7 +27,10 @@ export function Integrations() {
               </a>
             </Button>
             <Button size="large" variant="outline" asChild>
-              <a target="_blank" href="https://argos-ci.com/docs">
+              <a
+                target="_blank"
+                href="https://argos-ci.com/docs/getting-started"
+              >
                 Browse integrations
               </a>
             </Button>
