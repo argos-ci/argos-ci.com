@@ -18,11 +18,7 @@ jobs:
           version: 8
 
       - name: Install dependencies and launch Cypress tests
-        uses: cypress-io/github-action@v5
+        uses: cypress-io/github-action@v6
         with:
           build: pnpm run build
           start: pnpm run start
-
-      - name: Argos screenshots upload
-        if: ${{ always() }}
-        run: pnpm exec argos upload cypress/screenshots
