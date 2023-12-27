@@ -40,8 +40,8 @@ export function Integrations() {
           <div className="flex w-full" style={{ aspectRatio: "1/1" }}>
             <Image
               src={integrationsLight.src}
-              width={1224}
-              height={1224}
+              width={544}
+              height={544}
               style={{
                 width: "100%",
                 height: "auto",
@@ -51,8 +51,8 @@ export function Integrations() {
             />
             <Image
               src={integrationsDark.src}
-              width={1224}
-              height={1224}
+              width={544}
+              height={544}
               style={{
                 width: "100%",
                 height: "auto",

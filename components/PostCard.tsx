@@ -35,7 +35,11 @@ export const PostCardImage = ({
       <Image
         {...props}
         fill
-        sizes="(max-width: 1024px) 100vw, 50vw"
+        sizes={
+          extended
+            ? "(max-width: 768px) 100vw, 1100px"
+            : "(max-width: 768px) 100vw, 510px"
+        }
         priority={Boolean(extended)}
         alt={alt}
         style={{

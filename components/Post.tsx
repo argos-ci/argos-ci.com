@@ -24,7 +24,7 @@ export const MainImage = ({
         {...props}
         priority
         fill
-        sizes="(max-width: 1024px) 100vw, 50vw"
+        sizes="(max-width: 900px) 100vw, 832px"
         alt="Staircase / eye in library — Photo by Petri Heiskanen"
         style={{
           objectFit: "cover",
