@@ -53,7 +53,7 @@ export function TestDebugging() {
               width: "100%",
               height: "auto",
             }}
-            alt=""
+            alt="User interface showing a Playwright trace"
             className="dark:hidden"
           />
           <Image
@@ -64,7 +64,7 @@ export function TestDebugging() {
               width: "100%",
               height: "auto",
             }}
-            alt=""
+            alt="User interface showing a Playwright trace"
             className="hidden dark:block"
           />
         </>

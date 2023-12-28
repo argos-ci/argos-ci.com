@@ -37,27 +37,19 @@ export function Integrations() {
           </div>
         </div>
         <div className="relative w-full flex-1 md:w-auto">
-          <div className="flex w-full" style={{ aspectRatio: "1/1" }}>
+          <div className="flex aspect-square w-full">
             <Image
               src={integrationsLight.src}
-              width={544}
-              height={544}
-              style={{
-                width: "100%",
-                height: "auto",
-              }}
-              alt=""
+              fill
+              sizes="max-width: 768px 100vw, 544px"
+              alt="Integrations like Playwright gravitating around Argos logo"
               className="dark:hidden"
             />
             <Image
               src={integrationsDark.src}
-              width={544}
-              height={544}
-              style={{
-                width: "100%",
-                height: "auto",
-              }}
-              alt=""
+              fill
+              sizes="max-width: 768px 100vw, 544px"
+              alt="Integrations like Playwright gravitating around Argos logo"
               className="hidden dark:block"
             />
           </div>

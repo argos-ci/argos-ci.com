@@ -14,7 +14,7 @@ export function Dolorean({ className }: { className?: string }) {
           width: "100%",
           height: "auto",
         }}
-        alt=""
+        alt="Dolorean"
         className="dark:hidden"
       />
       <Image
@@ -25,7 +25,7 @@ export function Dolorean({ className }: { className?: string }) {
           width: "100%",
           height: "auto",
         }}
-        alt=""
+        alt="Dolorean"
         className="hidden dark:block"
       />
     </div>

@@ -33,7 +33,7 @@ export function DeveloperExperience() {
                 height: "100%",
                 width: "auto",
               }}
-              alt=""
+              alt="Keyboard with Argos logo"
               className="py-6 dark:hidden"
             />
             <Image
@@ -44,7 +44,7 @@ export function DeveloperExperience() {
                 height: "100%",
                 width: "auto",
               }}
-              alt=""
+              alt="Keyboard with Argos logo"
               className="hidden py-6 dark:block"
             />
           </DxCard>
@@ -62,7 +62,7 @@ export function DeveloperExperience() {
                     height: "100%",
                     width: "auto",
                   }}
-                  alt=""
+                  alt="Bolt"
                 />
               </div>
               <div className="select-none bg-gradient-to-r from-violet-11 to-pink-12 bg-clip-text text-center font-accent text-xl text-transparent md:text-4xl">
@@ -84,7 +84,7 @@ export function DeveloperExperience() {
                 width: "auto",
                 height: "85%",
               }}
-              alt=""
+              alt="Open Source logo"
               quality={95}
             />
           </DxCard>
@@ -100,7 +100,7 @@ export function DeveloperExperience() {
                 height: "auto",
                 width: "auto",
               }}
-              alt=""
+              alt="Discord logo"
               quality={95}
             />
           </DxCard>

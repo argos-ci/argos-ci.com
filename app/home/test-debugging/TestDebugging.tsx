@@ -40,14 +40,14 @@ export function TestDebugging() {
               src={replayLight.src}
               width={310}
               height={214}
-              alt=""
+              alt="User interface showing a Playwright trace"
               className="w-full dark:hidden"
             />
             <Image
               src={replayDark.src}
               width={310}
               height={214}
-              alt=""
+              alt="User interface showing a Playwright trace"
               className="hidden w-full dark:block"
             />
           </div>

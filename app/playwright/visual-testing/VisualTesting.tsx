@@ -52,7 +52,7 @@ export function VisualTesting() {
               width: "100%",
               height: "auto",
             }}
-            alt=""
+            alt="Argos UI showing a visual test diff"
             className="dark:hidden"
           />
           <Image
@@ -63,7 +63,7 @@ export function VisualTesting() {
               width: "100%",
               height: "auto",
             }}
-            alt=""
+            alt="Argos UI showing a visual test diff"
             className="hidden dark:block"
           />
         </>

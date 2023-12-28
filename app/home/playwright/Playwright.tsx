@@ -46,7 +46,7 @@ export function Playwright() {
             Playwright
             <Image
               className="mt-[0.2em] h-[1em] w-[1em]"
-              alt=""
+              alt="Playwright logo"
               src={playwrightLogo.src}
               width={20}
               height={20}
