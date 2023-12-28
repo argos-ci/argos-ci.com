@@ -14,11 +14,13 @@ import {
   PostCardTitle,
 } from "@/components/PostCard";
 import { getArticles } from "@/lib/blog-api";
+import { getMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://argos-ci.com"),
+export const metadata: Metadata = getMetadata({
   title: "Updates from the Argos team",
-};
+  description: "All the latest Argos news, straight from the team.",
+  pathname: "/blog",
+});
 
 export default async function Page() {
   const articles = await getArticles();

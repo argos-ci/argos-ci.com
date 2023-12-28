@@ -40,14 +40,27 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const images = [article.image.src];
 
+  const url = `https://argos-ci.com/blog/${article.slug}`;
+
   return {
-    title: article.title,
+    title: {
+      absolute: article.title,
+    },
     description: article.description,
+    alternates: {
+      canonical: url,
+    },
     openGraph: {
       title: article.title,
       description: article.description,
       images,
       type: "article",
+      publishedTime: article.date,
+      modifiedTime: article.updatedAt ?? article.date,
+      url,
+      siteName: "Argos",
+      locale: "en_US",
+      authors: [article.author],
     },
     twitter: {
       title: article.title,

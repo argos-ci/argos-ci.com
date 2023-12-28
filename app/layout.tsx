@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 
 import { TooltipProvider } from "@/components/Tooltip";
+import { getMetadata } from "@/lib/metadata";
 import "@/styles/globals.css";
 import "@/styles/highlight-js-github-dark.min.css";
 
@@ -19,22 +20,28 @@ const calSans = localFont({
   variable: "--font-calsans",
 });
 
+const title = "Argos — Visual Testing for developers";
+const description =
+  "Argos provides the developer tools to debug tests and detect visual regressions.";
 export const metadata: Metadata = {
   metadataBase: new URL("https://argos-ci.com"),
-  title: "Argos — Visual Testing for developers",
-  description:
-    "Argos provides the developer tools to debug tests and detect visual regressions.",
+  title: {
+    template: "%s | Argos",
+    default: title,
+  },
+  description,
   openGraph: {
-    title: "Visual Testing for developers",
-    description:
-      "Argos provides the developer tools to debug tests and detect visual regressions.",
+    title,
+    description,
+    siteName: "Argos",
+    locale: "en_US",
+    type: "website",
   },
   twitter: {
     card: "summary_large_image",
     site: "@argos_ci",
-    title: "Visual Testing for developers",
-    description:
-      "Argos provides the developer tools to debug tests and detect visual regressions.",
+    title,
+    description,
   },
 };
 

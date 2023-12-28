@@ -1,5 +1,6 @@
 import { GetServerSideProps, Metadata } from "next";
 
+import { getMetadata } from "@/lib/metadata";
 import { highlight } from "@/lib/shiki";
 
 import { Faq } from "./faq/Faq";
@@ -9,9 +10,12 @@ import { TestDebugging } from "./test-debugging/TestDebugging";
 import { Video } from "./video/Video";
 import { VisualTesting } from "./visual-testing/VisualTesting";
 
-export const metadata: Metadata = {
-  title: "Supercharge your Playwright Tests with Argos",
-};
+export const metadata: Metadata = getMetadata({
+  absoluteTitle: "Supercharge your Playwright Tests with Argos",
+  description:
+    "Elevate testing: One-click CI debugging and enhanced visual testing with Argos for streamlined, efficient Playwright workflows.",
+  pathname: "/playwright",
+});
 
 export default function Page() {
   return (

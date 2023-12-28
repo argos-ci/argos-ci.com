@@ -2,6 +2,8 @@ import { Metadata } from "next";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
+import { getMetadata } from "@/lib/metadata";
+
 import { Clients } from "./home/Clients";
 import { DemoVideo } from "./home/demo-video/demoVideo";
 import { DeveloperExperience } from "./home/developer-experience/DeveloperExperience";
@@ -13,11 +15,12 @@ import { TestDebugging } from "./home/test-debugging/TestDebugging";
 import { VisualTesting } from "./home/visual-testing/VisualTesting";
 import { Why } from "./home/why/Why";
 
-export const metadata: Metadata = {
-  alternates: {
-    canonical: "/",
-  },
-};
+export const metadata: Metadata = getMetadata({
+  absoluteTitle: "Argos — Visual Testing for developers",
+  description:
+    "Argos provides the developer tools to debug tests and detect visual regressions.",
+  pathname: "/",
+});
 
 export default function Page() {
   const cookieStore = cookies();

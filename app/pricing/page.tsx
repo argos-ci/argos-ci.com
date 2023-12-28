@@ -18,6 +18,7 @@ import { Button, ButtonProps } from "@/components/Button";
 import { Container } from "@/components/Container";
 import { Link } from "@/components/Link";
 import { Tooltip } from "@/components/Tooltip";
+import { getMetadata } from "@/lib/metadata";
 
 import { Simulator } from "./Simulator";
 
@@ -114,9 +115,12 @@ const CTA = ({
   </Button>
 );
 
-export const metadata: Metadata = {
-  title: "Pricing Plans — Argos",
-};
+export const metadata: Metadata = getMetadata({
+  title: "Pricing plans",
+  description:
+    "Argos pricing: Free Hobby Plan for personal projects, $0 forever, 5,000 screenshots. Pro Plan starts at $30/mo, ideal for teams with 15,000 screenshots included.",
+  pathname: "/pricing",
+});
 
 export default function Page() {
   return (
