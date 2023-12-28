@@ -15,6 +15,7 @@ const FrontmatterSchema = z.object({
   title: z.string(),
   description: z.string(),
   date: z.date(),
+  updatedAt: z.date().optional(),
   author: z.string(),
   image: z.string(),
   imageAlt: z.string(),
@@ -26,6 +27,7 @@ export type Article = {
   title: string;
   description: string;
   date: string;
+  updatedAt: string | null;
   author: string;
   image: StaticImageData;
   imageAlt: string;
@@ -72,6 +74,7 @@ async function getArticleDataFromPath(
     description: frontmatter.description,
     slug,
     date: frontmatter.date.toISOString(),
+    updatedAt: frontmatter.updatedAt?.toISOString() ?? null,
     author: frontmatter.author,
     category: frontmatter.category,
   };

@@ -15,12 +15,6 @@ import {
 } from "@/components/PostCard";
 import { getArticles } from "@/lib/blog-api";
 
-const formatDate = (date: string) => {
-  return new Intl.DateTimeFormat("en-US", {
-    dateStyle: "medium",
-  }).format(new Date(date));
-};
-
 export const metadata: Metadata = {
   metadataBase: new URL("https://argos-ci.com"),
   title: "Updates from the Argos team",
@@ -45,8 +39,8 @@ export default async function Page() {
         </h1>
       </div>
       <div className="mt-12 grid grid-cols-2 gap-x-16 gap-y-20">
-        <Link href={`/blog/${firstArticle.slug}`} className="col-span-2">
-          <PostCard>
+        <Link href={`/blog/${firstArticle.slug}`} className="contents">
+          <PostCard className="col-span-2">
             <PostCardImage
               width={firstArticle.image.width}
               height={firstArticle.image.height}
@@ -65,7 +59,7 @@ export default async function Page() {
               <PostCardFooter>
                 <PostCardAuthor>{firstArticle.author}</PostCardAuthor>
                 <span className="text-low">|</span>
-                <PostCardDate>{formatDate(firstArticle.date)}</PostCardDate>
+                <PostCardDate date={firstArticle.date} />
               </PostCardFooter>
             </PostCardBody>
           </PostCard>
@@ -76,9 +70,9 @@ export default async function Page() {
             <Link
               key={article.slug}
               href={`/blog/${article.slug}`}
-              className="col-span-2 md:col-span-1"
+              className="contents"
             >
-              <PostCard>
+              <PostCard className="col-span-2 md:col-span-1">
                 <PostCardImage
                   width={article.image.width}
                   height={article.image.height}
@@ -96,7 +90,7 @@ export default async function Page() {
                   <PostCardFooter>
                     <PostCardAuthor>{article.author}</PostCardAuthor>
                     <div className="text-xs text-mauve-10">|</div>
-                    <PostCardDate>{formatDate(article.date)}</PostCardDate>
+                    <PostCardDate date={article.date} />
                   </PostCardFooter>
                 </PostCardBody>
               </PostCard>

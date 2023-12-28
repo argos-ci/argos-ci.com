@@ -1,16 +1,9 @@
 import { clsx } from "clsx";
 import Image, { ImageProps } from "next/image";
 import type { ComponentProps, ReactNode } from "react";
+import { twc } from "react-twc";
 
-export const PostCard = ({ children }: { children: ReactNode }) => (
-  <div
-    className={clsx(
-      "rounded-lg border bg-subtle text-left transition duration-300 hover:-translate-y-2 hover:scale-[101%]",
-    )}
-  >
-    {children}
-  </div>
-);
+export const PostCard = twc.div`rounded-lg border bg-subtle text-left transition duration-300 hover:-translate-y-2 hover:scale-[101%]"`;
 
 export interface PostCardImageProps extends ImageProps {
   extended?: Boolean;
@@ -83,6 +76,20 @@ export const PostCardAuthor = (props: ComponentProps<"div">) => (
   <div className="text-low" {...props} />
 );
 
-export const PostCardDate: React.FC<{ children: React.ReactNode }> = (
-  props,
-) => <div className="text-low" {...props} />;
+const formatDate = (date: string) => {
+  return new Intl.DateTimeFormat("en-US", {
+    dateStyle: "medium",
+  }).format(new Date(date));
+};
+
+const dateFormatter = new Intl.DateTimeFormat("en-US", {
+  dateStyle: "medium",
+});
+
+export const PostCardDate = ({ date }: { date: string }) => {
+  return (
+    <time className="text-low" dateTime={date}>
+      {dateFormatter.format(new Date(date))}
+    </time>
+  );
+};
