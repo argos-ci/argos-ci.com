@@ -44,6 +44,7 @@ export const AppFooter: React.FC = () => (
 
         <FooterSection>
           <FooterSectionTitle>Community</FooterSectionTitle>
+          <FooterLink href="/oss-friends">OSS Friends</FooterLink>
           <FooterLink href="https://github.com/argos-ci/argos">
             GitHub
           </FooterLink>
