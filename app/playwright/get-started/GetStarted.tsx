@@ -108,21 +108,16 @@ export async function GetStarted() {
 import { defineConfig } from "@playwright/test";
 
 export default defineConfig({
+  // Add Argos reporter. Upload on CI only.
   reporter: [
-    ["list"],
-    [
-      "@argos-ci/playwright/reporter",
-      {
-        // Enable upload to Argos only when it runs on CI.
-        uploadToArgos: !!process.env.CI,
-      },
-    ],
+    ["html"],
+    ["@argos-ci/playwright/reporter", { uploadToArgos: !!process.env.CI }],
   ],
 
   // Setup test debugging on CI.
   use: {
+    trace: 'on-first-retry',
     screenshot: "only-on-failure",
-    trace: "retain-on-failure",
   },
 });
           `.trim()}
