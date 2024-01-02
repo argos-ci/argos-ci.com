@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 
 import { getMetadata } from "@/lib/metadata";
 
-import { Clients } from "./home/Clients";
+import { Customers } from "./home/Customers";
 import { DemoVideo } from "./home/demo-video/demoVideo";
 import { DeveloperExperience } from "./home/developer-experience/DeveloperExperience";
 import { Features } from "./home/features/Features";
@@ -32,7 +32,7 @@ export default function Page() {
   return (
     <div style={{ textWrap: "balance" } as any}>
       <Hero />
-      <Clients />
+      <Customers />
       <DemoVideo />
       <Users />
       <Why />
