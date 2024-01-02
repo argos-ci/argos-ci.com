@@ -1,7 +1,7 @@
 import { BrandTestimonials } from "@/components/BrandTestimonials";
 import { Container } from "@/components/Container";
 
-export function Clients() {
+export function Customers() {
   return (
     <div className="py-12 lg:py-16">
       <Container className="mb-8 text-center text-xl">
