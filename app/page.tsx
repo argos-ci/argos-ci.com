@@ -12,6 +12,7 @@ import { Hero } from "./home/hero/Hero";
 import { Integrations } from "./home/integrations/Integrations";
 import { Playwright } from "./home/playwright/Playwright";
 import { TestDebugging } from "./home/test-debugging/TestDebugging";
+import { Users } from "./home/users/Users";
 import { VisualTesting } from "./home/visual-testing/VisualTesting";
 import { Why } from "./home/why/Why";
 
@@ -33,6 +34,7 @@ export default function Page() {
       <Hero />
       <Clients />
       <DemoVideo />
+      <Users />
       <Why />
       <VisualTesting />
       <DeveloperExperience />
