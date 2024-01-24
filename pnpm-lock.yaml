@@ -92,11 +92,11 @@ dependencies:
 
 devDependencies:
   '@argos-ci/cli':
-    specifier: ^1.0.5
-    version: 1.0.5
+    specifier: 1.0.7-alpha.6+505aabe
+    version: 1.0.7-alpha.6
   '@argos-ci/cypress':
-    specifier: ^1.3.0
-    version: 1.3.0(cypress@13.6.2)
+    specifier: 1.3.3-alpha.6+505aabe
+    version: 1.3.3-alpha.6(cypress@13.6.2)
   '@babel/core':
     specifier: ^7.23.7
     version: 7.23.7
@@ -179,12 +179,12 @@ packages:
     engines: {node: '>=16.0.0'}
     dev: true
 
-  /@argos-ci/cli@1.0.5:
-    resolution: {integrity: sha512-nydt2ugMTZA4UttKEgk5sqE7Y7547nLHwK5TdZel06QhXjOHl6+DmOuWZbLev5575M3KmSmk2v9XnHXMlJeGmA==}
+  /@argos-ci/cli@1.0.7-alpha.6:
+    resolution: {integrity: sha512-ZzI/ryULFs3V67kAe9np0nJM936n3gAuXedJecTXosfpQBm0e9KEQ1YbumyUIlBmjB5ezxtZDCj4HLjlAucnQw==}
     engines: {node: '>=16.0.0'}
     hasBin: true
     dependencies:
-      '@argos-ci/core': 1.4.0
+      '@argos-ci/core': 1.4.2-alpha.6
       commander: 11.1.0
       ora: 7.0.1
       update-notifier: 6.0.2
@@ -192,8 +192,8 @@ packages:
       - supports-color
     dev: true
 
-  /@argos-ci/core@1.4.0:
-    resolution: {integrity: sha512-1npIRpFNm40OaX9UP8Ry1ZSF4Y4jJdtkyUH2arS5kTV2Ksc0WtqO2rx+ELwqr4iHODNSh7QGUX4Jnj1usRap4Q==}
+  /@argos-ci/core@1.4.2-alpha.6:
+    resolution: {integrity: sha512-ywphpMXfvteV13kNP0Fed9ycILXKD/lVhCalBOdfdNHW8HOdOY8iv+RNr5fbi5ER/I4zDuUiJiqBMjHfVGZgmA==}
     engines: {node: '>=16.0.0'}
     dependencies:
       '@argos-ci/util': 1.2.0
@@ -207,14 +207,14 @@ packages:
       - supports-color
     dev: true
 
-  /@argos-ci/cypress@1.3.0(cypress@13.6.2):
-    resolution: {integrity: sha512-ily44oRViQ/IZHQQ9Xy/R9P7HYys6AiRJPzauEVxtVnI0GrWOxvgua9ZgfBgTubIlSFEjyTsFJ8f/Un9kQNX7g==}
+  /@argos-ci/cypress@1.3.3-alpha.6(cypress@13.6.2):
+    resolution: {integrity: sha512-2d/XoYnSYHuf4LOGQnLOynSAICFgZ8VIsOyj0O9ICluJeO58E9FO/4yTIV5igaZy9HWbL+J+HnVNWNIQTMhkjQ==}
     engines: {node: '>=16.0.0'}
     peerDependencies:
       cypress: ^12.0.0 || ^13.0.0
     dependencies:
       '@argos-ci/browser': 1.3.0
-      '@argos-ci/core': 1.4.0
+      '@argos-ci/core': 1.4.2-alpha.6
       '@argos-ci/util': 1.2.0
       cypress: 13.6.2
       cypress-wait-until: 1.7.2
