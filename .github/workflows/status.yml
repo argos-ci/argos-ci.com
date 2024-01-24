@@ -27,4 +27,5 @@ jobs:
       - name: Run argos upload
         run: pnpm exec argos upload ./argos-images
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEBUG: "@argos-ci/core"
