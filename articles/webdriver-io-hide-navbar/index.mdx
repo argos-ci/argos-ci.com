@@ -1,0 +1,43 @@
+---
+title: "Argos WebDriverIO Update: Introducing Navbar Masking"
+description: "Introducing Navbar Masking in Argos's latest WebDriverIO update. A concise solution for mobile visual testing, addressing the challenges of dynamic navbar elements. Enhance testing precision with ease."
+category: Integration
+author: Jeremy Sfez
+date: 2024-01-25
+image: ./main.jpg
+imageAlt: App with pink mask
+---
+
+Mobile app development is a realm where bugs can remain for months, dependent on users to update their apps. With Argos's latest WebDriverIO update, we introduce Navbar Masking - a feature crafted to enhance the precision of visual testing in mobile apps, ensuring a flawless user experience every time.
+
+<MainImage />
+
+
+## Why Navbar Masking?
+
+Mobile navbars, displaying ever-changing elements like time and notifications, are notorious for causing visual inconsistencies. Leveraging Sharp's image processing capabilities, Argos's Navbar Masking lets you specify areas in your screenshots to be masked. This ensures dynamic elements in the navbar don't skew your visual regression results.
+
+![Argos ignored change](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/9njpx7pc5wrup6zmuf8v.png)
+
+## Usage example
+
+
+Integrating this feature into your existing WebDriverIO setup is simple. A few lines of code enable this powerful tool, greatly enhancing your mobile visual testing process.
+
+```js
+import { argosScreenshot } from "@argos-ci/webdriverio";
+import { browser } from "@wdio/globals";
+
+describe("Integration test with visual testing", () => {
+  it("covers homepage", async () => {
+    await browser.url("http://localhost:3000");
+    await argosScreenshot(browser, "homepage", {
+      mask: [{ x: 0, y: 0, width: 1170, height: 120 }],
+    });
+  });
+});
+```
+
+## Conclusion
+
+As we roll out Navbar Masking in Argos's WebDriverIO, we're reinforcing our commitment to refined mobile app testing. This feature is a step forward in our journey to empower developers with tools that truly matter. For more mobile testing features or to join the conversation on future updates, [visit us on Argos Discord](https://argos-ci.com/discord). Your insights are invaluable in shaping the tools that drive software excellence.
