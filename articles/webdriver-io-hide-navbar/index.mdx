@@ -12,7 +12,6 @@ Mobile app development is a realm where bugs can remain for months, dependent on
 
 <MainImage />
 
-
 ## Why Navbar Masking?
 
 Mobile navbars, displaying ever-changing elements like time and notifications, are notorious for causing visual inconsistencies. Leveraging Sharp's image processing capabilities, Argos's Navbar Masking lets you specify areas in your screenshots to be masked. This ensures dynamic elements in the navbar don't skew your visual regression results.
@@ -21,8 +20,7 @@ Mobile navbars, displaying ever-changing elements like time and notifications, a
 
 ## Usage example
 
-
-Integrating this feature into your existing WebDriverIO setup is simple. A few lines of code enable this powerful tool, greatly enhancing your mobile visual testing process.
+Integrating this feature into your existing [WebDriverIO setup](https://argos-ci.com/docs/quickstart/webdriverio) is simple. A few lines of code enable this powerful tool, greatly enhancing your mobile visual testing process.
 
 ```js
 import { argosScreenshot } from "@argos-ci/webdriverio";
@@ -37,6 +35,8 @@ describe("Integration test with visual testing", () => {
   });
 });
 ```
+
+To know more, you can read the [Argos WebdriverIO SDK doc](https://argos-ci.com/docs/webdriverio).
 
 ## Conclusion
 
