@@ -108,9 +108,10 @@ export async function GetStarted() {
 import { defineConfig } from "@playwright/test";
 
 export default defineConfig({
-  // Add Argos reporter. Upload on CI only.
   reporter: [
-    ["html"],
+    // Use "dot" reporter on CI, "list" otherwise (Playwright default).
+    process.env.CI ? ["dot"] : ["list"],
+    // Add Argos reporter. Upload on CI only.
     ["@argos-ci/playwright/reporter", { uploadToArgos: !!process.env.CI }],
   ],
 
