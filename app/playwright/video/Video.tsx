@@ -21,6 +21,7 @@ export function Video() {
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowFullScreen
           className="absolute inset-0 h-full w-full"
+          data-visual-test="blackout"
         />
       </div>
     </Container>
