@@ -61,6 +61,7 @@ const Check = ({
         status === "pending" && "border-amber-6 bg-amber-2",
         className,
       )}
+      data-visual-test="blackout"
     >
       <CheckIcon status={status} />
       <div className="flex h-6 w-6 items-center justify-center rounded border bg-white">
