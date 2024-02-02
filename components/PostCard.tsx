@@ -1,9 +1,8 @@
-import { clsx } from "clsx";
 import Image, { ImageProps } from "next/image";
-import type { ComponentProps, ReactNode } from "react";
-import { twc } from "react-twc";
+import type { ComponentProps } from "react";
+import { TwcComponentProps, twc } from "react-twc";
 
-export const PostCard = twc.div`rounded-lg border bg-subtle text-left transition duration-300 hover:-translate-y-2 hover:scale-[101%]"`;
+export const PostCard = twc.div`rounded-lg border bg-subtle text-left transition duration-300 hover:-translate-y-2 hover:scale-[101%]`;
 
 export interface PostCardImageProps extends ImageProps {
   extended?: Boolean;
@@ -52,17 +51,16 @@ export const PostCardTag: React.FC<{ children: React.ReactNode }> = (props) => (
   <p className="mb-2 text-xs text-low" {...props} />
 );
 
-export const PostCardTitle = ({
-  extended,
-  children,
-}: {
-  extended?: Boolean;
-  children: ReactNode;
-}) => (
-  <h2 className={`mb-2 ${extended ? "text-4xl" : "text-2xl"} font-accent text`}>
-    {children}
-  </h2>
-);
+type PostCardTitleProps = TwcComponentProps<"h2"> & {
+  extended?: boolean;
+  classname?: string;
+};
+
+export const PostCardTitle = twc.h2<PostCardTitleProps>((props) => [
+  "mb-2 font-accent",
+  props.extended ? "text-4xl" : "text-2xl",
+  props.classname,
+]);
 
 export const PostCardDescription = (props: ComponentProps<"div">) => (
   <div className="mb-8 leading-normal text-low" {...props} />
