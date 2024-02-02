@@ -97,13 +97,21 @@ async function Siblings({ slug }: { slug: string }) {
                   height={article.image.height}
                   src={article.image.src}
                   alt={article.imageAlt}
+                  data-visual-test="blackout"
                 />
                 <PostCardBody>
                   {article.category && (
-                    <PostCardTag>{article.category}</PostCardTag>
+                    <PostCardTag data-visual-test="blackout">
+                      {article.category}
+                    </PostCardTag>
                   )}
-                  <PostCardTitle>{article.title}</PostCardTitle>
-                  <PostCardFooter>
+                  <PostCardTitle
+                    classname="line-clamp-2"
+                    data-visual-test="blackout"
+                  >
+                    {article.title}
+                  </PostCardTitle>
+                  <PostCardFooter data-visual-test="blackout">
                     <PostCardAuthor>{article.author}</PostCardAuthor>
                     <div className="text-xs text-mauve-10">|</div>
                     <PostCardDate date={article.date} />
