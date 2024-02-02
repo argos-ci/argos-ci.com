@@ -61,7 +61,6 @@ const Check = ({
         status === "pending" && "border-amber-6 bg-amber-2",
         className,
       )}
-      data-visual-test="blackout"
     >
       <CheckIcon status={status} />
       <div className="flex h-6 w-6 items-center justify-center rounded border bg-white">
@@ -107,7 +106,10 @@ export function CiCheck({
   status?: Status;
 }) {
   return (
-    <div className={clsx("flex items-center gap-10", className)}>
+    <div
+      className={clsx("flex items-center gap-10", className)}
+      data-visual-test="blackout"
+    >
       <Check status={status} />
       <div className="relative flex flex-col gap-2">
         <GitHubMark />
