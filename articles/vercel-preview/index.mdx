@@ -1,7 +1,6 @@
 ---
-title: How to run Argos visual testing on Vercel Preview
-description: Guide to run Argos visual testing on Vercel Preview to ensure consistency in production-like environment.
-slug: vercel-preview
+title: "Guide: Integrating Argos Visual Testing in Vercel Preview"
+description: "A guide to setting up Argos integration with Vercel Preview using GitHub Actions."
 category: Developer Experience
 author: Jeremy Sfez
 date: 2024-02-01
@@ -9,29 +8,107 @@ image: ./main.jpg
 imageAlt: Vercel covered with Argos
 ---
 
-Great news for Vercel enthusiasts! Argos seamlessly integrates visual testing with Vercel Preview, enabling you to detect visual regressions in a production-like environment effortlessly. This guide walks you through setting it up with GitHub Actions and Playwright, streamlining your workflow.
+Argos now seamlessly integrates with Vercel Preview for visual testing, offering a streamlined approach to catch visual regressions in a production-like environment. In this step-by-step guide, I show my journey to run Argos on Vercel Preview via GitHub Actions, and share my source code to do so.
 
 <MainImage />
 
-## Motivation behind this feature
+## Why Visual Testing with Vercel Preview? Key Advantages
 
-Responding to user feedback, we recognized the need for visual testing directly on Vercel Previews, especially for environments akin to production settings. This approach is not only cost-effective, eliminating the need for separate test environments, but also enhances test accuracy by mirroring production conditions closely.
+- **Reducing CI cost:** Eliminating the need to set up a second environment to run the tests.
+- **Increasing test reliability**: Visual testing on a production-like environment.
+- **Increasing test reliability**: Visual testing on a production-like environment.
 
-## How to run Argos on Vercel Preview
+**Note:** This method is optimal for repeatable tests that don't significantly alter the environment, as certain tests (e.g. those involving user deletion) may not be applicable.
 
-### 1. Set up Argos
+## Getting Started with Argos: Setup Guide
 
-Start by following the Q[Quickstart guide](https://argos-ci.com/docs) to integrate Argos with Playwright. This foundational step ensures that Argos is ready to run visual tests during your CI process.
+### Prerequisites
 
-### 2. Run tests on your Vercel Preview
+Before integrating Argos into Vercel Preview for visual testing, I have:
 
-Adapt your CI workflow with this GitHub Actions configuration to enable Argos visual testing on Vercel Previews:
+1. Set up a [Next.js](https://nextjs.org/) project with [Playwright](https://playwright.dev).
+2. Integrated Playwright tests into CI/CD.
+3. Deployed the project on Vercel.
+
+### 1. Project Importation to Argos
+
+[Signed up into Argos](https://app.argos-ci.com/signup) and import my project. In response, Argos generated an `ARGOS_TOKEN` for my repository that I saved it for later usage.
+
+![Argos GitHub token](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/wra1891953mfv4kt6tcs.png)
+
+### 2. Package Installation
+
+```sh
+npm install --save-dev @argos-ci/playwright
+```
+
+### 3. Setup Argos in Playwright config file
+
+Update the `playwright.config.ts` file:
+
+```ts
+import { defineConfig } from "@playwright/test";
+
+export default defineConfig({
+  reporter: [
+    process.env.CI ? ["dot"] : ["list"],
+    [
+      "@argos-ci/playwright/reporter",
+      {
+        uploadToArgos: !!process.env.CI,
+        token: process.env.ARGOS_TOKEN,
+      },
+    ],
+  ],
+  use: {
+    trace: "on-first-retry",
+    screenshot: "only-on-failure",
+  },
+});
+```
+
+### 4. Screenshot my app
+
+I utilized the [Screenshot pages script](https://argos-ci.com/docs/screenshot-pages-script) from Argos's documentation for capturing my application's homepage. This script is flexible for adding more pages in the future.
+
+```ts
+import { argosScreenshot } from "@argos-ci/playwright";
+import { test } from "@playwright/test";
+
+const baseUrl = "http://localhost:3000";
+const pages = [
+  { name: "homepage", path: "/" },
+  // { name: "faq", path: "/faq" },
+  // { name: "contact", path: "/contact-us" },
+  // { name: "pricing", path: "/pricing" },
+];
+
+test("screenshot pages", async ({ page }, workerInfo) => {
+  for (const { name, path } of pages) {
+    const browserName = workerInfo.project.name;
+    await page.goto(`${baseUrl}${path}`);
+    await argosScreenshot(page, `${name}-${browserName}`);
+  }
+});
+```
+
+### 5. Set up ARGOS_TOKEN and test integration
+
+First, I set up `ARGOS_TOKEN` as a repository secret on GitHub. Then, I'm ready to push my code to GitHub monitor the status checks to ensure everything is working as expected: Playwright, Vercel, and Argos.
+
+![Github tests with Argos](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/om5itnow41f3koolbwio.png)
+
+## Run Argos on Vercel Preview
+
+To run my tests on Vercel Preview, I updated my CI workflow file:
 
 ```yml
 name: Playwright + Argos Tests
+# 👉 Trigger on deployment event
 on: deployment_status:
 jobs:
   test:
+    # 👉 Run tests only if the deployment is successful
     if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success'
     runs-on: ubuntu-latest
     steps:
@@ -41,33 +118,44 @@ jobs:
         run: npm ci && npx playwright install --with-deps
       - name: Run Playwright tests
         run: npx playwright test
+        # 👉 Add this variables
         env:
           BASE_URL: ${{ github.event.deployment_status.environment_url }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ARGOS_BRANCH: ${{ github.event.deployment_status.environment == 'Production' && 'main' || '' }}
 ```
 
-For a comprehensive explanation of each step, consult the [Argos documentation](https://argos-ci.com/docs/run-on-preview-deployment).
+For a comprehensive explanation of each step, read [Argos documentation](https://argos-ci.com/docs/run-on-preview-deployment).
 
-Next, update your Playwright config file is updated to reflect the preview's URL and configure it to ignore the Vercel toolbar for cleaner test results:
+Then, I updated my Playwright's config file:
 
 ```ts
 export default defineConfig({
   use: {
-    # 👉 URL generated for the preview
+    // URL generated for the preview
     baseURL: process.env.BASE_URL,
   },
   extraHTTPHeaders: {
-     # 👉 Hide vercel toolbar in tests
+    // Hide vercel toolbar in tests
     "x-vercel-skip-toolbar": "0",
   },
 });
 ```
 
-Assuming you have automatic deploys set up, you’ll see the results of your deploy in your pull request. Upon a successful deploy, the E2E workflow will start on the preview.
+After my changes are merged, upon a successful deploy, the E2E workflow start on the preview:
 
 ![Github pull-request check statuses](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/y0zu0bwdykzsu9bvfgzw.png)
 
+## Explore the Source Code
+
+Explore my GitHub Repository to read to code source of this integration.
+
+![Github pull-request check statuses](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/qhp02ieazr6f38o8q915.png)
+
+- [Github Repository](https://github.com/jsfez/argos-vercel-preview)
+- [Pull Request #2 - Execute Argos on Vercel Preview](https://github.com/jsfez/argos-vercel-preview/pull/2)
+- [Deployed Project](https://argos-vercel-preview-gimral7da-jeremy-smooth-code.vercel.app/)
+
 ## Conclusion
 
-Leveraging Argos with Vercel Previews not only enhances visual consistency in a near-production environment but also optimizes your CI process by eliminating the need for additional environments for testing. This integration streamlines your workflow, ensuring that your projects meet the highest standards of visual quality while being cost-effective.
+Vercel Preview and Argos serve complementary roles in ensuring web development excellence. Vercel Preview focuses on verifying expected outcomes, while Argos excels at detecting visual regressions across various viewports. Together, they strengthen the development workflow, allowing developers to harness the best of both tools for unparalleled visual consistency and reliability.
