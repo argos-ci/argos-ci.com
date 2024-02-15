@@ -1,0 +1,143 @@
+---
+title: "Stabilize Flaky Tests for Visual Testing"
+description: "Explore common use-cases responsible for flaky tests in visual testing and best practices to resolve them."
+category: Visual testing
+author: Jeremy Sfez
+date: 2024-02-15
+image: ./main.jpg
+imageAlt: Image not loaded
+---
+
+Visual testing is the most efficient way to test your app as it's **fast** and **robust** (doesn't require maintenance). Yet, flaky tests create frustration and erode developers' trust in their testing suite, potentially leading to the abandonment of visual testing altogether. In this article, I'll describe the **common culprits responsible for flaky screenshots and how to fix them**. I'll also introduce [Argos](https://argos-ci.com)'s solutions to stabilize screenshots.
+
+<MainImage />
+
+## What is a Flaky Test?
+
+In visual testing, a flaky test produces screenshots that differ randomly between test runs without any changes to the code. The common causes are often **network latency, lazy loading, animations, and dynamic content like dates and external scripts**.
+
+#### Disclaimer
+
+> [Flaky Tests mean Flaky UX](https://rauchg.com/2020/2019-in-review#flaky-tests-flaky-ux) — Guillermo Rauch
+
+Flaky screenshots are usually a sign of underlying instability in the app's UI. To minimize flaky tests, the first step is to minimize random behaviors and ensure the UI is as stable as possible. For example, if you have a news website, you should rely on a stable dataset for your test environment.
+
+## Network Latency
+
+Network latency can cause flaky screenshots if assets (**font**, **images**, ...) are not fully loaded before the screenshot is taken.
+
+<img
+  src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5gm3x4uaymqhm3qunbm8.jpg"
+  width={600}
+  alt="font-not-loaded"
+/>
+
+To stabilize screenshots, you must ensure your resources are fully loaded before capturing screenshots. For example, the `argosScreenshot` command waits for resources to load before taking a screenshot.
+
+## Lazy Loading
+
+Lazy loading can cause flaky screenshots if the screenshot is taken before the elements are fully loaded.
+
+<img
+  src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/4nginqza6q17jvrqs16r.png"
+  width={600}
+  alt="loader"
+/>
+
+To stabilize screenshots, use a loading indicator and wait for its removal before proceeding. [Aligning with ARIA specification](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-busy), I recommend using the `[aria-busy]` attribute on your loader component. At Argos, the `argosScreenshot` command delays the screenshot capture until all components with the `[aria-busy]` attribute are removed.
+
+Example of a loader component:
+
+```JavaScript
+<div id="loader" aria-busy />
+```
+
+## Dynamic Content
+
+By nature, dynamic elements like **dates or time** introduce variability in screenshots. The easiest solution is to hide these elements by injecting CSS before taking a screenshot. With Argos, you can use the `data-visual-test` attribute to hide these elements from the screenshot.
+
+```JavaScript
+<div id="clock" data-visual-test="transparent">...</div>
+```
+
+For dates, another solution is to use a fixed date for your test environment. You can see here [how to do it with Cypress](https://docs.cypress.io/api/commands/clock). But this solution is not always possible in a real-world scenario.
+
+## Animation
+
+Capturing a screenshot during an animation will lead to flaky screenshots. They must be either completed or paused before taking a screenshot. With Argos, CSS animations are automatically paused, but JavaScript animations require manual intervention or hiding with `data-visual-test`.
+
+**Note**: If an animation causes layout shifts, it's recommended to remove it from the DOM with `data-visual-test="removed"` instead of merely hiding it with `data-visual-test="transparent"`.
+
+## External Scripts and Iframes
+
+External scripts and iframes (e.g. Intercom snippet) introduce flakiness due to network latency or rendering inconsistencies. There are several solutions to avoid flakiness, consider the following in this order:
+
+1. Avoid loading external scripts in your test environment.
+2. Inject CSS to hide their UI impacts.
+
+```JavaScript
+await argosScreenshot(page, "homepage", {
+  argosCSS: `
+    .__argos__ iframe {
+      display: none;
+    }
+  `,
+});
+```
+
+3. Wait for the iframe's content to be loaded before taking the screenshot. If you follow this path, I recommend reading [Debbie O'Brien](https://twitter.com/debs_obrien)'s article about how to [test an iframes with Playwright](https://debbie.codes/blog/testing-iframes-with-playwright/).
+
+## Data inconsistency
+
+The two main causes of data inconsistency are **randomized data seed** and **missing sorting order**. Usually, it's easy to fix by using a fixed dataset for your test environment. But if not, you can use the `data-visual-test` attribute to hide the area where the data is displayed but still keep the layout consistent in the screenshot.
+
+```JavaScript
+<article>
+  <div class="title" data-visual-test="blackout">Breaking news: XXX</div>
+  <div class="content" data-visual-test="blackout">...</div>
+</article>
+```
+
+## Mobile Status Bars
+
+Mobile status bars introduce flakiness in screenshots due to their dynamic nature: notifications, battery, and time. The best practice is to hide the mobile status bar before taking a screenshot, crop it out, or ignore this area in the comparison. Argos offers a mask option for the latter.
+
+Example with Argos' WebDriverIO integration:
+
+```JavaScript
+import { argosScreenshot } from "@argos-ci/webdriverio";
+import { browser } from "@wdio/globals";
+
+describe("Integration test with visual testing", () => {
+  it("covers homepage", async () => {
+    await browser.url("http://localhost:3000");
+    await argosScreenshot(browser, "homepage", {
+      mask: [{ x: 0, y: 0, width: 1170, height: 120 }],
+    });
+  });
+});
+```
+
+## Browser-Related Inconsistencies
+
+Browser-related inconsistencies are challenging because they are generated from the browser itself, not your code. Addressing them requires in-depth research and development. Nevertheless, Argos provides built-in solutions for most of them, ensuring screenshot consistency across runs.
+
+**Common browser inconsistency causes:**
+
+- **Glitches**: border radius, shadow, scrolling bar, and caret visibility
+- **Rendering**: text aliasing, image rendering
+- **Navigation**: random focus, random hover, and scrolling position
+
+## Cropped Screenshots Due to Layout Shift
+
+Sometimes, flaky tests produce cropped screenshots because Playwright (or another browser automation library) measures the page size before a layout shift, then takes the screenshot after the shift. The best way to fix this is to identify and correct the root cause of the layout shift. It can be challenging!
+
+## Capturing Screenshots on CI/CD or Locally
+
+Capturing screenshots on different machines introduces variability, as each device's settings can affect the output. Using a CI/CD pipeline for screenshot capture standardizes the environment and enforces stability, ensuring every screenshot is produced under identical conditions.
+
+## Conclusion
+
+Flaky tests are a common challenge in visual testing, but once you know the patterns, it will be easier to stabilize your screenshots. The most important thing is to not give up on any flaky test and risk introducing a bug in your app. Keeping your test suite stable might seem tough and thankless at times, but in the end, it's always worth the effort.
+
+I hope these best practices help you stabilize your visual testing suite. If you have any questions or want to share your experience, feel free to reach out or join [Argos' Discord community](https://argos-ci.com/discord).
