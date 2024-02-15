@@ -1,0 +1,124 @@
+---
+title: "Mastering Visual Testing: Strategies for Eliminating Flaky Screenshots"
+description: "Guide to eliminate flaky screenshots in visual testing. Transform your visual testing from flaky to flawless with actionable insights and Argos's innovative solutions."
+category: Visual testing
+author: Jeremy Sfez
+date: 2024-02-15
+image: ./main.jpg
+imageAlt: image alt
+---
+
+Visual testing stands at the forefront of ensuring your web application's UI integrity, yet flaky tests can significantly undermine its reliability. As an experienced developer and Argos co-founder, I've seen firsthand the frustration flaky screenshots cause. This guide distills years of experience to offer best practices for making your visual tests as robust as possible with Argos.
+
+<MainImage />
+
+## Understanding Flaky Screenshots
+
+A flaky screenshot is one that differs between test runs without any changes to the application. Common culprits include network latency, lazy loading, animations, and dynamic content like dates and external scripts. Identifying these factors is the first step towards stabilizing your visual tests.
+
+### Disclaimer: Flaky Tests Mean Flaky UI
+
+Remember, flaky tests are usually a sign of underlying instability in your UI. Address these core issues before attempting to stabilize your visual tests.
+
+## Stabilization Strategies
+
+### Network Latency
+
+For network latency, ensure your application is fully loaded before capturing screenshots. Argos' `argosScreenshot()` command is designed to wait for all resources, including images and fonts.
+
+### Lazy Loading
+
+For lazy-loaded elements, utilize a loading indicator and wait for its removal before proceeding. We recommend using the `[aria-busy]` attribute on your loader component, aligning with ARIA specifications. The `argosScreenshot` command will delay the screenshot until all components marked with `[aria-busy]` are removed before taking a screenshot.
+
+### Handling Dynamic Content
+
+Dynamic elements like dates or time should be neutralized during tests. Using a `data-visual-test` attribute can effectively hide these elements without impacting layout:
+
+```JavaScript
+<div id="clock" data-visual-test="transparent">...</div>
+```
+
+### Animations
+
+Animations need to be either completed or paused. With Argos, CSS animations are automatically paused. JavaScript animations require manual intervention or hiding via `data-visual-test`.
+
+**Note**: If an animation causes layout shifts, it's recommended to remove it from the DOM (`display: none`) instead of merely hiding it (`visibility: hidden`).
+
+### External Scripts and Iframes
+
+Manage external scripts and iframes by either bypassing them in your test environment or injecting CSS to hide their UI impacts:
+
+```JavaScript
+import { test } from "@playwright/test";
+import { argosScreenshot } from "@argos-ci/playwright";
+
+test("screenshot homepage", async ({ page }) => {
+  await page.goto("http://localhost:3000");
+  await argosScreenshot(page, "homepage", {
+    argosCSS: `
+      .__argos__ iframe {
+        display: none;
+      }
+    `,
+  });
+});
+```
+
+### Data inconsistency
+
+The best practices is to rely on on a stable dataset for your test enviroment. If you have ramdom sorting like in a news website, blackout `data-visual-test="blackout"` the area where the data is displayed.
+
+### Mobile Status Bars
+
+Mask mobile status bars to avoid flakiness. Argos offers a mask option for this purpose:
+
+Example with Argos' WebDriverIO integration:
+
+```JavaScript
+import { argosScreenshot } from "@argos-ci/webdriverio";
+import { browser } from "@wdio/globals";
+
+describe("Integration test with visual testing", () => {
+  it("covers homepage", async () => {
+    await browser.url("http://localhost:3000");
+    await argosScreenshot(browser, "homepage", {
+      mask: [{ x: 0, y: 0, width: 1170, height: 120 }],
+    });
+  });
+});
+```
+
+### Browser Quirks
+
+Here is a list a non exhaustive list of common browser glitches that our client encounter: **border-radius, caret, scroll, focus, hover, border-radius, aliasing, and rendering issues.** Argos provides built-in solutions for these, ensuring your screenshots are consistent across runs.
+
+### Layout Shift and Cropped Screenshots
+
+In some cases, flaky tests produce cropped screenshots due to Playwright (or other browser automation library) measuring the page size before the layout shift, and then taking the screenshot after the layout shift. The best way to fix this is find the root cause of the layout shift and fix it.
+
+### Taking Screenshots Locally
+
+Local environments can introduce variability in screenshots. Utilizing a CI/CD pipeline ensures a consistent testing environment, mitigating this source of flakiness.
+
+When taking screenshots locally, you may encounter flaky tests due to your local environment. We recommend using a CI/CD pipeline to ensure a consistent environment for your visual tests.
+
+## Argos helpers to stabilize screenshots
+
+In additions to the best practices, Argos provides a set of helpers to stabilize your screenshots.
+
+### Props to Hide Elements:
+
+- [data-visual-test="transparent"]: Renders the element transparent `visiblity: hidden`.
+- [data-visual-test="removed"]: Removes the element from view `display: none` (to avoid layout shift).
+- [data-visual-test="blackout"]: Masks the element with a blackout effect.
+- [data-visual-test-no-radius]: Renders the element without border-radius.
+- [aria-busy]: Waits for the element to be removed before taking the screenshot.
+
+### `argosScreenshot` options for Enhanced Stability:
+
+- `argosCSS`: Injects custom CSS before taking the screenshot and remove it after.
+- `mask`: Hides the mobile status bar before taking the screenshot.
+
+## Conclusion
+
+Flaky tests not only frustrate developers but also erode trust in your testing suite, potentially leading you to abandon visual testing altogether. By familiarizing yourself with the patterns of flakiness and employing Argos's powerful features, you can transform visual testing into a reliable part of your development process. For further questions or to share your experiences, feel free to reach out or join our [Discord community](https://argos-ci.com/discord).
