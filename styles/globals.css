@@ -19,7 +19,21 @@
   }
 
   .prose.prose {
-    --tw-prose-pre-bg: #0d1117;
+    --tw-prose-pre-bg: theme(backgroundColor.primary.ui);
+    pre:has(code) {
+      margin-top: -10px;
+    }
+
+    :not(pre) > code {
+      background-color: theme(backgroundColor.ui);
+      border-radius: 4px;
+      padding: 4px 6px;
+
+      &::before,
+      &::after {
+        content: "";
+      }
+    }
   }
 
   /* Hide number input arrows */
