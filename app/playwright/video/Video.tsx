@@ -5,7 +5,7 @@ export function Video() {
   return (
     <Container className="my-8">
       <H2 className="mb-4 text-center">
-        It's time to for a new Playwright experience.
+        It's time for a new Playwright experience.
       </H2>
       <p className="mb-6 text-center text-lg text-low">
         Explore how Argos streamlines your test debugging with a single click
