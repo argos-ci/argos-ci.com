@@ -12,6 +12,8 @@ module.exports = {
     "./articles/**/*.{js,ts,jsx,tsx}",
     "./markdown/**/*.{js,ts,jsx,tsx}",
     "./styles/**/*.css",
+    // OpenStatus Widget
+    "./node_modules/@openstatus/react/**/*.{js,ts,jsx,tsx}",
   ],
   darkMode: "class",
   theme: {

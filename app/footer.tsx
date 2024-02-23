@@ -1,11 +1,10 @@
-import { MonitorIcon, MoonIcon, SunIcon } from "lucide-react";
+import { StatusWidget } from "@openstatus/react";
 import NextLink from "next/link";
 import { twc } from "react-twc";
 
 import { ArgosLogo } from "@/components/ArgosLogo";
 import { ColorModeSelector } from "@/components/ColorModeSelector";
 import { Container } from "@/components/Container";
-import { Tooltip } from "@/components/Tooltip";
 import { DiscordIcon } from "@/components/icons/DiscordIcon";
 import { GitHubIcon } from "@/components/icons/GitHubIcon";
 import { XIcon } from "@/components/icons/XIcon";
@@ -32,7 +31,13 @@ export const AppFooter: React.FC = () => (
     <Container>
       <div className="grid grid-cols-2 gap-x-8 gap-y-2 sm:grid-cols-4 md:grid-cols-6">
         <FooterSection className="justify-between">
-          <ArgosLogo width="128" />
+          <div className="flex flex-col gap-3">
+            <ArgosLogo width="128" />
+            <div className="whitespace-normal text-xs text-low">
+              The Open Source visual testing alternative.
+            </div>
+            <StatusWidget slug="argos" />
+          </div>
           <div className="flex items-center gap-3">
             <FooterIconLink href="https://github.com/argos-ci/argos">
               <GitHubIcon className="size-5" />
