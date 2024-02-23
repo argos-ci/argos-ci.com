@@ -25,6 +25,13 @@ import { Simulator } from "./Simulator";
 const HOBBY_PLAN_SCREENSHOT_COUNT = 5000;
 const PRO_PLAN_SCREENSHOT_COUNT = 15000;
 const ADDITIONAL_SCREENSHOT_PRICE = 0.0025;
+const GITHUB_SSO_PRICE = 50;
+
+const dollarFormatter = new Intl.NumberFormat(undefined, {
+  style: "currency",
+  currency: "USD",
+  maximumSignificantDigits: 10,
+});
 
 const Price = ({
   amount,
@@ -41,7 +48,7 @@ const Price = ({
     </div>
     <div className="flex items-baseline">
       <span className="text-3xl font-semibold text">
-        $<span className="tracking-tight">{amount}</span>
+        <span className="tracking-tight">{dollarFormatter.format(amount)}</span>
       </span>
       {recurring && <span className="ml-1 text-lg text-low">/mo</span>}
     </div>
@@ -122,6 +129,14 @@ export const metadata: Metadata = getMetadata({
   pathname: "/pricing",
 });
 
+function Pricey(props: { children: React.ReactNode }) {
+  return (
+    <Tooltip content={props.children}>
+      <CircleDollarSignIcon className="ml-1 inline-block h-5 w-5 text" />
+    </Tooltip>
+  );
+}
+
 export default function Page() {
   return (
     <div className="flex flex-col">
@@ -171,11 +186,10 @@ export default function Page() {
                   {PRO_PLAN_SCREENSHOT_COUNT.toLocaleString()} screenshots{" "}
                   <span className="whitespace-nowrap">
                     included
-                    <Tooltip
-                      content={`Then $${ADDITIONAL_SCREENSHOT_PRICE} per screenshot after`}
-                    >
-                      <CircleDollarSignIcon className="ml-1 inline-block h-5 w-5 text" />
-                    </Tooltip>
+                    <Pricey>
+                      Then {dollarFormatter.format(ADDITIONAL_SCREENSHOT_PRICE)}{" "}
+                      per screenshot after
+                    </Pricey>
                   </span>
                 </Feature>
                 <Feature>Unlimited Playwright Traces</Feature>
@@ -183,6 +197,12 @@ export default function Page() {
                 <Feature>GitHub & GitLab integration</Feature>
                 <Feature>Pro Support</Feature>
                 <Feature>Collaborating visual review</Feature>
+                <Feature>
+                  GitHub Single Sign-On (SSO){" "}
+                  <Pricey>
+                    {dollarFormatter.format(GITHUB_SSO_PRICE)} per month
+                  </Pricey>
+                </Feature>
               </Features>
             </PricingCardBody>
           </PricingCard>
@@ -207,7 +227,8 @@ export default function Page() {
                 <Feature>GitHub & GitLab integration</Feature>
                 <Feature>Dedicated Support</Feature>
                 <Feature>Collaborating visual review</Feature>
-                <Feature>SAML Single-Sign-On (SSO)</Feature>
+                <Feature>GitHub Single Sign-On (SSO)</Feature>
+                <Feature>SAML Single Sign-On (SSO)</Feature>
                 <Feature>SLA for 99.99% Uptime</Feature>
               </Features>
             </PricingCardBody>
