@@ -2,6 +2,7 @@ import Image from "next/image";
 
 import cozy from "@/images/brands/cozy.svg";
 import doctolib from "@/images/brands/doctolib.svg";
+import gitbook from "@/images/brands/gitbook.svg";
 import handsontable from "@/images/brands/handsontable.svg";
 import interactiveThings from "@/images/brands/interactive-things.svg";
 import lemonde from "@/images/brands/lemonde.svg";
@@ -12,6 +13,8 @@ import planable from "@/images/brands/planable.svg";
 import rapidata from "@/images/brands/rapidata.svg";
 import rho from "@/images/brands/rho.svg";
 import sivo from "@/images/brands/sivo.svg";
+import swissRedCross from "@/images/brands/swiss-red-cross.svg";
+import yotpo from "@/images/brands/yotpo.svg";
 
 import { Container } from "./Container";
 
@@ -33,7 +36,7 @@ const Testimonials = ({ children }: { children: React.ReactNode }) => {
 
 export const BrandTestimonials = () => {
   return (
-    <Container className="mx-auto mt-8 grid w-full max-w-screen-lg grid-cols-2 items-center gap-4 px-5 md:grid-cols-6 md:px-0">
+    <Container className="mx-auto mt-8 grid w-full max-w-screen-lg grid-cols-2 items-center justify-center gap-4 px-5 md:flex md:flex-wrap md:px-0 md:[&>*]:max-w-40">
       <Image
         src={meta}
         priority
@@ -46,6 +49,20 @@ export const BrandTestimonials = () => {
         priority
         height={80}
         alt="MUI"
+        className="shrink-0 dark:brightness-0 dark:invert"
+      />
+      <Image
+        src={gitbook}
+        priority
+        height={80}
+        alt="GitBook"
+        className="shrink-0 dark:brightness-0 dark:invert"
+      />
+      <Image
+        src={yotpo}
+        priority
+        height={80}
+        alt="Yotpo"
         className="shrink-0 dark:brightness-0 dark:invert"
       />
       <Image
@@ -81,6 +98,13 @@ export const BrandTestimonials = () => {
         priority
         height={80}
         alt="Doctolib"
+        className="shrink-0 dark:brightness-0 dark:invert"
+      />
+      <Image
+        src={swissRedCross}
+        priority
+        height={80}
+        alt="Swiss Red Cross"
         className="shrink-0 dark:brightness-0 dark:invert"
       />
       <Image
