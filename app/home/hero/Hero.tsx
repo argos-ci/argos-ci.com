@@ -89,7 +89,10 @@ export function Hero() {
                 </div>
                 <AppSvg />
               </a>
-              <AutomaticCheck className="-ml-5 mt-5" />
+              <AutomaticCheck
+                className="-ml-5 mt-5"
+                data-visual-test="blackout"
+              />
             </div>
             <BgGradient />
           </div>
