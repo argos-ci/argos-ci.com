@@ -20,6 +20,8 @@ type Props = {
   params: { slug: string[] };
 };
 
+export const dynamic = "force-static";
+
 export async function generateStaticParams() {
   const articles = await getArticles();
   return articles
