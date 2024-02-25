@@ -1,11 +1,4 @@
-import {
-  BugPlayIcon,
-  CircleDotIcon,
-  ImageOffIcon,
-  ScanSearchIcon,
-  SparkleIcon,
-  Wand2Icon,
-} from "lucide-react";
+import { CircleDotIcon, ScanSearchIcon, Wand2Icon } from "lucide-react";
 import Image from "next/image";
 
 import { Feature, FeatureDetail, MoreLink } from "../common/Feature";
