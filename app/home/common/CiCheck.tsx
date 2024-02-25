@@ -110,7 +110,7 @@ export function CiCheck({
       className={clsx("flex items-center gap-10", className)}
       data-visual-test="blackout"
     >
-      <Check status={status} />
+      <Check status={status} data-visual-test="blackout" />
       <div className="relative flex flex-col gap-2">
         <GitHubMark />
         <GitLabMark />
