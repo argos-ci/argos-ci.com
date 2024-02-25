@@ -1,10 +1,12 @@
-import { StatusWidget } from "@openstatus/react";
+import dynamic from "next/dynamic";
 import NextLink from "next/link";
+import { Suspense } from "react";
 import { twc } from "react-twc";
 
 import { ArgosLogo } from "@/components/ArgosLogo";
 import { ColorModeSelector } from "@/components/ColorModeSelector";
 import { Container } from "@/components/Container";
+import { StatusWidget } from "@/components/StatusWidget";
 import { DiscordIcon } from "@/components/icons/DiscordIcon";
 import { GitHubIcon } from "@/components/icons/GitHubIcon";
 import { XIcon } from "@/components/icons/XIcon";
@@ -36,7 +38,15 @@ export const AppFooter: React.FC = () => (
             <div className="whitespace-normal text-xs text-low">
               The Open Source visual testing alternative.
             </div>
-            <StatusWidget slug="argos" />
+            <Suspense
+              fallback={
+                <div aria-busy className="text-sm text-low">
+                  Loading...
+                </div>
+              }
+            >
+              <StatusWidget />
+            </Suspense>
           </div>
           <div className="flex items-center gap-3">
             <FooterIconLink href="https://github.com/argos-ci/argos">
@@ -57,7 +67,7 @@ export const AppFooter: React.FC = () => (
           <FooterSectionTitle>Product</FooterSectionTitle>
           <FooterLink href="/docs/getting-started">Getting started</FooterLink>
           <FooterLink href="/docs/why-argos">Why Argos?</FooterLink>
-          <FooterLink href="/playwright">Playright + Argos</FooterLink>
+          <FooterLink href="/playwright">Playwright + Argos</FooterLink>
           <FooterLink href="/pricing">Pricing</FooterLink>
           <FooterLink href="https://github.com/orgs/argos-ci/projects/1">
             Roadmap

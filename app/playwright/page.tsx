@@ -9,8 +9,6 @@ import { TestDebugging } from "./test-debugging/TestDebugging";
 import { Video } from "./video/Video";
 import { VisualTesting } from "./visual-testing/VisualTesting";
 
-export const dynamic = "force-static";
-
 export const metadata: Metadata = getMetadata({
   absoluteTitle: "Supercharge your Playwright Tests with Argos",
   description:

@@ -5,8 +5,6 @@ import { getMetadata } from "@/lib/metadata";
 
 import TermsMd from "./terms.mdx";
 
-export const dynamic = "force-static";
-
 export const metadata: Metadata = getMetadata({
   title: "Terms of service",
   description:

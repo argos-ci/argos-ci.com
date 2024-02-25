@@ -23,8 +23,6 @@ import { getMetadata } from "@/lib/metadata";
 
 import { Simulator } from "./Simulator";
 
-export const dynamic = "force-static";
-
 const HOBBY_PLAN_SCREENSHOT_COUNT = 5000;
 const PRO_PLAN_SCREENSHOT_COUNT = 15000;
 const ADDITIONAL_SCREENSHOT_PRICE = 0.0025;

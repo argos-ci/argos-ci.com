@@ -2,8 +2,6 @@ import Link from "next/link";
 
 import { Button } from "@/components/Button";
 
-export const dynamic = "force-static";
-
 export default function NotFound() {
   return (
     <>
