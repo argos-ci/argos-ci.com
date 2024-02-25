@@ -1,10 +1,10 @@
-import { Metadata, ResolvingMetadata } from "next";
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import * as React from "react";
 
 import { getChangelogEntryBySlug, getChangelogs } from "@/lib/changelog-api";
 
-import Changelogs from "../changelogs";
+import { Changelogs } from "../changelogs";
 
 type Props = {
   params: { slug: string[] };
@@ -58,10 +58,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
   };
 }
-
-const dateFormatter = new Intl.DateTimeFormat("en-US", {
-  dateStyle: "long",
-});
 
 export default async function Page({ params }: Props) {
   const changelog = await getChangelogFromParams(params);

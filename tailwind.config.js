@@ -10,6 +10,7 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
     "./containers/**/*.{js,ts,jsx,tsx}",
     "./articles/**/*.{js,ts,jsx,tsx}",
+    "./changelogs/**/*.{js,ts,jsx,tsx}",
     "./markdown/**/*.{js,ts,jsx,tsx}",
     "./styles/**/*.css",
     // OpenStatus Widget

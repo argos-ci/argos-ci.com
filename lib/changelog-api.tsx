@@ -61,12 +61,12 @@ async function getChangelogFromPath(
     .replace(/^.\/changelogs\//, "")
     .replace(/\/index.mdx$/, "");
 
-  const DD_MM_YYYY = frontmatter.date.toISOString().split("T")[0];
+  const YYYY_MM_DD = frontmatter.date.toISOString().split("T")[0];
   return {
     filepath,
     title: frontmatter.title,
     description: frontmatter.description,
-    slug: `${DD_MM_YYYY}-${slug}`,
+    slug: `${YYYY_MM_DD}-${slug}`,
     date: frontmatter.date.toISOString(),
     source: await getDocMdxSource(filepath),
   };
