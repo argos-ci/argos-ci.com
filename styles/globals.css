@@ -18,8 +18,8 @@
     contain: paint;
   }
 
-  .prose.prose {
-    --tw-prose-pre-bg: #0d1117;
+  .prose.prose.prose {
+    --tw-prose-pre-bg: #0d1116;
   }
 
   /* Hide number input arrows */

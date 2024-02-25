@@ -43,14 +43,15 @@ export async function getDocMdxSource(filepath: string) {
   const result = await compileMDX({
     source,
     components: {
-      img: ({ src, height, width, alt, ...rest }) => {
+      img: ({ src, height, width, alt }) => {
         return (
           <Image
-            className="rounded-lg"
+            className="rounded-md"
             src={src as string}
             height={height as number}
             width={width as number}
             alt={alt as string}
+            sizes="(max-width: 576px) 100vw, 576px"
           />
         );
       },

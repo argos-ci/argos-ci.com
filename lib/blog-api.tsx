@@ -1,10 +1,11 @@
 import fg from "fast-glob";
 import * as matter from "gray-matter";
 import { compileMDX } from "next-mdx-remote/rsc";
-import { StaticImageData } from "next/image";
+import Image, { ImageProps, StaticImageData } from "next/image";
 import { readFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import rehypeHighlight from "rehype-highlight";
+import rehypeImgSize from "rehype-img-size";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkGfm from "remark-gfm";
 import { z } from "zod";
@@ -107,6 +108,22 @@ export async function getDocMdxSource(article: Article) {
   const result = await compileMDX({
     source,
     components: {
+      img: ({ src, height, width, alt }) => {
+        return (
+          <Image
+            className="rounded-md"
+            src={src as string}
+            height={height as number}
+            width={width as number}
+            alt={alt as string}
+            sizes="(max-width: 900px) 100vw, 832px"
+          />
+        );
+      },
+      Image: (props: ImageProps) => {
+        // eslint-disable-next-line jsx-a11y/alt-text
+        return <Image {...props} />;
+      },
       MainImage: ({ credit }: { credit: React.ReactNode }) => {
         return (
           <MainImage
@@ -121,7 +138,8 @@ export async function getDocMdxSource(article: Article) {
     },
     options: {
       mdxOptions: {
-        rehypePlugins: [rehypeHighlight],
+        // @ts-ignore
+        rehypePlugins: [rehypeHighlight, [rehypeImgSize, { dir: "public" }]],
         remarkPlugins: [remarkGfm, remarkFrontmatter],
       },
     },

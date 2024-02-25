@@ -26,10 +26,12 @@ Flaky screenshots are usually a sign of underlying instability in the app's UI. 
 
 Network latency can cause flaky screenshots if assets (**font**, **images**, ...) are not fully loaded before the screenshot is taken.
 
-<img
-  src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5gm3x4uaymqhm3qunbm8.jpg"
-  width={600}
-  alt="font-not-loaded"
+<Image
+  src="/assets/articles/screenshot-stabilization/font-not-loaded.jpg"
+  width={416}
+  height={117}
+  alt="Flaky visual test caused by font not loaded"
+  className="rounded-md"
 />
 
 To stabilize screenshots, you must ensure your resources are fully loaded before capturing screenshots. For example, the `argosScreenshot` command waits for resources to load before taking a screenshot.
@@ -38,10 +40,12 @@ To stabilize screenshots, you must ensure your resources are fully loaded before
 
 Lazy loading can cause flaky screenshots if the screenshot is taken before the elements are fully loaded.
 
-<img
-  src="https://dev-to-uploads.s3.amazonaws.com/uploads/articles/4nginqza6q17jvrqs16r.png"
+<Image
+  src="/assets/articles/screenshot-stabilization/loader.png"
   width={600}
-  alt="loader"
+  height={258}
+  alt="Flaky visual test caused by a loader"
+  className="rounded-md"
 />
 
 To stabilize screenshots, use a loading indicator and wait for its removal before proceeding. [Aligning with ARIA specification](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-busy), I recommend using the `[aria-busy]` attribute on your loader component. At Argos, the `argosScreenshot` command delays the screenshot capture until all components with the `[aria-busy]` attribute are removed.
