@@ -11,7 +11,7 @@ export default async function sitemap({
 }): Promise<MetadataRoute.Sitemap> {
   const changelogs = await getChangelogs();
   return changelogs.map((changelog) => ({
-    url: `${BASE_URL}/changelogs/${changelog.slug}`,
+    url: `${BASE_URL}/changelog/${changelog.slug}`,
     lastModified: changelog.date,
   }));
 }

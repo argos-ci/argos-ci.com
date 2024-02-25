@@ -58,7 +58,7 @@ async function getChangelogFromPath(
     return null;
   }
   const slug = filepath
-    .replace(/^.\/changelogs\//, "")
+    .replace(/^.\/changelog-entries\//, "")
     .replace(/\/index.mdx$/, "");
 
   const DD_MM_YYYY = frontmatter.date.toISOString().split("T")[0];
@@ -81,7 +81,7 @@ function validateAllChangelogs(
 }
 
 export async function getChangelogs(): Promise<ChangelogEntry[]> {
-  const files = await fg("./changelogs/**/*.mdx");
+  const files = await fg("./changelog-entries/**/*.mdx");
   const changelogs = await Promise.all(files.map(getChangelogFromPath));
   validateAllChangelogs(changelogs);
   return changelogs.sort(
@@ -93,6 +93,6 @@ export async function getChangelogEntryBySlug(
   slug: string,
 ): Promise<ChangelogEntry | null> {
   const slugWithoutDate = slug.split("-").slice(3).join("-");
-  const filepath = `./changelogs/${slugWithoutDate}/index.mdx`;
+  const filepath = `./changelog-entries/${slugWithoutDate}/index.mdx`;
   return getChangelogFromPath(filepath);
 }

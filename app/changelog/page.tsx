@@ -1,11 +1,9 @@
 import { Metadata } from "next";
 
-import { Container } from "@/components/Container";
-import { Link } from "@/components/Link";
 import { getChangelogs } from "@/lib/changelog-api";
 import { getMetadata } from "@/lib/metadata";
 
-import Changelogs from "./changelogs";
+import { Changelogs } from "./changelogs";
 
 export const metadata: Metadata = getMetadata({
   title: "Changelog",
