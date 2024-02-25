@@ -3,8 +3,6 @@
 import clsx from "clsx";
 import * as React from "react";
 
-import { Button } from "@/components/Button";
-
 import { CiCheck } from "../common/CiCheck";
 import { ChangesSvg } from "./ChangesSvg";
 
@@ -26,7 +24,7 @@ export function ReviewChanges({ className }: { className?: string }) {
     };
   }, []);
   return (
-    <div className={clsx("relative", className)}>
+    <div className={clsx("relative", className)} data-visual-test="removed">
       <div className="relative">
         <ChangesSvg className="mx-auto rounded border md:w-[50%]" />
       </div>

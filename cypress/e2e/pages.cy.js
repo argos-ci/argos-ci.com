@@ -8,6 +8,7 @@ const pages = [
   { name: "blog-post-1", path: "/blog/visual-testing" },
   { name: "blog-post-2", path: "/blog/improve-dx" },
   { name: "blog-post-3", path: "/blog/playwright" },
+  { name: "blog-post-4", path: "/blog/screenshot-stabilization" },
 ];
 
 const viewports = ["macbook-16", "ipad-2", "iphone-8"];
