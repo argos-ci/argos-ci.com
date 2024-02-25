@@ -3,6 +3,7 @@ import {
   ArrowRightIcon,
   CheckCircleIcon,
   CircleDollarSignIcon,
+  CircleIcon,
 } from "lucide-react";
 import { Metadata } from "next";
 import * as React from "react";
@@ -64,12 +65,30 @@ const Features = ({ children }: { children: React.ReactNode }) => (
   <ul className="my-6 flex flex-col gap-4">{children}</ul>
 );
 
-const Feature = ({ children }: { children: React.ReactNode }) => (
+const Feature = ({
+  children,
+  optional,
+}: {
+  children: React.ReactNode;
+  optional?: boolean;
+}) => (
   <li className="flex gap-2">
-    <CheckCircleIcon className="h-5 w-5 shrink-0 text-violet-11" />
+    {optional ? (
+      <CircleIcon className="h-5 w-5 shrink-0 text-violet-11" />
+    ) : (
+      <CheckCircleIcon className="h-5 w-5 shrink-0 text-violet-11" />
+    )}
     <div className="leading-tight">{children}</div>
   </li>
 );
+
+function Pricey(props: { children: React.ReactNode }) {
+  return (
+    <Tooltip content={props.children}>
+      <CircleDollarSignIcon className="-mt-[2px] ml-1 inline-block h-5 w-5 text" />
+    </Tooltip>
+  );
+}
 
 const PricingCard = ({
   children,
@@ -131,14 +150,6 @@ export const metadata: Metadata = getMetadata({
   pathname: "/pricing",
 });
 
-function Pricey(props: { children: React.ReactNode }) {
-  return (
-    <Tooltip content={props.children}>
-      <CircleDollarSignIcon className="ml-1 inline-block h-5 w-5 text" />
-    </Tooltip>
-  );
-}
-
 export default function Page() {
   return (
     <div className="flex flex-col">
@@ -199,8 +210,8 @@ export default function Page() {
                 <Feature>GitHub & GitLab integration</Feature>
                 <Feature>Pro Support</Feature>
                 <Feature>Collaborating visual review</Feature>
-                <Feature>
-                  GitHub Single Sign-On (SSO){" "}
+                <Feature optional>
+                  GitHub Single Sign-On (SSO)
                   <Pricey>
                     {dollarFormatter.format(GITHUB_SSO_PRICE)} per month
                   </Pricey>
