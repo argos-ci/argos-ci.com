@@ -3,6 +3,7 @@ import {
   ArrowRightIcon,
   CheckCircleIcon,
   CircleDollarSignIcon,
+  CircleIcon,
 } from "lucide-react";
 import { Metadata } from "next";
 import * as React from "react";
@@ -61,6 +62,21 @@ const Feature = ({ children }: { children: React.ReactNode }) => (
     <div className="leading-tight">{children}</div>
   </li>
 );
+
+const OptionalFeature = ({
+  price,
+  children,
+}: {
+  price?: number;
+  children: React.ReactNode;
+}) => {
+  return (
+    <li className="flex gap-2">
+      <CircleIcon className="h-5 w-5 shrink-0 text-violet-11" />
+      <div className="leading-tight">{children}</div>
+    </li>
+  );
+};
 
 const PricingCard = ({
   children,
@@ -183,6 +199,9 @@ export default function Page() {
                 <Feature>GitHub & GitLab integration</Feature>
                 <Feature>Pro Support</Feature>
                 <Feature>Collaborating visual review</Feature>
+                <OptionalFeature price={50}>
+                  Github Single Sign-On (SSO)
+                </OptionalFeature>
               </Features>
             </PricingCardBody>
           </PricingCard>
