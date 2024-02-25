@@ -1,7 +1,7 @@
 import { Metadata } from "next";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import * as React from "react";
 
+import { RedirectIfCookie } from "@/components/RedirectIfCookie";
 import { getMetadata } from "@/lib/metadata";
 
 import { Customers } from "./home/Customers";
@@ -16,8 +16,6 @@ import { Users } from "./home/users/Users";
 import { VisualTesting } from "./home/visual-testing/VisualTesting";
 import { Why } from "./home/why/Why";
 
-export const dynamic = "force-static";
-
 export const metadata: Metadata = getMetadata({
   absoluteTitle: "Argos — Visual Testing for developers",
   description:
@@ -26,13 +24,9 @@ export const metadata: Metadata = getMetadata({
 });
 
 export default function Page() {
-  const cookieStore = cookies();
-  const jwtCookie = cookieStore.get("argos_jwt");
-  if (jwtCookie) {
-    return redirect("https://app.argos-ci.com");
-  }
   return (
     <div style={{ textWrap: "balance" } as any}>
+      <RedirectIfCookie />
       <Hero />
       <Customers />
       <DemoVideo />

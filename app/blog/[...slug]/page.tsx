@@ -1,4 +1,4 @@
-import { Metadata, ResolvingMetadata } from "next";
+import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import * as React from "react";
@@ -19,8 +19,6 @@ import { getArticleBySlug, getArticles, getDocMdxSource } from "@/lib/blog-api";
 type Props = {
   params: { slug: string[] };
 };
-
-export const dynamic = "force-static";
 
 export async function generateStaticParams() {
   const articles = await getArticles();
