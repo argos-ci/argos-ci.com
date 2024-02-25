@@ -1,4 +1,4 @@
-import { BugPlayIcon, ChevronRightIcon, ImageOffIcon } from "lucide-react";
+import { BugPlayIcon, ImageOffIcon } from "lucide-react";
 import Image from "next/image";
 
 import { Link } from "@/components/Link";

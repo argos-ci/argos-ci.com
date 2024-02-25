@@ -5,6 +5,8 @@ import { getMetadata } from "@/lib/metadata";
 
 import { Changelogs } from "./changelogs";
 
+export const dynamic = "force-static";
+
 export const metadata: Metadata = getMetadata({
   title: "Changelog",
   description: "New updates and improvements to Argos.",

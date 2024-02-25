@@ -5,6 +5,8 @@ import { getMetadata } from "@/lib/metadata";
 
 import PrivacyMd from "./privacy.mdx";
 
+export const dynamic = "force-static";
+
 export const metadata: Metadata = getMetadata({
   title: "Privacy policy",
   description:

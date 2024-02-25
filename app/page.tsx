@@ -16,6 +16,8 @@ import { Users } from "./home/users/Users";
 import { VisualTesting } from "./home/visual-testing/VisualTesting";
 import { Why } from "./home/why/Why";
 
+export const dynamic = "force-static";
+
 export const metadata: Metadata = getMetadata({
   absoluteTitle: "Argos — Visual Testing for developers",
   description:

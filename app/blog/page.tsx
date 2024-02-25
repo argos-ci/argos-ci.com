@@ -16,6 +16,8 @@ import {
 import { getArticles } from "@/lib/blog-api";
 import { getMetadata } from "@/lib/metadata";
 
+export const dynamic = "force-static";
+
 export const metadata: Metadata = getMetadata({
   title: "Updates from the Argos team",
   description: "All the latest Argos news, straight from the team.",
