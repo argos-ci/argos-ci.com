@@ -8,7 +8,7 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
   dateStyle: "long",
 });
 
-export default function Changelogs(props: {
+export function Changelogs(props: {
   changelogs: ChangelogEntry[];
   single?: boolean;
 }) {
