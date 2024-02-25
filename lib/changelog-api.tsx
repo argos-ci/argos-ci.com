@@ -1,9 +1,11 @@
 import fg from "fast-glob";
 import * as matter from "gray-matter";
 import { compileMDX } from "next-mdx-remote/rsc";
+import Image from "next/image";
 import { readFile } from "node:fs/promises";
 import * as React from "react";
 import rehypeHighlight from "rehype-highlight";
+import rehypeImgSize from "rehype-img-size";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkGfm from "remark-gfm";
 import { z } from "zod";
@@ -40,9 +42,23 @@ export async function getDocMdxSource(filepath: string) {
   const source = await readFile(filepath, "utf-8");
   const result = await compileMDX({
     source,
+    components: {
+      img: ({ src, height, width, alt, ...rest }) => {
+        return (
+          <Image
+            className="rounded-lg"
+            src={src as string}
+            height={height as number}
+            width={width as number}
+            alt={alt as string}
+          />
+        );
+      },
+    },
     options: {
       mdxOptions: {
-        rehypePlugins: [rehypeHighlight],
+        // @ts-ignore
+        rehypePlugins: [rehypeHighlight, [rehypeImgSize, { dir: "public" }]],
         remarkPlugins: [remarkGfm, remarkFrontmatter],
       },
     },
