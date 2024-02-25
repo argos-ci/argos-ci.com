@@ -22,6 +22,10 @@
     --tw-prose-pre-bg: #0d1116;
   }
 
+  .dark .prose.prose pre {
+    @apply border;
+  }
+
   /* Hide number input arrows */
 
   input::-webkit-outer-spin-button,
