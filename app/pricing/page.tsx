@@ -22,11 +22,13 @@ import { Tooltip } from "@/components/Tooltip";
 import { getMetadata } from "@/lib/metadata";
 
 import { Simulator } from "./Simulator";
-
-const HOBBY_PLAN_SCREENSHOT_COUNT = 5000;
-const PRO_PLAN_SCREENSHOT_COUNT = 15000;
-const ADDITIONAL_SCREENSHOT_PRICE = 0.0025;
-const GITHUB_SSO_PRICE = 50;
+import {
+  ADDITIONAL_SCREENSHOT_PRICE,
+  GITHUB_SSO_PRICE,
+  HOBBY_PLAN_SCREENSHOT_COUNT,
+  PRO_PLAN_BASE_PRICE,
+  PRO_PLAN_SCREENSHOT_COUNT,
+} from "./constants";
 
 const dollarFormatter = new Intl.NumberFormat(undefined, {
   style: "currency",
@@ -188,7 +190,11 @@ export default function Page() {
               <Description>
                 Unlimited screenshots and team collaboration.
               </Description>
-              <Price amount={30} recurring={true} fixedPrice={false} />
+              <Price
+                amount={PRO_PLAN_BASE_PRICE}
+                recurring={true}
+                fixedPrice={false}
+              />
               <CTA href="https://app.argos-ci.com/signup?plan=pro">
                 Start Free Trial
               </CTA>

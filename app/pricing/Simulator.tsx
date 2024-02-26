@@ -5,9 +5,11 @@ import * as React from "react";
 
 import { EditInline } from "@/components/EditInline";
 
-const PRO_PLAN_SCREENSHOT_COUNT = 15000;
-const PRO_PLAN_BASE_PRICE = 30;
-const ADDITIONAL_SCREENSHOT_PRICE = 0.0025;
+import {
+  ADDITIONAL_SCREENSHOT_PRICE,
+  PRO_PLAN_BASE_PRICE,
+  PRO_PLAN_SCREENSHOT_COUNT,
+} from "./constants";
 
 const strToNum = (str: string) => (str === "" ? 0 : parseInt(str, 10));
 
