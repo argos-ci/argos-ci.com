@@ -240,6 +240,7 @@ export default function Page() {
                 <Feature>Collaborating visual review</Feature>
                 <Feature>GitHub Single Sign-On (SSO)</Feature>
                 <Feature>SAML Single Sign-On (SSO)</Feature>
+                <Feature>Fine-grained control access</Feature>
                 <Feature>SLA for 99.99% Uptime</Feature>
               </Features>
             </PricingCardBody>
