@@ -10,13 +10,13 @@ const pages = [
   { name: "blog-post-3", path: "/blog/playwright" },
 ];
 
-const viewports = ["macbook-16", "ipad-2", "iphone-8"];
-
 describe("Screenshot pages", () => {
   for (const { name, path } of pages) {
     it(`Screenshots for ${name}`, () => {
       cy.visit(path);
-      cy.argosScreenshot(name, { viewports });
+      cy.argosScreenshot(name, {
+        viewports: ["macbook-16", "ipad-2", "iphone-8"],
+      });
     });
   }
 });
