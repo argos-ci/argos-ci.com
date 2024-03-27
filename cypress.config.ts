@@ -1,5 +1,5 @@
-const { defineConfig } = require("cypress");
-const { registerArgosTask } = require("@argos-ci/cypress/task");
+import { registerArgosTask } from "@argos-ci/cypress/task";
+import { defineConfig } from "cypress";
 
 module.exports = defineConfig({
   e2e: {
