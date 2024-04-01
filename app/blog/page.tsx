@@ -54,7 +54,7 @@ export default async function Page() {
               {firstArticle.category && (
                 <PostCardTag>{firstArticle.category}</PostCardTag>
               )}
-              <PostCardTitle extended>{firstArticle.title}</PostCardTitle>
+              <PostCardTitle $extended>{firstArticle.title}</PostCardTitle>
               <PostCardDescription>
                 {firstArticle.description}
               </PostCardDescription>

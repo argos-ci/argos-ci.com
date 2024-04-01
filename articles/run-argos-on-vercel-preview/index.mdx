@@ -1,0 +1,158 @@
+---
+title: "How to Integrate Argos for Visual Testing with Vercel Preview: A Comprehensive Guide"
+description: "Learn how to set up Argos visual testing integration on Vercel Preview deployments using GitHub Actions, enhancing your CI/CD pipeline for better visual regression detection."
+category: Developer Experience
+slug: run-argos-on-vercel-preview
+author: Greg Bergé
+date: 2024-04-01
+image: ./main.jpg
+imageAlt: Vercel covered with Argos
+---
+
+Argos now offers a smooth integration with Vercel Preview for visual testing, enabling users to effectively identify visual regressions in an environment that closely simulates production. This guide provides a detailed walkthrough on configuring Argos on Vercel Preview through GitHub Actions, including shared source code for straightforward replication.
+
+<MainImage />
+
+## The Benefits of Visual Testing with Vercel Preview
+
+-**Cost Efficiency in CI**: Eliminate the need for duplicate application builds, saving time and resources.
+
+- **Enhanced Test Reliability**: Run visual tests in an environment that mirrors production, ensuring consistency and accuracy.
+
+**Important Note:** This strategy is most effective for idempotent tests that can be executed repeatedly without altering the environment. Tests involving significant modifications, like user deletions, might not be compatible.
+
+## Prerequisites
+
+1. Setup [Playright](https://playwright.dev/) on your project. For a Next.js application, follow [this guide](https://nextjs.org/docs/pages/building-your-application/testing/playwright).
+2. Deploy your project on [Vercel](https://vercel.com/).
+
+## Setup Argos in my project
+
+### 1. Import your project in Argos
+
+[Sign up to Argos](https://app.argos-ci.com/signup) and import your project. Save the `ARGOS_TOKEN` for later.
+
+![Argos Token displayed after importing a project](/assets/articles/run-argos-on-vercel-preview/argos-token.png)
+
+### 2. Install Argos Playwright SDK
+
+```sh
+npm install --save-dev @argos-ci/playwright
+```
+
+### 3. Update your Playwright config
+
+Argos integrates with Playwright using a custom reporter. To upload your screenshots to Argos when Playwright tests run, add `@argos-ci/playwright/reporter` in your `playwright.config.ts` file:
+
+```ts
+import { defineConfig } from "@playwright/test";
+
+export default defineConfig({
+  // ... other configuration
+
+  reporter: [
+    // Use "dot" reporter on CI, "list" otherwise (Playwright default).
+    process.env.CI ? ["dot"] : ["list"],
+    // Add Argos reporter.
+    [
+      "@argos-ci/playwright/reporter",
+      {
+        // Upload to Argos on CI only.
+        uploadToArgos: !!process.env.CI,
+
+        // Set your Argos token.
+        token: "<YOUR-ARGOS-TOKEN>",
+      },
+    ],
+  ],
+
+  use: {
+    // On CI, we will set `BASE_URL` from Vercel preview URL
+    baseURL: process.env.CI ? process.env.BASE_URL : "http://localhost:3000",
+  },
+
+  extraHTTPHeaders: {
+    // Hide Vercel Toolbar in tests
+    "x-vercel-skip-toolbar": "0",
+  },
+});
+```
+
+### 4. Take screenshots of your app
+
+The [Screenshot pages script](https://argos-ci.com/docs/screenshot-pages-script) from Argos's documentation was utilized for capturing the application's homepage, offering flexibility to include additional pages in the future.
+
+```ts
+import { argosScreenshot } from "@argos-ci/playwright";
+import { test } from "@playwright/test";
+
+const pages = [
+  { name: "homepage", path: "/" },
+  // Add other pages if needed
+];
+
+for (const { name, path } of pages) {
+  test(`run Argos on ${name} (${path})`, async ({ page }) => {
+    await page.goto(path);
+    await argosScreenshot(page, name);
+  });
+}
+```
+
+## Run Argos on Vercel Preview
+
+To initiate tests on Vercel Preview, the workflow will respond to the `deployment_status` event, triggering the test workflow upon a Vercel deployment notification.
+
+**Note:** Alternative approaches, such as the [Await for Vercel Deployment](https://github.com/marketplace/actions/await-for-vercel-deployment) action, can be utilized to retrieve the Vercel deployment URL for testing purposes.
+
+Below is an example of a workflow file designed to execute tests on a Vercel deployment:
+
+```yml
+# .github/workflows/test-preview.yml
+name: Playwright + Argos Tests
+on:
+  # Trigger on deployment event
+  deployment_status:
+jobs:
+  test:
+    # Run tests only if the deployment is successful
+    if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Playwright tests
+        uses: docker://mcr.microsoft.com/playwright:v1.42.1-jammy
+        run: npm exec -- playwright test
+        env:
+          # Set the GITHUB_TOKEN, Argos will use it to retrieve
+          # informations about your deployment
+          # Read more about GITHUB_TOKEN here: https://docs.github.com/en/actions/security-guides/automatic-token-authentication
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Set `BASE_URL` with Vercel Preview URL
+          BASE_URL: ${{ github.event.deployment_status.environment_url }}
+          # If the test runs on the production deployment, use "main" as branch
+          # Here's "main" must be the reference branch set up in Argos
+          ARGOS_BRANCH: ${{ github.event.deployment_status.environment == 'Production' && 'main' || '' }}
+```
+
+For a comprehensive explanation of each step involved, refer to the [Argos Preview Deployment Guide](https://argos-ci.com/docs/run-on-preview-deployment).
+
+Upon completion, you will receive status checks on GitHub:
+
+![GitHub pull request check statuses](/assets/articles/run-argos-on-vercel-preview/argos-checks.png)
+
+## Project Source Code
+
+Explore the GitHub repository for the source code of this integration:
+
+- [GitHub Repository](https://github.com/jsfez/argos-vercel-preview)
+- [Example of pull request that runs tests against preview](https://github.com/jsfez/argos-run-argos-on-vercel-preview/pull/2)
+
+## Conclusion
+
+Vercel Preview and Argos form a powerful duo in web development. Vercel Preview allows hands-on, manual verification of your web applications in real environments. Argos leverage automated visual regression testing, catching any discrepancies across devices and browsers. This combination, they make a great team, giving developers the peace of mind that their sites are both functionally robust and beautifully across all screens.
