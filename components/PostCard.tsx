@@ -52,14 +52,14 @@ export const PostCardTag: React.FC<{ children: React.ReactNode }> = (props) => (
 );
 
 type PostCardTitleProps = TwcComponentProps<"h2"> & {
-  extended?: boolean;
-  classname?: string;
+  $extended?: boolean;
+  $classname?: string;
 };
 
 export const PostCardTitle = twc.h2<PostCardTitleProps>((props) => [
   "mb-2 font-accent",
-  props.extended ? "text-4xl" : "text-2xl",
-  props.classname,
+  props.$extended ? "text-4xl" : "text-2xl",
+  props.$classname,
 ]);
 
 export const PostCardDescription = (props: ComponentProps<"div">) => (

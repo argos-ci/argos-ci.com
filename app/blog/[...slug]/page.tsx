@@ -106,7 +106,7 @@ async function Siblings({ slug }: { slug: string }) {
                     </PostCardTag>
                   )}
                   <PostCardTitle
-                    classname="line-clamp-2"
+                    $classname="line-clamp-2"
                     data-visual-test="blackout"
                   >
                     {article.title}
