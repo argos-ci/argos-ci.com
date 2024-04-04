@@ -5,7 +5,6 @@ import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 
 import { TooltipProvider } from "@/components/Tooltip";
-import { getMetadata } from "@/lib/metadata";
 import "@/styles/globals.css";
 import "@/styles/highlight-js-github-dark.min.css";
 
