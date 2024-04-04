@@ -4,8 +4,8 @@ import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 import { H2 } from "@/components/H2";
 
-import integrationsDark from "./integrations-dark.png";
-import integrationsLight from "./integrations-light.png";
+import integrationsDark from "./integrations-dark.svg";
+import integrationsLight from "./integrations-light.svg";
 
 export function Integrations() {
   return (
