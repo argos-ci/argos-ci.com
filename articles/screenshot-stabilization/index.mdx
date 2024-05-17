@@ -52,7 +52,7 @@ To stabilize screenshots, use a loading indicator and wait for its removal befor
 
 Example of a loader component:
 
-```JavaScript
+```html
 <div id="loader" aria-busy />
 ```
 
@@ -60,7 +60,7 @@ Example of a loader component:
 
 By nature, dynamic elements like **dates or time** introduce variability in screenshots. The easiest solution is to hide these elements by injecting CSS before taking a screenshot. With Argos, you can use the `data-visual-test` attribute to hide these elements from the screenshot.
 
-```JavaScript
+```html
 <div id="clock" data-visual-test="transparent">...</div>
 ```
 
@@ -68,7 +68,7 @@ For dates, another solution is to use a fixed date for your test environment. Yo
 
 ## Animation
 
-Capturing a screenshot during an animation will lead to flaky screenshots. They must be either completed or paused before taking a screenshot. With Argos, CSS animations are automatically paused, but JavaScript animations require manual intervention or hiding with `data-visual-test`.
+Capturing a screenshot during an animation will lead to flaky screenshots. They must be either completed or paused before taking a screenshot. With Argos, CSS animations are automatically paused, but tsx animations require manual intervention or hiding with `data-visual-test`.
 
 **Note**: If an animation causes layout shifts, it's recommended to remove it from the DOM with `data-visual-test="removed"` instead of merely hiding it with `data-visual-test="transparent"`.
 
@@ -79,7 +79,7 @@ External scripts and iframes (e.g. Intercom snippet) introduce flakiness due to 
 1. Avoid loading external scripts in your test environment.
 2. Inject CSS to hide their UI impacts.
 
-```JavaScript
+```ts
 await argosScreenshot(page, "homepage", {
   argosCSS: `
     .__argos__ iframe {
@@ -95,7 +95,7 @@ await argosScreenshot(page, "homepage", {
 
 The two main causes of data inconsistency are **randomized data seed** and **missing sorting order**. Usually, it's easy to fix by using a fixed dataset for your test environment. But if not, you can use the `data-visual-test` attribute to hide the area where the data is displayed but still keep the layout consistent in the screenshot.
 
-```JavaScript
+```html
 <article>
   <div class="title" data-visual-test="blackout">Breaking news: XXX</div>
   <div class="content" data-visual-test="blackout">...</div>
@@ -108,7 +108,7 @@ Mobile status bars introduce flakiness in screenshots due to their dynamic natur
 
 Example with Argos' WebDriverIO integration:
 
-```JavaScript
+```ts
 import { argosScreenshot } from "@argos-ci/webdriverio";
 import { browser } from "@wdio/globals";
 
