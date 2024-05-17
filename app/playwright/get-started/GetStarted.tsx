@@ -1,13 +1,12 @@
 import clsx from "clsx";
 import { TerminalIcon } from "lucide-react";
-import { Lang, Theme } from "shiki";
 
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 import { H2 } from "@/components/H2";
 import { Link } from "@/components/Link";
 import { TypeScriptLogo } from "@/components/TypeScriptLogo";
-import { highlight } from "@/lib/shiki";
+import { BundledLanguage, highlight } from "@/lib/shiki";
 
 async function CodeBlock({
   code,
@@ -15,13 +14,10 @@ async function CodeBlock({
   title,
 }: {
   code: string;
-  lang: Lang;
+  lang: BundledLanguage;
   title: React.ReactNode;
 }) {
-  const [lightHtml, darkHtml] = await Promise.all([
-    highlight(code, "github-light", lang),
-    highlight(code, "github-dark", lang),
-  ]);
+  const html = await highlight(code, lang);
   return (
     <div className="overflow-hidden rounded border bg-violet-1">
       <div className="flex items-center gap-2 overflow-auto border-b bg-ui p-2 text-xs font-medium">
@@ -29,12 +25,8 @@ async function CodeBlock({
       </div>
       <div className="overflow-auto p-4 font-mono text-sm">
         <div
-          className="inline-block dark:hidden"
-          dangerouslySetInnerHTML={{ __html: lightHtml }}
-        />
-        <div
-          className="hidden dark:inline-block"
-          dangerouslySetInnerHTML={{ __html: darkHtml }}
+          className="inline-block"
+          dangerouslySetInnerHTML={{ __html: html }}
         />
       </div>
     </div>

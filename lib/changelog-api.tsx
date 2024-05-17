@@ -4,7 +4,6 @@ import { compileMDX } from "next-mdx-remote/rsc";
 import Image from "next/image";
 import { readFile } from "node:fs/promises";
 import * as React from "react";
-import rehypeHighlight from "rehype-highlight";
 import rehypeImgSize from "rehype-img-size";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkGfm from "remark-gfm";
@@ -59,7 +58,20 @@ export async function getDocMdxSource(filepath: string) {
     options: {
       mdxOptions: {
         // @ts-ignore
-        rehypePlugins: [rehypeHighlight, [rehypeImgSize, { dir: "public" }]],
+        rehypePlugins: [
+          [
+            // @ts-ignore
+            rehypeShiki,
+            {
+              themes: {
+                dark: "github-dark",
+                light: "github-light",
+              },
+            },
+          ],
+          // @ts-ignore
+          [rehypeImgSize, { dir: "public" }],
+        ],
         remarkPlugins: [remarkGfm, remarkFrontmatter],
       },
     },

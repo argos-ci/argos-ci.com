@@ -1,10 +1,10 @@
+import rehypeShiki from "@shikijs/rehype";
 import fg from "fast-glob";
 import * as matter from "gray-matter";
 import { compileMDX } from "next-mdx-remote/rsc";
 import Image, { ImageProps, StaticImageData } from "next/image";
 import { readFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
-import rehypeHighlight from "rehype-highlight";
 import rehypeImgSize from "rehype-img-size";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkGfm from "remark-gfm";
@@ -139,7 +139,20 @@ export async function getDocMdxSource(article: Article) {
     options: {
       mdxOptions: {
         // @ts-ignore
-        rehypePlugins: [rehypeHighlight, [rehypeImgSize, { dir: "public" }]],
+        rehypePlugins: [
+          [
+            // @ts-ignore
+            rehypeShiki,
+            {
+              themes: {
+                dark: "github-dark",
+                light: "github-light",
+              },
+            },
+          ],
+          // @ts-ignore
+          [rehypeImgSize, { dir: "public" }],
+        ],
         remarkPlugins: [remarkGfm, remarkFrontmatter],
       },
     },
