@@ -1,3 +1,4 @@
+import rehypeShiki from "@shikijs/rehype";
 import fg from "fast-glob";
 import * as matter from "gray-matter";
 import { compileMDX } from "next-mdx-remote/rsc";
