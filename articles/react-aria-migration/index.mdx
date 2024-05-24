@@ -1,0 +1,238 @@
+---
+title: "Migrating from Radix to React Aria: Improving Accessibility and UX"
+description: "We migrated from Radix and Ariakit to React Aria to enhance accessibility, improving keyboard navigation, screen reader support, and overall user experience."
+category: Tech
+author: Greg Bergé
+date: 2024-05-27
+image: ./main.jpg
+imageAlt: Push to reset the world.
+---
+
+In the past seven years, Argos has utilized various UI libraries. We started with Material UI, then moved to Ariakit, Radix, and finally chose React Aria.
+
+<MainImage
+  credit={
+    <>
+      Photo by{" "}
+      <a href="https://unsplash.com/@mpalmtree?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">
+        Manuel Palmeira
+      </a>{" "}
+      on{" "}
+      <a href="https://unsplash.com/photos/a-black-and-white-photo-of-a-parking-meter-xO9Qxc5iRJs?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">
+        Unsplash
+      </a>
+    </>
+  }
+/>
+
+## Why React Aria?
+
+### Accessibility and UX First
+
+To me, [React Aria](https://react-spectrum.adobe.com/react-aria/) is the most advanced component library in terms of UX and accessibility. [Devon Govett](https://twitter.com/devongovett) and his team have done an incredible job creating low-level hooks and components that provide a top-tier experience.
+
+The attention to detail is remarkable. The [press event of the button](https://react-spectrum.adobe.com/blog/building-a-button-part-1.html) is designed to work seamlessly across all platforms, fixing common issues with `:active` and `:hover`. In contrast, Radix doesn't even provide a button component.
+
+Additionally, the work on [the submenu](https://react-spectrum.adobe.com/blog/creating-a-pointer-friendly-submenu-experience.html) shows their commitment to delivering an outstanding user experience.
+
+### Backed by a Big Company
+
+React Aria underpins React Spectrum, Adobe's design system used for web applications like Photoshop. Adobe's significant investment in this technology ensures long-term support and reliability. While [Ariakit](https://ariakit.org/) is excellent and [Diego Haz](https://x.com/diegohaz) is a talented developer, the lack of corporate backing poses sustainability risks. The project could halt if the developer decides to stop, and there's a higher risk of breaking changes due to the lack of a company-backed roadmap. [Radix](https://radix-ui.com/), supported by [WorkOS](https://workos.com/), also cannot match Adobe's resources and focus.
+
+## Migration Strategy
+
+Despite Argos's relatively small codebase, migrating our numerous UI components was challenging. We had two choices:
+
+- Migrate component by component in several PRs
+- Migrate all at once in a single PR
+
+I opted for the latter due to my deep project knowledge and confidence in our visual testing capabilities.
+
+### Experience and Knowledge
+
+With over eight years of React experience and extensive familiarity with Argos, I could thoroughly test and ensure everything worked correctly. Having built and maintained various UI libraries, including [Smooth UI](https://github.com/smooth-code/smooth-ui), I felt prepared for this comprehensive migration.
+
+### Confidence with Visual Testing
+
+Visual testing, a core feature of Argos, provided the confidence needed to ensure the UI remained consistent throughout the migration. Argos uses its own visual testing capabilities to capture UI snapshots and compare them against baseline images, allowing us to detect any unintended changes. This automated process ensured that even the smallest visual discrepancies were identified and addressed promptly. Migrating components individually would have been challenging due to React Aria’s tightly integrated system, but visual testing allowed us to confidently migrate everything at once, ensuring a smooth and accurate transition.
+
+## Difficulties
+
+React Aria is highly accessible, adhering strictly to ARIA patterns, which sometimes means certain practices are not allowed. While libraries like Ariakit or Radix offer flexibility to bypass some accessibility rules, React Aria does not compromise. This strict adherence ensures a genuinely accessible experience but comes with some limitations that require creative solutions.
+
+### The Tooltip Problem
+
+For instance, it's impossible to put a tooltip on something that is not focusable. Tooltips only work when the targeted component has a `useFocusable` hook. This was challenging because we have many tooltips on non-focusable elements. I created a `TooltipTarget` component to inject `focusableProps` and added `tabIndex: 0` to ensure the element is focusable.
+
+**[`TooltipTarget` in Argos code](https://github.com/argos-ci/argos/blob/4822931b05c78e1b4a79e15cf4437fb0297369a6/apps/frontend/src/ui/Tooltip.tsx#L87)**
+
+```tsx
+function TooltipTarget(props: { children: React.ReactElement }) {
+  const triggerRef = React.useRef(null);
+  const { focusableProps } = useFocusable(props.children.props, triggerRef);
+
+  return React.cloneElement(
+    props.children,
+    mergeProps(focusableProps, { tabIndex: 0 }, props.children.props, {
+      ref: triggerRef,
+    }),
+  );
+}
+```
+
+### Putting Tooltips on Disabled Buttons
+
+While [Ariakit allows creating buttons that are accessible when disabled](https://ariakit.org/reference/button#accessiblewhendisabled), React Aria does not. They follow the spec strictly. [They suggest using contextual help](https://github.com/adobe/react-spectrum/issues/3662#issuecomment-1743658584) because tooltips are not fully accessible for sharing information. Although they are correct, sometimes it feels necessary to put a tooltip on a disabled button. For this, I wrapped my button in a `div`, even if it's not ideal.
+
+**[Disabled button in Argos codebase](https://github.com/argos-ci/argos/blob/4822931b05c78e1b4a79e15cf4437fb0297369a6/apps/frontend/src/pages/Build/header/ReviewButton.tsx#L129-L137)**
+
+```ts
+export function DisabledReviewButton(props: { tooltip: React.ReactNode }) {
+  return (
+    <Tooltip content={props.tooltip}>
+      <div>
+        <Button isDisabled>Review changes</Button>
+      </div>
+    </Tooltip>
+  );
+}
+```
+
+### Menus are Menus
+
+Before the migration, Argos' user menu was created using Ariakit, including a theme selector. It was neat but impossible to replicate with React Aria. React Aria only allows specific components like `MenuItems`, `Section`, and `Header` in a menu. Attempting to use anything else throws an error and crashes.
+
+![Menu with theme selector](/assets/articles/react-aria-migration/menu-with-theme-selector.jpg)
+
+I embraced the menu structure by replacing the select with a submenu. This improved the experience by reducing clicks and enhancing item visibility.
+
+![Menu with theme submenu](/assets/articles/react-aria-migration/menu-with-theme-submenu.jpg)
+
+## The Good Parts
+
+### Links
+
+React Aria's link components are versatile, abstracting the router and working universally across the application. Absolute links use native anchors, while relative ones navigate using the provided `navigate` function. The `useHref` hook gives full `href` resolution, which is excellent for advanced routers like react-router that support nested links.
+
+**[`RouterProvider` in Argos codebase](https://github.com/argos-ci/argos/blob/4822931b05c78e1b4a79e15cf4437fb0297369a6/apps/frontend/src/router.tsx#L1-L41)**
+
+```tsx
+import { RouterProvider } from "react-aria-components";
+import {
+  type NavigateOptions,
+  Outlet,
+  useHref,
+  useNavigate,
+} from "react-router-dom";
+
+declare module "react-aria-components" {
+  interface RouterConfig {
+    routerOptions: NavigateOptions;
+  }
+}
+
+function useAbsoluteHref(path: string) {
+  const relative = useHref(path);
+  if (
+    path.startsWith("https://") ||
+    path.startsWith("http://") ||
+    path.startsWith("mailto:")
+  ) {
+    return path;
+  }
+  return relative;
+}
+
+function Root() {
+  const navigate = useNavigate();
+
+  return (
+    <RouterProvider navigate={navigate} useHref={useAbsoluteHref}>
+      <Outlet />
+    </RouterProvider>
+  );
+}
+```
+
+### Interactions (Hover, Pressed)
+
+One issue I faced before React Aria was styling the `:hover` effect. `:hover` is applied even if the button is disabled, and you have to avoid this by using tricks like `[&:not([aria-disabled])]:hover]`.
+
+React Aria emulates `:hover` and `:active`, replacing them with `[data-hovered]` and `[data-pressed]`. This fixes all issues: `[data-hovered]` is not present when the button is disabled. `[data-pressed]` fixes the issue where `:active` is applied even if you move your pointer outside the button. This behavior is correct because if you release your mouse button while not hovering over the button, it will not be clicked, so the style should not indicate it will be!
+
+### Composition
+
+I love the composition model used by React Aria Components. For example, a dialog is composed like this:
+
+```tsx
+<DialogTrigger>
+  <Button>Sign up…</Button>
+  <Modal>
+    <Dialog>
+      {({ close }) => (
+        <form>
+          <Heading slot="title">Sign up</Heading>
+          <TextField autoFocus>
+            <Label>First Name</Label>
+            <Input />
+          </TextField>
+          <TextField>
+            <Label>Last Name</Label>
+            <Input />
+          </TextField>
+          <Button onPress={close} style={{ marginTop: 8 }}>
+            Submit
+          </Button>
+        </form>
+      )}
+    </Dialog>
+  </Modal>
+</DialogTrigger>
+```
+
+It's also possible to use the same dialog wrapped in a `Popover` to make it non-modal and contextual to one element.
+
+Each element has its own responsibilities, making composition a breeze. For example, in Argos, I have [a `Popover` component](https://github.com/argos-ci/argos/blob/main/apps/frontend/src/ui/Popover.tsx) used for `Select` and `Menu`. It is responsible for the animation and the container style.
+
+### Context
+
+React Aria Components are designed with a clear and practical approach. For typical use cases, they are very straightforward, relying on a composition of components. However, if you need to implement more advanced functionality, you can access the internals using hooks and context. This dual approach offers both simplicity for common tasks and flexibility for more complex requirements.
+
+For example, you can create a reusable `DialogDismiss` component by using `OverlayTriggerStateContext` to access the `close` function:
+
+**[Example of `DialogDismiss` used in Argos codebase](https://github.com/argos-ci/argos/blob/4822931b05c78e1b4a79e15cf4437fb0297369a6/apps/frontend/src/ui/Dialog.tsx#L85-L112)**
+
+```tsx
+const DialogDismiss = forwardRef<
+  HTMLButtonElement,
+  {
+    children: React.ReactNode;
+    onPress?: ButtonProps["onPress"];
+    single?: boolean;
+  }
+>((props, ref) => {
+  const state = useContext(OverlayTriggerStateContext);
+  return (
+    <Button
+      ref={ref}
+      className={props.single ? "flex-1 justify-center" : undefined}
+      variant="secondary"
+      onPress={(event) => {
+        props.onPress?.(event);
+        state.close();
+      }}
+      autoFocus
+    >
+      {props.children}
+    </Button>
+  );
+});
+```
+
+It makes really thing a breeze to compose with.
+
+## Conclusion
+
+React Aria stands out as the best UI library I've used. Its solid foundation, meticulous attention to detail, and unwavering commitment to accessibility make it a top choice for modern web applications. The library not only simplifies the implementation of accessible components but also ensures a seamless user experience across all platforms. Backed by Adobe, React Aria promises long-term support and reliability. This migration has significantly enhanced Argos, proving that prioritizing accessibility and user experience is not only beneficial but essential for creating outstanding web applications.
+
+For more details, check out the [pull-request on GitHub](https://github.com/argos-ci/argos/pull/1302).
