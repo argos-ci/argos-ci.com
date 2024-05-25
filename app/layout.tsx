@@ -1,8 +1,10 @@
+import { GoogleTagManager } from "@next/third-parties/google";
 import clsx from "clsx";
 import { Metadata } from "next";
 import PlausibleProvider from "next-plausible";
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
+import { Suspense } from "react";
 
 import { TooltipProvider } from "@/components/Tooltip";
 import "@/styles/globals.css";
@@ -11,6 +13,7 @@ import "@/styles/highlight-js-github-dark.min.css";
 import { ClientProviders } from "./client-providers";
 import { AppFooter } from "./footer";
 import { AppNavbar } from "./navbar";
+import { NavigationEvents } from "./navigation-events";
 
 // Fonts
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -57,6 +60,7 @@ export default function RootLayout({
       className={clsx(inter.variable, calSans.variable, "antialiased")}
       suppressHydrationWarning
     >
+      <GoogleTagManager gtmId="AW-847457408" />
       <head>
         <PlausibleProvider domain="argos-ci.com" />
       </head>
@@ -70,6 +74,9 @@ export default function RootLayout({
             </div>
           </TooltipProvider>
         </ClientProviders>
+        <Suspense fallback={null}>
+          <NavigationEvents />
+        </Suspense>
       </body>
     </html>
   );
