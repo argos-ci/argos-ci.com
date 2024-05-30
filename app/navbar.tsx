@@ -29,7 +29,7 @@ export const AppNavbar: React.FC = () => {
           <Button variant="outline" asChild>
             <a href="https://app.argos-ci.com/login">Login</a>
           </Button>
-          <Button>
+          <Button asChild>
             <a href="https://app.argos-ci.com/signup">Sign up</a>
           </Button>
         </>
