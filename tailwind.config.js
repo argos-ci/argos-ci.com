@@ -46,6 +46,9 @@ module.exports = {
         low: radixColors.alias("mauve.11"),
         hover: radixColors.alias("mauve.10"),
       },
+      ringColor: {
+        ring: radixColors.alias("mauve.5"),
+      },
       borderColor: {
         DEFAULT: radixColors.alias("mauve.6"),
         base: radixColors.alias("mauve.6"),
