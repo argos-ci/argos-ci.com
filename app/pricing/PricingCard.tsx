@@ -7,9 +7,9 @@ import { Button, ButtonProps } from "@/components/Button";
 import { Link } from "@/components/Link";
 import { Tooltip } from "@/components/Tooltip";
 
-import { dollarFormatter } from "./DollarFormatter";
+import { dollarFormatter, percentFormatter } from "./formatters";
 
-const PricingCardBody = twc.div`p-8 text-left text-low`;
+const PricingCardBody = twc.div`p-6 text-left text-low`;
 const Title = twc.div`mb-2 text-xl font-semibold text`;
 const Description = twc.div`my-2 h-12 last-of-type:mb-0`;
 const Badges = twc.div`block h-8`;
@@ -54,7 +54,7 @@ const PricingCard = ({
   <div
     className={clsx(
       "border-border w-full flex-1 shrink-0 basis-80 rounded-xl border bg-violet-1",
-      emphasis ? "border-2 border-violet-6 pt-4" : "md:mt-4",
+      emphasis ? "border-2 border-violet-6 pt-[calc(1rem-1px)]" : "md:mt-4",
     )}
   >
     {children}
@@ -189,11 +189,11 @@ export const PricingCards = ({
 
         <Features>
           <FeaturesCaption>Everything in Pro, plus:</FeaturesCaption>
-          <Feature>Custom amount of screenshots</Feature>
-          <Feature>Dedicated Support</Feature>
-          <Feature>GitHub SSO</Feature>
           <Feature>SAML authentication</Feature>
-          <Feature>SLA for 99.99% Uptime</Feature>
+          <Feature>Advanced access control</Feature>
+          <Feature>{percentFormatter.format(0.9999)} Uptime SLA</Feature>
+          <Feature>Onboarding and migration support</Feature>
+          <Feature>Support SLA</Feature>
         </Features>
       </PricingCardBody>
     </PricingCard>
