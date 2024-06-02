@@ -13,7 +13,6 @@ import planable from "@/images/brands/planable.svg";
 import rapidata from "@/images/brands/rapidata.svg";
 import rho from "@/images/brands/rho.svg";
 import sivo from "@/images/brands/sivo.svg";
-import swissRedCross from "@/images/brands/swiss-red-cross.svg";
 import yotpo from "@/images/brands/yotpo.svg";
 
 import { Container } from "./Container";
@@ -98,13 +97,6 @@ export const BrandTestimonials = () => {
         priority
         height={80}
         alt="Doctolib"
-        className="shrink-0 dark:brightness-0 dark:invert"
-      />
-      <Image
-        src={swissRedCross}
-        priority
-        height={80}
-        alt="Swiss Red Cross"
         className="shrink-0 dark:brightness-0 dark:invert"
       />
       <Image
