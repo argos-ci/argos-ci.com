@@ -1,19 +1,23 @@
 import clsx from "clsx";
-import { CheckCircleIcon, CircleIcon, InfoIcon } from "lucide-react";
+import { CheckCircleIcon, CircleIcon } from "lucide-react";
 import * as React from "react";
 import { twc } from "react-twc";
 
 import { Button, ButtonProps } from "@/components/Button";
 import { Link } from "@/components/Link";
-import { Tooltip } from "@/components/Tooltip";
 
-import { dollarFormatter, percentFormatter } from "./formatters";
+import {
+  LocalDollar,
+  LocalPercentage,
+  LocalString,
+} from "./FormattersComponents";
 
 const PricingCardBody = twc.div`p-6 text-left text-low`;
 const Title = twc.div`mb-2 text-xl font-semibold text`;
 const Description = twc.div`my-2 h-12 last-of-type:mb-0`;
 const Badges = twc.div`block h-8`;
 const Badge = twc.div`text-primary-300 mb-10 w-fit rounded border border-violet-6 px-2.5 py-0.5 text-xs font-medium text`;
+const PriceBadge = twc.div`text-primary-300 ml-auto w-fit rounded border border-dashed border-violet-6 px-2.5 py-0.5 text-xs`;
 const Paragraph = twc.p`block text-sm min-h-5`;
 
 const Features = twc.ul`mt-4 mb-6 flex flex-col gap-4`;
@@ -36,14 +40,6 @@ const Feature = ({
   );
 };
 
-const InfoTooltip = (props: { children: React.ReactNode }) => {
-  return (
-    <Tooltip content={props.children}>
-      <InfoIcon className="-mt-[2px] ml-1 inline-block h-5 w-5 text" />
-    </Tooltip>
-  );
-};
-
 const PricingCard = ({
   children,
   emphasis,
@@ -62,27 +58,29 @@ const PricingCard = ({
 );
 
 const Price = ({
-  amount,
+  price,
   recurring,
   fixedPrice,
 }: {
-  amount: number;
+  price: number;
   recurring: boolean;
   fixedPrice: boolean;
-}) => (
-  <div className="flex flex-col gap-1 pt-6">
-    <Paragraph>{fixedPrice ? null : "Starting at"}</Paragraph>
-    <div className="flex items-baseline">
-      <span className="text-3xl font-semibold text">
-        <span className="tracking-tight">{dollarFormatter.format(amount)}</span>
-      </span>
-      {recurring && <span className="ml-1 text-lg text-low">/mo</span>}
+}) => {
+  return (
+    <div className="flex flex-col gap-1 pt-6">
+      <Paragraph>{fixedPrice ? null : "Starting at"}</Paragraph>
+      <div className="flex items-baseline">
+        <span className="text-3xl font-semibold tracking-tight text">
+          <LocalDollar value={price} />
+        </span>
+        {recurring && <span className="ml-1 text-lg text-low">/mo</span>}
+      </div>
+      <Paragraph>
+        {fixedPrice ? "forever" : "Billed monthly based on usage"}
+      </Paragraph>
     </div>
-    <Paragraph>
-      {fixedPrice ? "forever" : "Billed monthly based on usage"}
-    </Paragraph>
-  </div>
-);
+  );
+};
 
 const CTA = ({
   children,
@@ -116,86 +114,94 @@ export const PricingCards = ({
   proPlanScreenshotCount: number;
   additionalScreenshotPrice: number;
   githubSSOPrice: number;
-}) => (
-  <div className="grid w-full grid-cols-1 justify-center gap-6 md:grid-cols-3">
-    <PricingCard>
-      <PricingCardBody>
-        <Badges />
-        <Title>Hobby Plan</Title>
-        <Description>For personal projects.</Description>
-        <Price amount={0} recurring={false} fixedPrice={true} />
-        <CTA href="https://app.argos-ci.com/login" variant="outline">
-          Start Hobby Plan
-        </CTA>
+}) => {
+  return (
+    <div className="grid w-full grid-cols-1 justify-center gap-6 md:grid-cols-3">
+      <PricingCard>
+        <PricingCardBody>
+          <Badges />
+          <Title>Hobby Plan</Title>
+          <Description>For personal projects.</Description>
+          <Price price={0} recurring={false} fixedPrice={true} />
+          <CTA href="https://app.argos-ci.com/login" variant="outline">
+            Start Hobby Plan
+          </CTA>
 
-        <Features>
-          <FeaturesCaption />
-          <Feature>
-            Up to {hobbyPlanScreenshotCount.toLocaleString()} screenshots
-          </Feature>
-          <Feature>Unlimited Playwright Traces</Feature>
-          <Feature>Visual changes detection</Feature>
-          <Feature>GitHub & GitLab integration</Feature>
-          <Feature>Community Support</Feature>
-        </Features>
-      </PricingCardBody>
-    </PricingCard>
+          <Features>
+            <FeaturesCaption />
+            <Feature>
+              Up to <LocalString value={hobbyPlanScreenshotCount} /> screenshots
+            </Feature>
+            <Feature>Unlimited Playwright Traces</Feature>
+            <Feature>Visual changes detection</Feature>
+            <Feature>GitHub & GitLab integration</Feature>
+            <Feature>Community Support</Feature>
+          </Features>
+        </PricingCardBody>
+      </PricingCard>
 
-    <PricingCard emphasis>
-      <PricingCardBody>
-        <Badges>
-          <Badge>Most Popular</Badge>
-        </Badges>
-        <Title>Pro Plan</Title>
-        <Description>Unlimited screenshots and team collaboration.</Description>
-        <Price amount={proPlanFlatPrice} recurring={true} fixedPrice={false} />
-        <CTA href="https://app.argos-ci.com/signup?plan=pro">
-          Start Free Trial
-        </CTA>
+      <PricingCard emphasis>
+        <PricingCardBody>
+          <Badges>
+            <Badge>Most Popular</Badge>
+          </Badges>
+          <Title>Pro Plan</Title>
+          <Description>
+            Unlimited screenshots and team collaboration.
+          </Description>
+          <Price price={proPlanFlatPrice} recurring={true} fixedPrice={false} />
+          <CTA href="https://app.argos-ci.com/signup?plan=pro">
+            Start Free Trial
+          </CTA>
 
-        <Features>
-          <FeaturesCaption>Everything in Hobby, plus:</FeaturesCaption>
-          <Feature>
-            Includes {proPlanScreenshotCount.toLocaleString()} screenshots
-          </Feature>
-          <Feature>
-            {dollarFormatter.format(additionalScreenshotPrice)} per extra
-            screenshot
-          </Feature>
-          <Feature>Pro Support</Feature>
-          <Feature>Collaborative review</Feature>
-          <div className="mt-4 text-sm font-medium">Optional</div>
-          <Feature optional>
-            GitHub SSO
-            <div className="text-primary-300 ml-auto w-fit rounded border border-dashed border-violet-6 px-2.5 py-0.5 text-xs">
-              {dollarFormatter.format(githubSSOPrice)} /mo
-            </div>
-          </Feature>
-        </Features>
-      </PricingCardBody>
-    </PricingCard>
+          <Features>
+            <FeaturesCaption>Everything in Hobby, plus:</FeaturesCaption>
+            <Feature>
+              Includes <LocalString value={proPlanScreenshotCount} />{" "}
+              screenshots
+            </Feature>
+            <Feature>
+              <LocalDollar value={additionalScreenshotPrice} /> per extra
+              screenshot
+            </Feature>
+            <Feature>3 months of history</Feature>
+            <Feature>Collaborative review</Feature>
+            <Feature>Pro Support</Feature>
+            <div className="mt-4 text-sm font-medium">Optional</div>
+            <Feature optional>
+              GitHub SSO
+              <PriceBadge>
+                <LocalDollar value={githubSSOPrice} /> /mo
+              </PriceBadge>
+            </Feature>
+          </Features>
+        </PricingCardBody>
+      </PricingCard>
 
-    <PricingCard>
-      <PricingCardBody>
-        <Badges />
-        <Title>Enterprise</Title>
-        <Description>Tailored solutions with premium features.</Description>
-        <div className="mb-6 mt-12 flex items-baseline pt-2 text-3xl font-semibold text">
-          Custom
-        </div>
-        <CTA href="mailto:contact@argos-ci.com" variant="outline">
-          Contact Sales
-        </CTA>
+      <PricingCard>
+        <PricingCardBody>
+          <Badges />
+          <Title>Enterprise</Title>
+          <Description>Tailored solutions with premium features.</Description>
+          <div className="mb-6 mt-12 flex items-baseline pt-2 text-3xl font-semibold text">
+            Custom
+          </div>
+          <CTA href="mailto:contact@argos-ci.com" variant="outline">
+            Contact Sales
+          </CTA>
 
-        <Features>
-          <FeaturesCaption>Everything in Pro, plus:</FeaturesCaption>
-          <Feature>SAML authentication</Feature>
-          <Feature>Advanced access control</Feature>
-          <Feature>{percentFormatter.format(0.9999)} Uptime SLA</Feature>
-          <Feature>Onboarding and migration support</Feature>
-          <Feature>Support SLA</Feature>
-        </Features>
-      </PricingCardBody>
-    </PricingCard>
-  </div>
-);
+          <Features>
+            <FeaturesCaption>Everything in Pro, plus:</FeaturesCaption>
+            <Feature>Custom screenshot number</Feature>
+            <Feature>SAML SSO</Feature>
+            <Feature>Fine-grained access control</Feature>
+            <Feature>Dedicated support</Feature>
+            <Feature>
+              <LocalPercentage value={0.9999} /> uptime SLA
+            </Feature>
+          </Features>
+        </PricingCardBody>
+      </PricingCard>
+    </div>
+  );
+};

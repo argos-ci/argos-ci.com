@@ -4,19 +4,74 @@ import clsx from "clsx";
 import * as React from "react";
 
 import { Slider } from "../../components/Slider";
-import { dollarFormatter } from "./formatters";
+import { LocalDollar, LocalString } from "./FormattersComponents";
 
-const MIN_SCREENSHOTS = 5000;
-const MAX_SCREENSHOTS = 1000000;
-const MAX_PRICE = 2500;
+const MIN_SCREENSHOTS = 0;
+const MAX_SCREENSHOTS = 1_000_000;
+const MAX_PRICE = 2_500;
+const STEP = 20_000;
 
-const getScreenshotCountStr = ({
-  isMaxScreenshots,
+const usePrice = ({
   screenshotCount,
+  additionalScreenshotPrice,
+  proPlanFlatPrice,
+  proPlanScreenshotCount,
+  maxPrice,
+  isMaxScreenshots,
+}: {
+  screenshotCount: number;
+  additionalScreenshotPrice: number;
+  proPlanFlatPrice: number;
+  proPlanScreenshotCount: number;
+  maxPrice: number;
+  isMaxScreenshots: boolean;
+}) => {
+  const extraScreenshotsCount = Math.max(
+    screenshotCount - proPlanScreenshotCount,
+    0,
+  );
+  const priceAmount = isMaxScreenshots
+    ? maxPrice
+    : Math.floor(
+        extraScreenshotsCount * additionalScreenshotPrice + proPlanFlatPrice,
+      );
+  return (
+    <>
+      {isMaxScreenshots ? "+" : ""}
+      <LocalDollar value={priceAmount} />
+    </>
+  );
+};
+
+const useDisplayableScreenshotCount = ({
+  isMaxScreenshots,
+  maxScreenshots,
+  screenshotCount,
+  proPlanScreenshotCount,
 }: {
   isMaxScreenshots: boolean;
+  maxScreenshots: number;
   screenshotCount: number;
-}) => `${isMaxScreenshots ? "+" : ""} ${screenshotCount.toLocaleString()}`;
+  proPlanScreenshotCount: number;
+}) => {
+  if (screenshotCount === 0) {
+    return (
+      <>
+        less than <LocalString value={proPlanScreenshotCount} />
+      </>
+    );
+  }
+
+  if (isMaxScreenshots) {
+    return (
+      <>
+        more than <LocalString value={maxScreenshots} />
+      </>
+    );
+  }
+
+  return <LocalString value={screenshotCount} />;
+};
 
 export const PricingSlider = ({
   additionalScreenshotPrice,
@@ -25,6 +80,7 @@ export const PricingSlider = ({
   minScreenshots = MIN_SCREENSHOTS,
   maxScreenshots = MAX_SCREENSHOTS,
   maxPrice = MAX_PRICE,
+  step = STEP,
 }: {
   additionalScreenshotPrice: number;
   proPlanFlatPrice: number;
@@ -32,28 +88,34 @@ export const PricingSlider = ({
   minScreenshots?: number;
   maxScreenshots?: number;
   maxPrice?: number;
+  step?: number;
 }) => {
-  const [value, setValue] = React.useState([proPlanScreenshotCount]);
-  const screenshotCount = value[0];
-  const extraScreenshots = Math.max(
-    screenshotCount - proPlanScreenshotCount,
-    0,
-  );
-  const isMaxScreenshots = screenshotCount === maxScreenshots;
-  const price = isMaxScreenshots
-    ? maxPrice
-    : extraScreenshots * additionalScreenshotPrice + proPlanFlatPrice;
+  const [value, setValue] = React.useState([0]);
+  const isMaxScreenshots = value[0] >= maxScreenshots;
+
+  const formattedScreenshotCount = useDisplayableScreenshotCount({
+    isMaxScreenshots,
+    maxScreenshots,
+    screenshotCount: value[0],
+    proPlanScreenshotCount,
+  });
+
+  const price = usePrice({
+    screenshotCount: value[0],
+    additionalScreenshotPrice,
+    proPlanFlatPrice,
+    proPlanScreenshotCount,
+    maxPrice,
+    isMaxScreenshots,
+  });
 
   return (
-    <div className="flex w-full flex-col gap-6">
+    <div className="flex w-full flex-col gap-4">
       <div className="mx-auto flex w-full max-w-lg flex-col gap-2">
-        <div className="flex justify-between">
-          <div className="text-on text-lg font-semibold">
-            Screenshots per month?
-          </div>
-          <div>
-            {getScreenshotCountStr({ isMaxScreenshots, screenshotCount })}{" "}
-            screenshots
+        <div className="flex items-center justify-between">
+          <div className="text-lg  font-medium">Screenshots per month?</div>
+          <div className="text-sm font-medium text-hover">
+            {formattedScreenshotCount} screenshots
           </div>
         </div>
 
@@ -62,17 +124,16 @@ export const PricingSlider = ({
           onValueChange={setValue}
           min={minScreenshots}
           max={maxScreenshots}
-          step={10000}
+          step={step}
         />
       </div>
 
-      <div className="mt-2 text-balance text-lg leading-relaxed md:text-xl">
-        For {getScreenshotCountStr({ isMaxScreenshots, screenshotCount })}{" "}
-        screenshots per month it will cost{" "}
-        <span className="font-semibold">
-          {isMaxScreenshots ? "+" : ""} {dollarFormatter.format(price)}
-        </span>
-        .
+      <div className="mt-4 text-balance text-lg leading-relaxed md:text-xl">
+        For{" "}
+        <span className="text-hover">
+          {formattedScreenshotCount} screenshots
+        </span>{" "}
+        per month it will cost <span className="font-semibold">{price}</span>.
       </div>
 
       <div className="h-6 text-lg">
