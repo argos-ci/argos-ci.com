@@ -2,14 +2,13 @@ import clsx from "clsx";
 import {
   ChromeIcon,
   GalleryHorizontal,
-  GhostIcon,
+  TowerControlIcon,
   GitBranchIcon,
   GitPullRequestIcon,
   LucideIcon,
   MonitorCheckIcon,
   ScanSearchIcon,
   TabletSmartphoneIcon,
-  VibrateIcon,
   Wand2Icon,
 } from "lucide-react";
 
@@ -122,9 +121,9 @@ export function Features() {
             />
             <Separator orientation="vertical" />
             <Feature
-              title="Flaky test detection"
-              icon={GhostIcon}
-              text="Instantly identify flaky screenshots, alerting you to potential inconsistencies in your tests."
+              title="Monitoring Mode"
+              icon={TowerControlIcon}
+              text="Check visual changes to detect issues early, validate releases, and ensure integration consistency."
             />
           </Row>
         </div>

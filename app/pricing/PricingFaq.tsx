@@ -12,16 +12,6 @@ export const FAQ = ({
   hobbyPlanScreenshotCount: number;
 }) => (
   <Accordion type="single" collapsible className="w-full max-w-2xl text-left">
-    <AccordionItem value="apart">
-      <AccordionTrigger>
-        What sets Argos apart from other visual testing tools?
-      </AccordionTrigger>
-      <AccordionContent>
-        Argos focuses on providing a user-friendly experience with simplicity at
-        its core. Currently, our unique features include managing flaky tests,
-        and we are working on offering zero-configuration visual testing.
-      </AccordionContent>
-    </AccordionItem>
     <AccordionItem value="argos-plan">
       <AccordionTrigger>Which Argos plan is right for me?</AccordionTrigger>
       <AccordionContent>

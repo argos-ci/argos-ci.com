@@ -4,7 +4,7 @@ import clsx from "clsx";
 import * as React from "react";
 
 import { Slider } from "../../components/Slider";
-import { dollarFormatter } from "./DollarFormatter";
+import { dollarFormatter } from "./formatters";
 
 const MIN_SCREENSHOTS = 5000;
 const MAX_SCREENSHOTS = 1000000;

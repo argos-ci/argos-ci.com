@@ -17,22 +17,6 @@ import yotpo from "@/images/brands/yotpo.svg";
 
 import { Container } from "./Container";
 
-const Testimonials = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <div>
-      <Container className="mx-auto mt-8 grid w-full max-w-screen-lg grid-cols-2 items-center px-5 md:grid-cols-6 md:px-0">
-        {children}
-      </Container>
-      {/* <div className="relative overflow-hidden lg:hidden">
-        <div className="flex w-max animate-[slide_20s_linear_infinite] items-baseline gap-10 pr-10">
-          {children}
-          {children}
-        </div>
-      </div> */}
-    </div>
-  );
-};
-
 export const BrandTestimonials = () => {
   return (
     <Container className="mx-auto mt-8 grid w-full max-w-screen-lg grid-cols-2 items-center justify-center gap-4 px-5 md:flex md:flex-wrap md:px-0 md:[&>*]:max-w-40">
