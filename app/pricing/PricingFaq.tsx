@@ -6,6 +6,8 @@ import {
 } from "@/components/Accordion";
 import { Link } from "@/components/Link";
 
+import { LocalString } from "./FormattersComponents";
+
 export const FAQ = ({
   hobbyPlanScreenshotCount,
 }: {
@@ -16,10 +18,10 @@ export const FAQ = ({
       <AccordionTrigger>Which Argos plan is right for me?</AccordionTrigger>
       <AccordionContent>
         The Hobby plan is designed for personal GitHub repositories, providing
-        up to {hobbyPlanScreenshotCount.toLocaleString()} screenshots. If you're
-        seeking to collaborate as a team, need a higher screenshot limit, or
-        wish to use Argos on a repository within a private GitHub organization,
-        our Pro plan is the necessary choice.
+        up to <LocalString value={hobbyPlanScreenshotCount} /> screenshots. If
+        you're seeking to collaborate as a team, need a higher screenshot limit,
+        or wish to use Argos on a repository within a private GitHub
+        organization, our Pro plan is the necessary choice.
       </AccordionContent>
     </AccordionItem>
     <AccordionItem value="mobile-testing">

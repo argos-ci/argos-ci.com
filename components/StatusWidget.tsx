@@ -18,9 +18,13 @@ type Status = z.infer<typeof statusEnum>;
 const statusSchema = z.object({ status: statusEnum });
 
 async function fetchStatus() {
-  const res = await fetch("/api/openstatus");
-  const data = await res.json();
-  return statusSchema.parse(data);
+  try {
+    const res = await fetch("/api/openstatus");
+    const data = await res.json();
+    return statusSchema.parse(data);
+  } catch {
+    return { status: null };
+  }
 }
 
 const statusDictionary: Record<Status, { label: string; color: string }> = {
