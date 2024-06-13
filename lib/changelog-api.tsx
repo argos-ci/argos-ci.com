@@ -10,6 +10,8 @@ import remarkFrontmatter from "remark-frontmatter";
 import remarkGfm from "remark-gfm";
 import { z } from "zod";
 
+import { Zoom } from "@/components/Zoom";
+
 const FrontmatterSchema = z.object({
   title: z.string(),
   description: z.string(),
@@ -45,14 +47,16 @@ export async function getDocMdxSource(filepath: string) {
     components: {
       img: ({ src, height, width, alt }) => {
         return (
-          <Image
-            className="rounded-md"
-            src={src as string}
-            height={height as number}
-            width={width as number}
-            alt={alt as string}
-            sizes="(max-width: 576px) 100vw, 576px"
-          />
+          <Zoom>
+            <Image
+              className="rounded-md"
+              src={src as string}
+              height={height as number}
+              width={width as number}
+              alt={alt as string}
+              sizes="(max-width: 576px) 100vw, 576px"
+            />
+          </Zoom>
         );
       },
     },
