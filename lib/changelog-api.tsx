@@ -91,16 +91,12 @@ async function getChangelogFromPath(
   if (!frontmatter) {
     return null;
   }
-  const slug = filepath
-    .replace(/^.\/changelogs\//, "")
-    .replace(/\/index.mdx$/, "");
-
   const YYYY_MM_DD = frontmatter.date.toISOString().split("T")[0];
   return {
     filepath,
     title: frontmatter.title,
     description: frontmatter.description,
-    slug: `${YYYY_MM_DD}-${slug}`,
+    slug: `${YYYY_MM_DD}-${frontmatter.slug}`,
     date: frontmatter.date.toISOString(),
     source: await getDocMdxSource(filepath),
   };
@@ -124,9 +120,10 @@ export async function getChangelogs(): Promise<ChangelogEntry[]> {
 }
 
 export async function getChangelogEntryBySlug(
-  slug: string,
+  urlSlug: string,
 ): Promise<ChangelogEntry | null> {
-  const slugWithoutDate = slug.split("-").slice(3).join("-");
-  const filepath = `./changelogs/${slugWithoutDate}/index.mdx`;
+  const date = urlSlug.split("-").slice(0, 3).join("-");
+  const slug = urlSlug.split("-").slice(3).join("-");
+  const filepath = `./changelogs/${date}__${slug}/index.mdx`;
   return getChangelogFromPath(filepath);
 }
