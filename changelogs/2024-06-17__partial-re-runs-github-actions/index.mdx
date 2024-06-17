@@ -1,0 +1,16 @@
+---
+title: Save time and resources with partial re-runs in GitHub Actions
+description: Argos now supports partial re-runs in GitHub Actions, saving time, money, and energy by avoiding full workflow re-runs.
+slug: partial-re-runs-github-actions
+date: 2024-06-17
+---
+
+![Partial re-runs of GitHub Actions Playwright tests job](/assets/changelogs/partial-re-runs-github-actions/partial-re-runs-github-actions.jpg)
+
+We finally introduce support for partial re-runs in GitHub Actions, a significant enhancement to streamline your CI/CD processes with Argos.
+
+- **Time savings:** No more waiting for entire workflows to complete. Re-run only the steps that failed or need updating.
+- **Cost efficiency:** Reduce computational costs by avoiding unnecessary re-execution of successful steps.
+- **Ecology concern:** Lower energy consumption by minimizing redundant processing, contributing to a greener environment.
+
+To benefit from this feature, update your SDK. If you don't use Playwright, set the [`ARGOS_PARALLEL_INDEX`](https://argos-ci.com/docs/parallel-testing) environment variable in your GitHub Actions workflow.
