@@ -12,11 +12,11 @@ import { PricingCards } from "./PricingCard";
 import { FAQ } from "./PricingFaq";
 import { PricingSlider } from "./PricingSlider";
 
-const HOBBY_PLAN_SCREENSHOT_COUNT = 5000;
-const PRO_PLAN_FLAT_PRICE = 30;
-const PRO_PLAN_SCREENSHOT_COUNT = 15000;
-const ADDITIONAL_SCREENSHOT_PRICE = 0.0025;
-const GITHUB_SSO_PRICE = 50;
+export const HOBBY_PLAN_SCREENSHOT_COUNT = 5000;
+export const PRO_PLAN_FLAT_PRICE = 30;
+export const PRO_PLAN_SCREENSHOT_COUNT = 15000;
+export const ADDITIONAL_SCREENSHOT_PRICE = 0.0025;
+export const GITHUB_SSO_PRICE = 50;
 
 export const metadata: Metadata = getMetadata({
   title: "Pricing plans",
@@ -25,9 +25,9 @@ export const metadata: Metadata = getMetadata({
   pathname: "/pricing",
 });
 
-const H1 = twc.h1`my-8 font-accent text-5xl sm:text-6xl`;
-const H2 = twc.h2`mb-8 font-accent text-4xl md:text-5xl`;
-const Section = twc(
+export const H1 = twc.h1`my-8 font-accent text-5xl sm:text-6xl`;
+export const H2 = twc.h2`mb-8 font-accent text-4xl md:text-5xl`;
+export const Section = twc(
   Container,
 )`flex flex-col items-center gap-6 text-center py-12`;
 
