@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import { getChangelogs } from "@/lib/changelog-api";
+import { getPaginatedChangelogs } from "@/lib/changelog-api";
 import { getMetadata } from "@/lib/metadata";
 
 import { Changelogs } from "./changelogs";
@@ -12,6 +12,12 @@ export const metadata: Metadata = getMetadata({
 });
 
 export default async function Page() {
-  const changelogs = await getChangelogs();
-  return <Changelogs changelogs={changelogs} />;
+  const result = await getPaginatedChangelogs({ page: 1 });
+  return (
+    <Changelogs
+      changelogs={result.entries}
+      next={result.next}
+      previous={result.previous}
+    />
+  );
 }
