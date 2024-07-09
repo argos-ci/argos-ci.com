@@ -1,5 +1,6 @@
 import NextLink from "next/link";
 
+import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 import { Link } from "@/components/Link";
 import { ChangelogEntry } from "@/lib/changelog-api";
@@ -11,6 +12,8 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
 export function Changelogs(props: {
   changelogs: ChangelogEntry[];
   single?: boolean;
+  previous?: number | null;
+  next?: number | null;
 }) {
   return (
     <Container className="my-10" style={{ contain: "none" }}>
@@ -66,6 +69,30 @@ export function Changelogs(props: {
           </article>
         );
       })}
+      {props.previous || props.next ? (
+        <div className="mt-8 flex gap-4">
+          {props.previous ? (
+            <Button variant="outline" className="mr-auto" asChild>
+              <NextLink
+                href={
+                  props.previous === 1
+                    ? `/changelog`
+                    : `/changelog/page/${props.previous}`
+                }
+              >
+                Newer posts
+              </NextLink>
+            </Button>
+          ) : null}
+          {props.next ? (
+            <Button variant="outline" className="ml-auto" asChild>
+              <NextLink href={`/changelog/page/${props.next}`}>
+                Previous posts
+              </NextLink>
+            </Button>
+          ) : null}
+        </div>
+      ) : null}
     </Container>
   );
 }

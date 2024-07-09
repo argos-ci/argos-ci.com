@@ -12,6 +12,8 @@ import { z } from "zod";
 
 import { Zoom } from "@/components/Zoom";
 
+const PAGE_SIZE = 10;
+
 const FrontmatterSchema = z.object({
   title: z.string(),
   description: z.string(),
@@ -102,7 +104,7 @@ async function getChangelogFromPath(
   };
 }
 
-function validateAllChangelogs(
+function validateChangelogs(
   changelogs: unknown[],
 ): asserts changelogs is ChangelogEntry[] {
   if (changelogs.some((changelog) => changelog === null)) {
@@ -110,13 +112,32 @@ function validateAllChangelogs(
   }
 }
 
-export async function getChangelogs(): Promise<ChangelogEntry[]> {
+export async function getAllChangelogs() {
   const files = await fg("./changelogs/**/*.mdx");
-  const changelogs = await Promise.all(files.map(getChangelogFromPath));
-  validateAllChangelogs(changelogs);
-  return changelogs.sort(
-    (a, b) => Number(new Date(b.date)) - Number(new Date(a.date)),
+  // Reverse the order of the files to show the latest first
+  files.reverse();
+  const entries = await Promise.all(files.map(getChangelogFromPath));
+  validateChangelogs(entries);
+  return entries;
+}
+
+export async function getPaginatedChangelogs(input: { page: number }) {
+  const allChangelogs = await getAllChangelogs();
+  const entries = allChangelogs.slice(
+    (input.page - 1) * PAGE_SIZE,
+    input.page * PAGE_SIZE,
   );
+  const hasMore = allChangelogs.length > input.page * PAGE_SIZE;
+  const hasLess = input.page > 1;
+  return {
+    entries,
+    next: hasMore ? input.page + 1 : null,
+    previous: hasLess ? input.page - 1 : null,
+  };
+}
+
+export function getChangelogPagesCount(nbEntries: number) {
+  return Math.ceil(nbEntries / PAGE_SIZE);
 }
 
 export async function getChangelogEntryBySlug(
