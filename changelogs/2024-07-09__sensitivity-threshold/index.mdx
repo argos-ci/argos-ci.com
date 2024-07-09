@@ -1,0 +1,17 @@
+---
+title: Sensitivity threshold per screenshot
+description: Adjust screenshot sensitivity per test to reduce flakiness and improve accuracy, especially for static content like Mermaid diagrams.
+slug: sensitivity-threshold
+date: 2024-07-09
+---
+
+![Argos Sensitivity Threshold](/assets/changelogs/sensitivity-threshold/sensitivity-threshold.jpg)
+
+It is now possible to specify a sensitivity threshold for each screenshot. This enhancement enables you to adjust the sensitivity based on the nature of the application being tested.
+
+For example, the [Mermaid team](https://mermaid.js.org/), who use Argos to test their diagrams, can reduce the sensitivity threshold for their less flaky content. This ensures that your visual tests are more accurate and reduces false positives, providing you with more reliable results.
+
+- **Reduce false positives:** Especially useful for less flaky content like Mermaid diagrams, leading to more consistent and dependable visual testing.
+- **Enhanced flexibility:** Gives you greater control over your visual testing process, allowing for more nuanced adjustments and improved test outcomes.
+
+The `threshold` option is now available in all SDKs under the `argosScreenshot` options. You can also apply it directly via the command line using the `--threshold` flag, which will be applied to all screenshots.
