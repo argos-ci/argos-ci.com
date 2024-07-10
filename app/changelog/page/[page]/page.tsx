@@ -1,7 +1,11 @@
 import { Metadata, ResolvingMetadata } from "next";
 import { notFound, redirect } from "next/navigation";
 
-import { getPaginatedChangelogs } from "@/lib/changelog-api";
+import {
+  getAllChangelogs,
+  getChangelogPagesCount,
+  getPaginatedChangelogs,
+} from "@/lib/changelog-api";
 import { getMetadata } from "@/lib/metadata";
 
 import { Changelogs } from "../../changelogs";
@@ -18,6 +22,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: "New updates and improvements to Argos.",
     pathname: `/changelog/${page}`,
   });
+}
+
+export async function generateStaticParams() {
+  const changelogs = await getAllChangelogs();
+  const pageCount = getChangelogPagesCount(changelogs.length);
+  return Array.from({ length: pageCount - 1 }, (_, i) => ({
+    params: { page: String(i + 2) },
+  }));
 }
 
 export default async function Page({ params }: Props) {
