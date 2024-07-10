@@ -2,7 +2,7 @@ import { Metadata, ResolvingMetadata } from "next";
 import { notFound, redirect } from "next/navigation";
 
 import {
-  getAllChangelogs,
+  getChangelogFiles,
   getChangelogPagesCount,
   getPaginatedChangelogs,
 } from "@/lib/changelog-api";
@@ -14,6 +14,14 @@ type Props = {
   params: { page: string };
 };
 
+export async function generateStaticParams() {
+  const files = await getChangelogFiles();
+  const pageCount = getChangelogPagesCount(files.length);
+  return Array.from({ length: pageCount - 1 }, (_, i) => ({
+    page: String(i + 2),
+  }));
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const page = params.page;
 
@@ -22,14 +30,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: "New updates and improvements to Argos.",
     pathname: `/changelog/${page}`,
   });
-}
-
-export async function generateStaticParams() {
-  const changelogs = await getAllChangelogs();
-  const pageCount = getChangelogPagesCount(changelogs.length);
-  return Array.from({ length: pageCount - 1 }, (_, i) => ({
-    params: { page: String(i + 2) },
-  }));
 }
 
 export default async function Page({ params }: Props) {

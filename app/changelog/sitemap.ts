@@ -1,11 +1,16 @@
 import { MetadataRoute } from "next";
 
-import { getAllChangelogs, getChangelogPagesCount } from "@/lib/changelog-api";
+import {
+  getChangelogEntries,
+  getChangelogFiles,
+  getChangelogPagesCount,
+} from "@/lib/changelog-api";
 
 const BASE_URL = "https://argos-ci.com";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const changelogs = await getAllChangelogs();
+  const files = await getChangelogFiles();
+  const changelogs = await getChangelogEntries(files);
   const pageCount = getChangelogPagesCount(changelogs.length);
   return [
     ...Array.from({ length: pageCount - 1 }, (_, i) => ({

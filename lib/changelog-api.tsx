@@ -112,25 +112,28 @@ function validateChangelogs(
   }
 }
 
-export async function getAllChangelogs() {
+export async function getChangelogFiles() {
   const files = await fg("./changelogs/**/*.mdx");
-  // Reverse the order of the files to show the latest first
-  files.reverse();
+  files.sort((a, b) => b.localeCompare(a));
+  return files;
+}
+
+export async function getChangelogEntries(files: string[]) {
   const entries = await Promise.all(files.map(getChangelogFromPath));
   validateChangelogs(entries);
   return entries;
 }
 
 export async function getPaginatedChangelogs(input: { page: number }) {
-  const allChangelogs = await getAllChangelogs();
-  const entries = allChangelogs.slice(
+  const allFiles = await getChangelogFiles();
+  const files = allFiles.slice(
     (input.page - 1) * PAGE_SIZE,
     input.page * PAGE_SIZE,
   );
-  const hasMore = allChangelogs.length > input.page * PAGE_SIZE;
+  const hasMore = allFiles.length > input.page * PAGE_SIZE;
   const hasLess = input.page > 1;
   return {
-    entries,
+    entries: await getChangelogEntries(files),
     next: hasMore ? input.page + 1 : null,
     previous: hasLess ? input.page - 1 : null,
   };

@@ -2,7 +2,11 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import * as React from "react";
 
-import { getAllChangelogs, getChangelogEntryBySlug } from "@/lib/changelog-api";
+import {
+  getChangelogEntries,
+  getChangelogEntryBySlug,
+  getChangelogFiles,
+} from "@/lib/changelog-api";
 
 import { Changelogs } from "../changelogs";
 
@@ -11,7 +15,8 @@ type Props = {
 };
 
 export async function generateStaticParams() {
-  const changelogs = await getAllChangelogs();
+  const files = await getChangelogFiles();
+  const changelogs = await getChangelogEntries(files);
   return changelogs
     .filter((changelog) => changelog.slug !== "")
     .map((changelog) => ({
@@ -25,7 +30,6 @@ async function getChangelogFromParams(params: Props["params"]) {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  console.log(params);
   const changelog = await getChangelogFromParams(params);
   if (!changelog) {
     notFound();
