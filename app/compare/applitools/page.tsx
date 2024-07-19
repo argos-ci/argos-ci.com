@@ -47,7 +47,7 @@ export default function Page() {
   return (
     <main className="flex flex-col gap-20 pb-8 pt-16 md:gap-24">
       <Container className="flex flex-col gap-20 md:gap-24" noGutter>
-        <Section className="flex flex-col gap-6" gutter>
+        <Section className="flex flex-col gap-6" $gutter>
           <div className="text-xs font-semibold uppercase text-violet-11">
             Compare
           </div>
@@ -63,11 +63,11 @@ export default function Page() {
           <HeroIllustration />
         </Section>
 
-        <Section className="overflow-x-auto" gutter>
+        <Section className="overflow-x-auto" $gutter>
           <ProductComparisonTable />
         </Section>
 
-        <Section gutter>
+        <Section $gutter>
           <SectionTitle>Argos Price</SectionTitle>
           <PricingSlider
             proPlanFlatPrice={PRO_PLAN_FLAT_PRICE}
@@ -98,7 +98,9 @@ export default function Page() {
             your project in less than 10 minutes. No credit card required.
           </p>
           <div className="mt-4 flex gap-2">
-            <Button>Sign up</Button>
+            <Button>
+              <Link href="https://app.argos-ci.com/signup">Sign up</Link>
+            </Button>
             <Button variant="outline" asChild>
               <Link href="https://cal.com/jsfez">Request demo</Link>
             </Button>

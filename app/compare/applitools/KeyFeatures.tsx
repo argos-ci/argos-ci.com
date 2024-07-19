@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
-import { BlueLink } from "../../../components/Link";
+import { ColoredLink } from "../../../components/Link";
 import { Feature, Row, Separator } from "../../home/features/Features";
 
 export const KeyFeatures = () => (
@@ -31,7 +31,10 @@ export const KeyFeatures = () => (
         icon={BookOpenText}
         text={
           <>
-            We <BlueLink href="https://x.com/argos_ci">#buildInPublic</BlueLink>{" "}
+            We{" "}
+            <ColoredLink href="https://x.com/argos_ci">
+              #buildInPublic
+            </ColoredLink>{" "}
             to improve state of the art and support impactful projects.
           </>
         }

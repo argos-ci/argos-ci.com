@@ -30,8 +30,8 @@ export const Container = ({
 };
 
 export type SectionProps = TwcComponentProps<"div"> & {
-  gutter?: boolean;
+  $gutter?: boolean;
 };
 export const Section = twc.div<SectionProps>((props) => [
-  props.gutter ? "px-4 sm:px-8" : "",
+  props.$gutter ? "px-4 sm:px-8" : "",
 ]);

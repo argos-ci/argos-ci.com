@@ -11,12 +11,12 @@ export const Link = ({
   </NextLink>
 );
 
-export const BlueLink = ({
+export const ColoredLink = ({
   children,
   href,
   ...props
 }: ComponentProps<typeof NextLink>) => (
-  <NextLink href={href} className="text-blue-10 hover:underline" {...props}>
+  <NextLink href={href} className="text-violet-8 hover:underline" {...props}>
     {children}
   </NextLink>
 );

@@ -4,7 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/Accordion";
-import { BlueLink, Link } from "@/components/Link";
+import { ColoredLink, Link } from "@/components/Link";
 
 export const ApplitoolsFAQ = () => (
   <Accordion
@@ -26,9 +26,9 @@ export const ApplitoolsFAQ = () => (
         <p>
           <span className="font-semibold">Argos</span> is designed for
           self-onboarding in just a few minutes. We offer support on the{" "}
-          <BlueLink href="https://argos-ci.com/discord">
+          <ColoredLink href="https://argos-ci.com/discord">
             Argos Discord channel
-          </BlueLink>{" "}
+          </ColoredLink>{" "}
           to assist with setup, as well as private calls to answer your
           questions.
         </p>
@@ -103,9 +103,9 @@ export const ApplitoolsFAQ = () => (
         </p>
         <p>
           <span className="font-semibold">Argos</span> offers{" "}
-          <BlueLink href="/pricing">
+          <ColoredLink href="/pricing">
             transparent and affordable pricing
-          </BlueLink>
+          </ColoredLink>
           . Custom pricing can be arranged for specific features or dedicated
           support requests.
         </p>
