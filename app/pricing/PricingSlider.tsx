@@ -48,16 +48,31 @@ const useDisplayableScreenshotCount = ({
   maxScreenshots,
   screenshotCount,
   proPlanScreenshotCount,
+  short,
 }: {
   isMaxScreenshots: boolean;
   maxScreenshots: number;
   screenshotCount: number;
   proPlanScreenshotCount: number;
+  short?: boolean;
 }) => {
   if (screenshotCount === 0) {
     return (
       <>
         less than <LocalString value={proPlanScreenshotCount} />
+      </>
+    );
+  }
+
+  if (isMaxScreenshots && short) {
+    return (
+      <>
+        <span className="hidden md:inline-block">
+          more than <LocalString value={maxScreenshots} />
+        </span>
+        <span className="md:hidden">
+          + <LocalString value={maxScreenshots} />
+        </span>
       </>
     );
   }
@@ -90,8 +105,16 @@ export const PricingSlider = ({
   maxPrice?: number;
   step?: number;
 }) => {
-  const [value, setValue] = React.useState([0]);
+  const [value, setValue] = React.useState([20000]);
   const isMaxScreenshots = value[0] >= maxScreenshots;
+
+  const formattedScreenshotCountShort = useDisplayableScreenshotCount({
+    isMaxScreenshots,
+    maxScreenshots,
+    screenshotCount: value[0],
+    proPlanScreenshotCount,
+    short: true,
+  });
 
   const formattedScreenshotCount = useDisplayableScreenshotCount({
     isMaxScreenshots,
@@ -110,12 +133,12 @@ export const PricingSlider = ({
   });
 
   return (
-    <div className="flex w-full flex-col gap-4">
+    <div className="flex w-full flex-col items-center gap-4">
       <div className="mx-auto flex w-full max-w-lg flex-col gap-2">
-        <div className="flex items-center justify-between">
-          <div className="text-lg  font-medium">Screenshots per month?</div>
-          <div className="text-sm font-medium text-hover">
-            {formattedScreenshotCount} screenshots
+        <div className="flex items-baseline justify-between">
+          <div className="text-lg font-medium">Screenshots per month?</div>
+          <div className="text-right text-sm font-medium text-hover">
+            {formattedScreenshotCountShort} screenshots
           </div>
         </div>
 
@@ -128,7 +151,7 @@ export const PricingSlider = ({
         />
       </div>
 
-      <div className="mt-4 text-balance text-lg leading-relaxed md:text-xl">
+      <div className="mt-4 text-lg leading-relaxed md:text-xl">
         For{" "}
         <span className="text-hover">
           {formattedScreenshotCount} screenshots

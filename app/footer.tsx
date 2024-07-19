@@ -12,7 +12,7 @@ import { GitHubIcon } from "@/components/icons/GitHubIcon";
 import { XIcon } from "@/components/icons/XIcon";
 
 const FooterSection = twc.div`my-2 flex flex-1 flex-grow basis-36 flex-col gap-2 whitespace-nowrap`;
-const FooterSectionTitle = twc.div`mb-1 font-medium`;
+const FooterSectionTitle = twc.div`mb-1 font-semibold text-low text-sm tracking-wider`;
 const FooterIconLink = twc.a`text-low transition hover:text`;
 
 function FooterLink(props: { children: React.ReactNode; href: string }) {
@@ -92,14 +92,16 @@ export const AppFooter: React.FC = () => (
         </FooterSection>
 
         <FooterSection>
-          <FooterSectionTitle>Community</FooterSectionTitle>
+          <FooterSectionTitle>Resources</FooterSectionTitle>
           <FooterLink href="/oss-friends">OSS Friends</FooterLink>
           <FooterLink href="https://github.com/argos-ci/argos">
             GitHub
           </FooterLink>
-          <FooterLink href="https://twitter.com/argos_ci">X.com</FooterLink>
           <FooterLink href="https://argos-ci.com/discord">Discord</FooterLink>
           <FooterLink href="mailto:contact@argos-ci.com">Contact us</FooterLink>
+          <FooterLink href="/compare/applitools">
+            Compare to Applitools
+          </FooterLink>
         </FooterSection>
         <FooterSection>
           <FooterSectionTitle>Preferences</FooterSectionTitle>

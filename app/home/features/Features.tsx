@@ -2,20 +2,20 @@ import clsx from "clsx";
 import {
   ChromeIcon,
   GalleryHorizontal,
-  TowerControlIcon,
   GitBranchIcon,
   GitPullRequestIcon,
   LucideIcon,
   MonitorCheckIcon,
   ScanSearchIcon,
   TabletSmartphoneIcon,
+  TowerControlIcon,
   Wand2Icon,
 } from "lucide-react";
 
 import { Container } from "@/components/Container";
 import { H2 } from "@/components/H2";
 
-function Feature({
+export function Feature({
   title,
   icon: Icon,
   text,
@@ -25,7 +25,7 @@ function Feature({
   text: React.ReactNode;
 }) {
   return (
-    <section className="max-w-sm flex-1 py-8 md:max-w-none md:py-12">
+    <section className="max-w-sm flex-1 py-6 md:max-w-none md:py-12">
       <h3 className="mb-4 flex items-center gap-3 text-xl font-medium">
         <Icon className="h-7 w-7 text-violet-11" strokeWidth={1} /> {title}
       </h3>
@@ -34,7 +34,7 @@ function Feature({
   );
 }
 
-function Separator({
+export function Separator({
   orientation,
 }: {
   orientation: "horizontal" | "vertical";
@@ -52,7 +52,7 @@ function Separator({
   );
 }
 
-function Row({ children }: { children: React.ReactNode }) {
+export function Row({ children }: { children: React.ReactNode }) {
   return (
     <div className="relative flex flex-col md:flex-row md:items-center md:gap-12">
       {children}
