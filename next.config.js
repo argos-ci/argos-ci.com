@@ -16,7 +16,7 @@ const nextConfig = {
       },
       {
         source: "/discord",
-        destination: "https://argos-ci.com/discord",
+        destination: "https://discord.gg/WjzGrQGS4A",
         permanent: false,
       },
     ];
