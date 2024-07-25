@@ -20,8 +20,9 @@ import { KeyFeatures } from "./KeyFeatures";
 import { ProductComparisonTable } from "./ProductComparisonTable";
 
 export const metadata: Metadata = getMetadata({
-  absoluteTitle: "Argos - Applitools alternative",
-  description: "Comprehensive comparison between Argos and Applitools",
+  absoluteTitle: "Argos, the alternative to Applitools",
+  description:
+    "Explore a detailed comparison of Argos and Applitools, focusing on features, performance, and ease of use in visual testing.",
   pathname: "/",
 });
 
