@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return getMetadata({
     title: `Changelog - Page ${page}`,
     description: "New updates and improvements to Argos.",
-    pathname: `/changelog/${page}`,
+    pathname: `/changelog/page/${page}`,
   });
 }
 
