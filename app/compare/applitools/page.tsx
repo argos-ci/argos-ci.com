@@ -23,7 +23,7 @@ export const metadata: Metadata = getMetadata({
   absoluteTitle: "Argos, the alternative to Applitools",
   description:
     "Explore a detailed comparison of Argos and Applitools, focusing on features, performance, and ease of use in visual testing.",
-  pathname: "/",
+  pathname: "/compare/applitools",
 });
 
 const SectionTitle = twc.h2`mb-6 font-accent text-4xl`;
