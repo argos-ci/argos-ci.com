@@ -1,23 +1,32 @@
+import {
+  BlocksIcon,
+  BookOpenTextIcon,
+  LockKeyholeIcon,
+  MessageSquareTextIcon,
+  PencilRulerIcon,
+  Users2Icon,
+} from "lucide-react";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { twc } from "react-twc";
 
-import { Container, Section } from "@/components/Container";
-import applitools from "@/images/brands/applitools-white.svg";
-
-import { ArgosLogo } from "../../../components/ArgosLogo";
-import { Button } from "../../../components/Button";
-import { getMetadata } from "../../../lib/metadata";
-import { PricingSlider } from "../../pricing/PricingSlider";
+import { PricingSlider } from "@/app/common/PricingSlider";
 import {
-  ADDITIONAL_SCREENSHOT_PRICE,
-  PRO_PLAN_FLAT_PRICE,
-  PRO_PLAN_SCREENSHOT_COUNT,
-} from "../../pricing/page";
-import { ApplitoolsFAQ } from "./ApplitoolsFAQ";
-import { KeyFeatures } from "./KeyFeatures";
-import { ProductComparisonTable } from "./ProductComparisonTable";
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/Accordion";
+import { ArgosLogo } from "@/components/ArgosLogo";
+import { Button } from "@/components/Button";
+import { Container, Section } from "@/components/Container";
+import { Feature, FeatureRow, FeatureSeparator } from "@/components/Feature";
+import { ColoredLink } from "@/components/Link";
+import applitools from "@/images/brands/applitools.svg";
+import { getMetadata } from "@/lib/metadata";
+
+import { ComparisonTable } from "./table";
 
 export const metadata: Metadata = getMetadata({
   absoluteTitle: "Argos, the alternative to Applitools",
@@ -27,22 +36,6 @@ export const metadata: Metadata = getMetadata({
 });
 
 const SectionTitle = twc.h2`mb-6 font-accent text-4xl`;
-
-const HeroIllustration = () => (
-  <div className="relative flex h-48 sm:h-60">
-    <div className="relative flex-1 bg-black">
-      <Image
-        src={applitools}
-        alt="Applitools logo"
-        fill
-        className="px-5 sm:px-10 md:px-20"
-      />
-    </div>
-    <div className="flex-1 place-content-center bg-primary-subtle">
-      <ArgosLogo className="px-5 sm:px-10 md:px-20" />
-    </div>
-  </div>
-);
 
 export default function Page() {
   return (
@@ -61,49 +54,236 @@ export default function Page() {
             unique strengths, making it easier for you to choose the right tool
             for your needs.
           </p>
-          <HeroIllustration />
+          <div className="relative mt-10 flex h-48 sm:h-60">
+            <div className="relative flex-1 border-r border-dashed border-violet-6">
+              <Image
+                src={applitools}
+                alt="Applitools logo"
+                fill
+                className="px-5 sm:px-10 md:px-20"
+              />
+            </div>
+            <div className="flex-1 place-content-center">
+              <ArgosLogo className="px-5 sm:px-10 md:px-20" />
+            </div>
+          </div>
         </Section>
 
         <Section className="overflow-x-auto" $gutter>
-          <ProductComparisonTable />
+          <ComparisonTable />
         </Section>
 
         <Section $gutter>
-          <SectionTitle>Argos Price</SectionTitle>
-          <PricingSlider
-            proPlanFlatPrice={PRO_PLAN_FLAT_PRICE}
-            proPlanScreenshotCount={PRO_PLAN_SCREENSHOT_COUNT}
-            additionalScreenshotPrice={ADDITIONAL_SCREENSHOT_PRICE}
-          />
+          <SectionTitle>Argos Pricing</SectionTitle>
+          <PricingSlider />
         </Section>
       </Container>
 
       <section className="bg-primary-subtle">
         <Container className="pb-4 pt-10">
           <SectionTitle>Argos key features</SectionTitle>
-          <KeyFeatures />
+          <div>
+            <FeatureRow>
+              <Feature
+                title="Well-crafted UI"
+                icon={PencilRulerIcon}
+                text="Crafted to satisfy exigent developers. Inspired by Figma, Linear, and Stripe."
+              />
+              <FeatureSeparator orientation="vertical" />
+              <Feature
+                title="Community driven"
+                icon={Users2Icon}
+                text="We are close to our users, that the roadmap is driven by their feedback."
+              />
+              <FeatureSeparator orientation="vertical" />
+              <Feature
+                title="Open source"
+                icon={BookOpenTextIcon}
+                text={
+                  <>
+                    We{" "}
+                    <ColoredLink href="https://x.com/argos_ci">
+                      #buildInPublic
+                    </ColoredLink>{" "}
+                    to improve state of the art and support impactful projects.
+                  </>
+                }
+              />
+            </FeatureRow>
+            <FeatureSeparator orientation="horizontal" />
+            <FeatureRow>
+              <Feature
+                title="Integrate with your stack"
+                icon={BlocksIcon}
+                text="Argos integrate with your testing tool to capture stable screenshots."
+              />
+              <FeatureSeparator orientation="vertical" />
+              <Feature
+                title="Fine-grain access control"
+                icon={LockKeyholeIcon}
+                text="Control team members access and permissions for each project."
+              />
+              <FeatureSeparator orientation="vertical" />
+              <Feature
+                title="Dedicated support"
+                icon={MessageSquareTextIcon}
+                text="Get help from experimented developers to improve your tests."
+              />
+            </FeatureRow>
+          </div>
         </Container>
       </section>
 
       <Container className="flex flex-col gap-20 md:gap-24">
         <section className="text-center">
-          <SectionTitle>Applitools / Argos FAQ</SectionTitle>
-          <ApplitoolsFAQ />
+          <SectionTitle>Applitools vs Argos FAQ</SectionTitle>
+          <Accordion
+            type="single"
+            collapsible
+            className="mx-auto mt-4 w-full max-w-2xl text-left"
+          >
+            <AccordionItem value="self-onboard">
+              <AccordionTrigger>
+                Can I start using Applitools by myself?
+              </AccordionTrigger>
+              <AccordionContent>
+                <p>
+                  You can access a demo project in{" "}
+                  <span className="font-semibold">Applitools</span>, but you
+                  need to speak with a salesperson before installing it on your
+                  project and receiving a price estimation.
+                </p>
+                <p>
+                  <span className="font-semibold">Argos</span> is designed for
+                  self-onboarding in just a few minutes. We offer support on the{" "}
+                  <ColoredLink href="https://argos-ci.com/discord">
+                    Argos Discord channel
+                  </ColoredLink>{" "}
+                  to assist with setup, as well as private calls to answer your
+                  questions.
+                </p>
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="flaky-screenshot">
+              <AccordionTrigger>
+                Is Applitools visual testing flaky?
+              </AccordionTrigger>
+              <AccordionContent>
+                <p>
+                  Flaky tests are a significant issue in visual testing, and
+                  each product has its own way of addressing this problem.
+                </p>
+                <p>
+                  <span className="font-semibold">Applitools</span>' AI
+                  technology helps minimize false positives but comes at a high
+                  cost and removes variations from each image of each build.
+                </p>
+                <p>
+                  <span className="font-semibold">Argos</span> uses an algorithm
+                  that waits for page stabilization before taking a screenshot.
+                  This algorithm is open-source and embedded in every Argos
+                  integration.
+                </p>
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="language-agnostic">
+              <AccordionTrigger>
+                Why is Argos language agnostic?
+              </AccordionTrigger>
+              <AccordionContent>
+                <p>
+                  <span className="font-semibold">Applitools</span> provides
+                  SDKs for several languages to enable its use.
+                </p>
+                <p>
+                  <span className="font-semibold">Argos</span> relies on a bash
+                  command to upload screenshots. As long as you can capture
+                  screenshots of your website, you can use Argos.
+                </p>
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="ci-compatibility">
+              <AccordionTrigger>
+                Is Applitools compatible with my CI?
+              </AccordionTrigger>
+              <AccordionContent>
+                <p>
+                  Both <span className="font-semibold">Applitools</span> and{" "}
+                  <span className="font-semibold">Argos</span> are compatible
+                  with most CI systems on the market.
+                </p>
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="fine-grain-access-control">
+              <AccordionTrigger>
+                Can I control team members' access?
+              </AccordionTrigger>
+              <AccordionContent>
+                <p>
+                  Both <span className="font-semibold">Applitools</span> and{" "}
+                  <span className="font-semibold">Argos</span> allow you to
+                  control team members' access and permissions for each project.
+                </p>
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="pricing-transparency">
+              <AccordionTrigger>
+                Why isn't Applitools pricing public?
+              </AccordionTrigger>
+              <AccordionContent>
+                <p>
+                  <span className="font-semibold">Applitools</span> doesn't
+                  disclose their pricing publicly, but it's known to be one of
+                  the more expensive options on the market. You will need to
+                  speak with a salesperson to get a price offer.
+                </p>
+                <p>
+                  <span className="font-semibold">Argos</span> offers{" "}
+                  <ColoredLink href="/pricing">
+                    transparent and affordable pricing
+                  </ColoredLink>
+                  . Custom pricing can be arranged for specific features or
+                  dedicated support requests.
+                </p>
+              </AccordionContent>
+            </AccordionItem>
+
+            <AccordionItem value="community-driven">
+              <AccordionTrigger>
+                What makes Argos community-driven?
+              </AccordionTrigger>
+              <AccordionContent>
+                <p>
+                  <span className="font-semibold">Argos</span> was founded by
+                  passionate developers. We actively engage with our users to
+                  discuss feature requests and understand their usage, ensuring
+                  our product roadmap aligns with real-world needs.
+                </p>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         </section>
 
         <section>
           <SectionTitle>Ready to try?</SectionTitle>
-          <p className="max-w-screen-sm">
+          <p className="max-w-screen-sm text-lg">
             Finding the right visual testing tool can be challenging. We hope
             this guide makes the choice clearer. Argos is easy to try—set up
             your project in less than 10 minutes. No credit card required.
           </p>
-          <div className="mt-4 flex gap-2">
-            <Button>
+          <div className="mt-4 flex gap-4">
+            <Button size="large">
               <Link href="https://app.argos-ci.com/signup">Sign up</Link>
             </Button>
-            <Button variant="outline" asChild>
-              <Link href="https://cal.com/jsfez">Request demo</Link>
+            <Button variant="outline" size="large" asChild>
+              <a href="https://cal.com/jsfez" target="_blank">
+                Request demo
+              </a>
             </Button>
           </div>
         </section>

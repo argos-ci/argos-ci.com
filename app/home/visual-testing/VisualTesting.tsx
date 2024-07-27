@@ -1,11 +1,14 @@
 import { ColoredCard } from "../common/ColoredCard";
-import { Feature } from "../common/Feature";
+import { FeatureSection } from "../common/FeatureSection";
 import { CodeAnimation } from "./CodeAnimation";
 import { ReviewChanges } from "./ReviewChanges";
 
 export function VisualTesting() {
   return (
-    <Feature surtitle="Visual Testing" title="Don't fix bugs, avoid them.">
+    <FeatureSection
+      surtitle="Visual Testing"
+      title="Don't fix bugs, avoid them."
+    >
       <ColoredCard
         color="amber"
         surtitle="Integrate"
@@ -24,6 +27,6 @@ export function VisualTesting() {
           <ReviewChanges />
         </div>
       </ColoredCard>
-    </Feature>
+    </FeatureSection>
   );
 }

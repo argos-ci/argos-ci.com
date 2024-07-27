@@ -8,15 +8,9 @@ import { Container } from "@/components/Container";
 import { Link } from "@/components/Link";
 import { getMetadata } from "@/lib/metadata";
 
+import { PricingSlider } from "../common/PricingSlider";
 import { PricingCards } from "./PricingCard";
 import { FAQ } from "./PricingFaq";
-import { PricingSlider } from "./PricingSlider";
-
-export const HOBBY_PLAN_SCREENSHOT_COUNT = 5000;
-export const PRO_PLAN_FLAT_PRICE = 30;
-export const PRO_PLAN_SCREENSHOT_COUNT = 15000;
-export const ADDITIONAL_SCREENSHOT_PRICE = 0.0025;
-export const GITHUB_SSO_PRICE = 50;
 
 export const metadata: Metadata = getMetadata({
   title: "Pricing plans",
@@ -25,9 +19,9 @@ export const metadata: Metadata = getMetadata({
   pathname: "/pricing",
 });
 
-export const H1 = twc.h1`my-8 font-accent text-5xl sm:text-6xl`;
-export const H2 = twc.h2`mb-8 font-accent text-4xl md:text-5xl`;
-export const Section = twc(
+const H1 = twc.h1`my-8 font-accent text-5xl sm:text-6xl`;
+const H2 = twc.h2`mb-8 font-accent text-4xl md:text-5xl`;
+const Section = twc(
   Container,
 )`flex flex-col items-center gap-6 text-center py-12`;
 
@@ -52,13 +46,7 @@ export default function Page() {
     <div className="flex flex-col gap-8 pb-14">
       <Section>
         <H1>Pricing plans</H1>
-        <PricingCards
-          hobbyPlanScreenshotCount={HOBBY_PLAN_SCREENSHOT_COUNT}
-          proPlanFlatPrice={PRO_PLAN_FLAT_PRICE}
-          proPlanScreenshotCount={PRO_PLAN_SCREENSHOT_COUNT}
-          additionalScreenshotPrice={ADDITIONAL_SCREENSHOT_PRICE}
-          githubSSOPrice={GITHUB_SSO_PRICE}
-        />
+        <PricingCards />
       </Section>
 
       <Section>
@@ -74,16 +62,12 @@ export default function Page() {
 
       <Section>
         <H2>How much does it cost?</H2>
-        <PricingSlider
-          proPlanFlatPrice={PRO_PLAN_FLAT_PRICE}
-          proPlanScreenshotCount={PRO_PLAN_SCREENSHOT_COUNT}
-          additionalScreenshotPrice={ADDITIONAL_SCREENSHOT_PRICE}
-        />
+        <PricingSlider />
       </Section>
 
       <Section>
         <H2>Frequently asked questions</H2>
-        <FAQ hobbyPlanScreenshotCount={HOBBY_PLAN_SCREENSHOT_COUNT} />
+        <FAQ />
       </Section>
     </div>
   );

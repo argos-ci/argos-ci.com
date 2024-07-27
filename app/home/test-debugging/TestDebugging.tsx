@@ -3,14 +3,14 @@ import Image from "next/image";
 import { Dolorean } from "@/components/dolorean/Dolorean";
 
 import { ColoredCard } from "../common/ColoredCard";
-import { Feature } from "../common/Feature";
+import { FeatureSection } from "../common/FeatureSection";
 import { FailureScreenshotSvg } from "./FailureScreenshotSvg";
 import replayDark from "./replay-dark.svg";
 import replayLight from "./replay-light.svg";
 
 export function TestDebugging() {
   return (
-    <Feature
+    <FeatureSection
       surtitle="End-to-end tests debugging"
       title={
         <>
@@ -54,6 +54,6 @@ export function TestDebugging() {
           <Dolorean className="absolute -bottom-[20%] left-0 w-[80%] animate-float md:w-[60%]" />
         </div>
       </ColoredCard>
-    </Feature>
+    </FeatureSection>
   );
 }
