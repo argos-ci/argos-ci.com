@@ -83,7 +83,7 @@ async function Siblings({ slug }: { slug: string }) {
   return (
     <section>
       <h3 className="mb-8 text-2xl font-semibold text">Read also</h3>
-      <div className="grid grid-cols-2 gap-x-16 gap-y-20">
+      <div className="grid grid-cols-2 gap-x-16 gap-y-20" data-visual-test="transparent">
         {sideArticles.map((article) => {
           return (
             <Link
@@ -97,9 +97,8 @@ async function Siblings({ slug }: { slug: string }) {
                   height={article.image.height}
                   src={article.image.src}
                   alt={article.imageAlt}
-                  data-visual-test="blackout"
                 />
-                <PostCardBody data-visual-test="blackout">
+                <PostCardBody>
                   {article.category && (
                     <PostCardTag>{article.category}</PostCardTag>
                   )}
