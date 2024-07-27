@@ -12,7 +12,7 @@ import { GitHubIcon } from "@/components/icons/GitHubIcon";
 import { XIcon } from "@/components/icons/XIcon";
 
 const FooterSection = twc.div`my-2 flex flex-1 flex-grow basis-36 flex-col gap-2 whitespace-nowrap`;
-const FooterSectionTitle = twc.div`mb-1 font-semibold text-low text-sm tracking-wider`;
+const FooterSectionTitle = twc.div`mb-1 font-medium`;
 const FooterIconLink = twc.a`text-low transition hover:text`;
 
 function FooterLink(props: { children: React.ReactNode; href: string }) {

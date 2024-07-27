@@ -4,13 +4,19 @@ import * as React from "react";
 import { twc } from "react-twc";
 
 import { Button, ButtonProps } from "@/components/Button";
-import { Link } from "@/components/Link";
-
 import {
   LocalDollar,
   LocalPercentage,
   LocalString,
-} from "./FormattersComponents";
+} from "@/components/IntlFormat";
+import { Link } from "@/components/Link";
+import {
+  ADDITIONAL_SCREENSHOT_PRICE,
+  GITHUB_SSO_PRICE,
+  HOBBY_PLAN_SCREENSHOT_COUNT,
+  PRO_PLAN_FLAT_PRICE,
+  PRO_PLAN_SCREENSHOT_COUNT,
+} from "@/lib/constants";
 
 const PricingCardBody = twc.div`p-6 text-left text-low`;
 const Title = twc.div`mb-2 text-xl font-semibold text`;
@@ -102,19 +108,7 @@ const CTA = ({
   </Button>
 );
 
-export const PricingCards = ({
-  hobbyPlanScreenshotCount,
-  proPlanFlatPrice,
-  proPlanScreenshotCount,
-  additionalScreenshotPrice,
-  githubSSOPrice,
-}: {
-  hobbyPlanScreenshotCount: number;
-  proPlanFlatPrice: number;
-  proPlanScreenshotCount: number;
-  additionalScreenshotPrice: number;
-  githubSSOPrice: number;
-}) => {
+export function PricingCards() {
   return (
     <div className="grid w-full grid-cols-1 justify-center gap-6 md:grid-cols-3">
       <PricingCard>
@@ -130,7 +124,8 @@ export const PricingCards = ({
           <Features>
             <FeaturesCaption />
             <Feature>
-              Up to <LocalString value={hobbyPlanScreenshotCount} /> screenshots
+              Up to <LocalString value={HOBBY_PLAN_SCREENSHOT_COUNT} />{" "}
+              screenshots
             </Feature>
             <Feature>Unlimited Playwright Traces</Feature>
             <Feature>Visual changes detection</Feature>
@@ -149,7 +144,11 @@ export const PricingCards = ({
           <Description>
             Unlimited screenshots and team collaboration.
           </Description>
-          <Price price={proPlanFlatPrice} recurring={true} fixedPrice={false} />
+          <Price
+            price={PRO_PLAN_FLAT_PRICE}
+            recurring={true}
+            fixedPrice={false}
+          />
           <CTA href="https://app.argos-ci.com/signup?plan=pro">
             Start Free Trial
           </CTA>
@@ -157,11 +156,11 @@ export const PricingCards = ({
           <Features>
             <FeaturesCaption>Everything in Hobby, plus:</FeaturesCaption>
             <Feature>
-              Includes <LocalString value={proPlanScreenshotCount} />{" "}
+              Includes <LocalString value={PRO_PLAN_SCREENSHOT_COUNT} />{" "}
               screenshots
             </Feature>
             <Feature>
-              <LocalDollar value={additionalScreenshotPrice} /> per extra
+              <LocalDollar value={ADDITIONAL_SCREENSHOT_PRICE} /> per extra
               screenshot
             </Feature>
             <Feature>3 months of history</Feature>
@@ -171,7 +170,7 @@ export const PricingCards = ({
             <Feature optional>
               GitHub SSO
               <PriceBadge>
-                <LocalDollar value={githubSSOPrice} /> /mo
+                <LocalDollar value={GITHUB_SSO_PRICE} /> /mo
               </PriceBadge>
             </Feature>
           </Features>
@@ -204,4 +203,4 @@ export const PricingCards = ({
       </PricingCard>
     </div>
   );
-};
+}
