@@ -14,16 +14,16 @@ import {
   PERCY_SCREENSHOT_PRICE,
 } from "@/lib/constants";
 
-const MIN_SCREENSHOTS = 0;
+const MIN_SCREENSHOTS = 15_000;
 const MAX_SCREENSHOTS = 1_000_000;
 const STEP = 20_000;
 
 function formatCount(props: { max: number; count: number; short?: boolean }) {
   const { max, count, short } = props;
-  if (count === 0) {
+  if (count === MIN_SCREENSHOTS) {
     return (
       <>
-        less than <LocalString value={props.max} />
+        less than <LocalString value={MIN_SCREENSHOTS} />
       </>
     );
   }
