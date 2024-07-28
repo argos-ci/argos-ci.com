@@ -38,7 +38,7 @@ export function HeroSection(props: {
               src={props.logoSrc}
               alt={props.logoAlt}
               fill
-              className="px-5 sm:px-10 md:px-20"
+              className="px-5 dark:brightness-150 sm:px-10 md:px-20"
             />
           </div>
           <div className="flex-1 place-content-center">
