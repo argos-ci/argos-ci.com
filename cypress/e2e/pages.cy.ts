@@ -8,6 +8,8 @@ const pages = [
   { name: "blog-post-1", path: "/blog/visual-testing" },
   { name: "blog-post-2", path: "/blog/improve-dx" },
   { name: "blog-post-3", path: "/blog/playwright" },
+  { name: "percy-vs-argos", path: "/compare/percy" },
+  { name: "applitools-vs-argos", path: "/compare/applitools" },
 ];
 
 describe("Screenshot pages", () => {
