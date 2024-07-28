@@ -19,19 +19,11 @@ export const Container = ({
   return (
     <Comp
       className={clsx(
-        "container mx-auto",
+        "container mx-auto px-4 sm:px-8",
         tight ? "max-w-4xl" : "max-w-6xl",
-        noGutter ? "" : "px-4 sm:px-8",
         className,
       )}
       {...props}
     />
   );
 };
-
-export type SectionProps = TwcComponentProps<"div"> & {
-  $gutter?: boolean;
-};
-export const Section = twc.div<SectionProps>((props) => [
-  props.$gutter ? "px-4 sm:px-8" : "",
-]);

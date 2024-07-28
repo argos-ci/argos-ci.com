@@ -43,3 +43,19 @@ export function List(props: {
     </>
   );
 }
+
+export function THead(props: { title: React.ReactNode }) {
+  return (
+    <thead>
+      <Tr className="bg-primary-subtle [&>th]:pb-6 [&>th]:pt-6">
+        <Th className="w-[20%]" />
+        <Th className="w-[40%]">
+          <div className="text-2xl font-medium text">{props.title}</div>
+        </Th>
+        <Th className="w-[40%]">
+          <div className="text-2xl font-medium text">Argos</div>
+        </Th>
+      </Tr>
+    </thead>
+  );
+}

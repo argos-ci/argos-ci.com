@@ -11,11 +11,11 @@ import {
 } from "@/components/IntlFormat";
 import { Link } from "@/components/Link";
 import {
-  ADDITIONAL_SCREENSHOT_PRICE,
+  ARGOS_HOBBY_SCREENSHOT_COUNT,
+  ARGOS_PRO_FLAT_PRICE,
+  ARGOS_PRO_FLAT_SCREENSHOT_COUNT,
+  ARGOS_SCREENSHOT_PRICE,
   GITHUB_SSO_PRICE,
-  HOBBY_PLAN_SCREENSHOT_COUNT,
-  PRO_PLAN_FLAT_PRICE,
-  PRO_PLAN_SCREENSHOT_COUNT,
 } from "@/lib/constants";
 
 const PricingCardBody = twc.div`p-6 text-left text-low`;
@@ -124,7 +124,7 @@ export function PricingCards() {
           <Features>
             <FeaturesCaption />
             <Feature>
-              Up to <LocalString value={HOBBY_PLAN_SCREENSHOT_COUNT} />{" "}
+              Up to <LocalString value={ARGOS_HOBBY_SCREENSHOT_COUNT} />{" "}
               screenshots
             </Feature>
             <Feature>Unlimited Playwright Traces</Feature>
@@ -145,7 +145,7 @@ export function PricingCards() {
             Unlimited screenshots and team collaboration.
           </Description>
           <Price
-            price={PRO_PLAN_FLAT_PRICE}
+            price={ARGOS_PRO_FLAT_PRICE}
             recurring={true}
             fixedPrice={false}
           />
@@ -156,11 +156,11 @@ export function PricingCards() {
           <Features>
             <FeaturesCaption>Everything in Hobby, plus:</FeaturesCaption>
             <Feature>
-              Includes <LocalString value={PRO_PLAN_SCREENSHOT_COUNT} />{" "}
+              Includes <LocalString value={ARGOS_PRO_FLAT_SCREENSHOT_COUNT} />{" "}
               screenshots
             </Feature>
             <Feature>
-              <LocalDollar value={ADDITIONAL_SCREENSHOT_PRICE} /> per extra
+              <LocalDollar value={ARGOS_SCREENSHOT_PRICE} /> per extra
               screenshot
             </Feature>
             <Feature>3 months of history</Feature>

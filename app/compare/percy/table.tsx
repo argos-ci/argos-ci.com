@@ -5,17 +5,15 @@ import { List, THead, Table, Td, Th, Tr } from "@/components/ComparisonTable";
 export function ComparisonTable() {
   return (
     <Table>
-      <THead title="Applitools Eyes" />
-
+      <THead title="Percy by Browserstack" />
       <tbody>
         <Tr>
           <Th>Description</Th>
           <Td>
-            Applitools Eyes is recognized as one of the leading visual testing
-            tools. It uses AI to minimize false positives. Applitools offers a
-            highly configurable product tailored to meet the needs of enterprise
-            market companies. However, their UX/UI is functional but not
-            intuitive, and their high pricing can be prohibitive.
+            Percy is a leading visual testing platform known for its seamless
+            integration with CI/CD pipelines. It provides robust visual diffs
+            and regression detection, offering a user-friendly interface.
+            However, Percy’s pricing can be relatively high for small teams.
           </Td>
 
           <Td>
@@ -29,17 +27,14 @@ export function ComparisonTable() {
 
         <Tr>
           <Th>Customers</Th>
-          <Td>Fortune 500, Adidas, Chanel, Allianz, Wix</Td>
+          <Td>Google, Shopify, Canva, IBM, Basecamp</Td>
           <Td>Meta, MUI, GitBook, Yotpo, Le Monde, Business Insider</Td>
         </Tr>
 
         <Tr>
           <Th>Pricing</Th>
-          <Td>
-            <span className="font-semibold">Not public.</span> Contact for
-            pricing
-          </Td>
-          <Td>Starting at $30/month</Td>
+          <Td>Starting at $599/month (desktop & mobile)</Td>
+          <Td>Starting at $30/month (all platforms)</Td>
         </Tr>
 
         <Tr>
@@ -48,8 +43,8 @@ export function ComparisonTable() {
             <div className="flex flex-col gap-3 md:flex-row">
               <List
                 list={[
-                  "AI-powered",
-                  "Highly configurable",
+                  "Integrated with Browserstack",
+                  "Layout testing",
                   "Multi-baseline comparison",
                 ]}
                 icon={<Check className="size-4 text-green-500" />}
@@ -72,12 +67,7 @@ export function ComparisonTable() {
           <Th>Cons</Th>
           <Td>
             <List
-              list={[
-                "High price",
-                "Requires salesperson to start",
-                "Lacks price transparency",
-                "Unclear documentation",
-              ]}
+              list={["Expensive", "Poor DX", "Part of a larger platform"]}
               icon={<XIcon className="size-4 text-red-500" />}
             />
           </Td>
