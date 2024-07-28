@@ -93,15 +93,16 @@ export const AppFooter: React.FC = () => (
 
         <FooterSection>
           <FooterSectionTitle>Resources</FooterSectionTitle>
+          <FooterLink href="/compare/applitools">
+            Compare to Applitools
+          </FooterLink>
+          <FooterLink href="/compare/applitools">Compare to Percy</FooterLink>
           <FooterLink href="/oss-friends">OSS Friends</FooterLink>
           <FooterLink href="https://github.com/argos-ci/argos">
             GitHub
           </FooterLink>
           <FooterLink href="https://argos-ci.com/discord">Discord</FooterLink>
           <FooterLink href="mailto:contact@argos-ci.com">Contact us</FooterLink>
-          <FooterLink href="/compare/applitools">
-            Compare to Applitools
-          </FooterLink>
         </FooterSection>
         <FooterSection>
           <FooterSectionTitle>Preferences</FooterSectionTitle>

@@ -6,7 +6,7 @@ import {
 } from "@/components/Accordion";
 import { LocalString } from "@/components/IntlFormat";
 import { Link } from "@/components/Link";
-import { HOBBY_PLAN_SCREENSHOT_COUNT } from "@/lib/constants";
+import { ARGOS_HOBBY_SCREENSHOT_COUNT } from "@/lib/constants";
 
 export function FAQ() {
   return (
@@ -15,10 +15,10 @@ export function FAQ() {
         <AccordionTrigger>Which Argos plan is right for me?</AccordionTrigger>
         <AccordionContent>
           The Hobby plan is designed for personal GitHub repositories, providing
-          up to <LocalString value={HOBBY_PLAN_SCREENSHOT_COUNT} /> screenshots.
-          If you're seeking to collaborate as a team, need a higher screenshot
-          limit, or wish to use Argos on a repository within a private GitHub
-          organization, our Pro plan is the necessary choice.
+          up to <LocalString value={ARGOS_HOBBY_SCREENSHOT_COUNT} />{" "}
+          screenshots. If you're seeking to collaborate as a team, need a higher
+          screenshot limit, or wish to use Argos on a repository within a
+          private GitHub organization, our Pro plan is the necessary choice.
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="mobile-testing">
