@@ -10,12 +10,11 @@ export function ComparisonTable() {
         <Tr>
           <Th>Description</Th>
           <Td>
-            Percy is a leading visual testing platform known for its seamless
-            integration with CI/CD pipelines. It provides robust visual diffs
-            and regression detection, offering a user-friendly interface.
-            However, Percy’s pricing can be relatively high for small teams.
+            Percy is a widely-used testing platform that integrates with CI/CD
+            pipelines. It offers visual diffs and regression detection with a
+            straightforward interface. However, Percy’s pricing can be a barrier
+            for small teams and scaling projects.
           </Td>
-
           <Td>
             Argos is an open-source visual testing tool that offers a
             plug-and-play approach to catch visual regressions. Argos' strengths
@@ -27,14 +26,17 @@ export function ComparisonTable() {
 
         <Tr>
           <Th>Customers</Th>
-          <Td>Google, Shopify, Canva, IBM, Basecamp</Td>
+          <Td>Dollar shave club, Shopify, Canva, Google, Fastly</Td>
           <Td>Meta, MUI, GitBook, Yotpo, Le Monde, Business Insider</Td>
         </Tr>
 
         <Tr>
-          <Th>Pricing</Th>
-          <Td>Starting at $599/month (desktop & mobile)</Td>
-          <Td>Starting at $30/month (all platforms)</Td>
+          <Th>
+            Pricing{" "}
+            <div className="text-xs font-medium">(desktop & mobile)</div>
+          </Th>
+          <Td>Starting at $599/month</Td>
+          <Td>Starting at $30/month</Td>
         </Tr>
 
         <Tr>
@@ -45,7 +47,7 @@ export function ComparisonTable() {
                 list={[
                   "Integrated with Browserstack",
                   "Layout testing",
-                  "Multi-baseline comparison",
+                  "Baseline management",
                 ]}
                 icon={<Check className="size-4 text-green-500" />}
               />
@@ -67,7 +69,7 @@ export function ComparisonTable() {
           <Th>Cons</Th>
           <Td>
             <List
-              list={["Expensive", "Poor DX", "Part of a larger platform"]}
+              list={["Expensive", "Bad developer experience"]}
               icon={<XIcon className="size-4 text-red-500" />}
             />
           </Td>
