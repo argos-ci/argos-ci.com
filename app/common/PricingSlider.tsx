@@ -198,21 +198,23 @@ export function PercyPricingSlider() {
         <table>
           <tbody>
             <tr>
-              <th className="px-10 py-1 text-left font-normal">Percy</th>
-              <td className="w-40">
-                {formatPrice(percyPrice, isMaxScreenshots)}
+              <td className="border-r border-dashed px-10 py-1 pt-2 text-center font-normal">
+                <div className="font-medium">Percy</div>
+                <div>{formatPrice(percyPrice, isMaxScreenshots)}</div>
+              </td>
+              <td className="px-10 py-1 text-center font-normal">
+                <div className="font-medium">Argos</div>
+                <div>{formatPrice(argosPrice, isMaxScreenshots)}</div>
               </td>
             </tr>
-            <tr>
-              <th className="px-10 py-1 text-left font-normal">Argos</th>
-              <td className="w-40">
-                {formatPrice(argosPrice, isMaxScreenshots)}
-              </td>
-            </tr>
+
             <tr className="text-xl">
-              <th className="px-10 py-1 text-left font-medium">Savings</th>
-              <td className="w-40">
-                {formatPrice(percyPrice - argosPrice, isMaxScreenshots)}
+              <td colSpan={2} className="text-balance pt-5 text-center">
+                Save{" "}
+                <strong className="font-semibold">
+                  {formatPrice(percyPrice - argosPrice, isMaxScreenshots)}
+                </strong>{" "}
+                per month with Argos
               </td>
             </tr>
           </tbody>

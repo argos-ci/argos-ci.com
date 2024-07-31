@@ -8,24 +8,66 @@ import { Link } from "@/components/Link";
 export function FAQ() {
   return (
     <>
-      <AccordionItem value="flaky-screenshot">
+      <AccordionItem value="main-difference">
         <AccordionTrigger>
-          How Percy and Argos deal with flaky tests?
+          Main difference: snapshot vs screenshot
         </AccordionTrigger>
+        <AccordionContent>
+          <p>
+            <strong>Percy</strong> way is to upload snapshots your code and
+            render them on their servers. This approach tend to create small
+            variations, particularly noticeable when testing complex javascript
+            renders.
+          </p>
+          <p>
+            <strong>Argos</strong> work by comparing screenshots sent by the
+            user. If a difference is detected you can easily improve your test
+            to avoid false positives.
+          </p>
+        </AccordionContent>
+      </AccordionItem>
+
+      <AccordionItem value="flaky-screenshot">
+        <AccordionTrigger>Are Percy tests flaky?</AccordionTrigger>
         <AccordionContent>
           <p>
             Flaky tests are a significant issue in visual testing, and each
             product has its own way of addressing this problem.
           </p>
           <p>
-            <strong>Percy</strong> technology helps minimize false positives but
-            comes at a high cost and removes variations from each image of each
-            build.
+            <strong>Percy</strong> the snapshot approach tend to create more
+            flaky tests are hard to debug.
           </p>
           <p>
             <strong>Argos</strong> uses an algorithm that waits for page
             stabilization before taking a screenshot. This algorithm is
             open-source and embedded in every Argos integration.
+          </p>
+        </AccordionContent>
+      </AccordionItem>
+
+      <AccordionItem value="managing-baseline">
+        <AccordionTrigger>
+          How Percy and Argos manage baselines?
+        </AccordionTrigger>
+        <AccordionContent>
+          <p>
+            Both <strong>Percy</strong> and <strong>Argos</strong> allow you to
+            manage baselines relatively to git pull requests for feature
+            development or to plan comparison workflows, Recommended for QA /
+            SDET involve in testing.
+          </p>
+        </AccordionContent>
+      </AccordionItem>
+
+      <AccordionItem value="parallelize-uploads">
+        <AccordionTrigger>Can I parallelize uploads?</AccordionTrigger>
+        <AccordionContent>
+          <p>
+            <strong>Percy</strong> yes but you will pay an add-on for it.
+          </p>
+          <p>
+            <strong>Argos</strong> yes and it's included in the price.
           </p>
         </AccordionContent>
       </AccordionItem>
@@ -54,21 +96,15 @@ export function FAQ() {
 
       <AccordionItem value="pricing-transparency">
         <AccordionTrigger>
-          Why is Percy pricing higher compared to Argos?
+          Why is Percy pricing higher than Argos?
         </AccordionTrigger>
         <AccordionContent>
           <p>
-            <strong>Percy</strong>, as part of BrowserStack, is geared towards
-            enterprise-level solutions. With a large team and multiple products,
-            their pricing structure reflects the comprehensive support and
-            extensive resources they offer, which may not be cost-effective for
-            smaller projects.
-          </p>
-          <p>
-            Additionally, <strong>Percy</strong> captures screenshots remotely
-            on real devices and browsers, ensuring high accuracy but also
-            incurring higher operational costs compared to local screenshot
-            solutions like <strong>Argos</strong>.
+            <strong>Percy</strong>, is a part of BrowserStack. When you pay for
+            Percy, you will get others services that come with it. Additionally,{" "}
+            <strong>Percy</strong> captures screenshots remotely on real devices
+            and browsers, ensuring high accuracy but also incurring higher
+            operational costs.
           </p>
           <p>
             <strong>Argos</strong> offers{" "}
