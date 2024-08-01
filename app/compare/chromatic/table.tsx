@@ -34,9 +34,7 @@ export function ComparisonTable() {
 
         <Tr>
           <Th>Pricing</Th>
-          <Td>
-            Contact for pricing, typically higher costs due to feature set
-          </Td>
+          <Td>Starting at $149/month (Chrome only)</Td>
           <Td>Starting at $30/month (all platforms)</Td>
         </Tr>
 
