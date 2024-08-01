@@ -8,54 +8,39 @@ import { Link } from "@/components/Link";
 export function FAQ() {
   return (
     <>
-      <AccordionItem value="main-difference">
+      <AccordionItem value="flaky-tests">
         <AccordionTrigger>
-          Main difference: snapshot vs screenshot
+          Handling flaky tests: snapshots vs. screenshots
         </AccordionTrigger>
-        <AccordionContent>
-          <p>
-            <strong>Percy</strong> way is to upload snapshots your code and
-            render them on their servers. This approach tend to create small
-            variations, particularly noticeable when testing complex javascript
-            renders.
-          </p>
-          <p>
-            <strong>Argos</strong> work by comparing screenshots sent by the
-            user. If a difference is detected you can easily improve your test
-            to avoid false positives.
-          </p>
-        </AccordionContent>
-      </AccordionItem>
-
-      <AccordionItem value="flaky-screenshot">
-        <AccordionTrigger>Are Percy tests flaky?</AccordionTrigger>
         <AccordionContent>
           <p>
             Flaky tests are a significant issue in visual testing, and each
             product has its own way of addressing this problem.
           </p>
           <p>
-            <strong>Percy</strong> the snapshot approach tend to create more
-            flaky tests are hard to debug.
+            <strong>Percy</strong> re-render <strong>snapshots</strong> of your
+            code on their servers, then compare the diffs. This approach can
+            cause flaky tests that are hard to debug, especially with complex
+            JavaScript renders.
           </p>
           <p>
-            <strong>Argos</strong> uses an algorithm that waits for page
-            stabilization before taking a screenshot. This algorithm is
-            open-source and embedded in every Argos integration.
+            <strong>Argos</strong> provides several integration to capture
+            stable <strong>screenshots</strong> locally. If one of them is
+            unstable, you can easily refine your tests to avoid false positives.
           </p>
         </AccordionContent>
       </AccordionItem>
 
       <AccordionItem value="managing-baseline">
         <AccordionTrigger>
-          How Percy and Argos manage baselines?
+          How do Percy and Argos manage baselines?
         </AccordionTrigger>
         <AccordionContent>
           <p>
             Both <strong>Percy</strong> and <strong>Argos</strong> allow you to
-            manage baselines relatively to git pull requests for feature
-            development or to plan comparison workflows, Recommended for QA /
-            SDET involve in testing.
+            manage baselines relative to git pull requests for feature
+            development or for planning comparisons, which is recommended for
+            QA/SDET.
           </p>
         </AccordionContent>
       </AccordionItem>
@@ -64,10 +49,11 @@ export function FAQ() {
         <AccordionTrigger>Can I parallelize uploads?</AccordionTrigger>
         <AccordionContent>
           <p>
-            <strong>Percy</strong> yes but you will pay an add-on for it.
+            <strong>Percy</strong>: Yes, but it requires an additional fee.
           </p>
           <p>
-            <strong>Argos</strong> yes and it's included in the price.
+            <strong>Argos</strong>: Yes, and it's included in the standard
+            pricing.
           </p>
         </AccordionContent>
       </AccordionItem>
@@ -100,11 +86,10 @@ export function FAQ() {
         </AccordionTrigger>
         <AccordionContent>
           <p>
-            <strong>Percy</strong>, is a part of BrowserStack. When you pay for
-            Percy, you will get others services that come with it. Additionally,{" "}
-            <strong>Percy</strong> captures screenshots remotely on real devices
-            and browsers, ensuring high accuracy but also incurring higher
-            operational costs.
+            <strong>Percy</strong>, as part of BrowserStack, includes additional
+            services in its pricing. It also captures screenshots remotely on
+            real devices and browsers, which ensures high accuracy but incurs
+            higher operational costs.
           </p>
           <p>
             <strong>Argos</strong> offers{" "}
