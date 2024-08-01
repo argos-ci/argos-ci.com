@@ -3,7 +3,3 @@ export const ARGOS_PRO_FLAT_PRICE = 30;
 export const ARGOS_PRO_FLAT_SCREENSHOT_COUNT = 15_000;
 export const ARGOS_SCREENSHOT_PRICE = 0.0025;
 export const GITHUB_SSO_PRICE = 50;
-
-export const PERCY_FLAT_PRICE = 599;
-export const PERCY_FLAT_SCREENSHOT_COUNT = 25_000;
-export const PERCY_SCREENSHOT_PRICE = 0.048;

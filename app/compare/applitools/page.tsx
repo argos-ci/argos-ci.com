@@ -11,6 +11,7 @@ import {
   TableSection,
   TrySection,
 } from "../common";
+import applitoolsDark from "./applitools-dark.svg";
 import applitools from "./applitools.svg";
 import { FAQ } from "./faq";
 import { ComparisonTable } from "./table";
@@ -29,6 +30,7 @@ export default function Page() {
         title="Applitools vs Argos"
         description="Applitools and Argos are two leading visual testing tools. This guide will help you understand their key features, pricing, and unique strengths, making it easier for you to choose the right tool for your needs."
         logoSrc={applitools}
+        logoSrcDark={applitoolsDark}
         logoAlt="Applitools"
       />
 

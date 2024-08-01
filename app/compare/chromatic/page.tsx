@@ -11,27 +11,27 @@ import {
   TableSection,
   TrySection,
 } from "../common";
+import chromaticDark from "./chromatic-dark.svg";
+import chromatic from "./chromatic.svg";
 import { FAQ } from "./faq";
-import percyDark from "./percy-dark.svg";
-import percy from "./percy.svg";
 import { ComparisonTable } from "./table";
 
 export const metadata: Metadata = getMetadata({
-  absoluteTitle: "Argos, the alternative to Percy Browserstack",
+  absoluteTitle: "Argos, the alternative to Chromatic",
   description:
-    "Compare Argos and Percy Browserstack in detail, focusing on their features, performance, and ease of use for visual testing.",
-  pathname: "/compare/percy",
+    "Explore the differences between Argos and Chromatic, highlighting their features, performance, and user experience in visual testing.",
+  pathname: "/compare/chromatic",
 });
 
 export default function Page() {
   return (
     <>
       <HeroSection
-        title="Percy vs Argos"
-        description="Percy and Argos are two leading visual testing tools. This guide will help you understand their key features, pricing, and unique strengths, making it easier for you to choose the right tool for your needs."
-        logoSrc={percy}
-        logoSrcDark={percyDark}
-        logoAlt="Percy by Browserstack"
+        title="Chromatic vs Argos"
+        description="Chromatic and Argos are two leading visual testing tools. This guide will help you understand their key features, pricing, and unique strengths, making it easier for you to choose the right tool for your needs."
+        logoSrc={chromatic}
+        logoSrcDark={chromaticDark}
+        logoAlt="Chromatic"
       />
 
       <TableSection>
@@ -39,7 +39,7 @@ export default function Page() {
       </TableSection>
 
       <PricingSection title="Estimate your savings">
-        <ComparePricingSlider competitor="percy" />
+        <ComparePricingSlider competitor="chromatic" />
       </PricingSection>
 
       <KeyFeaturesSection />
