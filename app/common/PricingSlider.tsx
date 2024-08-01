@@ -9,9 +9,6 @@ import {
   ARGOS_PRO_FLAT_PRICE,
   ARGOS_PRO_FLAT_SCREENSHOT_COUNT,
   ARGOS_SCREENSHOT_PRICE,
-  PERCY_FLAT_PRICE,
-  PERCY_FLAT_SCREENSHOT_COUNT,
-  PERCY_SCREENSHOT_PRICE,
 } from "@/lib/constants";
 
 const MIN_SCREENSHOTS = 15_000;
@@ -150,7 +147,40 @@ export function PricingSlider() {
   );
 }
 
-export function PercyPricingSlider() {
+const COMPETITORS = {
+  percy: {
+    name: "Percy Browserstack",
+    screenshotPrice: 0.048,
+    steps: [
+      {
+        screenshots: 25_000,
+        price: 599,
+      },
+    ],
+  },
+  chromatic: {
+    name: "Chromatic",
+    screenshotPrice: 0.006,
+    steps: [
+      {
+        screenshots: 35_000,
+        price: 149,
+      },
+      {
+        screenshots: 85_000,
+        price: 349,
+      },
+      {
+        screenshots: 165_000,
+        price: 649,
+      },
+    ],
+  },
+};
+
+export function ComparePricingSlider(props: {
+  competitor: keyof typeof COMPETITORS;
+}) {
   const [value, setValue] = React.useState([20000]);
   const [count] = value;
   const isMaxScreenshots = count >= MAX_SCREENSHOTS;
@@ -168,16 +198,23 @@ export function PercyPricingSlider() {
     screenshotCount: count,
   });
 
-  const percyPrice = getPrice({
-    flatPrice: PERCY_FLAT_PRICE,
-    flatScreenshotCount: PERCY_FLAT_SCREENSHOT_COUNT,
-    screenshotPrice: PERCY_SCREENSHOT_PRICE,
-    screenshotCount: count,
-  });
+  const competitor = COMPETITORS[props.competitor];
+
+  const competitorPrices = competitor.steps.map((step) =>
+    getPrice({
+      flatPrice: step.price,
+      flatScreenshotCount: step.screenshots,
+      screenshotPrice: competitor.screenshotPrice,
+      screenshotCount: count,
+    }),
+  );
+
+  // Pick the lowest price
+  const competitorPrice = Math.min(...competitorPrices);
 
   return (
     <div className="flex w-full flex-col items-center gap-4">
-      <div className="mx-auto flex w-full max-w-lg flex-col gap-2">
+      <div className="mx-auto flex w-full max-w-lg select-none flex-col gap-2">
         <div className="flex items-baseline justify-between">
           <div className="text-lg font-medium">Screenshots per month</div>
           <div className="text-right font-medium tabular-nums">
@@ -194,31 +231,24 @@ export function PercyPricingSlider() {
         />
       </div>
 
-      <div className="mt-4 text-lg">
-        <table>
-          <tbody>
-            <tr>
-              <td className="border-r border-dashed px-10 py-1 pt-2 text-center font-normal">
-                <div className="font-medium">Percy</div>
-                <div>{formatPrice(percyPrice, isMaxScreenshots)}</div>
-              </td>
-              <td className="px-10 py-1 text-center font-normal">
-                <div className="font-medium">Argos</div>
-                <div>{formatPrice(argosPrice, isMaxScreenshots)}</div>
-              </td>
-            </tr>
-
-            <tr className="text-xl">
-              <td colSpan={2} className="text-balance pt-5 text-center">
-                Save{" "}
-                <strong className="font-semibold">
-                  {formatPrice(percyPrice - argosPrice, isMaxScreenshots)}
-                </strong>{" "}
-                per month with Argos
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <div className="mt-4 w-full max-w-lg text-center text-lg">
+        <div className="flex">
+          <div className="flex-1 border-r border-dashed">
+            <h4 className="font-medium">{competitor.name}</h4>
+            <div>{formatPrice(competitorPrice, isMaxScreenshots)}</div>
+          </div>
+          <div className="flex-1">
+            <h4 className="font-medium">Argos</h4>
+            <div>{formatPrice(argosPrice, isMaxScreenshots)}</div>
+          </div>
+        </div>
+        <div className="mt-4 text-balance">
+          Save{" "}
+          <strong className="font-semibold">
+            {formatPrice(competitorPrice - argosPrice, isMaxScreenshots)}
+          </strong>{" "}
+          per month with Argos
+        </div>
       </div>
     </div>
   );
