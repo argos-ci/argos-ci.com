@@ -18,7 +18,7 @@ export function Video() {
           height="315"
           src="https://www.youtube.com/embed/4EDu7otuJ9c?si=hFpaNJVI3ztOPW68"
           title="Argos Playwright Demo"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;"
           allowFullScreen
           className="absolute inset-0 h-full w-full"
           data-visual-test="blackout"

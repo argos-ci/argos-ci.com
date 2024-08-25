@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import {
+  ArrowRight,
   BlocksIcon,
   BookOpenTextIcon,
   LockKeyholeIcon,
@@ -11,82 +12,94 @@ import Image from "next/image";
 
 import { Accordion } from "@/components/Accordion";
 import { ArgosEmblem } from "@/components/ArgosEmblem";
-import { Button } from "@/components/Button";
+import { CallToActionSection } from "@/components/CallToActionSection";
 import { Container } from "@/components/Container";
 import { Feature, FeatureRow, FeatureSeparator } from "@/components/Feature";
 import { H2 } from "@/components/H2";
-import { Link } from "@/components/Link";
 
-export function HeroSection(props: {
-  title: React.ReactNode;
-  description: React.ReactNode;
+type EmblemProps = {
   emblemSrc: string;
   emblemSrcDark?: string;
   emblemAlt: string;
-}) {
+};
+
+function Emblem(props: EmblemProps) {
+  return (
+    <>
+      <Image
+        src={props.emblemSrc}
+        alt={props.emblemAlt}
+        className={clsx(
+          "aspect-square size-full",
+          props.emblemSrcDark && "dark:hidden",
+        )}
+      />
+      {props.emblemSrcDark && (
+        <Image
+          src={props.emblemSrcDark}
+          alt={props.emblemAlt}
+          className="hidden aspect-square size-full dark:block"
+        />
+      )}
+    </>
+  );
+}
+
+function HeroEmblem(props: { children: React.ReactNode }) {
+  return (
+    <div className="relative w-1/4 px-[3%] max-md:hidden">
+      <div className="rounded-full border border-dashed border-violet-6 p-4">
+        {props.children}
+      </div>
+    </div>
+  );
+}
+
+export function HeroSection(
+  props: {
+    title: React.ReactNode;
+    description: React.ReactNode;
+  } & EmblemProps,
+) {
   return (
     <Container
       className="relative my-20 flex items-center gap-4 text-center"
       asChild
     >
       <section>
-        <div className="relative w-1/4 px-[3%] max-md:hidden">
-          <div className="rounded-full border border-dashed border-violet-6 p-4">
-            <Image
-              src={props.emblemSrc}
-              alt={props.emblemAlt}
-              className={clsx(
-                "aspect-square size-full",
-                props.emblemSrcDark && "dark:hidden",
-              )}
-            />
-            {props.emblemSrcDark && (
-              <Image
-                src={props.emblemSrcDark}
-                alt={props.emblemAlt}
-                className="hidden aspect-square size-full dark:block"
-              />
-            )}
-          </div>
-        </div>
+        <HeroEmblem>
+          <Emblem {...props} />
+        </HeroEmblem>
         <div>
           <h1 className="mb-4 font-accent text-5xl md:text-6xl">
             {props.title}
           </h1>
           <p className="text-balance text-lg text-low">{props.description}</p>
         </div>
-        <div className="relative w-1/4 px-[3%] max-md:hidden">
-          <div className="rounded-full border border-dashed border-violet-6 p-4">
-            <ArgosEmblem className="aspect-square size-full" />
-          </div>
-        </div>
+        <HeroEmblem>
+          <ArgosEmblem className="aspect-square size-full" />
+        </HeroEmblem>
       </section>
     </Container>
   );
 }
 
-export function TrySection() {
+export function TrySection(props: EmblemProps) {
   return (
-    <Container className="my-20" asChild>
-      <section>
-        <H2 className="mb-4">Ready to try?</H2>
-        <p className="mb-4 max-w-screen-sm text-lg">
-          Finding the right visual testing tool can be challenging. We hope this
-          guide makes the choice clearer. Argos is easy to try—set up your
-          project in less than 10 minutes. No credit card required.
-        </p>
-        <div className="flex gap-4">
-          <Button size="large" asChild>
-            <a href="https://app.argos-ci.com/signup">Sign up</a>
-          </Button>
-          <Button variant="outline" size="large" asChild>
-            <a href="https://cal.com/jsfez" target="_blank">
-              Request demo
-            </a>
-          </Button>
+    <CallToActionSection
+      supercharge="your visual testing experience"
+      description="Ready to switch to Argos? Get started for free today. No credit card required."
+    >
+      <div className="mb-4 flex items-center justify-center gap-4">
+        <div className="size-14 rounded-full border border-dashed border-violet-6 p-2">
+          <Emblem {...props} />
         </div>
-      </section>
-    </Container>
+        <ArrowRight className="text-low" />
+        <div className="size-14 rounded-full border border-dashed border-violet-6 p-2">
+          <ArgosEmblem className="aspect-square size-full" />
+        </div>
+      </div>
+    </CallToActionSection>
   );
 }
 

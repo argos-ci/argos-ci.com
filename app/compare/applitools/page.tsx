@@ -71,14 +71,18 @@ const features: Features = {
   },
 };
 
+const emblemProps = {
+  emblemSrc: applitoolsEmblem,
+  emblemAlt: "Applitools",
+};
+
 export default function Page() {
   return (
     <>
       <HeroSection
         title="Applitools vs Argos"
         description="Learn how Argos compares to Applitools and why Argos is the best alternative for visual testing."
-        emblemSrc={applitoolsEmblem}
-        emblemAlt="Applitools"
+        {...emblemProps}
       />
 
       <TableSection>
@@ -100,7 +104,7 @@ export default function Page() {
         <FAQ />
       </FAQSection>
 
-      <TrySection />
+      <TrySection {...emblemProps} />
     </>
   );
 }
