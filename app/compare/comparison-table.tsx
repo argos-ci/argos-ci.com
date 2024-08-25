@@ -129,7 +129,7 @@ export function ComparisonTable(props: {
           <Th>
             <ThMain>Sensitivity threshold per screenshot</ThMain>
             <ThSubLink href="/changelog/2024-07-09-sensitivity-threshold">
-              Set a threshold by screenshot to reduce flakiness.
+              Set a threshold by screenshot to reduce flakiness
             </ThSubLink>
           </Th>
           <Feature feature={props.features.sensitivityThresholdPerScreenshot} />
@@ -139,7 +139,7 @@ export function ComparisonTable(props: {
           <Th>
             <ThMain>GitHub Actions partial re-runs</ThMain>
             <ThSubLink href="/changelog/2024-06-17-partial-re-runs-github-actions">
-              Save time and resources with partial re-runs.
+              Save time and resources with partial re-runs
             </ThSubLink>
           </Th>
           <Feature feature={props.features.githubActionsPartialReRuns} />
@@ -149,7 +149,7 @@ export function ComparisonTable(props: {
           <Th>
             <ThMain>High screenshot quality</ThMain>
             <ThSubLink href="/changelog/2024-06-13-enhanced-screenshot-quality">
-              Don't miss any detail with enhanced quality.
+              Don't miss any detail with enhanced quality
             </ThSubLink>
           </Th>
           <Feature feature={props.features.bestScreenshotQuality} />
@@ -159,7 +159,7 @@ export function ComparisonTable(props: {
           <Th>
             <ThMain>Monitoring mode</ThMain>
             <ThSubLink href="/changelog/2024-05-28-monitoring-mode">
-              Run periodic checks on your website.
+              Run periodic checks on your website
             </ThSubLink>
           </Th>
           <Feature feature={props.features.monitoringMode} />
@@ -168,7 +168,7 @@ export function ComparisonTable(props: {
         <Tr>
           <Th>
             <ThMain>Beautiful and intuitive UI</ThMain>
-            <ThSub>Designed to be effective.</ThSub>
+            <ThSub>Designed to be effective</ThSub>
           </Th>
           <Feature feature={props.features.beautifulAndIntuitiveUi} />
         </Tr>
