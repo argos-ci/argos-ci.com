@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import {
   BlocksIcon,
   BookOpenTextIcon,
@@ -9,7 +10,7 @@ import {
 import Image from "next/image";
 
 import { Accordion } from "@/components/Accordion";
-import { ArgosLogo } from "@/components/ArgosLogo";
+import { ArgosEmblem } from "@/components/ArgosEmblem";
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 import { Feature, FeatureRow, FeatureSeparator } from "@/components/Feature";
@@ -19,37 +20,44 @@ import { Link } from "@/components/Link";
 export function HeroSection(props: {
   title: React.ReactNode;
   description: React.ReactNode;
-  logoSrc: string;
-  logoSrcDark: string;
-  logoAlt: string;
+  emblemSrc: string;
+  emblemSrcDark?: string;
+  emblemAlt: string;
 }) {
   return (
-    <Container className="my-20" asChild>
+    <Container
+      className="relative my-20 flex items-center gap-4 text-center"
+      asChild
+    >
       <section>
-        <div className="text-primary mb-4 text-lg font-medium text-violet-11">
-          Compare
-        </div>
-        <h1 className="mb-8 font-accent text-5xl leading-tight md:text-7xl">
-          {props.title}
-        </h1>
-        <p className="max-w-screen-md text-lg text-low">{props.description}</p>
-        <div className="relative my-10 flex h-48 sm:h-60 md:my-20">
-          <div className="relative flex-1 border-r border-dashed border-violet-6">
+        <div className="relative w-1/4 px-[3%] max-md:hidden">
+          <div className="rounded-full border border-dashed border-violet-6 p-4">
             <Image
-              src={props.logoSrc}
-              alt={props.logoAlt}
-              fill
-              className="px-5 dark:hidden sm:px-10 md:px-20"
+              src={props.emblemSrc}
+              alt={props.emblemAlt}
+              className={clsx(
+                "aspect-square size-full",
+                props.emblemSrcDark && "dark:hidden",
+              )}
             />
-            <Image
-              src={props.logoSrcDark}
-              alt={props.logoAlt}
-              fill
-              className="hidden px-5 dark:block sm:px-10 md:px-20"
-            />
+            {props.emblemSrcDark && (
+              <Image
+                src={props.emblemSrcDark}
+                alt={props.emblemAlt}
+                className="hidden aspect-square size-full dark:block"
+              />
+            )}
           </div>
-          <div className="flex-1 place-content-center">
-            <ArgosLogo className="px-5 sm:px-10 md:px-20" />
+        </div>
+        <div>
+          <h1 className="mb-4 font-accent text-5xl md:text-6xl">
+            {props.title}
+          </h1>
+          <p className="text-balance text-lg text-low">{props.description}</p>
+        </div>
+        <div className="relative w-1/4 px-[3%] max-md:hidden">
+          <div className="rounded-full border border-dashed border-violet-6 p-4">
+            <ArgosEmblem className="aspect-square size-full" />
           </div>
         </div>
       </section>
@@ -104,12 +112,7 @@ export function KeyFeaturesSection() {
             <Feature
               title="Open source"
               icon={BookOpenTextIcon}
-              text={
-                <>
-                  We <Link href="https://x.com/argos_ci">#buildInPublic</Link>{" "}
-                  to improve state of the art and support impactful projects.
-                </>
-              }
+              text="Argos is open source, you can contribute to the project on GitHub."
             />
           </FeatureRow>
           <FeatureSeparator orientation="horizontal" />

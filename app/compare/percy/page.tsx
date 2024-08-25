@@ -11,15 +11,64 @@ import {
   TableSection,
   TrySection,
 } from "../common";
+import { ComparisonTable, Features } from "../comparison-table";
 import { FAQ } from "./faq";
-import percyDark from "./percy-dark.svg";
-import percy from "./percy.svg";
-import { ComparisonTable } from "./table";
+import percyEmblemDark from "./percy-emblem-dark.svg";
+import percyEmblem from "./percy-emblem.svg";
+import percyLogoDark from "./percy-logo-dark.svg";
+import percyLogo from "./percy-logo.svg";
+
+const features: Features = {
+  pricing: {
+    argos: "$30/mo",
+    competitor: "$599/mo",
+  },
+  playwrightDebugging: {
+    argos: "✔️",
+    competitor: "❌",
+  },
+  playwrightTestRetries: {
+    argos: "✔️",
+    competitor: "❌",
+  },
+  githubSso: {
+    argos: "✔️",
+    competitor: "❌",
+  },
+  openSource: {
+    argos: "✔️",
+    competitor: "❌",
+  },
+  beautifulAndIntuitiveUi: {
+    argos: "✔️",
+    competitor: "❌",
+  },
+  bestScreenshotQuality: {
+    argos: "✔️",
+    competitor: "❌",
+  },
+  githubActionsPartialReRuns: {
+    argos: "✔️",
+    competitor: "❌",
+  },
+  githubLight: {
+    argos: "✔️",
+    competitor: "❌",
+  },
+  monitoringMode: {
+    argos: "✔️",
+    competitor: "✔️",
+  },
+  sensitivityThresholdPerScreenshot: {
+    argos: "✔️",
+    competitor: "❌",
+  },
+};
 
 export const metadata: Metadata = getMetadata({
   absoluteTitle: "Argos, the alternative to Percy Browserstack",
   description:
-    "Compare Argos and Percy Browserstack in detail, focusing on their features, performance, and ease of use for visual testing.",
+    "Learn how Argos compares to Percy and why Argos is the best alternative for visual testing.",
   pathname: "/compare/percy",
 });
 
@@ -28,14 +77,19 @@ export default function Page() {
     <>
       <HeroSection
         title="Percy vs Argos"
-        description="Percy and Argos are two leading visual testing tools. This guide will help you understand their key features, pricing, and unique strengths, making it easier for you to choose the right tool for your needs."
-        logoSrc={percy}
-        logoSrcDark={percyDark}
-        logoAlt="Percy by Browserstack"
+        description="Learn how Argos compares to Percy and why Argos is the best alternative for visual testing."
+        emblemSrc={percyEmblem}
+        emblemSrcDark={percyEmblemDark}
+        emblemAlt="Percy by Browserstack"
       />
 
       <TableSection>
-        <ComparisonTable />
+        <ComparisonTable
+          logoSrc={percyLogo}
+          logoSrcDark={percyLogoDark}
+          title="Percy"
+          features={features}
+        />
       </TableSection>
 
       <PricingSection title="Estimate your savings">
