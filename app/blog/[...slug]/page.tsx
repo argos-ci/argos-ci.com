@@ -3,6 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import * as React from "react";
 
+import { ArgosEmblem } from "@/components/ArgosEmblem";
+import { CallToActionSection } from "@/components/CallToActionSection";
 import { Container } from "@/components/Container";
 import {
   PostCard,
@@ -83,7 +85,10 @@ async function Siblings({ slug }: { slug: string }) {
   return (
     <section>
       <h3 className="mb-8 text-2xl font-semibold text">Read also</h3>
-      <div className="grid grid-cols-2 gap-x-16 gap-y-20" data-visual-test="transparent">
+      <div
+        className="grid grid-cols-2 gap-x-16 gap-y-20"
+        data-visual-test="transparent"
+      >
         {sideArticles.map((article) => {
           return (
             <Link
@@ -176,6 +181,12 @@ export default async function Page({ params }: Props) {
       <Container tight>
         <Siblings slug={article.slug} />
       </Container>
+      <CallToActionSection
+        supercharge="your visual testing experience"
+        description="Discover why Argos is the preferred visual testing tool of developers."
+      >
+        <ArgosEmblem className="mx-auto aspect-square size-24" />
+      </CallToActionSection>
     </>
   );
 }

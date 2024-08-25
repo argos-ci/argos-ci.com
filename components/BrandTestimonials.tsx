@@ -34,21 +34,21 @@ const brands = [
   { src: pivot, alt: "Pivot" },
 ];
 
-export const BrandTestimonials = ({ limit = Infinity }: { limit?: number }) => {
+export function BrandTestimonials({ limit = Infinity }: { limit?: number }) {
   return (
     <Container className="mx-auto mt-8 grid w-full max-w-screen-lg grid-cols-2 items-center justify-center gap-4 px-5 md:flex md:flex-wrap md:px-0 md:[&>*]:max-w-40">
       {brands
         .filter((_, i) => i < limit)
-        .map((brand) => (
+        .map((brand, index) => (
           <Image
+            key={index}
             priority
             height={80}
             className="shrink-0 dark:brightness-0 dark:invert"
-            key={brand.src}
             src={brand.src}
             alt={brand.alt}
           />
         ))}
     </Container>
   );
-};
+}

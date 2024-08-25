@@ -71,14 +71,18 @@ const features: Features = {
   },
 };
 
+const emblemProps = {
+  emblemSrc: chromaticEmblem,
+  emblemAlt: "Chromatic",
+};
+
 export default function Page() {
   return (
     <>
       <HeroSection
         title="Chromatic vs Argos"
         description="Learn how Argos compares to Chromatic and why Argos is the best alternative for visual testing."
-        emblemSrc={chromaticEmblem}
-        emblemAlt="Chromatic"
+        {...emblemProps}
       />
 
       <TableSection>
@@ -100,7 +104,7 @@ export default function Page() {
         <FAQ />
       </FAQSection>
 
-      <TrySection />
+      <TrySection {...emblemProps} />
     </>
   );
 }

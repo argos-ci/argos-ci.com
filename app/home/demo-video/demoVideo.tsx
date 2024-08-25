@@ -14,7 +14,7 @@ export function DemoVideo() {
           height="315"
           src="https://www.youtube.com/embed/QiJk2ZViN7c?si=hFpaNJVI3ztOPW68"
           title="Argos Demo"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;"
           allowFullScreen
           className="absolute inset-0 h-full w-full"
           data-visual-test="blackout"

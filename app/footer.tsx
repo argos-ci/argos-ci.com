@@ -92,19 +92,13 @@ export const AppFooter: React.FC = () => (
         </FooterSection>
 
         <FooterSection>
-          <FooterSectionTitle>Resources</FooterSectionTitle>
-          <FooterLink href="/compare/percy">Compare to Percy</FooterLink>
-          <FooterLink href="/compare/applitools">
-            Compare to Applitools
-          </FooterLink>
-          <FooterLink href="/compare/chromatic">
-            Compare to Chromatic
-          </FooterLink>
+          <FooterSectionTitle>Compare</FooterSectionTitle>
+          <FooterLink href="/compare/percy">Percy</FooterLink>
+          <FooterLink href="/compare/applitools">Applitools</FooterLink>
+          <FooterLink href="/compare/chromatic">Chromatic</FooterLink>
+
+          <FooterSectionTitle className="mt-2">Resources</FooterSectionTitle>
           <FooterLink href="/oss-friends">OSS Friends</FooterLink>
-          <FooterLink href="https://github.com/argos-ci/argos">
-            GitHub
-          </FooterLink>
-          <FooterLink href="https://argos-ci.com/discord">Discord</FooterLink>
           <FooterLink href="mailto:contact@argos-ci.com">Contact us</FooterLink>
         </FooterSection>
         <FooterSection>

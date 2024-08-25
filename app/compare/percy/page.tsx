@@ -72,15 +72,19 @@ export const metadata: Metadata = getMetadata({
   pathname: "/compare/percy",
 });
 
+const emblemProps = {
+  emblemSrc: percyEmblem,
+  emblemSrcDark: percyEmblemDark,
+  emblemAlt: "Percy by Browserstack",
+};
+
 export default function Page() {
   return (
     <>
       <HeroSection
         title="Percy vs Argos"
         description="Learn how Argos compares to Percy and why Argos is the best alternative for visual testing."
-        emblemSrc={percyEmblem}
-        emblemSrcDark={percyEmblemDark}
-        emblemAlt="Percy by Browserstack"
+        {...emblemProps}
       />
 
       <TableSection>
@@ -102,7 +106,7 @@ export default function Page() {
         <FAQ />
       </FAQSection>
 
-      <TrySection />
+      <TrySection {...emblemProps} />
     </>
   );
 }
