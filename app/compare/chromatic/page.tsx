@@ -11,31 +11,83 @@ import {
   TableSection,
   TrySection,
 } from "../common";
-import chromaticDark from "./chromatic-dark.svg";
-import chromatic from "./chromatic.svg";
+import { ComparisonTable, Features } from "../comparison-table";
+import chromaticEmblem from "./chromatic-emblem.svg";
+import chromaticLogoDark from "./chromatic-logo-dark.svg";
+import chromaticLogo from "./chromatic-logo.svg";
 import { FAQ } from "./faq";
-import { ComparisonTable } from "./table";
 
 export const metadata: Metadata = getMetadata({
   absoluteTitle: "Argos, the alternative to Chromatic",
   description:
-    "Explore the differences between Argos and Chromatic, highlighting their features, performance, and user experience in visual testing.",
+    "Learn how Argos compares to Chromatic and why Argos is the best alternative for visual testing.",
   pathname: "/compare/chromatic",
 });
+
+const features: Features = {
+  pricing: {
+    argos: "$30/mo",
+    competitor: "$599/mo",
+  },
+  playwrightDebugging: {
+    argos: "✔️",
+    competitor: "❌",
+  },
+  playwrightTestRetries: {
+    argos: "✔️",
+    competitor: "❌",
+  },
+  githubSso: {
+    argos: "✔️",
+    competitor: "❌",
+  },
+  openSource: {
+    argos: "✔️",
+    competitor: "❌",
+  },
+  beautifulAndIntuitiveUi: {
+    argos: "✔️",
+    competitor: "✔️",
+  },
+  bestScreenshotQuality: {
+    argos: "✔️",
+    competitor: "❌",
+  },
+  githubActionsPartialReRuns: {
+    argos: "✔️",
+    competitor: "❌",
+  },
+  githubLight: {
+    argos: "✔️",
+    competitor: "❌",
+  },
+  monitoringMode: {
+    argos: "✔️",
+    competitor: "✔️",
+  },
+  sensitivityThresholdPerScreenshot: {
+    argos: "✔️",
+    competitor: "❌",
+  },
+};
 
 export default function Page() {
   return (
     <>
       <HeroSection
         title="Chromatic vs Argos"
-        description="Chromatic and Argos are two leading visual testing tools. This guide will help you understand their key features, pricing, and unique strengths, making it easier for you to choose the right tool for your needs."
-        logoSrc={chromatic}
-        logoSrcDark={chromaticDark}
-        logoAlt="Chromatic"
+        description="Learn how Argos compares to Chromatic and why Argos is the best alternative for visual testing."
+        emblemSrc={chromaticEmblem}
+        emblemAlt="Chromatic"
       />
 
       <TableSection>
-        <ComparisonTable />
+        <ComparisonTable
+          logoSrc={chromaticLogo}
+          logoSrcDark={chromaticLogoDark}
+          title="Percy"
+          features={features}
+        />
       </TableSection>
 
       <PricingSection title="Estimate your savings">

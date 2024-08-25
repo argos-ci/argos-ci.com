@@ -11,31 +11,83 @@ import {
   TableSection,
   TrySection,
 } from "../common";
-import applitoolsDark from "./applitools-dark.svg";
-import applitools from "./applitools.svg";
+import { ComparisonTable, Features } from "../comparison-table";
+import applitoolsEmblem from "./applitools-emblem.svg";
+import applitoolsLogoDark from "./applitools-logo-dark.svg";
+import applitoolsLogo from "./applitools-logo.svg";
 import { FAQ } from "./faq";
-import { ComparisonTable } from "./table";
 
 export const metadata: Metadata = getMetadata({
   absoluteTitle: "Argos, the alternative to Applitools",
   description:
-    "Explore a detailed comparison of Argos and Applitools, focusing on features, performance, and ease of use in visual testing.",
+    "Learn how Argos compares to Applitools and why Argos is the best alternative for visual testing.",
   pathname: "/compare/applitools",
 });
+
+const features: Features = {
+  pricing: {
+    argos: "Not public",
+    competitor: "$30/mo",
+  },
+  playwrightDebugging: {
+    argos: "✔️",
+    competitor: "❌",
+  },
+  playwrightTestRetries: {
+    argos: "✔️",
+    competitor: "❌",
+  },
+  githubSso: {
+    argos: "✔️",
+    competitor: "❌",
+  },
+  openSource: {
+    argos: "✔️",
+    competitor: "❌",
+  },
+  beautifulAndIntuitiveUi: {
+    argos: "✔️",
+    competitor: "❌",
+  },
+  bestScreenshotQuality: {
+    argos: "✔️",
+    competitor: "❌",
+  },
+  githubActionsPartialReRuns: {
+    argos: "✔️",
+    competitor: "❌",
+  },
+  githubLight: {
+    argos: "✔️",
+    competitor: "❌",
+  },
+  monitoringMode: {
+    argos: "✔️",
+    competitor: "✔️",
+  },
+  sensitivityThresholdPerScreenshot: {
+    argos: "✔️",
+    competitor: "❌",
+  },
+};
 
 export default function Page() {
   return (
     <>
       <HeroSection
         title="Applitools vs Argos"
-        description="Applitools and Argos are two leading visual testing tools. This guide will help you understand their key features, pricing, and unique strengths, making it easier for you to choose the right tool for your needs."
-        logoSrc={applitools}
-        logoSrcDark={applitoolsDark}
-        logoAlt="Applitools"
+        description="Learn how Argos compares to Applitools and why Argos is the best alternative for visual testing."
+        emblemSrc={applitoolsEmblem}
+        emblemAlt="Applitools"
       />
 
       <TableSection>
-        <ComparisonTable />
+        <ComparisonTable
+          logoSrc={applitoolsLogo}
+          logoSrcDark={applitoolsLogoDark}
+          title="Applitools"
+          features={features}
+        />
       </TableSection>
 
       <PricingSection title="Argos Pricing">
