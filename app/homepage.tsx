@@ -1,16 +1,17 @@
 import { Metadata } from "next";
 import * as React from "react";
 
+import { ArgosEmblem } from "@/components/ArgosEmblem";
+import { CallToActionSection } from "@/components/CallToActionSection";
 import { RedirectIfCookie } from "@/components/RedirectIfCookie";
 import { getMetadata } from "@/lib/metadata";
 
 import { Customers } from "./home/Customers";
 import { DemoVideo } from "./home/demo-video/demoVideo";
 import { DeveloperExperience } from "./home/developer-experience/DeveloperExperience";
+import { FeaturedSDKs } from "./home/featured-sdk/FeaturedSDKs";
 import { Features } from "./home/features/Features";
 import { Hero } from "./home/hero/Hero";
-import { Integrations } from "./home/integrations/Integrations";
-import { Playwright } from "./home/playwright/Playwright";
 import { TestDebugging } from "./home/test-debugging/TestDebugging";
 import { Users } from "./home/users/Users";
 import { VisualTesting } from "./home/visual-testing/VisualTesting";
@@ -36,8 +37,13 @@ export default function Page() {
       <DeveloperExperience />
       <TestDebugging />
       <Features />
-      <Playwright />
-      <Integrations />
+      <FeaturedSDKs />
+      <CallToActionSection
+        supercharge="your visual testing experience"
+        description="Discover why Argos is the preferred visual testing tool of developers."
+      >
+        <ArgosEmblem className="mx-auto aspect-square size-24" />
+      </CallToActionSection>
     </div>
   );
 }
