@@ -1,9 +1,90 @@
-# Security
+# Security Policy
 
-## Report
+For details on how we manage security issues in our repository, you can also visit our [GitHub Security page](https://github.com/argos-ci/argos/security).
 
-If you would like to report a vulnerability, or have any security concerns with a Argos product, please e-mail [contact@argos-ci.com](mailto:contact@argos-ci.com).
+## Reporting a Vulnerability
 
-When disclosing a vulnerability, please include a proof of concept, a list of any tools used (including versions), and the output of any tools used.
+If you discover a security vulnerability in Argos, please report it privately by emailing us at [security@argos-ci.com](mailto:security@argos-ci.com). We will work with you to assess and address the issue promptly.
 
-We take all disclosures very seriously. Once disclosures are receivied, we rapidly respond and verify each vulnerability before taking the necessary steps to fix them. Once verified, we periodically send status updates as problems are fixed.
+### Reporting Guidelines
+
+- Provide as much detail as possible, including steps to reproduce the issue.
+- We aim to acknowledge your report within 2 business days.
+- You will receive updates as we investigate and resolve the vulnerability.
+
+### Security Updates
+
+We regularly review our codebase for potential security issues and promptly release updates. Stay informed by watching this repository for releases and updates.
+
+## Product Security
+
+We are committed to using industry best practices to ensure the security and reliability of our services.
+
+### Authentication
+
+We rely on trusted social login providers like GitHub and Google to authenticate users. No passwords or sensitive information are stored by Argos.
+
+### Permissions
+
+Argos allows you to set permission levels within the app for your team members. Permissions can control access to app settings, billing, and critical activities.
+
+### Uptime
+
+We maintain an uptime of 99.8% or higher. Our status page is available at [argos.openstatus.dev](https://argos.openstatus.dev).
+
+## Network and Application Security
+
+### Data Hosting and Storage
+
+Argos services and data are hosted in Amazon Web Services (AWS) facilities located in the USA (us-east-1) and Europe (eu-west-1).
+
+### Backups and Monitoring
+
+We perform periodic backups of customer data and service metadata to ensure reliable recovery if needed.
+
+### Permissions and Authentication
+
+Access to customer data is restricted to authorized employees who require it for their work. Argos is served 100% over HTTPS. We enforce 2-factor authentication (2FA) and strong password policies on our services to protect access to third-party services.
+
+### Encryption
+
+All data sent to or from Argos is encrypted in transit using 256-bit encryption. Our API and application endpoints are TLS/SSL only.
+
+### Penetration Testing and Vulnerability Scanning
+
+We use third-party security tools to periodically scan for vulnerabilities in our application and network layers, including [CodeQL](https://codeql.github.com/) and GitHub's Dependabot.
+
+## Vulnerability Disclosure
+
+The disclosure of security vulnerabilities helps us ensure the security and privacy of our users. We encourage security researchers to report any security vulnerabilities they find.
+
+### Rules of Engagement
+
+Security researchers must not:
+
+- Disclose vulnerability information except as outlined in this policy.
+- Engage in social engineering or phishing against Argos users.
+- Execute or attempt to execute Denial of Service (DoS) or Resource Exhaustion attacks.
+- Introduce malicious software.
+- Test in ways that could degrade the operation of Argos systems.
+- Test third-party applications, websites, or services that integrate with Argos.
+- Alter, delete, or exfiltrate Argos data.
+
+### Reporting a Vulnerability
+
+We accept vulnerability reports at [security@argos-ci.com](mailto:security@argos-ci.com). Reports may be submitted anonymously.
+
+Your information will be used for defensive purposes only, to mitigate or remediate vulnerabilities. If your findings include newly discovered vulnerabilities affecting others beyond Argos, we may share your report with relevant organizations under a coordinated vulnerability disclosure process. We will not share your name or contact information without your permission.
+
+When submitting a report, please:
+
+- Describe the vulnerability, where it was discovered, and the potential impact.
+- Provide detailed steps to reproduce the vulnerability (proof of concept scripts or screenshots are helpful).
+
+### Disclosure
+
+Argos is committed to timely correction of vulnerabilities. To reduce risk, we ask that you refrain from sharing information about discovered vulnerabilities for 90 calendar days after we acknowledge receipt of your report. If you believe others should be informed sooner, please coordinate with us in advance.
+
+### Contact
+
+If you have any questions or comments about this policy, please contact us at [contact@argos-ci.com](mailto:contact@argos-ci.com). We will make every effort to respond within a reasonable timeframe.
