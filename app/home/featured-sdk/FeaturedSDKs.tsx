@@ -51,7 +51,7 @@ export function FeaturedSDKs() {
         </p>
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           <SdkCard
-            href="/docs/quick-start/playwright"
+            href="/docs/quickstart/playwright"
             imgSrc={playwright}
             title="Playwright"
             description={
@@ -62,7 +62,7 @@ export function FeaturedSDKs() {
             }
           />
           <SdkCard
-            href="/docs/quick-start/cypress"
+            href="/docs/quickstart/cypress"
             imgSrc={cypress}
             title="Cypress"
             description={
@@ -73,7 +73,7 @@ export function FeaturedSDKs() {
             }
           />
           <SdkCard
-            href="/docs/quick-start/webdriverio"
+            href="/docs/quickstart/webdriverio"
             imgSrc={webdriverio}
             title="WebdriverIO"
             description={
@@ -84,7 +84,7 @@ export function FeaturedSDKs() {
             }
           />
           <SdkCard
-            href="/docs/quick-start/storybook"
+            href="/docs/quickstart/storybook"
             imgSrc={storybook}
             title="Storybook"
             description={
@@ -95,7 +95,7 @@ export function FeaturedSDKs() {
             }
           />
           <SdkCard
-            href="/docs/quick-start/next-js"
+            href="/docs/quickstart/next-js"
             imgSrc={nextjs}
             title="Next.js"
             description={
@@ -106,7 +106,7 @@ export function FeaturedSDKs() {
             }
           />
           <SdkCard
-            href="/docs/quick-start/remix"
+            href="/docs/quickstart/remix"
             imgSrc={remix}
             title="Remix"
             description={
