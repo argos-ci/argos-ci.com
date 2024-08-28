@@ -15,7 +15,7 @@ import webdriverio from "./logos/webdriverio.png";
 function SdkCard(props: {
   href: string;
   imgSrc: StaticImageData;
-  title: React.ReactNode;
+  title: string;
   description: React.ReactNode;
 }) {
   return (
@@ -26,7 +26,7 @@ function SdkCard(props: {
     >
       <Image
         src={props.imgSrc}
-        alt=""
+        alt={props.title}
         width={48}
         height={48}
         className="mb-8 origin-top-left transition duration-300 group-hover:scale-125"
