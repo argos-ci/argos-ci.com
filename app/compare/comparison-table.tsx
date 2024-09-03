@@ -119,7 +119,7 @@ export function ComparisonTable(props: {
           <Th>
             <ThMain>GitHub integration without code access</ThMain>
             <ThSubLink href="https://argos-ci.com/docs/github" target="_blank">
-              Offer a mode without content permission required
+              Offer a mode without needing to read your code
             </ThSubLink>
           </Th>
           <Feature feature={props.features.githubLight} />
