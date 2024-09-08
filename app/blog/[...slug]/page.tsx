@@ -16,7 +16,11 @@ import {
   PostCardTag,
   PostCardTitle,
 } from "@/components/PostCard";
-import { getArticleBySlug, getArticles, getDocMdxSource } from "@/lib/blog-api";
+import {
+  getArticleBySlug,
+  getArticleMdxSource,
+  getArticles,
+} from "@/lib/api/blog";
 
 type Props = {
   params: { slug: string[] };
@@ -134,7 +138,7 @@ export default async function Page({ params }: Props) {
   if (!article) {
     notFound();
   }
-  const source = await getDocMdxSource(article);
+  const source = await getArticleMdxSource(article);
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "NewsArticle",

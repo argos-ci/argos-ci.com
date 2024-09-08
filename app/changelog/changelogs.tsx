@@ -3,7 +3,7 @@ import NextLink from "next/link";
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 import { Link } from "@/components/Link";
-import { ChangelogEntry } from "@/lib/changelog-api";
+import { ChangelogEntry } from "@/lib/api/changelog";
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
   dateStyle: "long",

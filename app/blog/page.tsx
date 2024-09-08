@@ -13,7 +13,7 @@ import {
   PostCardTag,
   PostCardTitle,
 } from "@/components/PostCard";
-import { getArticles } from "@/lib/blog-api";
+import { getArticles } from "@/lib/api/blog";
 import { getMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = getMetadata({

@@ -1,0 +1,55 @@
+---
+title: How Mermaid ensures flawless diagram rendering with Argos
+description: Discover how Mermaid, an open-source diagramming tool, uses Argos for automated visual regression testing to ensure flawless diagram rendering and prevent visual bugs.
+slug: mermaid
+date: 2024-09-08
+author: Greg Bergé
+image: ./main.jpg
+
+customer:
+  name: Mermaid
+  logo: ./mermaid-logo.svg
+  website: https://mermaid.js.org/
+  about: Mermaid is a JavaScript based diagramming and charting tool that renders Markdown-inspired text definitions to create and modify diagrams dynamically.
+  industry: Open source project
+  companySize: < 10
+  founded: 2014
+  argosPlan: Open Source
+---
+
+## Company Overview
+
+[Mermaid](https://mermaid.js.org/) is an open-source JavaScript library that allows users to generate diagrams and flowcharts from text in a markdown-like syntax. It’s widely adopted by developers, technical writers, and project managers to create and manage complex visual content easily. As the demand for accurate and dynamic diagram generation grows, ensuring the visual stability of these diagrams becomes paramount.
+
+## The Challenge
+
+Mermaid's users rely on the tool to generate intricate and precise diagrams. Any visual regression in the rendering process could lead to confusion or miscommunication, especially when these diagrams are used in technical documentation or project planning. Even minor shifts in diagram presentation can have a significant impact on usability and user experience.
+
+The team at Mermaid needed a solution to **automatically detect any visual regression** during the development process. With an ever-expanding user base and continuous development, they sought a reliable visual testing tool that could scale with their growing needs, ensuring every new feature or update maintains the integrity of their diagram rendering.
+
+## The Solution: Argos
+
+Mermaid integrated [Argos](https://argos-ci.com/) into their CI pipeline to prevent visual regressions in their diagram rendering. Argos is an open-source visual testing tool that compares screenshots of web pages or components across different builds and flags any discrepancies. By integrating Argos, Mermaid was able to catch unintended changes in the visuals of their diagrams early in the development cycle.
+
+![Visual regression detection of Mermaid diagram using Argos](/assets/customers/mermaid/argos-build.jpg)
+
+## Why Mermaid Chose Argos
+
+- **Automated Visual Regression Testing:** Argos automatically detects even the smallest discrepancies in diagram rendering, allowing Mermaid to catch issues before they reach production.
+- **Seamless CI Integration:** Argos integrates effortlessly with Mermaid’s existing CI pipeline, enabling their team to maintain continuous testing without adding complexity to their workflow.
+- **Open-Source Flexibility:** Like Mermaid, Argos is open-source, which aligns with Mermaid’s philosophy and allows for customization as needed.
+
+## Results
+
+Since implementing Argos, Mermaid has seen a **significant reduction in visual regression bugs** in their diagram rendering. The team now has complete confidence that any updates or new features will not inadvertently disrupt the visual accuracy of the diagrams their users rely on.
+
+Here’s what [Sidharth Vasisht](https://github.com/sidharthv96), core maintainer of Mermaid, had to say about using Argos:
+
+> "Argos has been a game-changer for us. It catches even the smallest visual changes in our diagram rendering, giving us peace of mind before every release. The seamless integration with our CI pipeline makes it an essential part of our development process."
+
+- **Increased Confidence in Deployments:** Argos' thorough visual testing allows the Mermaid team to deploy with the assurance that no diagram-breaking changes will slip through.
+- **Improved Development Efficiency:** By catching visual regressions early, Mermaid has reduced the time spent manually reviewing diagram outputs, allowing their team to focus on building new features.
+
+### Conclusion
+
+Argos has become an essential tool for Mermaid, ensuring that every diagram generated meets their high standards of precision and visual integrity. As Mermaid continues to grow and evolve, Argos will remain a cornerstone of their visual testing strategy.

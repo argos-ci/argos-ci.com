@@ -1,6 +1,6 @@
 import { MetadataRoute } from "next";
 
-import { getArticles } from "@/lib/blog-api";
+import { getArticles } from "@/lib/api/blog";
 
 const BASE_URL = "https://argos-ci.com";
 
