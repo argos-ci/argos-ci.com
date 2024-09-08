@@ -6,7 +6,7 @@ import {
   getChangelogEntries,
   getChangelogEntryBySlug,
   getChangelogFiles,
-} from "@/lib/changelog-api";
+} from "@/lib/api/changelog";
 
 import { Changelogs } from "../changelogs";
 

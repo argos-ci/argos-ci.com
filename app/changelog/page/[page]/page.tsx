@@ -5,7 +5,7 @@ import {
   getChangelogFiles,
   getChangelogPagesCount,
   getPaginatedChangelogs,
-} from "@/lib/changelog-api";
+} from "@/lib/api/changelog";
 import { getMetadata } from "@/lib/metadata";
 
 import { Changelogs } from "../../changelogs";

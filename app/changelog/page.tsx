@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import { getPaginatedChangelogs } from "@/lib/changelog-api";
+import { getPaginatedChangelogs } from "@/lib/api/changelog";
 import { getMetadata } from "@/lib/metadata";
 
 import { Changelogs } from "./changelogs";
