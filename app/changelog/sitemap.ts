@@ -4,7 +4,7 @@ import {
   getChangelogEntries,
   getChangelogFiles,
   getChangelogPagesCount,
-} from "@/lib/changelog-api";
+} from "@/lib/api/changelog";
 
 const BASE_URL = "https://argos-ci.com";
 
