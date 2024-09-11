@@ -94,7 +94,7 @@ export default async function Page({ params }: Props) {
   };
   return (
     <>
-      <div className="mx-auto my-24 grid w-full max-w-screen-xl grid-cols-4 gap-5 lg:gap-10 lg:px-20">
+      <div className="mx-auto my-24 grid w-full max-w-screen-xl grid-cols-4 gap-5 px-4 lg:gap-10 lg:px-20">
         <article className="prose relative col-span-4 max-w-none dark:prose-invert md:col-span-3">
           <header>
             <h1 className="!mb-2">{customerCase.title}</h1>

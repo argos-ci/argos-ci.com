@@ -117,6 +117,50 @@ export async function getCustomerCaseMdxSource(customerCase: CustomerCase) {
           />
         );
       },
+      Blockquote,
     },
   });
+}
+
+function Blockquote(props: {
+  authorAvatar: string;
+  authorName: string;
+  authorPosition: string;
+  companyLogo: string;
+  companyName: string;
+  quote: React.ReactNode;
+}) {
+  return (
+    <div className="not-prose relative my-10 flex flex-col items-center gap-6 rounded-lg border p-6 md:gap-8">
+      <div className="rounded-full bg-gradient-to-r from-pink-8 to-violet-8 p-2">
+        <Image
+          className="shrink-0 rounded-full"
+          src={props.authorAvatar}
+          width={80}
+          height={80}
+          alt={props.authorName}
+        />
+      </div>
+      <blockquote className="text-balance text-center md:text-lg">
+        <p>{props.quote}</p>
+      </blockquote>
+      <div className="flex items-center gap-4">
+        <Image
+          className="rounded"
+          src={props.companyLogo}
+          width={48}
+          height={48}
+          alt={props.companyName}
+        />
+        <div>
+          <div className="font-medium leading-tight md:text-lg">
+            {props.authorName}
+          </div>
+          <div className="text-sm text-low md:text-base">
+            {props.authorPosition}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
