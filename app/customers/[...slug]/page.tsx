@@ -1,11 +1,12 @@
+import { ArrowUpRightIcon } from "lucide-react";
 import { Metadata } from "next";
 import Image from "next/image";
+import NextLink from "next/link";
 import { notFound } from "next/navigation";
 import * as React from "react";
 
 import { ArgosEmblem } from "@/components/ArgosEmblem";
 import { CallToActionSection } from "@/components/CallToActionSection";
-import { Container } from "@/components/Container";
 import {
   getCustomerCaseBySlug,
   getCustomerCaseMdxSource,
@@ -157,7 +158,10 @@ export default async function Page({ params }: Props) {
           </SideItem>
           <SideItem title="Founded">{customerCase.customer.founded}</SideItem>
           <SideItem title="Argos plan">
-            {customerCase.customer.argosPlan}
+            <NextLink href="/pricing" className="hover:underline">
+              {customerCase.customer.argosPlan}
+              <ArrowUpRightIcon className="ml-1 inline size-4" />
+            </NextLink>
           </SideItem>
         </div>
       </div>
