@@ -1,0 +1,67 @@
+---
+title: Protecting Visual Integrity for Millions of GitBook Users
+description: GitBook uses Argos to catch visual regressions in their documentation platform, ensuring millions of users experience seamless content creation and consumption daily.
+slug: gitbook
+date: 2024-09-12
+author: Greg Bergé
+image: ./main.jpg
+
+customer:
+  name: GitBook
+  logo: ./gitbook-logo.svg
+  website: https://www.gitbook.com
+  about: GitBook is a modern documentation platform designed for teams to collaborate and share knowledge seamlessly.
+  industry: Documentation Tools, SaaS
+  companySize: 10-50
+  founded: 2014
+  argosPlan: Enterprise
+---
+
+## The Challenge
+
+GitBook, a leading documentation platform trusted by teams and developers worldwide, serves millions of users daily through its robust editor and published documentation. With the platform being such a critical tool for sharing knowledge and building communities, maintaining the visual integrity of both the editor interface and the published documents is paramount.
+
+As GitBook scaled, they faced the challenge of ensuring that new updates to their app wouldn’t inadvertently introduce visual regressions. Any small misalignment or UI change could disrupt the experience of millions of readers and creators. Given the sheer volume of users relying on GitBook to create and consume content seamlessly, a reliable solution was needed to catch potential issues before they reached production.
+
+## The Solution
+
+To address this challenge, GitBook implemented **Argos**, an open-source visual testing tool designed to catch visual regressions before they cause disruption. With Argos seamlessly integrated into their CI/CD pipeline, GitBook now has full confidence in their ability to catch any visual changes introduced by updates.
+
+![Screenshot of GitBook editor in Argos](/assets/customers/gitbook/cover-editor.jpg)
+
+From subtle UI tweaks in the editor to larger layout adjustments in the published documentation, Argos ensures that every change is visually vetted. This has been especially crucial for GitBook’s commitment to delivering an uninterrupted and flawless user experience to both creators and readers.
+
+<Blockquote
+  authorName="Samy Pessé"
+  authorAvatar="/assets/customers/gitbook/samy.jpg"
+  authorPosition="CTO"
+  companyName="GitBook"
+  companyLogo="/assets/customers/gitbook/gitbook-logo.svg"
+  quote={
+    <>
+      Argos has become a cornerstone of our testing process. Its ability to
+      catch visual issues early has saved us countless hours of manual QA and
+      protected the integrity of our product for millions of users. We can now
+      ship faster, knowing that Argos is watching for anything that could affect
+      our users’ experience.
+    </>
+  }
+/>
+
+## The Results
+
+Since adopting Argos, GitBook has streamlined its quality assurance process, allowing their team to focus on innovation rather than manual testing. Visual stability has been significantly improved across both the documentation editor and published content, minimizing the risk of UI bugs reaching production.
+
+![Visual difference of GitBook UI in Argos](/assets/customers/gitbook/change-detection.jpg)
+
+By catching potential visual regressions early in the development cycle, GitBook has saved countless hours in testing and rework. This proactive approach has translated into faster deployment times and a consistent, reliable product that millions of users trust daily.
+
+With Argos, GitBook has been able to:
+
+- **Accelerate their release cycles**, confident that visual regressions will be detected before they impact users.
+- **Reduce manual testing efforts**, saving time and improving team efficiency.
+- **Maintain a visually consistent product**, keeping the experience seamless for both creators and consumers.
+
+## The Future
+
+GitBook plans to continue leveraging Argos as their platform evolves, knowing that any visual inconsistencies will be caught early, allowing them to maintain the high standard their users expect.
