@@ -109,7 +109,8 @@ export default async function Page({ params }: Props) {
             }}
           >
             <Image
-              {...customerCase.image}
+              src={customerCase.image.src}
+              blurDataURL={customerCase.image.blurDataURL}
               width={undefined}
               height={undefined}
               priority
