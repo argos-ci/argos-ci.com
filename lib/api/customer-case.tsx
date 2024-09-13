@@ -3,6 +3,8 @@ import Image, { ImageProps, StaticImageData } from "next/image";
 import { dirname, join } from "node:path";
 import { z } from "zod";
 
+import { Zoom } from "@/components/Zoom";
+
 import { assertAllItems, getDocMdxSource, readMatterData } from "./common";
 
 const FrontmatterSchema = z.object({
@@ -107,14 +109,16 @@ export async function getCustomerCaseMdxSource(customerCase: CustomerCase) {
     components: {
       img: ({ src, height, width, alt }) => {
         return (
-          <Image
-            className="rounded-md border"
-            src={src as string}
-            height={height as number}
-            width={width as number}
-            alt={alt as string}
-            sizes="(max-width: 900px) 100vw, 832px"
-          />
+          <Zoom>
+            <Image
+              className="rounded-md border"
+              src={src as string}
+              height={height as number}
+              width={width as number}
+              alt={alt as string}
+              sizes="(max-width: 900px) 100vw, 832px"
+            />
+          </Zoom>
         );
       },
       Blockquote,
