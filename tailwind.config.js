@@ -56,6 +56,11 @@ module.exports = {
         base: radixColors.alias("mauve.6"),
         hover: radixColors.alias("mauve.8"),
         active: radixColors.alias("mauve.9"),
+        primary: {
+          DEFAULT: radixColors.alias("violet.6"),
+          hover: radixColors.alias("violet.8"),
+          active: radixColors.alias("violet.9"),
+        },
       },
       fontFamily: {
         sans: 'var(--font-inter),Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue",sans-serif',

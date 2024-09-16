@@ -1,4 +1,4 @@
-import { ArrowUpRightIcon } from "lucide-react";
+import { ArrowLeftIcon, ArrowUpRightIcon } from "lucide-react";
 import { Metadata } from "next";
 import Image from "next/image";
 import NextLink from "next/link";
@@ -69,17 +69,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-const dateFormatter = new Intl.DateTimeFormat("en-US", {
-  dateStyle: "long",
-});
-
 export default async function Page({ params }: Props) {
   const customerCase = await getCustomerCaseFromParams(params);
   if (!customerCase) {
     notFound();
   }
   const source = await getCustomerCaseMdxSource(customerCase);
-  const jsonLd = {
+  const jsonLdArticle = {
     "@context": "https://schema.org",
     "@type": "NewsArticle",
     headline: customerCase.title,
@@ -93,11 +89,41 @@ export default async function Page({ params }: Props) {
       },
     ],
   };
+  const jsonLdBreadcrumbs = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Customers",
+        item: "https://argos-ci.com/customers",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: customerCase.title,
+        item: `https://argos-ci.com/customers/${customerCase.slug}`,
+      },
+    ],
+  };
   return (
     <>
       <div className="mx-auto my-24 grid w-full max-w-screen-xl grid-cols-4 gap-5 px-4 lg:gap-10 lg:px-20">
         <article className="prose relative col-span-4 max-w-none dark:prose-invert md:col-span-3">
           <header>
+            <div className="mb-4 text-sm">
+              <ArrowLeftIcon
+                className="mr-2 inline size-4 text-low"
+                strokeWidth={1}
+              />
+              <NextLink
+                href="/customers"
+                className="font-normal text-low no-underline hover:underline"
+              >
+                All customers
+              </NextLink>
+            </div>
             <h1 className="!mb-2">{customerCase.title}</h1>
             <p className="text-xl">{customerCase.description}</p>
           </header>
@@ -127,7 +153,13 @@ export default async function Page({ params }: Props) {
           {source}
           <script
             type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdArticle) }}
+          />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(jsonLdBreadcrumbs),
+            }}
           />
         </article>
         <div className="sticky top-20 col-span-1 mt-72 hidden flex-col divide-y divide-base self-start md:flex">
