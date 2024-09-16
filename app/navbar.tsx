@@ -19,6 +19,7 @@ export const AppNavbar: React.FC = () => {
           <NavbarLink href="https://argos-ci.com/docs/getting-started">
             Docs
           </NavbarLink>
+          <NavbarLink href="/customers">Customers</NavbarLink>
           <NavbarLink href="/pricing">Pricing</NavbarLink>
           <NavbarLink href="/changelog">Changelog</NavbarLink>
           <NavbarLink href="/blog">Blog</NavbarLink>

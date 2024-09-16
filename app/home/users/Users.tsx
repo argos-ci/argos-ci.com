@@ -8,7 +8,7 @@ export function Users() {
     <Container asChild className="py-16 md:py-24">
       <section>
         <H2 className="mb-4 bg-gradient-to-r from-violet-11 to-crimson-11 bg-clip-text text-center text-transparent">
-          Loved by 1.6K users
+          Loved by more than 3K users
         </H2>
         <div className="space-y-6 py-8 sm:columns-2 sm:gap-6 lg:columns-3">
           <Tweet id="1724422233840287766" />
