@@ -1,0 +1,24 @@
+---
+title: Introducing multi-branches
+description: Easily manage visual tests across multiple branches to improve collaboration and streamline workflows for teams working on parallel features or bug fixes.
+slug: multi-branches
+date: 2024-10-08
+---
+
+![Argos multi-branches](/assets/changelogs/multi-branches/multi-branches.jpg)
+
+We’re excited to announce the release of **multi-branches** in Argos, designed to make visual testing even more flexible and efficient.
+
+### Base branch inference
+
+Argos now automatically infers the correct base branch for each pull request, ensuring visual tests are compared against the appropriate baseline. This removes the need for manual setup and guarantees that regressions are detected and resolved within the correct context.
+
+### Auto-approved branches
+
+You can now specify which branches should be auto-approved, giving you more control over your testing flow. This feature reduces manual approval steps by allowing branches that meet your criteria to be auto-approved, streamlining your team’s workflow.
+
+### No additional configuration required
+
+These improvements are automatically applied to all projects. You don’t need to configure anything to start benefiting from these features immediately. However, if you prefer, you can customize their behavior in the project settings.
+
+For more details on how to configure multi-branch support, visit our [documentation](https://argos-ci.com/docs/baseline-build).
