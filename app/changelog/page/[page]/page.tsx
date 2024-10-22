@@ -10,9 +10,8 @@ import { getMetadata } from "@/lib/metadata";
 
 import { Changelogs } from "../../changelogs";
 
-type Props = {
-  params: { page: string };
-};
+type Params = { page: string };
+type Props = { params: Promise<Params> };
 
 export async function generateStaticParams() {
   const files = await getChangelogFiles();
@@ -22,7 +21,8 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
   const page = params.page;
 
   return getMetadata({
@@ -32,7 +32,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   });
 }
 
-export default async function Page({ params }: Props) {
+export default async function Page(props: Props) {
+  const params = await props.params;
   const page = Number(params.page);
   if (Number.isNaN(page) || page < 1) {
     notFound();

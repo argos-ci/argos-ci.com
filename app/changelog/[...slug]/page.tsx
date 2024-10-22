@@ -10,9 +10,8 @@ import {
 
 import { Changelogs } from "../changelogs";
 
-type Props = {
-  params: { slug: string[] };
-};
+type Params = { slug: string[] };
+type Props = { params: Promise<Params> };
 
 export async function generateStaticParams() {
   const files = await getChangelogFiles();
@@ -24,13 +23,13 @@ export async function generateStaticParams() {
     }));
 }
 
-async function getChangelogFromParams(params: Props["params"]) {
+async function getChangelogFromParams(params: Params) {
   const slug = params.slug.join("/");
   return getChangelogEntryBySlug(slug);
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const changelog = await getChangelogFromParams(params);
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const changelog = await getChangelogFromParams(await props.params);
   if (!changelog) {
     notFound();
   }
@@ -64,8 +63,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function Page({ params }: Props) {
-  const changelog = await getChangelogFromParams(params);
+export default async function Page(props: Props) {
+  const changelog = await getChangelogFromParams(await props.params);
   if (!changelog) {
     notFound();
   }

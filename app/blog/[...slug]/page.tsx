@@ -22,9 +22,8 @@ import {
   getArticles,
 } from "@/lib/api/blog";
 
-type Props = {
-  params: { slug: string[] };
-};
+type Params = { slug: string[] };
+type Props = { params: Promise<Params> };
 
 export async function generateStaticParams() {
   const articles = await getArticles();
@@ -33,13 +32,13 @@ export async function generateStaticParams() {
     .map((article) => ({ slug: article.slug.split("/") }));
 }
 
-async function getArticleFromParams(params: Props["params"]) {
+async function getArticleFromParams(params: Params) {
   const slug = params.slug.join("/");
   return getArticleBySlug(slug);
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const article = await getArticleFromParams(params);
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const article = await getArticleFromParams(await props.params);
   if (!article) {
     notFound();
   }
@@ -133,7 +132,8 @@ const dateFormatter = new Intl.DateTimeFormat("en-US", {
   dateStyle: "long",
 });
 
-export default async function Page({ params }: Props) {
+export default async function Page(props: Props) {
+  const params = await props.params;
   const article = await getArticleFromParams(params);
   if (!article) {
     notFound();
