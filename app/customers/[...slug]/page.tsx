@@ -13,9 +13,8 @@ import {
   getCustomerCases,
 } from "@/lib/api/customer-case";
 
-type Props = {
-  params: { slug: string[] };
-};
+type Params = { slug: string[] };
+type Props = { params: Promise<Params> };
 
 export async function generateStaticParams() {
   const customerCases = await getCustomerCases();
@@ -24,13 +23,13 @@ export async function generateStaticParams() {
     .map((customerCase) => ({ slug: customerCase.slug.split("/") }));
 }
 
-async function getCustomerCaseFromParams(params: Props["params"]) {
+async function getCustomerCaseFromParams(params: Params) {
   const slug = params.slug.join("/");
   return getCustomerCaseBySlug(slug);
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const customerCase = await getCustomerCaseFromParams(params);
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const customerCase = await getCustomerCaseFromParams(await props.params);
   if (!customerCase) {
     notFound();
   }
@@ -69,8 +68,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default async function Page({ params }: Props) {
-  const customerCase = await getCustomerCaseFromParams(params);
+export default async function Page(props: Props) {
+  const customerCase = await getCustomerCaseFromParams(await props.params);
   if (!customerCase) {
     notFound();
   }
