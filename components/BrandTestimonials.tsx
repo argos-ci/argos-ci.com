@@ -40,7 +40,7 @@ export const BRANDS = {
   lemonde: { src: lemonde, alt: "Le Monde", url: "https://www.lemonde.fr" },
   doctolib: { src: doctolib, alt: "Doctolib", url: "https://www.doctolib.fr" },
   planable: { src: planable, alt: "Planable", url: "https://planable.io" },
-  rapidata: { src: rapidata, alt: "Rapidata", url: "https://rapidata.de" },
+  rapidata: { src: rapidata, alt: "Rapidata", url: "https://rapidata.ai" },
   rho: { src: rho, alt: "Rho", url: "https://rho.co" },
   sivo: { src: sivo, alt: "Sivo", url: "https://sivo.com" },
   pivot: { src: pivot, alt: "Pivot", url: "https://pivot.com" },
