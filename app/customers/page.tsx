@@ -48,8 +48,19 @@ export default function Page() {
             />
             <CustomerCard brand={BRANDS.pivot} />
             <CustomerCard brand={BRANDS.planable} />
-            <CustomerCard brand={BRANDS.yotpo} />
-            <CustomerCard brand={BRANDS.sindri} />
+            <QuoteCard
+              href={BRANDS.rapidata.url}
+              brand={BRANDS.rapidata}
+              author="Jason Corkill"
+              authorRole="Founder & CEO"
+              quote={
+                <>
+                  "Before Argos, we had constant problems with our rapidly
+                  iterating UI breaking for random screen aspect ratios. With
+                  Argos catch all of these before we ever ship!
+                </>
+              }
+            />
           </Column>
           <Column>
             <QuoteCard
@@ -75,7 +86,8 @@ export default function Page() {
                 <>Argos CI is very helpful for us to maintain Material UI!</>
               }
             />
-            <CustomerCard brand={BRANDS.rapidata} />
+            <CustomerCard brand={BRANDS.yotpo} />
+            <CustomerCard brand={BRANDS.sindri} />
             <CustomerCard brand={BRANDS.businessInsider} />
           </Column>
 
