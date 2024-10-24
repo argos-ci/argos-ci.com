@@ -67,7 +67,7 @@ export function Hero() {
               <Button size="large" variant="outline" asChild>
                 <a
                   target="_blank"
-                  href="https://app.argos-ci.com/argos-ci/argos-ci.com/builds/20/31313699"
+                  href="https://app.argos-ci.com/argos-ci/argos/builds/2426/112497429"
                 >
                   See a demo build
                 </a>
@@ -79,7 +79,7 @@ export function Hero() {
               <a
                 className="group relative block"
                 target="_blank"
-                href="https://app.argos-ci.com/argos-ci/argos-ci.com/builds/20/31313699"
+                href="https://app.argos-ci.com/argos-ci/argos/builds/2426/112497429"
               >
                 <div className="absolute inset-0 overflow-hidden rounded bg-gradient-to-br from-violetA-11 to-plumA-10 opacity-0 transition duration-500 group-hover:opacity-100" />
                 <div className="absolute inset-0 flex scale-50 transform items-center justify-center rounded opacity-0 transition duration-500 group-hover:scale-100 group-hover:opacity-100">

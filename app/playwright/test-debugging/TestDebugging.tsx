@@ -37,7 +37,7 @@ export function TestDebugging() {
             }
           />
           <div>
-            <MoreLink href="https://app.argos-ci.com/argos-ci/playwright-demo/builds/29/64334639">
+            <MoreLink href="https://app.argos-ci.com/argos-ci/argos/builds/2426/112497429">
               See a demo build
             </MoreLink>
           </div>
