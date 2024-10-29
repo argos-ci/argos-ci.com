@@ -42,9 +42,9 @@ export function Hero() {
           <div className="flex flex-col items-center gap-6 text-center lg:items-start lg:text-left">
             <Link
               className="rounded-lg border border-violet-6 bg-violet-2 px-2 py-1 text-sm transition hover:bg-violet-3"
-              href="/playwright"
+              href="/changelog"
             >
-              Introducing Playwright Test Debugging{" "}
+              Introducing Official Storybook SDK{" "}
               <ChevronRightIcon className="inline h-4 w-4" />
             </Link>
             <h1 className="bg-hero-text-gradient bg-clip-text font-accent text-[3.2rem] leading-tight text-transparent md:text-7xl lg:bg-hero-text-gradient-lg lg:leading-none">
