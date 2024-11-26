@@ -18,9 +18,9 @@ import { VisualTesting } from "./home/visual-testing/VisualTesting";
 import { Why } from "./home/why/Why";
 
 export const metadata: Metadata = getMetadata({
-  absoluteTitle: "Argos — Visual Testing for developers",
+  absoluteTitle: "Argos — Eliminate visual bugs & regressions",
   description:
-    "Argos provides the developer tools to debug tests and detect visual regressions.",
+    "Meet the modern visual testing platform to detect and review visual regressions.",
   pathname: "/",
 });
 
