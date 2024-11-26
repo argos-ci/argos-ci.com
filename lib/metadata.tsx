@@ -16,8 +16,8 @@ export function getMetadata({
     title: title
       ? title
       : absoluteTitle
-      ? { absolute: absoluteTitle }
-      : "Argos — Visual Testing for developers",
+        ? { absolute: absoluteTitle }
+        : "Argos — Eliminate visual bugs & regressions",
     description,
     alternates: {
       canonical: url,

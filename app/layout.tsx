@@ -20,7 +20,7 @@ const calSans = localFont({
   variable: "--font-calsans",
 });
 
-const title = "Argos — Visual Testing for developers";
+const title = "Argos — Eliminate visual bugs & regressions";
 const description =
   "Argos is an open-source visual testing tool that helps teams catch visual regressions in their web applications. Seamlessly integrate with your CI/CD pipeline, automate visual tests, and ensure a consistent user experience. Improve your app's quality with fast, reliable visual comparisons.";
 export const metadata: Metadata = {

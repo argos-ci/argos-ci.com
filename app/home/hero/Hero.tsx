@@ -47,16 +47,18 @@ export function Hero() {
               Introducing Official Storybook SDK{" "}
               <ChevronRightIcon className="inline h-4 w-4" />
             </Link>
-            <h1 className="bg-hero-text-gradient bg-clip-text font-accent text-[3.2rem] leading-tight text-transparent md:text-7xl lg:bg-hero-text-gradient-lg lg:leading-none">
-              Visual Testing <br />
-              for developers
+            <h1 className="min-h-32 bg-hero-text-gradient bg-clip-text font-accent text-5xl leading-tight text-transparent md:text-6xl lg:bg-hero-text-gradient-lg lg:leading-none">
+              Eliminate visual
+              <br />
+              bugs & regressions
             </h1>
             <div className="text-xl text-low">
-              Argos provides the developer tools{" "}
-              <br className="hidden lg:block" />
-              to <strong className="font-medium text">debug tests</strong> and
-              detect{" "}
-              <strong className="font-medium text">visual regressions</strong>.
+              Meet the modern{" "}
+              <strong className="font-medium text">
+                visual testing platform
+              </strong>{" "}
+              to detect <br />
+              and review visual regressions.
             </div>
             <div className="flex gap-4">
               <Button size="large" variant="primary" asChild>
