@@ -4,7 +4,7 @@ import * as React from "react";
 import { ArgosEmblem } from "@/components/ArgosEmblem";
 import { CallToActionSection } from "@/components/CallToActionSection";
 import { RedirectIfCookie } from "@/components/RedirectIfCookie";
-import { getMetadata } from "@/lib/metadata";
+import { defaultDescription, defaultTitle, getMetadata } from "@/lib/metadata";
 
 import { Customers } from "./home/Customers";
 import { DemoVideo } from "./home/demo-video/demoVideo";
@@ -18,9 +18,8 @@ import { VisualTesting } from "./home/visual-testing/VisualTesting";
 import { Why } from "./home/why/Why";
 
 export const metadata: Metadata = getMetadata({
-  absoluteTitle: "Argos — Eliminate visual bugs & regressions",
-  description:
-    "Meet the modern visual testing platform to detect and review visual regressions.",
+  absoluteTitle: defaultTitle,
+  description: defaultDescription,
   pathname: "/",
 });
 

@@ -47,7 +47,7 @@ export function Hero() {
               Introducing Official Storybook SDK{" "}
               <ChevronRightIcon className="inline h-4 w-4" />
             </Link>
-            <h1 className="min-h-32 bg-hero-text-gradient bg-clip-text font-accent text-5xl leading-tight text-transparent md:text-6xl lg:bg-hero-text-gradient-lg lg:leading-none">
+            <h1 className="bg-hero-text-gradient bg-clip-text font-accent text-4xl leading-tight text-transparent md:min-h-32 md:text-6xl lg:bg-hero-text-gradient-lg lg:leading-none">
               Eliminate visual
               <br />
               bugs & regressions
