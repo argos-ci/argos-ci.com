@@ -35,8 +35,10 @@ export const Navbar = ({ primary, secondary, actions }: NavbarProps) => {
   return (
     <nav
       className={clsx(
-        "sticky left-0 top-0 z-20 border-b bg-app py-3 text-sm backdrop-blur-lg backdrop-saturate-100 transition md:bg-transparent",
-        scrolled ? "border-b-base" : "border-b-transparent",
+        "sticky left-0 top-0 z-20 border-b py-3 text-sm transition",
+        scrolled
+          ? "border-b-base bg-app"
+          : "border-b-transparent bg-transparent",
       )}
     >
       <DialogPrimitive.Root open={open} onOpenChange={setOpen}>
