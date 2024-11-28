@@ -6,6 +6,7 @@ import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 
 import { TooltipProvider } from "@/components/Tooltip";
+import { defaultDescription, defaultTitle } from "@/lib/metadata";
 import "@/styles/globals.css";
 import "@/styles/highlight-js-github-dark.min.css";
 
@@ -20,9 +21,9 @@ const calSans = localFont({
   variable: "--font-calsans",
 });
 
-const title = "Argos — Eliminate visual bugs & regressions";
-const description =
-  "Argos is an open-source visual testing tool that helps teams catch visual regressions in their web applications. Seamlessly integrate with your CI/CD pipeline, automate visual tests, and ensure a consistent user experience. Improve your app's quality with fast, reliable visual comparisons.";
+const title = defaultTitle;
+const description = defaultDescription;
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://argos-ci.com"),
   title: {
