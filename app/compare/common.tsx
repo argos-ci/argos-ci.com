@@ -10,7 +10,6 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 
-import { Accordion } from "@/components/Accordion";
 import { ArgosEmblem } from "@/components/ArgosEmblem";
 import { CallToActionSection } from "@/components/CallToActionSection";
 import { Container } from "@/components/Container";
@@ -180,14 +179,8 @@ export function FAQSection(props: { children: React.ReactNode }) {
   return (
     <Container className="my-20 text-center md:my-28" asChild>
       <section>
-        <H2>Frequently Asked Questions</H2>
-        <Accordion
-          type="single"
-          collapsible
-          className="mx-auto mt-4 w-full max-w-2xl text-left [&_strong]:font-semibold"
-        >
-          {props.children}
-        </Accordion>
+        <H2 className="mb-4">Frequently Asked Questions</H2>
+        {props.children}
       </section>
     </Container>
   );

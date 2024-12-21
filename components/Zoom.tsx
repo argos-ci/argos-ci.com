@@ -3,7 +3,9 @@
 import mediumZoom from "medium-zoom";
 import * as React from "react";
 
-export function Zoom(props: { children: React.ReactElement }) {
+export function Zoom(props: {
+  children: React.ReactElement<{ ref?: React.Ref<HTMLImageElement> }>;
+}) {
   const ref = React.useRef<HTMLImageElement>(null);
 
   React.useEffect(() => {

@@ -1,6 +1,5 @@
 import { Slot } from "@radix-ui/react-slot";
 import { clsx } from "clsx";
-import { TwcComponentProps, twc } from "react-twc";
 
 export type ContainerProps = React.HTMLAttributes<HTMLDivElement> & {
   asChild?: boolean;
@@ -8,13 +7,13 @@ export type ContainerProps = React.HTMLAttributes<HTMLDivElement> & {
   noGutter?: boolean;
 };
 
-export const Container = ({
+export function Container({
   className,
   asChild,
   tight,
   noGutter,
   ...props
-}: ContainerProps) => {
+}: ContainerProps) {
   const Comp = asChild ? Slot : "div";
   return (
     <Comp
@@ -26,4 +25,4 @@ export const Container = ({
       {...props}
     />
   );
-};
+}

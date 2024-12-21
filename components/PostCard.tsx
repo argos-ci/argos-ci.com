@@ -74,12 +74,6 @@ export const PostCardAuthor = (props: ComponentProps<"div">) => (
   <div className="text-low" {...props} />
 );
 
-const formatDate = (date: string) => {
-  return new Intl.DateTimeFormat("en-US", {
-    dateStyle: "medium",
-  }).format(new Date(date));
-};
-
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
   dateStyle: "medium",
 });

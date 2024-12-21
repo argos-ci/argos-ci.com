@@ -1,14 +1,16 @@
 import {
-  BugOffIcon,
-  CheckCircleIcon,
+  BlocksIcon,
+  BugIcon,
+  ChevronRightIcon,
+  GaugeIcon,
   LucideIcon,
-  RocketIcon,
   SparklesIcon,
 } from "lucide-react";
 import { twc } from "react-twc";
 
 import { Container } from "@/components/Container";
 import { H2 } from "@/components/H2";
+import { Link } from "@/components/Link";
 
 const H3 = twc.h3`mb-4 text-xl md:text-2xl font-medium`;
 
@@ -40,42 +42,51 @@ export function Why() {
                 intended design, capturing and highlighting any visual
                 deviations from expected elements like layout, colors, and text.
               </p>
-              <p>
+              <p className="mb-4">
                 While E2E testing confirms functionality, visual testing with
                 Argos ensures the UI looks right to the user, acting as a
                 specialized tool to maintain visual quality alongside E2E tests.
               </p>
+              <p>
+                <Link
+                  href="/blog/what-is-visual-testing"
+                  className="group font-medium"
+                >
+                  Read more about what is visual testing
+                  <ChevronRightIcon className="inline size-5 align-[-20%] transition group-hover:translate-x-1" />
+                </Link>
+              </p>
             </div>
           </div>
           <div className="flex-[5]">
-            <H3>The Benefits of Visual Testing with Argos</H3>
+            <H3>Why using Argos?</H3>
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
               <div>
-                <H4 icon={BugOffIcon} title="Detect Visual Regressions" />
+                <H4 icon={GaugeIcon} title="Visual testing that scales" />
                 <p>
-                  Detect and prevent UI issues that could negatively impact user
-                  perception and experience.
+                  Argos does not require you to commit screenshots, making
+                  visual testing a seamless part of your CI flow.
                 </p>
               </div>
               <div>
-                <H4 icon={SparklesIcon} title="Enhance Quality Assurance" />
+                <H4 icon={SparklesIcon} title="The best review UI" />
                 <p>
-                  Integrate visual checks to complement functional tests,
-                  covering more ground with automated precision.
+                  Argos provides a clean and intuitive UI for reviewing visual
+                  changes, making it easy to spot regressions.
                 </p>
               </div>
               <div>
-                <H4 icon={CheckCircleIcon} title="Streamline Development" />
+                <H4 icon={BlocksIcon} title="Git Integrations" />
                 <p>
-                  Facilitate faster feedback and iteration by catching visual
-                  issues early in the development process.
+                  Argos is perfectly integrated with GitHub and GitLab, making
+                  it easy to see visual changes in your PRs.
                 </p>
               </div>
               <div>
-                <H4 icon={RocketIcon} title="Scalability Refined" />
+                <H4 icon={BugIcon} title="Debugging" />
                 <p>
-                  With Argos, there's no need to commit screenshots. Visual
-                  testing becomes a seamless part of your CI flow.
+                  Argos helps you debug your tests with failure screenshots and
+                  Playwright traces.
                 </p>
               </div>
             </div>

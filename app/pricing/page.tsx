@@ -21,9 +21,17 @@ export const metadata: Metadata = getMetadata({
 
 const H1 = twc.h1`my-8 font-accent text-5xl sm:text-6xl`;
 const H2 = twc.h2`mb-8 font-accent text-4xl md:text-5xl`;
-const Section = twc(
-  Container,
-)`flex flex-col items-center gap-6 text-center py-12`;
+
+function Section(props: { children: React.ReactNode }) {
+  return (
+    <Container
+      asChild
+      className="flex flex-col items-center gap-6 py-12 text-center"
+    >
+      <section>{props.children}</section>
+    </Container>
+  );
+}
 
 function OpenSourceSponsoring() {
   return (
@@ -68,7 +76,7 @@ export default function Page() {
       </Section>
 
       <Section>
-        <H2>Frequently asked questions</H2>
+        <H2>Frequently Asked Questions</H2>
         <FAQ />
       </Section>
     </div>

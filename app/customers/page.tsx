@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { ArrowRightIcon } from "lucide-react";
 import { Metadata } from "next";
 import Image from "next/image";
-import Link, { LinkProps } from "next/link";
+import Link from "next/link";
 import * as React from "react";
 
 import { ArgosEmblem } from "@/components/ArgosEmblem";
@@ -121,7 +121,7 @@ export default function Page() {
         <section>
           <CallToActionSection
             supercharge="your visual testing experience"
-            description="Discover why Argos is the preferred visual testing tool of developers."
+            description="Discover why Argos is the preferred visual testing tool of QA & developers."
           >
             <ArgosEmblem className="mx-auto aspect-square size-24" />
           </CallToActionSection>

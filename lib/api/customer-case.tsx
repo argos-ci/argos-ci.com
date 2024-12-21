@@ -1,5 +1,5 @@
 import fg from "fast-glob";
-import Image, { ImageProps, StaticImageData } from "next/image";
+import Image, { StaticImageData } from "next/image";
 import { dirname, join } from "node:path";
 import { z } from "zod";
 

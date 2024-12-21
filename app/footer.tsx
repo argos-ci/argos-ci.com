@@ -1,4 +1,3 @@
-import dynamic from "next/dynamic";
 import NextLink from "next/link";
 import { Suspense } from "react";
 import { twc } from "react-twc";
