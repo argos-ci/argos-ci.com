@@ -11,19 +11,15 @@ enum ColorMode {
   Light = "light",
 }
 
-const ColorModeButton = React.forwardRef<
-  HTMLButtonElement,
-  React.HTMLAttributes<HTMLButtonElement>
->((props, ref) => {
+function ColorModeButton(props: React.ComponentPropsWithRef<"button">) {
   return (
     <button
-      ref={ref}
       className="rounded-full p-2 transition hover:bg-hover aria-pressed:bg-active"
       type="button"
       {...props}
     />
   );
-});
+}
 
 export const ColorModeSelector = () => {
   const { theme, setTheme } = useTheme();

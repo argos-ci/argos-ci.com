@@ -1,10 +1,4 @@
-import {
-  BugPlayIcon,
-  CircleDotIcon,
-  EyeIcon,
-  ImageOffIcon,
-  LucideIcon,
-} from "lucide-react";
+import { BugPlayIcon, EyeIcon, ImageOffIcon, LucideIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 

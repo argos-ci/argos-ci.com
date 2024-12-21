@@ -6,7 +6,8 @@ export function DemoVideo() {
     <Container className="my-8">
       <H2 className="mb-4 text-center">Demo video</H2>
       <p className="mb-6 text-center text-lg text-low">
-        Explore how Argos streamlines UI changes review in pull-requests.
+        Explore how Argos can help you supercharge your visual testing
+        experience.
       </p>
       <div className="relative mx-auto aspect-video w-full max-w-3xl overflow-hidden sm:rounded">
         <iframe

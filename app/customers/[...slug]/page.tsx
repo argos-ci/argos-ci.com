@@ -4,9 +4,11 @@ import Image from "next/image";
 import NextLink from "next/link";
 import { notFound } from "next/navigation";
 import * as React from "react";
+import { BreadcrumbList, NewsArticle } from "schema-dts";
 
 import { ArgosEmblem } from "@/components/ArgosEmblem";
 import { CallToActionSection } from "@/components/CallToActionSection";
+import { JsonLd } from "@/components/JsonLd";
 import {
   getCustomerCaseBySlug,
   getCustomerCaseMdxSource,
@@ -74,8 +76,7 @@ export default async function Page(props: Props) {
     notFound();
   }
   const source = await getCustomerCaseMdxSource(customerCase);
-  const jsonLdArticle = {
-    "@context": "https://schema.org",
+  const jsonLdArticle: NewsArticle = {
     "@type": "NewsArticle",
     headline: customerCase.title,
     image: [customerCase.image.src],
@@ -88,8 +89,7 @@ export default async function Page(props: Props) {
       },
     ],
   };
-  const jsonLdBreadcrumbs = {
-    "@context": "https://schema.org",
+  const jsonLdBreadcrumbs: BreadcrumbList = {
     "@type": "BreadcrumbList",
     itemListElement: [
       {
@@ -150,16 +150,8 @@ export default async function Page(props: Props) {
             />
           </div>
           {source}
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdArticle) }}
-          />
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify(jsonLdBreadcrumbs),
-            }}
-          />
+          <JsonLd json={jsonLdArticle} />
+          <JsonLd json={jsonLdBreadcrumbs} />
         </article>
         <div className="sticky top-20 col-span-1 mt-72 hidden flex-col divide-y divide-base self-start md:flex">
           <div className="flex items-center gap-4 py-5">
@@ -198,7 +190,7 @@ export default async function Page(props: Props) {
       </div>
       <CallToActionSection
         supercharge="your visual testing experience"
-        description="Discover why Argos is the preferred visual testing tool of developers."
+        description="Discover why Argos is the preferred visual testing tool of QA & developers."
       >
         <ArgosEmblem className="mx-auto aspect-square size-24" />
       </CallToActionSection>

@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-export const defaultTitle = "Argos — Eliminate visual bugs & regressions";
+export const defaultTitle = "Argos — The open source visual testing platform";
 export const defaultDescription =
   "Argos is an open-source visual testing tool that helps teams catch visual regressions in their web applications. Seamlessly integrate with your CI/CD pipeline, automate visual tests, and ensure a consistent user experience. Improve your app's quality with fast, reliable visual comparisons.";
 
@@ -21,7 +21,7 @@ export function getMetadata({
       ? title
       : absoluteTitle
         ? { absolute: absoluteTitle }
-        : "Argos — Eliminate visual bugs & regressions",
+        : defaultTitle,
     description,
     alternates: {
       canonical: url,

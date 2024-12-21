@@ -9,6 +9,7 @@ import { defaultDescription, defaultTitle, getMetadata } from "@/lib/metadata";
 import { Customers } from "./home/Customers";
 import { DemoVideo } from "./home/demo-video/demoVideo";
 import { DeveloperExperience } from "./home/developer-experience/DeveloperExperience";
+import { FAQ } from "./home/faq/Faq";
 import { FeaturedSDKs } from "./home/featured-sdk/FeaturedSDKs";
 import { Features } from "./home/features/Features";
 import { Hero } from "./home/hero/Hero";
@@ -37,9 +38,10 @@ export default function Page() {
       <TestDebugging />
       <Features />
       <FeaturedSDKs />
+      <FAQ />
       <CallToActionSection
         supercharge="your visual testing experience"
-        description="Discover why Argos is the preferred visual testing tool of developers."
+        description="Discover why Argos is the preferred visual testing tool of QA & developers."
       >
         <ArgosEmblem className="mx-auto aspect-square size-24" />
       </CallToActionSection>

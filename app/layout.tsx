@@ -4,7 +4,9 @@ import { Metadata } from "next";
 import PlausibleProvider from "next-plausible";
 import { Inter } from "next/font/google";
 import localFont from "next/font/local";
+import { Organization } from "schema-dts";
 
+import { JsonLd } from "@/components/JsonLd";
 import { TooltipProvider } from "@/components/Tooltip";
 import { defaultDescription, defaultTitle } from "@/lib/metadata";
 import "@/styles/globals.css";
@@ -46,8 +48,7 @@ export const metadata: Metadata = {
   },
 };
 
-const jsonLdOrganization = {
-  "@context": "https://schema.org",
+const jsonLdOrganization: Organization = {
   "@type": "Organization",
   url: "https://argos-ci.com",
   logo: "https://argos-ci.com/logo.png",
@@ -104,12 +105,7 @@ export default function RootLayout({
         <PlausibleProvider domain="argos-ci.com" />
       </head>
       <body>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(jsonLdOrganization),
-          }}
-        />
+        <JsonLd json={jsonLdOrganization} />
         <ClientProviders>
           <TooltipProvider>
             <div id="content">

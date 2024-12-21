@@ -55,7 +55,6 @@ function getPrice(props: {
   flatPrice: number;
   flatScreenshotCount: number;
 }) {
-  const isMax = props.screenshotCount >= MAX_SCREENSHOTS;
   const extraScreenshotsCount = Math.max(
     props.screenshotCount - props.flatScreenshotCount,
     0,

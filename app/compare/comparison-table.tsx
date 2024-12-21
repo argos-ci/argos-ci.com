@@ -1,5 +1,3 @@
-import { CircleXIcon, XIcon } from "lucide-react";
-
 import {
   Check,
   THead,
