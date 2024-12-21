@@ -1,8 +1,39 @@
+import { ChevronRightIcon } from "lucide-react";
+
 import { Container } from "@/components/Container";
 import { FAQAccordion, FAQQuestion } from "@/components/FAQAccordion";
 import { H2 } from "@/components/H2";
+import { Link } from "@/components/Link";
 
 const questions: FAQQuestion[] = [
+  {
+    name: "What is Visual Testing?",
+    answer: (
+      <>
+        <p>
+          Visual testing ensures that a UI's appearance matches its intended
+          design, capturing and highlighting any visual deviations from expected
+          elements like layout, colors, and text.
+        </p>
+        <p>
+          While E2E testing confirms functionality, visual testing with Argos
+          ensures the UI looks right to the user, acting as a specialized tool
+          to maintain visual quality alongside E2E tests.
+        </p>
+        <p>
+          <Link
+            href="/blog/what-is-visual-testing"
+            className="group font-medium"
+          >
+            Read more about what is visual testing
+            <ChevronRightIcon className="inline size-5 align-[-20%] transition group-hover:translate-x-1" />
+          </Link>
+        </p>
+      </>
+    ),
+    textAnswer:
+      "Visual testing ensures that a UI's appearance matches its intended design, capturing and highlighting any visual deviations from expected elements like layout, colors, and text. While E2E testing confirms functionality, visual testing with Argos ensures the UI looks right to the user, acting as a specialized tool to maintain visual quality alongside E2E tests.",
+  },
   {
     name: "Why is visual testing important?",
     answer: (
