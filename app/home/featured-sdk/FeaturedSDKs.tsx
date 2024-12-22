@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { ArrowUpRightIcon } from "lucide-react";
 import Image, { StaticImageData } from "next/image";
 
@@ -5,19 +6,33 @@ import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 import { H2 } from "@/components/H2";
 
-import cypress from "./logos/cypress.png";
-import nextjs from "./logos/next-js.png";
-import playwright from "./logos/playwright.png";
-import remix from "./logos/remix.png";
-import storybook from "./logos/storybook.png";
-import webdriverio from "./logos/webdriverio.png";
+import cypressDark from "./logos/dark/cypress.png";
+import nextjsDark from "./logos/dark/next-js.png";
+import playwrightDark from "./logos/dark/playwright.png";
+import reactRouterDark from "./logos/dark/react-router.png";
+import storybookDark from "./logos/dark/storybook.png";
+import webdriverioDark from "./logos/dark/webdriverio.png";
+import cypressLight from "./logos/light/cypress.png";
+import nextjsLight from "./logos/light/next-js.png";
+import playwrightLight from "./logos/light/playwright.png";
+import reactRouterLight from "./logos/light/react-router.png";
+import storybookLight from "./logos/light/storybook.png";
+import webdriverioLight from "./logos/light/webdriverio.png";
 
 function SdkCard(props: {
   href: string;
-  imgSrc: StaticImageData;
+  lightImgSrc: StaticImageData;
+  darkImgSrc: StaticImageData;
   title: string;
   description: React.ReactNode;
 }) {
+  const imgProps = {
+    alt: props.title,
+    width: 140,
+    height: 140,
+    className:
+      "mb-5 size-12 origin-top-left transition duration-300 group-hover:scale-125",
+  };
   return (
     <a
       href={props.href}
@@ -25,11 +40,14 @@ function SdkCard(props: {
       className="group flex flex-1 flex-col items-start rounded border p-4 transition duration-300 hover:border-violet-8 hover:bg-primary-subtle"
     >
       <Image
-        src={props.imgSrc}
-        alt={props.title}
-        width={48}
-        height={48}
-        className="mb-8 origin-top-left transition duration-300 group-hover:scale-125"
+        {...imgProps}
+        src={props.lightImgSrc}
+        className={clsx(imgProps.className, "dark:hidden")}
+      />
+      <Image
+        {...imgProps}
+        src={props.darkImgSrc}
+        className={clsx(imgProps.className, "hidden dark:block")}
       />
       <h3 className="mb-1 flex items-center gap-1 text-xl font-semibold">
         {props.title}
@@ -52,7 +70,8 @@ export function FeaturedSDKs() {
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           <SdkCard
             href="/docs/quickstart/playwright"
-            imgSrc={playwright}
+            lightImgSrc={playwrightLight}
+            darkImgSrc={playwrightDark}
             title="Playwright"
             description={
               <>
@@ -63,7 +82,8 @@ export function FeaturedSDKs() {
           />
           <SdkCard
             href="/docs/quickstart/cypress"
-            imgSrc={cypress}
+            lightImgSrc={cypressLight}
+            darkImgSrc={cypressDark}
             title="Cypress"
             description={
               <>
@@ -74,7 +94,8 @@ export function FeaturedSDKs() {
           />
           <SdkCard
             href="/docs/quickstart/webdriverio"
-            imgSrc={webdriverio}
+            lightImgSrc={webdriverioLight}
+            darkImgSrc={webdriverioDark}
             title="WebdriverIO"
             description={
               <>
@@ -85,7 +106,8 @@ export function FeaturedSDKs() {
           />
           <SdkCard
             href="/docs/quickstart/storybook"
-            imgSrc={storybook}
+            lightImgSrc={storybookLight}
+            darkImgSrc={storybookDark}
             title="Storybook"
             description={
               <>
@@ -96,7 +118,8 @@ export function FeaturedSDKs() {
           />
           <SdkCard
             href="/docs/quickstart/next-js"
-            imgSrc={nextjs}
+            lightImgSrc={nextjsLight}
+            darkImgSrc={nextjsDark}
             title="Next.js"
             description={
               <>
@@ -106,13 +129,14 @@ export function FeaturedSDKs() {
             }
           />
           <SdkCard
-            href="/docs/quickstart/remix"
-            imgSrc={remix}
-            title="Remix"
+            href="/docs/quickstart/react-router"
+            lightImgSrc={reactRouterLight}
+            darkImgSrc={reactRouterDark}
+            title="React Router (Remix)"
             description={
               <>
-                Pair Argos with Remix for robust visual testing, ensuring UI
-                consistency in your full-stack React applications.
+                Pair Argos with React Router for robust visual testing, ensuring
+                UI consistency in your full-stack React applications.
               </>
             }
           />
