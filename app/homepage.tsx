@@ -14,7 +14,6 @@ import { FeaturedSDKs } from "./home/featured-sdk/FeaturedSDKs";
 import { Features } from "./home/features/Features";
 import { Hero } from "./home/hero/Hero";
 import { TestDebugging } from "./home/test-debugging/TestDebugging";
-import { Users } from "./home/users/Users";
 import { VisualTesting } from "./home/visual-testing/VisualTesting";
 import { Why } from "./home/why/Why";
 
@@ -31,7 +30,6 @@ export default function Page() {
       <Hero />
       <Customers />
       <DemoVideo />
-      <Users />
       <Why />
       <VisualTesting />
       <DeveloperExperience />
