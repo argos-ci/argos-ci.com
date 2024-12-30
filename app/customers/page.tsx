@@ -11,8 +11,6 @@ import { CallToActionSection } from "@/components/CallToActionSection";
 import { Container } from "@/components/Container";
 import { getMetadata } from "@/lib/metadata";
 
-import { Users } from "../home/users/Users";
-
 export const metadata: Metadata = getMetadata({
   title: "Customers",
   description: "Meet the teams that trust Argos for their frontend testing.",
@@ -113,9 +111,6 @@ export default function Page() {
             <CustomerCard brand={BRANDS.forethought} />
           </Column>
         </section>
-      </Container>
-      <Container asChild>
-        <Users />
       </Container>
       <Container asChild>
         <section>

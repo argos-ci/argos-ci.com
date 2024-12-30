@@ -39,7 +39,6 @@
     "react-dom": "^19.0.0",
     "react-syntax-highlighter": "^15.6.1",
     "react-twc": "^1.4.2",
-    "react-tweet": "^3.2.1",
     "rehype-img-size": "^1.0.1",
     "remark-frontmatter": "^5.0.0",
     "remark-gfm": "^4.0.0",
