@@ -63,6 +63,10 @@ const features: Features = {
     argos: "✔️",
     competitor: "❌",
   },
+  spendManamgement: {
+    argos: "✔️",
+    competitor: "❌",
+  },
 };
 
 export const metadata: Metadata = getMetadata({

@@ -69,6 +69,10 @@ const features: Features = {
     argos: "✔️",
     competitor: "❌",
   },
+  spendManamgement: {
+    argos: "✔️",
+    competitor: "❌",
+  },
 };
 
 const emblemProps = {
