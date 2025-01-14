@@ -1,5 +1,3 @@
-import { CircleXIcon, XIcon } from "lucide-react";
-
 import {
   Check,
   THead,
@@ -20,6 +18,7 @@ export type Features = {
   playwrightDebugging: Feature;
   playwrightTestRetries: Feature;
   githubSso: Feature;
+  spendManamgement: Feature;
   openSource: Feature;
   githubLight: Feature;
   sensitivityThresholdPerScreenshot: Feature;
@@ -103,6 +102,16 @@ export function ComparisonTable(props: {
             </ThSubLink>
           </Th>
           <Feature feature={props.features.githubSso} />
+        </Tr>
+
+        <Tr>
+          <Th>
+            <ThMain>Spend Management</ThMain>
+            <ThSubLink href="/docs/spend-management">
+              Control your spendings by setting a budget limit
+            </ThSubLink>
+          </Th>
+          <Feature feature={props.features.spendManamgement} />
         </Tr>
 
         <Tr>

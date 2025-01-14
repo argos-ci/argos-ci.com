@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import {
   ChromeIcon,
   GalleryHorizontal,

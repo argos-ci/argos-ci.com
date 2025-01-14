@@ -5,7 +5,7 @@ import { readFile } from "node:fs/promises";
 import rehypeImgSize from "rehype-img-size";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkGfm from "remark-gfm";
-import { ZodSchema, ZodType } from "zod";
+import { ZodType } from "zod";
 
 /**
  * Read the frontmatter data from a file.

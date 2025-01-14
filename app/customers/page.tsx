@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { ArrowRightIcon } from "lucide-react";
 import { Metadata } from "next";
 import Image from "next/image";
-import Link, { LinkProps } from "next/link";
+import Link from "next/link";
 import * as React from "react";
 
 import { ArgosEmblem } from "@/components/ArgosEmblem";
@@ -10,8 +10,6 @@ import { BRANDS } from "@/components/BrandTestimonials";
 import { CallToActionSection } from "@/components/CallToActionSection";
 import { Container } from "@/components/Container";
 import { getMetadata } from "@/lib/metadata";
-
-import { Users } from "../home/users/Users";
 
 export const metadata: Metadata = getMetadata({
   title: "Customers",
@@ -115,13 +113,10 @@ export default function Page() {
         </section>
       </Container>
       <Container asChild>
-        <Users />
-      </Container>
-      <Container asChild>
         <section>
           <CallToActionSection
             supercharge="your visual testing experience"
-            description="Discover why Argos is the preferred visual testing tool of developers."
+            description="Discover why Argos is the preferred visual testing tool of QA & developers."
           >
             <ArgosEmblem className="mx-auto aspect-square size-24" />
           </CallToActionSection>

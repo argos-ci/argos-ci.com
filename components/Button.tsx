@@ -1,17 +1,11 @@
 import { Slot } from "@radix-ui/react-slot";
 import { clsx } from "clsx";
-import {
-  Children,
-  HTMLAttributes,
-  cloneElement,
-  forwardRef,
-  memo,
-} from "react";
+import { ComponentPropsWithRef } from "react";
 
 export type ButtonVariant = "primary" | "outline";
 export type ButtonSize = "base" | "small" | "large";
 
-export type ButtonProps = HTMLAttributes<HTMLButtonElement> & {
+export type ButtonProps = ComponentPropsWithRef<"button"> & {
   asChild?: boolean;
   variant?: ButtonVariant;
   size?: ButtonSize;
@@ -31,41 +25,37 @@ const sizeClassNames: Record<ButtonSize, string> = {
     "rounded-lg py-2 px-4 md:rounded-xl md:py-2 md:px-6 text-base md:text-lg",
 };
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  (
-    {
-      variant = "primary",
-      size = "base",
-      children,
-      className,
-      asChild,
-      ...props
-    },
-    ref,
-  ) => {
-    const Comp = asChild ? Slot : "button";
-    const variantClassName = variantClassNames[variant];
-    if (!variantClassName) {
-      throw new Error(`Invalid variant: ${variant}`);
-    }
-    const sizeClassName = sizeClassNames[size];
-    if (!sizeClassName) {
-      throw new Error(`Invalid size: ${size}`);
-    }
-    return (
-      <Comp
-        ref={ref}
-        className={clsx(
-          className,
-          variantClassName,
-          sizeClassName,
-          "focus:outline-none focus-visible:ring-4",
-          "align-center aria-disabled:opacity-disabled inline-flex select-none whitespace-nowrap border font-sans font-medium transition [&:is(button)]:cursor-default",
-        )}
-        {...props}
-      >
-        {children}
-      </Comp>
-    );
-  },
-);
+export function Button({
+  ref,
+  variant = "primary",
+  size = "base",
+  children,
+  className,
+  asChild,
+  ...props
+}: ButtonProps) {
+  const Comp = asChild ? Slot : "button";
+  const variantClassName = variantClassNames[variant];
+  if (!variantClassName) {
+    throw new Error(`Invalid variant: ${variant}`);
+  }
+  const sizeClassName = sizeClassNames[size];
+  if (!sizeClassName) {
+    throw new Error(`Invalid size: ${size}`);
+  }
+  return (
+    <Comp
+      ref={ref}
+      className={clsx(
+        className,
+        variantClassName,
+        sizeClassName,
+        "focus:outline-none focus-visible:ring-4",
+        "align-center aria-disabled:opacity-disabled inline-flex select-none whitespace-nowrap border font-sans font-medium transition [&:is(button)]:cursor-default",
+      )}
+      {...props}
+    >
+      {children}
+    </Comp>
+  );
+}

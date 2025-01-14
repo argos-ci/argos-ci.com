@@ -2,10 +2,12 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import * as React from "react";
+import { NewsArticle } from "schema-dts";
 
 import { ArgosEmblem } from "@/components/ArgosEmblem";
 import { CallToActionSection } from "@/components/CallToActionSection";
 import { Container } from "@/components/Container";
+import { JsonLd } from "@/components/JsonLd";
 import {
   PostCard,
   PostCardAuthor,
@@ -139,8 +141,7 @@ export default async function Page(props: Props) {
     notFound();
   }
   const source = await getArticleMdxSource(article);
-  const jsonLd = {
-    "@context": "https://schema.org",
+  const jsonLd: NewsArticle = {
     "@type": "NewsArticle",
     headline: article.title,
     image: [article.image.src],
@@ -177,17 +178,14 @@ export default async function Page(props: Props) {
           </header>
           {source}
         </Container>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
+        <JsonLd json={jsonLd} />
       </article>
       <Container tight>
         <Siblings slug={article.slug} />
       </Container>
       <CallToActionSection
         supercharge="your visual testing experience"
-        description="Discover why Argos is the preferred visual testing tool of developers."
+        description="Discover why Argos is the preferred visual testing tool of QA & developers."
       >
         <ArgosEmblem className="mx-auto aspect-square size-24" />
       </CallToActionSection>
