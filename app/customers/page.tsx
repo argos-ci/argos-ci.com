@@ -20,9 +20,9 @@ export const metadata: Metadata = getMetadata({
 export default function Page() {
   return (
     <div className="">
-      <Container className="my-20 text-balance text-center">
-        <h1 className="mb-4 font-accent text-5xl md:text-6xl">Customers</h1>
-        <p className="mx-auto max-w-2xl text-lg text-low">
+      <Container className="my-20 text-center text-balance">
+        <h1 className="font-accent mb-4 text-5xl md:text-6xl">Customers</h1>
+        <p className="text-low mx-auto max-w-2xl text-lg">
           Argos empowers product teams at leading companies to catch visual bugs
           before they reach production – from startups to industry giants.
         </p>

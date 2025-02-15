@@ -7,7 +7,7 @@ export function Video() {
       <H2 className="mb-4 text-center">
         It's time for a new Playwright experience.
       </H2>
-      <p className="mb-6 text-center text-lg text-low">
+      <p className="text-low mb-6 text-center text-lg">
         Explore how Argos streamlines your test debugging with a single click
         <br />
         and upgrades Visual Testing to the next level.

@@ -33,7 +33,7 @@ export async function FAQAccordion(props: { questions: FAQQuestion[] }) {
       <Accordion
         type="single"
         collapsible
-        className="mx-auto w-full max-w-2xl text-wrap text-left [&_strong]:font-semibold"
+        className="mx-auto w-full max-w-2xl text-left text-wrap [&_strong]:font-semibold"
       >
         {props.questions.map((question) => {
           return (

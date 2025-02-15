@@ -5,7 +5,7 @@ export function DemoVideo() {
   return (
     <Container className="my-8">
       <H2 className="mb-4 text-center">Demo video</H2>
-      <p className="mb-6 text-center text-lg text-low">
+      <p className="text-low mb-6 text-center text-lg">
         Explore how Argos can help you supercharge your visual testing
         experience.
       </p>

@@ -14,7 +14,7 @@ enum ColorMode {
 function ColorModeButton(props: React.ComponentPropsWithRef<"button">) {
   return (
     <button
-      className="rounded-full p-2 transition hover:bg-hover aria-pressed:bg-active"
+      className="hover:bg-hover aria-pressed:bg-active rounded-full p-2 transition"
       type="button"
       {...props}
     />

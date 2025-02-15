@@ -48,7 +48,7 @@ export const PostCardBody = (props: ComponentProps<"div">) => (
 );
 
 export const PostCardTag: React.FC<{ children: React.ReactNode }> = (props) => (
-  <p className="mb-2 text-xs text-low" {...props} />
+  <p className="text-low mb-2 text-xs" {...props} />
 );
 
 type PostCardTitleProps = TwcComponentProps<"h2"> & {
@@ -63,11 +63,11 @@ export const PostCardTitle = twc.h2<PostCardTitleProps>((props) => [
 ]);
 
 export const PostCardDescription = (props: ComponentProps<"div">) => (
-  <div className="mb-8 leading-normal text-low" {...props} />
+  <div className="text-low mb-8 leading-normal" {...props} />
 );
 
 export const PostCardFooter = (props: ComponentProps<"div">) => (
-  <div className="flex items-center gap-2 text-sm text-low" {...props} />
+  <div className="text-low flex items-center gap-2 text-sm" {...props} />
 );
 
 export const PostCardAuthor = (props: ComponentProps<"div">) => (

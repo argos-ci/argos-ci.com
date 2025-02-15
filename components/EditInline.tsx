@@ -26,8 +26,8 @@ export const EditInline = React.memo(
       <div
         className={clsx(
           className,
-          "text-primary-100 relative inline-block rounded-sm bg-ui px-2 leading-normal transition",
-          "cursor-text focus-within:bg-active hover:bg-hover hover:focus-within:bg-active",
+          "text-primary-100 bg-ui relative inline-block rounded-sm px-2 leading-normal transition",
+          "focus-within:bg-active hover:bg-hover hover:focus-within:bg-active cursor-text",
         )}
         onClick={() => {
           setEditing(true);
@@ -50,7 +50,7 @@ export const EditInline = React.memo(
             placeholder={placeholder}
             className={clsx(
               className,
-              "absolute left-0 top-0 w-full border-0 bg-transparent px-2 text-current placeholder:text-low focus:outline-hidden",
+              "placeholder:text-low absolute top-0 left-0 w-full border-0 bg-transparent px-2 text-current focus:outline-hidden",
             )}
             value={value}
             onChange={(event) => {
