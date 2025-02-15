@@ -108,7 +108,7 @@ export default async function Page(props: Props) {
   };
   return (
     <>
-      <div className="mx-auto my-24 grid w-full max-w-screen-xl grid-cols-4 gap-5 px-4 lg:gap-10 lg:px-20">
+      <div className="mx-auto my-24 grid w-full max-w-(--breakpoint-xl) grid-cols-4 gap-5 px-4 lg:gap-10 lg:px-20">
         <article className="prose relative col-span-4 max-w-none dark:prose-invert md:col-span-3">
           <header>
             <div className="mb-4 text-sm">
@@ -123,7 +123,7 @@ export default async function Page(props: Props) {
                 All customers
               </NextLink>
             </div>
-            <h1 className="!mb-2">{customerCase.title}</h1>
+            <h1 className="mb-2!">{customerCase.title}</h1>
             <p className="text-xl">{customerCase.description}</p>
           </header>
           <div

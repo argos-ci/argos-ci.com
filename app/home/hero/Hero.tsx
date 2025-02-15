@@ -11,7 +11,7 @@ const BgGradient = () => {
   return (
     <div className="absolute inset-0">
       <div
-        className="absolute inset-0 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-red-8 blur-[100px]"
+        className="absolute inset-0 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-(--red-8) blur-[100px]"
         style={{
           width: "80%",
           height: "80%",
@@ -20,7 +20,7 @@ const BgGradient = () => {
         }}
       />
       <div
-        className="absolute rounded-full bg-yellow-8 blur-[50px]"
+        className="bg-yellow-8 absolute rounded-full blur-[50px]"
         style={{
           width: "30%",
           height: "30%",
@@ -41,20 +41,20 @@ export function Hero() {
         <div className="flex flex-col items-center gap-x-6 gap-y-12 py-8 md:py-24 lg:flex-row">
           <div className="flex flex-col items-center gap-6 text-center lg:items-start lg:text-left">
             <Link
-              className="rounded-lg border border-violet-6 bg-violet-2 px-2 py-1 text-sm transition hover:bg-violet-3"
+              className="rounded-lg border border-(--violet-6) bg-(--violet-2) px-2 py-1 text-sm transition hover:bg-(--violet-3)"
               href="/changelog"
             >
               Introducing Official Storybook SDK{" "}
               <ChevronRightIcon className="inline h-4 w-4" />
             </Link>
-            <h1 className="bg-hero-text-gradient bg-clip-text font-accent text-4xl leading-tight text-transparent md:min-h-32 md:text-6xl lg:bg-hero-text-gradient-lg lg:leading-none">
+            <h1 className="font-accent bg-linear-(--gradient-hero-text) bg-clip-text text-4xl leading-tight text-transparent md:min-h-32 md:text-6xl lg:bg-linear-(--gradient-hero-text-lg) lg:leading-none">
               Eliminate visual
               <br />
               bugs & regressions
             </h1>
-            <div className="text-xl text-low">
+            <div className="text-low text-xl">
               Meet the modern{" "}
-              <strong className="font-medium text">
+              <strong className="text-default font-medium">
                 visual testing platform
               </strong>{" "}
               to detect <br />
@@ -83,16 +83,16 @@ export function Hero() {
                 target="_blank"
                 href="https://app.argos-ci.com/jsfez/snkr-shop-2/builds/98/96709653"
               >
-                <div className="absolute inset-0 overflow-hidden rounded bg-gradient-to-br from-violetA-11 to-plumA-10 opacity-0 transition duration-500 group-hover:opacity-100" />
-                <div className="absolute inset-0 flex scale-50 transform items-center justify-center rounded opacity-0 transition duration-500 group-hover:scale-100 group-hover:opacity-100">
-                  <div className="font-accent text-2xl text-mauve-1 drop-shadow-lg md:text-4xl">
+                <div className="absolute inset-0 overflow-hidden rounded-sm bg-linear-to-br from-(--violet-a11) to-(--plum-a10) opacity-0 transition duration-500 group-hover:opacity-100" />
+                <div className="absolute inset-0 flex scale-50 transform items-center justify-center rounded-sm opacity-0 transition duration-500 group-hover:scale-100 group-hover:opacity-100">
+                  <div className="font-accent text-2xl text-(--mauve-1) drop-shadow-lg md:text-4xl">
                     See a demo build
                   </div>
                 </div>
                 <AppSvg />
               </a>
               <AutomaticCheck
-                className="-ml-5 mt-5"
+                className="mt-5 -ml-5"
                 data-visual-test="blackout"
               />
             </div>

@@ -89,7 +89,7 @@ async function Siblings({ slug }: { slug: string }) {
     .slice(0, 2);
   return (
     <section>
-      <h3 className="mb-8 text-2xl font-semibold text">Read also</h3>
+      <h3 className="text-default mb-8 text-2xl font-semibold">Read also</h3>
       <div
         className="grid grid-cols-2 gap-x-16 gap-y-20"
         data-visual-test="transparent"
@@ -117,7 +117,7 @@ async function Siblings({ slug }: { slug: string }) {
                   </PostCardTitle>
                   <PostCardFooter>
                     <PostCardAuthor>{article.author}</PostCardAuthor>
-                    <div className="text-xs text-mauve-10">|</div>
+                    <div className="text-xs text-(--mauve-10)">|</div>
                     <PostCardDate date={article.date} />
                   </PostCardFooter>
                 </PostCardBody>
@@ -157,22 +157,22 @@ export default async function Page(props: Props) {
   return (
     <>
       <article
-        className="prose mx-auto mb-24 mt-14 max-w-none dark:prose-invert"
+        className="prose dark:prose-invert mx-auto mt-14 mb-24 max-w-none"
         style={{ contain: "none" }}
       >
         <Container tight>
           <header>
             {article.category && (
-              <div className="mb-4 font-medium text-violet-11">
+              <div className="mb-4 font-medium text-(--violet-11)">
                 {article.category}
               </div>
             )}
             <h1>{article.title}</h1>
-            <div className="my-4 flex items-center gap-2 text-sm text-low">
+            <div className="text-low my-4 flex items-center gap-2 text-sm">
               <time dateTime={article.date}>
                 {dateFormatter.format(new Date(article.date))}
               </time>
-              <div className="text-xs text-mauve-10">|</div>
+              <div className="text-xs text-(--mauve-10)">|</div>
               <address className="not-italic">{article.author}</address>
             </div>
           </header>

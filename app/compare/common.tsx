@@ -47,7 +47,7 @@ function Emblem(props: EmblemProps) {
 function HeroEmblem(props: { children: React.ReactNode }) {
   return (
     <div className="relative w-1/4 px-[3%] max-md:hidden">
-      <div className="rounded-full border border-dashed border-violet-6 p-4">
+      <div className="rounded-full border border-dashed border-(--violet-6) p-4">
         {props.children}
       </div>
     </div>
@@ -70,10 +70,10 @@ export function HeroSection(
           <Emblem {...props} />
         </HeroEmblem>
         <div>
-          <h1 className="mb-4 font-accent text-5xl md:text-6xl">
+          <h1 className="font-accent mb-4 text-5xl md:text-6xl">
             {props.title}
           </h1>
-          <p className="text-balance text-lg text-low">{props.description}</p>
+          <p className="text-low text-lg text-balance">{props.description}</p>
         </div>
         <HeroEmblem>
           <ArgosEmblem className="aspect-square size-full" />
@@ -90,11 +90,11 @@ export function TrySection(props: EmblemProps) {
       description="Ready to switch to Argos? Get started for free today. No credit card required."
     >
       <div className="mb-4 flex items-center justify-center gap-4">
-        <div className="size-14 rounded-full border border-dashed border-violet-6 p-2">
+        <div className="size-14 rounded-full border border-dashed border-(--violet-6) p-2">
           <Emblem {...props} />
         </div>
         <ArrowRight className="text-low" />
-        <div className="size-14 rounded-full border border-dashed border-violet-6 p-2">
+        <div className="size-14 rounded-full border border-dashed border-(--violet-6) p-2">
           <ArgosEmblem className="aspect-square size-full" />
         </div>
       </div>

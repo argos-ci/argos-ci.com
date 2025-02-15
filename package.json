@@ -49,12 +49,12 @@
   "devDependencies": {
     "@argos-ci/cypress": "^3.2.0",
     "@radix-ui/colors": "^3.0.0",
+    "@tailwindcss/postcss": "^4.0.6",
     "@tailwindcss/typography": "^0.5.16",
     "@trivago/prettier-plugin-sort-imports": "^5.2.2",
     "@types/node": "^22.13.4",
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
-    "autoprefixer": "^10.4.20",
     "cypress": "^14.0.3",
     "eslint": "^9.20.1",
     "eslint-config-next": "^15.1.7",
@@ -62,10 +62,9 @@
     "postcss-nesting": "^13.0.1",
     "prettier": "^3.5.1",
     "prettier-plugin-tailwindcss": "^0.6.11",
-    "tailwindcss": "^3.4.17",
+    "tailwindcss": "^4.0.6",
     "tailwindcss-animate": "^1.0.7",
-    "typescript": "^5.7.3",
-    "windy-radix-palette": "2.0.0-beta.7"
+    "typescript": "^5.7.3"
   },
   "packageManager": "pnpm@9.14.2+sha512.6e2baf77d06b9362294152c851c4f278ede37ab1eba3a55fda317a4a17b209f4dbb973fb250a77abc463a341fcb1f17f17cfa24091c4eb319cda0d9b84278387"
 }

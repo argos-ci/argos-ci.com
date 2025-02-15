@@ -138,7 +138,7 @@ function CardLink(props: {
   return (
     <Link
       className={clsx(
-        "group block rounded-lg border shadow outline-none transition duration-300",
+        "group block rounded-lg border shadow-sm outline-hidden transition duration-300",
         "hover:border-primary-hover hover:shadow-lg",
         "focus:border-primary-hover focus:shadow-lg",
       )}

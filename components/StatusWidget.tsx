@@ -30,7 +30,7 @@ async function fetchStatus() {
 const statusDictionary: Record<Status, { label: string; color: string }> = {
   operational: {
     label: "All systems normal",
-    color: "bg-green-10",
+    color: "bg-(--green-10)",
   },
   degraded_performance: {
     label: "Degraded Performance",
@@ -42,11 +42,11 @@ const statusDictionary: Record<Status, { label: string; color: string }> = {
   },
   major_outage: {
     label: "Major Outage",
-    color: "bg-red-10",
+    color: "bg-(--red-10)",
   },
   unknown: {
     label: "Unknown",
-    color: "bg-gray-10",
+    color: "bg-(--gray-10)",
   },
   incident: {
     label: "Incident",
@@ -54,7 +54,7 @@ const statusDictionary: Record<Status, { label: string; color: string }> = {
   },
   under_maintenance: {
     label: "Under Maintenance",
-    color: "bg-gray-10",
+    color: "bg-(--gray-10)",
   },
 } as const;
 
@@ -69,7 +69,7 @@ export function StatusWidget() {
   }, []);
   if (!status) {
     return (
-      <div aria-busy className="py-1 text-xs text-low">
+      <div aria-busy className="text-low py-1 text-xs">
         Loading status...
       </div>
     );
@@ -77,7 +77,7 @@ export function StatusWidget() {
   const { label, color } = statusDictionary[status];
   return (
     <a
-      className="-mx-2 inline-flex max-w-fit items-center gap-2 rounded border border-transparent px-2 py-1 text-xs font-medium text-low transition hover:border-hover"
+      className="text-low hover:border-hover -mx-2 inline-flex max-w-fit items-center gap-2 rounded-sm border border-transparent px-2 py-1 text-xs font-medium transition"
       href={`https://${slug}.openstatus.dev`}
       target="_blank"
       rel="noreferrer"

@@ -66,7 +66,7 @@ export function Playwright() {
           />
         </div>
         <Link
-          className="rounded border p-4 px-8 text-center text-xl font-medium transition hover:border-hover"
+          className="rounded-sm border p-4 px-8 text-center text-xl font-medium transition hover:border-hover"
           href="/playwright"
         >
           Discover the future of Playwright testing

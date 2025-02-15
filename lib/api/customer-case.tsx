@@ -136,7 +136,7 @@ function Blockquote(props: {
 }) {
   return (
     <div className="not-prose relative my-10 flex flex-col items-center gap-6 rounded-lg border p-6 md:gap-8">
-      <div className="rounded-full bg-gradient-to-r from-pink-8 to-violet-8 p-2">
+      <div className="rounded-full bg-linear-to-r from-(--pink-8) to-(--violet-8) p-2">
         <Image
           className="shrink-0 rounded-full"
           src={props.authorAvatar}
@@ -145,22 +145,22 @@ function Blockquote(props: {
           alt={props.authorName}
         />
       </div>
-      <blockquote className="text-balance text-center md:text-lg">
+      <blockquote className="text-center text-balance md:text-lg">
         <p>{props.quote}</p>
       </blockquote>
       <div className="flex items-center gap-4">
         <Image
-          className="rounded"
+          className="rounded-sm"
           src={props.companyLogo}
           width={48}
           height={48}
           alt={props.companyName}
         />
         <div>
-          <div className="font-medium leading-tight md:text-lg">
+          <div className="leading-tight font-medium md:text-lg">
             {props.authorName}
           </div>
-          <div className="text-sm text-low md:text-base">
+          <div className="text-low text-sm md:text-base">
             {props.authorPosition}
           </div>
         </div>

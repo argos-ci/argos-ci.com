@@ -37,7 +37,7 @@ function SdkCard(props: {
     <a
       href={props.href}
       target="_blank"
-      className="group flex flex-1 flex-col items-start rounded border p-4 transition duration-300 hover:border-violet-8 hover:bg-primary-subtle"
+      className="group hover:bg-primary-subtle flex flex-1 flex-col items-start rounded-sm border p-4 transition duration-300 hover:border-(--violet-8)"
     >
       <Image
         {...imgProps}
@@ -63,7 +63,7 @@ export function FeaturedSDKs() {
     <Container asChild className="py-16 md:py-20">
       <section>
         <H2 className="mb-6">Setup visual testing in minutes.</H2>
-        <p className="mb-12 text-lg text-low md:text-xl">
+        <p className="text-low mb-12 text-lg md:text-xl">
           Argos provides SDK integrations for test frameworks and CI/CD
           workflows. If you can capture screenshots, Argos is ready for you.
         </p>

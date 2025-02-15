@@ -26,7 +26,7 @@ export function ReviewChanges({ className }: { className?: string }) {
   return (
     <div className={clsx("relative", className)} data-visual-test="blackout">
       <div className="relative">
-        <ChangesSvg className="mx-auto rounded border md:w-[50%]" />
+        <ChangesSvg className="mx-auto rounded-sm border md:w-[50%]" />
       </div>
       <CiCheck className="mt-5 w-full" status={status} />
     </div>

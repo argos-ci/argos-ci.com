@@ -110,7 +110,10 @@ export const FailureScreenshotSvg = (props: React.SVGProps<SVGSVGElement>) => {
               x={61}
               y={95}
               rx={2}
-              className="scale-x-0 fill-mauve-6"
+              style={{
+                transform: "scaleX(0)",
+              }}
+              className="fill-(--mauve-6)"
             />
             <motion.path
               variants={checkIconPath}
@@ -118,7 +121,7 @@ export const FailureScreenshotSvg = (props: React.SVGProps<SVGSVGElement>) => {
               strokeLinejoin="round"
               strokeWidth={2}
               d="M41 109c5.523 0 10-4.477 10-10s-4.477-10-10-10-10 4.477-10 10 4.477 10 10 10Z"
-              className="stroke-grass-10"
+              className="stroke-(--grass-10)"
             />
             <motion.path
               variants={checkIconPath}
@@ -126,7 +129,7 @@ export const FailureScreenshotSvg = (props: React.SVGProps<SVGSVGElement>) => {
               strokeLinejoin="round"
               strokeWidth={2}
               d="m38 99 2 2 4-4"
-              className="stroke-grass-10"
+              className="stroke-(--grass-10)"
             />
           </motion.g>
           <motion.g
@@ -142,7 +145,10 @@ export const FailureScreenshotSvg = (props: React.SVGProps<SVGSVGElement>) => {
               x={61}
               y={127}
               rx={2}
-              className="scale-x-0 fill-mauve-6"
+              style={{
+                transform: "scaleX(0)",
+              }}
+              className="fill-(--mauve-6)"
             />
             <motion.path
               variants={checkIconPath}
@@ -150,7 +156,7 @@ export const FailureScreenshotSvg = (props: React.SVGProps<SVGSVGElement>) => {
               strokeLinejoin="round"
               strokeWidth={2}
               d="M41 141c5.523 0 10-4.477 10-10s-4.477-10-10-10-10 4.477-10 10 4.477 10 10 10Z"
-              className="stroke-grass-10"
+              className="stroke-(--grass-10)"
             />
             <motion.path
               variants={checkIconPath}
@@ -158,7 +164,7 @@ export const FailureScreenshotSvg = (props: React.SVGProps<SVGSVGElement>) => {
               strokeLinejoin="round"
               strokeWidth={2}
               d="m38 131 2 2 4-4"
-              className="stroke-grass-10"
+              className="stroke-(--grass-10)"
             />
           </motion.g>
           <motion.g
@@ -174,11 +180,14 @@ export const FailureScreenshotSvg = (props: React.SVGProps<SVGSVGElement>) => {
               x={61}
               y={159}
               rx={2}
-              className="scale-x-0 fill-mauve-6"
+              style={{
+                transform: "scaleX(0)",
+              }}
+              className="fill-(--mauve-6)"
             />
             <motion.path
               variants={checkIconPath}
-              className="stroke-red-10"
+              className="stroke-(--red-10)"
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeWidth={2}
@@ -193,19 +202,19 @@ export const FailureScreenshotSvg = (props: React.SVGProps<SVGSVGElement>) => {
           >
             <motion.path
               variants={line}
-              className="stroke-red-10"
+              className="stroke-(--red-10)"
               strokeDasharray="2 2"
               d="M41 173.321s1.765 32.763 7.619 50.781c20.493 63.08 87.181 67.151 111.316 7.652 11.851-29.217 7.694-68.327 28.54-82.084 12.512-8.257 34.525 0 34.525 0"
             />
             <motion.g variants={checkIcon}>
               <motion.path
                 variants={screenshotBg}
-                className="fill-mauve-4"
+                className="fill-(--mauve-4)"
                 d="M490.64 264.411H240.065a5.967 5.967 0 0 1-5.967-5.966V79.462a5.967 5.967 0 0 1 5.967-5.967h250.576a5.966 5.966 0 0 1 5.966 5.966v178.984a5.967 5.967 0 0 1-5.967 5.966Z"
               />
               <motion.path
                 variants={screenshotBg}
-                className="fill-mauve-1 stroke-mauve-6"
+                className="fill-(--mauve-1) stroke-(--mauve-6)"
                 d="M479.44 251.11H228.865a5.467 5.467 0 0 1-5.467-5.466V66.661a5.467 5.467 0 0 1 5.467-5.466h250.576a5.467 5.467 0 0 1 5.466 5.466v178.983a5.467 5.467 0 0 1-5.467 5.466Z"
               />
             </motion.g>
@@ -216,7 +225,7 @@ export const FailureScreenshotSvg = (props: React.SVGProps<SVGSVGElement>) => {
                   height={177}
                   x={240}
                   y={70}
-                  className="fill-mauve-1"
+                  className="fill-(--mauve-1)"
                   rx={2}
                 />
                 <g clipPath="url(#failure-screenshot-c)">
@@ -274,37 +283,57 @@ export const FailureScreenshotSvg = (props: React.SVGProps<SVGSVGElement>) => {
                   height={6}
                   x={352}
                   y={108}
-                  className="fill-gray-11"
+                  className="fill-(--gray-11)"
                   rx={2}
                 />
-                <circle cx={360} cy={128} r={8} className="fill-mauve-12" />
+                <circle cx={360} cy={128} r={8} className="fill-(--mauve-12)" />
                 <circle cx={380} cy={128} r={8} fill="#EE9D2B" />
                 <rect
                   width={50}
                   height={6}
                   x={352}
                   y={152}
-                  className="fill-gray-11"
+                  className="fill-(--gray-11)"
                   rx={2}
                 />
-                <circle cx={360} cy={172} r={7.5} className="stroke-gray-8" />
-                <circle cx={380} cy={172} r={7.5} className="stroke-gray-8" />
-                <circle cx={360} cy={192} r={7.5} className="stroke-gray-8" />
-                <circle cx={380} cy={192} r={7.5} className="stroke-gray-8" />
+                <circle
+                  cx={360}
+                  cy={172}
+                  r={7.5}
+                  className="stroke-(--gray-8)"
+                />
+                <circle
+                  cx={380}
+                  cy={172}
+                  r={7.5}
+                  className="stroke-(--gray-8)"
+                />
+                <circle
+                  cx={360}
+                  cy={192}
+                  r={7.5}
+                  className="stroke-(--gray-8)"
+                />
+                <circle
+                  cx={380}
+                  cy={192}
+                  r={7.5}
+                  className="stroke-(--gray-8)"
+                />
                 <rect
                   width={80}
                   height={16}
                   x={352}
                   y={216}
                   rx={2}
-                  className="fill-mauve-12"
+                  className="fill-(--mauve-12)"
                 />
                 <rect
                   width={31}
                   height={4}
                   x={378}
                   y={222}
-                  className="fill-mauve-1"
+                  className="fill-(--mauve-1)"
                   rx={2}
                 />
                 <rect
@@ -312,7 +341,7 @@ export const FailureScreenshotSvg = (props: React.SVGProps<SVGSVGElement>) => {
                   height={6}
                   x={245}
                   y={75}
-                  className="fill-gray-11"
+                  className="fill-(--gray-11)"
                   rx={2}
                 />
                 <rect
@@ -320,7 +349,7 @@ export const FailureScreenshotSvg = (props: React.SVGProps<SVGSVGElement>) => {
                   height={4}
                   x={245}
                   y={84}
-                  className="fill-gray-11"
+                  className="fill-(--gray-11)"
                   rx={2}
                 />
               </g>

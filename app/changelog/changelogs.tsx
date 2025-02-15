@@ -19,7 +19,7 @@ export function Changelogs(props: {
     <Container className="my-10" style={{ contain: "none" }}>
       <div className="sm:ml-[calc(25%+1rem)]">
         <h1 className="mb-2 text-4xl font-semibold">Changelog</h1>
-        <div className="mb-2 text-low">
+        <div className="text-low mb-2">
           New updates and improvements to Argos.
         </div>
         <div className="text-sm">
@@ -40,12 +40,12 @@ export function Changelogs(props: {
             className="grid items-start gap-4 sm:grid-cols-[minmax(0,25%)_minmax(0,36rem)]"
             style={{ contain: "none" }}
           >
-            <div className="text-sm text-low sm:sticky sm:top-[60px] sm:pt-10">
+            <div className="text-low text-sm sm:sticky sm:top-[60px] sm:pt-10">
               {props.single && (
                 <div className="mb-4">
                   <NextLink
                     href="/changelog"
-                    className="font-semibold hover:text"
+                    className="hover:text-default font-semibold"
                   >
                     ← All posts
                   </NextLink>

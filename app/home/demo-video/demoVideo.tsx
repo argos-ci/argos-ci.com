@@ -9,7 +9,7 @@ export function DemoVideo() {
         Explore how Argos can help you supercharge your visual testing
         experience.
       </p>
-      <div className="relative mx-auto aspect-video w-full max-w-3xl overflow-hidden sm:rounded">
+      <div className="relative mx-auto aspect-video w-full max-w-3xl overflow-hidden sm:rounded-sm">
         <iframe
           width="560"
           height="315"
