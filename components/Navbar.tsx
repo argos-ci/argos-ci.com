@@ -1,6 +1,7 @@
 "use client";
 
 import * as DialogPrimitive from "@radix-ui/react-dialog";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import clsx from "clsx";
 import Link from "next/link";
 import * as React from "react";
@@ -49,12 +50,17 @@ export const Navbar = ({ primary, secondary, actions }: NavbarProps) => {
                 setOpen(false);
               }
             }}
-            aria-label="Menu"
             className={clsx(
               "bg-app fixed inset-0 top-[calc(3.75rem-1px)] z-10 flex flex-col items-start gap-3 overflow-auto p-6 md:hidden",
               "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 duration-200",
             )}
           >
+            <VisuallyHidden>
+              <DialogPrimitive.Title>Menu</DialogPrimitive.Title>
+              <DialogPrimitive.Description>
+                Navigation of Argos
+              </DialogPrimitive.Description>
+            </VisuallyHidden>
             {secondary}
             <hr className="my-8 w-full border-0 border-t" />
             <div className="flex items-center gap-4">{actions}</div>

@@ -260,7 +260,7 @@
   & > span {
     width: 20px;
     height: 2px;
-    background-color: var(--text-color);
+    background-color: var(--text-color-default);
     transition: 300ms;
     transition-property: all;
     position: relative;
