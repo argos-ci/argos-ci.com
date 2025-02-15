@@ -19,11 +19,11 @@ import {
 } from "@/lib/constants";
 
 const PricingCardBody = twc.div`p-6 text-left text-low`;
-const Title = twc.div`mb-2 text-xl font-semibold text`;
+const Title = twc.div`mb-2 text-xl font-semibold text-default`;
 const Description = twc.div`my-2 h-12 last-of-type:mb-0`;
 const Badges = twc.div`block h-8`;
-const Badge = twc.div`text-primary-300 mb-10 w-fit rounded-sm border border-(--violet-6) px-2.5 py-0.5 text-xs font-medium text`;
-const PriceBadge = twc.div`text-primary-300 ml-auto w-fit rounded-sm border border-dashed border-(--violet-6) px-2.5 py-0.5 text-xs`;
+const Badge = twc.div`text-(--violet-11) mb-10 w-fit rounded-sm border border-(--violet-6) px-2.5 py-0.5 text-xs font-medium text`;
+const PriceBadge = twc.div`text-(--violet-11) ml-auto w-fit rounded-sm border border-dashed border-(--violet-6) px-2.5 py-0.5 text-xs`;
 const Paragraph = twc.p`block text-sm min-h-5`;
 
 const Features = twc.ul`mt-4 mb-6 flex flex-col gap-4`;
