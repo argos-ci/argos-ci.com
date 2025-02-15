@@ -34,11 +34,11 @@ const statusDictionary: Record<Status, { label: string; color: string }> = {
   },
   degraded_performance: {
     label: "Degraded Performance",
-    color: "bg-yellow-10",
+    color: "bg-(--yellow-10)",
   },
   partial_outage: {
     label: "Partial Outage",
-    color: "bg-yellow-10",
+    color: "bg-(--yellow-10)",
   },
   major_outage: {
     label: "Major Outage",
@@ -50,7 +50,7 @@ const statusDictionary: Record<Status, { label: string; color: string }> = {
   },
   incident: {
     label: "Incident",
-    color: "bg-yellow-10",
+    color: "bg-(--yellow-10)",
   },
   under_maintenance: {
     label: "Under Maintenance",

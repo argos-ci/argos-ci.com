@@ -20,7 +20,7 @@ const BgGradient = () => {
         }}
       />
       <div
-        className="bg-yellow-8 absolute rounded-full blur-[50px]"
+        className="absolute rounded-full bg-(--yellow-8) blur-[50px]"
         style={{
           width: "30%",
           height: "30%",

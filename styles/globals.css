@@ -36,18 +36,18 @@
 @import "@radix-ui/colors/sky-dark" layer(base);
 @import "@radix-ui/colors/iris" layer(base);
 @import "@radix-ui/colors/iris-dark" layer(base);
+@import "@radix-ui/colors/green" layer(base);
+@import "@radix-ui/colors/green-dark" layer(base);
 
 @theme {
   --breakpoint-md: 48rem;
 
-  --font-sans:
-    var(--font-inter), Inter, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-    "Helvetica Neue", sans-serif;
-  --font-accent:
-    var(--font-calsans), -apple-system, BlinkMacSystemFont, "Segoe UI",
-    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-    "Helvetica Neue", sans-serif;
+  --font-sans: var(--font-inter), Inter, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif;
+  --font-accent: var(--font-calsans), -apple-system, BlinkMacSystemFont,
+    "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif;
 
   --background-color-app: var(--mauve-1);
   --background-color-subtle: var(--mauve-2);
@@ -111,15 +111,14 @@
   --border-color-primary-hover: var(--violet-8);
   --border-color-primary-active: var(--violet-9);
 
-  --gradient-hero-text:
-    180deg, var(--text-color-default) 0%, var(--plum-11) 100%;
-  --gradient-hero-text-lg:
-    96deg, var(--text-color-default) 72%, var(--plum-10) 105%;
-  --gradient-playwright-text:
-    120deg, var(--text-color-default) 0%, var(--violet-11) 70%,
+  --gradient-hero-text: 180deg, var(--text-color-default) 0%,
+    var(--plum-11) 100%;
+  --gradient-hero-text-lg: 96deg, var(--text-color-default) 72%,
+    var(--plum-10) 105%;
+  --gradient-playwright-text: 120deg, var(--text-color-default) 0%,
+    var(--violet-11) 70%, var(--plum-10) 80%;
+  --gradient-playwright-text-dark: 120deg, white 0%, var(--violet-11) 70%,
     var(--plum-10) 80%;
-  --gradient-playwright-text-dark:
-    120deg, white 0%, var(--violet-11) 70%, var(--plum-10) 80%;
 
   --animate-fade: fade 4s ease infinite;
   --animate-slide: slide 10s linear infinite;
