@@ -10,7 +10,7 @@ import integrationsLight from "./integrations-light.svg";
 export function Integrations() {
   return (
     <Container
-      className="flex flex-col-reverse items-center pb-16 pt-0 md:flex-row md:py-20 md:pt-16"
+      className="flex flex-col-reverse items-center pt-0 pb-16 md:flex-row md:py-20 md:pt-16"
       asChild
     >
       <section>

@@ -25,11 +25,11 @@ export function CodeAnimation() {
     }
   }, [inView, editorCtrls]);
   return (
-    <div ref={ref} className="px-2 pb-2 pt-8">
+    <div ref={ref} className="px-2 pt-8 pb-2">
       <CodeEditor animate={editorCtrls} />
       <Terminal
         ref={terminalRef}
-        className="relative z-10 -ml-2 -mt-8 mr-2 shadow-lg md:mr-6"
+        className="relative z-10 -mt-8 mr-2 -ml-2 shadow-lg md:mr-6"
       />
     </div>
   );

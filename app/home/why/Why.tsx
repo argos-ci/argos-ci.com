@@ -9,7 +9,7 @@ export function Why() {
     <Container className="py-16 md:py-20" asChild>
       <section>
         <H2 className="mb-6 text-center">Why using Argos?</H2>
-        <div className="mb-6 text-center text-lg text-low md:text-xl">
+        <div className="text-low mb-6 text-center text-lg md:text-xl">
           Testing frameworks like Playwright and Cypress offer basic visual
           testing capabilities, but they fall short for team workflows. For
           robust and reliable visual testing, teams need a dedicated tool like

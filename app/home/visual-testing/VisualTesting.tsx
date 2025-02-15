@@ -23,7 +23,7 @@ export function VisualTesting() {
         title="Review changes"
         text="Get status on your pull request in GitHub and GitLab. Approve or reject changes in Argos."
       >
-        <div className="pb-2 pt-10">
+        <div className="pt-10 pb-2">
           <ReviewChanges />
         </div>
       </ColoredCard>

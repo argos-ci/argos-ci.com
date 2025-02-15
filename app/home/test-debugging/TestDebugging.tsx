@@ -51,7 +51,7 @@ export function TestDebugging() {
               className="hidden w-full dark:block"
             />
           </div>
-          <Dolorean className="absolute -bottom-[20%] left-0 w-[80%] animate-float md:w-[60%]" />
+          <Dolorean className="animate-float absolute -bottom-[20%] left-0 w-[80%] md:w-[60%]" />
         </div>
       </ColoredCard>
     </FeatureSection>

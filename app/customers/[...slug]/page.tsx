@@ -109,16 +109,16 @@ export default async function Page(props: Props) {
   return (
     <>
       <div className="mx-auto my-24 grid w-full max-w-(--breakpoint-xl) grid-cols-4 gap-5 px-4 lg:gap-10 lg:px-20">
-        <article className="prose relative col-span-4 max-w-none dark:prose-invert md:col-span-3">
+        <article className="prose dark:prose-invert relative col-span-4 max-w-none md:col-span-3">
           <header>
             <div className="mb-4 text-sm">
               <ArrowLeftIcon
-                className="mr-2 inline size-4 text-low"
+                className="text-low mr-2 inline size-4"
                 strokeWidth={1}
               />
               <NextLink
                 href="/customers"
-                className="font-normal text-low no-underline hover:underline"
+                className="text-low font-normal no-underline hover:underline"
               >
                 All customers
               </NextLink>
@@ -153,7 +153,7 @@ export default async function Page(props: Props) {
           <JsonLd json={jsonLdArticle} />
           <JsonLd json={jsonLdBreadcrumbs} />
         </article>
-        <div className="sticky top-20 col-span-1 mt-72 hidden flex-col divide-y divide-base self-start md:flex">
+        <div className="divide-base sticky top-20 col-span-1 mt-72 hidden flex-col divide-y self-start md:flex">
           <div className="flex items-center gap-4 py-5">
             <Image
               src={customerCase.customer.logo}
@@ -163,7 +163,7 @@ export default async function Page(props: Props) {
             />
             <div>
               <div className="font-medium">{customerCase.customer.name}</div>
-              <div className="text-sm text-low">
+              <div className="text-low text-sm">
                 <a
                   href={customerCase.customer.website}
                   target="_blank"
@@ -205,7 +205,7 @@ function SideItem(props: {
   return (
     <div className="flex flex-col space-y-2 py-5">
       <p className="font-medium">{props.title}</p>
-      <p className="text-sm text-low">{props.children}</p>
+      <p className="text-low text-sm">{props.children}</p>
     </div>
   );
 }

@@ -213,7 +213,7 @@ export function ComparePricingSlider(props: {
 
   return (
     <div className="flex w-full flex-col items-center gap-4">
-      <div className="mx-auto flex w-full max-w-lg select-none flex-col gap-2">
+      <div className="mx-auto flex w-full max-w-lg flex-col gap-2 select-none">
         <div className="flex items-baseline justify-between">
           <div className="text-lg font-medium">Screenshots per month</div>
           <div className="text-right font-medium tabular-nums">
