@@ -12,7 +12,7 @@ export function Video() {
         <br />
         and upgrades Visual Testing to the next level.
       </p>
-      <div className="relative mx-auto aspect-video w-full max-w-3xl overflow-hidden sm:rounded">
+      <div className="relative mx-auto aspect-video w-full max-w-3xl overflow-hidden sm:rounded-sm">
         <iframe
           width="560"
           height="315"

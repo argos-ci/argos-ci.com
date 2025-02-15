@@ -10,15 +10,15 @@ import { DiscordIcon } from "@/components/icons/DiscordIcon";
 import { GitHubIcon } from "@/components/icons/GitHubIcon";
 import { XIcon } from "@/components/icons/XIcon";
 
-const FooterSection = twc.div`my-2 flex flex-1 flex-grow basis-36 flex-col gap-2 whitespace-nowrap`;
+const FooterSection = twc.div`my-2 flex flex-1 grow basis-36 flex-col gap-2 whitespace-nowrap`;
 const FooterSectionTitle = twc.div`mb-1 font-medium`;
-const FooterIconLink = twc.a`text-low transition hover:text`;
+const FooterIconLink = twc.a`text-low transition hover:text-default`;
 
 function FooterLink(props: { children: React.ReactNode; href: string }) {
   return (
     <div>
       <NextLink
-        className="text-low no-underline transition hover:text"
+        className="text-low hover:text-default no-underline transition"
         href={props.href}
       >
         {props.children}
@@ -28,18 +28,18 @@ function FooterLink(props: { children: React.ReactNode; href: string }) {
 }
 
 export const AppFooter: React.FC = () => (
-  <footer className="mb-10 mt-32 border-t pb-10 pt-10 text-sm leading-6">
+  <footer className="mt-32 mb-10 border-t pt-10 pb-10 text-sm leading-6">
     <Container>
       <div className="grid grid-cols-2 gap-x-8 gap-y-2 sm:grid-cols-4 md:grid-cols-6">
         <FooterSection className="justify-between">
           <div className="flex flex-col gap-3">
             <ArgosLogo width="128" />
-            <div className="whitespace-normal text-xs text-low">
+            <div className="text-low text-xs whitespace-normal">
               The Open Source visual testing alternative.
             </div>
             <Suspense
               fallback={
-                <div aria-busy className="text-sm text-low">
+                <div aria-busy className="text-low text-sm">
                   Loading...
                 </div>
               }
@@ -53,7 +53,7 @@ export const AppFooter: React.FC = () => (
             </FooterIconLink>
             <FooterIconLink
               href="https://twitter.com/argos_ci"
-              className="text-low transition hover:text"
+              className="text-low hover:text-default transition"
             >
               <XIcon className="size-5" />
             </FooterIconLink>

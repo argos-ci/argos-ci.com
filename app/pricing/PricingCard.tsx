@@ -22,8 +22,8 @@ const PricingCardBody = twc.div`p-6 text-left text-low`;
 const Title = twc.div`mb-2 text-xl font-semibold text`;
 const Description = twc.div`my-2 h-12 last-of-type:mb-0`;
 const Badges = twc.div`block h-8`;
-const Badge = twc.div`text-primary-300 mb-10 w-fit rounded border border-violet-6 px-2.5 py-0.5 text-xs font-medium text`;
-const PriceBadge = twc.div`text-primary-300 ml-auto w-fit rounded border border-dashed border-violet-6 px-2.5 py-0.5 text-xs`;
+const Badge = twc.div`text-primary-300 mb-10 w-fit rounded-sm border border-(--violet-6) px-2.5 py-0.5 text-xs font-medium text`;
+const PriceBadge = twc.div`text-primary-300 ml-auto w-fit rounded-sm border border-dashed border-(--violet-6) px-2.5 py-0.5 text-xs`;
 const Paragraph = twc.p`block text-sm min-h-5`;
 
 const Features = twc.ul`mt-4 mb-6 flex flex-col gap-4`;
@@ -40,7 +40,7 @@ const Feature = ({
   const Icon = optional ? CircleIcon : CheckCircleIcon;
   return (
     <li className={clsx("flex items-center gap-2 leading-tight", className)}>
-      <Icon className="size-4 shrink-0 text-violet-11" />
+      <Icon className="size-4 shrink-0 text-(--violet-11)" />
       {children}
     </li>
   );
@@ -55,8 +55,8 @@ const PricingCard = ({
 }) => (
   <div
     className={clsx(
-      "border-border w-full flex-1 shrink-0 basis-80 rounded-xl border bg-violet-1",
-      emphasis ? "border-2 border-violet-6 pt-[calc(1rem-1px)]" : "md:mt-4",
+      "border-border w-full flex-1 shrink-0 basis-80 rounded-xl border bg-(--violet-1)",
+      emphasis ? "border-2 border-(--violet-6) pt-[calc(1rem-1px)]" : "md:mt-4",
     )}
   >
     {children}
@@ -76,10 +76,10 @@ const Price = ({
     <div className="flex flex-col gap-1 pt-6">
       <Paragraph>{fixedPrice ? null : "Starting at"}</Paragraph>
       <div className="flex items-baseline">
-        <span className="text-3xl font-semibold tracking-tight text">
+        <span className="text-default text-3xl font-semibold tracking-tight">
           <LocalDollar value={price} />
         </span>
-        {recurring && <span className="ml-1 text-lg text-low">/mo</span>}
+        {recurring && <span className="text-low ml-1 text-lg">/mo</span>}
       </div>
       <Paragraph>
         {fixedPrice ? "forever" : "Billed monthly based on usage"}
@@ -97,7 +97,7 @@ const CTA = ({
   href: string;
 }) => (
   <Button
-    className="mb-6 mt-10 w-full justify-center"
+    className="mt-10 mb-6 w-full justify-center"
     size="large"
     asChild
     {...props}
@@ -182,7 +182,7 @@ export function PricingCards() {
           <Badges />
           <Title>Enterprise</Title>
           <Description>Tailored solutions with premium features.</Description>
-          <div className="mb-6 mt-12 flex items-baseline pt-2 text-3xl font-semibold text">
+          <div className="text-default mt-12 mb-6 flex items-baseline pt-2 text-3xl font-semibold">
             Custom
           </div>
           <CTA href="mailto:contact@argos-ci.com" variant="outline">

@@ -7,7 +7,7 @@ import { twc } from "react-twc";
 import { ArgosLogo } from "./ArgosLogo";
 
 export const Table = twc.table`w-full min-w-[50em]`;
-export const Tr = twc.tr`border-b border-dashed border-violet-6 align-baseline md:[&>th]:whitespace-nowrap`;
+export const Tr = twc.tr`border-b border-dashed border-(--violet-6) align-baseline md:[&>th]:whitespace-nowrap`;
 export const Td = twc.td`p-4 text-center align-middle`;
 export const Th = twc.th`p-3 md:p-6 text-left font-normal`;
 export const ThMain = twc.div`font-semibold`;
@@ -20,7 +20,7 @@ export function ThSubLink(
   return (
     <Component
       {...linkProps}
-      className="group text-sm text-low transition hover:text-violet-10"
+      className="group text-low text-sm transition hover:text-(--violet-10)"
     >
       {props.children}
       <ArrowUpRightIcon className="ml-1 inline size-[1em] align-[-10%] opacity-0 transition group-hover:opacity-100" />
@@ -30,7 +30,7 @@ export function ThSubLink(
 
 export const ThSub = twc.div`text-sm text-low`;
 
-export const Check = twc(CircleCheckIcon)`inline-block text-violet-10`;
+export const Check = twc(CircleCheckIcon)`inline-block text-(--violet-10)`;
 export const X = twc(CircleXIcon)`inline-block text-low`;
 
 export function List(props: {
@@ -93,7 +93,7 @@ export function THead(props: {
             <Image
               src={props.logoSrcDark}
               alt={props.title}
-              className="hidden h-6 dark:block md:h-8"
+              className="hidden h-6 md:h-8 dark:block"
             />
           )}
         </Th>

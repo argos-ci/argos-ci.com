@@ -9,7 +9,7 @@ export function FeatureSection(props: {
   return (
     <Container className="py-16 md:py-20" asChild>
       <section>
-        <div className="text-primary mb-4 text-lg font-medium text-violet-11">
+        <div className="text-primary mb-4 text-lg font-medium text-(--violet-11)">
           {props.surtitle}
         </div>
         <H2 className="mb-12">{props.title}</H2>

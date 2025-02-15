@@ -15,7 +15,7 @@ export function DeveloperExperience() {
     <Container className="py-16 md:py-20" asChild>
       <section>
         <H2 className="mb-6 text-center">First-class developer experience.</H2>
-        <div className="mb-12 text-center text-lg text-low md:text-xl">
+        <div className="text-low mb-12 text-center text-lg md:text-xl">
           Crafted by engineers for engineers, Argos seamlessly merges
           pixel-perfect design with unparalleled precision, embodying both
           aesthetic grace and peak performance.
@@ -65,7 +65,7 @@ export function DeveloperExperience() {
                   alt="Bolt"
                 />
               </div>
-              <div className="select-none bg-gradient-to-r from-violet-11 to-pink-12 bg-clip-text text-center font-accent text-xl text-transparent md:text-4xl">
+              <div className="font-accent bg-linear-to-r from-(--violet-11) to-(--pink-12) bg-clip-text text-center text-xl text-transparent select-none md:text-4xl">
                 2236 screenshots
                 <br />
                 compared in 243ms.

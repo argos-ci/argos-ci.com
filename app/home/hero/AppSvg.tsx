@@ -10,11 +10,11 @@ export const AppSvg = (props: React.SVGProps<SVGSVGElement>) => (
     {...props}
   >
     <g clipPath="url(#a)">
-      <rect width={584} height={281} className="fill-mauve-1" rx={6} />
+      <rect width={584} height={281} className="fill-(--mauve-1)" rx={6} />
       <mask id="g" fill="#fff">
         <path d="M0 0h584v26H0V0Z" />
       </mask>
-      <path className="fill-mauve-2" d="M0 0h584v26H0V0Z" />
+      <path className="fill-(--mauve-2)" d="M0 0h584v26H0V0Z" />
       <path
         fill="url(#b)"
         fillRule="evenodd"
@@ -48,7 +48,7 @@ export const AppSvg = (props: React.SVGProps<SVGSVGElement>) => (
         height={4}
         x={31.048}
         y={7}
-        className="fill-gray-6"
+        className="fill-(--gray-6)"
         rx={2}
       />
       <rect
@@ -56,7 +56,7 @@ export const AppSvg = (props: React.SVGProps<SVGSVGElement>) => (
         height={4}
         x={31.048}
         y={15}
-        className="fill-gray-6"
+        className="fill-(--gray-6)"
         rx={2}
       />
       <rect
@@ -64,7 +64,7 @@ export const AppSvg = (props: React.SVGProps<SVGSVGElement>) => (
         height={14}
         x={496}
         y={6}
-        className="fill-violet-10"
+        className="fill-(--violet-10)"
         rx={2}
       />
       <g clipPath="url(#f)">
@@ -76,11 +76,15 @@ export const AppSvg = (props: React.SVGProps<SVGSVGElement>) => (
         />
       </g>
       <rect width={56} height={4} x={516} y={11} fill="#FFEFEF" rx={2} />
-      <path className="fill-gray-6" d="M584 25H0v2h584v-2Z" mask="url(#g)" />
+      <path
+        className="fill-(--gray-6)"
+        d="M584 25H0v2h584v-2Z"
+        mask="url(#g)"
+      />
       <mask id="j" fill="#fff">
         <path d="M0 26h96v255H0V26Z" />
       </mask>
-      <path className="fill-mauve-2" d="M0 26h96v255H0V26Z" />
+      <path className="fill-(--mauve-2)" d="M0 26h96v255H0V26Z" />
       <g clipPath="url(#h)">
         <g clipPath="url(#i)">
           <path
@@ -101,11 +105,11 @@ export const AppSvg = (props: React.SVGProps<SVGSVGElement>) => (
           />
         </g>
         <path
-          className="fill-gray-10"
+          className="fill-(--gray-10)"
           d="M50.2 53.575c0-.39.313-.706.7-.706H67c.387 0 .7.316.7.706v.705c0 .39-.313.705-.7.705H50.9a.703.703 0 0 1-.7-.705v-.705Z"
         />
         <path
-          className="fill-gray-12"
+          className="fill-(--gray-12)"
           d="M55.8 59.923a2.81 2.81 0 0 1-2.8 2.82 2.81 2.81 0 0 1-2.8-2.82A2.81 2.81 0 0 1 53 57.1a2.81 2.81 0 0 1 2.8 2.822Z"
         />
         <path
@@ -113,19 +117,19 @@ export const AppSvg = (props: React.SVGProps<SVGSVGElement>) => (
           d="M62.8 59.923a2.81 2.81 0 0 1-2.8 2.82 2.81 2.81 0 0 1-2.8-2.82A2.81 2.81 0 0 1 60 57.1a2.81 2.81 0 0 1 2.8 2.822Z"
         />
         <path
-          className="fill-gray-10"
+          className="fill-(--gray-10)"
           d="M50.2 69.092c0-.39.313-.706.7-.706H67c.387 0 .7.316.7.706v.705c0 .39-.313.705-.7.705H50.9a.703.703 0 0 1-.7-.705v-.705Z"
         />
         <path
-          className="fill-gray-12"
+          className="fill-(--gray-12)"
           d="M50.2 84.609c0-.39.313-.706.7-.706h26.6c.387 0 .7.316.7.706v4.232c0 .39-.313.705-.7.705H50.9a.703.703 0 0 1-.7-.706V84.61Z"
         />
         <path
-          className="fill-mauve-2"
+          className="fill-(--mauve-2)"
           d="M59.3 86.725c0-.39.313-.706.7-.706h9.45c.387 0 .7.316.7.706 0 .39-.313.705-.7.705H60a.703.703 0 0 1-.7-.705Z"
         />
         <path
-          className="fill-gray-10"
+          className="fill-(--gray-10)"
           d="M12.75 39.469c0-.39.313-.706.7-.706h16.1c.387 0 .7.316.7.706v.705c0 .39-.313.705-.7.705h-16.1a.703.703 0 0 1-.7-.705v-.705ZM12.75 42.642c0-.389.313-.705.7-.705h10.5c.387 0 .7.316.7.706 0 .39-.313.705-.7.705h-10.5a.703.703 0 0 1-.7-.706Z"
         />
       </g>
@@ -135,7 +139,7 @@ export const AppSvg = (props: React.SVGProps<SVGSVGElement>) => (
         height={79}
         x={8.5}
         y={109.5}
-        className="stroke-gray-6"
+        className="stroke-(--gray-6)"
         rx={3.5}
       />
       <rect
@@ -143,16 +147,20 @@ export const AppSvg = (props: React.SVGProps<SVGSVGElement>) => (
         height={79}
         x={8.5}
         y={197.5}
-        className="stroke-gray-6"
+        className="stroke-(--gray-6)"
         rx={3.5}
       />
-      <path className="fill-gray-6" d="M95 26v255h2V26h-2Z" mask="url(#j)" />
+      <path
+        className="fill-(--gray-6)"
+        d="M95 26v255h2V26h-2Z"
+        mask="url(#j)"
+      />
       <rect
         width={61}
         height={6}
         x={104}
         y={37}
-        className="fill-gray-6"
+        className="fill-(--gray-6)"
         rx={2}
       />
       <rect
@@ -160,7 +168,7 @@ export const AppSvg = (props: React.SVGProps<SVGSVGElement>) => (
         height={6}
         x={169}
         y={37}
-        className="fill-gray-6"
+        className="fill-(--gray-6)"
         rx={2}
       />
       <rect
@@ -168,7 +176,7 @@ export const AppSvg = (props: React.SVGProps<SVGSVGElement>) => (
         height={6}
         x={234}
         y={37}
-        className="fill-gray-6"
+        className="fill-(--gray-6)"
         rx={2}
       />
       <rect
@@ -176,7 +184,7 @@ export const AppSvg = (props: React.SVGProps<SVGSVGElement>) => (
         height={12}
         x={532}
         y={34}
-        className="fill-gray-6"
+        className="fill-(--gray-6)"
         rx={2}
       />
       <rect
@@ -184,7 +192,7 @@ export const AppSvg = (props: React.SVGProps<SVGSVGElement>) => (
         height={12}
         x={548}
         y={34}
-        className="fill-gray-6"
+        className="fill-(--gray-6)"
         rx={2}
       />
       <rect
@@ -192,7 +200,7 @@ export const AppSvg = (props: React.SVGProps<SVGSVGElement>) => (
         height={12}
         x={564}
         y={34}
-        className="fill-red-10"
+        className="fill-(--red-10)"
         rx={2}
       />
       <path
@@ -207,7 +215,7 @@ export const AppSvg = (props: React.SVGProps<SVGSVGElement>) => (
           height={6}
           x={176}
           y={74}
-          className="fill-gray-6"
+          className="fill-(--gray-6)"
           rx={2}
         />
         <rect
@@ -215,7 +223,7 @@ export const AppSvg = (props: React.SVGProps<SVGSVGElement>) => (
           height={4}
           x={193}
           y={84}
-          className="fill-gray-6"
+          className="fill-(--gray-6)"
           rx={2}
         />
         <rect
@@ -223,7 +231,7 @@ export const AppSvg = (props: React.SVGProps<SVGSVGElement>) => (
           height={184}
           x={104.5}
           y={96.5}
-          className="fill-mauve-2"
+          className="fill-(--mauve-2)"
           rx={1.5}
         />
         <g clipPath="url(#l)">
@@ -286,17 +294,17 @@ export const AppSvg = (props: React.SVGProps<SVGSVGElement>) => (
           height={6}
           x={216}
           y={141}
-          className="fill-gray-10"
+          className="fill-(--gray-10)"
           rx={2}
         />
-        <circle cx={224} cy={161} r={8} className="fill-gray-12" />
+        <circle cx={224} cy={161} r={8} className="fill-(--gray-12)" />
         <circle cx={244} cy={161} r={8} fill="#AA99EC" />
         <rect
           width={50}
           height={6}
           x={216}
           y={185}
-          className="fill-gray-10"
+          className="fill-(--gray-10)"
           rx={2}
         />
         <circle cx={224} cy={205} r={7.5} stroke="#C8C7CB" />
@@ -308,7 +316,7 @@ export const AppSvg = (props: React.SVGProps<SVGSVGElement>) => (
           height={16}
           x={216}
           y={229}
-          className="fill-gray-12"
+          className="fill-(--gray-12)"
           rx={2}
         />
         <rect
@@ -316,7 +324,7 @@ export const AppSvg = (props: React.SVGProps<SVGSVGElement>) => (
           height={4}
           x={242}
           y={235}
-          className="fill-mauve-2"
+          className="fill-(--mauve-2)"
           rx={2}
         />
         <rect
@@ -324,7 +332,7 @@ export const AppSvg = (props: React.SVGProps<SVGSVGElement>) => (
           height={6}
           x={109}
           y={101}
-          className="fill-gray-10"
+          className="fill-(--gray-10)"
           rx={2}
         />
         <rect
@@ -332,7 +340,7 @@ export const AppSvg = (props: React.SVGProps<SVGSVGElement>) => (
           height={4}
           x={109}
           y={110}
-          className="fill-gray-10"
+          className="fill-(--gray-10)"
           rx={2}
         />
         <rect
@@ -340,7 +348,7 @@ export const AppSvg = (props: React.SVGProps<SVGSVGElement>) => (
           height={184}
           x={104.5}
           y={96.5}
-          className="stroke-mauve-4"
+          className="stroke-(--mauve-4)"
           rx={1.5}
         />
         <rect
@@ -348,7 +356,7 @@ export const AppSvg = (props: React.SVGProps<SVGSVGElement>) => (
           height={6}
           x={420}
           y={74}
-          className="fill-gray-6"
+          className="fill-(--gray-6)"
           rx={2}
         />
         <rect
@@ -356,7 +364,7 @@ export const AppSvg = (props: React.SVGProps<SVGSVGElement>) => (
           height={4}
           x={437}
           y={84}
-          className="fill-gray-6"
+          className="fill-(--gray-6)"
           rx={2}
         />
         <rect
@@ -364,7 +372,7 @@ export const AppSvg = (props: React.SVGProps<SVGSVGElement>) => (
           height={184}
           x={352.5}
           y={96.5}
-          className="fill-mauve-2"
+          className="fill-(--mauve-2)"
           rx={1.5}
         />
         <g clipPath="url(#m)">
@@ -430,17 +438,17 @@ export const AppSvg = (props: React.SVGProps<SVGSVGElement>) => (
           height={6}
           x={464}
           y={141}
-          className="fill-gray-10"
+          className="fill-(--gray-10)"
           rx={2}
         />
-        <circle cx={472} cy={161} r={8} className="fill-gray-12" />
+        <circle cx={472} cy={161} r={8} className="fill-(--gray-12)" />
         <circle cx={492} cy={161} r={8} fill="#AA99EC" />
         <rect
           width={50}
           height={6}
           x={464}
           y={185}
-          className="fill-gray-10"
+          className="fill-(--gray-10)"
           rx={2}
         />
         <circle cx={472} cy={205} r={7.5} stroke="#C8C7CB" />
@@ -452,7 +460,7 @@ export const AppSvg = (props: React.SVGProps<SVGSVGElement>) => (
           height={16}
           x={464}
           y={249}
-          className="fill-gray-12"
+          className="fill-(--gray-12)"
           rx={2}
         />
         <rect
@@ -460,7 +468,7 @@ export const AppSvg = (props: React.SVGProps<SVGSVGElement>) => (
           height={4}
           x={490}
           y={255}
-          className="fill-mauve-2"
+          className="fill-(--mauve-2)"
           rx={2}
         />
         <rect
@@ -468,7 +476,7 @@ export const AppSvg = (props: React.SVGProps<SVGSVGElement>) => (
           height={6}
           x={357}
           y={101}
-          className="fill-gray-10"
+          className="fill-(--gray-10)"
           rx={2}
         />
         <rect
@@ -476,11 +484,11 @@ export const AppSvg = (props: React.SVGProps<SVGSVGElement>) => (
           height={4}
           x={357}
           y={110}
-          className="fill-gray-10"
+          className="fill-(--gray-10)"
           rx={2}
         />
         <g className="animate-fade">
-          <g className="fill-red-10" clipPath="url(#n)">
+          <g className="fill-(--red-10)" clipPath="url(#n)">
             <path d="M406.867 143.122c-4.111 0-14.639 8.805-14.639 20.182 0 18.351 7.207 18.086 14.639 18.086 7.432 0 14.639.347 14.639-18.086 0-11.377-9.746-20.182-14.639-20.182Z" />
             <path d="M443.547 206.218c-.988-5.995-3.85-11.475-10.75-25.136-1.944-3.847-14.394-6.033-14.394-6.033s-10.135 5.721-11.379 5.721c-1.471 0-12.648-5.721-12.648-5.721s-11.228 2.165-13.126 6.033c-6.264 12.77-9.763 19.141-10.749 25.136-.988 5.994.782 35.889.782 35.889s1.729.058 3.684-.346c1.955-.403 2.757-1.498 2.757-1.498s.53-28.205 1.376-31.74c.845-3.535 7.06-12.631 7.06-12.631l2.962 23.39-3.768 25.592c0 3.113 3.961 3.884 8.848 3.884h25.643c4.887 0 8.848-.771 8.848-3.884l-3.769-25.592 2.964-23.39s6.214 9.096 7.059 12.631c.846 3.535 1.376 31.74 1.376 31.74s.633.806 2.588 1.498 3.853.346 3.853.346 1.77-29.895.783-35.889Z" />
           </g>
@@ -494,11 +502,11 @@ export const AppSvg = (props: React.SVGProps<SVGSVGElement>) => (
           height={184}
           x={352.5}
           y={96.5}
-          className="stroke-mauve-4"
+          className="stroke-(--mauve-4)"
           rx={1.5}
         />
         <path
-          className="fill-gray-6"
+          className="fill-(--gray-6)"
           d="M341 281V58h-2v223h2Z"
           mask="url(#path-65-inside-3_16_2800)"
         />
@@ -509,7 +517,7 @@ export const AppSvg = (props: React.SVGProps<SVGSVGElement>) => (
       height={280}
       x={0.5}
       y={0.5}
-      className="stroke-gray-6"
+      className="stroke-(--gray-6)"
       rx={5.5}
     />
     <defs>

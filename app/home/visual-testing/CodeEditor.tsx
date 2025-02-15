@@ -18,7 +18,7 @@ function Line({
 }) {
   return (
     <div className={clsx("relative py-1.5", className)} style={style}>
-      <div className="h-2 w-full rounded-sm bg-mauve-5"></div>
+      <div className="h-2 w-full rounded-xs bg-(--mauve-5)"></div>
     </div>
   );
 }
@@ -42,16 +42,16 @@ export function CodeEditor({
   return (
     <div
       className={clsx(
-        "select-none overflow-hidden rounded border bg-app",
+        "bg-app overflow-hidden rounded-sm border select-none",
         className,
       )}
     >
-      <div className="flex items-center gap-2 border-b bg-subtle px-4 py-2 text-sm text-low">
-        <TypeScriptLogo className="h-3 w-3 text-mauve-9" />
+      <div className="bg-subtle text-low flex items-center gap-2 border-b px-4 py-2 text-sm">
+        <TypeScriptLogo className="text-subtle h-3 w-3" />
         purchase.spec.ts
       </div>
       <div className="flex">
-        <div className="flex shrink-0 select-none flex-col border-r bg-subtle px-1.5 py-1 font-mono text-[0.625rem] leading-5">
+        <div className="bg-subtle flex shrink-0 flex-col border-r px-1.5 py-1 font-mono text-[0.625rem] leading-5 select-none">
           {Array.from({ length: 9 }, (_, i) => (
             <div key={i}>{i + 1}</div>
           ))}
@@ -68,27 +68,27 @@ export function CodeEditor({
               delayChildren: 0.4,
               staggerChildren: 0.05,
             }}
-            className="whitespace-nowrap pl-4 font-mono text-xs leading-5 md:text-sm"
+            className="pl-4 font-mono text-xs leading-5 whitespace-nowrap md:text-sm"
           >
-            <WordAnimation delay={0} className="text-pink-11">
+            <WordAnimation delay={0} className="text-pink-low">
               await
             </WordAnimation>{" "}
-            <WordAnimation delay={0.25} className="text-amber-11">
+            <WordAnimation delay={0.25} className="text-amber-low">
               argosScreenshot
             </WordAnimation>
-            <WordAnimation delay={1} className="text-yellow-11">
+            <WordAnimation delay={1} className="text-yellow-low">
               (
             </WordAnimation>
-            <WordAnimation delay={1.05} className="text-blue-11">
+            <WordAnimation delay={1.05} className="text-blue-low">
               page
             </WordAnimation>
-            <WordAnimation delay={1.2} className="text-blue-11">
+            <WordAnimation delay={1.2} className="text-blue-low">
               ,
             </WordAnimation>{" "}
-            <WordAnimation delay={1.3} className="text-jade-11">
+            <WordAnimation delay={1.3} className="text-jade-low">
               "purchase"
             </WordAnimation>
-            <WordAnimation delay={1.8} className="text-yellow-11">
+            <WordAnimation delay={1.8} className="text-yellow-low">
               )
             </WordAnimation>
             <WordAnimation delay={1.85} className="text-low">

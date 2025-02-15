@@ -9,7 +9,7 @@ export function Feature(props: {
   return (
     <section className="max-w-sm flex-1 py-6 md:max-w-none md:py-12">
       <h3 className="mb-4 flex items-center gap-3 text-xl font-medium">
-        <props.icon className="h-7 w-7 text-violet-11" strokeWidth={1} />{" "}
+        <props.icon className="h-7 w-7 text-(--violet-11)" strokeWidth={1} />{" "}
         {props.title}
       </h3>
       <p>{props.text}</p>
@@ -25,7 +25,7 @@ export function FeatureSeparator(props: {
       role="separator"
       aria-orientation={props.orientation}
       className={clsx(
-        "hidden self-stretch border-dashed border-violet-6 md:block",
+        "hidden self-stretch border-dashed border-(--violet-6) md:block",
         props.orientation === "vertical" && "border-l",
         props.orientation === "horizontal" && "border-b",
       )}

@@ -27,7 +27,7 @@ export function Feature({
     >
       <section>
         <div className="flex-1">
-          <div className="text-primary mb-4 text-lg font-medium text-violet-11">
+          <div className="text-primary mb-4 text-lg font-medium text-(--violet-11)">
             {surtitle}
           </div>
           <H2 className="mb-6">{title}</H2>
@@ -71,7 +71,7 @@ export function MoreLink({
 }) {
   return (
     <a
-      className="group inline-flex items-center gap-1 text-lg font-medium text-violet-10 hover:underline"
+      className="group inline-flex items-center gap-1 text-lg font-medium text-(--violet-10) hover:underline"
       target="_blank"
       rel="noopener noreferrer"
       href={href}

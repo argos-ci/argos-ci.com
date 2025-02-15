@@ -40,14 +40,14 @@ export function Terminal({
     <motion.div
       animate={windowCtrls}
       initial={{ opacity: 0, y: "1rem" }}
-      className={clsx("select-none rounded border bg-app", className)}
+      className={clsx("bg-app rounded-sm border select-none", className)}
     >
       <div className="flex gap-2 p-2">
-        <div className="h-2 w-2 rounded-full bg-mauve-7" />
-        <div className="h-2 w-2 rounded-full bg-mauve-7" />
-        <div className="h-2 w-2 rounded-full bg-mauve-7" />
+        <div className="h-2 w-2 rounded-full bg-(--mauve-7)" />
+        <div className="h-2 w-2 rounded-full bg-(--mauve-7)" />
+        <div className="h-2 w-2 rounded-full bg-(--mauve-7)" />
       </div>
-      <div className="h-24 px-2 font-mono text-xs !leading-relaxed md:text-sm">
+      <div className="h-24 px-2 font-mono text-xs leading-relaxed! md:text-sm">
         <div>
           <span className="text-low">$ ~ project</span>{" "}
           {text.split(" ").map((word, index) => {
@@ -65,7 +65,7 @@ export function Terminal({
           })}
         </div>
         <motion.div
-          className="text-grass-11"
+          className="text-(--grass-11)"
           initial="hidden"
           variants={successAnimation}
           animate={successCtrls}

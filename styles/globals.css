@@ -1,14 +1,204 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
+@import "@radix-ui/colors/mauve" layer(base);
+@import "@radix-ui/colors/mauve-dark" layer(base);
+@import "@radix-ui/colors/gray" layer(base);
+@import "@radix-ui/colors/gray-dark" layer(base);
+@import "@radix-ui/colors/amber" layer(base);
+@import "@radix-ui/colors/amber-dark" layer(base);
+@import "@radix-ui/colors/grass" layer(base);
+@import "@radix-ui/colors/grass-dark" layer(base);
+@import "@radix-ui/colors/crimson" layer(base);
+@import "@radix-ui/colors/crimson-dark" layer(base);
+@import "@radix-ui/colors/red" layer(base);
+@import "@radix-ui/colors/red-dark" layer(base);
+@import "@radix-ui/colors/sky" layer(base);
+@import "@radix-ui/colors/sky-dark" layer(base);
+@import "@radix-ui/colors/violet" layer(base);
+@import "@radix-ui/colors/violet-dark" layer(base);
+@import "@radix-ui/colors/violet-alpha" layer(base);
+@import "@radix-ui/colors/violet-dark-alpha" layer(base);
+@import "@radix-ui/colors/plum" layer(base);
+@import "@radix-ui/colors/plum-dark" layer(base);
+@import "@radix-ui/colors/plum-alpha" layer(base);
+@import "@radix-ui/colors/plum-dark-alpha" layer(base);
+@import "@radix-ui/colors/pink" layer(base);
+@import "@radix-ui/colors/pink-dark" layer(base);
+@import "@radix-ui/colors/yellow" layer(base);
+@import "@radix-ui/colors/yellow-dark" layer(base);
+@import "@radix-ui/colors/blue" layer(base);
+@import "@radix-ui/colors/blue-dark" layer(base);
+@import "@radix-ui/colors/jade" layer(base);
+@import "@radix-ui/colors/jade-dark" layer(base);
+@import "@radix-ui/colors/orange" layer(base);
+@import "@radix-ui/colors/orange-dark" layer(base);
+@import "@radix-ui/colors/sky" layer(base);
+@import "@radix-ui/colors/sky-dark" layer(base);
+@import "@radix-ui/colors/iris" layer(base);
+@import "@radix-ui/colors/iris-dark" layer(base);
+
+@theme {
+  --breakpoint-md: 48rem;
+
+  --font-sans: var(--font-inter), Inter, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif;
+  --font-accent: var(--font-calsans), -apple-system, BlinkMacSystemFont,
+    "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif;
+
+  --background-color-app: var(--mauve-1);
+  --background-color-subtle: var(--mauve-2);
+  --background-color-ui: var(--mauve-3);
+  --background-color-hover: var(--mauve-4);
+  --background-color-active: var(--mauve-5);
+  --background-color-solid: var(--mauve-9);
+  --background-color-solid-hover: var(--mauve-10);
+  --background-color-solid-active: var(--mauve-11);
+  --background-color-primary-app: var(--violet-1);
+  --background-color-primary-subtle: var(--violet-2);
+  --background-color-primary-ui: var(--violet-3);
+  --background-color-primary-hover: var(--violet-4);
+  --background-color-primary-active: var(--violet-5);
+  --background-color-primary-solid: var(--violet-9);
+  --background-color-primary-solid-hover: var(--violet-10);
+  --background-color-primary-solid-active: var(--violet-11);
+
+  --background-color-amber-app: var(--amber-1);
+  --background-color-red-app: var(--red-1);
+  --background-color-green-app: var(--green-1);
+  --background-color-crimson-app: var(--crimson-1);
+  --background-color-sky-app: var(--sky-1);
+
+  --text-color-default: var(--mauve-12);
+  --text-color-low: var(--mauve-11);
+  --text-color-hover: var(--mauve-10);
+  --text-color-subtle: var(--mauve-9);
+
+  --text-color-amber: var(--amber-12);
+  --text-color-amber-low: var(--amber-11);
+  --text-color-amber-icon: var(--amber-10);
+
+  --text-color-red: var(--red-12);
+  --text-color-red-low: var(--red-11);
+  --text-color-red-icon: var(--red-10);
+
+  --text-color-green: var(--green-12);
+  --text-color-green-low: var(--green-11);
+  --text-color-green-icon: var(--green-10);
+
+  --text-color-crimson: var(--crimson-12);
+  --text-color-crimson-low: var(--crimson-11);
+  --text-color-crimson-icon: var(--crimson-10);
+
+  --text-color-pink-low: var(--pink-11);
+
+  --text-color-yellow-low: var(--yellow-11);
+
+  --text-color-blue-low: var(--blue-11);
+
+  --text-color-jade-low: var(--jade-11);
+
+  --ring-color-ring: var(--mauve-5);
+
+  --border-color-default: var(--mauve-6);
+  --border-color-base: var(--mauve-6);
+  --border-color-hover: var(--mauve-8);
+  --border-color-active: var(--mauve-9);
+  --border-color-primary-default: var(--violet-6);
+  --border-color-primary-hover: var(--violet-8);
+  --border-color-primary-active: var(--violet-9);
+
+  --gradient-hero-text: 180deg, var(--text-color-default) 0%,
+    var(--plum-11) 100%;
+  --gradient-hero-text-lg: 96deg, var(--text-color-default) 72%,
+    var(--plum-10) 105%;
+  --gradient-playwright-text: 120deg, var(--text-color-default) 0%,
+    var(--violet-11) 70%, var(--plum-10) 80%;
+  --gradient-playwright-text-dark: 120deg, white 0%, var(--violet-11) 70%,
+    var(--plum-10) 80%;
+
+  --animate-fade: fade 4s ease infinite;
+  --animate-slide: slide 10s linear infinite;
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-float: float 4s ease-in-out infinite;
+
+  @keyframes fade {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes float {
+    0% {
+      filter: drop-shadow(0 5px 15px 0px rgba(0, 0, 0, 0.6));
+      transform: translate3d(0, 0, 0);
+    }
+    50% {
+      filter: drop-shadow(0 25px 15px 0px rgba(0, 0, 0, 0.2));
+      transform: translate3d(-1rem, -0.5rem, 0) scale(0.9);
+    }
+    100% {
+      filter: drop-shadow(0 5px 15px 0px rgba(0, 0, 0, 0.6));
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+}
+
+@plugin "tailwindcss-animate";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
 @layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--border-color-default);
+  }
+
   html,
   body {
-    font-family: theme(fontFamily.sans);
-    background-color: theme(backgroundColor.app);
-    color: theme(textColor.DEFAULT);
-    height: 100%;
+    @apply bg-app text-default h-full font-sans antialiased scheme-only-light;
+  }
+
+  html.dark body {
+    @apply scheme-only-dark;
   }
 
   #content {
@@ -52,55 +242,53 @@
   }
 }
 
-@layer components {
-  .burger-menu {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    width: 36px;
-    height: 34px;
-    padding: 8px 8px;
-    appearance: none;
-    background: transparent;
-    border: 0;
+@utility burger-menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 36px;
+  height: 34px;
+  padding: 8px 8px;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  transition: 300ms;
+  transition-property: opacity;
+
+  & > span {
+    width: 20px;
+    height: 2px;
+    background-color: var(--text-color);
     transition: 300ms;
-    transition-property: opacity;
+    transition-property: all;
+    position: relative;
 
-    & > span {
-      width: 20px;
-      height: 2px;
-      background-color: theme(textColor.DEFAULT);
-      transition: 300ms;
-      transition-property: all;
-      position: relative;
-
-      &:nth-child(2) {
-        opacity: 1;
-      }
-    }
-
-    &[aria-expanded="true"] {
-      & > span:nth-child(1) {
-        transform: translateY(6px) rotate(45deg);
-      }
-
-      & > span:nth-child(2) {
-        opacity: 0;
-        transform: translateX(10px);
-      }
-
-      & > span:nth-child(3) {
-        transform: translateY(-6px) rotate(-45deg);
-      }
+    &:nth-child(2) {
+      opacity: 1;
     }
   }
 
-  @media screen(md) {
-    .burger-menu {
-      display: none;
+  &[aria-expanded="true"] {
+    & > span:nth-child(1) {
+      transform: translateY(6px) rotate(45deg);
+    }
+
+    & > span:nth-child(2) {
+      opacity: 0;
+      transform: translateX(10px);
+    }
+
+    & > span:nth-child(3) {
+      transform: translateY(-6px) rotate(-45deg);
     }
   }
 
+  @media (width >= theme(--breakpoint-md)) {
+    display: none;
+  }
+}
+
+@layer components {
   @keyframes slide {
     from {
       transform: translateX(0%);

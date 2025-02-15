@@ -28,7 +28,7 @@ export default async function Page() {
   return (
     <Container className="my-10" style={{ contain: "none" }}>
       <div className="flex flex-col items-baseline gap-x-2 md:flex-row">
-        <h2 className="font-semibold text">Latest updates</h2>
+        <h2 className="text-default font-semibold">Latest updates</h2>
         <div
           role="separator"
           aria-orientation="vertical"
@@ -36,7 +36,7 @@ export default async function Page() {
         >
           |
         </div>
-        <h1 className="text-sm text-low">
+        <h1 className="text-low text-sm">
           All the latest Argos news, straight from the team.
         </h1>
       </div>
@@ -91,7 +91,7 @@ export default async function Page() {
                   </PostCardDescription>
                   <PostCardFooter>
                     <PostCardAuthor>{article.author}</PostCardAuthor>
-                    <div className="text-xs text-mauve-10">|</div>
+                    <div className="text-xs text-(--mauve-10)">|</div>
                     <PostCardDate date={article.date} />
                   </PostCardFooter>
                 </PostCardBody>

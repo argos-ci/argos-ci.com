@@ -14,7 +14,7 @@ export const NavbarLink = (props: {
   children: React.ReactNode;
 }) => (
   <Link
-    className="block font-medium text no-underline transition hover:text-hover"
+    className="text-default hover:text-hover block font-medium no-underline transition"
     {...props}
   />
 );
@@ -35,7 +35,7 @@ export const Navbar = ({ primary, secondary, actions }: NavbarProps) => {
   return (
     <nav
       className={clsx(
-        "sticky left-0 top-0 z-20 border-b py-3 text-sm transition",
+        "sticky top-0 left-0 z-20 border-b py-3 text-sm transition",
         scrolled
           ? "border-b-base bg-app"
           : "border-b-transparent bg-transparent",
@@ -51,8 +51,8 @@ export const Navbar = ({ primary, secondary, actions }: NavbarProps) => {
             }}
             aria-label="Menu"
             className={clsx(
-              "fixed inset-0 top-[calc(3.75rem-1px)] z-10 flex flex-col items-start gap-3 overflow-auto bg-app p-6 md:hidden",
-              "duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+              "bg-app fixed inset-0 top-[calc(3.75rem-1px)] z-10 flex flex-col items-start gap-3 overflow-auto p-6 md:hidden",
+              "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 duration-200",
             )}
           >
             {secondary}

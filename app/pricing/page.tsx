@@ -35,14 +35,14 @@ function Section(props: { children: React.ReactNode }) {
 
 function OpenSourceSponsoring() {
   return (
-    <div className="flex w-full flex-col items-center rounded border-2 border-plum-6 p-6 md:py-16">
+    <div className="flex w-full flex-col items-center rounded-sm border-2 border-(--plum-6) p-6 md:py-16">
       <H2>Open source sponsoring</H2>
       <p className="text-lg md:text-center md:text-xl">
         We ❤️ the open source community and we are happy to support it.
       </p>
       <Link
         href="https://argos-ci.com/docs/open-source"
-        className="mt-6 transition-colors ease-in-out hover:underline [&>svg]:hover:translate-x-0.5"
+        className="mt-6 transition-colors ease-in-out hover:underline hover:[&>svg]:translate-x-0.5"
       >
         Read more about our open source sponsoring program
         <ArrowRightIcon className="ml-2 inline size-3 shrink-0 transition-transform ease-in-out" />

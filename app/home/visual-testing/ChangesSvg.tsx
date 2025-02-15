@@ -7,7 +7,13 @@ export const ChangesSvg = (props: React.SVGProps<SVGSVGElement>) => (
     viewBox="0 0 220 185"
     {...props}
   >
-    <rect width={219} height={184} x={0.5} y={0.5} className="fill-gray-1" />
+    <rect
+      width={219}
+      height={184}
+      x={0.5}
+      y={0.5}
+      className="fill-(--gray-1)"
+    />
     <g clipPath="url(#ax)">
       <path
         fill="#5CDFC5"
@@ -65,29 +71,29 @@ export const ChangesSvg = (props: React.SVGProps<SVGSVGElement>) => (
       height={6}
       x={112}
       y={45}
-      className="fill-gray-11"
+      className="fill-(--gray-11)"
       rx={2}
     />
-    <circle cx={120} cy={65} r={8} className="fill-gray-12" />
+    <circle cx={120} cy={65} r={8} className="fill-(--gray-12)" />
     <circle cx={140} cy={65} r={8} className="fill-mint-4" />
     <rect
       width={50}
       height={6}
       x={112}
       y={89}
-      className="fill-gray-11"
+      className="fill-(--gray-11)"
       rx={2}
     />
-    <circle cx={120} cy={109} r={7.5} className="stroke-gray-8" />
-    <circle cx={140} cy={109} r={7.5} className="stroke-gray-8" />
-    <circle cx={120} cy={129} r={7.5} className="stroke-gray-8" />
-    <circle cx={140} cy={129} r={7.5} className="stroke-gray-8" />
+    <circle cx={120} cy={109} r={7.5} className="stroke-(--gray-8)" />
+    <circle cx={140} cy={109} r={7.5} className="stroke-(--gray-8)" />
+    <circle cx={120} cy={129} r={7.5} className="stroke-(--gray-8)" />
+    <circle cx={140} cy={129} r={7.5} className="stroke-(--gray-8)" />
     <rect
       width={80}
       height={16}
       x={112}
       y={153}
-      className="fill-gray-12"
+      className="fill-(--gray-12)"
       rx={2}
     />
     <rect
@@ -95,20 +101,34 @@ export const ChangesSvg = (props: React.SVGProps<SVGSVGElement>) => (
       height={4}
       x={138}
       y={159}
-      className="fill-gray-1"
+      className="fill-(--gray-1)"
       rx={2}
     />
-    <rect width={50} height={6} x={5} y={5} className="fill-gray-11" rx={2} />
-    <rect width={34} height={4} x={5} y={14} className="fill-gray-11" rx={2} />
+    <rect
+      width={50}
+      height={6}
+      x={5}
+      y={5}
+      className="fill-(--gray-11)"
+      rx={2}
+    />
+    <rect
+      width={34}
+      height={4}
+      x={5}
+      y={14}
+      className="fill-(--gray-11)"
+      rx={2}
+    />
     <g opacity={0.9}>
-      <g className="fill-red-10" clipPath="url(#bx)">
+      <g className="fill-(--red-10)" clipPath="url(#bx)">
         <path d="M54.867 47.122c-4.111 0-14.639 8.805-14.639 20.182 0 18.351 7.207 18.086 14.639 18.086 7.432 0 14.639.347 14.639-18.086 0-11.377-9.746-20.182-14.64-20.182Z" />
         <path d="M91.546 110.218c-.987-5.995-3.85-11.475-10.75-25.136-1.943-3.847-14.393-6.033-14.393-6.033s-10.135 5.721-11.38 5.721c-1.47 0-12.647-5.72-12.647-5.72s-11.228 2.164-13.126 6.032c-6.264 12.77-9.763 19.141-10.749 25.136-.988 5.994.782 35.889.782 35.889s1.729.058 3.684-.346c1.955-.403 2.757-1.498 2.757-1.498s.53-28.205 1.376-31.74c.845-3.535 7.06-12.631 7.06-12.631l2.962 23.39-3.768 25.592c0 3.113 3.961 3.884 8.848 3.884h25.643c4.887 0 8.848-.771 8.848-3.884l-3.769-25.592 2.964-23.39s6.214 9.096 7.06 12.631c.845 3.535 1.375 31.74 1.375 31.74s.633.806 2.588 1.498 3.853.346 3.853.346 1.77-29.895.782-35.889Z" />
       </g>
-      <circle cx={120} cy={109} r={7.5} className="stroke-red-10" />
-      <circle cx={140} cy={109} r={7.5} className="stroke-red-10" />
-      <circle cx={160} cy={109} r={7.5} className="stroke-red-10" />
-      <circle cx={180} cy={109} r={7.5} className="stroke-red-10" />
+      <circle cx={120} cy={109} r={7.5} className="stroke-(--red-10)" />
+      <circle cx={140} cy={109} r={7.5} className="stroke-(--red-10)" />
+      <circle cx={160} cy={109} r={7.5} className="stroke-(--red-10)" />
+      <circle cx={180} cy={109} r={7.5} className="stroke-(--red-10)" />
     </g>
     <defs>
       <clipPath id="ax">

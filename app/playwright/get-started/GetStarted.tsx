@@ -19,8 +19,8 @@ async function CodeBlock({
 }) {
   const html = await highlight(code, lang);
   return (
-    <div className="overflow-hidden rounded border bg-violet-1">
-      <div className="flex items-center gap-2 overflow-auto border-b bg-ui p-2 text-xs font-medium">
+    <div className="overflow-hidden rounded-sm border bg-(--violet-1)">
+      <div className="bg-ui flex items-center gap-2 overflow-auto border-b p-2 text-xs font-medium">
         {title}
       </div>
       <div className="overflow-auto p-4 font-mono text-sm">
@@ -45,15 +45,15 @@ function Section({
   return (
     <div className="flex gap-4">
       <div className="flex shrink-0 flex-col items-center">
-        <div className="box-border flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-4 border-mauve-1 bg-mauve-4 text-lg tabular-nums">
+        <div className="box-border flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-4 border-(--mauve-1) bg-(--mauve-4) text-lg tabular-nums">
           {num}
         </div>
         <div
           className={clsx(
             "h-full w-px",
             last
-              ? "bg-gradient-to-b from-mauve-4 to-transparent"
-              : "bg-mauve-4",
+              ? "bg-linear-to-b from-(--mauve-4) to-transparent"
+              : "bg-(--mauve-4)",
           )}
         />
       </div>
@@ -65,7 +65,7 @@ function Section({
 }
 
 function Title({ children }: { children: React.ReactNode }) {
-  return <div className="mb-4 mt-1.5 text-lg font-medium">{children}</div>;
+  return <div className="mt-1.5 mb-4 text-lg font-medium">{children}</div>;
 }
 
 export async function GetStarted() {

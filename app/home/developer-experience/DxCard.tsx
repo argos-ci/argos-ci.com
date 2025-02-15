@@ -10,7 +10,7 @@ export function DxCard({
   children: React.ReactNode;
 }) {
   return (
-    <section className="flex h-96 flex-1 flex-col rounded border bg-subtle p-8 pt-0">
+    <section className="flex h-96 flex-1 flex-col rounded-sm border bg-subtle p-8 pt-0">
       <div className="relative flex min-h-0 flex-1 items-center justify-center">
         {children}
       </div>
