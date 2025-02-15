@@ -22,6 +22,7 @@
     "@radix-ui/react-slider": "^1.2.3",
     "@radix-ui/react-slot": "^1.1.2",
     "@radix-ui/react-tooltip": "^1.1.8",
+    "@radix-ui/react-visually-hidden": "^1.1.2",
     "@shikijs/rehype": "^2.3.2",
     "@types/mdx": "^2.0.13",
     "clsx": "^2.1.1",
