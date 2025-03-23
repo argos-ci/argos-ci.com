@@ -34,9 +34,11 @@ We dug deeper to understand why images were unstable despite the deterministic n
 
 ## Analysis
 
-We discovered that when the viewport size changed, some images were not resized correctly. For example, one image might measure `288x359.81`, while another measures `288x359.64`. These slight differences stem from a changing aspect ratio when the browser window is resized.
+We discovered that when the viewport size changed, some images were not resized correctly. For example, one image might measure `288x359.81`, while another measures `288x359.64`.
 
-Consider these two scenarios:
+![Image of two images with different heights](/assets/articles/images-stabilization/image-sizes.png)
+
+These slight differences stem from a changing aspect ratio when the browser window is resized. Consider these two scenarios:
 
 - On resize:
   Aspect ratio is 1536:1919, leading to a computed height of
@@ -44,6 +46,8 @@ Consider these two scenarios:
 - On initial load:
   Aspect ratio is 800:999, leading to a computed height of
   288 \* 999 / 800 = 359.64
+
+![Image of two images with different heights](/assets/articles/images-stabilization/image-ratios.png)
 
 Additionally, the images differ in resolution: the first is high-resolution (1536x1919 for 2.4MB) and the second is low-resolution (800x999 for 1.1MB). The culprit here is the `srcset` and `sizes` attributes in the `<img>` tag.
 
