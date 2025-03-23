@@ -1,6 +1,6 @@
 ---
 title: A journey to image stabilization
-description: Learn how Argos implemented automatic image stabilization to improve visual testing accuracy.
+description: How Argos implemented automatic image stabilization to improve visual testing accuracy.
 slug: images-stabilization
 category: Visual testing
 author: Greg Bergé
@@ -24,40 +24,34 @@ imageAlt: Happy moment — Photo by Aziz Acharki
   }
 />
 
-Recently, we have been working on a new feature for Argos that aims to improve the accuracy of visual testing by implementing automatic image stabilization. This feature is designed to address the issue of image instability that can occur during visual testing, which can lead to false positives in visual regression tests.
-
-This article will explain the problem we faced, how we analyzed it, and the solution we implemented to improve the accuracy of visual testing.
+Recently, we tackled an issue with image instability in Argos that led to false positives in visual regression tests. This article walks you through our discovery process, analysis, and the solution we implemented.
 
 ## Identifying the problem
 
-One of our core value at Argos is to talk to our customers. We are always in contact with them to understand their needs and pain points. One of the most common issues we heard was that images were not always stable, leading to false positives in visual regression tests.
+At Argos, we continuously interact with our customers. One recurring complaint was that captured images were inconsistent, causing unreliable visual regression results. While differences in browser rendering engines can explain some variations, customers reported instability even on the same browser and operating system.
 
-By talking to our customers, they reported that they were experiencing issues with image stability when using Argos. They noticed that the images captured during visual testing were not always consistent, leading to false positives in their visual regression tests. This was a significant problem for them, as it made it difficult to trust the results of their tests and slowed down their development process.
+We dug deeper to understand why images were unstable despite the deterministic nature of computer programs. Our investigation revealed that the problem often occurred when using the [viewports feature](https://argos-ci.com/docs/viewports) for capturing images on different screen sizes.
 
-The primary cause of this instability is usually due to a difference in the rendering engine. If the browser version is different or if the browser is running on a different operating system, the images captured can vary.
+## Analysis
 
-But some of our customers also reported that the images were not stable even when running on the same browser and operating system.
+We discovered that when the viewport size changed, some images were not resized correctly. For example, one image might measure `288x359.81`, while another measures `288x359.64`. These slight differences stem from a changing aspect ratio when the browser window is resized.
 
-It's easy to admit "oh image rendering is flaky" and move on. But we are not the kind of people who give up easily. We wanted to understand why this was happening and how we could fix it. Computer science is not something random quite the opposite, things are always deterministic and it's even hard to introduce randomness in a program. So we wanted to understand why the images were not stable and how we could fix it.
+Consider these two scenarios:
 
-## Analysis of the problem
+- On resize:
+  Aspect ratio is 1536:1919, leading to a computed height of
+  288 \* 1919 / 1536 = 359.8125
+- On initial load:
+  Aspect ratio is 800:999, leading to a computed height of
+  288 \* 999 / 800 = 359.64
 
-After some research, we found that the problem happened when our customers used the [viewports feature](https://argos-ci.com/docs/viewports) to capture images on different screen sizes. The images captured on different screen sizes were not always stable, leading to false positives in visual regression tests.
+Additionally, the images differ in resolution: the first is high-resolution (1536x1919 for 2.4MB) and the second is low-resolution (800x999 for 1.1MB). The culprit here is the `srcset` and `sizes` attributes in the `<img>` tag.
 
-With deeper analysis, we found that when the viewport size changed, some images were not resized correctly. Sometimes an image measured `288x359.81`, and sometimes it measured `288x359.64`. This difference cause changes in the image rendering and can also lead to layout shifts if we are not lucky.
+## The role of srcset and sizes
 
-But why was this happening? What is actually the good size of the image? To get a different height for the same width, there is only one explanation: the aspect ratio is changing.
+The `srcset` attribute lets you specify different image sources for varying screen sizes. The browser uses the `sizes` attribute to determine which image to load.
 
-Remember, the problem occurs when we switch to another viewport or when we resize the browser window. So it means that when we resize the window, the image has not the same aspect ratio than when we load the page. If we inspect the image in the two cases, we can see that the aspect ratio is actually different:
-
-- When the page is resized, the aspect ratio is `1536:1919`, leading to a height of 288 \* 1919 / 1536 = 359.8125
-- When the page is loaded, the aspect ratio is `800:999`, leading to a height of 288 \* 999 / 800 = 359.64
-
-And if we inspect carefully, we can also noticed that the image is not the same. The first image measure `1536x1919px` for 2.4MB, while the second image measure `800x999px` for 1.1MB. The first image is a high-resolution image, while the second one is a low-resolution image.
-
-## The source of the problem: `srcset` and `sizes`
-
-The `srcset` attribute is a powerful feature of the `<img>` tag that allows you to specify different image sources for different screen sizes. The `sizes` let you specify the size of the image to be displayed and according to this size, the browser will select the best image source from the `srcset` attribute.
+For instance:
 
 ```html
 <img
@@ -68,61 +62,31 @@ The `srcset` attribute is a powerful feature of the `<img>` tag that allows you 
 />
 ```
 
-In this example, if the viewport is less than 800px, the browser will load the `image-800.jpg` image. If the viewport is greater than 800px, the browser will load the `image-1536.jpg` image.
+If the viewport is below 800px, the browser loads `image-800.jpg`. Above that, it loads `image-1536.jpg`. To optimize performance during resizing, browsers often reuse high-resolution images from cache, which can cause visual discrepancies.
 
-To optimize window resizing, the browser uses the high-resolution already in cache, even if the viewport is resized to a smaller size. This is done to avoid reloading the image every time the viewport is resized, which can be a performance issue. It's a good thing for performance, but it can lead to visual regression tests failing because the images are not the same.
+## Our solution: forcing a re-evaluation of srcset
 
-## The solution
+We needed a method to force the browser to reload the image when the viewport is resized. A naive approach might be to reset the srcset attribute; however, browsers don’t re-evaluate it unless a reflow is triggered.
 
-To solve this problem, we have to force the browser to reload the image every time the viewport is resized.
-
-### Forcing the re-evaluation of the `srcset` attribute
-
-Rendering engines are very optimized and forcing them to re-evaluate the `srcset` is not easy. A naive approach would be to set the `srcset` attribute to an empty string and then set it back to its original value.
-
-```ts
-const srcset = img.getAttribute("srcset");
-img.setAttribute("srcset", "");
-img.setAttribute("srcset", srcset);
-```
-
-But this approach does not work. The browser does not re-evaluate the `srcset` attribute.
-
-To make it work, you have to force a reflow of the image between the two instructions. [Several instructions can force a reflow](https://gist.github.com/paulirish/5d52fb081b3570c81e3a), one of them is to access the `offsetWidth` property.
-
-```ts
-const srcset = img.getAttribute("srcset");
-img.setAttribute("srcset", "");
-// Force a reflow
-void img.offsetWidth;
-img.setAttribute("srcset", srcset);
-```
-
-With a reflow, the browser will re-evaluate the `srcset` attribute and load the correct image.
-
-### Detect the resize event
-
-To detect a change of viewport, we use the `resize` event on the `window` object. This event is fired when the viewport is resized.
-
-```ts
-window.addEventListener("resize", () => {
-  console.log("Viewport changed");
-});
-```
-
-### Putting it all together
-
-Now that we have the two pieces of code, we can put them together to create a function that will force the browser to reload the image every time the viewport is resized.
+### Code to force the reload
 
 ```ts
 const forceReload = (img: HTMLImageElement) => {
   const srcset = img.getAttribute("srcset");
   img.setAttribute("srcset", "");
-  // Force a reflow
+  // Force reflow
   void img.offsetWidth;
   img.setAttribute("srcset", srcset);
 };
+```
 
+By resetting srcset, [triggering a reflow](https://gist.github.com/paulirish/5d52fb081b3570c81e3a) (using `offsetWidth`), and restoring the original value, we force the browser to re-evaluate which image to load.
+
+### Listening for resize events
+
+We then detect viewport changes using the `resize` event:
+
+```ts
 const onResize = () => {
   const images = document.querySelectorAll("img[srcset]");
   images.forEach((img) => {
@@ -133,18 +97,18 @@ const onResize = () => {
 window.addEventListener("resize", onResize);
 ```
 
-## Stabilize the visual tests
+This ensures every image with a `srcset` is reloaded appropriately upon window resize.
 
-Having the code is one thing, but making it work in testing engine like Playwright is another. Let's see how we can make it work in a visual testing environment like Playwright.
+## Integrating with Playwright
 
-Before starting to change viewports and start the screenshots, we need to evaluate our code, making sure that the `srcset` attribute is re-evaluated. For that we can use the `page.evaluate` method to run our code in the context of the page.
+When running tests in Playwright, simply reloading images isn’t enough. Since the browser takes a screenshot before the new image loads, we must wait for the images to complete loading:
 
 ```ts
+// Reload srcset on resize
 await page.evaluate(() => {
   const forceReload = (img: HTMLImageElement) => {
     const srcset = img.getAttribute("srcset");
     img.setAttribute("srcset", "");
-    // Force a reflow
     void img.offsetWidth;
     img.setAttribute("srcset", srcset);
   };
@@ -158,37 +122,34 @@ await page.evaluate(() => {
 
   window.addEventListener("resize", onResize);
 });
+
+// Resize the viewport
+await page.setViewportSize({ width: 800, height: 600 });
+
+// Wait for all images to load
+await page.waitForFunction(() =>
+  Array.from(document.images).every((img) => img.complete),
+);
+
+// Take a screenshot
+await page.screenshot({ path: "screenshot.png" });
 ```
 
-If you run this in Playwright, it will not work. The reason is that when we trigger a reevaluation of the `srcset` attribute, the browser will load a new image. But the image is not loaded yet, and the screenshot will be taken before the image is loaded.
-
-To solve this problem, we need to wait for the image to be loaded before taking the screenshot. We can do this by using the `page.waitForFunction` method to wait for all the images to be loaded before taking the screenshot.
-
-The function passed to `page.waitForFunction` have to be synchronous and return `true` when done. In our case we can check if all the images are loaded by checking the `complete` property of the image.
-
-```ts
-await page.waitForFunction(() => {
-  return Array.from(document.images).every((img) => img.complete);
-});
-```
-
-By combining these two approaches, we can ensure that the images are re-evaluated and loaded before taking the screenshot.
+This approach guarantees that screenshots capture the correctly reloaded images.
 
 ## Stabilization in Argos
 
-In this article, we highlighted one stabilization issue that we encountered with images. But there are many other issues that can occur when taking screenshots, such as:
+While image instability is one issue, visual testing can also be disrupted by:
 
-- Fonts not being loaded
-- Loaders not being hidden
-- Spellcheck marks not being hidden
+- Fonts not loading
+- Visible loaders
+- Unwanted spellcheck markers
 
-All of these issues can lead to false positives in visual regression tests. To solve these issues, we have implemented a stabilization algorithm in Argos that automatically detects and fixes these issues before taking the screenshot. It's a powerful algorithm that can be extended with plugins to add new stabilization features.
+Argos addresses these with a stabilization algorithm. This system auto-detects such issues and applies fixes, ensuring consistent results across testing engines like Cypress, Playwright, Puppeteer, and WebdriverIO.
 
-It's compatible with all testing engines, including Cypress, Playwright, Puppeteer, WebdriverIO, and more. The stabilization algorithm is designed to be flexible and extensible, allowing us to add new features and improvements as needed.
+### Plugin for image stabilization
 
-### Implementing this stabilization in argos
-
-To implement this stabilization in Argos, we created a plugin that can be used with the stabilization algorithm. This plugin is responsible for detecting and fixing the image stabilization issue.
+To encapsulate the image stabilization, we implemented a plugin:
 
 ```ts
 import type { Plugin } from "..";
@@ -222,10 +183,8 @@ export const plugin: Plugin = {
 };
 ```
 
-The code is isolated, and the plugin is responsible for adding the event listener to the window object. The `beforeAll` method is called before all the tests are run and it returns a cleanup function that will be called after all the tests are run. This is important to avoid memory leaks and to ensure that the event listener is removed when it's no longer needed. All changes made by Argos are reverted when the screenshots are taken, so the page is not modified after the tests are run.
+This plugin adds a resize event listener before tests run and cleans it up afterward to prevent memory leaks.
 
 ## Conclusion
 
-There is no randomness in visual testing, stability can be achieved by understanding the problem and implementing a solution. Argos is a powerful tool that can help you achieve stability in your visual regression tests. By using the stabilization algorithm and the image stabilization plugin, you can ensure that your visual tests are accurate and reliable.
-
-It's only one of the many features that Argos offers to make your visual testing experience better. We are constantly working on improving Argos and adding new features to make it even more powerful and easy to use.
+Deterministic visual testing is critical for robust quality assurance, and Argos is here to ensure that. By tackling image instability head-on and forcing a re-evaluation of srcset upon viewport changes, we achieved unprecedented test accuracy. Our advanced stabilization algorithm not only resolves image issues but also addresses fonts, loaders, and spellcheck artifacts, ensuring consistent, reliable results across all testing engines. Choose Argos for a streamlined, efficient visual testing process that empowers your development and testing workflows.
