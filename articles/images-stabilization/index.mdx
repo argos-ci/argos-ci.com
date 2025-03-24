@@ -24,32 +24,30 @@ imageAlt: Happy moment — Photo by Aziz Acharki
   }
 />
 
-Recently, we tackled an issue with image instability in Argos that led to false positives in visual regression tests. This article walks you through our discovery process, analysis, and the solution we implemented.
+Image stabilization is a real challenge in visual testing. Even after images finish loading, subtle rendering differences often sneak in and trigger false positives. After years of chasing down these inconsistencies, we finally cracked one of the most elusive causes: responsive images using `srcset`.
 
-## Identifying the problem
+In this article, we’ll walk you through how we discovered the issue, why it happens, and how we fixed it as part of our ongoing effort to make visual tests more stable and trustworthy.
 
-At Argos, we continuously interact with our customers. One recurring complaint was that captured images were inconsistent, causing unreliable visual regression results. While differences in browser rendering engines can explain some variations, customers reported instability even on the same browser and operating system.
+## Problem: inconsistent images causing layout shift
 
-We dug deeper to understand why images were unstable despite the deterministic nature of computer programs. Our investigation revealed that the problem often occurred when using the [viewports feature](https://argos-ci.com/docs/viewports) for capturing images on different screen sizes.
+At Argos, we continuously interact with our customers. One recurring complaint from users was that images inside their pages were rendering inconsistently, leading to layout shift and unreliable visual regression results. Small differences between browsers are expected, but in these cases, users noticed variations in CI on the same setup. That suggested something deeper was going on.
+
+After investigating, we found the issue often appeared when using the [viewports feature](https://argos-ci.com/docs/viewports) to test different screen sizes. Even in stable environments, image rendering wasn’t behaving as expected.
 
 ## Analysis
 
-We discovered that when the viewport size changed, some images were not resized correctly. For example, one image might measure `288x359.81`, while another measures `288x359.64`.
+We discovered that when the viewport size changed, some images were resized slightly differently between runs. For example, one image might be rendered at 288×359.81 pixels, while another appears at 288×359.64.
 
 ![Image of two images with different heights](/assets/articles/images-stabilization/image-sizes.png)
 
-These slight differences stem from a changing aspect ratio when the browser window is resized. Consider these two scenarios:
+These small differences came from changes in the aspect ratio when the browser window was resized. For example:
 
-- On resize:
-  Aspect ratio is 1536:1919, leading to a computed height of
-  288 \* 1919 / 1536 = 359.8125
-- On initial load:
-  Aspect ratio is 800:999, leading to a computed height of
-  288 \* 999 / 800 = 359.64
+- **On initial load:** The aspect ratio is 800:999, resulting in 288 \* 999 / 800 = 359.64
+- **After resize:** The aspect ratio is 1536:1919, which gives a computed height of 288 \* 1919 / 1536 = 359.8125
 
 ![Image of two images with different heights](/assets/articles/images-stabilization/image-ratios.png)
 
-Additionally, the images differ in resolution: the first is high-resolution (1536x1919 for 2.4MB) and the second is low-resolution (800x999 for 1.1MB). The culprit here is the `srcset` and `sizes` attributes in the `<img>` tag.
+Additionally, the images differ in resolution: the first is high-resolution (1536x1919 for 2.4MB) and the second is low-resolution (800x999 for 1.1MB). The culprit here is the use of the `srcset` and `sizes` attributes in the `<img>` tag.
 
 ## The role of srcset and sizes
 
@@ -66,7 +64,7 @@ For instance:
 />
 ```
 
-If the viewport is below 800px, the browser loads `image-800.jpg`. Above that, it loads `image-1536.jpg`. To optimize performance during resizing, browsers often reuse high-resolution images from cache, which can cause visual discrepancies.
+If the viewport is below 800px, the browser loads image-800.jpg. Above that, it loads image-1536.jpg. During resizing, the browser may reuse a cached high-resolution image instead of reloading the correct one, which can lead to visual differences between renders.
 
 ## Our solution: forcing a re-evaluation of srcset
 
