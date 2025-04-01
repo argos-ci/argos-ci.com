@@ -1,0 +1,17 @@
+---
+title: Storybook Story Modes
+description: Easily capture multiple UI configurations for each story in a single Argos build.
+slug: storybook-story-modes
+date: 2025-04-01
+---
+
+![Storybook Story Modes](/assets/changelogs/storybook-story-modes/storybook-story-modes.jpg)
+
+Introducing Storybook Story Modes in [Argos Storybook plugin](https://argos-ci.com/docs/quickstart/storybook). With the latest release, you can define and apply multiple Storybook globals (e.g., themes, viewports, locales) as “modes,” generating separate snapshots for each mode automatically.
+
+- **Multi-Config Testing**: Capture different looks (dark/light, mobile/desktop, etc.) for each story without duplicating code.
+- **Easy Configuration**: Define modes in .storybook/modes.js (or .ts) and apply them globally, component-wide, or story-by-story.
+- **Simple Parameter Usage**: Configure Argos via `parameters.argos`. We also honor `parameters.chromatic` if you’re migrating from Chromatic.
+- **Isolated Baselines**: Each mode maintains its own baseline and approval workflow, making changes easy to track and compare.
+
+Upgrade to the latest version of [`@argos-ci/storybook`](https://www.npmjs.com/package/@argos-ci/storybook) to start testing your Storybook stories across every relevant configuration with fewer manual steps. Read the complete guide in [story modes documentation](https://argos-ci.com/docs/storybook-story-modes).
