@@ -1,0 +1,152 @@
+---
+title: "Why Playwright visual testing doesn't scale"
+description: "Playwright's visual testing works well for solo devs but breaks down in teams. Here's why local screenshot workflows don't scale and what to do instead."
+category: Testing
+author: Jeremy Sfez
+date: 2025-04-09
+image: ./main.jpg
+imageAlt: Push to reset the world.
+---
+
+<MainImage />
+
+> You touch a **shared component** and knowing it will affect multiple screens.
+>
+> So you run your Playwright tests locally to regenerate the visual screenshots. It takes **40 minutes**...
+>
+> Once it's done, you go through the diffs. Some changes are expected, others are noise; fonts shift slightly, anti-aliasing artifacts, platform quirks.
+>
+> You commit the new images and push your branch.
+>
+> Then you notice a **real visual bug** you missed. Back to the tests. Another **40 minutes**.
+>
+> And if someone else touched the same screenshots? **Merge conflicts**, reruns, frustration.
+
+This isn't just slow. It breaks your flow.
+
+And this isn't a tooling problem. It's a model problem.
+
+## Why local visual testing breaks down in a team
+
+- You have to run the full test suite locally just to regenerate screenshots before pushing
+- You're comparing against screenshots you pulled which may already be outdated
+- Screenshots live in Git, polluting diffs and causing merge conflicts
+- Tests are flaky due to environment inconsistencies (OS, browser, rendering)
+- Reviewing visual diffs is hard when you're limited to raw image diffs
+
+## Bootstrap a solution? A misguided approach
+
+![sad cat too many diffs](/assets/articles/playwright-visual-testing-limits/sad-cat.png)
+
+It's technically possible to run visual testing with Playwright in CI. You can use GitHub Actions and the artifacts system to store and compare screenshots automatically. Here is a [full guide that explains how](https://medium.com/@mikestopcontinues/how-to-run-snapshot-tests-in-ci-cd-with-playwright-7f78ff6ae4e8).
+
+It includes maintaining custom scripts, juggling artifact storage, reverse-engineering Git history to find the right baseline, and constantly debugging flaky tests from subtle rendering differences.
+
+The result is a fragile, time-consuming setup with no built-in UI to review visual changes. It works, but it's far from ergonomic or team-friendly.
+
+## A different approach: generate in CI, compare to production
+
+A scalable visual testing workflow needs to flip the model.
+
+Instead of running tests locally and storing screenshots in Git, what if:
+
+- Screenshots were generated automatically in CI
+- Comparisons are always made against the actual state of your production
+- No one had to commit images manually
+- Reviews in a dedicated UI where you can inspect visual diffs, accept or reject them, and track changes history
+
+This is the model [Argos](https://www.argos-ci.com) follows.
+
+You push your branch. Screenshots are captured automatically in CI.
+They're compared to the single source of truth: `main`.
+You get a visual diff. No manual test runs, no image files in Git, no guesswork.
+
+You review the changes in the UI. If they look correct, you click “Accept” and done!
+
+## Visual reviews that fit into your workflow
+
+Argos integrates tightly with GitHub and GitLab. Visual diffs are posted as comments with status checks directly in your pull requests.
+
+![Argos PR comment](/assets/articles/playwright-visual-testing-limits/argos-pr-comment.png)
+
+![Green Argos check status](/assets/articles/playwright-visual-testing-limits/green-argos-check-status.png)
+
+You can:
+
+- See what changed in every pull request
+- Accept changes with a single click
+- View the history of a given page or component's appearance across time
+
+You review inline, with full context, and move on without pushing updated screenshots or rerunning tests.
+
+![Argos UI](/assets/articles/playwright-visual-testing-limits/argos-ui.png)
+
+## Less noise, more trust
+
+Argos also tackles another major pain point: stability.
+
+Because screenshots are captured in a controlled CI environment, and processed with Argos' own stabilization algorithm:
+
+- You benefit from **consistent comparisons** across all environments
+- You see fewer diffs, and the ones you do see are meaningful
+- Your workflow becomes streamlined, allowing you to focus on shipping features
+
+Stabilizing visual tests with custom Playwright scripts is a never-ending task.
+At Argos, we've built a dedicated stabilization algorithm based on years of studying why visual tests fail.
+It automatically handles animation disabling, font loading, image normalization, and many subtle sources of **false diffs**, so you don't have to.
+
+You can **trust the output**.
+You don't need to double-check every time.
+
+---
+
+## Setting it up Argos with Playwright takes 5 minutes
+
+Integrating [Argos into a Playwright](https://www.argos-ci.com/docs/playwright) project is straightforward.
+Basically, replace `toHaveScreenshot` with `argosScreenshot` in your tests.
+
+```ts
+// example.spec.ts
+import { argosScreenshot } from "@argos-ci/playwright";
+import { test } from "@playwright/test";
+
+test("example test", async ({ page }) => {
+  await page.goto("https://playwright.dev");
+  await argosScreenshot(page, "homepage");
+});
+```
+
+And, update your `playwright.config.ts` file to upload screenshots to Argos at the end of the test run.
+
+```ts
+// playwright.config.ts
+import { defineConfig } from "@playwright/test";
+
+export default defineConfig({
+  reporter: [
+    // Use "dot" reporter on CI, "list" otherwise (Playwright default).
+    process.env.CI ? ["dot"] : ["list"],
+    // Add Argos reporter. Upload on CI only.
+    ["@argos-ci/playwright/reporter", { uploadToArgos: !!process.env.CI }],
+  ],
+
+  // Setup test debugging on CI.
+  use: {
+    trace: "on-first-retry",
+    screenshot: "only-on-failure",
+  },
+});
+```
+
+**Curious? Try Argos on your next pull request:** [argos-ci.com](https://www.argos-ci.com)
+
+## Conclusion: This isn't a plugin. It's a different model.
+
+`toMatchSnapshot` isn't broken.
+It's just not designed for projects that scale: for teams, CI, or long-lived codebases with multiple contributors.
+
+At some point, what was once a convenience becomes a bottleneck.
+The visual testing tool becomes the thing slowing you down.
+
+When that happens, the right move isn't to stop testing visuals.
+It's to adopt a model that fits the way your team actually works.
