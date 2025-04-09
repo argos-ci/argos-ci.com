@@ -47,18 +47,19 @@ export default function Page() {
             <CustomerCard brand={BRANDS.pivot} />
             <CustomerCard brand={BRANDS.planable} />
             <QuoteCard
-              href={BRANDS.rapidata.url}
-              brand={BRANDS.rapidata}
-              author="Jason Corkill"
-              authorRole="Founder & CEO"
+              href={BRANDS.wiz.url}
+              brand={BRANDS.wiz}
+              author="Ben Grynhaus"
+              authorRole="Senior Frontend Developer"
               quote={
                 <>
-                  "Before Argos, we had constant problems with our rapidly
-                  iterating UI breaking for random screen aspect ratios. With
-                  Argos catch all of these before we ever ship!
+                  We rely on Argos for visual regression testing. Works
+                  perfectly with both Playwright and Storybook, and their UI/UX
+                  is fantastic. Highly recommended.
                 </>
               }
             />
+            <CustomerCard brand={BRANDS.businessInsider} />
           </Column>
           <Column>
             <QuoteCard
@@ -75,6 +76,7 @@ export default function Page() {
               }
             />
             <CustomerCard brand={BRANDS.handsontable} />
+            <CustomerCard brand={BRANDS.yotpo} />
             <QuoteCard
               href={BRANDS.mui.url}
               brand={BRANDS.mui}
@@ -84,9 +86,8 @@ export default function Page() {
                 <>Argos CI is very helpful for us to maintain Material UI!</>
               }
             />
-            <CustomerCard brand={BRANDS.yotpo} />
             <CustomerCard brand={BRANDS.sindri} />
-            <CustomerCard brand={BRANDS.businessInsider} />
+            <CustomerCard brand={BRANDS.forethought} />
           </Column>
 
           <Column>
@@ -107,8 +108,21 @@ export default function Page() {
             />
             <CustomerCard brand={BRANDS.interactiveThings} />
             <CustomerCard brand={BRANDS.rho} />
+
+            <QuoteCard
+              href={BRANDS.rapidata.url}
+              brand={BRANDS.rapidata}
+              author="Jason Corkill"
+              authorRole="Founder & CEO"
+              quote={
+                <>
+                  "Before Argos, we had constant problems with our rapidly
+                  iterating UI breaking for random screen aspect ratios. With
+                  Argos catch all of these before we ever ship!
+                </>
+              }
+            />
             <CustomerCard brand={BRANDS.sivo} />
-            <CustomerCard brand={BRANDS.forethought} />
           </Column>
         </section>
       </Container>
