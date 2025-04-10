@@ -32,6 +32,7 @@ const nextConfig = {
   experimental: {
     mdxRs: true,
   },
+  transpilePackages: ["next-mdx-remote"],
 };
 
 const withMDX = require("@next/mdx")();
