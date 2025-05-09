@@ -14,6 +14,7 @@ import meta from "@/images/brands/meta.svg";
 import mui from "@/images/brands/mui.svg";
 import pivot from "@/images/brands/pivot.svg";
 import planable from "@/images/brands/planable.svg";
+import qonto from "@/images/brands/qonto.svg";
 import rapidata from "@/images/brands/rapidata.svg";
 import redVentures from "@/images/brands/red-ventures.svg";
 import rho from "@/images/brands/rho.svg";
@@ -55,6 +56,7 @@ export const BRANDS = {
   pivot: { src: pivot, alt: "Pivot", url: "https://pivot.com" },
   mermaid: { src: mermaid, alt: "Mermaid", url: "https://mermaid.js.org" },
   sindri: { src: sindri, alt: "Sindri", url: "https://sindri.app" },
+  qonto: { src: qonto, alt: "Qonto", url: "https://qonto.com" },
   businessInsider: {
     src: businessInsider,
     alt: "Business Insider",
@@ -85,22 +87,19 @@ export const BRANDS = {
 const brands = [
   BRANDS.meta,
   BRANDS.wiz,
-  BRANDS.mui,
   BRANDS.gitbook,
   BRANDS.yotpo,
-  BRANDS.interactiveThings,
+  BRANDS.qonto,
+  BRANDS.doctolib,
   BRANDS.lemonde,
-  BRANDS.rho,
   BRANDS.businessInsider,
   BRANDS.theEconomist,
-  BRANDS.cozy,
-  BRANDS.doctolib,
   BRANDS.redVentures,
-  BRANDS.handsontable,
-  BRANDS.forethought,
-  BRANDS.mermaid,
   BRANDS.defacto,
   BRANDS.pivot,
+  BRANDS.mui,
+  BRANDS.mermaid,
+  BRANDS.handsontable,
 ];
 
 export function BrandTestimonials({ limit = Infinity }: { limit?: number }) {
