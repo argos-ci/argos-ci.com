@@ -88,6 +88,7 @@ export default function Page() {
             />
             <CustomerCard brand={BRANDS.sindri} />
             <CustomerCard brand={BRANDS.forethought} />
+            <CustomerCard brand={BRANDS.interactiveThings} />
           </Column>
 
           <Column>
@@ -106,7 +107,7 @@ export default function Page() {
                 </>
               }
             />
-            <CustomerCard brand={BRANDS.interactiveThings} />
+            <CustomerCard brand={BRANDS.qonto} />
             <CustomerCard brand={BRANDS.rho} />
 
             <QuoteCard
