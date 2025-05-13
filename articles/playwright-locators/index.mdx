@@ -1,0 +1,181 @@
+---
+title: "How to Choose the Right Playwright Locators"
+description: "Best practices for writing stable and accessible tests in Playwright by selecting the most effective locators."
+category: Playwright
+author: Jeremy Sfez
+date: 2025-06-11
+image: ./main.jpg
+imageAlt: "Playwright Locators Overview"
+---
+
+Writing reliable end-to-end tests starts with choosing the right locators.
+The best locators reflect how users actually interact with your app and not how the DOM happens to be structured.
+In Playwright, locators are the foundation of stable, readable, and maintainable tests.
+This post explains how to choose locators that prioritize accessibility and resilience, so your tests stay reliable even as the UI evolves.
+
+<MainImage />
+
+## Why locators matter
+
+Locators are the core building block for interacting with the DOM in Playwright.
+Unlike selectors or element handles, locators re-evaluate the DOM every time they're used.
+This means they always act on the most up-to-date version of the page, even after re-renders. For example:
+
+```typescript
+const locator = page.getByRole("button", { name: "Sign in" });
+
+await locator.hover(); // fist evaluation
+await locator.click(); // second evaluation
+```
+
+In this case, the underlying DOM element will be located twice; once before each action.
+If the DOM changes between the hover and the click, the updated element will be used automatically.
+This makes locators much more reliable in dynamic UIs.
+
+## Choose resilient, user-facing locators
+
+Playwright offers a range of locators suited to different contexts, but some are more robust than others.
+The first rule is to write code that is not too specific to the implementation.
+This means avoiding locators that are too tightly coupled to the structure of the DOM, such as CSS selectors or XPath expressions.
+These locators can be brittle and break easily if the DOM changes.
+For example:
+
+```typescript
+// Brittle locator, too specific to the implementation and can break easily if the DOM changes
+const locator = page.locator("div > button:nth-child(2)");
+
+// Mre resilient locator
+const locator = page.getByRole("button", { name: "Sign in" });
+```
+
+Even if the button's position changes, the locator will still work as long as the role and name remain the same.
+This makes your tests more stable and less likely to break due to changes in the UI.
+
+Prefer locators based on accessibility and user-facing attributes:
+
+1. **page.getByRole()**: to locate by explicit and implicit accessibility attributes. This must be the first choice for most elements.
+   - **role**: the semantic role of the element, such as "button", "link", "checkbox", etc.
+   - **options.name**: the accessible name of the element, which can be derived from various attributes like `aria-label`, `aria-labelledby`, or the text content.
+
+_For form input:_
+
+2. **page.getByLabel()**: to locate a form control by associated label's text.
+3. **page.getByPlaceholder()**: to locate an input by placeholder.
+
+_For image:_
+
+4. **page.getByAltText()**: to locate an element, usually image, by its text alternative.
+5. **page.getByTitle()**: to locate an element by its title attribute.
+
+_For plain text or `<div>`:_
+
+6. **page.getByText()**: to locate by text content.
+
+7. **page.getByTestId()**: to locate an element based on its data-testid attribute (other attributes can be configured).
+
+8. **page.locator()**: to locate an element by CSS selector or XPath expression.
+
+```html
+<label for="password">Password</label>
+<input
+  id="password"
+  data-testid="password-input"
+  type="password"
+  placeholder="Password"
+/>
+```
+
+```ts
+// This are brittle locators
+// They are too specific to the implementation and can break easily if the DOM changes
+const locator = page.locator("#password");
+const locator = page.locator("[data-testid=password-input]");
+const locator = page.locator("input[type=password]");
+
+
+// This are more resilient locators
+// They are based on accessibility and user-facing attributes
+const locator = page.getByRole("textbox", { name: "Password" });
+const locator = page.getByLabel("Password");
+const locator = page.getByPlaceholder("Password");
+```
+
+## When to break the rule (and how)
+
+In some contexts, it's not effective to rely on text for locators.
+For example, if you use a third party to manage your translations and they're frequently updated by marketing or legal teams, text-based locators may be unstable.
+In such cases, you can use attributes to locate elements more robustly.
+To do so, you can use `aria-label` or `data-testid` attributes. For example:
+
+```html
+// You should avoid this
+<button data-testid="close">X</button>
+
+// And prefer this
+<button aria-label="close">X</button>
+```
+
+```ts
+// This is a good locator
+const locator = page.getByRole("button", { name: "close" });
+// This is a good locator
+const locator = page.getByTestId("close");
+```
+
+In such a case, I would recommend using the "aria-label" attribute instead of the "data-testid" attribute.
+`aria-label` provides an accessible name for assistive technologies like screen readers.
+In contrast, `data-testid` often forces you to adapt your code solely for testing purposes, which is less ideal.
+
+## A real-world example
+
+![data-table](/assets/articles/playwright-locators/data-table.png)
+
+Let's say you want to check the checkbox associated with the row containing the email `"monserrat44@example.com"`.
+
+From the UI, we see a data table where each row includes a status, an email, and a checkbox. In the DOM, these elements live in sibling `<td>` elements within a `<tr>`. The checkbox isn't inside the same cell as the text, which makes selecting it directly a bit more involved.
+
+![accessibility-panel](/assets/articles/playwright-locators/accessibility-panel.png)
+
+Using browser dev tools, the **Accessibility** tab shows us that:
+
+- The email cell has role `cell` and accessible name `"monserrat44@example.com"`.
+- The checkbox has role `checkbox` and accessible name `"Select row"`.
+
+Here's how to reliably target the right checkbox using Playwright locators:
+
+```ts
+await page
+  .getByRole("row")
+  .filter({ hasText: "monserrat44@example.com" })
+  .getByRole("checkbox", { name: "Select row" })
+  .check();
+```
+
+Or, a more explicit version:
+
+```ts
+await page
+  .getByRole("row")
+  .filter({ has: page.getByRole("cell", { name: "monserrat44@example.com" }) })
+  .getByRole("checkbox", { name: "Select row" })
+  .check();
+```
+
+Or, chaining from the email cell:
+
+```ts
+await page
+  .getByRole("cell", { name: "monserrat44@example.com" })
+  .locator("..")
+  .getByRole("checkbox", { name: "Select row" })
+  .check();
+```
+
+These approaches are resilient to DOM changes and rely only on the same cues a user would.
+
+## Final thoughts
+
+The best Playwright locators are those that mirror how users interact with your app, not how the DOM is built.
+Favor accessible, user-facing attributes.
+Avoid relying on implementation details unless there's no alternative.
+Good locators make your tests more stable, easier to read, and aligned with your product's user experience.
