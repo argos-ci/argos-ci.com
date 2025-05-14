@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import { StaticPage } from "@/components/StaticPage";
 import { getMetadata } from "@/lib/metadata";
 
-import TermsMd from "./terms.mdx";
+import TermsMdxPage from "../markdown/terms.mdx";
 
 export const metadata: Metadata = getMetadata({
   title: "Terms of service",
@@ -15,7 +15,7 @@ export const metadata: Metadata = getMetadata({
 export default function Page() {
   return (
     <StaticPage>
-      <TermsMd />
+      <TermsMdxPage />
     </StaticPage>
   );
 }

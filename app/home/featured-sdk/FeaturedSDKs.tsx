@@ -43,11 +43,13 @@ function SdkCard(props: {
         {...imgProps}
         src={props.lightImgSrc}
         className={clsx(imgProps.className, "dark:hidden")}
+        alt=""
       />
       <Image
         {...imgProps}
         src={props.darkImgSrc}
         className={clsx(imgProps.className, "hidden dark:block")}
+        alt=""
       />
       <h3 className="mb-1 flex items-center gap-1 text-xl font-semibold">
         {props.title}

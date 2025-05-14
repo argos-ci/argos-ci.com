@@ -1,3 +1,5 @@
+import createMDX from "@next/mdx";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
@@ -29,12 +31,9 @@ const nextConfig = {
       },
     ];
   },
-  experimental: {
-    mdxRs: true,
-  },
   transpilePackages: ["next-mdx-remote"],
 };
 
-const withMDX = require("@next/mdx")();
+const withMDX = createMDX();
 
-module.exports = withMDX(nextConfig);
+export default withMDX(nextConfig);
