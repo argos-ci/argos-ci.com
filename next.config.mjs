@@ -21,6 +21,12 @@ const nextConfig = {
         destination: "https://discord.gg/WjzGrQGS4A",
         permanent: false,
       },
+      {
+        source: "/trut-center",
+        destination:
+          "https://app.eu.vanta.com/argos/trust/8z3w834xz9a4snga4obms",
+        permanent: false,
+      },
     ];
   },
   rewrites: async () => {
