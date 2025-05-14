@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import { StaticPage } from "@/components/StaticPage";
 import { getMetadata } from "@/lib/metadata";
 
-import PrivacyMd from "./privacy.mdx";
+import PrivacyMd from "../markdown/privacy.mdx";
 
 export const metadata: Metadata = getMetadata({
   title: "Privacy policy",

@@ -3,7 +3,7 @@ import { Container } from "@/components/Container";
 
 export function Customers({ limit }: { limit?: number }) {
   return (
-    <div className="py-12 lg:py-16">
+    <div>
       <Container className="mb-8 text-center text-xl">
         Trusted by the best front-end teams
       </Container>

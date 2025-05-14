@@ -7,12 +7,17 @@ import { ColorModeSelector } from "@/components/ColorModeSelector";
 import { Container } from "@/components/Container";
 import { StatusWidget } from "@/components/StatusWidget";
 import { DiscordIcon } from "@/components/icons/DiscordIcon";
+import { GdprLogo } from "@/components/icons/GdprLogo";
 import { GitHubIcon } from "@/components/icons/GitHubIcon";
+import { Soc2Logo } from "@/components/icons/Soc2Logo";
 import { XIcon } from "@/components/icons/XIcon";
 
 const FooterSection = twc.div`my-2 flex flex-1 grow basis-36 flex-col gap-2 whitespace-nowrap`;
 const FooterSectionTitle = twc.div`mb-1 font-medium`;
 const FooterIconLink = twc.a`text-low transition hover:text-default`;
+const FooterIconNextLink = twc(
+  NextLink,
+)`text-low transition hover:text-default`;
 
 function FooterLink(props: { children: React.ReactNode; href: string }) {
   return (
@@ -36,6 +41,15 @@ export const AppFooter: React.FC = () => (
             <ArgosLogo width="128" />
             <div className="text-low text-xs whitespace-normal">
               The Open Source visual testing alternative.
+            </div>
+
+            <div className="text-low flex items-center gap-3">
+              <FooterIconNextLink href="/security">
+                <Soc2Logo className="h-7 w-auto" />
+              </FooterIconNextLink>
+              <FooterIconNextLink href="/privacy">
+                <GdprLogo className="h-8 w-auto" />
+              </FooterIconNextLink>
             </div>
             <Suspense
               fallback={
