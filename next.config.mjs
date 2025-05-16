@@ -22,7 +22,7 @@ const nextConfig = {
         permanent: false,
       },
       {
-        source: "/trut-center",
+        source: "/trust-center",
         destination:
           "https://app.eu.vanta.com/argos/trust/8z3w834xz9a4snga4obms",
         permanent: false,
