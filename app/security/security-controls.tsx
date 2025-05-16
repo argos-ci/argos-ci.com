@@ -2,8 +2,6 @@ import clsx from "clsx";
 import "lucide-react";
 import { CircleCheck } from "lucide-react";
 
-import { Tooltip } from "../../components/Tooltip";
-
 export type SecurityControlCategory = {
   title: string;
   controls: string[];
@@ -89,13 +87,9 @@ export const SecurityControls = ({
             <h4 className="text-left text-xl">{category.title}</h4>
             <ul className="flex flex-col gap-4">
               {category.controls.map((control) => (
-                <li key={control}>
-                  <Tooltip content={control}>
-                    <div className="flex gap-2">
-                      <CircleCheck className="size-5 shrink-0 text-(--violet-8)" />
-                      <div className="text-sm">{control}</div>
-                    </div>
-                  </Tooltip>
+                <li key={control} className="flex gap-2">
+                  <CircleCheck className="size-5 shrink-0 text-(--violet-8)" />
+                  <div className="text-sm">{control}</div>
                 </li>
               ))}
             </ul>
