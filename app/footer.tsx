@@ -100,6 +100,8 @@ export const AppFooter: React.FC = () => (
           <FooterSectionTitle>Company</FooterSectionTitle>
           <FooterLink href="/docs/about-us">About us</FooterLink>
           <FooterLink href="/security">Security</FooterLink>
+          <FooterLink href="/security/soc-2">SOC 2</FooterLink>
+          <FooterLink href="/security/gdpr">GDPR</FooterLink>
           <FooterLink href="/privacy">Privacy</FooterLink>
           <FooterLink href="/terms">Terms</FooterLink>
         </FooterSection>
