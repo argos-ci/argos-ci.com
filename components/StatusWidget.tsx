@@ -69,7 +69,11 @@ export function StatusWidget() {
   }, []);
   if (!status) {
     return (
-      <div aria-busy className="text-low py-1 text-xs">
+      <div
+        aria-busy
+        className="text-low py-1 text-xs"
+        data-visual-test="removed"
+      >
         Loading status...
       </div>
     );
@@ -81,6 +85,7 @@ export function StatusWidget() {
       href={`https://${slug}.openstatus.dev`}
       target="_blank"
       rel="noreferrer"
+      data-visual-test="removed"
     >
       <span className="relative flex h-2 w-2">
         {status === "operational" ? (

@@ -53,7 +53,7 @@ export const AppFooter: React.FC = () => (
             </div>
             <Suspense
               fallback={
-                <div aria-busy className="text-low text-sm">
+                <div className="text-low text-sm" data-visual-test="removed">
                   Loading...
                 </div>
               }
