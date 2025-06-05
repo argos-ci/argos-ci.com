@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { CheckCircleIcon, CircleIcon } from "lucide-react";
+import NextLink from "next/link";
 import * as React from "react";
 import { twc } from "react-twc";
 
@@ -9,7 +10,6 @@ import {
   LocalPercentage,
   LocalString,
 } from "@/components/IntlFormat";
-import { Link } from "@/components/Link";
 import {
   ARGOS_HOBBY_SCREENSHOT_COUNT,
   ARGOS_PRO_FLAT_PRICE,
@@ -102,9 +102,9 @@ const CTA = ({
     asChild
     {...props}
   >
-    <Link href={href} passHref>
+    <NextLink href={href} passHref>
       {children}
-    </Link>
+    </NextLink>
   </Button>
 );
 
