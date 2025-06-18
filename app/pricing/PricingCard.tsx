@@ -163,8 +163,8 @@ export function PricingCards() {
               <LocalDollar value={ARGOS_SCREENSHOT_PRICE} /> per extra
               screenshot
             </Feature>
-            <Feature>3 months of history</Feature>
             <Feature>Collaborative review</Feature>
+            <Feature>Slack notifications</Feature>
             <Feature>Pro Support</Feature>
             <div className="mt-4 text-sm font-medium">Optional</div>
             <Feature optional>
