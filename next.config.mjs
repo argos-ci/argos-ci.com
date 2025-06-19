@@ -4,6 +4,7 @@ import createMDX from "@next/mdx";
 const nextConfig = {
   reactStrictMode: false,
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
+  allowedDevOrigins: ["127.0.0.1"],
   redirects: async () => {
     return [
       {
