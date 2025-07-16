@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import { AnimationProps, Variants, motion } from "framer-motion";
+import { type LegacyAnimationControls, Variants, motion } from "motion/react";
 import * as React from "react";
 import type { CSSProperties } from "react";
 
@@ -37,7 +37,7 @@ export function CodeEditor({
   animate,
 }: {
   className?: string;
-  animate?: AnimationProps["animate"];
+  animate?: LegacyAnimationControls;
 }) {
   return (
     <div

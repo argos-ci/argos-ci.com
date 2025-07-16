@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import { HTMLMotionProps, Variants, motion } from "framer-motion";
+import { HTMLMotionProps, Variants, motion } from "motion/react";
 import * as React from "react";
 
 const wordAnimation: Variants = {
