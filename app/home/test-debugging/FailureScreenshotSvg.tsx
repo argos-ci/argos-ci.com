@@ -1,6 +1,6 @@
 "use client";
 
-import { Variants, motion, useAnimation, useInView } from "framer-motion";
+import { Variants, motion, useAnimation, useInView } from "motion/react";
 import * as React from "react";
 
 const line: Variants = {

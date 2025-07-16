@@ -1,6 +1,6 @@
 "use client";
 
-import { useAnimation, useInView } from "framer-motion";
+import { useAnimation, useInView } from "motion/react";
 import * as React from "react";
 
 import { CodeEditor } from "./CodeEditor";

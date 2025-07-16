@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import { Variants, motion, useAnimation } from "framer-motion";
+import { Variants, motion, useAnimation } from "motion/react";
 import * as React from "react";
 
 import { WordAnimation } from "./WordAnimation";

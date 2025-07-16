@@ -5,15 +5,15 @@ import { readFile } from "node:fs/promises";
 import rehypeImgSize from "rehype-img-size";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkGfm from "remark-gfm";
-import { ZodType } from "zod";
+import { ZodType, type output } from "zod";
 
 /**
  * Read the frontmatter data from a file.
  */
-export function readMatterData<T>(
+export function readMatterData<T extends ZodType>(
   filepath: string,
-  schema: ZodType<T, any, any>,
-): T | null {
+  schema: T,
+): output<T> | null {
   try {
     const { data } = matter.read(filepath);
     return schema.parse(data);
