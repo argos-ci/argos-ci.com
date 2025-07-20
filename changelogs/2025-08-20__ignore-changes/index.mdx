@@ -1,0 +1,19 @@
+---
+title: Ignore Changes
+description: Reduce noise in visual tests by ignoring known unstable elements or rendering flakiness.
+slug: ignore-changes
+date: 2025-07-20
+---
+
+![Ignore changes](/assets/changelogs/ignore-changes/ignore-changes.jpg)
+
+You can now **ignore a set of changes** in your tests. When you ignore a change, Argos will not notify you if this specific change occurs again in the future. This is useful for multiple scenarios, such as:
+
+- **Flaky Elements**: If a UI element is unstable, displayed inconsistently, or has rendering issues, you can ignore its changes to avoid unnecessary noise in your visual tests.
+- **Image Rendering Issues**: If an image is rendered differently across environments or devices, ignoring its changes helps maintain focus on more critical visual regressions.
+
+By ignoring a specific set of changes rather than an entire region, you ensure that real regressions can still be detected in the future. In contrast, ignoring a region suppresses all future notifications for that area, even if meaningful changes occur.
+
+Combined with our [Flaky Test Detection](https://argos-ci.com/changelogs/flaky-test-detection), this feature provides a powerful way to manage visual test noise. Especially with our "Ocurrences" stats that gives you the exact number of times a change has been seen.
+
+This feature is now available to all users. Learn how to use it in the [docs](https://argos-ci.com/docs/flaky-test-detection).
