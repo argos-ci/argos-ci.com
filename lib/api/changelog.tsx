@@ -14,6 +14,7 @@ const FrontmatterSchema = z.object({
   description: z.string(),
   slug: z.string(),
   date: z.date().transform((d) => d.toISOString()),
+  image: z.string().optional(),
 });
 
 export type Frontmatter = z.infer<typeof FrontmatterSchema>;
@@ -31,13 +32,8 @@ async function getChangelogFromPath(
     return null;
   }
   const YYYY_MM_DD = frontmatter.date.split("T")[0];
-  return {
-    filepath,
-    title: frontmatter.title,
-    description: frontmatter.description,
-    slug: `${YYYY_MM_DD}-${frontmatter.slug}`,
-    date: frontmatter.date,
-    source: await getDocMdxSource(filepath, {
+  const [source] = await Promise.all([
+    getDocMdxSource(filepath, {
       components: {
         img: ({ src, height, width, alt }) => {
           return (
@@ -55,6 +51,15 @@ async function getChangelogFromPath(
         },
       },
     }),
+  ]);
+  return {
+    filepath,
+    title: frontmatter.title,
+    description: frontmatter.description,
+    slug: `${YYYY_MM_DD}-${frontmatter.slug}`,
+    date: frontmatter.date,
+    image: frontmatter.image,
+    source,
   };
 }
 
@@ -109,6 +114,7 @@ export async function getChangelogEntryBySlug(
 ): Promise<ChangelogEntry | null> {
   const date = urlSlug.split("-").slice(0, 3).join("-");
   const slug = urlSlug.split("-").slice(3).join("-");
+  console.log(`${date}__${slug}`);
   const filepath = `./changelogs/${date}__${slug}/index.mdx`;
   return getChangelogFromPath(filepath);
 }

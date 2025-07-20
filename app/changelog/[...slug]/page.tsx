@@ -36,6 +36,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
   const url = `https://argos-ci.com/changelog/${changelog.slug}`;
   const title = `${changelog.title} — Changelog`;
+  const images = changelog.image ? [changelog.image] : [];
   return {
     title: {
       absolute: title,
@@ -53,12 +54,14 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
       url,
       siteName: "Argos",
       locale: "en_US",
+      images,
     },
     twitter: {
       title,
       description: changelog.description,
       card: "summary_large_image",
       site: "@argos_ci",
+      images,
     },
   };
 }
