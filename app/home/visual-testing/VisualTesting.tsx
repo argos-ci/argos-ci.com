@@ -7,7 +7,7 @@ export function VisualTesting() {
   return (
     <FeatureSection
       surtitle="Visual Testing"
-      title="Don't fix bugs, avoid them."
+      title="Prevent UI bugs before they reach production with Argos."
     >
       <ColoredCard
         color="amber"

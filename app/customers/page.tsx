@@ -23,8 +23,8 @@ export default function Page() {
       <Container className="my-20 text-center text-balance">
         <h1 className="font-accent mb-4 text-5xl md:text-6xl">Customers</h1>
         <p className="text-low mx-auto max-w-2xl text-lg">
-          Argos empowers product teams at leading companies to catch visual bugs
-          before they reach production – from startups to industry giants.
+          Trusted by top teams, Argos helps companies catch visual bugs before
+          production — from fast-moving startups to enterprise-scale platforms.
         </p>
       </Container>
       <Container className="grid grid-cols-1 gap-8 md:grid-cols-3" asChild>

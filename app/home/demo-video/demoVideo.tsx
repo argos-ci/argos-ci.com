@@ -4,7 +4,9 @@ import { H2 } from "@/components/H2";
 export function DemoVideo() {
   return (
     <Container className="my-8">
-      <H2 className="mb-4 text-center">Demo video</H2>
+      <H2 className="mb-4 text-center">
+        Watch Argos in action with Playwright
+      </H2>
       <p className="text-low mb-6 text-center text-lg">
         Explore how Argos can help you supercharge your visual testing
         experience.

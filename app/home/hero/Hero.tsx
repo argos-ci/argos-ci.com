@@ -39,7 +39,7 @@ export function Hero() {
     <Container className="relative" asChild>
       <section>
         <div className="flex flex-col items-center gap-x-6 gap-y-12 py-8 md:py-24 lg:flex-row">
-          <div className="flex flex-col items-center gap-6 text-center lg:items-start lg:text-left">
+          <div className="flex flex-1 flex-col items-center gap-6 text-center lg:items-start lg:text-left">
             <Link
               className="rounded-lg border border-(--violet-6) bg-(--violet-2) px-2 py-1 text-sm transition hover:bg-(--violet-3)"
               href="/changelog"
@@ -47,18 +47,15 @@ export function Hero() {
               Introducing Official Storybook SDK{" "}
               <ChevronRightIcon className="inline h-4 w-4" />
             </Link>
-            <h1 className="font-accent bg-linear-(--gradient-hero-text) bg-clip-text text-4xl leading-tight text-transparent md:min-h-32 md:text-6xl lg:bg-linear-(--gradient-hero-text-lg) lg:leading-none">
-              Eliminate visual
-              <br />
-              bugs & regressions
+            <h1 className="font-accent bg-linear-(--gradient-hero-text) bg-clip-text text-4xl leading-tight text-transparent md:text-5xl lg:bg-linear-(--gradient-hero-text-lg) lg:leading-none">
+              Visual Testing for web apps & components
             </h1>
-            <div className="text-low text-xl">
-              Meet the modern{" "}
+            <div className="text-low text-lg">
+              Argos is the modern visual testing platform for{" "}
               <strong className="text-default font-medium">
-                visual testing platform
-              </strong>{" "}
-              to detect <br />
-              and review visual regressions.
+                websites, design systems, and ui components
+              </strong>
+              . Detect UI changes, review diffs, and ship confidently.
             </div>
             <div className="flex gap-4">
               <Button size="large" variant="primary" asChild>
