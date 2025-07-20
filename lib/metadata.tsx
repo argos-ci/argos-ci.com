@@ -1,9 +1,9 @@
 import { Metadata } from "next";
 
 export const defaultTitle =
-  "Visual testing for web applications and components • Argos";
+  "Visual Testing for Web Apps with Playwright & Storybook • Argos";
 export const defaultDescription =
-  "Visual testing for web apps and components. Argos runs automated screenshot comparisons in CI/CD to catch UI regressions from Storybook, Playwright, Cypress, and more.";
+  "Catch UI bugs before production. Argos is a fast, open-source visual testing platform for Playwright, Storybook, and Cypress, built for modern CI workflows.";
 
 export function getMetadata({
   title,

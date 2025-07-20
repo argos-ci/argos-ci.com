@@ -64,7 +64,9 @@ export function FeaturedSDKs() {
   return (
     <Container asChild className="py-16 md:py-20">
       <section>
-        <H2 className="mb-6">Setup visual testing in minutes.</H2>
+        <H2 className="mb-6">
+          Get started with visual testing in minutes using Argos.
+        </H2>
         <p className="text-low mb-12 text-lg md:text-xl">
           Argos provides SDK integrations for test frameworks and CI/CD
           workflows. If you can capture screenshots, Argos is ready for you.

@@ -12,13 +12,7 @@ export function TestDebugging() {
   return (
     <FeatureSection
       surtitle="End-to-end tests debugging"
-      title={
-        <>
-          See, Replay, Resolve.
-          <br />
-          Debug CI failures instantly.
-        </>
-      }
+      title="Inspect, replay, and fix UI test failures instantly."
     >
       <ColoredCard
         color="red"

@@ -94,7 +94,7 @@ export function FAQ() {
   return (
     <Container className="py-16 md:py-20" asChild>
       <section>
-        <H2 className="mb-12 text-center">About Argos</H2>
+        <H2 className="mb-12 text-center">Frequently Asked Questions</H2>
         <FAQAccordion questions={questions} />
       </section>
     </Container>

@@ -12,10 +12,17 @@ export function Hero() {
           <Dolorean className="animate-float aspect-296/130 w-[75%] shrink-0 xl:-ml-[10%] xl:h-[8rem] xl:w-auto" />
         </div>
         <p className="text-low text-xl md:text-2xl">
-          Argos elevates your testing experience with{" "}
-          <strong className="text-default font-medium">CI Debugging</strong> and{" "}
+          Argos enhances your Playwright test suite with{" "}
           <strong className="text-default font-medium">
-            Enhanced Visual Testing
+            powerful CI debugging
+          </strong>
+          ,{" "}
+          <strong className="text-default font-medium">
+            automated screenshot comparison
+          </strong>{" "}
+          and{" "}
+          <strong className="text-default font-medium">
+            scalable visual testing
           </strong>
           .
         </p>

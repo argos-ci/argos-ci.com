@@ -14,7 +14,9 @@ export function DeveloperExperience() {
   return (
     <Container className="py-16 md:py-20" asChild>
       <section>
-        <H2 className="mb-6 text-center">First-class developer experience.</H2>
+        <H2 className="mb-6 text-center">
+          Built for developers and QA engineers.
+        </H2>
         <div className="text-low mb-12 text-center text-lg md:text-xl">
           Crafted by engineers for engineers, Argos seamlessly merges
           pixel-perfect design with unparalleled precision, embodying both

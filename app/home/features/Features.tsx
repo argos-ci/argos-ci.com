@@ -18,7 +18,9 @@ export function Features() {
   return (
     <Container asChild className="py-16 md:py-20">
       <section>
-        <H2 className="mb-6 md:mb-12">Meet the future of Visual Testing.</H2>
+        <H2 className="mb-6 md:mb-12">
+          The next generation of visual testing.
+        </H2>
         <div className="flex flex-col md:gap-6">
           <FeatureRow>
             <Feature
