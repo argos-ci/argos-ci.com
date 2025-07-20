@@ -1,8 +1,9 @@
 import { Metadata } from "next";
 
-export const defaultTitle = "Argos — The open source visual testing platform";
+export const defaultTitle =
+  "Visual testing for web applications and components • Argos";
 export const defaultDescription =
-  "Argos is an open-source visual testing tool that helps teams catch visual regressions in their web applications. Seamlessly integrate with your CI/CD pipeline, automate visual tests, and ensure a consistent user experience. Improve your app's quality with fast, reliable visual comparisons.";
+  "Visual testing for web apps and components. Argos runs automated screenshot comparisons in CI/CD to catch UI regressions from Storybook, Playwright, Cypress, and more.";
 
 export function getMetadata({
   title,
@@ -27,7 +28,7 @@ export function getMetadata({
       canonical: url,
     },
     openGraph: {
-      title: absoluteTitle ?? `${title} | Argos`,
+      title: absoluteTitle ?? `${title} • Argos`,
       description,
       url,
       siteName: "Argos",
@@ -37,7 +38,7 @@ export function getMetadata({
     twitter: {
       card: "summary_large_image",
       site: "@argos_ci",
-      title: absoluteTitle ?? `${title} | Argos`,
+      title: absoluteTitle ?? `${title} • Argos`,
       description,
     },
   };
