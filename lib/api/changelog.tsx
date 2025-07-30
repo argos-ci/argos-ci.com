@@ -114,7 +114,6 @@ export async function getChangelogEntryBySlug(
 ): Promise<ChangelogEntry | null> {
   const date = urlSlug.split("-").slice(0, 3).join("-");
   const slug = urlSlug.split("-").slice(3).join("-");
-  console.log(`${date}__${slug}`);
   const filepath = `./changelogs/${date}__${slug}/index.mdx`;
   return getChangelogFromPath(filepath);
 }

@@ -29,6 +29,11 @@ const nextConfig = {
           "https://app.eu.vanta.com/argos/trust/8z3w834xz9a4snga4obms",
         permanent: false,
       },
+      {
+        source: "/changelog/2025-08-20-ignore-changes",
+        destination: "/changelog/2025-07-20-ignore-changes",
+        permanent: false,
+      },
     ];
   },
   rewrites: async () => {
