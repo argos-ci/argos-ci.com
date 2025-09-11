@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 
 import { ComparePricingSlider } from "@/app/common/PricingSlider";
+import { Th, ThMain, ThSub, ThSubLink, Tr } from "@/components/ComparisonTable";
 import { getMetadata } from "@/lib/metadata";
 
 import {
@@ -11,7 +12,7 @@ import {
   TableSection,
   TrySection,
 } from "../common";
-import { ComparisonTable, Features } from "../comparison-table";
+import { ComparisonTable, Feature, Features } from "../comparison-table";
 import chromaticEmblem from "./chromatic-emblem.svg";
 import chromaticLogoDark from "./chromatic-logo-dark.svg";
 import chromaticLogo from "./chromatic-logo.svg";
@@ -95,6 +96,36 @@ export default function Page() {
           logoSrcDark={chromaticLogoDark}
           title="Percy"
           features={features}
+          additionals={
+            <>
+              <Tr>
+                <Th>
+                  <ThMain>Screenshot in Play function</ThMain>
+                  <ThSubLink href="/docs/storybook#interactions-using-the-play-function">
+                    Take screenshots during the test
+                  </ThSubLink>
+                </Th>
+                <Feature
+                  feature={{
+                    argos: "✔️",
+                    competitor: "❌",
+                  }}
+                />
+              </Tr>
+              <Tr>
+                <Th>
+                  <ThMain>No time-limit for Play function</ThMain>
+                  <ThSub>Take screenshots of long-running tests</ThSub>
+                </Th>
+                <Feature
+                  feature={{
+                    argos: "✔️",
+                    competitor: "❌",
+                  }}
+                />
+              </Tr>
+            </>
+          }
         />
       </TableSection>
 
