@@ -20,7 +20,7 @@ import percyLogo from "./percy-logo.svg";
 
 const features: Features = {
   pricing: {
-    argos: "$30/mo",
+    argos: "$100/mo",
     competitor: "$599/mo",
   },
   playwrightDebugging: {

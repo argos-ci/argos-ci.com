@@ -26,7 +26,7 @@ export const metadata: Metadata = getMetadata({
 
 const features: Features = {
   pricing: {
-    argos: "$30/mo",
+    argos: "$100/mo",
     competitor: "Not public",
   },
   playwrightDebugging: {
