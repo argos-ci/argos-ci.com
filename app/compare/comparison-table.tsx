@@ -42,7 +42,7 @@ function FeatureTd(props: { value: React.ReactNode }) {
   );
 }
 
-function Feature(props: { feature: Feature }) {
+export function Feature(props: { feature: Feature }) {
   return (
     <>
       <FeatureTd value={props.feature.argos} />
@@ -56,6 +56,7 @@ export function ComparisonTable(props: {
   logoSrc: string;
   logoSrcDark?: string;
   features: Features;
+  additionals?: React.ReactNode;
 }) {
   return (
     <Table>
@@ -73,6 +74,8 @@ export function ComparisonTable(props: {
           </Th>
           <Feature feature={props.features.pricing} />
         </Tr>
+
+        {props.additionals}
 
         <Tr>
           <Th>
