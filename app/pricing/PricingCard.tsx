@@ -15,6 +15,7 @@ import {
   ARGOS_PRO_FLAT_PRICE,
   ARGOS_PRO_FLAT_SCREENSHOT_COUNT,
   ARGOS_SCREENSHOT_PRICE,
+  ARGOS_STORYBOOK_SCREENSHOT_PRICE,
   GITHUB_SSO_PRICE,
 } from "@/lib/constants";
 
@@ -39,8 +40,8 @@ const Feature = ({
 }) => {
   const Icon = optional ? CircleIcon : CheckCircleIcon;
   return (
-    <li className={clsx("flex items-center gap-2 leading-tight", className)}>
-      <Icon className="size-4 shrink-0 text-(--violet-11)" />
+    <li className={clsx("flex items-start gap-2 leading-tight", className)}>
+      <Icon className="mt-0.5 size-4 shrink-0 text-(--violet-11)" />
       {children}
     </li>
   );
@@ -160,8 +161,10 @@ export function PricingCards() {
               screenshots
             </Feature>
             <Feature>
-              <LocalDollar value={ARGOS_SCREENSHOT_PRICE} /> per extra
-              screenshot
+              Extra screenshots <LocalDollar value={ARGOS_SCREENSHOT_PRICE} />
+              <br />
+              for Storybook{" "}
+              <LocalDollar value={ARGOS_STORYBOOK_SCREENSHOT_PRICE} />
             </Feature>
             <Feature>Collaborative review</Feature>
             <Feature>Slack notifications</Feature>

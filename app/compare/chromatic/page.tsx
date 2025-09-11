@@ -26,8 +26,8 @@ export const metadata: Metadata = getMetadata({
 
 const features: Features = {
   pricing: {
-    argos: "$30/mo",
-    competitor: "$149/mo",
+    argos: "$100/mo",
+    competitor: "$179/mo",
   },
   playwrightDebugging: {
     argos: "✔️",
@@ -100,6 +100,9 @@ export default function Page() {
 
       <PricingSection title="Estimate your savings">
         <ComparePricingSlider competitor="chromatic" />
+        <p className="text-low mt-4 text-center text-sm">
+          Our estimation is based on the assumption that you have 80% Turbosnap.
+        </p>
       </PricingSection>
 
       <KeyFeaturesSection />

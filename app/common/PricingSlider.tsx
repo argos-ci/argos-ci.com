@@ -9,21 +9,14 @@ import {
   ARGOS_PRO_FLAT_PRICE,
   ARGOS_PRO_FLAT_SCREENSHOT_COUNT,
   ARGOS_SCREENSHOT_PRICE,
+  ARGOS_STORYBOOK_SCREENSHOT_PRICE,
 } from "@/lib/constants";
 
-const MIN_SCREENSHOTS = 15_000;
 const MAX_SCREENSHOTS = 1_000_000;
-const STEP = 20_000;
+const STEP = 10_000;
 
 function formatCount(props: { max: number; count: number; short?: boolean }) {
   const { max, count, short } = props;
-  if (count === MIN_SCREENSHOTS) {
-    return (
-      <>
-        less than <LocalString value={MIN_SCREENSHOTS} />
-      </>
-    );
-  }
 
   if (count >= max && short) {
     return (
@@ -49,18 +42,41 @@ function formatCount(props: { max: number; count: number; short?: boolean }) {
   return <LocalString value={count} />;
 }
 
+function computeAdditionalScreenshots(screenshots: {
+  neutral: number;
+  storybook: number;
+  included: number;
+}) {
+  const storybookOverhead = Math.max(
+    Math.min(screenshots.storybook, screenshots.included - screenshots.neutral),
+    0,
+  );
+  return {
+    neutral: Math.max(
+      0,
+      screenshots.neutral + storybookOverhead - screenshots.included,
+    ),
+    storybook: screenshots.storybook - storybookOverhead,
+  };
+}
+
 function getPrice(props: {
   screenshotCount: number;
+  storybookScreenshotCount: number;
   screenshotPrice: number;
+  storybookScreenshotPrice: number;
   flatPrice: number;
   flatScreenshotCount: number;
 }) {
-  const extraScreenshotsCount = Math.max(
-    props.screenshotCount - props.flatScreenshotCount,
-    0,
-  );
+  const extraScreenshotsCount = computeAdditionalScreenshots({
+    neutral: props.screenshotCount,
+    storybook: props.storybookScreenshotCount,
+    included: props.flatScreenshotCount,
+  });
   return Math.floor(
-    extraScreenshotsCount * props.screenshotPrice + props.flatPrice,
+    extraScreenshotsCount.neutral * props.screenshotPrice +
+      extraScreenshotsCount.storybook * props.storybookScreenshotPrice +
+      props.flatPrice,
   );
 }
 
@@ -74,44 +90,39 @@ function formatPrice(price: number, isMax: boolean) {
 }
 
 export function PricingSlider() {
-  const [value, setValue] = React.useState([20000]);
-  const [count] = value;
-  const isMaxScreenshots = count >= MAX_SCREENSHOTS;
-
-  const formattedScreenshotCountShort = formatCount({
-    max: MAX_SCREENSHOTS,
-    count,
-    short: true,
-  });
-
-  const formattedScreenshotCount = formatCount({
-    max: MAX_SCREENSHOTS,
-    count,
-  });
+  const [screenshots, setScreenshots] = React.useState(0);
+  const [storybookScreenshots, setStorybookScreenshots] = React.useState(0);
+  const isMaxScreenshots = screenshots >= MAX_SCREENSHOTS;
 
   return (
     <div className="flex w-full flex-col items-center gap-4">
-      <div className="mx-auto flex w-full max-w-lg flex-col gap-2">
-        <div className="flex items-baseline justify-between">
-          <div className="text-lg font-medium">Screenshots per month</div>
-          <div className="text-right font-medium tabular-nums">
-            {formattedScreenshotCountShort}
-          </div>
-        </div>
-
-        <Slider
-          defaultValue={value}
-          onValueChange={setValue}
-          min={MIN_SCREENSHOTS}
-          max={MAX_SCREENSHOTS}
-          step={STEP}
-        />
-      </div>
+      <ScreenshotSlider
+        label="Screenshots per month"
+        value={screenshots}
+        onChange={setScreenshots}
+      />
+      <ScreenshotSlider
+        label="Storybook screenshots per month"
+        value={storybookScreenshots}
+        onChange={setStorybookScreenshots}
+      />
 
       <div className="mt-4 text-lg leading-relaxed md:text-xl">
         For{" "}
         <strong className="font-medium">
-          {formattedScreenshotCount} screenshots
+          {formatCount({
+            max: MAX_SCREENSHOTS,
+            count: screenshots,
+          })}{" "}
+          screenshots
+        </strong>{" "}
+        and{" "}
+        <strong className="font-medium">
+          {formatCount({
+            max: MAX_SCREENSHOTS,
+            count: storybookScreenshots,
+          })}{" "}
+          Storybook screenshots
         </strong>{" "}
         per month it will cost{" "}
         <strong className="font-medium">
@@ -120,7 +131,9 @@ export function PricingSlider() {
               flatPrice: ARGOS_PRO_FLAT_PRICE,
               flatScreenshotCount: ARGOS_PRO_FLAT_SCREENSHOT_COUNT,
               screenshotPrice: ARGOS_SCREENSHOT_PRICE,
-              screenshotCount: count,
+              screenshotCount: screenshots,
+              storybookScreenshotPrice: ARGOS_STORYBOOK_SCREENSHOT_PRICE,
+              storybookScreenshotCount: storybookScreenshots,
             }),
             isMaxScreenshots,
           )}
@@ -146,6 +159,37 @@ export function PricingSlider() {
   );
 }
 
+function ScreenshotSlider(props: {
+  label: string;
+  value: number;
+  onChange: (value: number) => void;
+}) {
+  const { label, value, onChange } = props;
+  const formatted = formatCount({
+    max: MAX_SCREENSHOTS,
+    count: value,
+    short: true,
+  });
+  return (
+    <div className="mx-auto flex w-full max-w-lg flex-col gap-2">
+      <div className="flex items-baseline justify-between">
+        <div className="text-lg font-medium">{label}</div>
+        <div className="text-right font-medium tabular-nums">{formatted}</div>
+      </div>
+
+      <Slider
+        defaultValue={[value]}
+        onValueChange={(value) => onChange(value[0])}
+        min={0}
+        max={MAX_SCREENSHOTS}
+        step={STEP}
+      />
+    </div>
+  );
+}
+
+const TURBO_SNAP_RATIO = 1 / 5;
+
 const COMPETITORS = {
   percy: {
     name: "Percy Browserstack",
@@ -159,19 +203,15 @@ const COMPETITORS = {
   },
   chromatic: {
     name: "Chromatic",
-    screenshotPrice: 0.006,
+    screenshotPrice: 0.008 * 0.2 + 0.008 * TURBO_SNAP_RATIO * 0.8, // 80% Turbosnap
     steps: [
       {
         screenshots: 35_000,
-        price: 149,
+        price: 179,
       },
       {
         screenshots: 85_000,
-        price: 349,
-      },
-      {
-        screenshots: 165_000,
-        price: 649,
+        price: 399,
       },
     ],
   },
@@ -180,21 +220,17 @@ const COMPETITORS = {
 export function ComparePricingSlider(props: {
   competitor: keyof typeof COMPETITORS;
 }) {
-  const [value, setValue] = React.useState([20000]);
-  const [count] = value;
-  const isMaxScreenshots = count >= MAX_SCREENSHOTS;
-
-  const formattedScreenshotCountShort = formatCount({
-    max: MAX_SCREENSHOTS,
-    count,
-    short: true,
-  });
+  const [screenshots, setScreenshots] = React.useState(0);
+  const [storybookScreenshots, setStorybookScreenshots] = React.useState(0);
+  const isMaxScreenshots = screenshots >= MAX_SCREENSHOTS;
 
   const argosPrice = getPrice({
     flatPrice: ARGOS_PRO_FLAT_PRICE,
     flatScreenshotCount: ARGOS_PRO_FLAT_SCREENSHOT_COUNT,
     screenshotPrice: ARGOS_SCREENSHOT_PRICE,
-    screenshotCount: count,
+    screenshotCount: screenshots,
+    storybookScreenshotPrice: ARGOS_STORYBOOK_SCREENSHOT_PRICE,
+    storybookScreenshotCount: storybookScreenshots,
   });
 
   const competitor = COMPETITORS[props.competitor];
@@ -204,7 +240,9 @@ export function ComparePricingSlider(props: {
       flatPrice: step.price,
       flatScreenshotCount: step.screenshots,
       screenshotPrice: competitor.screenshotPrice,
-      screenshotCount: count,
+      screenshotCount: screenshots + storybookScreenshots,
+      storybookScreenshotPrice: 0,
+      storybookScreenshotCount: 0,
     }),
   );
 
@@ -213,22 +251,16 @@ export function ComparePricingSlider(props: {
 
   return (
     <div className="flex w-full flex-col items-center gap-4">
-      <div className="mx-auto flex w-full max-w-lg flex-col gap-2 select-none">
-        <div className="flex items-baseline justify-between">
-          <div className="text-lg font-medium">Screenshots per month</div>
-          <div className="text-right font-medium tabular-nums">
-            {formattedScreenshotCountShort}
-          </div>
-        </div>
-
-        <Slider
-          defaultValue={value}
-          onValueChange={setValue}
-          min={MIN_SCREENSHOTS}
-          max={MAX_SCREENSHOTS}
-          step={STEP}
-        />
-      </div>
+      <ScreenshotSlider
+        label="Screenshots per month"
+        value={screenshots}
+        onChange={setScreenshots}
+      />
+      <ScreenshotSlider
+        label="Storybook screenshots per month"
+        value={storybookScreenshots}
+        onChange={setStorybookScreenshots}
+      />
 
       <div className="mt-4 w-full max-w-lg text-center text-lg">
         <div className="flex">
