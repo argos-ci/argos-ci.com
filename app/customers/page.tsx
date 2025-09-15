@@ -46,19 +46,6 @@ export default function Page() {
             />
             <CustomerCard brand={BRANDS.pivot} />
             <CustomerCard brand={BRANDS.planable} />
-            <QuoteCard
-              href={BRANDS.wiz.url}
-              brand={BRANDS.wiz}
-              author="Ben Grynhaus"
-              authorRole="Senior Frontend Developer"
-              quote={
-                <>
-                  We rely on Argos for visual regression testing. Works
-                  perfectly with both Playwright and Storybook, and their UI/UX
-                  is fantastic. Highly recommended.
-                </>
-              }
-            />
             <CustomerCard brand={BRANDS.businessInsider} />
           </Column>
           <Column>
