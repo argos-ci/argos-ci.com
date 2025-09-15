@@ -21,7 +21,6 @@ import rho from "@/images/brands/rho.svg";
 import sindri from "@/images/brands/sindri.svg";
 import sivo from "@/images/brands/sivo.svg";
 import theEconomist from "@/images/brands/the-economist.svg";
-import wiz from "@/images/brands/wiz.svg";
 import yotpo from "@/images/brands/yotpo.svg";
 
 import { Container } from "./Container";
@@ -31,11 +30,6 @@ export const BRANDS = {
   mui: { src: mui, alt: "MUI", url: "https://mui.com" },
   gitbook: { src: gitbook, alt: "GitBook", url: "https://www.gitbook.com" },
   yotpo: { src: yotpo, alt: "Yotpo", url: "https://www.yotpo.com" },
-  wiz: {
-    src: wiz,
-    alt: "Wiz",
-    url: "https://www.wiz.io",
-  },
   cozy: { src: cozy, alt: "Cozy", url: "https://cozy.io" },
   handsontable: {
     src: handsontable,
@@ -86,7 +80,6 @@ export const BRANDS = {
 
 const brands = [
   BRANDS.meta,
-  BRANDS.wiz,
   BRANDS.gitbook,
   BRANDS.yotpo,
   BRANDS.qonto,
