@@ -1,9 +1,14 @@
-name: Playwright Tests
+name: Playwright + Argos Tests
 
 on:
   repository_dispatch:
     types:
       - "vercel.deployment.success"
+
+permissions:
+  contents: read
+  # Required to access pull request metadata for Argos with GITHUB_TOKEN
+  pull-requests: read
 
 jobs:
   test:
@@ -11,16 +16,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Install pnpm
         uses: pnpm/action-setup@v4
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           cache: "pnpm"
+
       - name: Install dependencies
-        run: pnpm install
-      - name: Install Playwright Browsers
-        run: pnpm exec playwright install --with-deps
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Chrome
+        run: pnpm exec playwright install chrome --with-deps
+
       - name: Run Playwright tests
         run: pnpm exec playwright test
         env:
