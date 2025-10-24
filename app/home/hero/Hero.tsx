@@ -48,7 +48,7 @@ export function Hero() {
               <ChevronRightIcon className="inline h-4 w-4" />
             </Link>
             <h1 className="font-accent bg-linear-(--gradient-hero-text) bg-clip-text text-4xl leading-tight text-transparent md:text-5xl lg:bg-linear-(--gradient-hero-text-lg) lg:leading-none">
-              Test repo dispatch
+              Test repo dispatch 2
             </h1>
             <div className="text-low text-lg">
               Argos is the modern visual testing platform for{" "}
