@@ -43,7 +43,7 @@
     "zod": "^4.0.5"
   },
   "devDependencies": {
-    "@argos-ci/playwright": "canary",
+    "@argos-ci/playwright": "^6.1.10",
     "@playwright/test": "^1.56.1",
     "@radix-ui/colors": "^3.0.0",
     "@tailwindcss/postcss": "^4.1.11",
