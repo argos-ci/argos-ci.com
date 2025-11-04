@@ -54,7 +54,7 @@ export default function SecurityPage() {
     <Container className="my-20 text-center text-balance">
       <H1>Security</H1>
       <SubTitle>
-        Argos is committed to the security and privacy of our customers' data.
+        Argos is committed to the security and privacy of our customers’ data.
       </SubTitle>
       <div className="mt-8 flex items-center justify-center gap-8">
         <NextLink href="/security/soc-2">
@@ -81,7 +81,7 @@ export default function SecurityPage() {
         <H2>SOC 2 Compliant</H2>
         <SubTitle>
           We partner with third-party firms to conduct regular audits. This
-          isn't a short-term growth play but a long-term security investment.
+          isn’t a short-term growth play but a long-term security investment.
         </SubTitle>
         <Link href="/security/soc-2">See SOC 2 details</Link>
         <H3>Security Controls</H3>

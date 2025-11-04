@@ -11,7 +11,7 @@ const questions: FAQQuestion[] = [
     answer: (
       <>
         <p>
-          Visual testing ensures that a UI's appearance matches its intended
+          Visual testing ensures that a UI’s appearance matches its intended
           design, capturing and highlighting any visual deviations from expected
           elements like layout, colors, and text.
         </p>
@@ -38,8 +38,8 @@ const questions: FAQQuestion[] = [
     name: "Why is visual testing important?",
     answer: (
       <p>
-        Visual testing ensures that changes to your codebase don't break your
-        app's UI.
+        Visual testing ensures that changes to your codebase don’t break your
+        app’s UI.
       </p>
     ),
     textAnswer:

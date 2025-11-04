@@ -69,7 +69,7 @@ export function FAQ() {
             performance.
           </p>
           <p>
-            <strong>Argos</strong> also supports parallel uploads, and it's
+            <strong>Argos</strong> also supports parallel uploads, and it’s
             included in the standard pricing.
           </p>
         </>
@@ -93,7 +93,7 @@ export function FAQ() {
       answer: (
         <p>
           Both <strong>Chromatic</strong> and <strong>Argos</strong> allow you
-          to control team members' access and permissions for each project.
+          to control team members’ access and permissions for each project.
         </p>
       ),
       textAnswer:

@@ -8,14 +8,12 @@ export function IntlNumberFormat(props: {
   initialOptions: Intl.NumberFormatOptions;
   value: number;
 }) {
-  const initialOptionsRef = React.useRef(props.initialOptions);
+  const [initialOptions] = React.useState(props.initialOptions);
   const formatterRef = React.useRef(
-    new Intl.NumberFormat(undefined, initialOptionsRef.current),
+    new Intl.NumberFormat(undefined, initialOptions),
   );
   const [value, setValue] = React.useState(() =>
-    new Intl.NumberFormat(SERVER_LOCALE, initialOptionsRef.current).format(
-      props.value,
-    ),
+    new Intl.NumberFormat(SERVER_LOCALE, initialOptions).format(props.value),
   );
 
   React.useEffect(() => {

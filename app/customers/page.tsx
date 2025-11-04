@@ -104,7 +104,7 @@ export default function Page() {
               authorRole="Founder & CEO"
               quote={
                 <>
-                  "Before Argos, we had constant problems with our rapidly
+                  Before Argos, we had constant problems with our rapidly
                   iterating UI breaking for random screen aspect ratios. With
                   Argos catch all of these before we ever ship!
                 </>
