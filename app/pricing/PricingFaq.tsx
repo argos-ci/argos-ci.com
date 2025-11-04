@@ -10,7 +10,7 @@ const questions: FAQQuestion[] = [
       <>
         The Hobby plan is designed for personal GitHub repositories, providing
         up to <LocalString value={ARGOS_HOBBY_SCREENSHOT_COUNT} /> screenshots.
-        If you're seeking to collaborate as a team, need a higher screenshot
+        If you’re seeking to collaborate as a team, need a higher screenshot
         limit, or wish to use Argos on a repository within a private GitHub
         organization, our Pro plan is the necessary choice.
       </>

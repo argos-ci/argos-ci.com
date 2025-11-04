@@ -2,7 +2,6 @@
 
 import clsx from "clsx";
 import { type LegacyAnimationControls, Variants, motion } from "motion/react";
-import * as React from "react";
 import type { CSSProperties } from "react";
 
 import { TypeScriptLogo } from "@/components/TypeScriptLogo";
@@ -86,7 +85,7 @@ export function CodeEditor({
               ,
             </WordAnimation>{" "}
             <WordAnimation delay={1.3} className="text-jade-low">
-              "purchase"
+              &quot;purchase&quot;
             </WordAnimation>
             <WordAnimation delay={1.8} className="text-yellow-low">
               )

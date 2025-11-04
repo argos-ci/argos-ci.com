@@ -32,7 +32,7 @@ const questions: FAQQuestion[] = [
           product has its own way of addressing this problem.
         </p>
         <p>
-          <strong>Applitools</strong>' AI technology helps minimize false
+          <strong>Applitools</strong>’ AI technology helps minimize false
           positives but comes at a high cost and removes variations from each
           image of each build.
         </p>
@@ -52,7 +52,7 @@ const questions: FAQQuestion[] = [
       <>
         <p>
           <strong>Applitools</strong> provides SDKs for several test frameworks
-          to enable its use. Screenshots are captured remotely, that's why a SDK
+          to enable its use. Screenshots are captured remotely, that’s why a SDK
           is needed.
         </p>
         <p>
@@ -82,7 +82,7 @@ const questions: FAQQuestion[] = [
     answer: (
       <p>
         Both <strong>Applitools</strong> and <strong>Argos</strong> allow you to
-        control team members' access and permissions for each project.
+        control team members’ access and permissions for each project.
       </p>
     ),
     textAnswer:
@@ -93,8 +93,8 @@ const questions: FAQQuestion[] = [
     answer: (
       <>
         <p>
-          <strong>Applitools</strong> doesn't disclose their pricing publicly,
-          but it's known to be one of the more expensive options on the market.
+          <strong>Applitools</strong> doesn’t disclose their pricing publicly,
+          but it’s known to be one of the more expensive options on the market.
           You will need to speak with a salesperson to get a price offer.
         </p>
         <p>

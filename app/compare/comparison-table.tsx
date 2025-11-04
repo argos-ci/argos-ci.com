@@ -161,7 +161,7 @@ export function ComparisonTable(props: {
           <Th>
             <ThMain>High screenshot quality</ThMain>
             <ThSubLink href="/changelog/2024-06-13-enhanced-screenshot-quality">
-              Don't miss any detail with enhanced quality
+              Don’t miss any detail with enhanced quality
             </ThSubLink>
           </Th>
           <Feature feature={props.features.bestScreenshotQuality} />

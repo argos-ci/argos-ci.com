@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import * as React from "react";
 import { NewsArticle } from "schema-dts";
 
 import { ArgosEmblem } from "@/components/ArgosEmblem";
@@ -79,11 +78,23 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   };
 }
 
+function seededRandom(seed: string) {
+  let h = 0;
+  for (let i = 0; i < seed.length; i++) {
+    h = (Math.imul(31, h) + seed.charCodeAt(i)) | 0;
+  }
+  return () => {
+    h = Math.imul(48271, h) % 0x7fffffff;
+    return (h & 0x7fffffff) / 0x7fffffff;
+  };
+}
+
 async function Siblings({ slug }: { slug: string }) {
   const articles = await getArticles();
+  const rand = seededRandom(slug);
   const sideArticles = articles
     .filter((article) => article.slug !== slug)
-    .map((value) => ({ value, sort: Math.random() }))
+    .map((value) => ({ value, sort: rand() }))
     .sort((a, b) => a.sort - b.sort)
     .map(({ value }) => value)
     .slice(0, 2);

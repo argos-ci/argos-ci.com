@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import { Metadata } from "next";
 
 import { Container } from "@/components/Container";

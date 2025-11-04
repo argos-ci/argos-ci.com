@@ -46,7 +46,7 @@ const questions: FAQQuestion[] = [
           <strong>Percy</strong>: Yes, but it requires an additional fee.
         </p>
         <p>
-          <strong>Argos</strong>: Yes, and it's included in the standard
+          <strong>Argos</strong>: Yes, and it’s included in the standard
           pricing.
         </p>
       </>
@@ -70,7 +70,7 @@ const questions: FAQQuestion[] = [
     answer: (
       <p>
         Both <strong>Percy</strong> and <strong>Argos</strong> allow you to
-        control team members' access and permissions for each project.
+        control team members’ access and permissions for each project.
       </p>
     ),
     textAnswer:

@@ -79,3 +79,5 @@ export const EditInline = React.memo(
     );
   },
 );
+
+EditInline.displayName = "EditInline";

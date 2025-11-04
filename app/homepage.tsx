@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import * as React from "react";
 
 import { ArgosEmblem } from "@/components/ArgosEmblem";
 import { CallToActionSection } from "@/components/CallToActionSection";
