@@ -1,0 +1,19 @@
+---
+title: ARIA Snapshots in Playwright
+description: Capture accessibility trees alongside your screenshots with Argos Playwright SDK.
+slug: aria-snapshots
+date: 2025-11-04
+image: /assets/changelogs/aria-snapshots/aria-snapshots.jpg
+---
+
+![ARIA Snapshots in Playwright](/assets/changelogs/aria-snapshots/aria-snapshots.jpg)
+
+Argos now supports [**ARIA Snapshots**](https://playwright.dev/docs/aria-snapshots) with the Playwright SDK, giving you a structured view of your page’s accessibility tree directly in your visual testing workflow.
+
+- **Easily review text changes**: You can now easily spot changes in text content.
+- **Accessibility insights**: Capture the ARIA representation of your pages to detect accessibility regressions over time.
+- **Combined or standalone**: Use `argosScreenshot` with `ariaSnapshot: true` to capture both visuals and ARIA trees, or call `argosAriaSnapshot` for ARIA-only tests.
+
+This feature helps teams combine **visual** and **accessibility** testing in one unified workflow, improving overall UI quality and inclusiveness.
+
+[Learn more in the docs](https://argos-ci.com/docs/playwright#aria-snapshots)
