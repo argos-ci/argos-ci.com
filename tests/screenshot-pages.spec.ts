@@ -24,6 +24,7 @@ const FOOTER_LINKS = {
 async function screenshot(page: Page, name: string, suffix = "") {
   await argosScreenshot(page, `${name}+${suffix}`, {
     viewports: ["macbook-16", "ipad-2", "iphone-8"],
+    ariaSnapshot: true,
   });
 }
 
@@ -39,10 +40,15 @@ function runScreenshotTests(colorScheme?: "light" | "dark") {
   for (const [pageName, linkLabel] of Object.entries(NAV_LINKS)) {
     test(`Screenshots for ${pageName} ${textSuffix}`, async ({ page }) => {
       await page.goto("/");
-      await page
+      const link = page
         .getByRole("navigation")
-        .getByRole("link", { name: linkLabel })
-        .click();
+        .getByRole("link", { name: linkLabel });
+      const href = await link.evaluate((el) => el.getAttribute("href"));
+      if (!href) {
+        throw new Error("No href on the link");
+      }
+      await link.click();
+      await page.waitForURL(href);
       await screenshot(page, pageName, screenshotSuffix);
     });
   }
@@ -50,11 +56,16 @@ function runScreenshotTests(colorScheme?: "light" | "dark") {
   for (const [pageName, linkLabel] of Object.entries(FOOTER_LINKS)) {
     test(`Screenshots for ${pageName} ${textSuffix}`, async ({ page }) => {
       await page.goto("/");
-      await page
+      const link = page
         .getByRole("contentinfo")
         .getByRole("link", { name: linkLabel })
-        .last()
-        .click();
+        .last();
+      const href = await link.evaluate((el) => el.getAttribute("href"));
+      if (!href) {
+        throw new Error("No href on the link");
+      }
+      await link.click();
+      await page.waitForURL(href);
       await screenshot(page, pageName, screenshotSuffix);
     });
   }
