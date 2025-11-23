@@ -18,7 +18,7 @@ export function Container({
   return (
     <Comp
       className={clsx(
-        "container mx-auto px-4 sm:px-10",
+        "container mx-auto",
         tight ? "max-w-max-content-tight" : "max-w-max-content",
         className,
       )}
