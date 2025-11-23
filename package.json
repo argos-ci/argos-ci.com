@@ -24,6 +24,7 @@
     "@shikijs/rehype": "^3.20.0",
     "clsx": "^2.1.1",
     "fast-glob": "^3.3.3",
+    "geist": "^1.5.1",
     "gray-matter": "^4.0.3",
     "lucide-react": "^0.561.0",
     "medium-zoom": "^1.1.0",
