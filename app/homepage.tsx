@@ -5,7 +5,6 @@ import { CallToActionSection } from "@/components/CallToActionSection";
 import { RedirectIfCookie } from "@/components/RedirectIfCookie";
 import { defaultDescription, defaultTitle, getMetadata } from "@/lib/metadata";
 
-import { Customers } from "./home/Customers";
 import { DemoVideo } from "./home/demo-video/demoVideo";
 import { DeveloperExperience } from "./home/developer-experience/DeveloperExperience";
 import { FAQ } from "./home/faq/Faq";
@@ -13,6 +12,7 @@ import { FeaturedSDKs } from "./home/featured-sdk/FeaturedSDKs";
 import { Features } from "./home/features/Features";
 import { Hero } from "./home/hero/Hero";
 import { TestDebugging } from "./home/test-debugging/TestDebugging";
+import { TrustedBy } from "./home/trusted-by/TrustedBy";
 import { VisualTesting } from "./home/visual-testing/VisualTesting";
 import { Why } from "./home/why/Why";
 
@@ -24,10 +24,10 @@ export const metadata: Metadata = getMetadata({
 
 export default function Page() {
   return (
-    <div style={{ textWrap: "balance" } as any}>
+    <>
       <RedirectIfCookie />
       <Hero />
-      <Customers />
+      <TrustedBy />
       <DemoVideo />
       <Why />
       <VisualTesting />
@@ -42,6 +42,6 @@ export default function Page() {
       >
         <ArgosEmblem className="mx-auto aspect-square size-24" />
       </CallToActionSection>
-    </div>
+    </>
   );
 }
