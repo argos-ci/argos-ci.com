@@ -1,100 +1,76 @@
-import { ChevronRightIcon } from "lucide-react";
+import { ArrowUpRightIcon } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
+import { Grid } from "@/components/Grid";
+import { ThemeImage } from "@/components/ThemeImage";
 
-import { AppSvg } from "./AppSvg";
-import { AutomaticCheck } from "./AutomaticCheck";
-
-const BgGradient = () => {
-  return (
-    <div className="absolute inset-0">
-      <div
-        className="absolute inset-0 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-(--red-8) blur-[100px]"
-        style={{
-          width: "80%",
-          height: "80%",
-          background:
-            "linear-gradient(180deg, rgba(205, 123, 255, 0.4) 0%, rgba(255, 197, 111, 0.3) 100%)",
-        }}
-      />
-      <div
-        className="absolute rounded-full bg-(--yellow-8) blur-[50px]"
-        style={{
-          width: "30%",
-          height: "30%",
-          top: "20%",
-          left: "50%",
-          background:
-            "linear-gradient(180deg, rgba(242, 47, 176, 0.2) 0%, rgba(245, 138, 37, 0) 100%)",
-        }}
-      />
-    </div>
-  );
-};
+import appDark from "./app-dark.png";
+import app from "./app.png";
+import gradients from "./gradients.svg";
 
 export function Hero() {
   return (
     <Container className="relative" asChild>
       <section>
-        <div className="flex flex-col items-center gap-x-6 gap-y-12 py-8 md:py-24 lg:flex-row">
-          <div className="flex flex-1 flex-col items-center gap-6 text-center lg:items-start lg:text-left">
-            <Link
-              className="rounded-lg border border-(--violet-6) bg-(--violet-2) px-2 py-1 text-sm transition hover:bg-(--violet-3)"
-              href="/changelog"
-            >
-              Introducing Official Storybook SDK{" "}
-              <ChevronRightIcon className="inline h-4 w-4" />
-            </Link>
-            <h1 className="font-accent bg-linear-(--gradient-hero-text) bg-clip-text text-4xl leading-tight text-transparent md:text-5xl lg:bg-linear-(--gradient-hero-text-lg) lg:leading-none">
-              Visual Testing for web apps & components
+        <div className="pointer-events-none absolute bottom-0 left-1/2 w-screen -translate-x-1/2 border-t" />
+        <div
+          className="pointer-events-none absolute inset-y-0 left-1/2 -mt-15 w-[1800px] -translate-x-1/2 bg-cover bg-top opacity-70"
+          style={{
+            backgroundImage: `url(${gradients.src})`,
+          }}
+        ></div>
+        <div className="pointer-events-none absolute inset-0 -mt-15 border-x mask-[linear-gradient(transparent,black_40%),linear-gradient(90deg,transparent,black,transparent)]" />
+        <div className="pointer-events-none absolute top-0 left-1/2 h-[500px] w-[1800px] -translate-x-1/2 mask-[linear-gradient(transparent,black,transparent)] mask-intersect text-(--neutral-5)">
+          <div className="absolute inset-x-[360px] inset-y-0">
+            <Grid className="pointer-events-none absolute inset-[unset] top-0 right-full w-[360px] mask-[linear-gradient(90deg,transparent,black)]" />
+            <Grid
+              position="right"
+              className="pointer-events-none absolute inset-[unset] top-0 left-full w-[360px] mask-[linear-gradient(270deg,transparent,black)]"
+            />
+          </div>
+        </div>
+        <div className="pointer-events-none absolute inset-x-px top-0 h-[500px] overflow-hidden mask-[linear-gradient(transparent,black,transparent),radial-gradient(80%_50%_at_50%_55%,rgba(0,0,0,0.2),black)] mask-intersect text-(--neutral-5)">
+          <Grid className="w-max-content pointer-events-none absolute inset-[unset] inset-y-0 left-1/2 -translate-x-1/2" />
+        </div>
+        <div className="relative flex w-full flex-col items-center gap-10 pt-20 pb-24 text-center">
+          <Link
+            href="#"
+            className="bg-app hover:bg-subtle group mx-auto flex items-center rounded-full border text-sm font-medium shadow-xs transition hover:shadow-sm"
+          >
+            <span className="px-3 py-1.5">
+              Introducing Official Storybook SDK
+            </span>
+            <span className="text-low inline-flex items-center gap-1 border-l px-3 py-1.5">
+              Read more{" "}
+              <ArrowUpRightIcon className="size-4 transition group-hover:translate-x-px group-hover:-translate-y-px" />
+            </span>
+          </Link>
+          <div className="flex max-w-2xl flex-col gap-5 text-balance">
+            <h1 className="font-accent text-5xl font-medium">
+              Raise the quality bar for every release
             </h1>
-            <div className="text-low text-lg">
-              Argos is the modern visual testing platform for{" "}
-              <strong className="text-default font-medium">
-                websites, design systems, and ui components
-              </strong>
-              . Detect UI changes, review diffs, and ship confidently.
-            </div>
-            <div className="flex gap-4">
-              <Button size="large" variant="primary" asChild>
-                <a target="_blank" href="https://app.argos-ci.com/signup">
-                  Start for free
-                </a>
-              </Button>
-              <Button size="large" variant="outline" asChild>
-                <a
-                  target="_blank"
-                  href="https://app.argos-ci.com/jsfez/snkr-shop-2/builds/98/96709653"
-                >
-                  See a demo build
-                </a>
-              </Button>
-            </div>
+            <p className="text-low text-xl font-medium">
+              Argos catches unexpected changes in your UI so your product stays
+              polished at any scale.
+            </p>
           </div>
-          <div className="relative mt-4 flex flex-1 items-center justify-end md:mt-0">
-            <div className="relative z-10 w-[80vw] lg:w-[85%]">
-              <a
-                className="group relative block"
-                target="_blank"
-                href="https://app.argos-ci.com/jsfez/snkr-shop-2/builds/98/96709653"
-              >
-                <div className="absolute inset-0 overflow-hidden rounded-sm bg-linear-to-br from-(--violet-a11) to-(--plum-a10) opacity-0 transition duration-500 group-hover:opacity-100" />
-                <div className="absolute inset-0 flex scale-50 transform items-center justify-center rounded-sm opacity-0 transition duration-500 group-hover:scale-100 group-hover:opacity-100">
-                  <div className="font-accent text-2xl text-(--mauve-1) drop-shadow-lg md:text-4xl">
-                    See a demo build
-                  </div>
-                </div>
-                <AppSvg />
-              </a>
-              <AutomaticCheck
-                className="mt-5 -ml-5"
-                data-visual-test="blackout"
-              />
-            </div>
-            <BgGradient />
+          <div className="flex gap-4">
+            <Button size="large">Start for free</Button>
+            <Button size="large" variant="outline">
+              Get a demo
+            </Button>
           </div>
+        </div>
+        <div className="relative mx-auto w-fit rounded-t-3xl border border-(--primary-6) bg-(--primary-3) mask-[linear-gradient(black_70%,transparent)] p-2.5">
+          <picture className="max-w-[880px] rounded-t-[0.875rem]">
+            <ThemeImage
+              src={{ light: app, dark: appDark }}
+              alt="Argos Build"
+              className="max-w-[880px] rounded-t-[0.875rem]"
+            />
+          </picture>
         </div>
       </section>
     </Container>

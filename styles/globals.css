@@ -89,31 +89,31 @@
   --spacing-max-content-tight: 56rem;
 
   --font-sans:
-    var(--font-geist-sans), Inter, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
-    "Droid Sans", "Helvetica Neue", sans-serif;
+    var(--font-inter), Inter, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
   --font-accent:
     var(--font-geist-sans), Inter, -apple-system, BlinkMacSystemFont,
     "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
     "Droid Sans", "Helvetica Neue", sans-serif;
   --font-mono: var(--font-geist-mono);
 
-  --background-color-app: var(--mauve-1);
-  --background-color-subtle: var(--mauve-2);
-  --background-color-ui: var(--mauve-3);
-  --background-color-hover: var(--mauve-4);
-  --background-color-active: var(--mauve-5);
-  --background-color-solid: var(--mauve-9);
-  --background-color-solid-hover: var(--mauve-10);
-  --background-color-solid-active: var(--mauve-11);
-  --background-color-primary-app: var(--violet-1);
-  --background-color-primary-subtle: var(--violet-2);
-  --background-color-primary-ui: var(--violet-3);
-  --background-color-primary-hover: var(--violet-4);
-  --background-color-primary-active: var(--violet-5);
-  --background-color-primary-solid: var(--violet-9);
-  --background-color-primary-solid-hover: var(--violet-10);
-  --background-color-primary-solid-active: var(--violet-11);
+  --background-color-app: var(--neutral-1);
+  --background-color-subtle: var(--neutral-2);
+  --background-color-ui: var(--neutral-3);
+  --background-color-hover: var(--neutral-4);
+  --background-color-active: var(--neutral-5);
+  --background-color-solid: var(--neutral-9);
+  --background-color-solid-hover: var(--neutral-10);
+  --background-color-solid-active: var(--neutral-11);
+  --background-color-primary-app: var(--primary-1);
+  --background-color-primary-subtle: var(--primary-2);
+  --background-color-primary-ui: var(--primary-3);
+  --background-color-primary-hover: var(--primary-4);
+  --background-color-primary-active: var(--primary-5);
+  --background-color-primary-solid: var(--primary-9);
+  --background-color-primary-solid-hover: var(--primary-10);
+  --background-color-primary-solid-active: var(--primary-11);
 
   --background-color-amber-app: var(--amber-1);
   --background-color-red-app: var(--red-1);
@@ -121,10 +121,10 @@
   --background-color-crimson-app: var(--crimson-1);
   --background-color-sky-app: var(--sky-1);
 
-  --text-color-default: var(--mauve-12);
-  --text-color-low: var(--mauve-11);
-  --text-color-hover: var(--mauve-10);
-  --text-color-subtle: var(--mauve-9);
+  --text-color-default: var(--neutral-12);
+  --text-color-low: var(--neutral-11);
+  --text-color-hover: var(--neutral-10);
+  --text-color-subtle: var(--neutral-9);
 
   --text-color-amber: var(--amber-12);
   --text-color-amber-low: var(--amber-11);
@@ -154,10 +154,10 @@
 
   --ring-color-ring: var(--mauve-5);
 
-  --border-color-default: var(--mauve-6);
-  --border-color-base: var(--mauve-6);
-  --border-color-hover: var(--mauve-8);
-  --border-color-active: var(--mauve-9);
+  --border-color-default: var(--neutral-6);
+  --border-color-base: var(--neutral-6);
+  --border-color-hover: var(--neutral-8);
+  --border-color-active: var(--neutral-9);
   --border-color-primary-default: var(--violet-6);
   --border-color-primary-hover: var(--violet-8);
   --border-color-primary-active: var(--violet-9);
