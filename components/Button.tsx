@@ -27,10 +27,9 @@ const variantClassNames: Record<ButtonVariant, string> = {
 };
 
 const sizeClassNames: Record<ButtonSize, string> = {
-  base: "rounded-md py-1.5 px-3 text-sm",
   small: "rounded-sm py-1 px-2 text-xs",
-  large:
-    "rounded-lg py-2 px-4 md:rounded-xl md:py-2 md:px-6 text-base md:text-lg",
+  base: "rounded-md py-1.5 px-3 text-sm",
+  large: "rounded-lg py-1.5 px-4 text-base",
 };
 
 export function Button({

@@ -35,7 +35,7 @@ export function Navbar(props: NavbarProps) {
   return (
     <nav
       className={clsx(
-        "sticky top-0 left-0 z-20 border-b py-3 text-sm",
+        "sticky top-0 left-0 z-20 border-b py-3 text-sm transition",
         scrolled
           ? "border-b-base bg-app"
           : "border-b-transparent bg-transparent",

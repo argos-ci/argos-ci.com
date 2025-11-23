@@ -4,6 +4,7 @@ import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 import { Metadata } from "next";
 import PlausibleProvider from "next-plausible";
+import { Inter } from "next/font/google";
 import { Organization } from "schema-dts";
 
 import { JsonLd } from "@/components/JsonLd";
@@ -15,6 +16,8 @@ import "@/styles/highlight-js-github-dark.min.css";
 import { ClientProviders } from "./client-providers";
 import { AppFooter } from "./footer";
 import { AppNavbar } from "./navbar";
+
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 const title = defaultTitle;
 const description = defaultDescription;
@@ -90,7 +93,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={clsx(GeistSans.variable, GeistMono.variable, "antialiased")}
+      className={clsx(
+        inter.variable,
+        GeistSans.variable,
+        GeistMono.variable,
+        "antialiased",
+      )}
       suppressHydrationWarning
     >
       <GoogleTagManager gtmId="GTM-NLJR9K93" />
