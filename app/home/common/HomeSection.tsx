@@ -1,20 +1,16 @@
 import clsx from "clsx";
 
-import { Container } from "@/components/Container";
+import { Container, type ContainerProps } from "@/components/Container";
 
-export function HomeSection(props: {
-  children: React.ReactNode;
-  className?: string;
-}) {
-  const { className, children } = props;
+export function HomeSection(
+  props: {
+    children: React.ReactNode;
+    className?: string;
+  } & Pick<ContainerProps, "noGutter">,
+) {
+  const { className, children, ...rest } = props;
   return (
-    <Container
-      className={clsx(
-        "relative after:absolute after:bottom-0 after:left-1/2 after:w-screen after:-translate-x-1/2 after:border-t after:content-['']",
-        className,
-      )}
-      asChild
-    >
+    <Container {...rest} className={clsx("relative", className)} asChild>
       <section>{children}</section>
     </Container>
   );
