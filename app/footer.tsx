@@ -33,7 +33,7 @@ function FooterLink(props: { children: React.ReactNode; href: string }) {
 }
 
 export const AppFooter: React.FC = () => (
-  <footer className="mt-32 mb-10 border-t pt-10 pb-10 text-sm leading-6">
+  <footer className="border-t pt-10 pb-10 text-sm leading-6">
     <Container>
       <div className="grid grid-cols-2 gap-x-8 gap-y-2 sm:grid-cols-4 md:grid-cols-6">
         <FooterSection className="justify-between">
