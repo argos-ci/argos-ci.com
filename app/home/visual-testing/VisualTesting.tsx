@@ -6,27 +6,28 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/Button";
+import { Container } from "@/components/Container";
 import { ThemeImage } from "@/components/ThemeImage";
 
-import { HomeSection } from "../common/HomeSection";
 import fastApprovalFlowSvg from "./assets/fast-approval-flow.svg";
 
 export function VisualTesting() {
   return (
-    <HomeSection>
-      <div className="relative border-x">
-        <div className="flex flex-col gap-10 px-4 py-16 sm:px-10">
+    <section className="px-4">
+      <Container className="border-x" noGutter>
+        <div className="flex flex-col gap-10 px-4 py-12 sm:px-10 md:py-18">
           <div className="flex flex-col gap-2.5">
             <div className="flex items-center gap-2 text-xs font-medium">
               <span className="h-1.5 w-3 rounded bg-(--blue-10)" />
               Visual Testing
             </div>
-            <h2 className="font-accent text-[2.625rem] leading-[1.1] font-medium">
+            <h2 className="font-accent text-3xl font-medium md:text-[2.625rem] md:leading-[1.1]">
               Spot every change
             </h2>
-            <p className="text-low text-lg leading-[1.4] font-medium">
-              Catch, compare, and review visual changes.
-              <br />
+            <p className="text-low text-base font-medium md:text-lg md:leading-[1.4]">
+              <span className="after:content-['_'] md:block">
+                Catch, compare, and review visual changes.
+              </span>
               Stay focused on real differences and skip the noise.
             </p>
           </div>
@@ -54,8 +55,8 @@ export function VisualTesting() {
             />
           </div>
         </div>
-      </div>
-    </HomeSection>
+      </Container>
+    </section>
   );
 }
 
