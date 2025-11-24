@@ -3,25 +3,25 @@ import { ArrowUpRightIcon } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/Button";
+import { Container } from "@/components/Container";
 import { Grid } from "@/components/Grid";
 import { ThemeImage } from "@/components/ThemeImage";
 
-import { HomeSection } from "../common/HomeSection";
 import appDark from "./assets/app-dark.png";
 import appLight from "./assets/app-light.png";
 import gradients from "./assets/gradients.svg";
 
 export function Hero() {
   return (
-    <HomeSection className="separator-b">
-      <div className="relative px-4 sm:px-10">
+    <section className="px-4">
+      <Container className="separator-b relative">
         <div
           className="pointer-events-none absolute inset-y-0 left-1/2 -mt-15 w-[1800px] -translate-x-1/2 bg-cover bg-top opacity-70"
           style={{
             backgroundImage: `url(${gradients.src})`,
           }}
         ></div>
-        <div className="pointer-events-none absolute inset-0 border-x mask-[linear-gradient(transparent,black_40%),linear-gradient(90deg,transparent,black,transparent)]" />
+        <div className="pointer-events-none absolute inset-0 -mt-4 border-x mask-[linear-gradient(transparent,black_40%),linear-gradient(90deg,transparent,black,transparent)]" />
         <div className="pointer-events-none absolute top-0 left-1/2 h-[500px] w-[1800px] -translate-x-1/2 mask-[linear-gradient(transparent,black,transparent)] mask-intersect text-(--neutral-5)">
           <div className="absolute inset-x-[360px] inset-y-0">
             <Grid className="pointer-events-none absolute inset-[unset] top-0 right-full w-[360px] mask-[linear-gradient(90deg,transparent,black)]" />
@@ -74,7 +74,7 @@ export function Hero() {
             className="w-full max-w-[880px] rounded md:rounded-t-[0.875rem]"
           />
         </div>
-      </div>
-    </HomeSection>
+      </Container>
+    </section>
   );
 }
