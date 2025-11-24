@@ -2,7 +2,7 @@ import { Slot } from "@radix-ui/react-slot";
 import { clsx } from "clsx";
 import { ComponentPropsWithRef } from "react";
 
-export type ButtonVariant = "primary" | "outline";
+export type ButtonVariant = "primary" | "outline" | "outline-primary";
 export type ButtonSize = "base" | "small" | "large";
 
 export type ButtonProps = ComponentPropsWithRef<"button"> & {
@@ -24,6 +24,12 @@ const variantClassNames: Record<ButtonVariant, string> = {
     "bg-(--neutral-1) shadow-[0_0_0_1px_var(--neutral-8)]",
     "not-aria-disabled:hover:bg-(--neutral-4) not-aria-disabled:hover:shadow-[0_0_0_1px_var(--neutral-8)]",
     "focus-visible:ring-(--neutral-a7)",
+  ),
+
+  "outline-primary": clsx(
+    "bg-(--primary-1) shadow-[0_0_0_1px_var(--primary-8)]",
+    "not-aria-disabled:hover:bg-(--primary-4) not-aria-disabled:hover:shadow-[0_0_0_1px_var(--primary-8)]",
+    "focus-visible:ring-(--primary-a7)",
   ),
 };
 
@@ -59,7 +65,8 @@ export function Button({
         variantClassName,
         sizeClassName,
         "focus:outline-hidden focus-visible:ring-4",
-        "align-center aria-disabled:opacity-disabled inline-flex font-sans font-medium whitespace-nowrap transition select-none [button]:cursor-default",
+        "[&>svg]:mr-[0.5em] [&>svg]:size-[1em]",
+        "aria-disabled:opacity-disabled inline-flex items-center font-sans font-medium whitespace-nowrap transition select-none [button]:cursor-default",
       )}
       {...props}
     >
