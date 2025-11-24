@@ -13,8 +13,9 @@ export type ButtonProps = ComponentPropsWithRef<"button"> & {
 
 const variantClassNames: Record<ButtonVariant, string> = {
   primary: clsx(
-    "bg-linear-to-t from-(--primary-11) to-(--primary-9) text-white",
+    "bg-linear-to-t from-(--primary-11) dark:from-(--primary-4) to-(--primary-9) dark:to-(--primary-6) text-white",
     "shadow-[0_0_0_1px_var(--primary-11)_inset,0_2px_0_0_rgba(255,255,255,0.18)_inset]",
+    "dark:shadow-[0_0_0_1px_var(--primary-1)_inset,0_2px_0_0_rgba(255,255,255,0.18)_inset]",
     "not-aria-disabled:hover:to-(--primary-8) not-aria-disabled:active:to-(--primary-8)",
     "focus-visible:ring-(--primary-a7)",
   ),
