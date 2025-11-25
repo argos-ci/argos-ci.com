@@ -298,6 +298,10 @@
   }
 }
 
+@utility container-gutter {
+  @apply px-4 sm:px-10;
+}
+
 @utility separator-b {
   @apply after:absolute after:bottom-0 after:left-1/2 after:w-screen after:-translate-x-1/2 after:border-t after:content-[''];
 }

@@ -2,10 +2,12 @@ import { type ComponentPropsWithRef, useId } from "react";
 
 export function Grid(
   props: ComponentPropsWithRef<"svg"> & {
-    position?: "left" | "right";
+    x?: number;
+    y?: number;
+    size?: number;
   },
 ) {
-  const { position = "left", ...rest } = props;
+  const { x, y, size = 60, ...rest } = props;
   const id = useId();
   const patternId = `grid-pattern-${id}`;
   return (
@@ -13,14 +15,14 @@ export function Grid(
       <defs>
         <pattern
           id={patternId}
-          x={{ left: 0, right: -1 }[position]}
-          y={0}
-          width={60}
-          height={60}
+          x={x}
+          y={y}
+          width={size}
+          height={size}
           patternUnits="userSpaceOnUse"
         >
           <path
-            d="M 60 0 L 0 0 0 60"
+            d={`M ${size} 0 L 0 0 0 ${size}`}
             fill="transparent"
             stroke="currentColor"
             strokeWidth={2}

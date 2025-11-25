@@ -4,6 +4,7 @@ import { RedirectIfCookie } from "@/components/RedirectIfCookie";
 import { defaultDescription, defaultTitle, getMetadata } from "@/lib/metadata";
 
 import { Hero } from "./home/hero/Hero";
+import { Integrations } from "./home/integrations/Integrations";
 import { TrustedBy } from "./home/trusted-by/TrustedBy";
 import { VisualTesting } from "./home/visual-testing/VisualTesting";
 
@@ -20,6 +21,7 @@ export default function Page() {
       <Hero />
       <TrustedBy />
       <VisualTesting />
+      <Integrations />
     </>
   );
 }

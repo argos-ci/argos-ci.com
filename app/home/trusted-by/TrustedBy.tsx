@@ -59,8 +59,8 @@ const customers = [
 
 export function TrustedBy() {
   return (
-    <section className="px-4">
-      <Container className="separator-b relative border-x">
+    <section className="separator-b relative px-4">
+      <Container className="border-x">
         <div className="relative grid grid-cols-2 content-center gap-6 px-8 py-10 sm:grid-cols-3 md:grid-cols-5">
           {customers.map((customer) => (
             <Image

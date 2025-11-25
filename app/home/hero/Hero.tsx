@@ -26,7 +26,7 @@ export function Hero() {
           <div className="absolute inset-x-[360px] inset-y-0">
             <Grid className="pointer-events-none absolute inset-[unset] top-0 right-full w-[360px] mask-[linear-gradient(90deg,transparent,black)]" />
             <Grid
-              position="right"
+              x={-1}
               className="pointer-events-none absolute inset-[unset] top-0 left-full w-[360px] mask-[linear-gradient(270deg,transparent,black)]"
             />
           </div>
