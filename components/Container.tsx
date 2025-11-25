@@ -19,7 +19,7 @@ export function Container({
     <Comp
       className={clsx(
         "container mx-auto",
-        noGutter ? null : "px-4 sm:px-10",
+        noGutter ? null : "container-gutter",
         tight ? "max-w-max-content-tight" : "max-w-max-content",
         className,
       )}
