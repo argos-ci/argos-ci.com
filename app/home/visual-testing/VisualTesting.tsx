@@ -12,6 +12,8 @@ import { Container } from "@/components/Container";
 import { Pattern } from "@/components/Pattern";
 import { ThemeImage } from "@/components/ThemeImage";
 
+import { SectionHeader, SectionHeaderTexts } from "../common/SectionHeader";
+import { SectionDescription, SectionTitle } from "../common/Typography";
 import fastApprovalFlowSvg from "./assets/fast-approval-flow.svg";
 import mermaid from "./assets/mermaid.svg";
 import sidharth from "./assets/sidharth.jpg";
@@ -20,26 +22,22 @@ export function VisualTesting() {
   return (
     <section className="separator-b relative px-4">
       <Container className="border-x" noGutter>
-        <div className="flex flex-col gap-10 px-4 py-12 sm:px-10 md:py-18">
-          <div className="flex flex-col gap-2.5">
+        <SectionHeader className="container-gutter">
+          <SectionHeaderTexts>
             <div className="flex items-center gap-2 text-xs font-medium">
               <span className="h-1.5 w-3 rounded bg-(--blue-10)" />
               Visual Testing
             </div>
-            <h2 className="font-accent text-3xl font-medium md:text-[2.625rem] md:leading-[1.1]">
-              Spot every change
-            </h2>
-            <p className="text-low text-base font-medium md:text-lg md:leading-[1.4]">
+            <SectionTitle>Spot every change</SectionTitle>
+            <SectionDescription>
               <span className="after:content-['_'] md:block">
                 Catch, compare, and review visual changes.
               </span>
               Stay focused on real differences and skip the noise.
-            </p>
-          </div>
-          <div>
-            <Button variant="outline">Explore Visual Testing</Button>
-          </div>
-        </div>
+            </SectionDescription>
+          </SectionHeaderTexts>
+          <Button variant="outline">Explore Visual Testing</Button>
+        </SectionHeader>
         <div className="bg-subtle border-y">
           <ThemeImage src={fastApprovalFlowSvg} alt="Fast approval flow" />
           <div className="relative -ml-px flex flex-col items-start justify-center gap-10 py-8 md:ml-0 md:flex-row">
