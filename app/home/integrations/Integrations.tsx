@@ -32,12 +32,12 @@ export function Integrations() {
         </SectionHeader>
         <div
           className={clsx(
-            "self-center mask-intersect text-(--border-color-default)",
+            "self-center text-(--border-color-default)",
             "relative h-[300px] [--grid-size:40px] max-md:w-[399px]",
             "md:absolute md:inset-y-0 md:-right-[180px] md:left-[calc(50%-10px)] md:h-full md:[--grid-size:50px]",
           )}
         >
-          <div className="relative h-full mask-[linear-gradient(transparent,black_20%,black_80%,transparent),linear-gradient(90deg,transparent,black_20%,black_80%,transparent)] md:mask-[linear-gradient(90deg,transparent,black_20%,black_80%,transparent)]">
+          <div className="relative h-full mask-[linear-gradient(transparent,black_20%,black_80%,transparent),linear-gradient(90deg,transparent,black_20%,black_80%,transparent)] mask-intersect md:mask-[linear-gradient(90deg,transparent,black_20%,black_80%,transparent)]">
             <Grid x={-1} y={-1} size={50} className="hidden md:block" />
             <Grid x={-1} y={-1} size={40} className="md:hidden" />
           </div>
