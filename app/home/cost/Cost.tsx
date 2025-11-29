@@ -30,8 +30,8 @@ export function Cost() {
             </SectionDescription>
           </SectionHeaderTexts>
         </SectionHeader>
-        <div className="md:container-gutter bg-app flex flex-col items-center border-y shadow-xs md:flex-row md:gap-18">
-          <div className="max-md:container-gutter flex max-w-xs flex-1 flex-col items-start gap-6 py-6 md:gap-8 md:py-8">
+        <div className="bg-app flex flex-col border-y shadow-xs md:flex-row">
+          <div className="container-gutter flex max-w-md flex-1 flex-col items-start justify-center gap-6 py-6 max-md:border-b md:gap-8 md:border-r md:py-8">
             <CostFeature
               icon={ScanIcon}
               title="No AI overhead"
@@ -48,33 +48,40 @@ export function Cost() {
               description="From small teams to millions of snapshots, Argos stays below competitors."
             />
           </div>
-          <hr className="h-px w-auto self-stretch bg-(--neutral-6) md:h-auto md:w-px" />
-          <div className="flex flex-1 flex-col gap-6 p-6">
-            <div className="flex flex-col gap-6">
-              <CostLine
-                name="Argos"
-                price={497}
-                color={clsx(
-                  "bg-linear-to-r from-(--primary-9) to-(--primary-11)",
-                )}
-                ratio={0.2}
-              />
-              <CostLine
-                name="Chromatic"
-                subtitle="80% Turbosnap"
-                price={942}
-                color={clsx("bg-linear-to-r from-(--red-9) to-(--red-11)")}
-                ratio={0.4}
-              />
-              <CostLine
-                name="Percy"
-                price={13799}
-                color={clsx("bg-linear-to-r from-(--plum-9) to-(--plum-11)")}
-                ratio={1}
-              />
+          <div className="flex flex-1 flex-col">
+            <div className="flex flex-1 flex-col gap-6 p-6 md:p-18">
+              <div className="flex flex-col gap-6">
+                <CostLine
+                  name="Argos"
+                  price={497}
+                  color={clsx(
+                    "bg-linear-to-r from-(--primary-9) to-(--primary-11)",
+                  )}
+                  ratio={0.2}
+                />
+                <CostLine
+                  name="Chromatic"
+                  subtitle="80% Turbosnap"
+                  price={942}
+                  color={clsx("bg-linear-to-r from-(--red-9) to-(--red-11)")}
+                  ratio={0.4}
+                />
+                <CostLine
+                  name="Percy"
+                  price={13799}
+                  color={clsx("bg-linear-to-r from-(--plum-9) to-(--plum-11)")}
+                  ratio={1}
+                />
+              </div>
+              <div className="text-center text-sm font-medium">
+                Cost of 300K Storybook snapshots per month
+              </div>
             </div>
-            <div className="text-center text-sm font-medium">
-              Cost of 300K Storybook snapshots per month
+            <div className="flex flex-col items-center justify-end gap-4 border-t p-6 md:flex-row">
+              <p className="flex-1 text-sm font-medium max-md:text-center">
+                Ready to see how much you could actually save with Argos?
+              </p>
+              <Button variant="outline">Explore Pricing</Button>
             </div>
           </div>
         </div>
@@ -125,7 +132,7 @@ function CostFeature(props: {
         {title}
       </h3>
       <p className="text-low text-sm">{description}</p>
-      <a className="group mt-2 text-sm font-medium">
+      <a className="group mt-2 inline-block text-sm font-medium">
         Learn more
         <ChevronRightIcon className="-mt-0.5 ml-0.5 inline size-4 transition group-hover:translate-x-1 group-focus:translate-x-1" />
       </a>
