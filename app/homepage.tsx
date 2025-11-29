@@ -3,6 +3,7 @@ import { Metadata } from "next";
 import { RedirectIfCookie } from "@/components/RedirectIfCookie";
 import { defaultDescription, defaultTitle, getMetadata } from "@/lib/metadata";
 
+import { Cost } from "./home/cost/Cost";
 import { Hero } from "./home/hero/Hero";
 import { Integrations } from "./home/integrations/Integrations";
 import { TrustedBy } from "./home/trusted-by/TrustedBy";
@@ -22,6 +23,7 @@ export default function Page() {
       <TrustedBy />
       <VisualTesting />
       <Integrations />
+      <Cost />
     </>
   );
 }
