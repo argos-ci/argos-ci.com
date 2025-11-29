@@ -44,7 +44,7 @@ const nextConfig = {
       },
     ];
   },
-  transpilePackages: ["next-mdx-remote"],
+  transpilePackages: ["next-mdx-remote", "geist"],
 };
 
 const withMDX = createMDX();
