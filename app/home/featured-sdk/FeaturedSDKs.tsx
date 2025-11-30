@@ -1,158 +1,123 @@
 import clsx from "clsx";
-import { ArrowUpRightIcon } from "lucide-react";
-import Image, { StaticImageData } from "next/image";
 
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
-import { H2 } from "@/components/H2";
+import { Grid } from "@/components/Grid";
+import { ThemeImage, type ThemeImageProps } from "@/components/ThemeImage";
 
-import cypressDark from "./logos/dark/cypress.png";
-import nextjsDark from "./logos/dark/next-js.png";
-import playwrightDark from "./logos/dark/playwright.png";
-import reactRouterDark from "./logos/dark/react-router.png";
-import storybookDark from "./logos/dark/storybook.png";
-import webdriverioDark from "./logos/dark/webdriverio.png";
-import cypressLight from "./logos/light/cypress.png";
-import nextjsLight from "./logos/light/next-js.png";
-import playwrightLight from "./logos/light/playwright.png";
-import reactRouterLight from "./logos/light/react-router.png";
-import storybookLight from "./logos/light/storybook.png";
-import webdriverioLight from "./logos/light/webdriverio.png";
-
-function SdkCard(props: {
-  href: string;
-  lightImgSrc: StaticImageData;
-  darkImgSrc: StaticImageData;
-  title: string;
-  description: React.ReactNode;
-}) {
-  const imgProps = {
-    alt: props.title,
-    width: 140,
-    height: 140,
-    className:
-      "mb-5 size-12 origin-top-left transition duration-300 group-hover:scale-125",
-  };
-  return (
-    <a
-      href={props.href}
-      target="_blank"
-      className="group hover:bg-primary-subtle flex flex-1 flex-col items-start rounded-sm border p-4 transition duration-300 hover:border-(--violet-8)"
-    >
-      <Image
-        {...imgProps}
-        src={props.lightImgSrc}
-        className={clsx(imgProps.className, "dark:hidden")}
-        alt=""
-      />
-      <Image
-        {...imgProps}
-        src={props.darkImgSrc}
-        className={clsx(imgProps.className, "hidden dark:block")}
-        alt=""
-      />
-      <h3 className="mb-1 flex items-center gap-1 text-xl font-semibold">
-        {props.title}
-        <ArrowUpRightIcon className="text-low" strokeWidth={1} />
-      </h3>
-      <p className="flex-1">{props.description}</p>
-    </a>
-  );
-}
+import { SectionHeader, SectionHeaderTexts } from "../common/SectionHeader";
+import { SectionDescription, SectionTitle } from "../common/Typography";
+import cypress from "./assets/cypress.svg";
+import playwright from "./assets/playwright.svg";
+import storybook from "./assets/storybook.svg";
+import wdio from "./assets/wdio.svg";
 
 export function FeaturedSDKs() {
   return (
-    <Container asChild className="py-16 md:py-20">
-      <section>
-        <H2 className="mb-6">
-          Get started with visual testing in minutes using Argos.
-        </H2>
-        <p className="text-low mb-12 text-lg md:text-xl">
-          Argos provides SDK integrations for test frameworks and CI/CD
-          workflows. If you can capture screenshots, Argos is ready for you.
-        </p>
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+    <section className="separator-b relative px-4">
+      <Container
+        noGutter
+        className="relative flex flex-col border-x max-md:pb-12 md:flex-row"
+      >
+        <SectionHeader className="container-gutter max-w-sm flex-1 md:border-r">
+          <SectionHeaderTexts>
+            <SectionTitle>Add your first visual test in seconds</SectionTitle>
+            <SectionDescription className="max-w-xl">
+              Argos plugs into Playwright, Cypress, Storybook, Webdriver IO or
+              any framework so you can add visual testing without changing your
+              stack.
+            </SectionDescription>
+          </SectionHeaderTexts>
+          <Button variant="outline">Explore SDKs</Button>
+        </SectionHeader>
+        <div className="flex flex-1 flex-col gap-8 md:flex-row md:flex-wrap md:items-start md:justify-center md:py-18">
           <SdkCard
             href="/docs/quickstart/playwright"
-            lightImgSrc={playwrightLight}
-            darkImgSrc={playwrightDark}
+            image={playwright}
             title="Playwright"
-            description={
-              <>
-                Integrate Argos with Playwright to ensure seamless visual
-                testing across all browsers.
-              </>
-            }
-          />
-          <SdkCard
-            href="/docs/quickstart/cypress"
-            lightImgSrc={cypressLight}
-            darkImgSrc={cypressDark}
-            title="Cypress"
-            description={
-              <>
-                Use Argos with Cypress to automatically detect regressions in
-                your frontend applications across all browsers.
-              </>
-            }
-          />
-          <SdkCard
-            href="/docs/quickstart/webdriverio"
-            lightImgSrc={webdriverioLight}
-            darkImgSrc={webdriverioDark}
-            title="WebdriverIO"
-            description={
-              <>
-                Argos complements WebdriverIO for efficient cross-platform
-                visual testing on both iOS and Android devices.
-              </>
-            }
+            borderColor="text-(--red-6)"
+            bgColor="bg-(--red-1)"
           />
           <SdkCard
             href="/docs/quickstart/storybook"
-            lightImgSrc={storybookLight}
-            darkImgSrc={storybookDark}
+            image={storybook}
             title="Storybook"
-            description={
-              <>
-                Leverage Argos with Storybook to visually test and catch UI
-                regressions in isolated components.
-              </>
-            }
+            borderColor="text-(--plum-6)"
+            bgColor="bg-(--plum-1)"
           />
           <SdkCard
-            href="/docs/quickstart/next-js"
-            lightImgSrc={nextjsLight}
-            darkImgSrc={nextjsDark}
-            title="Next.js"
-            description={
-              <>
-                Integrate Argos with Next.js to ensure consistent visual
-                rendering in server-side and client-side React applications.
-              </>
-            }
+            href="/docs/quickstart/cypress"
+            image={cypress}
+            title="Cypress"
+            borderColor="text-(--green-6)"
+            bgColor="bg-(--green-1)"
           />
           <SdkCard
-            href="/docs/quickstart/react-router"
-            lightImgSrc={reactRouterLight}
-            darkImgSrc={reactRouterDark}
-            title="React Router (Remix)"
-            description={
-              <>
-                Pair Argos with React Router for robust visual testing, ensuring
-                UI consistency in your full-stack React applications.
-              </>
-            }
+            href="/docs/quickstart/webdriverio"
+            image={wdio}
+            title="WebdriverIO"
+            borderColor="text-(--orange-6)"
+            bgColor="bg-(--orange-1)"
           />
         </div>
-        <div className="mt-8 flex justify-center gap-4">
-          <Button size="large" variant="outline" asChild>
-            <a target="_blank" href="https://argos-ci.com/docs/getting-started">
-              Browse all our integrations
-            </a>
-          </Button>
+      </Container>
+    </section>
+  );
+}
+
+function SdkCard(props: {
+  href: string;
+  image: ThemeImageProps["src"];
+  title: string;
+  borderColor: string;
+  bgColor: string;
+}) {
+  const { href, image, title, borderColor, bgColor } = props;
+  return (
+    <a
+      href={href}
+      target="_blank"
+      className={clsx(
+        "group flex flex-col overflow-hidden border-y transition md:border",
+        bgColor,
+      )}
+    >
+      <div
+        className={clsx(
+          "relative flex h-[140px] items-center justify-center border-b md:w-[279px]",
+          borderColor,
+        )}
+      >
+        <Grid
+          size={70}
+          strokeDasharray={2}
+          className="absolute"
+          x={-1}
+          y={-1}
+        />
+
+        <div className="relative flex rounded-full">
+          <svg className="absolute -inset-2 size-18">
+            <circle
+              cx={36}
+              cy={36}
+              r={36}
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={1}
+              strokeDasharray={2}
+            />
+          </svg>
+          <ThemeImage
+            src={image}
+            className="size-14 transition duration-300 group-hover:scale-110"
+            alt=""
+          />
         </div>
-      </section>
-    </Container>
+      </div>
+      <h3 className="text-accent bg-app flex items-center gap-1 px-4 py-2 font-medium">
+        {title}
+      </h3>
+    </a>
   );
 }

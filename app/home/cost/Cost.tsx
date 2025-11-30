@@ -99,7 +99,7 @@ function CostLine(props: {
 }) {
   const { name, subtitle, price, color, ratio } = props;
   return (
-    <div className="flex flex-col gap-x-6 gap-y-1 md:flex-row md:items-center">
+    <div className="flex flex-col gap-x-6 gap-y-1 lg:flex-row lg:items-center">
       <div className="flex w-24 flex-col">
         <div className="font-medium">{name}</div>
         {subtitle && <div className="text-low text-xs">{subtitle}</div>}
@@ -108,7 +108,7 @@ function CostLine(props: {
         <div
           className={clsx(
             color,
-            "flex h-full min-w-10 items-center justify-end py-1 pr-2 text-xs font-medium text-white md:pr-4 md:text-base",
+            "flex h-full min-w-14 items-center justify-end py-1 pr-2 text-xs font-medium text-white md:pr-3 md:text-sm",
           )}
           style={{ width: `${ratio * 100}%` }}
         >
