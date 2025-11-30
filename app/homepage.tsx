@@ -4,6 +4,7 @@ import { RedirectIfCookie } from "@/components/RedirectIfCookie";
 import { defaultDescription, defaultTitle, getMetadata } from "@/lib/metadata";
 
 import { Cost } from "./home/cost/Cost";
+import { Customers } from "./home/customers/Customers";
 import { FeaturedSDKs } from "./home/featured-sdk/FeaturedSDKs";
 import { Hero } from "./home/hero/Hero";
 import { Integrations } from "./home/integrations/Integrations";
@@ -26,6 +27,7 @@ export default function Page() {
       <Integrations />
       <Cost />
       <FeaturedSDKs />
+      <Customers />
     </>
   );
 }
