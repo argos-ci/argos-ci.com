@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { ArrowRightIcon } from "lucide-react";
 import Image, { type ImageProps } from "next/image";
-import type { ComponentPropsWithRef, ReactNode } from "react";
+import type { ReactNode } from "react";
 
 import clickhouse from "@/app/assets/customers/140x48/clickhouse.svg";
 import mermaid from "@/app/assets/customers/140x48/mermaid.svg";
