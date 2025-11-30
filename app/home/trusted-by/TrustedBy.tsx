@@ -1,17 +1,16 @@
 import Image from "next/image";
 
+import businessInsider from "@/app/assets/customers/140x48/business_insider.svg";
+import clickhouse from "@/app/assets/customers/140x48/clickhouse.svg";
+import doctolib from "@/app/assets/customers/140x48/doctolib.svg";
+import gitbook from "@/app/assets/customers/140x48/gitbook.svg";
+import leMonde from "@/app/assets/customers/140x48/le_monde.svg";
+import mermaid from "@/app/assets/customers/140x48/mermaid.svg";
+import meta from "@/app/assets/customers/140x48/meta.svg";
+import mui from "@/app/assets/customers/140x48/mui.svg";
+import qonto from "@/app/assets/customers/140x48/qonto.svg";
+import yotpo from "@/app/assets/customers/140x48/yotpo.svg";
 import { Container } from "@/components/Container";
-
-import businessInsider from "./assets/business_insider.svg";
-import clickhouse from "./assets/clickhouse.svg";
-import doctolib from "./assets/doctolib.svg";
-import gitbook from "./assets/gitbook.svg";
-import leMonde from "./assets/le_monde.svg";
-import mermaid from "./assets/mermaid.svg";
-import meta from "./assets/meta.svg";
-import mui from "./assets/mui.svg";
-import qonto from "./assets/qonto.svg";
-import yotpo from "./assets/yotpo.svg";
 
 const customers = [
   {
