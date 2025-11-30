@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { ArrowRightIcon, ChevronRightIcon } from "lucide-react";
+import { ArrowRightIcon } from "lucide-react";
 
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
