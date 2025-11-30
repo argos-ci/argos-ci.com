@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { ArrowRightIcon, ChevronRightIcon } from "lucide-react";
 
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
@@ -28,7 +29,7 @@ export function FeaturedSDKs() {
               stack.
             </SectionDescription>
           </SectionHeaderTexts>
-          <Button variant="outline">Explore SDKs</Button>
+          <Button variant="outline">Explore all SDKs</Button>
         </SectionHeader>
         <div className="flex flex-1 flex-col gap-8 md:flex-row md:flex-wrap md:items-start md:justify-center md:py-18">
           <SdkCard
@@ -78,7 +79,7 @@ function SdkCard(props: {
       href={href}
       target="_blank"
       className={clsx(
-        "group flex flex-col overflow-hidden border-y transition md:border",
+        "group flex flex-col overflow-hidden border-y shadow-xs transition duration-200 hover:shadow md:border",
         bgColor,
       )}
     >
@@ -110,14 +111,17 @@ function SdkCard(props: {
           </svg>
           <ThemeImage
             src={image}
-            className="size-14 transition duration-300 group-hover:scale-110"
+            className="size-14 transition duration-200 group-hover:scale-125"
             alt=""
           />
         </div>
       </div>
-      <h3 className="text-accent bg-app flex items-center gap-1 px-4 py-2 font-medium">
-        {title}
-      </h3>
+      <div className="bg-app flex items-center justify-between gap-2 px-4 py-2">
+        <h3 className="font-accent bg-app font-medium">{title}</h3>
+        <div className="font-accent flex -translate-x-2 items-center gap-1 text-sm opacity-0 transition duration-200 group-hover:translate-x-0 group-hover:opacity-100">
+          Get started <ArrowRightIcon className="size-3" />
+        </div>
+      </div>
     </a>
   );
 }
