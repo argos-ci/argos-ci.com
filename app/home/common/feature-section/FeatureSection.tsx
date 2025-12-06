@@ -25,8 +25,7 @@ export function FeatureSection(props: {
     href: string;
   };
 }) {
-  const { color, featureName, title, description, cta, features, story } =
-    props;
+  const { color, featureName, title, description, features, story } = props;
   const [firstLine, ...rest] = description.split("\n");
   return (
     <section className="separator-b relative px-4">
