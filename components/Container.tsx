@@ -27,3 +27,9 @@ export function Container({
     />
   );
 }
+
+export function SideBorder() {
+  return (
+    <div className="pointer-events-none absolute inset-0 -mt-4 border-x mask-[linear-gradient(transparent,black_40%)]" />
+  );
+}

@@ -6,6 +6,7 @@ import {
   ScanIcon,
   TrendingDownIcon,
 } from "lucide-react";
+import Link from "next/link";
 
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
@@ -81,7 +82,9 @@ export function Cost() {
               <p className="flex-1 text-sm font-medium max-md:text-center">
                 Ready to see how much you could actually save with Argos?
               </p>
-              <Button variant="outline">Explore Pricing</Button>
+              <Button variant="outline" asChild>
+                <Link href="/pricing">Explore Pricing</Link>
+              </Button>
             </div>
           </div>
         </div>

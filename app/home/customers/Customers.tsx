@@ -1,16 +1,14 @@
 import clsx from "clsx";
 import { ArrowRightIcon } from "lucide-react";
-import Image, { type ImageProps } from "next/image";
-import type { ReactNode } from "react";
+import Link from "next/link";
 
 import clickhouse from "@/app/assets/customers/140x48/clickhouse.svg";
 import mermaid from "@/app/assets/customers/140x48/mermaid.svg";
 import meta from "@/app/assets/customers/140x48/meta.svg";
 import qonto from "@/app/assets/customers/140x48/qonto.svg";
-import gitbook from "@/app/assets/customers/adjusted/gitbook.svg";
-import mui from "@/app/assets/customers/adjusted/mui.svg";
-import olivierTassinari from "@/app/assets/people/olivier-tassinari.jpg";
-import samyPesse from "@/app/assets/people/samy-pesse.jpg";
+import { gitbookQuote } from "@/app/assets/customers/library/gitbook";
+import { muiQuote } from "@/app/assets/customers/library/mui";
+import type { CustomerQuote } from "@/app/assets/customers/types";
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 import { ThemeImage, type ThemeImageProps } from "@/components/ThemeImage";
@@ -36,57 +34,20 @@ export function Customers() {
                 speed up reviews and ship UI changes with confidence.
               </SectionDescription>
             </SectionHeaderTexts>
-            <Button variant="outline">View all customers</Button>
+            <Button variant="outline" asChild>
+              <Link href="/customers">View all customers</Link>
+            </Button>
           </SectionHeader>
         </div>
         <div className="grid grid-cols-2 gap-px bg-(--neutral-6) md:grid-cols-4">
           <CustomerLogo company={{ name: "Meta", logo: meta }} />
           <CustomerLogo company={{ name: "Qonto", logo: qonto }} />
-          <CustomerCase
-            company={{
-              name: "GitBook",
-              logo: gitbook,
-            }}
-            quote={
-              <>
-                Argos has become a cornerstone of our testing process. Its
-                ability to catch visual issues early has{" "}
-                <strong>saved us countless hours of manual QA</strong> and
-                protected the integrity of our product for millions of users.
-              </>
-            }
-            author={{
-              avatar: samyPesse,
-              name: "Samy Pessé",
-              title: "CTO at GitBook",
-            }}
-          />
-          <CustomerCase
-            company={{
-              name: "MUI",
-              logo: mui,
-            }}
-            quote={
-              <>
-                Argos gives us a stable visual baseline for MUI. It lets us
-                refactor confidently, catch layout drifts early, and{" "}
-                <strong>ship changes faster</strong> without adding noise to our
-                workflow. It is the kind of tooling that{" "}
-                <strong>
-                  scales with a component library as large as ours
-                </strong>
-                .
-              </>
-            }
-            author={{
-              avatar: olivierTassinari,
-              name: "Olivier Tassinari",
-              title: "CEO at MUI",
-            }}
-          />
+          <CustomerCase quote={gitbookQuote} href="/customers/gitbook" />
+          <CustomerCase quote={muiQuote} href="/customers/mui" />
           <CustomerLogo company={{ name: "Mermaid", logo: mermaid }} />
           <CustomerLogo company={{ name: "Clickhouse", logo: clickhouse }} />
         </div>
+        <div className="h-12 border-t" />
       </Container>
     </section>
   );
@@ -114,25 +75,25 @@ function CustomerLogo(props: { company: Company; className?: string }) {
 }
 
 function CustomerCase(props: {
-  company: Company;
-  quote: ReactNode;
-  author: {
-    name: string;
-    title: string;
-    avatar: ImageProps["src"];
-  };
+  quote: CustomerQuote;
+  href: string;
   className?: string;
 }) {
-  const { company, quote, author, className } = props;
+  const { quote, href, className } = props;
   return (
-    <a
+    <Link
+      href={href}
       className={clsx(
         "bg-app hover:bg-subtle group col-span-2 flex flex-col gap-8 p-6 transition duration-200 md:p-10",
         className,
       )}
     >
-      <ThemeImage src={company.logo} alt={company.name} className="h-7" />
-      <p className="[&_strong]:font-semibold">{quote}</p>
+      <ThemeImage
+        src={quote.company.logo.adjusted}
+        alt={quote.company.name}
+        className="h-7"
+      />
+      <p className="[&_strong]:font-semibold">{quote.text}</p>
       <div className="flex items-center justify-end md:justify-between">
         <div className="text-low flex items-center gap-1 text-sm max-md:hidden">
           Read the full story
@@ -140,16 +101,18 @@ function CustomerCase(props: {
         </div>
         <div className="flex items-center gap-2.5 self-end text-right">
           <div>
-            <div className="text-sm font-medium">{author.name}</div>
-            <div className="text-low text-xs font-medium">{author.title}</div>
+            <div className="text-sm font-medium">{quote.author.name}</div>
+            <div className="text-low text-xs font-medium">
+              {quote.author.title}
+            </div>
           </div>
-          <Image
-            src={author.avatar}
+          <ThemeImage
+            src={quote.author.avatar}
             className="size-10 rounded-full border"
             alt=""
           />
         </div>
       </div>
-    </a>
+    </Link>
   );
 }

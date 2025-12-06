@@ -1,35 +1,88 @@
+import gradients from "@/app/home/hero/assets/gradients.svg";
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 
+import { Grid } from "./Grid";
+
 export function CallToActionSection(props: {
   children?: React.ReactNode;
-  supercharge: React.ReactNode;
   description: React.ReactNode;
 }) {
   return (
-    <Container className="my-20 text-center" asChild>
-      <section>
-        {props.children}
-        <h2 className="font-accent mx-auto mb-4 max-w-2xl text-4xl md:text-6xl md:leading-[1.15]">
-          <span className="bg-linear-to-r from-(--pink-10) to-(--violet-10) bg-clip-text text-transparent">
-            Supercharge
-          </span>{" "}
-          {props.supercharge}
-        </h2>
-        <p className="text-low mx-auto max-w-sm text-lg text-balance md:text-xl">
-          {props.description}
-        </p>
-        <div className="mt-6 flex justify-center gap-4">
-          <Button size="large" asChild>
-            <a href="https://app.argos-ci.com/signup">Sign up</a>
-          </Button>
-          <Button variant="outline" size="large" asChild>
-            <a href="https://cal.com/gregberge" target="_blank">
-              Request demo
-            </a>
-          </Button>
-        </div>
-      </section>
-    </Container>
+    <section>
+      <div className="h-44 border-b border-(--primary-12) bg-linear-to-b from-black from-70% to-(--primary-11) dark:from-white" />
+      <div className="px-4">
+        <Container className="relative flex flex-col items-center justify-center border-x py-20 pt-16 text-center md:pb-28">
+          <Container className="absolute top-1 -mt-16 flex blur-xl">
+            <svg
+              viewBox="0 0 64 48"
+              className="z-10 w-16 flex-none fill-(--primary-11)"
+              aria-hidden="true"
+            >
+              <path d="M51.657 2.343 12.343 41.657A8 8 0 0 1 6.686 44H0v4h64V0h-6.686a8 8 0 0 0-5.657 2.343Z"></path>
+            </svg>
+            <div className="-mx-px flex-auto bg-(--primary-11)"></div>
+            <svg
+              viewBox="0 0 64 48"
+              className="z-10 w-16 flex-none fill-(--primary-11)"
+              aria-hidden="true"
+            >
+              <path d="m12.343 2.343 39.314 39.314A8 8 0 0 0 57.314 44H64v4H0V0h6.686a8 8 0 0 1 5.657 2.343Z"></path>
+            </svg>
+          </Container>
+          <Container className="absolute top-1 -mt-12 flex">
+            <svg
+              viewBox="0 0 64 48"
+              className="z-10 w-16 flex-none fill-(--neutral-1)"
+              aria-hidden="true"
+            >
+              <path d="M51.657 2.343 12.343 41.657A8 8 0 0 1 6.686 44H0v4h64V0h-6.686a8 8 0 0 0-5.657 2.343Z"></path>
+            </svg>
+            <div className="bg-app -mx-px flex-auto"></div>
+            <svg
+              viewBox="0 0 64 48"
+              className="z-10 w-16 flex-none fill-(--neutral-1)"
+              aria-hidden="true"
+            >
+              <path d="m12.343 2.343 39.314 39.314A8 8 0 0 0 57.314 44H64v4H0V0h6.686a8 8 0 0 1 5.657 2.343Z"></path>
+            </svg>
+          </Container>
+          <div className="bg-app pointer-events-none absolute inset-0" />
+          <div
+            className="pointer-events-none absolute inset-y-0 left-1/2 w-[1800px] -translate-x-1/2 mask-[linear-gradient(transparent_20%,black)] bg-cover bg-top opacity-70"
+            style={{
+              backgroundImage: `url(${gradients.src})`,
+            }}
+          />
+          <div className="pointer-events-none absolute inset-0 mask-[linear-gradient(transparent,black,transparent)] text-(--neutral-5) opacity-70">
+            <Grid x={-1} y={-1} />
+          </div>
+          <div className="relative px-2">
+            {props.children ? (
+              <div className="mb-4">{props.children}</div>
+            ) : null}
+            <h2 className="font-accent mx-auto mb-4 max-w-2xl text-4xl font-bold text-balance md:text-5xl">
+              <span className="bg-linear-to-r from-(--pink-10) to-(--violet-10) bg-clip-text text-balance text-transparent">
+                Supercharge
+              </span>{" "}
+              your product quality
+            </h2>
+            <p className="text-low mx-auto max-w-sm text-lg font-medium text-balance">
+              {props.description}
+            </p>
+            <div className="mt-8 flex justify-center gap-4">
+              <Button asChild>
+                <a href="https://app.argos-ci.com/signup">Sign up</a>
+              </Button>
+              <Button variant="outline" asChild>
+                <a href="https://cal.com/gregberge" target="_blank">
+                  Request demo
+                </a>
+              </Button>
+            </div>
+          </div>
+        </Container>
+      </div>
+    </section>
   );
 }

@@ -80,7 +80,6 @@ export const AppFooter: React.FC = () => (
           <FooterSectionTitle>Product</FooterSectionTitle>
           <FooterLink href="/docs/getting-started">Getting started</FooterLink>
           <FooterLink href="/docs/why-argos">Why Argos?</FooterLink>
-          <FooterLink href="/playwright">Playwright + Argos</FooterLink>
           <FooterLink href="/pricing">Pricing</FooterLink>
           <FooterLink href="https://github.com/orgs/argos-ci/projects/1">
             Roadmap

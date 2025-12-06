@@ -3,6 +3,10 @@
 import clsx from "clsx";
 import { cloneElement, useCallback, useEffect, useState } from "react";
 
+import { useInViewport } from "@/components/useInViewport";
+
+import { BORDER_BG_COLORS, type FeatureColor } from "./colors";
+
 export type Feature = {
   key: string;
   icon: React.ReactElement<{ className?: string; strokeWidth: 1 }>;
@@ -13,15 +17,23 @@ export type Feature = {
 
 const DURATION = 6000;
 
-export function FeaturesCarousel(props: { features: Feature[] }) {
-  const { features } = props;
-  const total = features.length;
-  const [isStopped, setIsStopped] = useState(false);
-  const [state, setState] = useState(() => ({
-    start: Date.now(),
+function getInitialState() {
+  return {
     index: 0,
     direction: [1, 1, 1],
-  }));
+  };
+}
+
+export function FeaturesCarousel(props: {
+  features: Feature[];
+  color: FeatureColor;
+}) {
+  const { features, color } = props;
+  const total = features.length;
+  const { ref, inViewport } = useInViewport();
+  const [isStopped, setIsStopped] = useState(false);
+  const [start, setStart] = useState(() => Date.now());
+  const [state, setState] = useState(getInitialState);
   const move = useCallback((to: number) => {
     setState((state) => {
       if (state.index === to) {
@@ -29,7 +41,6 @@ export function FeaturesCarousel(props: { features: Feature[] }) {
       }
       const direction = to > state.index ? -1 : 1;
       return {
-        start: Date.now(),
         index: to,
         direction:
           to === 0
@@ -43,21 +54,23 @@ export function FeaturesCarousel(props: { features: Feature[] }) {
     });
   }, []);
   useEffect(() => {
-    if (isStopped) {
+    if (isStopped || !inViewport) {
       return;
     }
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setStart(Date.now());
     const timeout = window.setTimeout(() => {
       const next = state.index === total - 1 ? 0 : state.index + 1;
       move(next);
     }, DURATION);
     return () => window.clearTimeout(timeout);
-  }, [isStopped, total, move, state.index]);
+  }, [isStopped, inViewport, state, total, move]);
   const current = features[state.index];
   if (!current) {
     throw new Error(`Invalid index ${state.index}`);
   }
   return (
-    <div className="bg-subtle border-y">
+    <div ref={ref} className="bg-subtle border-y">
       <div className="relative h-60 overflow-hidden sm:h-110">
         <div className="relative size-full">
           {features.map((feature, index) => {
@@ -88,17 +101,19 @@ export function FeaturesCarousel(props: { features: Feature[] }) {
                 setIsStopped(true);
                 move(index);
               }}
-              className="relative flex cursor-pointer flex-col pl-6 text-sm transition-opacity duration-300 data-[current=false]:opacity-50 data-[current=false]:hover:opacity-70 md:max-w-56"
+              className="relative flex cursor-pointer flex-col px-6 text-sm transition-opacity duration-300 data-[current=false]:opacity-50 data-[current=false]:hover:opacity-70 md:max-w-56 md:pr-0"
             >
               <div
                 className={clsx(
                   "absolute inset-y-0 left-0 w-px",
                   isStopped && isCurrent
-                    ? "bg-(--blue-9)"
+                    ? BORDER_BG_COLORS[color]
                     : "bg-(--border-color-base)",
                 )}
               />
-              {isCurrent && !isStopped && <Progress start={state.start} />}
+              {isCurrent && !isStopped && (
+                <Progress color={color} start={start} />
+              )}
               {cloneElement(feature.icon, {
                 className: "size-5",
                 strokeWidth: 1,
@@ -119,14 +134,6 @@ function FeaturePanel(props: {
   children: React.ReactNode;
 }) {
   const { isCurrent, children, direction } = props;
-  // const previousIsCurrent = usePrevious(isCurrent);
-  // const [direction, setDirection] = useState(props.direction);
-  // useLayoutEffect(() => {
-  //   if (previousIsCurrent !== undefined && isCurrent !== previousIsCurrent) {
-  //     // eslint-disable-next-line react-hooks/set-state-in-effect
-  //     setDirection(props.direction);
-  //   }
-  // }, [isCurrent, previousIsCurrent, props.direction]);
   return (
     <div
       role="tabpanel"
@@ -144,8 +151,8 @@ function FeaturePanel(props: {
   );
 }
 
-function Progress(props: { start: number }) {
-  const { start } = props;
+function Progress(props: { start: number; color: FeatureColor }) {
+  const { start, color } = props;
   const [value, setValue] = useState(0);
   useEffect(() => {
     let raf: number;
@@ -162,7 +169,10 @@ function Progress(props: { start: number }) {
   }, [start]);
   return (
     <div
-      className="absolute inset-y-0 left-0 w-px origin-top bg-(--blue-9)"
+      className={clsx(
+        "absolute inset-y-0 left-0 w-px origin-top",
+        BORDER_BG_COLORS[color],
+      )}
       style={{
         transform: `scaleY(${value}%)`,
       }}

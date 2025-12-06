@@ -20,8 +20,8 @@ export function Hero() {
           style={{
             backgroundImage: `url(${gradients.src})`,
           }}
-        ></div>
-        <div className="pointer-events-none absolute inset-0 -mt-4 border-x mask-[linear-gradient(transparent,black_40%),linear-gradient(90deg,transparent,black,transparent)]" />
+        />
+        <div className="pointer-events-none absolute inset-0 -mt-4 border-x mask-[linear-gradient(transparent,black_40%)]" />
         <div className="pointer-events-none absolute top-0 left-1/2 h-[500px] w-[1800px] -translate-x-1/2 mask-[linear-gradient(transparent,black,transparent)] mask-intersect text-(--neutral-5)">
           <div className="absolute inset-x-[360px] inset-y-0">
             <Grid className="pointer-events-none absolute inset-[unset] top-0 right-full w-[360px] mask-[linear-gradient(90deg,transparent,black)]" />
@@ -36,7 +36,7 @@ export function Hero() {
         </div>
         <div className="relative flex w-full flex-col items-center gap-10 py-16 text-center md:pt-20 md:pb-24">
           <Link
-            href="#"
+            href="/changelog"
             className="bg-app hover:bg-subtle group mx-auto flex items-center rounded-full border text-xs font-medium shadow-xs transition hover:shadow-sm md:text-sm"
           >
             <span className="px-3 py-1.5">
@@ -57,15 +57,20 @@ export function Hero() {
             </p>
           </div>
           <div className="flex gap-4">
-            <Button size="large">Start for free</Button>
-            <Button size="large" variant="outline">
-              Get a demo
+            <Button size="large" asChild>
+              <Link href="https://app.argos-ci.com/signup">Start for free</Link>
+            </Button>
+            <Button size="large" variant="outline" asChild>
+              <Link href="https://cal.com/gregberge">Get a demo</Link>
             </Button>
           </div>
         </div>
-        <div
+        <a
+          href="https://app.argos-ci.com/jsfez/snkr-shop-2/builds/98/96709653"
+          target="_blank"
           className={clsx(
-            "relative mx-auto w-fit rounded-lg border border-(--primary-6) bg-(--primary-3) mask-[linear-gradient(black_70%,transparent)] p-1 md:rounded-t-3xl md:p-2.5",
+            "group relative mx-auto block w-fit rounded-lg border border-(--primary-6) bg-(--primary-3) mask-[linear-gradient(black_70%,transparent)] p-1 md:rounded-t-3xl md:p-2.5",
+            "transition duration-300 ease-in-out hover:-translate-y-1 hover:scale-101",
           )}
         >
           <ThemeImage
@@ -73,7 +78,7 @@ export function Hero() {
             alt="Argos Build"
             className="w-full max-w-[880px] rounded md:rounded-t-[0.875rem]"
           />
-        </div>
+        </a>
       </Container>
     </section>
   );

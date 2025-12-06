@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { ArrowRightIcon } from "lucide-react";
+import Link from "next/link";
 
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
@@ -20,7 +21,7 @@ export function FeaturedSDKs() {
         noGutter
         className="relative flex flex-col border-x max-md:pb-12 md:flex-row"
       >
-        <SectionHeader className="container-gutter max-w-sm flex-1 md:border-r">
+        <SectionHeader className="container-gutter max-w-sm flex-1 md:border-r md:py-24!">
           <SectionHeaderTexts>
             <SectionTitle>Add your first visual test in seconds</SectionTitle>
             <SectionDescription className="max-w-xl">
@@ -29,9 +30,11 @@ export function FeaturedSDKs() {
               stack.
             </SectionDescription>
           </SectionHeaderTexts>
-          <Button variant="outline">Explore all SDKs</Button>
+          <Button variant="outline" asChild>
+            <Link href="/docs/getting-started">Explore all SDKs</Link>
+          </Button>
         </SectionHeader>
-        <div className="flex flex-1 flex-col gap-8 md:flex-row md:flex-wrap md:items-start md:justify-center md:py-18">
+        <div className="flex flex-1 flex-col gap-8 md:flex-row md:flex-wrap md:items-start md:justify-center md:py-24">
           <SdkCard
             href="/docs/quickstart/playwright"
             image={playwright}

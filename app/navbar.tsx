@@ -15,7 +15,6 @@ export const AppNavbar: React.FC = () => {
       }
       secondary={
         <>
-          <NavbarLink href="/playwright">Playwright + Argos</NavbarLink>
           <NavbarLink href="https://argos-ci.com/docs/getting-started">
             Docs
           </NavbarLink>

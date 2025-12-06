@@ -194,10 +194,7 @@ export default async function Page(props: Props) {
       <Container tight>
         <Siblings slug={article.slug} />
       </Container>
-      <CallToActionSection
-        supercharge="your visual testing experience"
-        description="Discover why Argos is the preferred visual testing tool of QA & developers."
-      >
+      <CallToActionSection description="Discover why Argos is the preferred visual testing tool of QA & developers.">
         <ArgosEmblem className="mx-auto aspect-square size-24" />
       </CallToActionSection>
     </>

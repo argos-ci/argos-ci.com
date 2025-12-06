@@ -1,53 +1,55 @@
-import Image from "next/image";
+import { BugPlayIcon, ImageOffIcon, RotateCcwIcon } from "lucide-react";
 
-import { Dolorean } from "@/components/dolorean/Dolorean";
+import { lemondeQuote } from "@/app/assets/customers/library/lemonde";
+import { Button } from "@/components/Button";
+import { ThemeImage } from "@/components/ThemeImage";
 
-import { ColoredCard } from "../common/ColoredCard";
-import { FeatureSection } from "../common/FeatureSection";
-import { FailureScreenshotSvg } from "./FailureScreenshotSvg";
-import replayDark from "./replay-dark.svg";
-import replayLight from "./replay-light.svg";
+import { FeatureSection } from "../common/feature-section/FeatureSection";
+import failureScreenshotsSvg from "./assets/features/failure-screenshots.svg";
+import playwrightTracesSvg from "./assets/features/playwright-traces.svg";
+import retryScrenshotsSvg from "./assets/features/retry-screenshots.svg";
 
 export function TestDebugging() {
   return (
     <FeatureSection
-      surtitle="End-to-end tests debugging"
-      title="Inspect, replay, and fix UI test failures instantly."
-    >
-      <ColoredCard
-        color="red"
-        surtitle="Failure screenshots"
-        title="Troubleshoot tests effortlessly."
-        text="Screenshots of test failures happening on CI are automatically captured and visible in Argos."
-      >
-        <FailureScreenshotSvg />
-      </ColoredCard>
-      <ColoredCard
-        color="sky"
-        surtitle="Online Trace Viewer"
-        title="Time travel in your tests."
-        text="Playwright traces offer a comprehensive snapshot of your test's breakdown."
-      >
-        <div className="relative flex justify-center pt-10">
-          <div className="flex w-full justify-end md:w-2/3">
-            <Image
-              src={replayLight.src}
-              width={310}
-              height={214}
-              alt="User interface showing a Playwright trace"
-              className="w-full dark:hidden"
-            />
-            <Image
-              src={replayDark.src}
-              width={310}
-              height={214}
-              alt="User interface showing a Playwright trace"
-              className="hidden w-full dark:block"
-            />
-          </div>
-          <Dolorean className="animate-float absolute -bottom-[20%] left-0 w-[80%] md:w-[60%]" />
-        </div>
-      </ColoredCard>
-    </FeatureSection>
+      features={[
+        {
+          key: "failure-screenshots",
+          icon: <ImageOffIcon />,
+          title: "Failure screenshots",
+          text: "Capture screenshots on failure to instantly see what went wrong.",
+          main: (
+            <ThemeImage className="h-full" src={failureScreenshotsSvg} alt="" />
+          ),
+        },
+        {
+          key: "playwright-traces",
+          icon: <BugPlayIcon />,
+          title: "Playwright traces",
+          text: "Replay test sessions step by step to understand every action and state.",
+          main: (
+            <ThemeImage className="h-full" src={playwrightTracesSvg} alt="" />
+          ),
+        },
+        {
+          key: "retry-screenshots",
+          icon: <RotateCcwIcon />,
+          title: "Retry screenshots",
+          text: "Compare retries to confirm if issues are consistent or flaky.",
+          main: (
+            <ThemeImage className="h-full" src={retryScrenshotsSvg} alt="" />
+          ),
+        },
+      ]}
+      color="teal"
+      featureName="Test Debugging"
+      title="See why tests fail"
+      description={`Investigate failed tests with full visual context.\nSee what broke, understand why, and fix it instantly.`}
+      cta={<Button variant="outline">Explore Test Debugging</Button>}
+      story={{
+        quote: lemondeQuote,
+        href: "/customers/lemonde",
+      }}
+    />
   );
 }

@@ -40,6 +40,8 @@
 @import "@radix-ui/colors/iris-dark" layer(base);
 @import "@radix-ui/colors/green" layer(base);
 @import "@radix-ui/colors/green-dark" layer(base);
+@import "@radix-ui/colors/teal" layer(base);
+@import "@radix-ui/colors/teal-dark" layer(base);
 
 @theme {
   --primary-1: var(--violet-1);
