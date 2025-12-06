@@ -85,10 +85,7 @@ export function HeroSection(
 
 export function TrySection(props: EmblemProps) {
   return (
-    <CallToActionSection
-      supercharge="your visual testing experience"
-      description="Ready to switch to Argos? Get started for free today. No credit card required."
-    >
+    <CallToActionSection description="Ready to switch to Argos? Get started for free today. No credit card required.">
       <div className="mb-4 flex items-center justify-center gap-4">
         <div className="size-14 rounded-full border border-dashed border-(--violet-6) p-2">
           <Emblem {...props} />
