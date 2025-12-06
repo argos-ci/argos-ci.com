@@ -1,7 +1,6 @@
 import {
   BookTextIcon,
   GroupIcon,
-  type LucideIcon,
   ScanEyeIcon,
   ThumbsUpIcon,
 } from "lucide-react";
@@ -14,9 +13,36 @@ import { ThemeImage } from "@/components/ThemeImage";
 
 import { SectionHeader, SectionHeaderTexts } from "../common/SectionHeader";
 import { SectionDescription, SectionTitle } from "../common/Typography";
-import fastApprovalFlowSvg from "./assets/fast-approval-flow.svg";
+import { type Feature, FeaturesCarousel } from "./FeaturesCarousel";
+import fastApprovalFlowSvg from "./assets/features/fast-approval-flow.svg";
+import groupSvg from "./assets/features/group.svg";
+import smartDetectionSvg from "./assets/features/smart-detection.svg";
 import mermaid from "./assets/mermaid.svg";
 import sidharth from "./assets/sidharth.jpg";
+
+const features: Feature[] = [
+  {
+    key: "smart-detection",
+    icon: <ScanEyeIcon />,
+    title: "Smart detection",
+    text: "Built-in stabilization that filters out noise for cleaner, more reliable visual diffs.",
+    main: <ThemeImage className="h-full" src={smartDetectionSvg} alt="" />,
+  },
+  {
+    key: "fast-approval-flow",
+    icon: <ThumbsUpIcon />,
+    title: "Fast approval flow",
+    text: "A UX built for speed, review, approve, and ship confidently in seconds.",
+    main: <ThemeImage className="h-full" src={fastApprovalFlowSvg} alt="" />,
+  },
+  {
+    key: "grouped-diffs",
+    icon: <GroupIcon />,
+    title: "Grouped diffs",
+    text: "Similar changes are grouped, so you review once and move on.",
+    main: <ThemeImage className="h-full" src={groupSvg} alt="" />,
+  },
+];
 
 export function VisualTesting() {
   return (
@@ -38,26 +64,7 @@ export function VisualTesting() {
           </SectionHeaderTexts>
           <Button variant="outline">Explore Visual Testing</Button>
         </SectionHeader>
-        <div className="bg-subtle border-y">
-          <ThemeImage src={fastApprovalFlowSvg} alt="Fast approval flow" />
-          <div className="relative -ml-px flex flex-col items-start justify-center gap-10 py-8 md:ml-0 md:flex-row">
-            <Feature
-              icon={ScanEyeIcon}
-              title="Smart detection"
-              text="Built-in stabilization that filters out noise for cleaner, more reliable visual diffs."
-            />
-            <Feature
-              icon={ThumbsUpIcon}
-              title="Fast approval flow"
-              text="A UX built for speed, review, approve, and ship confidently in seconds."
-            />
-            <Feature
-              icon={GroupIcon}
-              title="Grouped diffs"
-              text="Similar changes are grouped, so you review once and move on."
-            />
-          </div>
-        </div>
+        <FeaturesCarousel features={features} />
         <div className="relative">
           <div className="absolute inset-0 bg-linear-to-t from-(--blue-1)" />
           <div className="absolute inset-4 text-(--neutral-3)">
@@ -97,16 +104,5 @@ export function VisualTesting() {
         </div>
       </Container>
     </section>
-  );
-}
-
-function Feature(props: { icon: LucideIcon; title: string; text: string }) {
-  const { icon: Icon, title, text } = props;
-  return (
-    <div className="flex flex-col border-l pl-6 text-sm md:max-w-56">
-      <Icon strokeWidth={1} className="size-5" />
-      <h3 className="mt-2 mb-3 font-medium">{title}</h3>
-      <p className="text-low">{text}</p>
-    </div>
   );
 }
