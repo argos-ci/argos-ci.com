@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import Link from "next/link";
 
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
@@ -28,7 +29,9 @@ export function Integrations() {
               reviews happen where your team collaborates.
             </SectionDescription>
           </SectionHeaderTexts>
-          <Button variant="outline">Explore Integrations</Button>
+          <Button variant="outline" asChild>
+            <Link href="/docs/integrations">Explore Integrations</Link>
+          </Button>
         </SectionHeader>
         <div
           className={clsx(
@@ -45,16 +48,19 @@ export function Integrations() {
             className="[--x:2] [--y:1] md:[--x:2] md:[--y:2]"
             image={{ light: githubLight, dark: githubDark }}
             title="GitHub"
+            href="/docs/github"
           />
           <IntegrationButton
             className="[--x:4] [--y:4] md:[--x:6] md:[--y:4]"
             image={slack}
             title="Slack"
+            href="/docs/slack"
           />
           <IntegrationButton
             className="[--x:6] [--y:1] md:[--x:10] md:[--y:2]"
             image={gitlab}
             title="GitLab"
+            href="/docs/gitlab"
           />
         </div>
       </Container>
@@ -66,24 +72,26 @@ function IntegrationButton(props: {
   image: ThemeImageProps["src"];
   title: string;
   className: string;
+  href: string;
 }) {
-  const { image, title, className } = props;
+  const { image, href, title, className } = props;
   return (
     <Tooltip
       content={<span className="text-xs">Explore {title} integration</span>}
       delayDuration={0}
       side="bottom"
     >
-      <div
+      <a
         className={clsx(
           "bg-app absolute size-[calc(var(--grid-size)*2+1px)] rounded-lg border shadow",
           "top-[calc(var(--grid-size)*var(--y)-1px)] left-[calc(var(--grid-size)*var(--x)-1px)]",
           "transition duration-150 hover:scale-110 hover:shadow-lg",
           className,
         )}
+        href={href}
       >
         <ThemeImage src={image} alt={title} className="size-full" />
-      </div>
+      </a>
     </Tooltip>
   );
 }

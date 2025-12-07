@@ -1,3 +1,4 @@
+import muiLogo140x48Dark from "../140x48/mui-dark.svg";
 import muiLogo140x48 from "../140x48/mui.svg";
 import muiLogoAdjusted from "../adjusted/mui.svg";
 import olivierTassinariAvatar from "../people/olivier-tassinari.jpg";
@@ -6,7 +7,7 @@ import type { CustomerCompany, CustomerQuote, CustomerUser } from "../types";
 export const mui: CustomerCompany = {
   logo: {
     adjusted: muiLogoAdjusted,
-    "140x48": muiLogo140x48,
+    "140x48": { light: muiLogo140x48, dark: muiLogo140x48Dark },
   },
   name: "MUI",
 };

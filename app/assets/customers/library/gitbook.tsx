@@ -1,12 +1,14 @@
+import gitbookLogo140x48Dark from "../140x48/gitbook-dark.svg";
 import gitbookLogo140x48 from "../140x48/gitbook.svg";
+import gitbookLogoAdjustedDark from "../adjusted/gitbook-dark.svg";
 import gitbookLogoAdjusted from "../adjusted/gitbook.svg";
 import samyPesseAvatar from "../people/samy-pesse.jpg";
 import type { CustomerCompany, CustomerQuote, CustomerUser } from "../types";
 
 export const gitbook: CustomerCompany = {
   logo: {
-    adjusted: gitbookLogoAdjusted,
-    "140x48": gitbookLogo140x48,
+    adjusted: { light: gitbookLogoAdjusted, dark: gitbookLogoAdjustedDark },
+    "140x48": { light: gitbookLogo140x48, dark: gitbookLogo140x48Dark },
   },
   name: "GitBook",
 };

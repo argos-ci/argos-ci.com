@@ -1,12 +1,13 @@
-import lemondeLogo140x48 from "../140x48/le_monde.svg";
-import lemondeLogoAdjusted from "../adjusted/le_monde.svg";
+import leMondeLogo140x48Dark from "../140x48/le-monde-dark.svg";
+import leMondeLogo140x48 from "../140x48/le-monde.svg";
+import leMondeLogoAdjusted from "../adjusted/le-monde.svg";
 import paulLaleuAvatar from "../people/paul-laleu.jpg";
 import type { CustomerCompany, CustomerQuote, CustomerUser } from "../types";
 
-export const lemonde: CustomerCompany = {
+export const leMonde: CustomerCompany = {
   logo: {
-    adjusted: lemondeLogoAdjusted,
-    "140x48": lemondeLogo140x48,
+    adjusted: leMondeLogoAdjusted,
+    "140x48": { light: leMondeLogo140x48, dark: leMondeLogo140x48Dark },
   },
   name: "Le Monde",
 };
@@ -17,8 +18,8 @@ const paulLaleu: CustomerUser = {
   title: "CTO of Le Monde",
 };
 
-export const lemondeQuote: CustomerQuote = {
-  company: lemonde,
+export const leMondeQuote: CustomerQuote = {
+  company: leMonde,
   text: (
     <>
       Thanks to Argos, we can confidently deploy updates to Sirius without

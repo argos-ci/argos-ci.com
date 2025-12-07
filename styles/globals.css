@@ -82,6 +82,19 @@
   --neutral-10: var(--gray-10);
   --neutral-11: var(--gray-11);
   --neutral-12: var(--gray-12);
+
+  --neutral-a1: var(--gray-a1);
+  --neutral-a2: var(--gray-a2);
+  --neutral-a3: var(--gray-a3);
+  --neutral-a4: var(--gray-a4);
+  --neutral-a5: var(--gray-a5);
+  --neutral-a6: var(--gray-a6);
+  --neutral-a7: var(--gray-a7);
+  --neutral-a8: var(--gray-a8);
+  --neutral-a9: var(--gray-a9);
+  --neutral-a10: var(--gray-a10);
+  --neutral-a11: var(--gray-a11);
+  --neutral-a12: var(--gray-a12);
 }
 
 @theme {

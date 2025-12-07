@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { ArrowUpRightIcon } from "lucide-react";
+import { ArrowUpRightIcon, PlayCircleIcon } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/Button";
@@ -69,15 +69,33 @@ export function Hero() {
           href="https://app.argos-ci.com/jsfez/snkr-shop-2/builds/98/96709653"
           target="_blank"
           className={clsx(
-            "group relative mx-auto block w-fit rounded-lg border border-(--primary-6) bg-(--primary-3) mask-[linear-gradient(black_70%,transparent)] p-1 md:rounded-t-3xl md:p-2.5",
-            "transition duration-300 ease-in-out hover:-translate-y-1 hover:scale-101",
+            "group relative mx-auto block w-fit",
+            "transition duration-300 ease-in-out hover:-translate-y-1 hover:scale-103",
           )}
         >
-          <ThemeImage
-            src={{ light: appLight, dark: appDark }}
-            alt="Argos Build"
-            className="w-full max-w-[880px] rounded md:rounded-t-[0.875rem]"
-          />
+          <div
+            className={clsx(
+              "relative overflow-hidden border border-(--primary-6) bg-(--primary-3) mask-[linear-gradient(black_70%,transparent)] p-1 max-md:rounded-lg md:rounded-t-3xl md:p-2.5",
+            )}
+          >
+            <div className="absolute inset-0 bg-(--neutral-a6) opacity-0 transition duration-300 ease-in-out hover:opacity-100 dark:bg-[rgba(0,0,0,0.3)]" />
+            <ThemeImage
+              src={{ light: appLight, dark: appDark }}
+              alt="Argos Build"
+              className="w-full max-w-[880px] rounded md:rounded-t-[0.875rem]"
+            />
+          </div>
+          <div
+            className={clsx(
+              "font-accent bg-app pointer-events-none absolute bottom-4 left-1/2 order-(--primary-6) flex -translate-x-1/2 items-center gap-1 rounded-lg border px-2 py-1 text-sm font-medium text-(--primary-11)",
+              "transition ease-in-out",
+              "scale-75 opacity-0",
+              "group-hover:-translate-y-10 group-hover:scale-100 group-hover:opacity-100",
+            )}
+          >
+            <PlayCircleIcon className="size-4" />
+            View demo build
+          </div>
         </a>
       </Container>
     </section>

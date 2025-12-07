@@ -1,6 +1,6 @@
 import { BugPlayIcon, ImageOffIcon, RotateCcwIcon } from "lucide-react";
 
-import { lemondeQuote } from "@/app/assets/customers/library/lemonde";
+import { leMondeQuote } from "@/app/assets/customers/library/le-monde";
 import { Button } from "@/components/Button";
 import { ThemeImage } from "@/components/ThemeImage";
 
@@ -47,7 +47,7 @@ export function TestDebugging() {
       description={`Investigate failed tests with full visual context.\nSee what broke, understand why, and fix it instantly.`}
       cta={<Button variant="outline">Explore Test Debugging</Button>}
       story={{
-        quote: lemondeQuote,
+        quote: leMondeQuote,
         href: "/customers/lemonde",
       }}
     />

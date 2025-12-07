@@ -11,7 +11,12 @@ import { ThemeImage } from "@/components/ThemeImage";
 import { SectionHeader, SectionHeaderTexts } from "../SectionHeader";
 import { SectionDescription, SectionTitle } from "../Typography";
 import { type Feature, FeaturesCarousel } from "./FeaturesCarousel";
-import { type FeatureColor, INDICATOR_BG_COLORS, TO_COLORS } from "./colors";
+import {
+  FROM_COLORS,
+  type FeatureColor,
+  INDICATOR_BG_COLORS,
+  TO_COLORS,
+} from "./colors";
 
 export function FeatureSection(props: {
   color: FeatureColor;
@@ -51,7 +56,12 @@ export function FeatureSection(props: {
         </SectionHeader>
         <FeaturesCarousel color={color} features={features} />
         <div className="relative">
-          <div className="absolute inset-0 bg-linear-to-t from-(--blue-1)" />
+          <div
+            className={clsx(
+              "absolute inset-0 bg-linear-to-t",
+              FROM_COLORS[color],
+            )}
+          />
           <div className="absolute inset-x-4 inset-y-5 text-(--neutral-3)">
             <Pattern />
           </div>
