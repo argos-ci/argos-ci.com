@@ -1,6 +1,6 @@
 import { ChartSplineIcon, FlagOffIcon, WavesIcon } from "lucide-react";
 
-import { gitbookQuote } from "@/app/assets/customers/library/gitbook";
+import { muiQuote } from "@/app/assets/customers/library/mui";
 import { Button } from "@/components/Button";
 import { ThemeImage } from "@/components/ThemeImage";
 
@@ -45,7 +45,7 @@ export function FlakyDetection() {
       description={`Detect, manage and fix flaky tests.\nTrack instability across builds and automatically silence flaky noise.`}
       cta={<Button variant="outline">Explore Flaky Detection</Button>}
       story={{
-        quote: gitbookQuote,
+        quote: muiQuote,
         href: "/customers/gitbook",
       }}
     />

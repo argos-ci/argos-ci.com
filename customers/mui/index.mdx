@@ -1,0 +1,80 @@
+---
+title: Scaling Visual Regression Testing for the MUI Component Ecosystem
+description: MUI uses Argos to protect the visual integrity of the most widely used React UI library, processing millions of screenshots per month across their component ecosystem.
+slug: mui
+date: 2025-01-15
+author: Greg Bergé
+image: ./main.jpg
+
+customer:
+  name: MUI
+  logo: ./mui-logo.svg
+  website: https://mui.com
+  about: MUI is the most popular React UI component library, powering products used by millions of developers worldwide.
+  industry: Developer Tools, Open Source
+  companySize: 50-100
+  founded: 2014
+  argosPlan: Enterprise
+---
+
+## The Challenge
+
+MUI maintains the most widely adopted React UI component library in the ecosystem. Millions of developers rely on MUI components to build production user interfaces, which means even a minor visual regression can propagate across thousands of applications.
+
+As the library evolved, maintaining visual consistency across components, variants, themes, and layout systems became increasingly complex. A small change in spacing, typography, or styling logic could affect hundreds of components at once. Manual visual reviews were no longer viable at this scale.
+
+In the main [material-ui](https://github.com/mui/material-ui) repository alone, each build compares more than **1100 screenshots**, all generated from real component scenarios. MUI needed a solution that could detect real visual regressions reliably, at scale, and without slowing down development.
+
+![Screenshot of a MUI build of Argos](/assets/customers/mui/argos-build.png)
+
+## The Solution
+
+MUI adopted **Argos** to automate visual regression testing across their component ecosystem. Today, they run more than **2.5 million screenshots per month** across **five different projects**, with each Argos build processed in just a few seconds, even for the largest repositories.
+
+Argos provides a stable visual baseline for every component and variant. Each pull request triggers a visual comparison that immediately reveals layout shifts, style regressions, or unexpected UI changes introduced by a code change.
+
+A key capability for MUI is Argos [flaky indicator](/docs/flaky-test-detection). Engineers can instantly tell whether a difference is a real regression or a flaky screenshot. This allows them to take action early, fix instability at the source, and keep the visual test suite healthy over time.
+
+![Flaky dashboard](/assets/customers/mui/flaky-detection.png)
+
+## Built for Open Source at Scale
+
+MUI runs a fully open source workflow with a high volume of forked pull requests from contributors around the world. Argos is deeply [integrated with GitHub](/docs/github) and handles forked PRs automatically, without additional configuration or manual approval steps.
+
+<Blockquote
+  authorName="Olivier Tassinari"
+  authorAvatar="/assets/customers/mui/olivier-tassinari.jpg"
+  authorPosition="CEO"
+  companyName="MUI"
+  companyLogo="/assets/customers/mui/mui-logo.svg"
+  quote={
+    <>
+      Argos gives us a stable visual baseline for MUI. It lets us refactor
+      confidently, catch layout drifts early, and{" "}
+      <strong>ship changes faster</strong> without adding noise to our workflow.
+      It is the kind of tooling that{" "}
+      <strong>scales with a component library as large as ours</strong>.
+    </>
+  }
+/>
+
+Visual feedback is posted directly on pull requests, allowing maintainers and contributors to review changes in context. This makes it easy to catch visual regressions early, long before they are merged into the main branch.
+
+Argos fits naturally into MUI workflow, preserving the openness of the project while providing enterprise grade reliability and performance.
+
+## The Results
+
+With Argos embedded in their CI pipeline, MUI has fundamentally changed how visual quality is enforced across the library.
+
+The team now benefits from:
+
+- Consistent detection of layout and style regressions across hundreds of components
+- Immediate identification of flaky screenshots to maintain a reliable test suite
+- High confidence refactors without fear of unintended visual side effects
+- A review workflow that scales with both team size and contributor volume
+
+Argos enables MUI to move fast while maintaining the level of visual stability expected by millions of developers who rely on the library every day.
+
+## Looking Ahead
+
+As MUI continues to expand its component offering and design system capabilities, Argos remains a foundational tool for preserving visual integrity. With fast feedback, clear signal, and a workflow that scales effortlessly, the MUI team can continue shipping improvements with confidence.

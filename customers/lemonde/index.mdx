@@ -19,11 +19,11 @@ customer:
 
 ## Ensuring a Smooth Editorial Workflow with Argos
 
-As the backbone of the group’s content operations, Sirius is built with a variety of intricate editors, including complex block structures, home page management, and article planning features. Visual regressions can break these critical features, jeopardizing the publication process.
+Sirius is the backbone of the group’s content operations. It is built around a wide range of advanced editors, including complex block structures, home page management, and article planning tools. Visual regressions in these areas can break critical workflows and directly affect journalists’ ability to publish.
 
 ![Sirius editor screenshot in Argos](/assets/customers/lemonde/sirius-editor.jpg)
 
-To maintain flawless performance and ensure there are no bugs introduced during updates, Le Monde leverages Argos for visual testing. Argos helps identify and prevent any visual regressions in Sirius, enabling the team to quickly address issues before they impact journalists.
+To maintain a high level of reliability and ensure updates do not introduce regressions, Le Monde uses Argos for visual testing. Argos detects visual changes in Sirius early, allowing the team to fix issues before they reach production and disrupt editorial work.
 
 <Blockquote
   authorName="Paul Laleu"
@@ -39,13 +39,17 @@ To maintain flawless performance and ensure there are no bugs introduced during 
   }
 />
 
+Beyond detection, the Sirius team relies heavily on screenshot failures to debug issues. When a test fails, the visual diff provides immediate context about what changed and where, making it much faster to understand the root cause. This visual feedback often removes the need for lengthy reproductions or manual checks and speeds up fixes during development.
+
+![Test failure visible in Argos UI](/assets/customers/lemonde/test-failure.png)
+
 ## Avoiding Costly Delays
 
-A delay in publication at Le Monde can be catastrophic, potentially costing the group millions of euros. With such high stakes, the reliability of the CMS is not just a technical issue, but a financial one.
+For Le Monde, a delay in publication can have serious consequences and may cost the group millions of euros. At this scale, CMS reliability is both a technical and a financial concern.
 
 ![Visual regression detected in Argos on Sirius](/assets/customers/lemonde/sirius-regression.jpg)
 
-Argos plays a key role in preventing regressions that could lead to these costly delays. By ensuring that every update is free from visual bugs, Le Monde’s development team can confidently deploy new features without the risk of disrupting their editorial workflow.
+Argos helps prevent regressions that could lead to these delays by ensuring every update is visually validated. The development team can ship new features and fixes with confidence, knowing that critical editorial flows will remain intact.
 
 <Blockquote
   authorName="Marius Baron"
@@ -62,15 +66,15 @@ Argos plays a key role in preventing regressions that could lead to these costly
   }
 />
 
-Incorporating Argos into their CI pipeline has allowed Le Monde to maintain the high level of performance required to meet the constant demands of news production. Visual regression detection ensures that their CMS remains reliable, preventing disruptions that could hinder their ability to publish in a timely manner.
+By integrating Argos deeply into their CI pipeline, Le Monde maintains the level of reliability required for continuous news production. Visual regression testing helps keep Sirius stable and ensures the newsroom can publish on time without unexpected disruptions.
 
 ## Why Le Monde Chose Argos
 
-For a complex application like Sirius, Le Monde needed a visual testing solution that integrated seamlessly with their workflow. Argos provided the perfect solution by offering:
+For a complex application like Sirius, Le Monde needed a visual testing solution that fit naturally into their existing workflow. Argos stood out with:
 
 - **Automatic visual regression detection** during development
-- **Detailed visual diff reports** that allow the team to pinpoint problems instantly
-- **Integration with the CI pipeline**, ensuring visual checks are part of every deployment
-- **Confidence in deployment**, knowing that visual bugs won’t slip through the cracks
+- **Clear visual diffs** that make issues easy to understand and debug
+- **CI integration**, so visual checks run on every update
+- **Deployment confidence**, with fewer surprises in production
 
-With Argos, Le Monde can focus on what they do best—delivering timely, world-class journalism—while ensuring their CMS stays robust and reliable.
+With Argos, Le Monde can stay focused on delivering high quality journalism while keeping its CMS robust and dependable.

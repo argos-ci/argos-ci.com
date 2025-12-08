@@ -34,16 +34,19 @@ export function Cost() {
         <div className="bg-app flex flex-col border-y shadow-xs md:flex-row">
           <div className="container-gutter flex max-w-md flex-1 flex-col items-start justify-center gap-6 py-6 max-md:border-b md:gap-8 md:border-r md:py-8">
             <CostFeature
+              href="/docs/diff-algorithm"
               icon={ScanIcon}
               title="No AI overhead"
               description="Argos uses pixel diffing so you avoid the extra fees tied to heuristic based engines."
             />
             <CostFeature
+              href="/docs/spend-management"
               icon={BellIcon}
               title="Stay in control of your budget"
               description="Set monthly spend limits and get notified before you exceed your threshold."
             />
             <CostFeature
+              href="/docs/pricing-plans"
               icon={TrendingDownIcon}
               title="Cheaper at every volume"
               description="From small teams to millions of snapshots, Argos stays below competitors."
@@ -125,9 +128,10 @@ function CostLine(props: {
 function CostFeature(props: {
   title: string;
   description: string;
+  href: string;
   icon: LucideIcon;
 }) {
-  const { title, description, icon: Icon } = props;
+  const { title, description, icon: Icon, href } = props;
   return (
     <div>
       <h3 className="font-accent text-lg font-medium">
@@ -135,10 +139,13 @@ function CostFeature(props: {
         {title}
       </h3>
       <p className="text-low text-sm">{description}</p>
-      <a className="group mt-2 inline-block text-sm font-medium">
+      <Link
+        href={href}
+        className="group mt-2 inline-block text-sm font-medium text-(--primary-11)"
+      >
         Learn more
-        <ChevronRightIcon className="-mt-0.5 ml-0.5 inline size-4 transition group-hover:translate-x-1 group-focus:translate-x-1" />
-      </a>
+        <ChevronRightIcon className="-mt-px ml-0.5 inline size-4 transition group-hover:translate-x-1 group-focus:translate-x-1" />
+      </Link>
     </div>
   );
 }
