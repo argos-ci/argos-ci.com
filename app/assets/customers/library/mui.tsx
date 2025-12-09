@@ -22,8 +22,8 @@ export const muiQuote: CustomerQuote = {
   company: mui,
   text: (
     <>
-      Argos gives us a stable visual baseline for MUI. It lets us refactor
-      confidently, catch layout drifts early, and{" "}
+      rgos gives a stable visual baseline for the MUI and Base UI component
+      ecosystem. It lets us refactor confidently, catch layout drifts early, and{" "}
       <strong>ship changes faster</strong> without adding noise to our workflow.
       It is the kind of tooling that{" "}
       <strong>scales with a component library as large as ours</strong>.

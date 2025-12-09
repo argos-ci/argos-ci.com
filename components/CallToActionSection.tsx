@@ -9,22 +9,27 @@ export function CallToActionSection(props: {
   description: React.ReactNode;
 }) {
   return (
-    <section>
-      <div className="h-44 border-b border-(--primary-12) bg-linear-to-b from-black from-70% to-(--primary-11) dark:from-white" />
+    <section className="[--glow-color:var(--primary-11)]">
+      <div className="relative h-44 bg-linear-to-b from-black from-70% to-(--glow-color) dark:from-white">
+        <Grid
+          size={12}
+          className="absolute inset-y-0 -left-[10vw] w-[120vw] mask-[linear-gradient(black,transparent)] text-(--primary-1) opacity-10 dark:opacity-5"
+        />
+      </div>
       <div className="px-4">
         <Container className="relative flex flex-col items-center justify-center border-x py-20 pt-16 text-center md:pb-28">
           <Container className="absolute top-1 -mt-16 flex blur-xl">
             <svg
               viewBox="0 0 64 48"
-              className="z-10 w-16 flex-none fill-(--primary-11)"
+              className="z-10 w-16 flex-none fill-(--glow-color)"
               aria-hidden="true"
             >
               <path d="M51.657 2.343 12.343 41.657A8 8 0 0 1 6.686 44H0v4h64V0h-6.686a8 8 0 0 0-5.657 2.343Z"></path>
             </svg>
-            <div className="-mx-px flex-auto bg-(--primary-11)"></div>
+            <div className="-mx-px flex-auto bg-(--glow-color)"></div>
             <svg
               viewBox="0 0 64 48"
-              className="z-10 w-16 flex-none fill-(--primary-11)"
+              className="z-10 w-16 flex-none fill-(--glow-color)"
               aria-hidden="true"
             >
               <path d="m12.343 2.343 39.314 39.314A8 8 0 0 0 57.314 44H64v4H0V0h6.686a8 8 0 0 1 5.657 2.343Z"></path>
