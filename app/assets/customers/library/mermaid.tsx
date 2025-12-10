@@ -21,9 +21,12 @@ export const mermaidQuote: CustomerQuote = {
   company: mermaid,
   text: (
     <>
-      Argos has been a game-changer for us. It catches even the smallest visual
-      changes in our diagram rendering, giving us peace of mind before every
-      release. The seamless integration with our CI pipeline makes it an
+      Argos has been a game-changer for us.{" "}
+      <strong>
+        It catches even the smallest visual changes in our diagram rendering
+      </strong>
+      , giving us peace of mind before every release. The{" "}
+      <strong>seamless integration with our CI pipeline</strong> makes it an
       essential part of our development process.
     </>
   ),

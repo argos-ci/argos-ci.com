@@ -5,7 +5,14 @@ import Link from "next/link";
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 import { Grid } from "@/components/Grid";
+import {
+  HeroActions,
+  Hero as HeroComponent,
+  HeroDescription,
+  HeroHeading,
+} from "@/components/Hero";
 import { ThemeImage } from "@/components/ThemeImage";
+import { getPaginatedChangelogs } from "@/lib/api/changelog";
 
 import appDark from "./assets/app-dark.png";
 import appLight from "./assets/app-light.png";
@@ -35,35 +42,24 @@ export function Hero() {
           <Grid className="w-max-content pointer-events-none absolute inset-[unset] inset-y-0 left-1/2 -translate-x-1/2" />
         </div>
         <div className="relative flex w-full flex-col items-center gap-10 py-16 text-center md:pt-20 md:pb-24">
-          <Link
-            href="/changelog"
-            className="bg-app hover:bg-subtle group mx-auto flex items-center rounded-full border text-xs font-medium shadow-xs transition hover:shadow-sm md:text-sm"
-          >
-            <span className="px-3 py-1.5">
-              Introducing Official Storybook SDK
-            </span>
-            <span className="text-low inline-flex items-center gap-1 py-1.5 pr-3 md:border-l md:px-3">
-              <span className="hidden md:inline">Read more </span>
-              <ArrowUpRightIcon className="size-4 transition group-hover:translate-x-px group-hover:-translate-y-px" />
-            </span>
-          </Link>
-          <div className="flex max-w-2xl flex-col gap-5 text-balance">
-            <h1 className="font-accent text-4xl font-medium md:text-5xl">
-              Raise the quality bar for every release
-            </h1>
-            <p className="text-low text-base font-medium md:text-xl">
+          <LastChangelog />
+          <HeroComponent align="center">
+            <HeroHeading>Raise the quality bar for every release</HeroHeading>
+            <HeroDescription>
               Argos catches unexpected changes in your UI so your product stays
               polished at any scale.
-            </p>
-          </div>
-          <div className="flex gap-4">
-            <Button size="large" asChild>
-              <Link href="https://app.argos-ci.com/signup">Start for free</Link>
-            </Button>
-            <Button size="large" variant="outline" asChild>
-              <Link href="https://cal.com/gregberge">Get a demo</Link>
-            </Button>
-          </div>
+            </HeroDescription>
+            <HeroActions>
+              <Button size="large" asChild>
+                <Link href="https://app.argos-ci.com/signup">
+                  Start for free
+                </Link>
+              </Button>
+              <Button size="large" variant="outline" asChild>
+                <Link href="https://cal.com/gregberge">Get a demo</Link>
+              </Button>
+            </HeroActions>
+          </HeroComponent>
         </div>
         <a
           href="https://app.argos-ci.com/jsfez/snkr-shop-2/builds/98/96709653"
@@ -99,5 +95,25 @@ export function Hero() {
         </a>
       </Container>
     </section>
+  );
+}
+
+async function LastChangelog() {
+  const result = await getPaginatedChangelogs({ page: 1 });
+  const first = result.entries[0];
+  if (!first) {
+    return null;
+  }
+  return (
+    <Link
+      href="/changelog"
+      className="bg-app hover:bg-subtle group mx-auto flex items-center rounded-full border text-xs font-medium shadow-xs transition hover:shadow-sm md:text-sm"
+    >
+      <span className="px-3 py-1.5">{first.homeTitle ?? first.title}</span>
+      <span className="text-low inline-flex items-center gap-1 py-1.5 pr-3 md:border-l md:px-3">
+        <span className="hidden md:inline">Read more </span>
+        <ArrowUpRightIcon className="size-4 transition group-hover:translate-x-px group-hover:-translate-y-px" />
+      </span>
+    </Link>
   );
 }

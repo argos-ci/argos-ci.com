@@ -13,7 +13,7 @@ function AccordionItem({
 }: React.ComponentPropsWithRef<typeof AccordionPrimitive.Item>) {
   return (
     <AccordionPrimitive.Item
-      className={clsx("border-b", className)}
+      className={clsx("not-last:border-b", className)}
       {...props}
     />
   );

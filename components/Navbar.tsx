@@ -7,7 +7,7 @@ import Link from "next/link";
 import * as React from "react";
 
 import { Burger } from "./Burger";
-import { useScrollListener } from "./useScrollListener";
+import { useIsScrolled } from "./useIsScrolled";
 
 export function NavbarLink(props: { href: string; children: React.ReactNode }) {
   return (
@@ -26,10 +26,7 @@ type NavbarProps = {
 
 export function Navbar(props: NavbarProps) {
   const { primary, secondary, actions } = props;
-  const [scrolled, setScrolled] = React.useState(false);
-  useScrollListener(() => {
-    setScrolled(window.scrollY > 0);
-  });
+  const scrolled = useIsScrolled();
   const [open, setOpen] = React.useState(false);
 
   return (

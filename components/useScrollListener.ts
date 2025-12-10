@@ -4,6 +4,9 @@ import * as React from "react";
 
 import { useLiveRef } from "./useLiveRef";
 
+/**
+ * Listen for scroll on the document.
+ */
 export const useScrollListener = (listener: (event: Event) => void) => {
   const listenerRef = useLiveRef(listener);
   React.useEffect(() => {

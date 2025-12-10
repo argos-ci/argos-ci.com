@@ -1,10 +1,26 @@
 import clsx from "clsx";
-import { CheckCircleIcon, CircleIcon } from "lucide-react";
+import {
+  BellIcon,
+  BugPlayIcon,
+  GaugeIcon,
+  GitGraphIcon,
+  HandFistIcon,
+  HeadsetIcon,
+  HeartHandshakeIcon,
+  ImagePlusIcon,
+  ImagesIcon,
+  LockKeyholeIcon,
+  type LucideIcon,
+  ScanEyeIcon,
+  SlidersHorizontalIcon,
+  UserCheckIcon,
+} from "lucide-react";
 import NextLink from "next/link";
 import * as React from "react";
 import { twc } from "react-twc";
 
 import { Button, ButtonProps } from "@/components/Button";
+import { Container } from "@/components/Container";
 import {
   LocalDollar,
   LocalPercentage,
@@ -20,59 +36,48 @@ import {
 } from "@/lib/constants";
 
 const PricingCardBody = twc.div`p-6 text-left text-low`;
-const Title = twc.div`mb-2 text-xl font-semibold text-default`;
-const Description = twc.div`my-2 h-12 last-of-type:mb-0`;
-const Badges = twc.div`block h-8`;
-const Badge = twc.div`text-(--violet-11) mb-10 w-fit rounded-sm border border-(--violet-6) px-2.5 py-0.5 text-xs font-medium text`;
+const Title = twc.h3`text-xl font-semibold text-default font-accent`;
+const Description = twc.div`my-2 md:h-12 last-of-type:mb-0`;
 const PriceBadge = twc.div`text-(--violet-11) ml-auto w-fit rounded-sm border border-dashed border-(--violet-6) px-2.5 py-0.5 text-xs`;
-const Paragraph = twc.p`block text-sm min-h-5`;
+const Paragraph = twc.p`block text-sm md:min-h-5`;
 
 const Features = twc.ul`mt-4 mb-6 flex flex-col gap-4`;
 const FeaturesCaption = twc(Paragraph)``;
-const Feature = ({
-  children,
-  optional,
-  className,
-}: {
+
+function Feature(props: {
   children: React.ReactNode;
-  optional?: boolean;
+  icon: LucideIcon;
   className?: string;
-}) => {
-  const Icon = optional ? CircleIcon : CheckCircleIcon;
+}) {
+  const { icon: Icon, className, children } = props;
   return (
     <li className={clsx("flex items-start gap-2 leading-tight", className)}>
       <Icon className="mt-0.5 size-4 shrink-0 text-(--violet-11)" />
       {children}
     </li>
   );
-};
+}
 
-const PricingCard = ({
-  children,
-  emphasis,
-}: {
-  children: React.ReactNode;
-  emphasis?: boolean;
-}) => (
-  <div
-    className={clsx(
-      "border-border w-full flex-1 shrink-0 basis-80 rounded-xl border bg-(--violet-1)",
-      emphasis ? "border-2 border-(--violet-6) pt-[calc(1rem-1px)]" : "md:mt-4",
-    )}
-  >
-    {children}
-  </div>
-);
+function PricingCard(props: { children: React.ReactNode; emphasis?: boolean }) {
+  const { children, emphasis } = props;
+  return (
+    <div
+      className={clsx(
+        "flex-1 shrink-0",
+        emphasis && "bg-linear-to-b from-(--primary-2)",
+      )}
+    >
+      {children}
+    </div>
+  );
+}
 
-const Price = ({
-  price,
-  recurring,
-  fixedPrice,
-}: {
+function Price(props: {
   price: number;
   recurring: boolean;
   fixedPrice: boolean;
-}) => {
+}) {
+  const { price, recurring, fixedPrice } = props;
   return (
     <div className="flex flex-col gap-1 pt-6">
       <Paragraph>{fixedPrice ? null : "Starting at"}</Paragraph>
@@ -87,34 +92,37 @@ const Price = ({
       </Paragraph>
     </div>
   );
-};
+}
 
-const CTA = ({
-  children,
-  href,
-  ...props
-}: ButtonProps & {
-  children: React.ReactNode;
-  href: string;
-}) => (
-  <Button
-    className="mt-10 mb-6 w-full justify-center"
-    size="large"
-    asChild
-    {...props}
-  >
-    <NextLink href={href} passHref>
-      {children}
-    </NextLink>
-  </Button>
-);
+function CTA(
+  props: ButtonProps & {
+    children: React.ReactNode;
+    href: string;
+  },
+) {
+  const { children, href, ...rest } = props;
+  return (
+    <Button
+      className="mt-10 mb-6 w-full justify-center"
+      size="large"
+      asChild
+      {...rest}
+    >
+      <NextLink href={href} passHref>
+        {children}
+      </NextLink>
+    </Button>
+  );
+}
 
 export function PricingCards() {
   return (
-    <div className="grid w-full grid-cols-1 justify-center gap-6 md:grid-cols-3">
+    <Container
+      noGutter
+      className="grid grid-cols-1 justify-center border-x border-t max-md:*:not-last:border-b md:grid-cols-3 md:*:not-last:border-r"
+    >
       <PricingCard>
         <PricingCardBody>
-          <Badges />
           <Title>Hobby Plan</Title>
           <Description>For personal projects.</Description>
           <Price price={0} recurring={false} fixedPrice={true} />
@@ -124,24 +132,26 @@ export function PricingCards() {
 
           <Features>
             <FeaturesCaption />
-            <Feature>
+            <Feature icon={ImagesIcon}>
               Up to <LocalString value={ARGOS_HOBBY_SCREENSHOT_COUNT} />{" "}
               screenshots
             </Feature>
-            <Feature>Unlimited Playwright Traces</Feature>
-            <Feature>Visual changes detection</Feature>
-            <Feature>GitHub & GitLab integration</Feature>
-            <Feature>Community Support</Feature>
+            <Feature icon={BugPlayIcon}>Unlimited Playwright Traces</Feature>
+            <Feature icon={ScanEyeIcon}>Visual changes detection</Feature>
+            <Feature icon={GitGraphIcon}>GitHub & GitLab integration</Feature>
+            <Feature icon={HandFistIcon}>Community Support</Feature>
           </Features>
         </PricingCardBody>
       </PricingCard>
 
       <PricingCard emphasis>
         <PricingCardBody>
-          <Badges>
-            <Badge>Most Popular</Badge>
-          </Badges>
-          <Title>Pro Plan</Title>
+          <div className="flex items-center gap-2">
+            <Title>Pro Plan</Title>
+            <div className="rounded-full border border-(--primary-6) px-2.5 py-0.5 text-xs font-medium text-(--violet-11)">
+              Popular
+            </div>
+          </div>
           <Description>
             Unlimited screenshots and team collaboration.
           </Description>
@@ -156,21 +166,21 @@ export function PricingCards() {
 
           <Features>
             <FeaturesCaption>Everything in Hobby, plus:</FeaturesCaption>
-            <Feature>
+            <Feature icon={ImagesIcon}>
               Includes <LocalString value={ARGOS_PRO_FLAT_SCREENSHOT_COUNT} />{" "}
               screenshots
             </Feature>
-            <Feature>
+            <Feature icon={ImagePlusIcon}>
               Extra screenshots <LocalDollar value={ARGOS_SCREENSHOT_PRICE} />
               <br />
               for Storybook{" "}
               <LocalDollar value={ARGOS_STORYBOOK_SCREENSHOT_PRICE} />
             </Feature>
-            <Feature>Collaborative review</Feature>
-            <Feature>Slack notifications</Feature>
-            <Feature>Pro Support</Feature>
+            <Feature icon={HeartHandshakeIcon}>Collaborative review</Feature>
+            <Feature icon={BellIcon}>Slack notifications</Feature>
+            <Feature icon={HeadsetIcon}>Pro Support</Feature>
             <div className="mt-4 text-sm font-medium">Optional</div>
-            <Feature optional>
+            <Feature icon={LockKeyholeIcon}>
               GitHub SSO
               <PriceBadge>
                 <LocalDollar value={GITHUB_SSO_PRICE} /> /mo
@@ -182,10 +192,9 @@ export function PricingCards() {
 
       <PricingCard>
         <PricingCardBody>
-          <Badges />
           <Title>Enterprise</Title>
           <Description>Tailored solutions with premium features.</Description>
-          <div className="text-default mt-12 mb-6 flex items-baseline pt-2 text-3xl font-semibold">
+          <div className="text-default my-6 flex items-baseline pt-2 text-3xl font-semibold md:mt-12">
             Custom
           </div>
           <CTA href="mailto:contact@argos-ci.com" variant="outline">
@@ -194,16 +203,18 @@ export function PricingCards() {
 
           <Features>
             <FeaturesCaption>Everything in Pro, plus:</FeaturesCaption>
-            <Feature>Custom screenshot number</Feature>
-            <Feature>SAML SSO</Feature>
-            <Feature>Fine-grained access control</Feature>
-            <Feature>Dedicated support</Feature>
-            <Feature>
+            <Feature icon={ImagesIcon}>Custom screenshot number</Feature>
+            <Feature icon={LockKeyholeIcon}>SAML SSO</Feature>
+            <Feature icon={SlidersHorizontalIcon}>
+              Fine-grained access control
+            </Feature>
+            <Feature icon={UserCheckIcon}>Dedicated support</Feature>
+            <Feature icon={GaugeIcon}>
               <LocalPercentage value={0.9999} /> uptime SLA
             </Feature>
           </Features>
         </PricingCardBody>
       </PricingCard>
-    </div>
+    </Container>
   );
 }

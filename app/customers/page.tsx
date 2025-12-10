@@ -10,6 +10,12 @@ import { BRANDS } from "@/components/BrandTestimonials";
 import { Button } from "@/components/Button";
 import { CallToActionSection } from "@/components/CallToActionSection";
 import { Container, SideBorder } from "@/components/Container";
+import {
+  Hero,
+  HeroActions,
+  HeroDescription,
+  HeroHeading,
+} from "@/components/Hero";
 import { getMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = getMetadata({
@@ -24,23 +30,23 @@ export default function Page() {
       <section className="border-b px-4">
         <Container className="relative py-16 md:py-24">
           <SideBorder />
-          <h1 className="font-accent mb-4 text-4xl font-medium md:text-5xl">
-            Meet our customers
-          </h1>
-          <p className="text-low mb-8 max-w-2xl text-lg font-medium">
-            From fast moving startups to large enterprises, teams use Argos to
-            prevent visual regressions and keep UI quality high.
-          </p>
-          <div className="flex gap-4">
-            <Button size="large" asChild>
-              <Link href="https://app.argos-ci.com/signup">
-                Make the switch
-              </Link>
-            </Button>
-            <Button size="large" variant="outline" asChild>
-              <Link href="https://cal.com/gregberge">Get a demo</Link>
-            </Button>
-          </div>
+          <Hero>
+            <HeroHeading>Meet our customers</HeroHeading>
+            <HeroDescription>
+              From fast moving startups to large enterprises, teams use Argos to
+              prevent visual regressions and keep UI quality high.
+            </HeroDescription>
+            <HeroActions>
+              <Button size="large" asChild>
+                <Link href="https://app.argos-ci.com/signup">
+                  Make the switch
+                </Link>
+              </Button>
+              <Button size="large" variant="outline" asChild>
+                <Link href="https://cal.com/gregberge">Get a demo</Link>
+              </Button>
+            </HeroActions>
+          </Hero>
         </Container>
         <Container className="grid grid-cols-1 gap-8 border-x pb-16 md:grid-cols-3">
           <Column>

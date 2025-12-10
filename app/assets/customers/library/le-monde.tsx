@@ -22,8 +22,9 @@ export const leMondeQuote: CustomerQuote = {
   company: leMonde,
   text: (
     <>
-      Thanks to Argos, we can confidently deploy updates to Sirius without
-      worrying about unexpected issues disrupting our editorial workflows.
+      Thanks to Argos, we can <strong>confidently deploy updates</strong> to
+      Sirius without worrying about unexpected issues disrupting our editorial
+      workflows.
     </>
   ),
   author: paulLaleu,

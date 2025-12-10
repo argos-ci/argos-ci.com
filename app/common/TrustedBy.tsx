@@ -1,13 +1,3 @@
-// import businessInsider from "@/app/assets/customers/140x48/business-insider.svg";
-// import clickhouse from "@/app/assets/customers/140x48/clickhouse.svg";
-// import doctolib from "@/app/assets/customers/140x48/doctolib.svg";
-// import gitbook from "@/app/assets/customers/140x48/gitbook.svg";
-// import leMonde from "@/app/assets/customers/140x48/le-monde.svg";
-// import mermaid from "@/app/assets/customers/140x48/mermaid.svg";
-// import meta from "@/app/assets/customers/140x48/meta.svg";
-// import mui from "@/app/assets/customers/140x48/mui.svg";
-// import qonto from "@/app/assets/customers/140x48/qonto.svg";
-// import yotpo from "@/app/assets/customers/140x48/yotpo.svg";
 import { businessInsider } from "@/app/assets/customers/library/business-insider";
 import { clickhouse } from "@/app/assets/customers/library/clickhouse";
 import { doctolib } from "@/app/assets/customers/library/doctolib";
