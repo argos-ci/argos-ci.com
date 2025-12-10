@@ -2,12 +2,6 @@ import NextLink from "next/link";
 
 import { Button } from "@/components/Button";
 import { Container, SideBorder } from "@/components/Container";
-import {
-  Hero,
-  HeroActions,
-  HeroDescription,
-  HeroHeading,
-} from "@/components/Hero";
 import { Link } from "@/components/Link";
 import { ChangelogEntry } from "@/lib/api/changelog";
 
@@ -25,7 +19,7 @@ export function Changelogs(props: {
     <div className="px-4">
       <Container className="relative border-b pt-16 pb-8 md:pt-24">
         <SideBorder />
-        <h1 className="mb-2 text-4xl font-semibold">Changelog</h1>
+        <h1 className="font-accent mb-2 text-4xl font-semibold">Changelog</h1>
         <div className="text-low mb-2">
           New updates and improvements to Argos.
         </div>
