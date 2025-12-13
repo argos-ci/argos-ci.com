@@ -5,11 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
 
-import { ArgosEmblem } from "@/components/ArgosEmblem";
 import { BRANDS } from "@/components/BrandTestimonials";
 import { Button } from "@/components/Button";
 import { CallToActionSection } from "@/components/CallToActionSection";
-import { Container, SideBorder } from "@/components/Container";
+import { Container } from "@/components/Container";
 import { FullPageGrid } from "@/components/FullPageGrid";
 import {
   Hero,
@@ -137,9 +136,7 @@ export default function Page() {
           </Column>
         </Container>
       </div>
-      <CallToActionSection description="Discover why Argos is the preferred visual testing tool of QA & developers.">
-        <ArgosEmblem className="mx-auto aspect-square size-24" />
-      </CallToActionSection>
+      <CallToActionSection />
     </>
   );
 }

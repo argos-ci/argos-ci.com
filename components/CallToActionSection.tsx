@@ -2,12 +2,21 @@ import gradients from "@/app/home/hero/assets/gradients.svg";
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 
+import { ArgosEmblem } from "./ArgosEmblem";
 import { Grid } from "./Grid";
 
 export function CallToActionSection(props: {
   children?: React.ReactNode;
-  description: React.ReactNode;
+  description?: React.ReactNode;
 }) {
+  const {
+    children = <ArgosEmblem className="mx-auto aspect-square size-24" />,
+    description = (
+      <>
+        One source of truth for UI changes. Review, approve, and ships faster.
+      </>
+    ),
+  } = props;
   return (
     <section className="[--glow-color:var(--primary-11)]">
       <div className="relative h-44 bg-linear-to-b from-black from-70% to-(--glow-color) dark:from-white">
@@ -63,9 +72,7 @@ export function CallToActionSection(props: {
             <Grid x={-1} y={-1} />
           </div>
           <div className="relative px-2">
-            {props.children ? (
-              <div className="mb-4">{props.children}</div>
-            ) : null}
+            {children ? <div className="mb-4">{children}</div> : null}
             <h2 className="font-accent mx-auto mb-4 max-w-2xl text-4xl font-bold text-balance md:text-5xl">
               <span className="bg-linear-to-r from-(--pink-10) to-(--violet-10) bg-clip-text text-balance text-transparent">
                 Supercharge
@@ -73,7 +80,7 @@ export function CallToActionSection(props: {
               your product quality
             </h2>
             <p className="text-low mx-auto max-w-sm text-lg font-medium text-balance">
-              {props.description}
+              {description}
             </p>
             <div className="mt-8 flex justify-center gap-4">
               <Button asChild>

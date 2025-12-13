@@ -108,7 +108,7 @@ export default async function Page() {
       <div className="-mt-px border-t">
         <Container className="h-12 border-x" />
       </div>
-      <CallToActionSection description="Discover why Argos is the preferred visual testing tool of QA & developers." />
+      <CallToActionSection />
     </>
   );
 }

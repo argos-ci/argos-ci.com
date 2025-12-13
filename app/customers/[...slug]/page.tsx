@@ -6,9 +6,8 @@ import { notFound } from "next/navigation";
 import * as React from "react";
 import { BreadcrumbList, NewsArticle } from "schema-dts";
 
-import { ArgosEmblem } from "@/components/ArgosEmblem";
 import { CallToActionSection } from "@/components/CallToActionSection";
-import { Container, SideBorder } from "@/components/Container";
+import { Container } from "@/components/Container";
 import { FullPageGrid } from "@/components/FullPageGrid";
 import { JsonLd } from "@/components/JsonLd";
 import {
@@ -203,9 +202,7 @@ export default async function Page(props: Props) {
           </div>
         </Container>
       </article>
-      <CallToActionSection description="Discover why Argos is the preferred visual testing tool of QA & developers.">
-        <ArgosEmblem className="mx-auto aspect-square size-24" />
-      </CallToActionSection>
+      <CallToActionSection />
     </>
   );
 }

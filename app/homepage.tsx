@@ -33,7 +33,7 @@ export default function Page() {
       <TestDebugging />
       <FeaturedSDKs />
       <Customers />
-      <CallToActionSection description="Discover why Argos is the preferred visual testing tool of QA & developers." />
+      <CallToActionSection />
     </>
   );
 }

@@ -3,7 +3,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { NewsArticle } from "schema-dts";
 
-import { ArgosEmblem } from "@/components/ArgosEmblem";
 import { CallToActionSection } from "@/components/CallToActionSection";
 import { Container } from "@/components/Container";
 import { FullPageGrid } from "@/components/FullPageGrid";
@@ -208,9 +207,7 @@ export default async function Page(props: Props) {
         <JsonLd json={jsonLd} />
       </article>
       <Siblings slug={article.slug} />
-      <CallToActionSection description="Discover why Argos is the preferred visual testing tool of QA & developers.">
-        <ArgosEmblem className="mx-auto aspect-square size-24" />
-      </CallToActionSection>
+      <CallToActionSection />
     </>
   );
 }

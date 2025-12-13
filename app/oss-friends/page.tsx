@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 
+import { CallToActionSection } from "@/components/CallToActionSection";
 import { Container } from "@/components/Container";
 import { FullPageGrid } from "@/components/FullPageGrid";
 import { Hero, HeroDescription, HeroHeading } from "@/components/Hero";
@@ -44,10 +45,12 @@ export default async function Page() {
                   key={index}
                   className="border-b sm:max-lg:not-nth-[2n]:border-r lg:not-nth-[3n]:border-r"
                 >
-                  <article className="flex h-full flex-col justify-between p-8 lg:px-5 lg:pt-5 lg:pb-6">
+                  <article className="flex h-full flex-col justify-between p-8">
                     <div>
                       <header>
-                        <h3 className="text-2xl">{name}</h3>
+                        <h3 className="font-accent text-2xl font-semibold">
+                          {name}
+                        </h3>
                       </header>
                       <p className="text-low mt-4 font-light">{description}</p>
                     </div>
@@ -70,6 +73,7 @@ export default async function Page() {
           <Container className="h-12 border-x" />
         </div>
       </div>
+      <CallToActionSection />
     </>
   );
 }
