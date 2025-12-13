@@ -2,7 +2,7 @@ import Image, { ImageProps } from "next/image";
 import type { ComponentProps } from "react";
 import { TwcComponentProps, twc } from "react-twc";
 
-export const PostCard = twc.div`rounded-lg border bg-subtle text-left transition duration-300 hover:-translate-y-2 hover:scale-[101%]`;
+export const PostCard = twc.div`text-left cursor-pointer transition duration-300 hover:bg-subtle`;
 
 export interface PostCardImageProps extends ImageProps {
   extended?: Boolean;
@@ -17,11 +17,9 @@ export const PostCardImage = ({
 }: PostCardImageProps) => {
   return (
     <div
-      className="rounded-t-lg"
+      className="relative overflow-hidden"
       style={{
-        position: "relative",
         aspectRatio: extended ? "21/9" : "2/1",
-        overflow: "hidden",
       }}
     >
       <Image
@@ -44,7 +42,7 @@ export const PostCardImage = ({
 };
 
 export const PostCardBody = (props: ComponentProps<"div">) => (
-  <div className="p-4" {...props} />
+  <div className="p-6" {...props} />
 );
 
 export const PostCardTag: React.FC<{ children: React.ReactNode }> = (props) => (
@@ -57,13 +55,13 @@ type PostCardTitleProps = TwcComponentProps<"h2"> & {
 };
 
 export const PostCardTitle = twc.h2<PostCardTitleProps>((props) => [
-  "mb-2 font-accent",
-  props.$extended ? "text-4xl" : "text-2xl",
+  "mb-2 font-accent font-semibold",
+  props.$extended ? "text-3xl" : "text-xl",
   props.$classname,
 ]);
 
 export const PostCardDescription = (props: ComponentProps<"div">) => (
-  <div className="text-low mb-8 leading-normal" {...props} />
+  <div className="text-low mb-6 text-sm leading-normal" {...props} />
 );
 
 export const PostCardFooter = (props: ComponentProps<"div">) => (

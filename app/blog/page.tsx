@@ -1,6 +1,9 @@
 import { Metadata } from "next";
 
-import { Container } from "@/components/Container";
+import { CallToActionSection } from "@/components/CallToActionSection";
+import { Container, SideBorder } from "@/components/Container";
+import { FullPageGrid } from "@/components/FullPageGrid";
+import { Hero, HeroDescription, HeroHeading } from "@/components/Hero";
 import { Link } from "@/components/Link";
 import {
   PostCard,
@@ -26,80 +29,86 @@ export default async function Page() {
   const articles = await getArticles();
   const firstArticle = articles[0];
   return (
-    <Container className="my-10" style={{ contain: "none" }}>
-      <div className="flex flex-col items-baseline gap-x-2 md:flex-row">
-        <h2 className="text-default font-semibold">Latest updates</h2>
-        <div
-          role="separator"
-          aria-orientation="vertical"
-          className="hidden text-slate-600 md:block"
-        >
-          |
-        </div>
-        <h1 className="text-low text-sm">
-          All the latest Argos news, straight from the team.
-        </h1>
+    <>
+      <div className="relative overflow-hidden border-b px-4">
+        <Container className="relative py-8 md:h-60 md:py-16 md:pt-20">
+          <FullPageGrid height="h-200 md:h-60" />
+          <Hero className="relative">
+            <HeroHeading>Blog</HeroHeading>
+            <HeroDescription>
+              All the latest Argos news, straight from the team.
+            </HeroDescription>
+          </Hero>
+        </Container>
       </div>
-      <div className="mt-12 grid grid-cols-2 gap-x-16 gap-y-20">
-        <Link href={`/blog/${firstArticle.slug}`} className="contents">
-          <PostCard className="col-span-2">
-            <PostCardImage
-              width={firstArticle.image.width}
-              height={firstArticle.image.height}
-              src={firstArticle.image.src}
-              alt={firstArticle.imageAlt}
-              extended
-            />
-            <PostCardBody>
-              {firstArticle.category && (
-                <PostCardTag>{firstArticle.category}</PostCardTag>
-              )}
-              <PostCardTitle $extended>{firstArticle.title}</PostCardTitle>
-              <PostCardDescription>
-                {firstArticle.description}
-              </PostCardDescription>
-              <PostCardFooter>
-                <PostCardAuthor>{firstArticle.author}</PostCardAuthor>
-                <span className="text-low">|</span>
-                <PostCardDate date={firstArticle.date} />
-              </PostCardFooter>
-            </PostCardBody>
-          </PostCard>
-        </Link>
-
-        {articles.slice(1).map((article) => {
-          return (
-            <Link
-              key={article.slug}
-              href={`/blog/${article.slug}`}
-              className="contents"
-            >
-              <PostCard className="col-span-2 md:col-span-1">
+      <div className="px-4">
+        <Container noGutter className="relative border-x">
+          <div className="grid grid-cols-3">
+            <Link href={`/blog/${firstArticle.slug}`} className="contents">
+              <PostCard className="col-span-3 border-b">
                 <PostCardImage
-                  width={article.image.width}
-                  height={article.image.height}
-                  src={article.image.src}
-                  alt={article.imageAlt}
+                  width={firstArticle.image.width}
+                  height={firstArticle.image.height}
+                  src={firstArticle.image.src}
+                  alt={firstArticle.imageAlt}
+                  extended
                 />
                 <PostCardBody>
-                  {article.category && (
-                    <PostCardTag>{article.category}</PostCardTag>
+                  {firstArticle.category && (
+                    <PostCardTag>{firstArticle.category}</PostCardTag>
                   )}
-                  <PostCardTitle>{article.title}</PostCardTitle>
+                  <PostCardTitle $extended>{firstArticle.title}</PostCardTitle>
                   <PostCardDescription>
-                    {article.description}
+                    {firstArticle.description}
                   </PostCardDescription>
                   <PostCardFooter>
-                    <PostCardAuthor>{article.author}</PostCardAuthor>
-                    <div className="text-xs text-(--mauve-10)">|</div>
-                    <PostCardDate date={article.date} />
+                    <PostCardAuthor>{firstArticle.author}</PostCardAuthor>
+                    <span className="text-low">•</span>
+                    <PostCardDate date={firstArticle.date} />
                   </PostCardFooter>
                 </PostCardBody>
               </PostCard>
             </Link>
-          );
-        })}
+
+            {articles.slice(1).map((article) => {
+              return (
+                <Link
+                  key={article.slug}
+                  href={`/blog/${article.slug}`}
+                  className="group contents"
+                >
+                  <PostCard className="col-span-3 border-b max-md:group-last:border-b-0 md:col-span-1 md:border-r md:group-nth-[3n+1]:border-r-0">
+                    <PostCardImage
+                      width={article.image.width}
+                      height={article.image.height}
+                      src={article.image.src}
+                      alt={article.imageAlt}
+                    />
+                    <PostCardBody>
+                      {article.category && (
+                        <PostCardTag>{article.category}</PostCardTag>
+                      )}
+                      <PostCardTitle>{article.title}</PostCardTitle>
+                      <PostCardDescription>
+                        {article.description}
+                      </PostCardDescription>
+                      <PostCardFooter>
+                        <PostCardAuthor>{article.author}</PostCardAuthor>
+                        <div className="text-low text-xs">•</div>
+                        <PostCardDate date={article.date} />
+                      </PostCardFooter>
+                    </PostCardBody>
+                  </PostCard>
+                </Link>
+              );
+            })}
+          </div>
+        </Container>
       </div>
-    </Container>
+      <div className="-mt-px border-t">
+        <Container className="h-12 border-x" />
+      </div>
+      <CallToActionSection description="Discover why Argos is the preferred visual testing tool of QA & developers." />
+    </>
   );
 }

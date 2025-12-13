@@ -14,7 +14,14 @@ import { ArgosEmblem } from "@/components/ArgosEmblem";
 import { CallToActionSection } from "@/components/CallToActionSection";
 import { Container } from "@/components/Container";
 import { Feature, FeatureRow, FeatureSeparator } from "@/components/Feature";
-import { H2 } from "@/components/H2";
+import { FullPageGrid } from "@/components/FullPageGrid";
+import { Hero, HeroDescription, HeroHeading } from "@/components/Hero";
+
+import {
+  SectionHeader,
+  SectionHeaderTexts,
+} from "../home/common/SectionHeader";
+import { SectionDescription, SectionTitle } from "../home/common/Typography";
 
 type EmblemProps = {
   emblemSrc: string;
@@ -46,8 +53,8 @@ function Emblem(props: EmblemProps) {
 
 function HeroEmblem(props: { children: React.ReactNode }) {
   return (
-    <div className="relative w-1/4 px-[3%] max-md:hidden">
-      <div className="rounded-full border border-dashed border-(--violet-6) p-4">
+    <div className="relative w-40 px-[3%] max-md:hidden">
+      <div className="rounded-full border border-dashed border-(--primary-6) p-4">
         {props.children}
       </div>
     </div>
@@ -61,25 +68,23 @@ export function HeroSection(
   } & EmblemProps,
 ) {
   return (
-    <Container
-      className="relative my-20 flex items-center gap-4 text-center"
-      asChild
-    >
-      <section>
-        <HeroEmblem>
-          <Emblem {...props} />
-        </HeroEmblem>
-        <div>
-          <h1 className="font-accent mb-4 text-5xl md:text-6xl">
-            {props.title}
-          </h1>
-          <p className="text-low text-lg text-balance">{props.description}</p>
+    <section className="overflow-hidden border-b px-4">
+      <Container className="relative py-16 md:h-75 md:py-24">
+        <FullPageGrid height="h-200 md:h-75" />
+        <div className="relative flex items-center gap-4">
+          <HeroEmblem>
+            <Emblem {...props} />
+          </HeroEmblem>
+          <Hero align="center">
+            <HeroHeading>{props.title}</HeroHeading>
+            <HeroDescription>{props.description}</HeroDescription>
+          </Hero>
+          <HeroEmblem>
+            <ArgosEmblem className="aspect-square size-full" />
+          </HeroEmblem>
         </div>
-        <HeroEmblem>
-          <ArgosEmblem className="aspect-square size-full" />
-        </HeroEmblem>
-      </section>
-    </Container>
+      </Container>
+    </section>
   );
 }
 
@@ -101,10 +106,19 @@ export function TrySection(props: EmblemProps) {
 
 export function KeyFeaturesSection() {
   return (
-    <section className="bg-primary-subtle">
-      <Container className="py-16">
-        <H2 className="mb-10">Argos key features</H2>
-        <div>
+    <section className="border-b px-4">
+      <Container noGutter className="border-x">
+        <SectionHeader className="container-gutter">
+          <SectionHeaderTexts>
+            <SectionTitle>Why teams choose Argos</SectionTitle>
+            <SectionDescription>
+              Argos focuses on what makes visual testing effective at scale. A
+              great UI, tight integrations, precise permissions, and support
+              from people who actually build frontend tools.
+            </SectionDescription>
+          </SectionHeaderTexts>
+        </SectionHeader>
+        <div className="border-t">
           <FeatureRow>
             <Feature
               title="Well-crafted UI"
@@ -152,9 +166,11 @@ export function KeyFeaturesSection() {
 
 export function TableSection(props: { children: React.ReactNode }) {
   return (
-    <Container className="my-20 overflow-auto" asChild>
-      <section>{props.children}</section>
-    </Container>
+    <section className="px-4">
+      <Container className="overflow-auto border-x py-20">
+        {props.children}
+      </Container>
+    </section>
   );
 }
 
@@ -163,22 +179,24 @@ export function PricingSection(props: {
   title: React.ReactNode;
 }) {
   return (
-    <Container className="my-20 md:my-28" asChild>
-      <section>
-        <H2 className="mb-10 text-center">{props.title}</H2>
+    <section className="border-y px-4">
+      <Container className="border-x py-8 md:py-16">
+        <SectionTitle className="mb-10 text-center">{props.title}</SectionTitle>
         {props.children}
-      </section>
-    </Container>
+      </Container>
+    </section>
   );
 }
 
 export function FAQSection(props: { children: React.ReactNode }) {
   return (
-    <Container className="my-20 text-center md:my-28" asChild>
-      <section>
-        <H2 className="mb-4">Frequently Asked Questions</H2>
+    <section className="px-4">
+      <Container className="border-x py-12 md:py-18">
+        <SectionTitle className="mx-auto mb-10 max-w-2xl">
+          Frequently Asked Questions
+        </SectionTitle>
         {props.children}
-      </section>
-    </Container>
+      </Container>
+    </section>
   );
 }

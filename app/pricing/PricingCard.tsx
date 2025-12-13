@@ -119,7 +119,7 @@ export function PricingCards() {
   return (
     <Container
       noGutter
-      className="grid grid-cols-1 justify-center border-x border-t max-md:*:not-last:border-b md:grid-cols-3 md:*:not-last:border-r"
+      className="grid grid-cols-1 justify-center border-x max-md:*:not-last:border-b md:grid-cols-3 md:*:not-last:border-r"
     >
       <PricingCard>
         <PricingCardBody>

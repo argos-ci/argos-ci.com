@@ -6,6 +6,8 @@ import { NewsArticle } from "schema-dts";
 import { ArgosEmblem } from "@/components/ArgosEmblem";
 import { CallToActionSection } from "@/components/CallToActionSection";
 import { Container } from "@/components/Container";
+import { FullPageGrid } from "@/components/FullPageGrid";
+import { Hero, HeroDescription, HeroHeading } from "@/components/Hero";
 import { JsonLd } from "@/components/JsonLd";
 import {
   PostCard,
@@ -97,45 +99,49 @@ async function Siblings({ slug }: { slug: string }) {
     .map((value) => ({ value, sort: rand() }))
     .sort((a, b) => a.sort - b.sort)
     .map(({ value }) => value)
-    .slice(0, 2);
+    .slice(0, 3);
   return (
-    <section>
-      <h3 className="text-default mb-8 text-2xl font-semibold">Read also</h3>
-      <div
-        className="grid grid-cols-2 gap-x-16 gap-y-20"
-        data-visual-test="transparent"
-      >
-        {sideArticles.map((article) => {
-          return (
-            <Link
-              key={article.slug}
-              href={`/blog/${article.slug}`}
-              className="contents"
-            >
-              <PostCard className="col-span-2 md:col-span-1">
-                <PostCardImage
-                  width={article.image.width}
-                  height={article.image.height}
-                  src={article.image.src}
-                  alt={article.imageAlt}
-                />
-                <PostCardBody>
-                  {article.category && (
-                    <PostCardTag>{article.category}</PostCardTag>
-                  )}
-                  <PostCardTitle $classname="line-clamp-2">
-                    {article.title}
-                  </PostCardTitle>
-                  <PostCardFooter>
-                    <PostCardAuthor>{article.author}</PostCardAuthor>
-                    <div className="text-xs text-(--mauve-10)">|</div>
-                    <PostCardDate date={article.date} />
-                  </PostCardFooter>
-                </PostCardBody>
-              </PostCard>
-            </Link>
-          );
-        })}
+    <section className="border-t px-4">
+      <Container noGutter className="border-x pt-4 md:pt-8">
+        <h3 className="container-gutter text-default font-accent mb-8 text-2xl font-semibold">
+          Read also
+        </h3>
+        <div className="grid grid-cols-3" data-visual-test="transparent">
+          {sideArticles.map((article) => {
+            return (
+              <Link
+                key={article.slug}
+                href={`/blog/${article.slug}`}
+                className="group contents"
+              >
+                <PostCard className="col-span-2 border-y md:col-span-1 md:border-r md:group-last:border-r-0">
+                  <PostCardImage
+                    width={article.image.width}
+                    height={article.image.height}
+                    src={article.image.src}
+                    alt={article.imageAlt}
+                  />
+                  <PostCardBody>
+                    {article.category && (
+                      <PostCardTag>{article.category}</PostCardTag>
+                    )}
+                    <PostCardTitle $classname="line-clamp-2">
+                      {article.title}
+                    </PostCardTitle>
+                    <PostCardFooter>
+                      <PostCardAuthor>{article.author}</PostCardAuthor>
+                      <span className="text-low text-xs">•</span>
+                      <PostCardDate date={article.date} />
+                    </PostCardFooter>
+                  </PostCardBody>
+                </PostCard>
+              </Link>
+            );
+          })}
+        </div>
+      </Container>
+      <div className="-mt-px border-t">
+        <Container className="h-12 border-x" />
       </div>
     </section>
   );
@@ -167,33 +173,41 @@ export default async function Page(props: Props) {
   };
   return (
     <>
-      <article
-        className="prose dark:prose-invert mx-auto mt-14 mb-24 max-w-none"
-        style={{ contain: "none" }}
-      >
-        <Container tight>
-          <header>
-            {article.category && (
-              <div className="mb-4 font-medium text-(--violet-11)">
-                {article.category}
+      <article>
+        <header className="overflow-hidden border-b px-4">
+          <Container className="relative py-16 md:h-105 md:py-24">
+            <FullPageGrid height="h-200 md:h-105" />
+            <Hero className="relative">
+              {article.category && (
+                <div className="font-medium text-(--primary-11)">
+                  {article.category}
+                </div>
+              )}
+              <HeroHeading>{article.title}</HeroHeading>
+              <HeroDescription>{article.description}</HeroDescription>
+              <div className="text-low my-4 flex items-center gap-2 text-sm">
+                <time dateTime={article.date}>
+                  {dateFormatter.format(new Date(article.date))}
+                </time>
+                <span className="text-low text-xs">•</span>
+                <address className="not-italic">{article.author}</address>
               </div>
-            )}
-            <h1>{article.title}</h1>
-            <div className="text-low my-4 flex items-center gap-2 text-sm">
-              <time dateTime={article.date}>
-                {dateFormatter.format(new Date(article.date))}
-              </time>
-              <div className="text-xs text-(--mauve-10)">|</div>
-              <address className="not-italic">{article.author}</address>
-            </div>
-          </header>
-          {source}
-        </Container>
+            </Hero>
+          </Container>
+        </header>
+        <div className="border-x px-4">
+          <Container className="border-x">
+            <Container
+              tight
+              className="prose prose-h2:font-accent prose-h3:font-accent dark:prose-invert py-8 md:py-16"
+            >
+              {source}
+            </Container>
+          </Container>
+        </div>
         <JsonLd json={jsonLd} />
       </article>
-      <Container tight>
-        <Siblings slug={article.slug} />
-      </Container>
+      <Siblings slug={article.slug} />
       <CallToActionSection description="Discover why Argos is the preferred visual testing tool of QA & developers.">
         <ArgosEmblem className="mx-auto aspect-square size-24" />
       </CallToActionSection>

@@ -9,6 +9,7 @@ import { BreadcrumbList, NewsArticle } from "schema-dts";
 import { ArgosEmblem } from "@/components/ArgosEmblem";
 import { CallToActionSection } from "@/components/CallToActionSection";
 import { Container, SideBorder } from "@/components/Container";
+import { FullPageGrid } from "@/components/FullPageGrid";
 import { JsonLd } from "@/components/JsonLd";
 import {
   getCustomerCaseBySlug,
@@ -110,30 +111,32 @@ export default async function Page(props: Props) {
   return (
     <>
       <article className="px-4">
-        <header>
-          <Container className="relative py-16">
-            <SideBorder />
-            <div className="mb-4 text-sm md:mb-8">
-              <ArrowLeftIcon
-                className="text-low mr-2 inline size-4"
-                strokeWidth={1}
-              />
-              <NextLink
-                href="/customers"
-                className="text-low font-normal no-underline hover:underline"
-              >
-                All customers
-              </NextLink>
+        <header className="overflow-hidden border-b">
+          <Container className="relative py-8 md:h-75 md:py-16">
+            <FullPageGrid height="h-200 md:h-75" />
+            <div className="relative">
+              <div className="mb-4 text-sm md:mb-8">
+                <ArrowLeftIcon
+                  className="text-low mr-2 inline size-4"
+                  strokeWidth={1}
+                />
+                <NextLink
+                  href="/customers"
+                  className="text-low font-normal no-underline hover:underline"
+                >
+                  All customers
+                </NextLink>
+              </div>
+              <h1 className="font-accent mb-4 text-2xl font-bold text-balance md:text-4xl">
+                {customerCase.title}
+              </h1>
+              <p className="text-low text-balance md:text-lg">
+                {customerCase.description}
+              </p>
             </div>
-            <h1 className="font-accent mb-4 text-2xl font-bold text-balance md:text-4xl">
-              {customerCase.title}
-            </h1>
-            <p className="text-low text-balance md:text-lg">
-              {customerCase.description}
-            </p>
           </Container>
         </header>
-        <Container className="relative mx-auto grid grid-cols-4 gap-5 border-x pb-16 md:pb-24 lg:gap-10">
+        <Container className="relative mx-auto grid grid-cols-4 gap-5 border-x pt-4 pb-16 md:pt-10 md:pb-24 lg:gap-10">
           <div className="prose dark:prose-invert col-span-4 max-w-none md:col-span-3">
             <div
               className="not-prose rounded-lg"

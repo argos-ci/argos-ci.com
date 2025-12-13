@@ -10,6 +10,7 @@ import { BRANDS } from "@/components/BrandTestimonials";
 import { Button } from "@/components/Button";
 import { CallToActionSection } from "@/components/CallToActionSection";
 import { Container, SideBorder } from "@/components/Container";
+import { FullPageGrid } from "@/components/FullPageGrid";
 import {
   Hero,
   HeroActions,
@@ -27,10 +28,10 @@ export const metadata: Metadata = getMetadata({
 export default function Page() {
   return (
     <>
-      <section className="border-b px-4">
-        <Container className="relative py-16 md:py-24">
-          <SideBorder />
-          <Hero>
+      <div className="overflow-hidden border-b px-4">
+        <Container className="relative py-16 md:h-90 md:py-24">
+          <FullPageGrid height="h-200 md:h-90" />
+          <Hero className="relative">
             <HeroHeading>Meet our customers</HeroHeading>
             <HeroDescription>
               From fast moving startups to large enterprises, teams use Argos to
@@ -48,7 +49,9 @@ export default function Page() {
             </HeroActions>
           </Hero>
         </Container>
-        <Container className="grid grid-cols-1 gap-8 border-x pb-16 md:grid-cols-3">
+      </div>
+      <div className="px-4">
+        <Container className="grid grid-cols-1 gap-8 border-x py-16 pt-4 md:grid-cols-3 md:pt-10">
           <Column>
             <CustomerCard brand={BRANDS.meta} />
             <QuoteCard
@@ -133,7 +136,7 @@ export default function Page() {
             <CustomerCard brand={BRANDS.sivo} />
           </Column>
         </Container>
-      </section>
+      </div>
       <CallToActionSection description="Discover why Argos is the preferred visual testing tool of QA & developers.">
         <ArgosEmblem className="mx-auto aspect-square size-24" />
       </CallToActionSection>

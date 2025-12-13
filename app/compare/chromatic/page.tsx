@@ -89,7 +89,6 @@ export default function Page() {
         description="Learn how Argos compares to Chromatic and why Argos is the best alternative for visual testing."
         {...emblemProps}
       />
-
       <TableSection>
         <ComparisonTable
           logoSrc={chromaticLogo}

@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 
 import { Container } from "@/components/Container";
+import { FullPageGrid } from "@/components/FullPageGrid";
+import { Hero, HeroDescription, HeroHeading } from "@/components/Hero";
 import { getMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = getMetadata({
@@ -19,40 +21,55 @@ export default async function Page() {
   const res = await fetch("https://formbricks.com/api/oss-friends");
   const { data: friends } = (await res.json()) as { data: Friend[] };
   return (
-    <Container className="py-16 md:py-24">
-      <h1 className="font-accent text-center text-5xl md:text-7xl md:leading-[1.1]">
-        Our Open-source Friends
-      </h1>
-      <p className="text-low mx-auto mt-4 text-center text-lg text-balance">
-        In Argos, we are proud to collaborate with a diverse group of partners
-        to promote open-source software and the values of transparency,
-        collaboration, and community that it represents.
-      </p>
-      <ul className="mt-16 grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
-        {friends.map(({ name, description, href }, index) => {
-          return (
-            <li key={index}>
-              <article className="bg-subtle flex h-full flex-col justify-between rounded-sm border border-(--violet-6) p-8 lg:rounded-2xl lg:px-5 lg:pt-5 lg:pb-6">
-                <div>
-                  <header>
-                    <h3 className="text-2xl">{name}</h3>
-                  </header>
-                  <p className="text-low mt-4 font-light">{description}</p>
-                </div>
-                <div className="mt-6">
-                  <a
-                    className="text-sm font-medium underline hover:no-underline"
-                    href={href}
-                    target="_blank"
-                  >
-                    Visit {name}
-                  </a>
-                </div>
-              </article>
-            </li>
-          );
-        })}
-      </ul>
-    </Container>
+    <>
+      <div className="overflow-hidden border-b px-4">
+        <Container className="relative py-16 md:h-75 md:py-24">
+          <FullPageGrid height="h-200 md:h-75" />
+          <Hero align="center" className="relative">
+            <HeroHeading>Our Open-source Friends</HeroHeading>
+            <HeroDescription>
+              In Argos, we are proud to collaborate with a diverse group of
+              partners to promote open-source software and the values of
+              transparency, collaboration, and community that it represents.
+            </HeroDescription>
+          </Hero>
+        </Container>
+      </div>
+      <div className="px-4">
+        <Container noGutter className="border-x">
+          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+            {friends.map(({ name, description, href }, index) => {
+              return (
+                <li
+                  key={index}
+                  className="border-b sm:max-lg:not-nth-[2n]:border-r lg:not-nth-[3n]:border-r"
+                >
+                  <article className="flex h-full flex-col justify-between p-8 lg:px-5 lg:pt-5 lg:pb-6">
+                    <div>
+                      <header>
+                        <h3 className="text-2xl">{name}</h3>
+                      </header>
+                      <p className="text-low mt-4 font-light">{description}</p>
+                    </div>
+                    <div className="mt-6">
+                      <a
+                        className="text-sm font-medium underline hover:no-underline"
+                        href={href}
+                        target="_blank"
+                      >
+                        Visit {name}
+                      </a>
+                    </div>
+                  </article>
+                </li>
+              );
+            })}
+          </ul>
+        </Container>
+        <div className="-mt-px border-t">
+          <Container className="h-12 border-x" />
+        </div>
+      </div>
+    </>
   );
 }

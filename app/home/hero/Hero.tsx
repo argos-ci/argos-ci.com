@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
-import { Grid } from "@/components/Grid";
+import { FullPageGrid } from "@/components/FullPageGrid";
 import {
   HeroActions,
   Hero as HeroComponent,
@@ -23,24 +23,12 @@ export function Hero() {
     <section className="px-4">
       <Container className="separator-b relative">
         <div
-          className="pointer-events-none absolute inset-y-0 left-1/2 -mt-15 w-[1800px] -translate-x-1/2 bg-cover bg-top opacity-70"
+          className="pointer-events-none absolute inset-y-0 left-1/2 -mt-15 w-450 -translate-x-1/2 bg-cover bg-top opacity-70"
           style={{
             backgroundImage: `url(${gradients.src})`,
           }}
         />
-        <div className="pointer-events-none absolute inset-0 -mt-4 border-x mask-[linear-gradient(transparent,black_40%)]" />
-        <div className="pointer-events-none absolute top-0 left-1/2 h-[500px] w-[1800px] -translate-x-1/2 mask-[linear-gradient(transparent,black,transparent)] mask-intersect text-(--neutral-5)">
-          <div className="absolute inset-x-[360px] inset-y-0">
-            <Grid className="pointer-events-none absolute inset-[unset] top-0 right-full w-[360px] mask-[linear-gradient(90deg,transparent,black)]" />
-            <Grid
-              x={-1}
-              className="pointer-events-none absolute inset-[unset] top-0 left-full w-[360px] mask-[linear-gradient(270deg,transparent,black)]"
-            />
-          </div>
-        </div>
-        <div className="pointer-events-none absolute inset-x-px top-0 h-[500px] overflow-hidden mask-[linear-gradient(transparent,black,transparent),radial-gradient(80%_50%_at_50%_55%,rgba(0,0,0,0.2),black)] mask-intersect text-(--neutral-5)">
-          <Grid className="w-max-content pointer-events-none absolute inset-[unset] inset-y-0 left-1/2 -translate-x-1/2" />
-        </div>
+        <FullPageGrid radial height="h-125" />
         <div className="relative flex w-full flex-col items-center gap-10 py-16 text-center md:pt-20 md:pb-24">
           <LastChangelog />
           <HeroComponent align="center">
