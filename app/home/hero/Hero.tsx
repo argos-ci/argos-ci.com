@@ -95,7 +95,7 @@ async function LastChangelog() {
   return (
     <Link
       href="/changelog"
-      className="bg-app hover:bg-subtle group mx-auto flex items-center rounded-full border text-xs font-medium shadow-xs transition hover:shadow-sm md:text-sm"
+      className="bg-app group mx-auto flex items-center rounded-full border text-xs font-medium shadow-xs transition hover:bg-(--neutral-3) hover:shadow-sm md:text-sm"
     >
       <span className="px-3 py-1.5">{first.homeTitle ?? first.title}</span>
       <span className="text-low inline-flex items-center gap-1 py-1.5 pr-3 md:border-l md:px-3">

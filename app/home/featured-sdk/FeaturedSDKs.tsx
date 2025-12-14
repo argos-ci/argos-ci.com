@@ -78,9 +78,8 @@ function SdkCard(props: {
 }) {
   const { href, image, title, borderColor, bgColor } = props;
   return (
-    <a
+    <Link
       href={href}
-      target="_blank"
       className={clsx(
         "group flex flex-col overflow-hidden border-y shadow-xs transition duration-200 hover:shadow md:border",
         bgColor,
@@ -125,6 +124,6 @@ function SdkCard(props: {
           Get started <ArrowRightIcon className="size-3" />
         </div>
       </div>
-    </a>
+    </Link>
   );
 }

@@ -78,7 +78,7 @@ export function FeatureSection(props: {
                     “{story.quote.text}”
                   </p>
                 </blockquote>
-                <Button variant="outline-primary" asChild>
+                <Button variant="outline" asChild>
                   <Link href={story.href}>
                     <BookTextIcon />
                     Read the story

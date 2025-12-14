@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 import { Button } from "@/components/Button";
-import { Container, SideBorder } from "@/components/Container";
+import { Container } from "@/components/Container";
 import { FullPageGrid } from "@/components/FullPageGrid";
 import { Hero, HeroDescription, HeroHeading } from "@/components/Hero";
 import { Link } from "@/components/Link";

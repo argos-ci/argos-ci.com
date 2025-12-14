@@ -101,7 +101,7 @@ export function FeaturesCarousel(props: {
                 setIsStopped(true);
                 move(index);
               }}
-              className="relative flex cursor-pointer flex-col px-6 text-sm transition-opacity duration-300 data-[current=false]:opacity-50 data-[current=false]:hover:opacity-70 md:max-w-56 md:pr-0"
+              className="relative flex cursor-pointer flex-col px-6 text-sm transition-opacity duration-300 data-[current=false]:opacity-50 data-[current=false]:hover:opacity-90 md:max-w-56 md:pr-0"
             >
               <div
                 className={clsx(

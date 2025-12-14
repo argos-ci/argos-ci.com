@@ -84,7 +84,7 @@ function CustomerCase(props: {
     <Link
       href={href}
       className={clsx(
-        "bg-app hover:bg-subtle group col-span-2 flex flex-col gap-8 p-6 transition duration-200 md:p-10",
+        "bg-app group col-span-2 flex flex-col gap-8 p-6 transition duration-200 hover:bg-(--neutral-3) md:p-10",
         className,
       )}
     >

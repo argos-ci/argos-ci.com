@@ -1,12 +1,7 @@
-import clsx from "clsx";
-import { ArrowRightCircle } from "lucide-react";
 import { Metadata } from "next";
 import Image from "next/image";
 import NextLink from "next/link";
-import type { ComponentPropsWithRef } from "react";
-import { twc } from "react-twc";
 
-import { Customers } from "@/app/home/Customers";
 import { Button } from "@/components/Button";
 import { CallToActionSection } from "@/components/CallToActionSection";
 import { Container } from "@/components/Container";
