@@ -37,13 +37,13 @@ export default async function Page() {
         </Container>
       </div>
       <div className="px-4">
-        <Container noGutter className="border-x">
+        <Container noGutter>
           <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             {friends.map(({ name, description, href }, index) => {
               return (
                 <li
                   key={index}
-                  className="border-b sm:max-lg:not-nth-[2n]:border-r lg:not-nth-[3n]:border-r"
+                  className="border-x border-b sm:max-lg:not-nth-[2n]:border-r-transparent lg:not-nth-[3n]:border-r-transparent"
                 >
                   <article className="flex h-full flex-col justify-between p-8">
                     <div>

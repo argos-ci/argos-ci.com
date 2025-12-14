@@ -52,7 +52,6 @@ export function FeatureSection(props: {
               {...rest}
             </SectionDescription>
           </SectionHeaderTexts>
-          {/* {cta} */}
         </SectionHeader>
         <FeaturesCarousel color={color} features={features} />
         <div className="relative">

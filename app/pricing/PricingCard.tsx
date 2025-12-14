@@ -52,7 +52,7 @@ function Feature(props: {
   const { icon: Icon, className, children } = props;
   return (
     <li className={clsx("flex items-start gap-2 leading-tight", className)}>
-      <Icon className="mt-0.5 size-4 shrink-0 text-(--violet-11)" />
+      <Icon className="mt-0.5 size-4 shrink-0 text-(--primary-11)" />
       {children}
     </li>
   );
@@ -63,7 +63,7 @@ function PricingCard(props: { children: React.ReactNode; emphasis?: boolean }) {
   return (
     <div
       className={clsx(
-        "flex-1 shrink-0",
+        "flex-1 shrink-0 border-x max-md:not-last:border-b md:first:border-r-transparent md:nth-[2]:border-r-transparent",
         emphasis && "bg-linear-to-b from-(--primary-2)",
       )}
     >
@@ -119,7 +119,7 @@ export function PricingCards() {
   return (
     <Container
       noGutter
-      className="grid grid-cols-1 justify-center border-x max-md:*:not-last:border-b md:grid-cols-3 md:*:not-last:border-r"
+      className="max-md:container-gutter grid grid-cols-1 justify-center md:grid-cols-3"
     >
       <PricingCard>
         <PricingCardBody>
