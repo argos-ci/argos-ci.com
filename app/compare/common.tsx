@@ -11,9 +11,18 @@ import {
 import Image from "next/image";
 
 import { ArgosEmblem } from "@/components/ArgosEmblem";
+import { Button } from "@/components/Button";
 import { CallToActionSection } from "@/components/CallToActionSection";
 import { Container } from "@/components/Container";
-import { Feature, FeatureRow, FeatureSeparator } from "@/components/Feature";
+import {
+  Feature,
+  FeatureGrid,
+  FeatureHeading,
+  FeatureIcon,
+  FeatureRow,
+  FeatureSeparator,
+  FeatureText,
+} from "@/components/Feature";
 import { FullPageGrid } from "@/components/FullPageGrid";
 import { Hero, HeroDescription, HeroHeading } from "@/components/Hero";
 
@@ -118,47 +127,53 @@ export function KeyFeaturesSection() {
             </SectionDescription>
           </SectionHeaderTexts>
         </SectionHeader>
-        <div className="border-t">
-          <FeatureRow>
-            <Feature
-              title="Well-crafted UI"
-              icon={PencilRulerIcon}
-              text="Crafted to satisfy exigent developers. Inspired by Figma, Linear, and Stripe."
-            />
-            <FeatureSeparator orientation="vertical" />
-            <Feature
-              title="Community driven"
-              icon={Users2Icon}
-              text="We are close to our users, that the roadmap is driven by their feedback."
-            />
-            <FeatureSeparator orientation="vertical" />
-            <Feature
-              title="Open source"
-              icon={BookOpenTextIcon}
-              text="Argos is open source, you can contribute to the project on GitHub."
-            />
-          </FeatureRow>
-          <FeatureSeparator orientation="horizontal" />
-          <FeatureRow>
-            <Feature
-              title="Integrate with your stack"
-              icon={BlocksIcon}
-              text="Argos integrate with your testing tool to capture stable screenshots."
-            />
-            <FeatureSeparator orientation="vertical" />
-            <Feature
-              title="Fine-grain access control"
-              icon={LockKeyholeIcon}
-              text="Control team members access and permissions for each project."
-            />
-            <FeatureSeparator orientation="vertical" />
-            <Feature
-              title="Dedicated support"
-              icon={MessageSquareTextIcon}
-              text="Get help from experimented developers to improve your tests."
-            />
-          </FeatureRow>
-        </div>
+        <FeatureGrid className="-mb-px border-t">
+          <Feature>
+            <FeatureIcon icon={PencilRulerIcon} />
+            <FeatureHeading>Well-crafted UI</FeatureHeading>
+            <FeatureText>
+              Crafted to satisfy exigent developers. Inspired by Figma, Linear,
+              and Stripe.
+            </FeatureText>
+          </Feature>
+          <Feature>
+            <FeatureIcon icon={Users2Icon} />
+            <FeatureHeading>Community driven</FeatureHeading>
+            <FeatureText>
+              We are close to our users, that the roadmap is driven by their
+              feedback.
+            </FeatureText>
+          </Feature>
+          <Feature>
+            <FeatureIcon icon={BookOpenTextIcon} />
+            <FeatureHeading>Open source</FeatureHeading>
+            <FeatureText>
+              Argos is open source, you can contribute to the project on GitHub.
+            </FeatureText>
+          </Feature>
+          <Feature>
+            <FeatureIcon icon={BlocksIcon} />
+            <FeatureHeading>Integrate with your stack</FeatureHeading>
+            <FeatureText>
+              Argos integrate with your testing tool to capture stable
+              screenshots.
+            </FeatureText>
+          </Feature>
+          <Feature>
+            <FeatureIcon icon={LockKeyholeIcon} />
+            <FeatureHeading>Fine-grain access control</FeatureHeading>
+            <FeatureText>
+              Control team members access and permissions for each project.
+            </FeatureText>
+          </Feature>
+          <Feature>
+            <FeatureIcon icon={MessageSquareTextIcon} />
+            <FeatureHeading>Dedicated support</FeatureHeading>
+            <FeatureText>
+              Get help from experimented developers to improve your tests.
+            </FeatureText>
+          </Feature>
+        </FeatureGrid>
       </Container>
     </section>
   );

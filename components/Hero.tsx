@@ -42,7 +42,7 @@ export function HeroDescription(props: ComponentPropsWithRef<"p">) {
     <p
       {...props}
       className={clsx(
-        "text-low max-w-2xl text-lg font-medium",
+        "text-low [&_strong]:text-default max-w-2xl text-lg font-medium [&_strong]:font-semibold",
         props.className,
       )}
     />

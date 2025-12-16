@@ -21,7 +21,7 @@ export function Integrations() {
         noGutter
         className="relative flex flex-col border-x md:h-[400px] md:flex-row md:items-center"
       >
-        <SectionHeader className="container-gutter max-w-[500px]">
+        <SectionHeader className="container-gutter max-w-125">
           <SectionHeaderTexts>
             <SectionTitle>Integrated with your everyday tools</SectionTitle>
             <SectionDescription>

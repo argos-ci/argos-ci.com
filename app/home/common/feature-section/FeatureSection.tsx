@@ -18,6 +18,19 @@ import {
   TO_COLORS,
 } from "./colors";
 
+export function FeatureIndicator(props: {
+  color: FeatureColor;
+  children: React.ReactNode;
+}) {
+  const { color, children } = props;
+  return (
+    <div className="flex items-center gap-2 text-xs font-medium">
+      <span className={clsx("h-1.5 w-3 rounded", INDICATOR_BG_COLORS[color])} />
+      {children}
+    </div>
+  );
+}
+
 export function FeatureSection(props: {
   color: FeatureColor;
   featureName: string;
@@ -37,15 +50,7 @@ export function FeatureSection(props: {
       <Container className="border-x" noGutter>
         <SectionHeader className="container-gutter">
           <SectionHeaderTexts>
-            <div className="flex items-center gap-2 text-xs font-medium">
-              <span
-                className={clsx(
-                  "h-1.5 w-3 rounded",
-                  INDICATOR_BG_COLORS[color],
-                )}
-              />
-              {featureName}
-            </div>
+            <FeatureIndicator color={color}>{featureName}</FeatureIndicator>
             <SectionTitle>{title}</SectionTitle>
             <SectionDescription>
               <span className="after:content-['_'] md:block">{firstLine}</span>

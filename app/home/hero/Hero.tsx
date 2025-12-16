@@ -32,10 +32,10 @@ export function Hero() {
         <div className="relative flex w-full flex-col items-center gap-10 py-16 text-center md:pt-20 md:pb-24">
           <LastChangelog />
           <HeroComponent align="center">
-            <HeroHeading>Raise the quality bar for every release</HeroHeading>
+            <HeroHeading>Ship UI changes with confidence</HeroHeading>
             <HeroDescription>
-              Argos catches unexpected changes in your UI so your product stays
-              polished at any scale.
+              Argos monitors your UI for unintended changes, ensuring visual
+              quality stays high as your codebase and team grow.
             </HeroDescription>
             <HeroActions>
               <Button size="large" asChild>

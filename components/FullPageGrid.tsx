@@ -1,8 +1,14 @@
 import clsx from "clsx";
 
+import type { FeatureColor } from "@/app/home/common/feature-section/colors";
+
 import { Grid } from "./Grid";
 
-export function FullPageGrid(props: { height: string; radial?: boolean }) {
+export function FullPageGrid(props: {
+  height: string;
+  radial?: boolean;
+  tint?: FeatureColor;
+}) {
   return (
     <div>
       <div
@@ -13,6 +19,18 @@ export function FullPageGrid(props: { height: string; radial?: boolean }) {
             : "mask-[linear-gradient(transparent,black)]",
         )}
       />
+      {props.tint ? (
+        <div
+          className={clsx(
+            "pointer-events-none absolute inset-x-px inset-y-0 -mt-4",
+            {
+              blue: "bg-linear-to-t from-(--blue-3)",
+              amber: "bg-linear-to-t from-(--amber-3)",
+              teal: "bg-linear-to-t from-(--teal-3)",
+            }[props.tint],
+          )}
+        />
+      ) : null}
       <div
         className={clsx(
           "pointer-events-none absolute top-0 left-1/2 w-450 -translate-x-1/2 mask-intersect text-(--neutral-5)",
