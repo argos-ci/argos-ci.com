@@ -194,6 +194,7 @@ const COMPETITORS = {
   percy: {
     name: "Percy Browserstack",
     screenshotPrice: 0.048,
+    storybookScreenshotPrice: 0.048,
     steps: [
       {
         screenshots: 25_000,
@@ -203,7 +204,8 @@ const COMPETITORS = {
   },
   chromatic: {
     name: "Chromatic",
-    screenshotPrice: 0.008 * 0.2 + 0.008 * TURBO_SNAP_RATIO * 0.8, // 80% Turbosnap
+    screenshotPrice: 0.008,
+    storybookScreenshotPrice: 0.008 * 0.2 + 0.008 * TURBO_SNAP_RATIO * 0.8, // 80% Turbosnap
     steps: [
       {
         screenshots: 35_000,
@@ -240,9 +242,9 @@ export function ComparePricingSlider(props: {
       flatPrice: step.price,
       flatScreenshotCount: step.screenshots,
       screenshotPrice: competitor.screenshotPrice,
-      screenshotCount: screenshots + storybookScreenshots,
-      storybookScreenshotPrice: 0,
-      storybookScreenshotCount: 0,
+      screenshotCount: screenshots,
+      storybookScreenshotPrice: competitor.storybookScreenshotPrice,
+      storybookScreenshotCount: storybookScreenshots,
     }),
   );
 
