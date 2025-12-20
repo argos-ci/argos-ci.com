@@ -239,6 +239,23 @@
       height: 0;
     }
   }
+
+  --animate-flow: flow 2.2s ease-in-out infinite;
+
+  @keyframes flow {
+    0% {
+      transform: translateY(-50%) translateX(-30px);
+      opacity: 0.15;
+    }
+    50% {
+      transform: translateY(-50%) translateX(30px);
+      opacity: 0.95;
+    }
+    100% {
+      transform: translateY(-50%) translateX(90px);
+      opacity: 0.15;
+    }
+  }
 }
 
 @plugin "tailwindcss-animate";

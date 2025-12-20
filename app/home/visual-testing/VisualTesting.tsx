@@ -7,7 +7,8 @@ import { ThemeImage } from "@/components/ThemeImage";
 import { FeatureSection } from "../common/feature-section/FeatureSection";
 import fastApprovalFlowSvg from "./assets/features/fast-approval-flow.svg";
 import groupSvg from "./assets/features/group.svg";
-import smartDetectionSvg from "./assets/features/smart-detection.svg";
+import { FastApprovalFlow } from "./features/FastApprovalFlow";
+import { Stabilization } from "./features/Stabilization";
 
 export function VisualTesting() {
   return (
@@ -18,18 +19,14 @@ export function VisualTesting() {
           icon: <ScanEyeIcon />,
           title: "Smart detection",
           text: "Built-in stabilization that filters out noise for cleaner, more reliable visual diffs.",
-          main: (
-            <ThemeImage className="h-full" src={smartDetectionSvg} alt="" />
-          ),
+          main: <Stabilization />,
         },
         {
           key: "fast-approval-flow",
           icon: <ThumbsUpIcon />,
           title: "Fast approval flow",
           text: "A UX built for speed, review, approve, and ship confidently in seconds.",
-          main: (
-            <ThemeImage className="h-full" src={fastApprovalFlowSvg} alt="" />
-          ),
+          main: <FastApprovalFlow />,
         },
         {
           key: "grouped-diffs",
