@@ -2,12 +2,11 @@ import { BugPlayIcon, ImageOffIcon, RotateCcwIcon } from "lucide-react";
 
 import { leMondeQuote } from "@/app/assets/customers/library/le-monde";
 import { Button } from "@/components/Button";
-import { ThemeImage } from "@/components/ThemeImage";
 
 import { FeatureSection } from "../common/feature-section/FeatureSection";
-import playwrightTracesSvg from "./assets/features/playwright-traces.svg";
-import retryScrenshotsSvg from "./assets/features/retry-screenshots.svg";
 import { FailureScreenshots } from "./features/FailureScreenshots";
+import { PlaywrightTrace } from "./features/PlaywrightTrace";
+import { RetryScreenshots } from "./features/RetryScreenshots";
 
 export function TestDebugging() {
   return (
@@ -25,18 +24,14 @@ export function TestDebugging() {
           icon: <BugPlayIcon />,
           title: "Playwright traces",
           text: "Replay test sessions step by step to understand every action and state.",
-          main: (
-            <ThemeImage className="h-full" src={playwrightTracesSvg} alt="" />
-          ),
+          main: <PlaywrightTrace />,
         },
         {
           key: "retry-screenshots",
           icon: <RotateCcwIcon />,
           title: "Retry screenshots",
           text: "Compare retries to confirm if issues are consistent or flaky.",
-          main: (
-            <ThemeImage className="h-full" src={retryScrenshotsSvg} alt="" />
-          ),
+          main: <RetryScreenshots />,
         },
       ]}
       color="teal"

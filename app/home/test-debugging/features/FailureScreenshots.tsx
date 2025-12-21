@@ -4,7 +4,7 @@ import type { ComponentPropsWithoutRef } from "react";
 
 import { cypress, playwright } from "@/app/assets/sdk/library";
 import type { SDK } from "@/app/assets/sdk/types";
-import { ThemeImage, type ThemeImageProps } from "@/components/ThemeImage";
+import { ThemeImage } from "@/components/ThemeImage";
 
 import { Badge } from "../../common/Badge";
 import { Card } from "../../common/Card";
@@ -41,15 +41,10 @@ export function FailureScreenshots() {
               />
             ))}
           </div>
-
-          <div className="text-low text-xs leading-relaxed">
-            Argos captures a screenshot the instant a step fails, so you can see
-            the exact UI state without rerunning the suite.
-          </div>
         </Card>
 
-        <Card className="relative z-10 flex-1 overflow-hidden border border-(--neutral-6) bg-[linear-gradient(180deg,--alpha(var(--neutral-2)/80%),--alpha(var(--neutral-1)/90%))] p-5 shadow-md">
-          <div className="rounded-lg border border-(--neutral-6) bg-(--neutral-9)/12 px-3 py-2" />
+        <Card className="relative z-10 flex-1 overflow-hidden border bg-[linear-gradient(220deg,--alpha(var(--danger-1)/50%),var(--neutral-1))] p-5 shadow-md">
+          <div className="rounded-lg border bg-(--neutral-9)/12 px-3 py-2" />
 
           <div className="flex flex-col items-center gap-4 px-4 py-6 text-center">
             <div className="flex size-16 items-center justify-center rounded-full border border-(--neutral-7) text-(--neutral-11)">
@@ -68,7 +63,7 @@ export function FailureScreenshots() {
             <SkeletonLine className="w-10/12" />
           </div>
 
-          <div className="mt-5 flex items-center justify-between border-t border-(--neutral-6) pt-3 text-[11px] text-(--neutral-11)">
+          <div className="mt-5 flex items-center justify-between border-t pt-3 text-[11px] text-(--neutral-11)">
             <span>Captured at 10:14 · Build #214</span>
             <span className="font-semibold text-(--danger-10)">
               Failure screenshot
@@ -147,7 +142,7 @@ function Line(props: ComponentPropsWithoutRef<"svg">) {
         d="M 0 150 C 180 150 205 150 300 150"
         fill="none"
         stroke="var(--danger-10)"
-        strokeWidth="2"
+        strokeWidth="1"
         strokeLinecap="square"
         strokeDasharray="2 5"
       >
