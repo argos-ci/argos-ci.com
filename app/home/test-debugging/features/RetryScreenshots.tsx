@@ -1,3 +1,5 @@
+"use client";
+
 import clsx from "clsx";
 import { CheckCircle2Icon, RefreshCwIcon, XCircleIcon } from "lucide-react";
 import type { ComponentPropsWithoutRef } from "react";

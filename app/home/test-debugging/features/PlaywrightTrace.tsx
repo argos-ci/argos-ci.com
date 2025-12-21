@@ -1,3 +1,5 @@
+"use client";
+
 import clsx from "clsx";
 import { ArrowUpRightIcon, BugPlayIcon, PlayCircleIcon } from "lucide-react";
 import type { ComponentPropsWithoutRef } from "react";

@@ -1,3 +1,5 @@
+"use client";
+
 import clsx from "clsx";
 import { CheckCircle2Icon, XCircleIcon, XIcon } from "lucide-react";
 
