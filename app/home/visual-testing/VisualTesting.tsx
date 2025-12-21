@@ -2,12 +2,10 @@ import { GroupIcon, ScanEyeIcon, ThumbsUpIcon } from "lucide-react";
 
 import { mermaidQuote } from "@/app/assets/customers/library/mermaid";
 import { Button } from "@/components/Button";
-import { ThemeImage } from "@/components/ThemeImage";
 
 import { FeatureSection } from "../common/feature-section/FeatureSection";
-import fastApprovalFlowSvg from "./assets/features/fast-approval-flow.svg";
-import groupSvg from "./assets/features/group.svg";
 import { FastApprovalFlow } from "./features/FastApprovalFlow";
+import { GroupedDiffs } from "./features/GroupedDiffs";
 import { Stabilization } from "./features/Stabilization";
 
 export function VisualTesting() {
@@ -33,7 +31,7 @@ export function VisualTesting() {
           icon: <GroupIcon />,
           title: "Grouped diffs",
           text: "Similar changes are grouped, so you review once and move on.",
-          main: <ThemeImage className="h-full" src={groupSvg} alt="" />,
+          main: <GroupedDiffs />,
         },
       ]}
       color="blue"

@@ -1,28 +1,13 @@
 import clsx from "clsx";
 import { Metadata } from "next";
 
-import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 import { FullPageGrid } from "@/components/FullPageGrid";
 import { Hero, HeroDescription, HeroHeading } from "@/components/Hero";
-import { Link } from "@/components/Link";
 import { getMetadata } from "@/lib/metadata";
 
-import { PricingSlider } from "../common/PricingSlider";
 import { TrustedBy } from "../common/TrustedBy";
-import {
-  SectionHeader,
-  SectionHeaderTexts,
-} from "../home/common/SectionHeader";
-import { SectionDescription, SectionTitle } from "../home/common/Typography";
 import { FeatureIndicator } from "../home/common/feature-section/FeatureSection";
-import {
-  BG_COLORS,
-  BORDER_BG_COLORS,
-  BORDER_COLORS,
-} from "../home/common/feature-section/colors";
-import { PricingCards } from "./PricingCard";
-import { FAQ } from "./PricingFaq";
 
 export const metadata: Metadata = getMetadata({
   title: "Pricing plans",

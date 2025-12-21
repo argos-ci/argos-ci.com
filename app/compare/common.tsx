@@ -11,7 +11,6 @@ import {
 import Image from "next/image";
 
 import { ArgosEmblem } from "@/components/ArgosEmblem";
-import { Button } from "@/components/Button";
 import { CallToActionSection } from "@/components/CallToActionSection";
 import { Container } from "@/components/Container";
 import {
@@ -19,8 +18,6 @@ import {
   FeatureGrid,
   FeatureHeading,
   FeatureIcon,
-  FeatureRow,
-  FeatureSeparator,
   FeatureText,
 } from "@/components/Feature";
 import { FullPageGrid } from "@/components/FullPageGrid";

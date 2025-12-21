@@ -1,141 +1,403 @@
 import clsx from "clsx";
-import type { ComponentPropsWithRef } from "react";
+import { AlertTriangleIcon, CheckIcon } from "lucide-react";
+import { type ComponentPropsWithoutRef } from "react";
+
+import { Application } from "./common/Application";
+import { Badge } from "./common/Badge";
+import { Card } from "./common/Card";
+import { ContainedIcon } from "./common/ContainedIcon";
+import { DotIndicator } from "./common/DotIndicator";
+import { Title } from "./common/Title";
 
 export function Stabilization() {
   return (
-    <div className="grid w-full max-w-4xl gap-3.5 p-5 md:grid-cols-[1fr_220px_1fr]">
-      <Card>
-        <CardTitle variant="danger">Before</CardTitle>
+    <div className="relative flex w-full max-w-4xl items-center gap-10 p-5">
+      <FlowLines className="absolute left-1/2 z-0 size-[300px] -translate-x-1/2" />
+      <Funnel className="absolute left-1/2 z-0 size-[300px] -translate-x-1/2" />
 
-        <Application>
-          <div className="absolute top-[46px] left-6 h-[26px] w-[26px] rotate-[8deg] rounded-[10px] border border-(--red-9)/25 bg-(--red-9)/20"></div>
-          <div className="absolute top-[64px] right-7 h-[26px] w-[26px] rotate-[8deg] rounded-[10px] border border-(--red-9)/25 bg-(--red-9)/20"></div>
-          <div className="absolute top-[108px] left-[78px] h-[26px] w-[26px] rotate-[8deg] rounded-[10px] border border-(--red-9)/25 bg-(--red-9)/20"></div>
-          <div className="absolute top-[150px] right-11 h-[26px] w-[26px] rotate-[8deg] rounded-[10px] border border-(--red-9)/25 bg-(--red-9)/20"></div>
-          <div className="absolute top-[168px] left-11 h-[26px] w-[26px] rotate-[8deg] rounded-[10px] border border-(--red-9)/25 bg-(--red-9)/20"></div>
-          <div className="absolute top-[118px] right-[92px] h-[26px] w-[26px] rotate-[8deg] rounded-[10px] border border-(--red-9)/25 bg-(--red-9)/20"></div>
-
-          <div className="absolute top-[54px] left-8 h-[18px] w-[88px] rounded-[10px] border border-(--red-9)/40 bg-(--red-9)/20 backdrop-blur-[2px]"></div>
-          <div className="absolute top-[76px] left-[140px] h-[18px] w-[120px] rounded-[10px] border border-(--red-9)/40 bg-(--red-9)/20 backdrop-blur-[2px]"></div>
-          <div className="absolute top-[100px] left-9 h-[18px] w-[150px] rounded-[10px] border border-(--red-9)/40 bg-(--red-9)/20 backdrop-blur-[2px]"></div>
-          <div className="absolute top-[150px] left-[26px] h-[52px] w-[110px] rounded-[10px] border border-(--red-9)/40 bg-(--red-9)/20 backdrop-blur-[2px]"></div>
-          <div className="absolute top-[152px] right-[26px] h-[52px] w-[90px] rounded-[10px] border border-(--red-9)/40 bg-(--red-9)/20 backdrop-blur-[2px]"></div>
-        </Application>
-
-        <div className="flex items-baseline gap-2 px-3 pb-4 text-xs">
-          <span className="text-low tracking-wider uppercase">diffs</span>
-          <strong className="text-base font-bold">12</strong>
-          <span className="text-low">(mostly noise)</span>
+      <Card className="relative flex flex-1 flex-col gap-3 p-3">
+        <div className="flex items-center justify-between">
+          <Title>
+            <ContainedIcon variant="danger" icon={AlertTriangleIcon} />
+            Before stabilization
+          </Title>
+          <Badge>
+            <DotIndicator variant="danger" />
+            34 diffs
+          </Badge>
         </div>
+
+        <Application noise={1} withChanges>
+          <div className="absolute top-[46px] left-6 h-[26px] w-[26px] rotate-[8deg] rounded-[10px] border border-(--danger-9)/25 bg-(--danger-9)/20"></div>
+          <div className="absolute top-[64px] right-7 h-[26px] w-[26px] rotate-[8deg] rounded-[10px] border border-(--danger-9)/25 bg-(--danger-9)/20"></div>
+          <div className="absolute top-[108px] left-[78px] h-[26px] w-[26px] rotate-[8deg] rounded-[10px] border border-(--danger-9)/25 bg-(--danger-9)/20"></div>
+          <div className="absolute top-[150px] right-11 h-[26px] w-[26px] rotate-[8deg] rounded-[10px] border border-(--danger-9)/25 bg-(--danger-9)/20"></div>
+          <div className="absolute top-[168px] left-11 h-[26px] w-[26px] rotate-[8deg] rounded-[10px] border border-(--danger-9)/25 bg-(--danger-9)/20"></div>
+          <div className="absolute top-[118px] right-[92px] h-[26px] w-[26px] rotate-[8deg] rounded-[10px] border border-(--danger-9)/25 bg-(--danger-9)/20"></div>
+
+          <div className="absolute top-[54px] left-8 h-[18px] w-[88px] rounded-[10px] border border-(--danger-9)/40 bg-(--danger-9)/20 backdrop-blur-[2px]"></div>
+          <div className="absolute top-[76px] left-[140px] h-[18px] w-[120px] rounded-[10px] border border-(--danger-9)/40 bg-(--danger-9)/20 backdrop-blur-[2px]"></div>
+          <div className="absolute top-[100px] left-9 h-[18px] w-[150px] rounded-[10px] border border-(--danger-9)/40 bg-(--danger-9)/20 backdrop-blur-[2px]"></div>
+          <div className="absolute top-[150px] left-[26px] h-[52px] w-[110px] rounded-[10px] border border-(--danger-9)/40 bg-(--danger-9)/20 backdrop-blur-[2px]"></div>
+          <div className="absolute top-[152px] right-[26px] h-[52px] w-[90px] rounded-[10px] border border-(--danger-9)/40 bg-(--danger-9)/20 backdrop-blur-[2px]"></div>
+        </Application>
       </Card>
 
-      <Card className="relative grid place-items-center px-3 py-5">
-        <div className="grid place-items-center">
-          <div
-            className="grid h-[110px] w-[110px] place-items-center rounded-full border border-(--primary-6) bg-[radial-gradient(circle_at_30%_30%,rgba(124,92,255,0.25),rgba(124,92,255,0.02)_60%)] shadow-[0_0_0_10px_rgba(124,92,255,0.08)]"
-            aria-hidden="true"
-          >
-            <div className="relative h-14 w-14 rounded-2xl border border-(--neutral-9)/15 bg-(--neutral-9)/10">
-              <div className="absolute inset-3 rounded-xl border border-dashed border-(--neutral-9)/25"></div>
-              <div className="absolute inset-[18px] rounded-lg border border-dashed border-(--grass-9)/40"></div>
-            </div>
-          </div>
-
-          <div className="mt-6 text-center font-sans">
-            <div className="text-[13px] font-bold">Built in stabilization</div>
-            <div className="text-low mt-1.5 text-xs font-medium">
-              filters out noise
-            </div>
-          </div>
-        </div>
-
+      <Card className="relative p-5">
         <div
-          className="pointer-events-none absolute inset-0 opacity-80"
+          className="flex size-24 items-center justify-center rounded-full border border-(--primary-6) bg-[radial-gradient(circle_at_30%_30%,rgba(124,92,255,0.25),rgba(124,92,255,0.02)_60%)] shadow-[0_0_0_10px_rgba(124,92,255,0.08)]"
           aria-hidden="true"
         >
-          <span className="motion-safe:animate-flow absolute bottom-10 left-[-40px] h-0.5 w-[140px] -translate-y-1/2 rounded-full bg-[linear-gradient(90deg,rgba(255,255,255,0),rgba(124,92,255,0.45),rgba(46,229,157,0.35),rgba(255,255,255,0))]"></span>
-          <span className="motion-safe:animate-flow absolute bottom-10 left-[10px] h-0.5 w-[140px] -translate-y-1/2 rounded-full bg-[linear-gradient(90deg,rgba(255,255,255,0),rgba(124,92,255,0.45),rgba(46,229,157,0.35),rgba(255,255,255,0))] opacity-75 motion-safe:[animation-delay:0.3s]"></span>
-          <span className="motion-safe:animate-flow absolute bottom-10 left-[60px] h-0.5 w-[140px] -translate-y-1/2 rounded-full bg-[linear-gradient(90deg,rgba(255,255,255,0),rgba(124,92,255,0.45),rgba(46,229,157,0.35),rgba(255,255,255,0))] opacity-55 motion-safe:[animation-delay:0.6s]"></span>
-          <span className="motion-safe:animate-flow absolute top-10 left-[-40px] h-0.5 w-[140px] -translate-y-1/2 rounded-full bg-[linear-gradient(90deg,rgba(255,255,255,0),rgba(124,92,255,0.45),rgba(46,229,157,0.35),rgba(255,255,255,0))]"></span>
-          <span className="motion-safe:animate-flow absolute top-10 left-[10px] h-0.5 w-[140px] -translate-y-1/2 rounded-full bg-[linear-gradient(90deg,rgba(255,255,255,0),rgba(124,92,255,0.45),rgba(46,229,157,0.35),rgba(255,255,255,0))] opacity-75 motion-safe:[animation-delay:0.3s]"></span>
-          <span className="motion-safe:animate-flow absolute top-10 left-[60px] h-0.5 w-[140px] -translate-y-1/2 rounded-full bg-[linear-gradient(90deg,rgba(255,255,255,0),rgba(124,92,255,0.45),rgba(46,229,157,0.35),rgba(255,255,255,0))] opacity-55 motion-safe:[animation-delay:0.6s]"></span>
+          <StabilizationChipIcon />
+        </div>
+        <div className="bg-app pointer-events-none absolute -bottom-12 left-1/2 -translate-1/2 rounded border-[0.5px] px-2 py-1 font-mono text-[0.65rem] whitespace-nowrap text-(--primary-9) uppercase">
+          Stabilization engine
         </div>
       </Card>
 
-      <Card>
-        <CardTitle variant="success">After</CardTitle>
+      <Card className="relative flex flex-1 flex-col gap-3 p-3">
+        <div className="flex items-center justify-between">
+          <Title>
+            <ContainedIcon variant="primary" icon={CheckIcon} />
+            Stabilized
+          </Title>
+          <Badge>
+            <DotIndicator variant="primary" />2 diffs
+          </Badge>
+        </div>
 
-        <Application>
-          <div className="absolute top-[142px] left-[26px] h-[58px] w-[136px] rounded-[10px] border border-(--grass-9)/40 bg-(--grass-9)/15 backdrop-blur-[2px]"></div>
-          <div className="absolute top-[54px] right-[26px] h-[18px] w-[120px] rounded-[10px] border border-(--grass-9)/40 bg-(--grass-9)/15 backdrop-blur-[2px]"></div>
+        <Application withChanges="success">
+          <div className="absolute top-[142px] left-[26px] h-[58px] w-[136px] rounded-[10px] border border-(--success-9)/40 bg-(--success-9)/15 backdrop-blur-[2px]"></div>
+          <div className="absolute top-[54px] right-[26px] h-[18px] w-[120px] rounded-[10px] border border-(--success-9)/40 bg-(--success-9)/15 backdrop-blur-[2px]"></div>
 
-          <div className="absolute right-4 bottom-4 inline-flex gap-1.5 rounded-full border border-(--grass-9)/25 bg-(--grass-9)/10 px-2.5 py-2">
-            <span className="h-1.5 w-1.5 rounded-full bg-(--grass-9)/90"></span>
-            <span className="h-1.5 w-1.5 rounded-full bg-(--grass-9)/90"></span>
-            <span className="h-1.5 w-1.5 rounded-full bg-(--grass-9)/90"></span>
+          <div className="absolute right-4 bottom-4 inline-flex gap-1.5 rounded-full border border-(--success-9)/25 bg-(--success-9)/10 px-2.5 py-2">
+            <span className="h-1.5 w-1.5 rounded-full bg-(--success-9)/90"></span>
+            <span className="h-1.5 w-1.5 rounded-full bg-(--success-9)/90"></span>
+            <span className="h-1.5 w-1.5 rounded-full bg-(--success-9)/90"></span>
           </div>
         </Application>
-
-        <div className="flex items-baseline gap-2 px-3 pb-4 text-xs">
-          <span className="text-low tracking-wider uppercase">diffs</span>
-          <strong className="text-base font-bold">2</strong>
-          <span className="text-low">(signal)</span>
-        </div>
       </Card>
     </div>
   );
 }
 
-function Card(props: ComponentPropsWithRef<"div">) {
-  return (
-    <div
-      {...props}
-      className={clsx(
-        "bg-app overflow-hidden rounded-xl border shadow-xs",
-        props.className,
-      )}
-    />
-  );
-}
-
-function CardTitle(props: {
-  variant: "success" | "danger";
-  children: React.ReactNode;
+export function Counter(props: {
+  count: React.ReactNode;
+  unit: React.ReactNode;
+  className?: string;
 }) {
   return (
-    <div className="inline-flex items-center gap-2.5 px-3 pt-3 text-xs font-semibold">
-      <span
-        className={clsx(
-          "h-2.5 w-2.5 rounded-full",
-          {
-            danger: "bg-(--red-9) shadow-[0_0_0_4px_--alpha(var(--red-9)/12%)]",
-            success:
-              "bg-(--grass-9) shadow-[0_0_0_4px_--alpha(var(--grass-9)/12%)]",
-          }[props.variant],
-        )}
-        aria-hidden="true"
-      />
-      <span>{props.children}</span>
+    <div
+      className={clsx(
+        "flex items-baseline justify-center gap-1.5",
+        props.className,
+      )}
+    >
+      <strong className="text-sm font-semibold">{props.count}</strong>
+      <span className="text-low text-[0.65rem] tracking-wider uppercase">
+        {props.unit}
+      </span>
     </div>
   );
 }
 
-function Application(props: { children: React.ReactNode }) {
+const DEFAULT_MATRIX = [
+  0.25, 0.55, 0.4, 0.7, 0.6, 0.35, 0.5, 0.3, 0.45, 0.65, 0.28, 0.52, 0.38, 0.6,
+  0.33, 0.48,
+];
+
+function range(count: number): number[] {
+  return Array.from({ length: count }, (_, index) => index);
+}
+
+function getLinePositions(params: {
+  count: number;
+  center: number;
+  step: number;
+  itemSize: number;
+}) {
+  const span = params.count * params.step - (params.step - params.itemSize);
+  const start = params.center - span / 2;
+
+  return range(params.count).map((index) => start + index * params.step);
+}
+
+function StabilizationChipIcon(
+  props: ComponentPropsWithoutRef<"div"> & {
+    /**
+     * A stable opacity map, row major.
+     * If omitted, uses a nice default.
+     */
+    matrix?: number[];
+  },
+) {
+  const matrix = props.matrix ?? DEFAULT_MATRIX;
+
+  const svgSize = 56;
+  const center = svgSize / 2;
+
+  const chip = {
+    x: 10,
+    y: 10,
+    size: 36,
+    outerRadius: 8,
+    innerInset: 2,
+    innerRadius: 6,
+  };
+
+  const pin = {
+    count: 7,
+    step: 3,
+    length: 3,
+    thickness: 1,
+    gap: 1,
+    radius: 0.5,
+  };
+
+  const matrixConfig = {
+    grid: 4,
+    step: 5,
+    size: 3,
+    radius: 0.75,
+  };
+
+  const pinPositions = getLinePositions({
+    count: pin.count,
+    center,
+    step: pin.step,
+    itemSize: pin.thickness,
+  });
+
+  const pinYTop = chip.y - pin.gap - pin.length;
+  const pinYBottom = chip.y + chip.size + pin.gap;
+
+  const pinXLeft = chip.x - pin.gap - pin.length;
+  const pinXRight = chip.x + chip.size + pin.gap;
+
+  const matrixPositions = getLinePositions({
+    count: matrixConfig.grid,
+    center,
+    step: matrixConfig.step,
+    itemSize: matrixConfig.size,
+  });
+
+  const { matrix: _matrix, className, ...divProps } = props;
+
   return (
-    <div className="relative m-3 h-55 overflow-hidden rounded-[14px] border-[0.5px] bg-linear-to-b from-(--neutral-9)/6 to-transparent">
-      <div className="h-8.5 border-b-[0.5px] bg-(--neutral-8)/10"></div>
+    <div
+      {...divProps}
+      className={clsx(
+        "bg-(--neutral-9)/05 relative grid h-16 w-16 place-items-center rounded-2xl border border-(--neutral-9)/10",
+        className,
+      )}
+      aria-hidden="true"
+    >
+      <svg viewBox="0 0 56 56" className="h-14 w-14" fill="none">
+        {/* Pins top */}
+        {pinPositions.map((x) => (
+          <rect
+            key={`pt-${x}`}
+            x={x}
+            y={pinYTop}
+            width={pin.thickness}
+            height={pin.length}
+            rx={pin.radius}
+            fill="var(--primary-8)"
+          />
+        ))}
 
-      <div className="absolute top-13 right-3.5 left-3.5 h-2.5 w-[72%] rounded-full bg-(--neutral-9)/10"></div>
-      <div className="absolute top-18 right-3.5 left-3.5 h-2.5 w-[58%] rounded-full bg-(--neutral-9)/10"></div>
-      <div className="absolute top-23 right-3.5 left-3.5 h-2.5 w-[66%] rounded-full bg-(--neutral-9)/10"></div>
+        {/* Pins bottom */}
+        {pinPositions.map((x) => (
+          <rect
+            key={`pb-${x}`}
+            x={x}
+            y={pinYBottom}
+            width={pin.thickness}
+            height={pin.length}
+            rx={pin.radius}
+            fill="var(--primary-8)"
+          />
+        ))}
 
-      <div className="absolute top-32.5 right-3.5 left-3.5 flex gap-2.5">
-        <div className="h-12 flex-1 rounded-xl border border-(--neutral-9)/10 bg-(--neutral-9)/10"></div>
-        <div className="h-12 flex-1 rounded-xl border border-(--neutral-9)/10 bg-(--neutral-9)/10"></div>
-        <div className="h-12 flex-1 rounded-xl border border-(--neutral-9)/10 bg-(--neutral-9)/10"></div>
-      </div>
+        {/* Pins left */}
+        {pinPositions.map((y) => (
+          <rect
+            key={`pl-${y}`}
+            x={pinXLeft}
+            y={y}
+            width={pin.length}
+            height={pin.thickness}
+            rx={pin.radius}
+            fill="var(--primary-8)"
+          />
+        ))}
 
-      {props.children}
+        {/* Pins right */}
+        {pinPositions.map((y) => (
+          <rect
+            key={`pr-${y}`}
+            x={pinXRight}
+            y={y}
+            width={pin.length}
+            height={pin.thickness}
+            rx={pin.radius}
+            fill="var(--primary-8)"
+          />
+        ))}
+
+        {/* Chip body */}
+        <rect
+          x={chip.x}
+          y={chip.y}
+          width={chip.size}
+          height={chip.size}
+          rx={chip.outerRadius}
+          stroke="var(--primary-8)"
+        />
+        <rect
+          x={chip.x + chip.innerInset}
+          y={chip.y + chip.innerInset}
+          width={chip.size - chip.innerInset * 2}
+          height={chip.size - chip.innerInset * 2}
+          rx={chip.innerRadius}
+          stroke="var(--primary-6)"
+          strokeWidth="0.5"
+        />
+
+        {/* Internal matrix */}
+        {matrixPositions.map((y, row) =>
+          matrixPositions.map((x, col) => {
+            const index = row * matrixConfig.grid + col;
+            const base = matrix[index] ?? 0.45;
+
+            // deterministic variation per cell
+            const min = Math.max(0.15, base - 0.15);
+            const max = Math.min(0.8, base + 0.15);
+            const dur = 1 + (index % 3) * 0.6;
+            const delay = -(index * 0.3);
+
+            return (
+              <rect
+                key={`m-${row}-${col}`}
+                x={x}
+                y={y}
+                width={matrixConfig.size}
+                height={matrixConfig.size}
+                rx={matrixConfig.radius}
+                fill="var(--primary-8)"
+                opacity={base}
+              >
+                <animate
+                  attributeName="opacity"
+                  values={`${min};${max};${min}`}
+                  dur={`${dur}s`}
+                  begin={`${delay}s`}
+                  repeatCount="indefinite"
+                />
+              </rect>
+            );
+          }),
+        )}
+      </svg>
     </div>
+  );
+}
+
+function Funnel(props: ComponentPropsWithoutRef<"svg">) {
+  return (
+    <svg
+      {...props}
+      viewBox="0 0 300 300"
+      className={clsx("pointer-events-none", props.className)}
+      aria-hidden="true"
+    >
+      {/* Outer funnel hint */}
+      <path
+        d="M 0 105 C 110 105 125 135 150 150 C 175 165 190 195 300 195"
+        fill="none"
+        stroke="var(--primary-8)"
+        strokeWidth="1"
+        opacity="0.18"
+        strokeLinecap="round"
+      />
+      <path
+        d="M 0 195 C 110 195 125 165 150 150 C 175 135 190 105 300 105"
+        fill="none"
+        stroke="var(--primary-8)"
+        strokeWidth="1"
+        opacity="0.18"
+        strokeLinecap="round"
+      />
+
+      {/* Thick in */}
+      <path
+        d="M 0 150 C 95 150 120 150 150 150"
+        fill="none"
+        stroke="var(--primary-8)"
+        strokeWidth="2.5"
+        strokeLinecap="square"
+        strokeDasharray="2 6"
+      >
+        <animate
+          attributeName="stroke-dashoffset"
+          from="0"
+          to="-48"
+          dur="1.25s"
+          repeatCount="indefinite"
+        />
+      </path>
+
+      {/* Thin out */}
+      <path
+        d="M 150 150 C 180 150 205 150 300 150"
+        fill="none"
+        stroke="var(--primary-8)"
+        strokeWidth="1"
+        strokeLinecap="round"
+        strokeDasharray="2 5"
+        opacity="0.9"
+      >
+        <animate
+          attributeName="stroke-dashoffset"
+          from="0"
+          to="-49"
+          dur="1.25s"
+          repeatCount="indefinite"
+        />
+      </path>
+
+      {/* Pinch marker */}
+      <circle cx="150" cy="150" r="2" fill="var(--primary-8)" opacity="0.35" />
+    </svg>
+  );
+}
+
+function FlowLines(props: ComponentPropsWithoutRef<"svg">) {
+  return null;
+  return (
+    <svg
+      {...props}
+      viewBox="0 0 300 300"
+      className={clsx("pointer-events-none", props.className)}
+      aria-hidden="true"
+    >
+      <path
+        d="M 0 150 L 300 150"
+        fill="none"
+        stroke="var(--primary-8)"
+        strokeWidth="1"
+        strokeLinecap="round"
+        strokeDasharray="2 5"
+        opacity="0.9"
+      >
+        <animate
+          attributeName="stroke-dashoffset"
+          from="0"
+          to="-49"
+          dur="1.25s"
+          repeatCount="indefinite"
+        />
+      </path>
+    </svg>
   );
 }
