@@ -13,20 +13,17 @@ export function ContainedIcon(
     <span
       {...rest}
       className={clsx(
-        "grid h-5 w-5 shrink-0 place-items-center rounded-lg border",
+        "shrink-0 rounded-full border p-1",
         {
-          danger:
-            "border-(--danger-9)/25 bg-(--danger-9)/10 text-(--danger-10)",
-          success:
-            "border-(--success-9)/25 bg-(--success-9)/10 text-(--success-10)",
-          primary:
-            "border-(--primary-9)/25 bg-(--primary-9)/10 text-(--primary-10)",
+          danger: "border-(--danger-6) bg-(--danger-2) text-(--danger-9)",
+          success: "border-(--success-6) bg-(--success-2) text-(--success-9)",
+          primary: "border-(--primary-6) bg-(--primary-2) text-(--primary-9)",
         }[variant],
         rest.className,
       )}
       aria-hidden="true"
     >
-      <Icon className="size-3.5" />
+      <Icon className="size-3" />
     </span>
   );
 }
