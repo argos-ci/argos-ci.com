@@ -1,4 +1,5 @@
 "use client";
+import clsx from "clsx";
 import { CheckIcon, WavesIcon } from "lucide-react";
 
 import { Card } from "../../common/Card";
@@ -7,8 +8,18 @@ import { Title } from "../../common/Title";
 export function FlakyIndicator() {
   return (
     <div className="relative mx-auto flex w-full max-w-2xl flex-col gap-8">
-      <div className="flex flex-col items-center gap-3 self-start">
-        <Card className="flex max-w-sm flex-col gap-2 p-3">
+      <div
+        className={clsx(
+          "flex flex-col items-center gap-3 self-start",
+          "animate-fade-in motion-reduce:animate-fade-in animate-duration-500 fill-mode-both",
+        )}
+      >
+        <Card
+          className={clsx(
+            "flex max-w-sm flex-col gap-2 p-3",
+            "animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both",
+          )}
+        >
           <Title>
             <WavesIcon className="size-4 text-(--danger-10)" />
             Test is flaky
@@ -22,8 +33,18 @@ export function FlakyIndicator() {
           <WavesIcon className="size-4" /> 4 / 28
         </div>
       </div>
-      <div className="flex flex-col items-center gap-3 self-end">
-        <Card className="flex max-w-sm flex-col gap-2 p-3">
+      <div
+        className={clsx(
+          "flex flex-col items-center gap-3 self-end",
+          "animate-fade-in animate-delay-250 motion-reduce:animate-fade-in animate-duration-500 fill-mode-both",
+        )}
+      >
+        <Card
+          className={clsx(
+            "flex max-w-sm flex-col gap-2 p-3",
+            "animate-slide-up-fade animate-delay-250 motion-reduce:animate-fade-in animate-duration-500 fill-mode-both",
+          )}
+        >
           <Title>
             <CheckIcon className="size-4 text-(--success-10)" />
             Stable

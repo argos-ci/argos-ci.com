@@ -76,7 +76,7 @@ export function RetryScreenshots() {
 
         <Card
           className={clsx(
-            "relative z-10 flex-1 space-y-4 overflow-hidden border bg-[linear-gradient(220deg,--alpha(var(--success-2)/70%),var(--neutral-1))] p-5 shadow-md",
+            "relative z-10 flex-1 space-y-4 overflow-hidden border bg-[linear-gradient(220deg,--alpha(var(--primary-2)/70%),var(--neutral-1))] p-5 shadow-md",
             "animate-fade-in-right motion-reduce:animate-fade-in animate-delay-250 animate-duration-500 fill-mode-both",
           )}
         >

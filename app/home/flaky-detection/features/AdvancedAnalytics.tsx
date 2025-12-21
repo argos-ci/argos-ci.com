@@ -37,10 +37,30 @@ export function AdvancedAnalytics(props: { className?: string }) {
       aria-label="Flakiness widgets"
     >
       <div className="grid grid-cols-3 gap-4">
-        <FlakinessScoreCard className="col-span-1" />
-        <GraphCard className="col-span-2" />
-        <FirstLastSeenCard className="col-span-2" />
-        <StatsCard className="col-span-1" />
+        <FlakinessScoreCard
+          className={clsx(
+            "col-span-1",
+            "animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both",
+          )}
+        />
+        <GraphCard
+          className={clsx(
+            "col-span-2",
+            "animate-slide-up-fade animate-delay-100 motion-reduce:animate-fade-in animate-duration-500 fill-mode-both",
+          )}
+        />
+        <FirstLastSeenCard
+          className={clsx(
+            "col-span-2",
+            "animate-slide-up-fade animate-delay-200 motion-reduce:animate-fade-in animate-duration-500 fill-mode-both",
+          )}
+        />
+        <StatsCard
+          className={clsx(
+            "col-span-1",
+            "animate-slide-up-fade animate-delay-300 motion-reduce:animate-fade-in animate-duration-500 fill-mode-both",
+          )}
+        />
       </div>
     </section>
   );

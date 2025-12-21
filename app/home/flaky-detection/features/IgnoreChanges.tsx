@@ -19,9 +19,19 @@ import { Title } from "../../common/Title";
 export function IgnoreChanges() {
   return (
     <div className="relative flex w-full max-w-4xl items-center gap-10 p-5">
-      <Funnel className="absolute left-1/2 z-0 size-75 -translate-x-1/2" />
+      <Line
+        className={clsx(
+          "absolute left-1/2 z-0 size-75 -translate-x-1/2",
+          "animate-fade-in animate-delay-300 motion-reduce:animate-fade-in animate-duration-500 fill-mode-both",
+        )}
+      />
 
-      <Card className="relative flex flex-1 flex-col gap-3 p-3">
+      <Card
+        className={clsx(
+          "relative flex flex-1 flex-col gap-3 p-3",
+          "animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both",
+        )}
+      >
         <div className="flex items-center justify-between">
           <Title>
             <ContainedIcon variant="danger" icon={AlertTriangleIcon} />
@@ -35,7 +45,12 @@ export function IgnoreChanges() {
         <ApplicationSVG withChanges />
       </Card>
 
-      <Card className="relative p-5">
+      <Card
+        className={clsx(
+          "relative p-5",
+          "animate-slide-up-fade animate-delay-100 motion-reduce:animate-fade-in animate-duration-500 fill-mode-both",
+        )}
+      >
         <IgnoreAction />
         <div className="bg-app shadow-xxs pointer-events-none absolute -bottom-5 left-1/2 flex -translate-x-1/2 items-center gap-1 rounded-full border px-2 py-1 text-xs whitespace-nowrap text-(--neutral-12)">
           <MousePointerClickIcon
@@ -47,7 +62,12 @@ export function IgnoreChanges() {
         </div>
       </Card>
 
-      <Card className="relative flex flex-1 flex-col gap-3 p-3">
+      <Card
+        className={clsx(
+          "relative flex flex-1 flex-col gap-3 p-3",
+          "animate-slide-up-fade animate-delay-200 motion-reduce:animate-fade-in animate-duration-500 fill-mode-both",
+        )}
+      >
         <div className="flex items-center justify-between">
           <Title>
             <ContainedIcon variant="success" icon={CheckIcon} />
@@ -89,7 +109,7 @@ function IgnoreAction(props: ComponentPropsWithoutRef<"div">) {
   );
 }
 
-function Funnel(props: ComponentPropsWithoutRef<"svg">) {
+function Line(props: ComponentPropsWithoutRef<"svg">) {
   return (
     <svg
       {...props}

@@ -53,31 +53,33 @@ export function FailureScreenshots() {
 
         <Card
           className={clsx(
-            "relative z-10 flex-1 overflow-hidden border bg-[linear-gradient(220deg,--alpha(var(--danger-1)/50%),var(--neutral-1))] p-5 shadow-lg",
-            "lg:absolute lg:top-0 lg:right-0 lg:w-[50%] lg:translate-x-8 lg:-translate-y-3 lg:rotate-3 lg:rounded-2xl",
-            "animate-slide-up-fade motion-reduce:animate-fade-in animate-delay-300 animate-duration-400 fill-mode-both",
+            "relative z-10 flex-1 overflow-hidden border bg-[linear-gradient(220deg,--alpha(var(--danger-1)/50%),var(--neutral-1))]",
+            "lg:absolute lg:top-0 lg:right-0 lg:w-[46%] lg:-translate-y-4 lg:rotate-4",
+            "animate-zoom-in motion-reduce:animate-fade-in animate-delay-200 animate-duration-300 fill-mode-both",
           )}
         >
-          <div className="rounded-lg border bg-(--neutral-9)/12 px-3 py-2" />
+          <div className="p-5">
+            <div className="rounded-lg border-[0.5px] bg-(--neutral-3) px-3 py-2" />
 
-          <div className="flex flex-col items-center gap-4 px-4 py-6 text-center">
-            <div className="flex size-16 items-center justify-center rounded-full border border-(--neutral-7) text-(--neutral-11)">
-              <XIcon className="size-7" />
+            <div className="flex flex-col items-center gap-4 px-4 pt-6 text-center">
+              <div className="text-low flex size-16 items-center justify-center rounded-full border">
+                <XIcon className="size-7" />
+              </div>
+              <div className="text-base font-medium">Page not found</div>
+              <div className="w-full space-y-2">
+                <SkeletonLine className="w-4/5" />
+                <SkeletonLine className="w-3/5" />
+              </div>
             </div>
-            <div className="text-base font-semibold">Page not found</div>
-            <div className="w-full space-y-2">
-              <SkeletonLine className="w-4/5" />
-              <SkeletonLine className="w-3/5" />
+
+            <div className="mt-4 space-y-2">
+              <SkeletonLine className="w-full" />
+              <SkeletonLine className="w-11/12" />
+              <SkeletonLine className="w-10/12" />
             </div>
           </div>
 
-          <div className="mt-4 space-y-2">
-            <SkeletonLine className="w-full" />
-            <SkeletonLine className="w-11/12" />
-            <SkeletonLine className="w-10/12" />
-          </div>
-
-          <div className="mt-5 flex items-center justify-between border-t pt-3 text-[11px] text-(--neutral-11)">
+          <div className="mt-5 flex items-center justify-between border-t-[0.5px] p-3 text-[11px] text-(--neutral-11)">
             <span>Captured at 10:14 · Build #214</span>
             <span className="font-semibold text-(--danger-10)">
               Failure screenshot
@@ -136,7 +138,7 @@ function SkeletonLine(props: { className?: string }) {
   return (
     <div
       className={clsx(
-        "h-2.5 rounded-full bg-(--neutral-9)/18",
+        "h-2.5 rounded border-[0.5px] bg-(--neutral-3)",
         props.className,
       )}
       aria-hidden="true"

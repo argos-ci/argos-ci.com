@@ -136,8 +136,15 @@ function FeaturePanel(props: {
   children: React.ReactNode;
 }) {
   const { isCurrent, children, direction, isVisible } = props;
+  const hasBeenVisibleRef = useRef(isVisible);
   const wasCurrent = useRef(isCurrent);
   const [mountKey, setMountKey] = useState(0);
+
+  useEffect(() => {
+    if (isVisible) {
+      hasBeenVisibleRef.current = isVisible;
+    }
+  }, [isVisible]);
 
   useEffect(() => {
     if (isCurrent && isVisible) {
@@ -146,7 +153,7 @@ function FeaturePanel(props: {
         setMountKey((key) => key + 1);
       }
     }
-    wasCurrent.current = isCurrent;
+    wasCurrent.current = isCurrent && hasBeenVisibleRef.current;
   }, [isCurrent, isVisible]);
   return (
     <div
@@ -162,7 +169,10 @@ function FeaturePanel(props: {
     >
       <div
         key={mountKey}
-        className="absolute inset-0 flex items-center justify-center"
+        className={clsx(
+          "absolute inset-0 flex items-center justify-center",
+          mountKey >= 1 ? null : "opacity-0",
+        )}
       >
         {children}
       </div>
