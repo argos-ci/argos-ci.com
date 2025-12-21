@@ -17,7 +17,7 @@ export function FastApprovalFlow() {
 
 function CardStack() {
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center animate-fade-in-up motion-reduce:animate-fade-in animate-duration-500 fill-mode-both">
       <div className="relative w-[75%]">
         <div className="absolute inset-0 translate-y-7 scale-[0.96] -rotate-4">
           <SwipeCard tone="idle" />
@@ -94,7 +94,7 @@ function ViewportLabel(props: { tone: "baseline" | "changes" }) {
 
 function ActionRow() {
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center animate-fade-in animate-delay-150 motion-reduce:animate-fade-in animate-duration-500 fill-mode-both">
       <div className="flex items-center gap-8">
         <ActionButton variant="down" icon={ThumbsDownIcon} kbd="N" />
         <ActionButton variant="up" icon={ThumbsUpIcon} kbd="Y" />

@@ -15,11 +15,11 @@ import { Title } from "../../common/Title";
 
 export function GroupedDiffs() {
   return (
-    <div className="relative w-full max-w-4xl p-5">
+    <div className="relative w-full max-w-4xl p-5 animate-fade-in-up motion-reduce:animate-fade-in animate-duration-500 fill-mode-both">
       <Connectors />
       <div className="relative grid items-center gap-8 md:grid-cols-2">
         <div>
-          <Card className="flex flex-col gap-3 p-3">
+          <Card className="flex flex-col gap-3 p-3 animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both">
             <div className="flex items-center justify-between">
               <Title>
                 <ContainedIcon variant="danger" icon={ImageIcon} />
@@ -43,7 +43,7 @@ export function GroupedDiffs() {
           </Card>
         </div>
 
-        <Card className="flex flex-col gap-3 p-3">
+        <Card className="flex flex-col gap-3 p-3 animate-slide-up-fade animate-delay-150 motion-reduce:animate-fade-in animate-duration-500 fill-mode-both">
           <div className="flex items-center justify-between">
             <Title>
               <ContainedIcon variant="primary" icon={ImagesIcon} />
@@ -78,7 +78,7 @@ export function GroupedDiffs() {
 function Connectors() {
   return (
     <svg
-      className="pointer-events-none absolute inset-0 hidden h-full w-full md:block"
+      className="pointer-events-none absolute inset-0 hidden h-full w-full animate-fade-in animate-delay-100 animate-duration-400 fill-mode-both md:block"
       viewBox="0 0 860 460"
       fill="none"
       aria-hidden="true"
