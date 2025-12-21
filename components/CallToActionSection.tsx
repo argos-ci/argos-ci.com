@@ -19,15 +19,15 @@ export function CallToActionSection(props: {
   } = props;
   return (
     <section className="[--glow-color:var(--primary-11)]">
-      <div className="relative h-44 bg-linear-to-b from-black from-70% to-(--glow-color) dark:from-white">
+      <div className="relative h-28 bg-linear-to-b from-black from-72% to-(--glow-color)">
         <Grid
-          size={12}
-          className="absolute inset-y-0 -left-[10vw] w-[120vw] mask-[linear-gradient(black,transparent)] text-(--primary-1) opacity-10 dark:opacity-5"
+          size={5}
+          className="absolute inset-y-0 -left-[10vw] w-[120vw] mask-[linear-gradient(black,transparent)] text-(--primary-1) opacity-4 dark:opacity-5"
         />
       </div>
       <div className="px-4">
         <Container className="relative flex flex-col items-center justify-center border-x py-20 pt-16 text-center md:pb-28">
-          <Container className="absolute top-1 -mt-16 flex blur-xl">
+          <Container className="absolute top-1 -mt-13 flex scale-y-108 blur-[16px]">
             <svg
               viewBox="0 0 64 48"
               className="z-10 w-16 flex-none fill-(--glow-color)"
