@@ -56,13 +56,15 @@ function FlakinessScoreCard(props: { className?: string }) {
   const gap = c - dash;
 
   return (
-    <Card
-      className={clsx(
-        "flex items-center justify-center gap-4 p-4",
-        props.className,
-      )}
-    >
-      <div className="relative grid place-items-center">
+    <Card className={clsx("flex flex-col", props.className)}>
+      <CardHeader>
+        <Title>
+          <ActivityIcon className="text-low size-3" />
+          Flakiness score
+        </Title>
+        <Description>Instantely see if a test is flaky or not.</Description>
+      </CardHeader>
+      <div className="flex flex-1 items-center justify-center">
         <svg
           width={ring.size}
           height={ring.size}
@@ -74,7 +76,7 @@ function FlakinessScoreCard(props: { className?: string }) {
             cy={ring.size / 2}
             r={r}
             fill="none"
-            stroke="rgba(15,23,42,0.10)"
+            stroke="var(--neutral-6)"
             strokeWidth={ring.stroke}
           />
           <circle
@@ -91,21 +93,9 @@ function FlakinessScoreCard(props: { className?: string }) {
 
         <div className="absolute text-center">
           <div className="text-low text-[0.65rem]">Flakiness</div>
-          <div className="text-2xl leading-7 font-semibold text-slate-900">
-            {value}
-          </div>
+          <div className="text-2xl leading-7 font-semibold">{value}</div>
         </div>
       </div>
-
-      <CardHeader className="w-32">
-        <Title>
-          <ActivityIcon className="text-low size-3" />
-          Flakiness score
-        </Title>
-        <Description>
-          Measures how often snapshots change across builds.
-        </Description>
-      </CardHeader>
     </Card>
   );
 }
@@ -115,7 +105,7 @@ function CardHeader(props: ComponentPropsWithRef<"div">) {
     <div
       {...props}
       className={clsx(
-        "flex flex-col items-start gap-0.5 text-balance",
+        "flex flex-col items-start gap-0.5 border-b-[0.5px] p-3 text-balance",
         props.className,
       )}
     />
@@ -128,7 +118,7 @@ export function Description(props: ComponentPropsWithRef<"p">) {
 
 function StatsCard(props: { className?: string }) {
   return (
-    <Card className={clsx("flex flex-col gap-3 p-3", props.className)}>
+    <Card className={clsx("flex flex-col", props.className)}>
       <CardHeader className="text-balance">
         <Title>
           <BarChart2Icon className="text-low size-3" />
@@ -138,7 +128,7 @@ function StatsCard(props: { className?: string }) {
           Aggregated stability metrics across all builds.
         </Description>
       </CardHeader>
-      <div className="grid grid-cols-2 gap-x-6 gap-y-2">
+      <div className="grid grid-cols-2 gap-x-6 gap-y-2 px-5 py-3">
         <Metric label="Builds" value="63" />
         <Metric label="Stability" value="51%" />
         <Metric label="Changes" value="31" />
@@ -150,7 +140,7 @@ function StatsCard(props: { className?: string }) {
 
 function GraphCard(props: { className?: string }) {
   return (
-    <Card className={clsx("flex flex-col gap-3 p-3", props.className)}>
+    <Card className={clsx("flex flex-col", props.className)}>
       <CardHeader>
         <Title>
           <TrendingUpIcon className="text-low size-3" />
@@ -160,14 +150,16 @@ function GraphCard(props: { className?: string }) {
           Tracks when and how often this snapshot becomes unstable.
         </Description>
       </CardHeader>
-      <MiniTimelineChart />
+      <div className="flex flex-1 items-center justify-center p-3">
+        <MiniTimelineChart />
+      </div>
     </Card>
   );
 }
 
 function FirstLastSeenCard(props: { className?: string }) {
   return (
-    <Card className={clsx("flex flex-col gap-3 p-3", props.className)}>
+    <Card className={clsx(props.className)}>
       <CardHeader>
         <Title>
           <HistoryIcon className="text-low size-3" />
@@ -177,13 +169,13 @@ function FirstLastSeenCard(props: { className?: string }) {
           When this snapshot first appeared and when it last changed.
         </Description>
       </CardHeader>
-      <div className="grid gap-2">
+      <div className="grid gap-2 p-3">
         <RightInfo
           title="First seen"
           value="4 months ago"
           sub="In build #2838"
         />
-        <div className="h-px bg-black/10" />
+        <div className="h-px bg-(--neutral-6)" />
         <RightInfo
           title="Last seen"
           value="6 minutes ago"
@@ -206,15 +198,13 @@ function Metric(props: { label: string; value: string }) {
 function RightInfo(props: { title: string; value: string; sub: string }) {
   return (
     <div className="min-w-0">
-      <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-        <div className="text-[12px] font-semibold text-slate-900">
-          {props.title}
-        </div>
-        <div className="text-[12px] font-semibold text-slate-700 underline decoration-slate-300 decoration-dotted underline-offset-2">
+      <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+        <div className="text-xs font-semibold">{props.title}</div>
+        <div className="text-xs font-semibold underline decoration-(--neutral-10) decoration-dotted underline-offset-2">
           {props.value}
         </div>
       </div>
-      <div className="mt-1 text-[12px] text-slate-500">{props.sub}</div>
+      <div className="text-low mt-1 text-xs">{props.sub}</div>
     </div>
   );
 }

@@ -12,7 +12,7 @@ export function SectionHeader(
       {...rest}
       className={clsx(
         "flex max-w-4xl flex-col gap-10 py-12 md:py-18",
-        align === "center" ? "items-center text-center" : "items-start",
+        align === "center" ? "mx-auto items-center text-center" : "items-start",
         props.className,
       )}
     />
