@@ -1,8 +1,9 @@
+"use client";
 import clsx from "clsx";
 import { AlertTriangleIcon, CheckIcon } from "lucide-react";
-import { type ComponentPropsWithoutRef } from "react";
+import type { ComponentPropsWithoutRef } from "react";
 
-import { Application } from "./common/Application";
+import { ApplicationSVG } from "./common/ApplicationSVG";
 import { Badge } from "./common/Badge";
 import { Card } from "./common/Card";
 import { ContainedIcon } from "./common/ContainedIcon";
@@ -12,8 +13,7 @@ import { Title } from "./common/Title";
 export function Stabilization() {
   return (
     <div className="relative flex w-full max-w-4xl items-center gap-10 p-5">
-      <FlowLines className="absolute left-1/2 z-0 size-[300px] -translate-x-1/2" />
-      <Funnel className="absolute left-1/2 z-0 size-[300px] -translate-x-1/2" />
+      <Funnel className="absolute left-1/2 z-0 size-75 -translate-x-1/2" />
 
       <Card className="relative flex flex-1 flex-col gap-3 p-3">
         <div className="flex items-center justify-between">
@@ -27,20 +27,7 @@ export function Stabilization() {
           </Badge>
         </div>
 
-        <Application noise={1} withChanges>
-          <div className="absolute top-[46px] left-6 h-[26px] w-[26px] rotate-[8deg] rounded-[10px] border border-(--danger-9)/25 bg-(--danger-9)/20"></div>
-          <div className="absolute top-[64px] right-7 h-[26px] w-[26px] rotate-[8deg] rounded-[10px] border border-(--danger-9)/25 bg-(--danger-9)/20"></div>
-          <div className="absolute top-[108px] left-[78px] h-[26px] w-[26px] rotate-[8deg] rounded-[10px] border border-(--danger-9)/25 bg-(--danger-9)/20"></div>
-          <div className="absolute top-[150px] right-11 h-[26px] w-[26px] rotate-[8deg] rounded-[10px] border border-(--danger-9)/25 bg-(--danger-9)/20"></div>
-          <div className="absolute top-[168px] left-11 h-[26px] w-[26px] rotate-[8deg] rounded-[10px] border border-(--danger-9)/25 bg-(--danger-9)/20"></div>
-          <div className="absolute top-[118px] right-[92px] h-[26px] w-[26px] rotate-[8deg] rounded-[10px] border border-(--danger-9)/25 bg-(--danger-9)/20"></div>
-
-          <div className="absolute top-[54px] left-8 h-[18px] w-[88px] rounded-[10px] border border-(--danger-9)/40 bg-(--danger-9)/20 backdrop-blur-[2px]"></div>
-          <div className="absolute top-[76px] left-[140px] h-[18px] w-[120px] rounded-[10px] border border-(--danger-9)/40 bg-(--danger-9)/20 backdrop-blur-[2px]"></div>
-          <div className="absolute top-[100px] left-9 h-[18px] w-[150px] rounded-[10px] border border-(--danger-9)/40 bg-(--danger-9)/20 backdrop-blur-[2px]"></div>
-          <div className="absolute top-[150px] left-[26px] h-[52px] w-[110px] rounded-[10px] border border-(--danger-9)/40 bg-(--danger-9)/20 backdrop-blur-[2px]"></div>
-          <div className="absolute top-[152px] right-[26px] h-[52px] w-[90px] rounded-[10px] border border-(--danger-9)/40 bg-(--danger-9)/20 backdrop-blur-[2px]"></div>
-        </Application>
+        <ApplicationSVG noise={1} withChanges />
       </Card>
 
       <Card className="relative p-5">
@@ -66,16 +53,7 @@ export function Stabilization() {
           </Badge>
         </div>
 
-        <Application withChanges="success">
-          <div className="absolute top-[142px] left-[26px] h-[58px] w-[136px] rounded-[10px] border border-(--success-9)/40 bg-(--success-9)/15 backdrop-blur-[2px]"></div>
-          <div className="absolute top-[54px] right-[26px] h-[18px] w-[120px] rounded-[10px] border border-(--success-9)/40 bg-(--success-9)/15 backdrop-blur-[2px]"></div>
-
-          <div className="absolute right-4 bottom-4 inline-flex gap-1.5 rounded-full border border-(--success-9)/25 bg-(--success-9)/10 px-2.5 py-2">
-            <span className="h-1.5 w-1.5 rounded-full bg-(--success-9)/90"></span>
-            <span className="h-1.5 w-1.5 rounded-full bg-(--success-9)/90"></span>
-            <span className="h-1.5 w-1.5 rounded-full bg-(--success-9)/90"></span>
-          </div>
-        </Application>
+        <ApplicationSVG withChanges="success" />
       </Card>
     </div>
   );
@@ -368,36 +346,6 @@ function Funnel(props: ComponentPropsWithoutRef<"svg">) {
 
       {/* Pinch marker */}
       <circle cx="150" cy="150" r="2" fill="var(--primary-8)" opacity="0.35" />
-    </svg>
-  );
-}
-
-function FlowLines(props: ComponentPropsWithoutRef<"svg">) {
-  return null;
-  return (
-    <svg
-      {...props}
-      viewBox="0 0 300 300"
-      className={clsx("pointer-events-none", props.className)}
-      aria-hidden="true"
-    >
-      <path
-        d="M 0 150 L 300 150"
-        fill="none"
-        stroke="var(--primary-8)"
-        strokeWidth="1"
-        strokeLinecap="round"
-        strokeDasharray="2 5"
-        opacity="0.9"
-      >
-        <animate
-          attributeName="stroke-dashoffset"
-          from="0"
-          to="-49"
-          dur="1.25s"
-          repeatCount="indefinite"
-        />
-      </path>
     </svg>
   );
 }

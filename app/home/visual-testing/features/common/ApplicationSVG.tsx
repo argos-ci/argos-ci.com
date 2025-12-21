@@ -1,6 +1,6 @@
 import { type ComponentPropsWithoutRef, useId } from "react";
 
-type ApplicationProps = ComponentPropsWithoutRef<"svg"> & {
+type ApplicationSVGProps = ComponentPropsWithoutRef<"svg"> & {
   withChanges?: boolean | "success";
   /**
    * 0 means no noise
@@ -14,7 +14,7 @@ type ApplicationProps = ComponentPropsWithoutRef<"svg"> & {
   noiseSeed?: number;
 };
 
-export function Application(props: ApplicationProps) {
+export function ApplicationSVG(props: ApplicationSVGProps) {
   const { withChanges = false, noise = 0, noiseSeed = 1, ...rest } = props;
   const appBgId = useId();
   const appClipId = useId();

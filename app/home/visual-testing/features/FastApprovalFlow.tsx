@@ -1,7 +1,9 @@
+"use client";
 import clsx from "clsx";
-import { ThumbsDown, ThumbsUp } from "lucide-react";
+import { ThumbsDownIcon, ThumbsUpIcon } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
-import { Application } from "./common/Application";
+import { ApplicationSVG } from "./common/ApplicationSVG";
 import { Card } from "./common/Card";
 
 export function FastApprovalFlow() {
@@ -34,7 +36,7 @@ function CardStack() {
         </div>
 
         <div
-          className="pointer-events-none absolute inset-x-0 -bottom-4 mx-auto h-12 w-[86%] rounded-[999px] bg-black/7 blur-xl"
+          className="pointer-events-none absolute inset-x-0 -bottom-4 mx-auto h-12 w-[86%] rounded-full bg-black/7 blur-xl"
           aria-hidden="true"
         />
       </div>
@@ -43,21 +45,22 @@ function CardStack() {
 }
 
 function SwipeCard(props: { tone: "active" | "idle" }) {
+  const { tone } = props;
   return (
     <Card
       className={clsx(
         "flex flex-col p-4",
-        props.tone === "active" ? "shadow-sm" : "shadow-xs",
+        { active: "shadow-sm", idle: "shadow-xs" }[tone],
       )}
     >
       <div className="grid grid-cols-2 gap-4">
         <div className="flex flex-col gap-4">
           <ViewportLabel tone="baseline" />
-          <Application />
+          <ApplicationSVG />
         </div>
         <div className="flex flex-col gap-4">
           <ViewportLabel tone="changes" />
-          <Application withChanges />
+          <ApplicationSVG withChanges />
         </div>
       </div>
     </Card>
@@ -65,23 +68,26 @@ function SwipeCard(props: { tone: "active" | "idle" }) {
 }
 
 function ViewportLabel(props: { tone: "baseline" | "changes" }) {
-  const isChanges = props.tone === "changes";
-
+  const { tone } = props;
   return (
     <div
       className={clsx(
         "inline-flex items-center justify-center gap-2 rounded-lg border px-3 py-1 text-xs font-semibold",
-        isChanges ? "border-(--danger-6)" : "border-(--neutral-6)",
+        { baseline: "border-(--neutral-6)", changes: "border-(--danger-6)" }[
+          tone
+        ],
       )}
     >
       <span
         className={clsx(
           "size-1.5 rounded-full",
-          isChanges ? "bg-(--danger-9)" : "bg-(--neutral-9)/35",
+          { baseline: "border-(--neutral-9)", changes: "border-(--danger-9)" }[
+            tone
+          ],
         )}
         aria-hidden="true"
       />
-      {isChanges ? "Changes" : "Baseline"}
+      {{ baseline: "Baseline", changes: "Changes" }[tone]}
     </div>
   );
 }
@@ -90,16 +96,8 @@ function ActionRow() {
   return (
     <div className="flex items-center justify-center">
       <div className="flex items-center gap-8">
-        <ActionButton
-          variant="down"
-          icon={<ThumbsDown className="h-5 w-5" />}
-          kbd="N"
-        />
-        <ActionButton
-          variant="up"
-          icon={<ThumbsUp className="h-5 w-5" />}
-          kbd="Y"
-        />
+        <ActionButton variant="down" icon={ThumbsDownIcon} kbd="N" />
+        <ActionButton variant="up" icon={ThumbsUpIcon} kbd="Y" />
       </div>
     </div>
   );
@@ -107,25 +105,26 @@ function ActionRow() {
 
 function ActionButton(props: {
   variant: "up" | "down";
-  icon: React.ReactNode;
+  icon: LucideIcon;
   kbd: "Y" | "N";
 }) {
+  const { variant, kbd } = props;
   return (
     <div className="relative">
-      {props.variant === "up" && (
+      {variant === "up" ? (
         <div className="animate-green-pulse absolute size-14 rounded-full bg-(--success-9)" />
-      )}
+      ) : null}
       <div
         className={clsx(
           "bg-app grid size-14 place-items-center rounded-full border shadow-xs",
           {
             up: "border-(--success-9)/25 bg-(--success-9)/10 text-(--success-9)",
             down: "border-(--danger-9)/25 bg-(--danger-9)/10 text-(--danger-9)",
-          }[props.variant],
+          }[variant],
         )}
         aria-hidden="true"
       >
-        {props.icon}
+        {/* <Icon className="size-5" /> */}
       </div>
 
       <div className="absolute -bottom-4 left-1/2 -translate-x-1/2">
@@ -135,7 +134,7 @@ function ActionButton(props: {
             "bg-app text-low/80",
           )}
         >
-          {props.kbd}
+          {kbd}
         </kbd>
       </div>
     </div>
