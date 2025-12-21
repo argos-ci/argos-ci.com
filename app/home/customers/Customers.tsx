@@ -2,16 +2,19 @@ import clsx from "clsx";
 import { ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
 
-import clickhouse from "@/app/assets/customers/140x48/clickhouse.svg";
-import mermaid from "@/app/assets/customers/140x48/mermaid.svg";
-import meta from "@/app/assets/customers/140x48/meta.svg";
-import qonto from "@/app/assets/customers/140x48/qonto.svg";
+import { clickhouse } from "@/app/assets/customers/library/clickhouse";
 import { gitbookQuote } from "@/app/assets/customers/library/gitbook";
+import { mermaid } from "@/app/assets/customers/library/mermaid";
+import { meta } from "@/app/assets/customers/library/meta";
 import { muiQuote } from "@/app/assets/customers/library/mui";
-import type { CustomerQuote } from "@/app/assets/customers/types";
+import { qonto } from "@/app/assets/customers/library/qonto";
+import type {
+  CustomerCompany,
+  CustomerQuote,
+} from "@/app/assets/customers/types";
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
-import { ThemeImage, type ThemeImageProps } from "@/components/ThemeImage";
+import { ThemeImage } from "@/components/ThemeImage";
 
 import { SectionHeader, SectionHeaderTexts } from "../common/SectionHeader";
 import { SectionDescription, SectionTitle } from "../common/Typography";
@@ -40,12 +43,12 @@ export function Customers() {
           </SectionHeader>
         </div>
         <div className="grid grid-cols-2 gap-px bg-(--neutral-6) md:grid-cols-4">
-          <CustomerLogo company={{ name: "Meta", logo: meta }} />
-          <CustomerLogo company={{ name: "Qonto", logo: qonto }} />
+          <CustomerLogo company={meta} />
+          <CustomerLogo company={qonto} />
           <CustomerCase quote={gitbookQuote} href="/customers/gitbook" />
           <CustomerCase quote={muiQuote} href="/customers/mui" />
-          <CustomerLogo company={{ name: "Mermaid", logo: mermaid }} />
-          <CustomerLogo company={{ name: "Clickhouse", logo: clickhouse }} />
+          <CustomerLogo company={mermaid} />
+          <CustomerLogo company={clickhouse} />
         </div>
         <div className="h-12 border-t" />
       </Container>
@@ -53,12 +56,7 @@ export function Customers() {
   );
 }
 
-type Company = {
-  name: string;
-  logo: ThemeImageProps["src"];
-};
-
-function CustomerLogo(props: { company: Company; className?: string }) {
+function CustomerLogo(props: { company: CustomerCompany; className?: string }) {
   const { company, className } = props;
   return (
     <div
@@ -68,7 +66,11 @@ function CustomerLogo(props: { company: Company; className?: string }) {
       )}
     >
       <div className="mx-auto h-10 md:h-16">
-        <ThemeImage src={company.logo} alt={company.name} className="h-full" />
+        <ThemeImage
+          src={company.logo["140x48"]}
+          alt={company.name}
+          className="h-full"
+        />
       </div>
     </div>
   );

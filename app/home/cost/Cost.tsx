@@ -59,7 +59,7 @@ export function Cost() {
                   name="Argos"
                   price={497}
                   color={clsx(
-                    "bg-linear-to-r from-(--primary-9) to-(--primary-11)",
+                    "bg-linear-to-l from-(--primary-9) to-(--primary-11)",
                   )}
                   ratio={0.2}
                 />
@@ -67,13 +67,13 @@ export function Cost() {
                   name="Chromatic"
                   subtitle="80% Turbosnap"
                   price={942}
-                  color={clsx("bg-linear-to-r from-(--red-9) to-(--red-11)")}
+                  color={clsx("bg-linear-to-l from-(--red-9) to-(--red-11)")}
                   ratio={0.4}
                 />
                 <CostLine
                   name="Percy"
                   price={13799}
-                  color={clsx("bg-linear-to-r from-(--plum-9) to-(--plum-11)")}
+                  color={clsx("bg-linear-to-l from-(--plum-9) to-(--plum-11)")}
                   ratio={1}
                 />
               </div>

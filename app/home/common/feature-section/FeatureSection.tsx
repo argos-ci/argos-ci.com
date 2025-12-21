@@ -75,9 +75,8 @@ export function FeatureSection(props: {
                 <blockquote>
                   <p
                     className={clsx(
-                      "font-accent bg-linear-to-b from-(--neutral-12) bg-clip-text text-lg text-transparent md:text-2xl md:font-medium",
+                      "font-accent bg-linear-to-b from-(--neutral-12) to-(--neutral-12)/80 bg-clip-text text-lg text-transparent md:text-2xl md:font-medium",
                       "[&_strong]:font-semibold",
-                      TO_COLORS[color],
                     )}
                   >
                     “{story.quote.text}”
