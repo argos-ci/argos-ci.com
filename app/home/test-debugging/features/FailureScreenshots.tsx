@@ -1,6 +1,5 @@
 import clsx from "clsx";
 import { CheckCircle2Icon, XCircleIcon, XIcon } from "lucide-react";
-import type { ComponentPropsWithoutRef } from "react";
 
 import { cypress, playwright } from "@/app/assets/sdk/library";
 import type { SDK } from "@/app/assets/sdk/types";
@@ -18,17 +17,16 @@ const scenarios = [
 
 export function FailureScreenshots() {
   return (
-    <div className="relative mx-auto w-full max-w-4xl p-5">
-      <Line
-        className={clsx(
-          "absolute top-1/2 left-1/2 z-0 size-75 -translate-1/2",
-          "animate-fade-in motion-reduce:animate-fade-in animate-delay-500 animate-duration-500 fill-mode-both",
-        )}
+    <div className="relative mx-auto w-full max-w-4xl px-5">
+      <div
+        className="pointer-events-none absolute inset-x-3 top-6 bottom-2 rounded-[36px] bg-(--danger-2)/25 blur-3xl"
+        aria-hidden="true"
       />
-      <div className="relative flex gap-12">
+      <div className="relative isolate gap-6">
         <Card
           className={clsx(
-            "relative z-10 flex flex-1 flex-col gap-4 p-4 md:p-5",
+            "relative z-0 flex flex-1 flex-col gap-4 p-4 shadow-md md:p-5",
+            "lg:w-full lg:max-w-[50%] lg:translate-y-4 lg:self-start lg:rounded-2xl",
             "animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both",
           )}
         >
@@ -55,8 +53,9 @@ export function FailureScreenshots() {
 
         <Card
           className={clsx(
-            "relative z-10 flex-1 overflow-hidden border bg-[linear-gradient(220deg,--alpha(var(--danger-1)/50%),var(--neutral-1))] p-5 shadow-md",
-            "animate-fade-in-right motion-reduce:animate-fade-in animate-delay-250 animate-duration-500 fill-mode-both",
+            "relative z-10 flex-1 overflow-hidden border bg-[linear-gradient(220deg,--alpha(var(--danger-1)/50%),var(--neutral-1))] p-5 shadow-lg",
+            "lg:absolute lg:top-0 lg:right-0 lg:w-[50%] lg:translate-x-8 lg:-translate-y-3 lg:rotate-3 lg:rounded-2xl",
+            "animate-slide-up-fade motion-reduce:animate-fade-in animate-delay-300 animate-duration-400 fill-mode-both",
           )}
         >
           <div className="rounded-lg border bg-(--neutral-9)/12 px-3 py-2" />
@@ -142,33 +141,5 @@ function SkeletonLine(props: { className?: string }) {
       )}
       aria-hidden="true"
     />
-  );
-}
-
-function Line(props: ComponentPropsWithoutRef<"svg">) {
-  return (
-    <svg
-      {...props}
-      viewBox="0 0 300 300"
-      className={clsx("pointer-events-none", props.className)}
-      aria-hidden="true"
-    >
-      <path
-        d="M 0 150 C 180 150 205 150 300 150"
-        fill="none"
-        stroke="var(--danger-10)"
-        strokeWidth="1"
-        strokeLinecap="square"
-        strokeDasharray="2 5"
-      >
-        <animate
-          attributeName="stroke-dashoffset"
-          from="0"
-          to="-49"
-          dur="3s"
-          repeatCount="indefinite"
-        />
-      </path>
-    </svg>
   );
 }

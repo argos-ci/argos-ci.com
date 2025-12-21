@@ -41,9 +41,19 @@ const timeline = [
 export function PlaywrightTrace() {
   return (
     <div className="relative mx-auto flex w-full max-w-4xl flex-col gap-12 p-4 lg:flex-row">
-      <Line className="absolute top-1/2 left-1/2 z-0 size-75 -translate-1/2" />
+      <Line
+        className={clsx(
+          "absolute top-1/2 left-1/2 z-0 size-75 -translate-1/2",
+          "animate-fade-in motion-reduce:animate-fade-in animate-delay-500 animate-duration-500 fill-mode-both",
+        )}
+      />
 
-      <Card className="relative z-10 flex-1 space-y-3 p-4">
+      <Card
+        className={clsx(
+          "relative z-10 flex-1 space-y-3 p-4",
+          "animate-fade-in-up motion-reduce:animate-fade-in animate-duration-500 fill-mode-both",
+        )}
+      >
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <div className="bg-app flex size-12 shrink-0 items-center justify-center rounded-full border">
@@ -83,7 +93,12 @@ export function PlaywrightTrace() {
         </div>
       </Card>
 
-      <Card className="relative z-10 flex-1 space-y-3 overflow-hidden border bg-[linear-gradient(220deg,--alpha(var(--primary-2)/80%),var(--neutral-1))] p-4">
+      <Card
+        className={clsx(
+          "relative z-10 flex-1 space-y-3 overflow-hidden border bg-[linear-gradient(220deg,--alpha(var(--primary-2)/80%),var(--neutral-1))] p-4",
+          "animate-fade-in-right motion-reduce:animate-fade-in animate-delay-250 animate-duration-500 fill-mode-both",
+        )}
+      >
         <div className="flex items-center justify-between gap-3">
           <Title>
             <DotIndicator variant="primary" />

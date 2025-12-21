@@ -42,10 +42,20 @@ const screenshots = [
 export function RetryScreenshots() {
   return (
     <div className="relative mx-auto w-full max-w-4xl p-5">
-      <Line className="absolute top-1/2 left-1/2 z-0 size-75 -translate-1/2" />
+      <Line
+        className={clsx(
+          "absolute top-1/2 left-1/2 z-0 size-75 -translate-1/2",
+          "animate-fade-in motion-reduce:animate-fade-in animate-delay-500 animate-duration-500 fill-mode-both",
+        )}
+      />
 
       <div className="relative flex flex-col gap-10 lg:flex-row">
-        <Card className="relative z-10 flex flex-1 flex-col gap-4 p-4 md:p-5">
+        <Card
+          className={clsx(
+            "relative z-10 flex flex-1 flex-col gap-4 p-4 md:p-5",
+            "animate-fade-in-up motion-reduce:animate-fade-in animate-duration-500 fill-mode-both",
+          )}
+        >
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-2">
               <SDKBubble sdk={playwright} />
@@ -64,7 +74,12 @@ export function RetryScreenshots() {
           </div>
         </Card>
 
-        <Card className="relative z-10 flex-1 space-y-4 overflow-hidden border bg-[linear-gradient(220deg,--alpha(var(--success-2)/70%),var(--neutral-1))] p-5 shadow-md">
+        <Card
+          className={clsx(
+            "relative z-10 flex-1 space-y-4 overflow-hidden border bg-[linear-gradient(220deg,--alpha(var(--success-2)/70%),var(--neutral-1))] p-5 shadow-md",
+            "animate-fade-in-right motion-reduce:animate-fade-in animate-delay-250 animate-duration-500 fill-mode-both",
+          )}
+        >
           <div className="flex items-center justify-between gap-3">
             <Title>
               <DotIndicator variant="success" />
@@ -177,11 +192,15 @@ function ScreenshotCard(props: {
           }[status],
         )}
       >
-        <div className="flex items-center gap-2 text-sm font-semibold text-(--neutral-12)">
+        <div className="flex items-center gap-2 text-xs font-medium">
           {
             {
-              fail: <XCircleIcon className="size-4" />,
-              pass: <CheckCircle2Icon className="size-4" />,
+              fail: (
+                <XCircleIcon className="size-4 shrink-0 text-(--danger-10)" />
+              ),
+              pass: (
+                <CheckCircle2Icon className="size-4 shrink-0 text-(--success-10)" />
+              ),
             }[status]
           }
           {caption}
@@ -193,9 +212,7 @@ function ScreenshotCard(props: {
         </div>
       </div>
 
-      <div className="text-[11px] font-semibold text-(--neutral-11)">
-        {footer}
-      </div>
+      <div className="text-low text-[11px]">{footer}</div>
     </div>
   );
 }
