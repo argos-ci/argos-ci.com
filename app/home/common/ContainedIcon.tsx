@@ -13,7 +13,7 @@ export function ContainedIcon(
     <span
       {...rest}
       className={clsx(
-        "grid h-5 w-5 place-items-center rounded-lg border",
+        "grid h-5 w-5 shrink-0 place-items-center rounded-lg border",
         {
           danger:
             "border-(--danger-9)/25 bg-(--danger-9)/10 text-(--danger-10)",

@@ -8,24 +8,17 @@ import { ThemeImage } from "@/components/ThemeImage";
 import { Badge } from "../../common/Badge";
 import { Card } from "../../common/Card";
 
-const scenarios = [
-  { label: "Product → list page", status: "pass" as const },
-  { label: "Product → detail page", status: "pass" as const },
-  { label: "Product → checkout", status: "fail" as const },
-  { label: "Settings → Account", status: "pass" as const },
-];
-
 export function FailureScreenshots() {
   return (
-    <div className="relative mx-auto w-full max-w-4xl px-5">
+    <div className="relative mx-auto w-full max-w-4xl p-4">
       <div
         className="pointer-events-none absolute inset-x-3 top-6 bottom-2 rounded-[36px] bg-(--danger-2)/25 blur-3xl"
         aria-hidden="true"
       />
-      <div className="relative isolate gap-6">
+      <div className="relative isolate flex gap-6">
         <Card
           className={clsx(
-            "relative z-0 flex flex-1 flex-col gap-4 p-4 shadow-md md:p-5",
+            "relative z-0 flex flex-1 flex-col gap-4 p-4",
             "lg:w-full lg:max-w-[50%] lg:translate-y-4 lg:self-start lg:rounded-2xl",
             "animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both",
           )}
@@ -41,19 +34,21 @@ export function FailureScreenshots() {
           </div>
 
           <div className="space-y-2">
-            {scenarios.map((scenario) => (
-              <ScenarioRow
-                key={scenario.label}
-                label={scenario.label}
-                status={scenario.status}
-              />
-            ))}
+            <ScenarioRow label="Product → list page" status="pass" />
+            <ScenarioRow
+              label="Product → detail page"
+              status="pass"
+              className="max-sm:hidden"
+            />
+            <ScenarioRow label="Product → checkout" status="fail" />
+            <ScenarioRow label="Settings → account" status="pass" />
           </div>
         </Card>
 
         <Card
           className={clsx(
             "relative z-10 flex-1 overflow-hidden border bg-[linear-gradient(220deg,--alpha(var(--danger-1)/50%),var(--neutral-1))]",
+            "hidden sm:block",
             "lg:absolute lg:top-0 lg:right-0 lg:w-[46%] lg:-translate-y-4 lg:rotate-4",
             "animate-zoom-in motion-reduce:animate-fade-in animate-delay-200 animate-duration-300 fill-mode-both",
           )}
@@ -93,7 +88,7 @@ export function FailureScreenshots() {
 
 function SDKBubble(props: { sdk: SDK }) {
   return (
-    <div className="bg-app flex size-11 items-center justify-center rounded-full border">
+    <div className="bg-app flex items-center justify-center rounded-full border p-2">
       <ThemeImage
         src={props.sdk.logo}
         alt={props.sdk.name}
@@ -103,16 +98,21 @@ function SDKBubble(props: { sdk: SDK }) {
   );
 }
 
-function ScenarioRow(props: { label: string; status: "pass" | "fail" }) {
-  const { label, status } = props;
+function ScenarioRow(props: {
+  label: string;
+  status: "pass" | "fail";
+  className?: string;
+}) {
+  const { label, status, className } = props;
   return (
     <div
       className={clsx(
-        "flex items-center gap-3 rounded-lg border px-3 py-2.5 text-sm font-medium",
+        "flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium",
         {
           fail: "border-(--danger-7) bg-(--danger-2) text-(--danger-11)",
           pass: "bg-app border-(--success-7) text-(--success-11)",
         }[status],
+        className,
       )}
     >
       {
@@ -124,7 +124,7 @@ function ScenarioRow(props: { label: string; status: "pass" | "fail" }) {
       <span className="flex-1">{label}</span>
       <span
         className={clsx(
-          "text-[11px] font-semibold",
+          "text-[0.7rem]",
           { fail: "text-(--danger-10)", pass: "text-(--success-10)" }[status],
         )}
       >

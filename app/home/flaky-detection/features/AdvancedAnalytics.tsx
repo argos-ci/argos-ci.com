@@ -36,10 +36,10 @@ export function AdvancedAnalytics(props: { className?: string }) {
       className={clsx("max-w-4xl", props.className)}
       aria-label="Flakiness widgets"
     >
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-3 md:p-0">
         <FlakinessScoreCard
           className={clsx(
-            "col-span-1",
+            "col-span-1 hidden sm:block",
             "animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both",
           )}
         />
@@ -51,13 +51,13 @@ export function AdvancedAnalytics(props: { className?: string }) {
         />
         <FirstLastSeenCard
           className={clsx(
-            "col-span-2",
+            "col-span-2 hidden sm:block",
             "animate-slide-up-fade animate-delay-200 motion-reduce:animate-fade-in animate-duration-500 fill-mode-both",
           )}
         />
         <StatsCard
           className={clsx(
-            "col-span-1",
+            "col-span-1 hidden sm:block",
             "animate-slide-up-fade animate-delay-300 motion-reduce:animate-fade-in animate-duration-500 fill-mode-both",
           )}
         />
@@ -251,7 +251,7 @@ function MiniTimelineChart() {
   return (
     <svg
       viewBox={`0 0 ${width} ${height}`}
-      className="h-28 self-start"
+      className="self-start md:h-28"
       role="img"
       aria-label="Flakiness timeline"
       preserveAspectRatio="none"

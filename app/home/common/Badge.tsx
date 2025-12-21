@@ -7,7 +7,7 @@ export function Badge(props: ComponentPropsWithRef<"div">) {
     <div
       {...rest}
       className={clsx(
-        "bg-app inline-flex items-center gap-1.5 rounded-lg border-[0.5px] px-2 py-1 text-[10px] font-medium",
+        "bg-app inline-flex items-center gap-1.5 rounded-lg border-[0.5px] px-2 py-1 text-[0.65rem] font-medium",
         rest.className,
       )}
     >

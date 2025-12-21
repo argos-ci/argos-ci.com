@@ -7,7 +7,7 @@ import { Title } from "../../common/Title";
 
 export function FlakyIndicator() {
   return (
-    <div className="relative mx-auto flex w-full max-w-2xl flex-col gap-8">
+    <div className="relative mx-auto flex w-full max-w-2xl flex-col gap-8 p-4">
       <div
         className={clsx(
           "flex flex-col items-center gap-3 self-start",
@@ -35,7 +35,7 @@ export function FlakyIndicator() {
       </div>
       <div
         className={clsx(
-          "flex flex-col items-center gap-3 self-end",
+          "hidden flex-col items-center gap-3 self-end sm:flex",
           "animate-fade-in animate-delay-250 motion-reduce:animate-fade-in animate-duration-500 fill-mode-both",
         )}
       >

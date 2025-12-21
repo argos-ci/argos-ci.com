@@ -7,7 +7,7 @@ import {
   FlagOffIcon,
   MousePointerClickIcon,
 } from "lucide-react";
-import type { ComponentPropsWithoutRef } from "react";
+import type { ComponentPropsWithRef, ComponentPropsWithoutRef } from "react";
 
 import { ApplicationSVG } from "../../common/ApplicationSVG";
 import { Badge } from "../../common/Badge";
@@ -32,7 +32,7 @@ export function IgnoreChanges() {
           "animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both",
         )}
       >
-        <div className="flex items-center justify-between">
+        <Header>
           <Title>
             <ContainedIcon variant="danger" icon={AlertTriangleIcon} />
             Flaky build
@@ -40,14 +40,14 @@ export function IgnoreChanges() {
           <Badge>
             <DotIndicator variant="danger" />1 diff
           </Badge>
-        </div>
+        </Header>
 
         <ApplicationSVG withChanges />
       </Card>
 
       <Card
         className={clsx(
-          "relative p-5",
+          "relative hidden p-5 md:block",
           "animate-slide-up-fade animate-delay-100 motion-reduce:animate-fade-in animate-duration-500 fill-mode-both",
         )}
       >
@@ -68,7 +68,7 @@ export function IgnoreChanges() {
           "animate-slide-up-fade animate-delay-200 motion-reduce:animate-fade-in animate-duration-500 fill-mode-both",
         )}
       >
-        <div className="flex items-center justify-between">
+        <Header>
           <Title>
             <ContainedIcon variant="success" icon={CheckIcon} />
             Next build
@@ -77,7 +77,7 @@ export function IgnoreChanges() {
             <DotIndicator variant="success" />
             No changes detected
           </Badge>
-        </div>
+        </Header>
 
         <div className="relative">
           <ApplicationSVG withChanges="success" />
@@ -85,12 +85,24 @@ export function IgnoreChanges() {
           <div className="pointer-events-none absolute right-2 bottom-2">
             <Badge>
               <DotIndicator variant="primary" />
-              Ignored previously
+              Ignored
             </Badge>
           </div>
         </div>
       </Card>
     </div>
+  );
+}
+
+function Header(props: ComponentPropsWithRef<"div">) {
+  return (
+    <div
+      {...props}
+      className={clsx(
+        "flex flex-col items-center justify-between gap-3 sm:flex-row",
+        props.className,
+      )}
+    />
   );
 }
 

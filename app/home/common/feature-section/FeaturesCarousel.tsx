@@ -89,7 +89,7 @@ export function FeaturesCarousel(props: {
       </div>
       <div
         role="tablist"
-        className="relative -ml-px flex flex-col items-start justify-center gap-10 py-8 md:ml-0 md:flex-row"
+        className="relative -ml-px flex flex-col items-start justify-center gap-10 py-8 pt-4 md:ml-0 md:flex-row md:pt-8"
       >
         {features.map((feature, index) => {
           const isCurrent = index === state.index;

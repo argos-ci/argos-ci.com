@@ -26,13 +26,13 @@ const retries = [
 
 const screenshots = [
   {
-    label: "Retry #1 · failure",
+    label: "Retry #1",
     status: "fail" as const,
     caption: "404 page shown instead of checkout",
     footer: "Captured at 10:12",
   },
   {
-    label: "Retry #2 · pass",
+    label: "Retry #2",
     status: "pass" as const,
     caption: "Checkout renders with totals and CTA",
     footer: "Captured at 10:16",
@@ -41,18 +41,18 @@ const screenshots = [
 
 export function RetryScreenshots() {
   return (
-    <div className="relative mx-auto w-full max-w-4xl p-5">
+    <div className="relative mx-auto w-full max-w-4xl p-4">
       <Line
         className={clsx(
-          "absolute top-1/2 left-1/2 z-0 size-75 -translate-1/2",
+          "absolute top-1/2 left-1/2 z-0 hidden size-75 -translate-1/2 lg:block",
           "animate-fade-in motion-reduce:animate-fade-in animate-delay-500 animate-duration-500 fill-mode-both",
         )}
       />
 
-      <div className="relative flex flex-col gap-10 lg:flex-row">
+      <div className="relative flex gap-10">
         <Card
           className={clsx(
-            "relative z-10 flex flex-1 flex-col gap-4 p-4 md:p-5",
+            "relative z-10 hidden flex-1 flex-col gap-4 p-4 lg:flex",
             "animate-fade-in-up motion-reduce:animate-fade-in animate-duration-500 fill-mode-both",
           )}
         >
@@ -62,8 +62,8 @@ export function RetryScreenshots() {
               <SDKBubble sdk={cypress} />
             </div>
             <Badge className="items-center gap-1.5 text-[11px]">
-              <RefreshCwIcon className="size-3" />
-              Auto-retry enabled
+              <RefreshCwIcon className="text-low size-3" />
+              Retry enabled
             </Badge>
           </div>
 
@@ -80,16 +80,10 @@ export function RetryScreenshots() {
             "animate-fade-in-right motion-reduce:animate-fade-in animate-delay-250 animate-duration-500 fill-mode-both",
           )}
         >
-          <div className="flex items-center justify-between gap-3">
-            <Title>
-              <DotIndicator variant="success" />
-              Compare retries
-            </Title>
-            <Badge className="items-center gap-1.5">
-              <RefreshCwIcon className="size-3" />
-              Same scenario · different outcome
-            </Badge>
-          </div>
+          <Title>
+            <DotIndicator variant="success" />
+            Compare retries
+          </Title>
 
           <div className="grid gap-3 md:grid-cols-2">
             {screenshots.map((screenshot) => (
@@ -185,34 +179,34 @@ function ScreenshotCard(props: {
 
       <div
         className={clsx(
-          "rounded-lg border px-3 py-3",
+          "hidden rounded-lg border px-3 py-3 md:block",
           {
             fail: "border-(--danger-7) bg-(--danger-2)",
             pass: "border-(--success-7) bg-(--success-2)",
           }[status],
         )}
       >
-        <div className="flex items-center gap-2 text-xs font-medium">
+        <div className="flex items-start gap-2 text-xs font-medium">
           {
             {
               fail: (
-                <XCircleIcon className="size-4 shrink-0 text-(--danger-10)" />
+                <XCircleIcon className="mt-px size-4 shrink-0 text-(--danger-10)" />
               ),
               pass: (
-                <CheckCircle2Icon className="size-4 shrink-0 text-(--success-10)" />
+                <CheckCircle2Icon className="mt-px size-4 shrink-0 text-(--success-10)" />
               ),
             }[status]
           }
           {caption}
         </div>
-        <div className="mt-3 space-y-2">
+        <div className="mt-3 hidden space-y-2 md:block">
           <SkeletonLine className="w-full" />
           <SkeletonLine className="w-5/6" />
           <SkeletonLine className="w-2/3" />
         </div>
       </div>
 
-      <div className="text-low text-[11px]">{footer}</div>
+      <div className="text-low hidden text-[0.7rem] md:block">{footer}</div>
     </div>
   );
 }
@@ -221,7 +215,7 @@ function SkeletonLine(props: { className?: string }) {
   return (
     <div
       className={clsx(
-        "h-2.5 rounded-full bg-(--neutral-9)/18",
+        "h-2 rounded border-[0.5px] bg-(--neutral-a4)",
         props.className,
       )}
       aria-hidden="true"

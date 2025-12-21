@@ -8,7 +8,7 @@ import { Card } from "../../common/Card";
 
 export function FastApprovalFlow() {
   return (
-    <div className="relative mx-auto flex w-full max-w-3xl flex-col gap-8">
+    <div className="relative mx-auto flex w-full max-w-3xl flex-col gap-4 md:gap-8">
       <CardStack />
       <ActionRow />
     </div>
@@ -17,7 +17,7 @@ export function FastApprovalFlow() {
 
 function CardStack() {
   return (
-    <div className="flex items-center justify-center animate-fade-in-up motion-reduce:animate-fade-in animate-duration-500 fill-mode-both">
+    <div className="animate-fade-in-up motion-reduce:animate-fade-in animate-duration-500 fill-mode-both flex items-center justify-center">
       <div className="relative w-[75%]">
         <div className="absolute inset-0 translate-y-7 scale-[0.96] -rotate-4">
           <SwipeCard tone="idle" />
@@ -72,7 +72,7 @@ function ViewportLabel(props: { tone: "baseline" | "changes" }) {
   return (
     <div
       className={clsx(
-        "inline-flex items-center justify-center gap-2 rounded-lg border px-3 py-1 text-xs font-semibold",
+        "inline-flex items-center justify-center gap-2 rounded-lg border px-3 py-0.5 text-[0.7rem] font-semibold md:py-1",
         { baseline: "border-(--neutral-6)", changes: "border-(--danger-6)" }[
           tone
         ],
@@ -81,9 +81,7 @@ function ViewportLabel(props: { tone: "baseline" | "changes" }) {
       <span
         className={clsx(
           "size-1.5 rounded-full",
-          { baseline: "border-(--neutral-9)", changes: "border-(--danger-9)" }[
-            tone
-          ],
+          { baseline: "bg-(--neutral-9)", changes: "bg-(--danger-9)" }[tone],
         )}
         aria-hidden="true"
       />
@@ -94,7 +92,7 @@ function ViewportLabel(props: { tone: "baseline" | "changes" }) {
 
 function ActionRow() {
   return (
-    <div className="flex items-center justify-center animate-fade-in animate-delay-150 motion-reduce:animate-fade-in animate-duration-500 fill-mode-both">
+    <div className="animate-fade-in animate-delay-150 motion-reduce:animate-fade-in animate-duration-500 fill-mode-both flex items-center justify-center">
       <div className="flex items-center gap-8">
         <ActionButton variant="down" icon={ThumbsDownIcon} kbd="N" />
         <ActionButton variant="up" icon={ThumbsUpIcon} kbd="Y" />
@@ -112,11 +110,11 @@ function ActionButton(props: {
   return (
     <div className="relative">
       {variant === "up" ? (
-        <div className="animate-green-pulse absolute size-14 rounded-full bg-(--success-9)" />
+        <div className="animate-green-pulse absolute inset-0 rounded-full bg-(--success-9) md:size-14" />
       ) : null}
       <div
         className={clsx(
-          "bg-app grid size-14 place-items-center rounded-full border shadow-xs",
+          "bg-app grid size-10 place-items-center rounded-full border shadow-xs md:size-14",
           {
             up: "border-(--success-9)/25 bg-(--success-9)/10 text-(--success-9)",
             down: "border-(--danger-9)/25 bg-(--danger-9)/10 text-(--danger-9)",
@@ -127,7 +125,7 @@ function ActionButton(props: {
         <Icon className="size-5" />
       </div>
 
-      <div className="absolute -bottom-4 left-1/2 -translate-x-1/2">
+      <div className="absolute -right-4 max-md:top-[30%] md:-right-2 md:-bottom-0.5">
         <kbd
           className={clsx(
             "inline-flex size-6 items-center justify-center rounded border-[0.5px] border-b-2 p-1 font-mono text-[11px] font-semibold",

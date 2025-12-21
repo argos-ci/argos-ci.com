@@ -11,7 +11,7 @@ export function DotIndicator(
     <span
       {...rest}
       className={clsx(
-        "size-1.5 rounded-full",
+        "size-1.5 shrink-0 rounded-full",
         {
           danger: "bg-(--danger-9)",
           success: "bg-(--success-9)",

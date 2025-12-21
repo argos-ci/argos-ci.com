@@ -1,7 +1,7 @@
 "use client";
 import clsx from "clsx";
 import { AlertTriangleIcon, CheckIcon } from "lucide-react";
-import type { ComponentPropsWithoutRef } from "react";
+import type { ComponentPropsWithRef, ComponentPropsWithoutRef } from "react";
 
 import { ApplicationSVG } from "../../common/ApplicationSVG";
 import { Badge } from "../../common/Badge";
@@ -12,25 +12,25 @@ import { Title } from "../../common/Title";
 
 export function Stabilization() {
   return (
-    <div className="relative flex w-full max-w-4xl items-center gap-10 p-5">
-      <Funnel className="animate-fade-in animate-duration-500 animate-delay-200 fill-mode-both absolute left-1/2 z-0 size-75 -translate-x-1/2" />
+    <div className="relative flex w-full max-w-4xl items-center justify-center gap-2 p-5 md:gap-10">
+      <Funnel className="animate-fade-in animate-duration-500 animate-delay-200 fill-mode-both absolute left-1/2 z-0 hidden size-75 -translate-x-1/2 md:flex" />
 
       <Card className="animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both relative flex flex-1 flex-col gap-3 p-3">
-        <div className="flex items-center justify-between">
+        <Header>
           <Title>
             <ContainedIcon variant="danger" icon={AlertTriangleIcon} />
-            Before stabilization
+            No stabilization
           </Title>
           <Badge>
             <DotIndicator variant="danger" />
             34 diffs
           </Badge>
-        </div>
+        </Header>
 
         <ApplicationSVG noise={1} withChanges />
       </Card>
 
-      <Card className="animate-zoom-in motion-reduce:animate-fade-in animate-delay-100 animate-duration-500 fill-mode-both relative p-5">
+      <Card className="animate-zoom-in motion-reduce:animate-fade-in animate-delay-100 animate-duration-500 fill-mode-both relative hidden p-5 md:block">
         <div
           className="flex size-24 items-center justify-center rounded-full border border-(--primary-6) bg-[radial-gradient(circle_at_30%_30%,rgba(124,92,255,0.25),rgba(124,92,255,0.02)_60%)] shadow-[0_0_0_10px_rgba(124,92,255,0.08)]"
           aria-hidden="true"
@@ -43,7 +43,7 @@ export function Stabilization() {
       </Card>
 
       <Card className="animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both relative flex flex-1 flex-col gap-3 p-3">
-        <div className="flex items-center justify-between">
+        <Header>
           <Title>
             <ContainedIcon variant="primary" icon={CheckIcon} />
             Stabilized
@@ -51,11 +51,23 @@ export function Stabilization() {
           <Badge>
             <DotIndicator variant="primary" />2 diffs
           </Badge>
-        </div>
+        </Header>
 
         <ApplicationSVG withChanges="success" />
       </Card>
     </div>
+  );
+}
+
+function Header(props: ComponentPropsWithRef<"div">) {
+  return (
+    <div
+      {...props}
+      className={clsx(
+        "flex flex-col items-center justify-between gap-2 md:flex-row",
+        props.className,
+      )}
+    />
   );
 }
 

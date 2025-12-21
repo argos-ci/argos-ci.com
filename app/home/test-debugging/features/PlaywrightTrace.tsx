@@ -40,10 +40,10 @@ const timeline = [
 
 export function PlaywrightTrace() {
   return (
-    <div className="relative mx-auto flex w-full max-w-4xl flex-col gap-12 p-4 lg:flex-row">
+    <div className="relative mx-auto flex w-full max-w-4xl flex-row gap-12 p-4">
       <Line
         className={clsx(
-          "absolute top-1/2 left-1/2 z-0 size-75 -translate-1/2",
+          "absolute top-1/2 left-1/2 z-0 hidden size-75 -translate-1/2 sm:block",
           "animate-fade-in motion-reduce:animate-fade-in animate-delay-500 animate-duration-500 fill-mode-both",
         )}
       />
@@ -83,7 +83,7 @@ export function PlaywrightTrace() {
           </Badge>
         </div>
 
-        <div className="space-y-2">
+        <div className="hidden space-y-2 md:block">
           {events.map((event) => (
             <TraceEvent key={event.label} {...event} />
           ))}
@@ -95,7 +95,7 @@ export function PlaywrightTrace() {
 
       <Card
         className={clsx(
-          "relative z-10 flex-1 space-y-3 overflow-hidden border bg-[linear-gradient(220deg,--alpha(var(--primary-2)/80%),var(--neutral-1))] p-4",
+          "relative z-10 hidden flex-1 space-y-3 overflow-hidden border bg-[linear-gradient(220deg,--alpha(var(--primary-2)/80%),var(--neutral-1))] p-4 sm:block",
           "animate-fade-in-right motion-reduce:animate-fade-in animate-delay-250 animate-duration-500 fill-mode-both",
         )}
       >
@@ -176,7 +176,7 @@ function TraceEvent(props: {
 
 function TimelineRow(props: { label: string; at: string; variant?: "danger" }) {
   return (
-    <div className="flex items-center gap-2 rounded px-2 py-1.5 text-sm font-medium text-(--neutral-12)">
+    <div className="flex items-center gap-2 rounded text-xs font-medium text-(--neutral-12)">
       <DotIndicator
         variant={props.variant === "danger" ? "danger" : "primary"}
       />
@@ -197,7 +197,7 @@ function TraceButton() {
   return (
     <div className="inline-flex items-center gap-1.5 rounded-full border border-(--primary-7) bg-(--primary-2) px-3 py-1.5 text-xs font-medium text-(--primary-11) shadow-xs">
       <BugPlayIcon className="size-4" />
-      Trace from retry #2
+      Run Trace
       <ArrowUpRightIcon className="size-3" />
     </div>
   );

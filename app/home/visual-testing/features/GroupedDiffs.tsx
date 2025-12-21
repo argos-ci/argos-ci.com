@@ -15,11 +15,16 @@ import { Title } from "../../common/Title";
 
 export function GroupedDiffs() {
   return (
-    <div className="relative w-full max-w-4xl p-5 animate-fade-in-up motion-reduce:animate-fade-in animate-duration-500 fill-mode-both">
+    <div className="animate-fade-in-up motion-reduce:animate-fade-in animate-duration-500 fill-mode-both relative w-full max-w-4xl p-5">
       <Connectors />
-      <div className="relative grid items-center gap-8 md:grid-cols-2">
+      <div className="relative grid items-center gap-2 sm:gap-8 md:grid-cols-2">
         <div>
-          <Card className="flex flex-col gap-3 p-3 animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both">
+          <Card
+            className={clsx(
+              "animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both flex flex-col gap-3 p-3",
+              "h-22 overflow-hidden max-md:mask-b-from-80% sm:h-40 md:h-auto",
+            )}
+          >
             <div className="flex items-center justify-between">
               <Title>
                 <ContainedIcon variant="danger" icon={ImageIcon} />
@@ -43,7 +48,12 @@ export function GroupedDiffs() {
           </Card>
         </div>
 
-        <Card className="flex flex-col gap-3 p-3 animate-slide-up-fade animate-delay-150 motion-reduce:animate-fade-in animate-duration-500 fill-mode-both">
+        <Card
+          className={clsx(
+            "animate-slide-up-fade animate-delay-150 motion-reduce:animate-fade-in animate-duration-500 fill-mode-both flex h-30 flex-col gap-3 p-3",
+            "h-22 overflow-hidden max-md:mask-b-from-80% sm:h-40 md:h-auto",
+          )}
+        >
           <div className="flex items-center justify-between">
             <Title>
               <ContainedIcon variant="primary" icon={ImagesIcon} />
@@ -55,18 +65,8 @@ export function GroupedDiffs() {
           </div>
 
           <div className="flex flex-col gap-1">
-            <GroupCard
-              titleWidthClass="w-40"
-              count={9}
-              selected={true}
-              accent="primary"
-            />
-            <GroupCard
-              titleWidthClass="w-40"
-              count={3}
-              selected={false}
-              accent="primary"
-            />
+            <GroupCard count={9} selected={true} accent="primary" />
+            <GroupCard count={3} selected={false} accent="primary" />
             <DiffRow tone="danger" emphasis="high" />
           </div>
         </Card>
@@ -78,7 +78,7 @@ export function GroupedDiffs() {
 function Connectors() {
   return (
     <svg
-      className="pointer-events-none absolute inset-0 hidden h-full w-full animate-fade-in animate-delay-100 animate-duration-400 fill-mode-both md:block"
+      className="animate-fade-in animate-delay-100 animate-duration-400 fill-mode-both pointer-events-none absolute inset-0 hidden h-full w-full md:block"
       viewBox="0 0 860 460"
       fill="none"
       aria-hidden="true"
@@ -164,15 +164,14 @@ function DiffRow(props: { tone: "danger"; emphasis: "high" | "med" | "low" }) {
 }
 
 function GroupCard(props: {
-  titleWidthClass: string;
   count: number;
   selected: boolean;
   accent: "primary";
 }) {
   return (
     <div className={clsx("rounded border border-(--primary-7)/30 p-3")}>
-      <div className="flex items-center justify-between">
-        <div className="inline-flex items-center gap-2">
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex flex-1 items-center gap-2">
           <span
             className={clsx(
               "h-2.5 w-2.5 rounded-full",
@@ -183,10 +182,7 @@ function GroupCard(props: {
             aria-hidden="true"
           />
           <div
-            className={clsx(
-              "h-2.5 rounded-full bg-(--neutral-9)/12",
-              props.titleWidthClass,
-            )}
+            className={clsx("h-2.5 flex-1 rounded-full bg-(--neutral-9)/12")}
           />
         </div>
 
