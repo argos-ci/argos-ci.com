@@ -3,12 +3,12 @@ import clsx from "clsx";
 import { AlertTriangleIcon, CheckIcon } from "lucide-react";
 import type { ComponentPropsWithoutRef } from "react";
 
-import { ApplicationSVG } from "./common/ApplicationSVG";
-import { Badge } from "./common/Badge";
-import { Card } from "./common/Card";
-import { ContainedIcon } from "./common/ContainedIcon";
-import { DotIndicator } from "./common/DotIndicator";
-import { Title } from "./common/Title";
+import { ApplicationSVG } from "../../common/ApplicationSVG";
+import { Badge } from "../../common/Badge";
+import { Card } from "../../common/Card";
+import { ContainedIcon } from "../../common/ContainedIcon";
+import { DotIndicator } from "../../common/DotIndicator";
+import { Title } from "../../common/Title";
 
 export function Stabilization() {
   return (

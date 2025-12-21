@@ -3,8 +3,8 @@ import clsx from "clsx";
 import { ThumbsDownIcon, ThumbsUpIcon } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
-import { ApplicationSVG } from "./common/ApplicationSVG";
-import { Card } from "./common/Card";
+import { ApplicationSVG } from "../../common/ApplicationSVG";
+import { Card } from "../../common/Card";
 
 export function FastApprovalFlow() {
   return (

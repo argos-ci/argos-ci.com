@@ -2,12 +2,11 @@ import { ChartSplineIcon, FlagOffIcon, WavesIcon } from "lucide-react";
 
 import { muiQuote } from "@/app/assets/customers/library/mui";
 import { Button } from "@/components/Button";
-import { ThemeImage } from "@/components/ThemeImage";
 
 import { FeatureSection } from "../common/feature-section/FeatureSection";
-import flakyAnalyticsSvg from "./assets/features/flaky-analytics.svg";
-import flakyIndicatorSvg from "./assets/features/flaky-indicator.svg";
-import ignoreChangesSvg from "./assets/features/ignore-changes.svg";
+import { AdvancedAnalytics } from "./features/AdvancedAnalytics";
+import { FlakyIndicator } from "./features/FlakyIndicator";
+import { IgnoreChanges } from "./features/IgnoreChanges";
 
 export function FlakyDetection() {
   return (
@@ -18,25 +17,21 @@ export function FlakyDetection() {
           icon: <WavesIcon />,
           title: "Flaky indicator",
           text: "Highlights unstable changes to know when a test isn’t reliable.",
-          main: (
-            <ThemeImage className="h-full" src={flakyIndicatorSvg} alt="" />
-          ),
+          main: <FlakyIndicator />,
         },
         {
           key: "advanced-analytics",
           icon: <ChartSplineIcon />,
           title: "Advanced analytics",
           text: "Track instability trends across builds to uncover recurring issues.",
-          main: (
-            <ThemeImage className="h-full" src={flakyAnalyticsSvg} alt="" />
-          ),
+          main: <AdvancedAnalytics />,
         },
         {
           key: "ignore-changes",
           icon: <FlagOffIcon />,
           title: "Ignore changes",
           text: "Ignore flaky changes to keep your CI signal clean and focused.",
-          main: <ThemeImage className="h-full" src={ignoreChangesSvg} alt="" />,
+          main: <IgnoreChanges />,
         },
       ]}
       color="amber"

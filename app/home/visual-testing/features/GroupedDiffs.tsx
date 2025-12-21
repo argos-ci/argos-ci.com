@@ -7,11 +7,11 @@ import {
   ThumbsUpIcon,
 } from "lucide-react";
 
-import { Badge } from "./common/Badge";
-import { Card } from "./common/Card";
-import { ContainedIcon } from "./common/ContainedIcon";
-import { DotIndicator } from "./common/DotIndicator";
-import { Title } from "./common/Title";
+import { Badge } from "../../common/Badge";
+import { Card } from "../../common/Card";
+import { ContainedIcon } from "../../common/ContainedIcon";
+import { DotIndicator } from "../../common/DotIndicator";
+import { Title } from "../../common/Title";
 
 export function GroupedDiffs() {
   return (
