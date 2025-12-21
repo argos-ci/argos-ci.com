@@ -12,6 +12,7 @@
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",
     "@mdx-js/react": "^3.1.1",
+    "@midudev/tailwind-animations": "^0.2.0",
     "@next/mdx": "^16.0.10",
     "@next/third-parties": "^16.0.10",
     "@openstatus/react": "^0.0.3",

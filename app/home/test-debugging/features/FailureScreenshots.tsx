@@ -19,9 +19,19 @@ const scenarios = [
 export function FailureScreenshots() {
   return (
     <div className="relative mx-auto w-full max-w-4xl p-5">
-      <Line className="absolute top-1/2 left-1/2 z-0 size-75 -translate-1/2" />
+      <Line
+        className={clsx(
+          "absolute top-1/2 left-1/2 z-0 size-75 -translate-1/2",
+          "animate-fade-in motion-reduce:animate-fade-in animate-delay-500 animate-duration-500 fill-mode-both",
+        )}
+      />
       <div className="relative flex gap-12">
-        <Card className="relative z-10 flex flex-1 flex-col gap-4 p-4 md:p-5">
+        <Card
+          className={clsx(
+            "relative z-10 flex flex-1 flex-col gap-4 p-4 md:p-5",
+            "animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both",
+          )}
+        >
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-2">
               <SDKBubble sdk={playwright} />
@@ -43,7 +53,12 @@ export function FailureScreenshots() {
           </div>
         </Card>
 
-        <Card className="relative z-10 flex-1 overflow-hidden border bg-[linear-gradient(220deg,--alpha(var(--danger-1)/50%),var(--neutral-1))] p-5 shadow-md">
+        <Card
+          className={clsx(
+            "relative z-10 flex-1 overflow-hidden border bg-[linear-gradient(220deg,--alpha(var(--danger-1)/50%),var(--neutral-1))] p-5 shadow-md",
+            "animate-fade-in-right motion-reduce:animate-fade-in animate-delay-250 animate-duration-500 fill-mode-both",
+          )}
+        >
           <div className="rounded-lg border bg-(--neutral-9)/12 px-3 py-2" />
 
           <div className="flex flex-col items-center gap-4 px-4 py-6 text-center">

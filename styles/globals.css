@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@plugin "@midudev/tailwind-animations";
+
 @import "@radix-ui/colors/mauve" layer(base);
 @import "@radix-ui/colors/mauve-dark" layer(base);
 @import "@radix-ui/colors/gray" layer(base);
@@ -240,6 +242,8 @@
     120deg, white 0%, var(--violet-11) 70%, var(--plum-10) 80%;
 
   --opacity-disabled: 0.38;
+
+  --ease-outer: cubic-bezier(0.16, 1, 0.3, 1);
 
   --animate-fade: fade 4s ease infinite;
   --animate-slide: slide 10s linear infinite;

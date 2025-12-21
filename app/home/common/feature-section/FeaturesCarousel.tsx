@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import { cloneElement, useCallback, useEffect, useState } from "react";
+import { cloneElement, useCallback, useEffect, useRef, useState } from "react";
 
 import { useInViewport } from "@/components/useInViewport";
 
@@ -79,6 +79,7 @@ export function FeaturesCarousel(props: {
                 key={feature.key}
                 direction={state.direction[index]}
                 isCurrent={index === state.index}
+                isVisible={inViewport}
               >
                 {feature.main}
               </FeaturePanel>
@@ -131,9 +132,22 @@ export function FeaturesCarousel(props: {
 function FeaturePanel(props: {
   isCurrent: boolean;
   direction: number;
+  isVisible: boolean;
   children: React.ReactNode;
 }) {
-  const { isCurrent, children, direction } = props;
+  const { isCurrent, children, direction, isVisible } = props;
+  const wasCurrent = useRef(isCurrent);
+  const [mountKey, setMountKey] = useState(0);
+
+  useEffect(() => {
+    if (isCurrent && isVisible) {
+      if (!wasCurrent.current) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setMountKey((key) => key + 1);
+      }
+    }
+    wasCurrent.current = isCurrent;
+  }, [isCurrent, isVisible]);
   return (
     <div
       role="tabpanel"
@@ -146,7 +160,12 @@ function FeaturePanel(props: {
       }
       className="absolute inset-0 flex items-center justify-center transition-[opacity,translate] duration-300 data-[current=false]:pointer-events-none data-[current=false]:translate-x-[calc(var(--direction)*50%)] data-[current=false]:opacity-0"
     >
-      {children}
+      <div
+        key={mountKey}
+        className="absolute inset-0 flex items-center justify-center"
+      >
+        {children}
+      </div>
     </div>
   );
 }
