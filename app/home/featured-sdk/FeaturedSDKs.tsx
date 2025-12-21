@@ -2,6 +2,8 @@ import clsx from "clsx";
 import { ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
 
+import { cypress, playwright, storybook, wdio } from "@/app/assets/sdk/library";
+import type { SDK } from "@/app/assets/sdk/types";
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 import { Grid } from "@/components/Grid";
@@ -9,10 +11,6 @@ import { ThemeImage, type ThemeImageProps } from "@/components/ThemeImage";
 
 import { SectionHeader, SectionHeaderTexts } from "../common/SectionHeader";
 import { SectionDescription, SectionTitle } from "../common/Typography";
-import cypress from "./assets/cypress.svg";
-import playwright from "./assets/playwright.svg";
-import storybook from "./assets/storybook.svg";
-import wdio from "./assets/wdio.svg";
 
 export function FeaturedSDKs() {
   return (
@@ -37,29 +35,25 @@ export function FeaturedSDKs() {
         <div className="flex flex-1 flex-col gap-8 md:flex-row md:flex-wrap md:items-start md:justify-center md:py-24">
           <SdkCard
             href="/docs/quickstart/playwright"
-            image={playwright}
-            title="Playwright"
+            sdk={playwright}
             borderColor="text-(--red-6)"
             bgColor="bg-(--red-1)"
           />
           <SdkCard
             href="/docs/quickstart/storybook"
-            image={storybook}
-            title="Storybook"
+            sdk={storybook}
             borderColor="text-(--plum-6)"
             bgColor="bg-(--plum-1)"
           />
           <SdkCard
             href="/docs/quickstart/cypress"
-            image={cypress}
-            title="Cypress"
+            sdk={cypress}
             borderColor="text-(--green-6)"
             bgColor="bg-(--green-1)"
           />
           <SdkCard
             href="/docs/quickstart/webdriverio"
-            image={wdio}
-            title="WebdriverIO"
+            sdk={wdio}
             borderColor="text-(--orange-6)"
             bgColor="bg-(--orange-1)"
           />
@@ -71,12 +65,11 @@ export function FeaturedSDKs() {
 
 function SdkCard(props: {
   href: string;
-  image: ThemeImageProps["src"];
-  title: string;
+  sdk: SDK;
   borderColor: string;
   bgColor: string;
 }) {
-  const { href, image, title, borderColor, bgColor } = props;
+  const { href, sdk, borderColor, bgColor } = props;
   return (
     <Link
       href={href}
@@ -112,14 +105,14 @@ function SdkCard(props: {
             />
           </svg>
           <ThemeImage
-            src={image}
+            src={sdk.logo}
             className="size-14 transition duration-200 group-hover:scale-125"
             alt=""
           />
         </div>
       </div>
       <div className="bg-app flex items-center justify-between gap-2 px-4 py-2">
-        <h3 className="font-accent bg-app font-medium">{title}</h3>
+        <h3 className="font-accent bg-app font-medium">{sdk.name}</h3>
         <div className="font-accent flex -translate-x-2 items-center gap-1 text-sm opacity-0 transition duration-200 group-hover:translate-x-0 group-hover:opacity-100">
           Get started <ArrowRightIcon className="size-3" />
         </div>

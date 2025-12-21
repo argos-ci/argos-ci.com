@@ -5,9 +5,9 @@ import { Button } from "@/components/Button";
 import { ThemeImage } from "@/components/ThemeImage";
 
 import { FeatureSection } from "../common/feature-section/FeatureSection";
-import failureScreenshotsSvg from "./assets/features/failure-screenshots.svg";
 import playwrightTracesSvg from "./assets/features/playwright-traces.svg";
 import retryScrenshotsSvg from "./assets/features/retry-screenshots.svg";
+import { FailureScreenshots } from "./features/FailureScreenshots";
 
 export function TestDebugging() {
   return (
@@ -18,9 +18,7 @@ export function TestDebugging() {
           icon: <ImageOffIcon />,
           title: "Failure screenshots",
           text: "Capture screenshots on failure to instantly see what went wrong.",
-          main: (
-            <ThemeImage className="h-full" src={failureScreenshotsSvg} alt="" />
-          ),
+          main: <FailureScreenshots />,
         },
         {
           key: "playwright-traces",
