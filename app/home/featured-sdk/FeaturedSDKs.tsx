@@ -7,7 +7,7 @@ import type { SDK } from "@/app/assets/sdk/types";
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 import { Grid } from "@/components/Grid";
-import { ThemeImage, type ThemeImageProps } from "@/components/ThemeImage";
+import { ThemeImage } from "@/components/ThemeImage";
 
 import { SectionHeader, SectionHeaderTexts } from "../common/SectionHeader";
 import { SectionDescription, SectionTitle } from "../common/Typography";

@@ -13,9 +13,9 @@ import { Title } from "../../common/Title";
 export function Stabilization() {
   return (
     <div className="relative flex w-full max-w-4xl items-center gap-10 p-5">
-      <Funnel className="absolute left-1/2 z-0 size-75 -translate-x-1/2 animate-fade-in animate-duration-500 fill-mode-both" />
+      <Funnel className="animate-fade-in animate-duration-500 animate-delay-200 fill-mode-both absolute left-1/2 z-0 size-75 -translate-x-1/2" />
 
-      <Card className="relative flex flex-1 flex-col gap-3 p-3 animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both">
+      <Card className="animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both relative flex flex-1 flex-col gap-3 p-3">
         <div className="flex items-center justify-between">
           <Title>
             <ContainedIcon variant="danger" icon={AlertTriangleIcon} />
@@ -30,7 +30,7 @@ export function Stabilization() {
         <ApplicationSVG noise={1} withChanges />
       </Card>
 
-      <Card className="relative p-5 animate-zoom-in motion-reduce:animate-fade-in animate-delay-100 animate-duration-500 fill-mode-both">
+      <Card className="animate-zoom-in motion-reduce:animate-fade-in animate-delay-100 animate-duration-500 fill-mode-both relative p-5">
         <div
           className="flex size-24 items-center justify-center rounded-full border border-(--primary-6) bg-[radial-gradient(circle_at_30%_30%,rgba(124,92,255,0.25),rgba(124,92,255,0.02)_60%)] shadow-[0_0_0_10px_rgba(124,92,255,0.08)]"
           aria-hidden="true"
@@ -42,7 +42,7 @@ export function Stabilization() {
         </div>
       </Card>
 
-      <Card className="relative flex flex-1 flex-col gap-3 p-3 animate-slide-up-fade animate-delay-150 motion-reduce:animate-fade-in animate-duration-500 fill-mode-both">
+      <Card className="animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both relative flex flex-1 flex-col gap-3 p-3">
         <div className="flex items-center justify-between">
           <Title>
             <ContainedIcon variant="primary" icon={CheckIcon} />
