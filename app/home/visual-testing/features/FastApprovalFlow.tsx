@@ -108,7 +108,7 @@ function ActionButton(props: {
   icon: LucideIcon;
   kbd: "Y" | "N";
 }) {
-  const { variant, kbd } = props;
+  const { variant, kbd, icon: Icon } = props;
   return (
     <div className="relative">
       {variant === "up" ? (
@@ -124,7 +124,7 @@ function ActionButton(props: {
         )}
         aria-hidden="true"
       >
-        {/* <Icon className="size-5" /> */}
+        <Icon className="size-5" />
       </div>
 
       <div className="absolute -bottom-4 left-1/2 -translate-x-1/2">
