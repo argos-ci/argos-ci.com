@@ -11,12 +11,7 @@ import { ThemeImage } from "@/components/ThemeImage";
 import { SectionHeader, SectionHeaderTexts } from "../SectionHeader";
 import { SectionDescription, SectionTitle } from "../Typography";
 import { type Feature, FeaturesCarousel } from "./FeaturesCarousel";
-import {
-  FROM_COLORS,
-  type FeatureColor,
-  INDICATOR_BG_COLORS,
-  TO_COLORS,
-} from "./colors";
+import { FROM_COLORS, type FeatureColor, INDICATOR_BG_COLORS } from "./colors";
 
 export function FeatureIndicator(props: {
   color: FeatureColor;

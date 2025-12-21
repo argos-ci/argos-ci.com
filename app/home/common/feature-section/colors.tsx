@@ -17,9 +17,3 @@ export const FROM_COLORS: Record<FeatureColor, string> = {
   amber: "from-(--amber-1)",
   teal: "from-(--teal-1)",
 };
-
-export const TO_COLORS: Record<FeatureColor, string> = {
-  blue: "to-(--blue-12)",
-  amber: "to-(--amber-12)",
-  teal: "to-(--teal-12)",
-};
