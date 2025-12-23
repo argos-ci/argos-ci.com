@@ -1,9 +1,12 @@
 import clsx from "clsx";
 import {
   GitMergeIcon,
+  GroupIcon,
   type LucideIcon,
   RotateCcwIcon,
+  ScanEyeIcon,
   ShieldCheckIcon,
+  ThumbsUpIcon,
 } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -15,14 +18,23 @@ import { Hero, HeroDescription, HeroHeading } from "@/components/Hero";
 import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
 import { SectionDescription, SectionTitle } from "@/components/Typography";
 import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
+import { FeaturesCarousel } from "@/components/feature-section/FeaturesCarousel";
 import { getMetadata } from "@/lib/metadata";
 
 import { TrustedBy } from "../common/TrustedBy";
+import { FastApprovalFlow } from "../home/visual-testing/features/FastApprovalFlow";
+import { GroupedDiffs } from "../home/visual-testing/features/GroupedDiffs";
+import { Stabilization } from "../home/visual-testing/features/Stabilization";
+import { BrowserCoverage } from "./features/BrowserCoverage";
 import { CITimeline } from "./features/CITimeline";
 import { DeploymentPreviewFlow } from "./features/DeploymentPreviewFlow";
 import { GitHubChecks } from "./features/GitHubChecks";
 import { GitHubComment } from "./features/GitHubComment";
+import { PlayFunctionScreenshot } from "./features/PlayFunctionScreenshot";
 import { SlackNotification } from "./features/SlackNotification";
+import { StoryModes } from "./features/StoryModes";
+import { StorybookCIVitest } from "./features/StorybookCIVitest";
+import { StorybookSnapshots } from "./features/StorybookSnapshots";
 
 export const metadata: Metadata = getMetadata({
   title: "Visual Testing for modern CI",
@@ -54,6 +66,163 @@ export default function Page() {
         </Container>
       </div>
       <TrustedBy />
+      {/* <section className="border-b px-4">
+        <Container className="border-x">
+          <SectionHeader align="center" className="container-gutter max-w-2xl">
+            <SectionHeaderTexts>
+              <SectionTitle>Visual testing for Storybook</SectionTitle>
+              <SectionDescription>
+                Confidently ship UI changes by visually validating every
+                Storybook component. Argos turns your stories into visual
+                checkpoints, catching regressions early without slowing down
+                your workflow.
+              </SectionDescription>
+            </SectionHeaderTexts>
+          </SectionHeader>
+        </Container>
+        <Container noGutter className="border-x">
+          <FeaturesCarousel
+            color={color}
+            features={[
+              {
+                key: "smart-detection",
+                icon: <ScanEyeIcon />,
+                title: "Smart detection",
+                text: "Built-in stabilization that filters out noise for cleaner, more reliable visual diffs.",
+                main: <Stabilization />,
+              },
+              {
+                key: "fast-approval-flow",
+                icon: <ThumbsUpIcon />,
+                title: "Fast approval flow",
+                text: "A UX built for speed, review, approve, and ship confidently in seconds.",
+                main: <FastApprovalFlow />,
+              },
+              {
+                key: "grouped-diffs",
+                icon: <GroupIcon />,
+                title: "Grouped diffs",
+                text: "Similar changes are grouped, so you review once and move on.",
+                main: <GroupedDiffs />,
+              },
+            ]}
+          />
+        </Container>
+        <Container className="h-12 border-x" />
+      </section> */}
+      <section className="border-b px-4">
+        <Container className="border-x bg-linear-to-b from-transparent to-(--neutral-2) pb-12">
+          <SectionHeader align="center" className="container-gutter max-w-2xl">
+            <SectionHeaderTexts>
+              <SectionTitle>Visual testing for Storybook</SectionTitle>
+              <SectionDescription>
+                Confidently ship UI changes by visually validating every
+                Storybook component. Argos turns your stories into visual
+                checkpoints, catching regressions early without slowing down
+                your workflow.
+              </SectionDescription>
+            </SectionHeaderTexts>
+          </SectionHeader>
+          <StorybookSnapshots />
+        </Container>
+      </section>
+      <section className="px-4">
+        <FeatureGrid>
+          <FeatureGridFeature
+            title={<>Test all UI variants from a single Story</>}
+            description={
+              <>
+                Capture visual snapshots for every UI configuration
+                automatically. Argos runs each Storybook scenario across themes,
+                viewports, or locales without duplicating stories, so visual
+                coverage scales while your Storybook stays simple.
+              </>
+            }
+            href="/docs/storybook-story-modes"
+            illustration={<StoryModes />}
+          />
+          <FeatureGridFeature
+            title={<>Capture Storybook screenshots directly in CI</>}
+            description={
+              <>
+                Argos runs Storybook stories inside your CI using Vitest and
+                takes screenshots as part of your test suite. No local
+                rendering, no manual steps, just deterministic visual snapshots
+                generated where your code actually runs.
+              </>
+            }
+            href="/docs/storybook"
+            illustration={<StorybookCIVitest />}
+          />
+        </FeatureGrid>
+        <FeatureGrid>
+          <FeatureGridFeature
+            title={<>Take screenshots during interactive flows</>}
+            description={
+              <>
+                Capture visual snapshots at any moment inside the Storybook play
+                function. Argos lets you assert visuals after user interactions,
+                async states, or animations, so you can validate real UI
+                behavior, not just static renders.
+              </>
+            }
+            href="/docs/storybook"
+            illustration={<PlayFunctionScreenshot />}
+          />
+          <FeatureGridFeature
+            title={<>Cover all browsers with the same stories</>}
+            description={
+              <>
+                Run the exact same Storybook stories across multiple browsers in
+                CI and capture visual snapshots for each engine. Catch
+                cross-browser rendering issues early without maintaining
+                separate test setups or duplicated stories.
+              </>
+            }
+            href="/docs/storybook"
+            illustration={<BrowserCoverage />}
+          />
+        </FeatureGrid>
+        <Container
+          noGutter
+          className="relative grid grid-cols-1 border-x border-b max-md:divide-y md:grid-cols-3 md:divide-x"
+        >
+          <FeatureGridFeatureSmall
+            title="Merge queue support"
+            description={
+              <>
+                Automatically validate visual changes in GitHub merge queues
+                before they land on main.
+              </>
+            }
+            href="/docs/github"
+            icon={GitMergeIcon}
+          />
+          <FeatureGridFeatureSmall
+            title="Partial retries"
+            description={
+              <>
+                Re-run only failed checks in GitHub Actions, without restarting
+                the full workflow.
+              </>
+            }
+            href="/docs/github"
+            icon={RotateCcwIcon}
+          />
+          <FeatureGridFeatureSmall
+            title="Forked PR support"
+            description={
+              <>
+                Run visual checks safely on pull requests from forks, without
+                exposing secrets with tokenless authentication.
+              </>
+            }
+            href="/docs/github"
+            icon={ShieldCheckIcon}
+          />
+        </Container>
+        <Container className="h-10 border-x" />
+      </section>
       <section className="border-b px-4">
         <Container className="border-x bg-linear-to-b from-transparent to-(--neutral-2) pb-12">
           <SectionHeader align="center" className="container-gutter max-w-2xl">
@@ -61,7 +230,7 @@ export default function Page() {
               <SectionTitle>Built into your delivery flow</SectionTitle>
               <SectionDescription>
                 Visual checks that follow your code from commit to deploy,
-                integrated with GitHub, Vercel, CI, and your team channels.
+                integrated at the core of your CI.
               </SectionDescription>
             </SectionHeaderTexts>
           </SectionHeader>
@@ -164,6 +333,7 @@ export default function Page() {
             icon={ShieldCheckIcon}
           />
         </Container>
+        <Container className="h-10 border-x" />
       </section>
     </>
   );
