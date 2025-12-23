@@ -19,14 +19,12 @@ export function SlackNotification() {
 function AutomationBuilder() {
   return (
     <Card className="overflow-hidden border shadow-lg">
-      <div className="border-b-[0.5px] px-3 py-1.5 text-sm font-semibold">
+      <div className="border-b-[0.5px] px-3 py-2 text-sm font-semibold">
         Automations builder
       </div>
 
-      <div className="space-y-4 p-4">
-        <Field label="Automation rule name">
-          <Input value="Notify when a build has changes" />
-        </Field>
+      <div className="space-y-4 p-3">
+        <Input value="Notify when a build has changes" />
 
         <Section label="When">
           <Checkbox label="Build completed" checked />
