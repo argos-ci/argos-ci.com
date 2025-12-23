@@ -19,18 +19,8 @@ export function SlackNotification() {
 function AutomationBuilder() {
   return (
     <Card className="overflow-hidden border shadow-lg">
-      <div className="flex items-center gap-2 border-b px-4 py-3">
-        <div className="grid size-8 place-items-center rounded bg-(--primary-3)">
-          <ArgosEmblem className="size-3.5 w-auto text-(--primary-11)" />
-        </div>
-        <div>
-          <p className="text-xs font-semibold tracking-[0.06em] text-(--primary-10) uppercase">
-            Automations
-          </p>
-          <p className="text-low text-[11px]">
-            Send Slack updates automatically
-          </p>
-        </div>
+      <div className="border-b-[0.5px] px-3 py-1.5 text-sm font-semibold">
+        Automations builder
       </div>
 
       <div className="space-y-4 p-4">
@@ -58,17 +48,9 @@ function AutomationBuilder() {
         </Section>
 
         <Section label="Then">
-          <ActionRow channel="notif-tech-production" workspace="GitBook" />
+          <ActionRow channel="notif-tech-production" workspace="Acme" />
           <GhostSelect label="Add action..." />
         </Section>
-
-        <div className="flex items-center justify-between pt-1">
-          <TextButton>Send test notification</TextButton>
-          <div className="flex items-center gap-2">
-            <GhostPill>Cancel</GhostPill>
-            <PrimaryPill>Save changes</PrimaryPill>
-          </div>
-        </div>
       </div>
     </Card>
   );
@@ -77,10 +59,8 @@ function AutomationBuilder() {
 function Field(props: { label: string; children: React.ReactNode }) {
   const { label, children } = props;
   return (
-    <label className="flex flex-col gap-1 text-sm font-semibold">
-      <span className="text-low text-xs font-semibold tracking-[0.06em] uppercase">
-        {label}
-      </span>
+    <label className="flex flex-col gap-1">
+      <span className="text-low text-xs">{label}</span>
       {children}
     </label>
   );
@@ -91,7 +71,6 @@ function Input(props: { value: string }) {
   return (
     <div className="flex items-center justify-between rounded-lg border px-3 py-2 text-sm font-semibold shadow-xs">
       <span className="truncate">{value}</span>
-      <span className="text-low text-xs">✎</span>
     </div>
   );
 }
@@ -184,7 +163,6 @@ function ActionRow(props: { channel: string; workspace: string }) {
       <div className="flex flex-wrap gap-2 text-xs font-semibold">
         <Pill tone="primary">{workspace} workspace</Pill>
         <Pill tone="neutral">#{channel}</Pill>
-        <Pill tone="neutral">Optional ID: C0464NR81</Pill>
       </div>
     </div>
   );

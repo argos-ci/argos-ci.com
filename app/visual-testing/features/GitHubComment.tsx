@@ -45,7 +45,7 @@ function CommentCard() {
         </div>
       </div>
 
-      <div className="space-y-2 p-3 text-xs">
+      <div className="space-y-3 p-3 text-xs">
         <p className="text-sm leading-relaxed">
           <span className="font-semibold">
             The latest updates on your projects.
