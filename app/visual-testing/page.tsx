@@ -1,11 +1,17 @@
 import clsx from "clsx";
 import {
+  AccessibilityIcon,
+  CloudIcon,
   GitMergeIcon,
+  GroupIcon,
   LayersIcon,
+  ListTreeIcon,
   type LucideIcon,
   RotateCcwIcon,
+  ScanEyeIcon,
   ShieldCheckIcon,
   SlidersIcon,
+  ThumbsUpIcon,
   ZapIcon,
 } from "lucide-react";
 import { Metadata } from "next";
@@ -18,15 +24,19 @@ import { Hero, HeroDescription, HeroHeading } from "@/components/Hero";
 import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
 import { SectionDescription, SectionTitle } from "@/components/Typography";
 import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
+import { FeaturesCarousel } from "@/components/feature-section/FeaturesCarousel";
 import { getMetadata } from "@/lib/metadata";
 
 import { TrustedBy } from "../common/TrustedBy";
+import { AriaSnapshots } from "./features/AriaSnapshots";
 import { BrowserCoverage } from "./features/BrowserCoverage";
 import { CITimeline } from "./features/CITimeline";
 import { DeploymentPreviewFlow } from "./features/DeploymentPreviewFlow";
 import { GitHubChecks } from "./features/GitHubChecks";
 import { GitHubComment } from "./features/GitHubComment";
+import { IntegratedRuns } from "./features/IntegratedRuns";
 import { PlayFunctionScreenshot } from "./features/PlayFunctionScreenshot";
+import { ScreenshotsStayInCI } from "./features/ScreenshotsStayInCI";
 import { SlackNotification } from "./features/SlackNotification";
 import { StoryModes } from "./features/StoryModes";
 import { StorybookCIVitest } from "./features/StorybookCIVitest";
@@ -62,16 +72,16 @@ export default function Page() {
         </Container>
       </div>
       <TrustedBy />
-      {/* <section className="border-b px-4">
+      <section className="border-b px-4">
         <Container className="border-x">
           <SectionHeader align="center" className="container-gutter max-w-2xl">
             <SectionHeaderTexts>
-              <SectionTitle>Visual testing for Storybook</SectionTitle>
+              <SectionTitle>Playwright at scale, without friction</SectionTitle>
               <SectionDescription>
-                Confidently ship UI changes by visually validating every
-                Storybook component. Argos turns your stories into visual
-                checkpoints, catching regressions early without slowing down
-                your workflow.
+                Run Playwright screenshots directly in your existing test suite
+                and review reliable visual diffs with zero extra setup. Built to
+                handle sharding, retries, parallel runs, and large volumes while
+                keeping feedback fast and predictable.
               </SectionDescription>
             </SectionHeaderTexts>
           </SectionHeader>
@@ -81,31 +91,31 @@ export default function Page() {
             color={color}
             features={[
               {
-                key: "smart-detection",
-                icon: <ScanEyeIcon />,
-                title: "Smart detection",
-                text: "Built-in stabilization that filters out noise for cleaner, more reliable visual diffs.",
-                main: <Stabilization />,
+                key: "ci-based",
+                icon: <CloudIcon />,
+                title: "Screenshots stay in your CI",
+                text: "Capture screenshots directly from Playwright in CI. No files committed, no artifacts to manage, even at scale.",
+                main: <ScreenshotsStayInCI />,
               },
               {
-                key: "fast-approval-flow",
-                icon: <ThumbsUpIcon />,
-                title: "Fast approval flow",
-                text: "A UX built for speed, review, approve, and ship confidently in seconds.",
-                main: <FastApprovalFlow />,
+                key: "aria-snapshots",
+                icon: <ListTreeIcon />,
+                title: "ARIA snapshots, first-class",
+                text: "Validate accessibility trees with ARIA snapshots and catch semantic regressions beyond pixels.",
+                main: <AriaSnapshots />,
               },
               {
-                key: "grouped-diffs",
-                icon: <GroupIcon />,
-                title: "Grouped diffs",
-                text: "Similar changes are grouped, so you review once and move on.",
-                main: <GroupedDiffs />,
+                key: "integrated",
+                icon: <LayersIcon />,
+                title: "100% integrated",
+                text: "Works seamlessly with sharding, retries, and repeat-each so parallel and flaky runs stay deterministic.",
+                main: <IntegratedRuns />,
               },
             ]}
           />
         </Container>
         <Container className="h-12 border-x" />
-      </section> */}
+      </section>
       <section className="border-b px-4">
         <Container className="border-x bg-linear-to-b from-transparent to-(--neutral-2) pb-12">
           <SectionHeader align="center" className="container-gutter max-w-2xl">
@@ -122,7 +132,7 @@ export default function Page() {
           <StorybookSnapshots />
         </Container>
       </section>
-      <section className="px-4">
+      <section className="border-b px-4">
         <FeatureGrid>
           <FeatureGridFeature
             title={<>Test all UI variants from a single Story</>}
@@ -219,7 +229,7 @@ export default function Page() {
             icon={SlidersIcon}
           />
         </Container>
-        <Container className="h-10 border-x" />
+        <Container className="h-12 border-x" />
       </section>
       <section className="border-b px-4">
         <Container className="border-x bg-linear-to-b from-transparent to-(--neutral-2) pb-12">
@@ -331,7 +341,7 @@ export default function Page() {
             icon={ShieldCheckIcon}
           />
         </Container>
-        <Container className="h-10 border-x" />
+        <Container className="h-12 border-x" />
       </section>
     </>
   );

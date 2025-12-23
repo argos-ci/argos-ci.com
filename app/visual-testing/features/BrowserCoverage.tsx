@@ -28,8 +28,8 @@ export function BrowserCoverage() {
       className="relative z-10 w-full max-w-80 bg-[linear-gradient(180deg,var(--neutral-1),var(--neutral-2))]"
       shadow="shadow-lg"
     >
-      <div className="flex items-center gap-3 border-b border-(--primary-6)/60 px-4 py-3">
-        <span className="grid size-12 place-items-center rounded-xl border border-(--primary-6)/60 bg-(--primary-2)/70 shadow-[0_14px_36px_-18px_rgba(80,62,255,0.85)]">
+      <div className="flex items-center gap-3 border-b px-4 py-3">
+        <span className="grid size-12 place-items-center rounded-xl border shadow-[0_14px_36px_-18px_rgba(80,62,255,0.85)]">
           <ThemeImage src={vitest.logo} alt="" className="size-6" />
         </span>
         <div className="leading-tight">
@@ -51,7 +51,7 @@ export function BrowserCoverage() {
 function BrowserRow(props: { brand: Brand }) {
   const { brand } = props;
   return (
-    <div className="flex items-center justify-between rounded-lg border border-(--neutral-6)/60 bg-white/90 px-3 py-2 shadow-xs">
+    <div className="bg-app flex items-center justify-between rounded-lg border px-3 py-2">
       <div className="flex items-center gap-2">
         <ThemeImage
           src={brand.logo}
@@ -60,7 +60,7 @@ function BrowserRow(props: { brand: Brand }) {
         />
         <span className="text-sm font-semibold">{brand.name}</span>
       </div>
-      <Chip variant="success" className="px-2 py-[2px] text-[11px]">
+      <Chip variant="success" className="px-2 py-0.5 text-[11px]">
         Screenshot saved
       </Chip>
     </div>

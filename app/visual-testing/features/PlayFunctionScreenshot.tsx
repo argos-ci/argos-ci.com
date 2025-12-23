@@ -74,10 +74,10 @@ function CodeLine(props: {
         tone
           ? {
               comment: "text-(--neutral-10)",
-              primary: "bg-(--primary-2)/50 text-(--primary-11)",
+              primary: "bg-(--primary-2) text-(--primary-11)",
               muted: "text-(--neutral-10)",
             }[tone]
-          : null,
+          : "text-low/70",
         text === "" && "h-3",
       )}
       style={{ paddingLeft: `${padding}px` }}
