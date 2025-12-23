@@ -1,5 +1,3 @@
-import clsx from "clsx";
-
 import {
   chrome,
   edge,
@@ -25,13 +23,9 @@ const BROWSERS: BrowserOrbit[] = [
 ];
 
 export function BrowserCoverage() {
-  return <VitestHub />;
-}
-
-function VitestHub() {
   return (
     <Card
-      className="relative z-10 w-[320px] overflow-hidden border-(--primary-6)/60 bg-[linear-gradient(180deg,var(--neutral-1),var(--neutral-2))]"
+      className="relative z-10 w-full max-w-80 bg-[linear-gradient(180deg,var(--neutral-1),var(--neutral-2))]"
       shadow="shadow-lg"
     >
       <div className="flex items-center gap-3 border-b border-(--primary-6)/60 px-4 py-3">
@@ -42,9 +36,7 @@ function VitestHub() {
           <div className="text-sm font-semibold text-(--neutral-12)">
             Vitest run
           </div>
-          <div className="text-xs font-semibold text-(--neutral-10)">
-            Storybook screenshots in CI
-          </div>
+          <div className="text-low text-xs">Storybook screenshots in CI</div>
         </div>
       </div>
       <div className="space-y-2 px-4 py-3">
@@ -71,29 +63,6 @@ function BrowserRow(props: { brand: Brand }) {
       <Chip variant="success" className="px-2 py-[2px] text-[11px]">
         Screenshot saved
       </Chip>
-    </div>
-  );
-}
-
-function BrowserBadge(props: BrowserOrbit) {
-  const { brand, className } = props;
-  return (
-    <div
-      className={clsx(
-        "absolute z-10 flex items-center gap-2 rounded-full border border-(--neutral-6)/60 bg-(--neutral-1) px-3 py-2 shadow-md backdrop-blur",
-        className,
-      )}
-    >
-      <span className="grid size-9 place-items-center rounded-full border border-(--neutral-6)/50 bg-white/85">
-        <ThemeImage
-          src={brand.logo}
-          className="size-5"
-          alt={`${brand.name} logo`}
-        />
-      </span>
-      <span className="text-xs font-semibold text-(--neutral-12)">
-        {brand.name}
-      </span>
     </div>
   );
 }

@@ -1,6 +1,5 @@
 import clsx from "clsx";
-import { ArrowRightIcon, CheckCircle2Icon, Clock3Icon } from "lucide-react";
-import type { snapshot } from "node:test";
+import { CheckCircle2Icon, Clock3Icon } from "lucide-react";
 
 import { storybook } from "@/app/assets/brands/library";
 import { ArgosEmblem } from "@/components/ArgosEmblem";

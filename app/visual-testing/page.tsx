@@ -1,12 +1,12 @@
 import clsx from "clsx";
 import {
   GitMergeIcon,
-  GroupIcon,
+  LayersIcon,
   type LucideIcon,
   RotateCcwIcon,
-  ScanEyeIcon,
   ShieldCheckIcon,
-  ThumbsUpIcon,
+  SlidersIcon,
+  ZapIcon,
 } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -18,13 +18,9 @@ import { Hero, HeroDescription, HeroHeading } from "@/components/Hero";
 import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
 import { SectionDescription, SectionTitle } from "@/components/Typography";
 import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
-import { FeaturesCarousel } from "@/components/feature-section/FeaturesCarousel";
 import { getMetadata } from "@/lib/metadata";
 
 import { TrustedBy } from "../common/TrustedBy";
-import { FastApprovalFlow } from "../home/visual-testing/features/FastApprovalFlow";
-import { GroupedDiffs } from "../home/visual-testing/features/GroupedDiffs";
-import { Stabilization } from "../home/visual-testing/features/Stabilization";
 import { BrowserCoverage } from "./features/BrowserCoverage";
 import { CITimeline } from "./features/CITimeline";
 import { DeploymentPreviewFlow } from "./features/DeploymentPreviewFlow";
@@ -188,37 +184,39 @@ export default function Page() {
           className="relative grid grid-cols-1 border-x border-b max-md:divide-y md:grid-cols-3 md:divide-x"
         >
           <FeatureGridFeatureSmall
-            title="Merge queue support"
+            title="Story based baselines"
             description={
               <>
-                Automatically validate visual changes in GitHub merge queues
-                before they land on main.
+                Each Storybook story gets its own visual baseline, stable across
+                refactors and story reordering.
               </>
             }
-            href="/docs/github"
-            icon={GitMergeIcon}
+            href="/docs/storybook"
+            icon={LayersIcon}
           />
+
           <FeatureGridFeatureSmall
-            title="Partial retries"
+            title="Zero config Storybook CI"
             description={
               <>
-                Re-run only failed checks in GitHub Actions, without restarting
-                the full workflow.
+                Detects stories, viewports, and themes automatically without
+                manual snapshot wiring.
               </>
             }
-            href="/docs/github"
-            icon={RotateCcwIcon}
+            href="/docs/storybook"
+            icon={ZapIcon}
           />
+
           <FeatureGridFeatureSmall
-            title="Forked PR support"
+            title="Addons aware rendering"
             description={
               <>
-                Run visual checks safely on pull requests from forks, without
-                exposing secrets with tokenless authentication.
+                Correctly captures stories using controls, decorators, themes,
+                and globals.
               </>
             }
-            href="/docs/github"
-            icon={ShieldCheckIcon}
+            href="/docs/storybook"
+            icon={SlidersIcon}
           />
         </Container>
         <Container className="h-10 border-x" />
