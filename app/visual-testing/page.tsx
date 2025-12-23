@@ -1,17 +1,13 @@
 import clsx from "clsx";
 import {
-  AccessibilityIcon,
   CloudIcon,
   GitMergeIcon,
-  GroupIcon,
   LayersIcon,
-  ListTreeIcon,
   type LucideIcon,
   RotateCcwIcon,
-  ScanEyeIcon,
+  ScanTextIcon,
   ShieldCheckIcon,
   SlidersIcon,
-  ThumbsUpIcon,
   ZapIcon,
 } from "lucide-react";
 import { Metadata } from "next";
@@ -93,13 +89,13 @@ export default function Page() {
               {
                 key: "ci-based",
                 icon: <CloudIcon />,
-                title: "Screenshots stay in your CI",
+                title: "Screenshots outside Git",
                 text: "Capture screenshots directly from Playwright in CI. No files committed, no artifacts to manage, even at scale.",
                 main: <ScreenshotsStayInCI />,
               },
               {
                 key: "aria-snapshots",
-                icon: <ListTreeIcon />,
+                icon: <ScanTextIcon />,
                 title: "ARIA snapshots, first-class",
                 text: "Validate accessibility trees with ARIA snapshots and catch semantic regressions beyond pixels.",
                 main: <AriaSnapshots />,
@@ -107,7 +103,7 @@ export default function Page() {
               {
                 key: "integrated",
                 icon: <LayersIcon />,
-                title: "100% integrated",
+                title: "Perfect integration",
                 text: "Works seamlessly with sharding, retries, and repeat-each so parallel and flaky runs stay deterministic.",
                 main: <IntegratedRuns />,
               },

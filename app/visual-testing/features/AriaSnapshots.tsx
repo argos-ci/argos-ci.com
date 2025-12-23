@@ -1,94 +1,131 @@
 import clsx from "clsx";
-import { ListTreeIcon, SparkleIcon } from "lucide-react";
+import { ArrowLeftRightIcon, ScanTextIcon } from "lucide-react";
 
 import { Badge } from "@/components/Badge";
 import { Card } from "@/components/Card";
 import { DotIndicator } from "@/components/DotIndicator";
 import { SmallTitle } from "@/components/Typography";
 
-type NodeStatus = "unchanged" | "changed" | "new" | "missing";
+type DiffKind = "context" | "removed" | "added" | "changed";
 
-type AriaNode = {
-  id: string;
-  level: number;
-  name: string;
-  role: string;
-  status?: NodeStatus;
-  note?: string;
+type DiffLine = {
+  number: number;
+  text: string;
+  kind: DiffKind;
 };
 
-const BASELINE_TREE: AriaNode[] = [
-  { id: "document", level: 0, name: "Product page", role: "document" },
-  { id: "banner", level: 1, name: "Header", role: "banner" },
-  { id: "logo", level: 2, name: "Logo", role: "link" },
-  { id: "search", level: 1, name: "Search", role: "search" },
-  { id: "input", level: 2, name: "Search docs", role: "textbox" },
-  { id: "cta", level: 2, name: "Search", role: "button" },
-  { id: "main", level: 1, name: "Content", role: "main" },
-  { id: "cta-main", level: 2, name: "Get started", role: "button" },
+const BASELINE_LINES: DiffLine[] = [
+  { number: 168, text: "- paragraph:", kind: "context" },
+  { number: 169, text: "  - superscript: registered", kind: "context" },
+  { number: 170, text: "  - text: .", kind: "context" },
+  { number: 172, text: "- tabpanel:", kind: "removed" },
+  {
+    number: 173,
+    text: '  - heading "Pay with Rewards" [level=3]',
+    kind: "removed",
+  },
+  { number: 174, text: "  - paragraph:", kind: "removed" },
+  {
+    number: 175,
+    text: "    - text: Check out with PayPal, and use your cash",
+    kind: "removed",
+  },
+  { number: 180, text: "- tabpanel:", kind: "removed" },
+  {
+    number: 181,
+    text: '  - heading "Redeem for Purchases" [level=3]',
+    kind: "removed",
+  },
+  {
+    number: 182,
+    text: "  - paragraph: Redeem your cash rewards toward",
+    kind: "removed",
+  },
+  { number: 187, text: "- tabpanel:", kind: "removed" },
+  { number: 188, text: '  - heading "Gift Cards" [level=3]', kind: "removed" },
+  {
+    number: 189,
+    text: "  - paragraph: Redeem cash rewards for gift cards",
+    kind: "removed",
+  },
+  { number: 190, text: "- tabpanel:", kind: "removed" },
+  {
+    number: 191,
+    text: '  - heading "Redeem to Account" [level=3]',
+    kind: "removed",
+  },
 ];
 
-const PR_TREE: AriaNode[] = [
-  { id: "document", level: 0, name: "Product page", role: "document" },
-  { id: "banner", level: 1, name: "Header", role: "banner" },
-  { id: "logo", level: 2, name: "Logo", role: "link" },
-  { id: "search", level: 1, name: "Search", role: "search" },
+const PR_LINES: DiffLine[] = [
+  { number: 168, text: "- paragraph:", kind: "context" },
+  { number: 169, text: "  - superscript: registered", kind: "context" },
+  { number: 170, text: "  - text: .", kind: "context" },
   {
-    id: "input",
-    level: 2,
-    name: "Untitled input",
-    role: "textbox",
-    status: "changed",
-    note: "Accessible name removed",
+    number: 172,
+    text: '- heading "Pay with Rewards" [level=3]',
+    kind: "changed",
+  },
+  { number: 173, text: "  - paragraph:", kind: "changed" },
+  {
+    number: 174,
+    text: "    - text: Check out with PayPal, and use your cash rewards",
+    kind: "changed",
+  },
+  { number: 175, text: '    - link "Footnote 13.":', kind: "added" },
+  { number: 176, text: '      - /url: "#fn13"', kind: "added" },
+  { number: 177, text: '      - superscript: "13"', kind: "added" },
+  {
+    number: 178,
+    text: '- heading "Redeem for Purchases" [level=3]',
+    kind: "context",
   },
   {
-    id: "filter",
-    level: 2,
-    name: "Filter products",
-    role: "combobox",
-    status: "new",
-    note: "New control detected",
+    number: 179,
+    text: "  - paragraph: Redeem your cash rewards toward the cost",
+    kind: "context",
+  },
+  { number: 180, text: '  - link "Footnote 14.":', kind: "added" },
+  { number: 181, text: '    - /url: "#fn14"', kind: "added" },
+  { number: 182, text: '    - superscript: "14"', kind: "added" },
+  { number: 183, text: '- heading "Gift Cards" [level=3]', kind: "context" },
+  {
+    number: 184,
+    text: "  - paragraph: Redeem cash rewards for gift cards",
+    kind: "context",
   },
   {
-    id: "cta",
-    level: 2,
-    name: "Search",
-    role: "button",
-    status: "missing",
-    note: "Hidden from ARIA tree",
+    number: 185,
+    text: '- heading "Redeem to Account" [level=3]',
+    kind: "context",
   },
-  { id: "main", level: 1, name: "Content", role: "main" },
-  { id: "cta-main", level: 2, name: "Get started", role: "button" },
+  {
+    number: 186,
+    text: "  - paragraph: Redeem cash rewards as a credit",
+    kind: "context",
+  },
+  { number: 187, text: '  - link "Footnote 15.":', kind: "added" },
+  { number: 188, text: '    - /url: "#fn15"', kind: "added" },
+  { number: 189, text: '    - superscript: "15"', kind: "added" },
 ];
-
-const SUMMARY = [
-  {
-    status: "changed",
-    text: "Accessible name regression on search input",
-  },
-  { status: "missing", text: "Search button dropped from ARIA tree" },
-  { status: "new", text: "New combobox introduced without review" },
-] satisfies Array<{ status: NodeStatus; text: string }>;
 
 export function AriaSnapshots() {
   return (
     <div className="relative isolate mx-auto w-full max-w-5xl p-2">
       <Glow position="left" />
       <Glow position="right" />
-      <Card className="relative overflow-hidden border bg-[linear-gradient(145deg,--alpha(var(--primary-3)/65%),var(--neutral-1))] shadow-md">
-        <div className="grid items-start gap-4 p-4 md:grid-cols-[1fr_auto_1fr] md:gap-6 md:p-6">
-          <SnapshotColumn
-            label="Baseline snapshot"
-            description="Reference ARIA tree"
-            nodes={BASELINE_TREE}
-            tone="neutral"
+      <Card className="relative h-[420px] overflow-hidden border bg-[linear-gradient(120deg,--alpha(var(--primary-3)/35%),var(--neutral-1))] shadow-md md:h-[450px]">
+        <div className="grid h-full items-start gap-4 p-3 md:grid-cols-2 md:gap-5 md:p-5">
+          <DiffColumn
+            title="Baseline from production"
+            caption="5 days ago"
+            lines={BASELINE_LINES}
+            variant="left"
           />
-          <DiffSummary />
-          <SnapshotColumn
-            label="PR changes"
-            description="Argos-detected differences"
-            nodes={PR_TREE}
-            tone="accent"
+          <DiffColumn
+            title="Changes from main"
+            caption="a day ago"
+            lines={PR_LINES}
+            variant="right"
           />
         </div>
       </Card>
@@ -96,144 +133,76 @@ export function AriaSnapshots() {
   );
 }
 
-function SnapshotColumn(props: {
-  label: string;
-  description: string;
-  nodes: AriaNode[];
-  tone: "neutral" | "accent";
+function DiffColumn(props: {
+  title: string;
+  caption: string;
+  lines: DiffLine[];
+  variant: "left" | "right";
 }) {
-  const { label, description, nodes, tone } = props;
+  const { title, caption, lines, variant } = props;
   return (
-    <div className="space-y-3">
-      <SmallTitle className="items-start gap-2 text-(--neutral-11)">
-        <Badge
-          className={clsx(
-            "border-(--neutral-6)/60 text-(--neutral-11)",
-            tone === "accent"
-              ? "border-(--primary-7)/60 bg-(--primary-2)/60"
-              : "bg-(--neutral-2)/60",
-          )}
-        >
-          <ListTreeIcon className="size-3.5" aria-hidden />
-          {label}
+    <div className="relative flex h-full flex-col overflow-hidden rounded-2xl border border-(--neutral-6)/60 bg-white/85 shadow-xs">
+      <div className="flex items-center justify-between border-b border-(--neutral-6)/60 px-3 py-1.5">
+        <SmallTitle className="gap-2 text-[11px] text-(--neutral-12)">
+          <Badge className="border-(--neutral-6)/60 bg-(--neutral-2)/80 text-[11px] text-(--neutral-11)">
+            <ScanTextIcon className="size-3.5" aria-hidden />
+            {title}
+          </Badge>
+          <span className="text-low text-[10px] font-semibold">{caption}</span>
+        </SmallTitle>
+        <Badge className="border-(--primary-6)/60 bg-(--primary-2)/70 text-[11px] text-(--primary-10)">
+          <ArrowLeftRightIcon className="size-3" aria-hidden />
+          ARIA snapshot
         </Badge>
-        <span className="text-[11px] font-semibold text-low">{description}</span>
-      </SmallTitle>
-      <div className="space-y-2.5">
-        {nodes.map((node) => (
-          <AriaNodeCard key={node.id} {...node} />
-        ))}
+      </div>
+      <div className="relative">
+        <div
+          className="absolute inset-y-0 right-3 w-1 rounded-full bg-(--neutral-6)/40"
+          aria-hidden
+        />
+        <div className="space-y-[2px] overflow-hidden mask-b-from-80% p-3 font-mono text-[11px] leading-[1.45] text-(--neutral-12) md:max-h-[360px]">
+          {lines.map((line) => (
+            <DiffRow
+              key={`${variant}-${line.number}-${line.text}`}
+              line={line}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
 }
 
-function AriaNodeCard(props: AriaNode) {
-  const { level, name, role, status = "unchanged", note } = props;
-
-  const statusTone = {
-    unchanged: "border-(--neutral-6)/60 bg-white/85 shadow-xs",
-    changed:
-      "border-(--danger-7)/60 bg-(--danger-2)/35 text-(--danger-11) shadow-[0_22px_60px_-36px_rgba(234,63,90,0.8)]",
-    new: "border-(--primary-7)/60 bg-(--primary-2)/40 text-(--primary-11) shadow-sm",
-    missing:
-      "border-(--amber-7)/60 bg-(--amber-2)/45 text-(--amber-11) shadow-sm",
-  }[status];
+function DiffRow(props: { line: DiffLine }) {
+  const { line } = props;
+  const tone = {
+    context:
+      "bg-[repeating-linear-gradient(135deg,rgba(0,0,0,0.03)_0,rgba(0,0,0,0.03)_8px,transparent_8px,transparent_16px)] border-(--neutral-5)/50",
+    removed: "bg-(--danger-2)/60 border-(--danger-6)/60 text-(--danger-11)",
+    added: "bg-(--primary-2)/60 border-(--primary-6)/60 text-(--primary-11)",
+    changed: "bg-(--amber-2)/55 border-(--amber-6)/60 text-(--amber-11)",
+  }[line.kind];
 
   return (
     <div
       className={clsx(
-        "relative overflow-hidden rounded-lg border px-3 py-2.5",
-        statusTone,
+        "flex items-stretch gap-2.5 overflow-hidden rounded-md border px-2.5 py-1.5",
+        tone,
       )}
-      style={{ marginLeft: level * 12 }}
     >
-      {level > 0 ? (
-        <span
-          className="absolute left-1.5 top-0 h-full w-px bg-(--neutral-6)/40"
-          aria-hidden
+      <span className="w-8 shrink-0 text-right text-[10px] font-semibold text-(--neutral-9)">
+        {line.number}
+      </span>
+      <div className="flex flex-1 items-start gap-2">
+        <DotIndicator
+          variant={
+            { added: "primary", removed: "danger", changed: "warning" }[
+              line.kind
+            ] || "neutral"
+          }
+          className="mt-0.5"
         />
-      ) : null}
-      <div className="flex items-start justify-between gap-3">
-        <div className="space-y-1">
-          <div className="flex items-center gap-2 text-sm font-semibold leading-5">
-            <DotIndicator
-              variant={
-                { changed: "danger", new: "primary", missing: "warning" }[
-                  status
-                ] || "neutral"
-              }
-              className="mt-[3px]"
-            />
-            <span className="truncate">{name}</span>
-          </div>
-          <div className="inline-flex items-center gap-1 rounded-full bg-white/80 px-2 py-[3px] text-[11px] font-semibold text-(--neutral-10)">
-            <span className="rounded-sm bg-(--neutral-3) px-1 py-px text-[10px] font-semibold uppercase text-(--neutral-11)">
-              {role}
-            </span>
-            role
-          </div>
-          {note ? (
-            <div className="text-[11px] font-semibold text-low">{note}</div>
-          ) : null}
-        </div>
-        <StatusBadge status={status} />
-      </div>
-    </div>
-  );
-}
-
-function StatusBadge(props: { status: NodeStatus }) {
-  const { status } = props;
-  const label = {
-    unchanged: "Stable",
-    changed: "Changed",
-    new: "New",
-    missing: "Missing",
-  }[status];
-  const className = {
-    unchanged: "border-(--neutral-6)/60 bg-white text-(--neutral-11)",
-    changed: "border-(--danger-7)/60 bg-(--danger-2)/60 text-(--danger-11)",
-    new: "border-(--primary-7)/60 bg-(--primary-2)/60 text-(--primary-11)",
-    missing: "border-(--amber-7)/60 bg-(--amber-2)/60 text-(--amber-11)",
-  }[status];
-  return (
-    <Badge className={clsx("shrink-0", className)}>
-      <SparkleIcon className="size-3" aria-hidden />
-      {label}
-    </Badge>
-  );
-}
-
-function DiffSummary() {
-  return (
-    <div className="relative isolate mx-auto flex max-w-[13rem] flex-col items-center gap-3 rounded-2xl border border-(--neutral-6)/60 bg-white/75 px-4 py-5 text-center shadow-sm">
-      <div className="pointer-events-none absolute -left-14 top-6 size-20 rounded-full bg-(--primary-5)/15 blur-3xl" />
-      <Badge className="border-(--primary-7)/60 bg-(--primary-2)/60 text-(--primary-11)">
-        ARIA diff
-      </Badge>
-      <div className="text-sm font-semibold text-(--neutral-12)">
-        Semantic changes detected
-      </div>
-      <div className="w-full space-y-2 text-left text-[13px]">
-        {SUMMARY.map((item) => (
-          <div
-            key={item.text}
-            className="flex items-start gap-2 rounded-lg border border-(--neutral-6)/40 bg-(--neutral-2)/60 px-2.5 py-2"
-          >
-            <DotIndicator
-              variant={
-                { changed: "danger", missing: "warning", new: "primary" }[
-                  item.status
-                ] || "neutral"
-              }
-              className="mt-1.5"
-            />
-            <span className="leading-tight text-(--neutral-11)">
-              {item.text}
-            </span>
-          </div>
-        ))}
+        <span className="leading-[1.45] whitespace-pre">{line.text}</span>
       </div>
     </div>
   );
@@ -246,7 +215,7 @@ function Glow(props: { position: "left" | "right" }) {
       className={clsx(
         "pointer-events-none absolute h-48 w-48 rounded-full blur-3xl",
         {
-          left: "-left-10 top-4 bg-(--primary-4)/18",
+          left: "top-4 -left-10 bg-(--primary-4)/18",
           right: "-right-16 bottom-6 bg-(--blue-4)/18",
         }[position],
       )}
