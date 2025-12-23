@@ -1,4 +1,10 @@
 import clsx from "clsx";
+import {
+  GitMergeIcon,
+  type LucideIcon,
+  RotateCcwIcon,
+  ShieldCheckIcon,
+} from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
 
@@ -15,6 +21,8 @@ import {
 } from "../home/common/SectionHeader";
 import { SectionDescription, SectionTitle } from "../home/common/Typography";
 import { FeatureIndicator } from "../home/common/feature-section/FeatureSection";
+import { CITimeline } from "./features/CITimeline";
+import { DeploymentPreviewFlow } from "./features/DeploymentPreviewFlow";
 import { GitHubChecks } from "./features/GitHubChecks";
 import { GitHubComment } from "./features/GitHubComment";
 import { SlackNotification } from "./features/SlackNotification";
@@ -60,51 +68,106 @@ export default function Page() {
               </SectionDescription>
             </SectionHeaderTexts>
           </SectionHeader>
-          <div className="mask-b-from-70%">
-            <GitHubChecks />
-          </div>
+          <CITimeline />
         </Container>
       </section>
-      <FeatureGrid>
-        <FeatureGridFeature
-          title={<>Clear visual status in pull request comments</>}
-          description={
-            <>
-              Argos posts a concise build summary directly in pull requests. See
-              what changed, what was approved, and what requires attention at a
-              glance, without noise, without leaving GitHub.
-            </>
-          }
-          href="/docs/pull-request-comments"
-          illustration={<GitHubComment />}
-        />
-        <FeatureGridFeature
-          title={<>Actionable Slack notifications, right where your team is</>}
-          description={
-            <>
-              Use Automations to send concise Argos updates to the right Slack
-              channels at the right time. Notify your team when a build is ready
-              for review, changes are requested, or a build is auto approved on
-              main.
-            </>
-          }
-          href="/docs/slack"
-          illustration={<SlackNotification />}
-        />
-        <FeatureGridFeature
-          title={<>Visual checks on every deployment preview</>}
-          description={
-            <>
-              Argos plugs into GitHub Actions and deployment providers like
-              Vercel, Netlify, and Cloudflare. Every preview is tested
-              automatically, regressions are reported back to the pull request,
-              and your production baseline stays clean and reliable.
-            </>
-          }
-          href="/docs/pull-request-comments"
-          illustration={<GitHubComment />}
-        />
-      </FeatureGrid>
+      <section className="px-4">
+        <FeatureGrid>
+          <FeatureGridFeature
+            title={<>Enforce visual quality with CI checks</>}
+            description={
+              <>
+                Argos reports visual test results as native CI checks on pull
+                requests and merge requests. Catch regressions early, block
+                merges only when it matters, and keep visual quality gates
+                consistent across GitHub and GitLab.
+              </>
+            }
+            href="/docs/pull-request-comments"
+            illustration={<GitHubChecks />}
+          />
+          <FeatureGridFeature
+            title={<>Clear visual status in pull request comments</>}
+            description={
+              <>
+                Argos posts a concise build summary directly in pull requests.
+                See what changed, what was approved, and what requires attention
+                at a glance, without noise, without leaving GitHub.
+              </>
+            }
+            href="/docs/pull-request-comments"
+            illustration={<GitHubComment />}
+          />
+        </FeatureGrid>
+        <FeatureGrid>
+          <FeatureGridFeature
+            title={
+              <>Actionable Slack notifications, right where your team is</>
+            }
+            description={
+              <>
+                Use Automations to send concise Argos updates to the right Slack
+                channels at the right time. Notify your team when a build is
+                ready for review, changes are requested, or a build is auto
+                approved on main.
+              </>
+            }
+            href="/docs/slack"
+            illustration={<SlackNotification />}
+          />
+          <FeatureGridFeature
+            title={<>Visual checks on every deployment preview</>}
+            description={
+              <>
+                Argos plugs into GitHub Actions and deployment providers like
+                Vercel, Netlify, and Cloudflare. Every preview is tested
+                automatically, regressions are reported back to the pull
+                request, and your production baseline stays clean and reliable.
+              </>
+            }
+            href="/docs/pull-request-comments"
+            illustration={<DeploymentPreviewFlow />}
+          />
+        </FeatureGrid>
+        <Container
+          noGutter
+          className="relative grid grid-cols-1 border-x border-b max-md:divide-y md:grid-cols-3 md:divide-x"
+        >
+          <FeatureGridFeatureSmall
+            title="Merge queue support"
+            description={
+              <>
+                Automatically validate visual changes in GitHub merge queues
+                before they land on main.
+              </>
+            }
+            href="/docs/pull-request-comments"
+            icon={GitMergeIcon}
+          />
+          <FeatureGridFeatureSmall
+            title="Partial retries"
+            description={
+              <>
+                Re-run only failed checks in GitHub Actions, without restarting
+                the full workflow.
+              </>
+            }
+            href="/docs/pull-request-comments"
+            icon={RotateCcwIcon}
+          />
+          <FeatureGridFeatureSmall
+            title="Forked PR support"
+            description={
+              <>
+                Run visual checks safely on pull requests from forks, without
+                exposing secrets with tokenless authentication.
+              </>
+            }
+            href="/docs/pull-request-comments"
+            icon={ShieldCheckIcon}
+          />
+        </Container>
+      </section>
     </>
   );
 }
@@ -112,18 +175,16 @@ export default function Page() {
 function FeatureGrid(props: { children: React.ReactNode }) {
   const { children } = props;
   return (
-    <section className="border-b px-4">
-      <Container
-        noGutter
-        className="relative grid grid-cols-1 border-x max-md:divide-y md:grid-cols-2 md:divide-x"
-      >
-        {children}
-      </Container>
-    </section>
+    <Container
+      noGutter
+      className="relative grid grid-cols-1 border-x border-b max-md:divide-y md:grid-cols-2 md:divide-x"
+    >
+      {children}
+    </Container>
   );
 }
 
-export function FeatureGridFeature(props: {
+function FeatureGridFeature(props: {
   title: React.ReactNode;
   description: React.ReactNode;
   href: string;
@@ -135,6 +196,27 @@ export function FeatureGridFeature(props: {
       <div className="relative flex h-72 items-center justify-center">
         {illustration}
       </div>
+      <div>
+        <h3 className="mb-1 font-semibold">{title}</h3>
+        <p className="text-low font-[450]">{description}</p>
+        <Button className="mt-4" variant="outline" asChild>
+          <Link href={href}>Learn more</Link>
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+function FeatureGridFeatureSmall(props: {
+  title: React.ReactNode;
+  description: React.ReactNode;
+  href: string;
+  icon: LucideIcon;
+}) {
+  const { title, description, href, icon: Icon } = props;
+  return (
+    <div className="flex flex-col items-start gap-2 p-8 text-left text-sm lg:px-9 lg:py-10">
+      <Icon className="size-4 text-(--primary-10)" />
       <div>
         <h3 className="mb-1 font-semibold">{title}</h3>
         <p className="text-low font-[450]">{description}</p>

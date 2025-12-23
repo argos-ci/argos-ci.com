@@ -1,8 +1,10 @@
 import clsx from "clsx";
+import { CheckCircleIcon, type LucideIcon, ZapIcon } from "lucide-react";
+import Image from "next/image";
 import type React from "react";
 
+import slack from "@/app/assets/slack.svg";
 import { Card } from "@/app/home/common/Card";
-import { ArgosEmblem } from "@/components/ArgosEmblem";
 
 export function SlackNotification() {
   return (
@@ -18,124 +20,26 @@ export function SlackNotification() {
 
 function AutomationBuilder() {
   return (
-    <Card className="overflow-hidden border shadow-lg">
+    <Card className="overflow-hidden border" shadow="shadow-lg">
       <div className="border-b-[0.5px] px-3 py-2 text-sm font-semibold">
         Automations builder
       </div>
 
-      <div className="space-y-4 p-3">
-        <Input value="Notify when a build has changes" />
+      <div className="space-y-3 p-3">
+        <BuilderRow icon={ZapIcon} label="Trigger" value="Build completes" />
+        <BuilderRow
+          icon={CheckCircleIcon}
+          label="Conclusion"
+          value="Changes detected"
+          tone="warning"
+        />
 
-        <Section label="When">
-          <Checkbox label="Build completed" checked />
-          <Checkbox label="Build reviewed" />
-        </Section>
-
-        <Section label="If">
-          <SelectRow
-            label="Build conclusion is"
-            value="Changes detected"
-            tone="warning"
-          />
-          <SelectRow
-            label="Build type is"
-            value="Auto-approved"
-            tone="success"
-          />
-          <GhostSelect label="Add optional condition..." />
-        </Section>
-
-        <Section label="Then">
-          <ActionRow channel="notif-tech-production" workspace="Acme" />
+        <div className="space-y-2">
+          <ActionRow channel="engineering" workspace="Acme" />
           <GhostSelect label="Add action..." />
-        </Section>
+        </div>
       </div>
     </Card>
-  );
-}
-
-function Field(props: { label: string; children: React.ReactNode }) {
-  const { label, children } = props;
-  return (
-    <label className="flex flex-col gap-1">
-      <span className="text-low text-xs">{label}</span>
-      {children}
-    </label>
-  );
-}
-
-function Input(props: { value: string }) {
-  const { value } = props;
-  return (
-    <div className="flex items-center justify-between rounded-lg border px-3 py-2 text-sm font-semibold shadow-xs">
-      <span className="truncate">{value}</span>
-    </div>
-  );
-}
-
-function Section(props: { label: string; children: React.ReactNode }) {
-  const { label, children } = props;
-  return (
-    <div className="space-y-2 rounded-lg border bg-(--neutral-1) p-3 shadow-xs">
-      <SectionBadge>{label}</SectionBadge>
-      <div className="space-y-2">{children}</div>
-    </div>
-  );
-}
-
-function SectionBadge(props: { children: React.ReactNode }) {
-  const { children } = props;
-  return (
-    <span className="inline-flex items-center gap-2 rounded-full bg-(--primary-3) px-2 py-1 text-[11px] font-semibold tracking-[0.06em] text-(--primary-11) uppercase">
-      <span className="size-2 rounded-full bg-(--primary-9)" aria-hidden />
-      {children}
-    </span>
-  );
-}
-
-function Checkbox(props: { label: string; checked?: boolean }) {
-  const { label, checked } = props;
-  return (
-    <div className="bg-app flex items-center gap-3 rounded-md border px-3 py-2 text-sm font-semibold shadow-xs">
-      <span
-        className={clsx(
-          "grid size-4 place-items-center rounded border",
-          checked
-            ? "border-(--primary-8) bg-(--primary-10) text-white"
-            : "border-(--neutral-7) bg-(--neutral-1)",
-        )}
-      >
-        {checked && "✓"}
-      </span>
-      <span className={checked ? "text-(--neutral-12)" : "text-low"}>
-        {label}
-      </span>
-    </div>
-  );
-}
-
-function SelectRow(props: {
-  label: string;
-  value: string;
-  tone: "success" | "warning";
-}) {
-  const { label, value, tone } = props;
-  const toneClass = {
-    success: "bg-(--success-3) text-(--success-11) border-(--success-7)",
-    warning: "bg-(--amber-3) text-(--amber-11) border-(--amber-7)",
-  }[tone];
-  return (
-    <div className="bg-app flex flex-wrap items-center justify-between gap-3 rounded-md border px-3 py-2 text-sm font-semibold shadow-xs">
-      <span>{label}</span>
-      <span
-        className={clsx(
-          "inline-flex items-center gap-2 rounded-full border px-2 py-1 text-xs",
-          toneClass,
-        )}
-      >
-        {value}
-      </span>
-    </div>
   );
 }
 
@@ -154,7 +58,7 @@ function ActionRow(props: { channel: string; workspace: string }) {
     <div className="bg-app space-y-2 rounded-md border px-3 py-2 shadow-xs">
       <div className="flex items-center gap-2">
         <div className="grid size-6 place-items-center rounded bg-white shadow-sm">
-          <SlackMark />
+          <Image src={slack} className="size-4" alt="" />
         </div>
         <div className="text-sm font-semibold">Send notification to Slack</div>
       </div>
@@ -166,30 +70,42 @@ function ActionRow(props: { channel: string; workspace: string }) {
   );
 }
 
-function TextButton(props: { children: React.ReactNode }) {
-  const { children } = props;
-  return (
-    <button className="text-sm font-semibold text-(--primary-10) underline decoration-1 underline-offset-2 transition hover:text-(--primary-11)">
-      {children}
-    </button>
-  );
-}
+function BuilderRow(props: {
+  icon: LucideIcon;
+  label: string;
+  value: string;
+  tone?: "primary" | "success" | "warning";
+  disabled?: boolean;
+}) {
+  const { icon: Icon, label, value, tone, disabled } = props;
+  const toneClass = tone
+    ? {
+        primary: "bg-(--primary-3) text-(--primary-11) border-(--primary-7)",
+        success: "bg-(--success-3) text-(--success-11) border-(--success-7)",
+        warning: "bg-(--amber-3) text-(--amber-11) border-(--amber-7)",
+      }[tone]
+    : "bg-(--neutral-2) text-(--neutral-11) border-(--neutral-7)";
 
-function GhostPill(props: { children: React.ReactNode }) {
-  const { children } = props;
   return (
-    <span className="rounded-lg border border-(--neutral-6) px-3 py-2 text-xs font-semibold text-(--neutral-11)">
-      {children}
-    </span>
-  );
-}
-
-function PrimaryPill(props: { children: React.ReactNode }) {
-  const { children } = props;
-  return (
-    <span className="rounded-lg bg-(--primary-10) px-3 py-2 text-xs font-semibold text-white shadow">
-      {children}
-    </span>
+    <div className="bg-app flex items-center justify-between gap-3 rounded-lg border px-3 py-2 shadow-xs">
+      <div className="flex items-center gap-3">
+        <span className="grid size-7 place-items-center rounded-full border bg-(--neutral-1) text-lg leading-none">
+          <Icon className="size-4" />
+        </span>
+        <div className="text-sm font-semibold">{label}</div>
+      </div>
+      <span
+        className={clsx(
+          "inline-flex min-w-[140px] items-center justify-center gap-2 rounded-full border px-3 py-1 text-xs font-semibold",
+          tone
+            ? toneClass
+            : "border-(--neutral-7) bg-(--neutral-2) text-(--neutral-11)",
+          disabled && "opacity-60",
+        )}
+      >
+        {value}
+      </span>
+    </div>
   );
 }
 
@@ -211,16 +127,5 @@ function Pill(props: {
     >
       {children}
     </span>
-  );
-}
-
-function SlackMark() {
-  return (
-    <div className="relative size-4">
-      <span className="absolute top-[6px] left-0 h-[5px] w-[10px] rounded-full bg-[#36C5F0]" />
-      <span className="absolute top-0 left-[6px] h-[10px] w-[5px] rounded-full bg-[#2EB67D]" />
-      <span className="absolute top-[6px] right-0 h-[5px] w-[10px] rounded-full bg-[#E01E5A]" />
-      <span className="absolute bottom-0 left-[6px] h-[10px] w-[5px] rounded-full bg-[#ECB22E]" />
-    </div>
   );
 }

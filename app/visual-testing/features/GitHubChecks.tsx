@@ -1,14 +1,8 @@
 import clsx from "clsx";
-import {
-  CheckCircle2Icon,
-  Clock3Icon,
-  MoreHorizontalIcon,
-  XCircleIcon,
-} from "lucide-react";
+import { CheckCircle2Icon, Clock3Icon, XCircleIcon } from "lucide-react";
 
 import { ArgosEmblem } from "@/components/ArgosEmblem";
 import { GitHubLogo } from "@/components/GitHubLogo";
-import { GitHubIcon } from "@/components/icons/GitHubIcon";
 
 type CheckStatus = "success" | "fail" | "pending" | "muted";
 type Provider = "argos" | "github" | "other";
@@ -57,17 +51,10 @@ const CHECKS: Array<{
 
 export function GitHubChecks() {
   return (
-    <div className="bg-app relative flex flex-col gap-3 rounded-2xl border p-4 shadow-xs md:p-5">
-      <div className="flex items-center gap-2 pl-1 text-sm font-semibold">
-        <GitHubIcon className="size-4" />
-        GitHub checks
-      </div>
-
-      <div className="space-y-2">
-        {CHECKS.map(({ key, ...check }) => (
-          <CheckRow key={key} {...check} />
-        ))}
-      </div>
+    <div className="w-full space-y-3">
+      {CHECKS.map(({ key, ...check }) => (
+        <CheckRow key={key} {...check} />
+      ))}
     </div>
   );
 }
@@ -84,7 +71,7 @@ function CheckRow(props: {
   return (
     <div
       className={clsx(
-        "flex items-center gap-3 rounded-xl border px-3 py-2 transition",
+        "flex items-center gap-3 rounded-xl border px-3 py-2 shadow-xs transition",
         {
           success: "border-(--success-7)/50 bg-(--success-2)",
           fail: "border-(--danger-7)/60 bg-(--danger-2)",
