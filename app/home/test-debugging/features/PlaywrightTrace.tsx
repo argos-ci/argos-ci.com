@@ -4,13 +4,12 @@ import clsx from "clsx";
 import { ArrowUpRightIcon, BugPlayIcon, PlayCircleIcon } from "lucide-react";
 import type { ComponentPropsWithoutRef } from "react";
 
-import { playwright } from "@/app/assets/sdk/library";
+import { playwright } from "@/app/assets/brands/library";
+import { Badge } from "@/components/Badge";
+import { Card } from "@/components/Card";
+import { DotIndicator } from "@/components/DotIndicator";
 import { ThemeImage } from "@/components/ThemeImage";
-
-import { Badge } from "../../common/Badge";
-import { Card } from "../../common/Card";
-import { DotIndicator } from "../../common/DotIndicator";
-import { Title } from "../../common/Title";
+import { SmallTitle } from "@/components/Typography";
 
 const events = [
   {
@@ -102,10 +101,10 @@ export function PlaywrightTrace() {
         )}
       >
         <div className="flex items-center justify-between gap-3">
-          <Title>
+          <SmallTitle>
             <DotIndicator variant="primary" />
             Trace viewer
-          </Title>
+          </SmallTitle>
           <Badge className="items-center gap-1.5">
             <ArrowUpRightIcon className="text-low size-3" />
             Open in new tab

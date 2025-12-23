@@ -1,24 +1,25 @@
 import clsx from "clsx";
 import { AlertCircleIcon, CheckCircle2Icon, XCircleIcon } from "lucide-react";
 
+import { github, gitlab } from "@/app/assets/brands/library";
 import { ArgosEmblem } from "@/components/ArgosEmblem";
-import { GitHubLogo } from "@/components/GitHubLogo";
-import { GitLabLogo } from "@/components/GitLabLogo";
+
+import { ThemeImage } from "./ThemeImage";
 
 export type Status = "pending" | "approved" | "rejected";
 
 const GitLabMark = () => {
   return (
-    <div className="flex h-8 w-8 items-center justify-center rounded-full border border-[#E24329] bg-[#fefefe]">
-      <GitLabLogo className="w-5" />
+    <div className="flex size-8 items-center justify-center rounded-full border border-[#E24329] bg-[#fefefe]">
+      <ThemeImage src={gitlab.logo} alt={gitlab.name} className="size-5" />
     </div>
   );
 };
 
 const GitHubMark = () => {
   return (
-    <div className="flex h-8 w-8 items-center justify-center rounded-full border border-[#1A1523] bg-[#fefefe]">
-      <GitHubLogo className="w-5" />
+    <div className="flex size-8 items-center justify-center rounded-full border border-[#1A1523] bg-[#fefefe]">
+      <ThemeImage src={github.logo} alt={github.name} className="size-5" />
     </div>
   );
 };

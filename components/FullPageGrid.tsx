@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-import type { FeatureColor } from "@/app/home/common/feature-section/colors";
+import type { FeatureColor } from "@/components/feature-section/colors";
 
 import { Grid } from "./Grid";
 
@@ -24,9 +24,9 @@ export function FullPageGrid(props: {
           className={clsx(
             "pointer-events-none absolute inset-x-px inset-y-0 -mt-4",
             {
-              blue: "bg-linear-to-t from-(--blue-3)",
-              amber: "bg-linear-to-t from-(--amber-3)",
-              teal: "bg-linear-to-t from-(--teal-3)",
+              blue: "bg-linear-to-t from-(--blue-3)/60",
+              amber: "bg-linear-to-t from-(--amber-3)/60",
+              teal: "bg-linear-to-t from-(--teal-3)/60",
             }[props.tint],
           )}
         />

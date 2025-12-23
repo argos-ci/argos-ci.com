@@ -7,7 +7,7 @@ import { useLiveRef } from "./useLiveRef";
 /**
  * Listen for scroll on the document.
  */
-export const useScrollListener = (listener: (event: Event) => void) => {
+export function useScrollListener(listener: (event: Event) => void) {
   const listenerRef = useLiveRef(listener);
   React.useEffect(() => {
     let ticking = false;
@@ -24,4 +24,4 @@ export const useScrollListener = (listener: (event: Event) => void) => {
       document.removeEventListener("scroll", listener);
     };
   }, [listenerRef]);
-};
+}

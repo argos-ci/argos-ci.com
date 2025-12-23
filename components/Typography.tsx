@@ -1,6 +1,22 @@
 import clsx from "clsx";
 import type { ComponentPropsWithRef } from "react";
 
+export function SmallTitle(
+  props: ComponentPropsWithRef<"div"> & {
+    children: React.ReactNode;
+  },
+) {
+  return (
+    <div
+      {...props}
+      className={clsx(
+        "flex items-center gap-2 text-xs font-semibold",
+        props.className,
+      )}
+    />
+  );
+}
+
 export function SectionTitle(props: ComponentPropsWithRef<"h2">) {
   return (
     <h2

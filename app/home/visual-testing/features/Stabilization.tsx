@@ -4,12 +4,12 @@ import clsx from "clsx";
 import { AlertTriangleIcon, CheckIcon } from "lucide-react";
 import type { ComponentPropsWithRef, ComponentPropsWithoutRef } from "react";
 
-import { ApplicationSVG } from "../../common/ApplicationSVG";
-import { Badge } from "../../common/Badge";
-import { Card } from "../../common/Card";
-import { ContainedIcon } from "../../common/ContainedIcon";
-import { DotIndicator } from "../../common/DotIndicator";
-import { Title } from "../../common/Title";
+import { ApplicationSVG } from "@/components/ApplicationSVG";
+import { Badge } from "@/components/Badge";
+import { Card } from "@/components/Card";
+import { ContainedIcon } from "@/components/ContainedIcon";
+import { DotIndicator } from "@/components/DotIndicator";
+import { SmallTitle } from "@/components/Typography";
 
 export function Stabilization() {
   return (
@@ -18,10 +18,10 @@ export function Stabilization() {
 
       <Card className="animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both relative flex flex-1 flex-col gap-3 p-3">
         <Header>
-          <Title>
+          <SmallTitle>
             <ContainedIcon variant="danger" icon={AlertTriangleIcon} />
             No stabilization
-          </Title>
+          </SmallTitle>
           <Badge>
             <DotIndicator variant="danger" />
             34 diffs
@@ -45,10 +45,10 @@ export function Stabilization() {
 
       <Card className="animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both relative flex flex-1 flex-col gap-3 p-3">
         <Header>
-          <Title>
+          <SmallTitle>
             <ContainedIcon variant="primary" icon={CheckIcon} />
             Stabilized
-          </Title>
+          </SmallTitle>
           <Badge>
             <DotIndicator variant="primary" />2 diffs
           </Badge>

@@ -9,8 +9,8 @@ import {
 } from "lucide-react";
 import type { ComponentPropsWithRef } from "react";
 
-import { Card } from "../../common/Card";
-import { Title } from "../../common/Title";
+import { Card } from "@/components/Card";
+import { SmallTitle } from "@/components/Typography";
 
 const chartData = [
   { x: 18, y: 12, a: 6, b: 6 },
@@ -40,7 +40,7 @@ export function AdvancedAnalytics(props: { className?: string }) {
       <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-3 md:p-0">
         <FlakinessScoreCard
           className={clsx(
-            "col-span-1 hidden sm:block",
+            "col-span-1 hidden sm:flex",
             "animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both",
           )}
         />
@@ -79,10 +79,10 @@ function FlakinessScoreCard(props: { className?: string }) {
   return (
     <Card className={clsx("flex flex-col", props.className)}>
       <CardHeader>
-        <Title>
+        <SmallTitle>
           <ActivityIcon className="text-low size-3" />
           Flakiness score
-        </Title>
+        </SmallTitle>
         <Description>Instantely see if a test is flaky or not.</Description>
       </CardHeader>
       <div className="flex flex-1 items-center justify-center">
@@ -141,10 +141,10 @@ function StatsCard(props: { className?: string }) {
   return (
     <Card className={clsx("flex flex-col", props.className)}>
       <CardHeader className="text-balance">
-        <Title>
+        <SmallTitle>
           <BarChart2Icon className="text-low size-3" />
           Build metrics
-        </Title>
+        </SmallTitle>
         <Description>
           Aggregated stability metrics across all builds.
         </Description>
@@ -163,10 +163,10 @@ function GraphCard(props: { className?: string }) {
   return (
     <Card className={clsx("flex flex-col", props.className)}>
       <CardHeader>
-        <Title>
+        <SmallTitle>
           <TrendingUpIcon className="text-low size-3" />
           Instability over time
-        </Title>
+        </SmallTitle>
         <Description>
           Tracks when and how often this snapshot becomes unstable.
         </Description>
@@ -182,10 +182,10 @@ function FirstLastSeenCard(props: { className?: string }) {
   return (
     <Card className={clsx(props.className)}>
       <CardHeader>
-        <Title>
+        <SmallTitle>
           <HistoryIcon className="text-low size-3" />
           Change history
-        </Title>
+        </SmallTitle>
         <Description>
           When this snapshot first appeared and when it last changed.
         </Description>

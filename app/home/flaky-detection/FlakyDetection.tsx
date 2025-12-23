@@ -2,8 +2,8 @@ import { ChartSplineIcon, FlagOffIcon, WavesIcon } from "lucide-react";
 
 import { muiQuote } from "@/app/assets/customers/library/mui";
 import { Button } from "@/components/Button";
+import { FeatureSection } from "@/components/feature-section/FeatureSection";
 
-import { FeatureSection } from "../common/feature-section/FeatureSection";
 import { AdvancedAnalytics } from "./features/AdvancedAnalytics";
 import { FlakyIndicator } from "./features/FlakyIndicator";
 import { IgnoreChanges } from "./features/IgnoreChanges";

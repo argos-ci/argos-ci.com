@@ -9,12 +9,12 @@ import {
 } from "lucide-react";
 import type { ComponentPropsWithRef, ComponentPropsWithoutRef } from "react";
 
-import { ApplicationSVG } from "../../common/ApplicationSVG";
-import { Badge } from "../../common/Badge";
-import { Card } from "../../common/Card";
-import { ContainedIcon } from "../../common/ContainedIcon";
-import { DotIndicator } from "../../common/DotIndicator";
-import { Title } from "../../common/Title";
+import { ApplicationSVG } from "@/components/ApplicationSVG";
+import { Badge } from "@/components/Badge";
+import { Card } from "@/components/Card";
+import { ContainedIcon } from "@/components/ContainedIcon";
+import { DotIndicator } from "@/components/DotIndicator";
+import { SmallTitle } from "@/components/Typography";
 
 export function IgnoreChanges() {
   return (
@@ -33,10 +33,10 @@ export function IgnoreChanges() {
         )}
       >
         <Header>
-          <Title>
+          <SmallTitle>
             <ContainedIcon variant="danger" icon={AlertTriangleIcon} />
             Flaky build
-          </Title>
+          </SmallTitle>
           <Badge>
             <DotIndicator variant="danger" />1 diff
           </Badge>
@@ -69,10 +69,10 @@ export function IgnoreChanges() {
         )}
       >
         <Header>
-          <Title>
+          <SmallTitle>
             <ContainedIcon variant="success" icon={CheckIcon} />
             Next build
-          </Title>
+          </SmallTitle>
           <Badge>
             <DotIndicator variant="success" />
             No changes detected

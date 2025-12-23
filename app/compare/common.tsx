@@ -22,12 +22,8 @@ import {
 } from "@/components/Feature";
 import { FullPageGrid } from "@/components/FullPageGrid";
 import { Hero, HeroDescription, HeroHeading } from "@/components/Hero";
-
-import {
-  SectionHeader,
-  SectionHeaderTexts,
-} from "../home/common/SectionHeader";
-import { SectionDescription, SectionTitle } from "../home/common/Typography";
+import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
+import { SectionDescription, SectionTitle } from "@/components/Typography";
 
 type EmblemProps = {
   emblemSrc: string;

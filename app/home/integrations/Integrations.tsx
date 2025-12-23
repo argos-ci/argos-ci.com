@@ -4,11 +4,11 @@ import Link from "next/link";
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 import { Grid } from "@/components/Grid";
+import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
 import { ThemeImage, type ThemeImageProps } from "@/components/ThemeImage";
 import { Tooltip } from "@/components/Tooltip";
+import { SectionDescription, SectionTitle } from "@/components/Typography";
 
-import { SectionHeader, SectionHeaderTexts } from "../common/SectionHeader";
-import { SectionDescription, SectionTitle } from "../common/Typography";
 import githubDark from "./assets/github-dark.svg";
 import githubLight from "./assets/github-light.svg";
 import gitlab from "./assets/gitlab.svg";

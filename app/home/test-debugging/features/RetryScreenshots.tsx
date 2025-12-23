@@ -4,14 +4,14 @@ import clsx from "clsx";
 import { CheckCircle2Icon, RefreshCwIcon, XCircleIcon } from "lucide-react";
 import type { ComponentPropsWithoutRef } from "react";
 
-import { cypress, playwright } from "@/app/assets/sdk/library";
-import type { SDK } from "@/app/assets/sdk/types";
+import { cypress, playwright } from "@/app/assets/brands/library";
+import type { Brand } from "@/app/assets/brands/types";
+import { Badge } from "@/components/Badge";
+import { Card } from "@/components/Card";
+import { Chip } from "@/components/Chip";
+import { DotIndicator } from "@/components/DotIndicator";
 import { ThemeImage } from "@/components/ThemeImage";
-
-import { Badge } from "../../common/Badge";
-import { Card } from "../../common/Card";
-import { DotIndicator } from "../../common/DotIndicator";
-import { Title } from "../../common/Title";
+import { SmallTitle } from "@/components/Typography";
 
 const retries = [
   {
@@ -82,10 +82,10 @@ export function RetryScreenshots() {
             "animate-fade-in-right motion-reduce:animate-fade-in animate-delay-250 animate-duration-500 fill-mode-both",
           )}
         >
-          <Title>
+          <SmallTitle>
             <DotIndicator variant="success" />
             Compare retries
-          </Title>
+          </SmallTitle>
 
           <div className="grid gap-3 md:grid-cols-2">
             {screenshots.map((screenshot) => (
@@ -105,7 +105,7 @@ export function RetryScreenshots() {
   );
 }
 
-function SDKBubble(props: { sdk: SDK }) {
+function SDKBubble(props: { sdk: Brand }) {
   return (
     <div className="bg-app flex size-11 items-center justify-center rounded-full border">
       <ThemeImage
@@ -166,17 +166,19 @@ function ScreenshotCard(props: {
     <div className="bg-app flex flex-col gap-2 rounded-lg border px-3 py-3 shadow-xs">
       <div className="flex items-center justify-between text-[11px] font-semibold text-(--neutral-12)">
         <span>{label}</span>
-        <span
-          className={clsx(
-            "rounded-full px-2 py-0.5",
+        <Chip
+          variant={
+            { pass: "success" as const, fail: "danger" as const }[status]
+          }
+          icon={
             {
-              fail: "bg-(--danger-3) text-(--danger-10)",
-              pass: "bg-(--success-3) text-(--success-10)",
-            }[status],
-          )}
+              fail: XCircleIcon,
+              pass: CheckCircle2Icon,
+            }[status]
+          }
         >
           {{ fail: "Failed", pass: "Passed" }[status]}
-        </span>
+        </Chip>
       </div>
 
       <div
@@ -189,16 +191,6 @@ function ScreenshotCard(props: {
         )}
       >
         <div className="flex items-start gap-2 text-xs font-medium">
-          {
-            {
-              fail: (
-                <XCircleIcon className="mt-px size-4 shrink-0 text-(--danger-10)" />
-              ),
-              pass: (
-                <CheckCircle2Icon className="mt-px size-4 shrink-0 text-(--success-10)" />
-              ),
-            }[status]
-          }
           {caption}
         </div>
         <div className="mt-3 hidden space-y-2 md:block">

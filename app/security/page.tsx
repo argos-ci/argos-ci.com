@@ -8,14 +8,11 @@ import { Container } from "@/components/Container";
 import { FAQAccordion } from "@/components/FAQAccordion";
 import { FullPageGrid } from "@/components/FullPageGrid";
 import { Hero, HeroDescription, HeroHeading } from "@/components/Hero";
+import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
+import { SectionDescription, SectionTitle } from "@/components/Typography";
 import { getMetadata } from "@/lib/metadata";
 
 import { TrustedBy } from "../common/TrustedBy";
-import {
-  SectionHeader,
-  SectionHeaderTexts,
-} from "../home/common/SectionHeader";
-import { SectionDescription, SectionTitle } from "../home/common/Typography";
 import aicpa from "./aicpa.png";
 import gdprCompliant from "./gdpr-compliant.png";
 import { GDPRFeatures, GDPR_FEATURES } from "./gdpr-features";

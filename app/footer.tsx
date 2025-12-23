@@ -6,11 +6,13 @@ import { ArgosLogo } from "@/components/ArgosLogo";
 import { ColorModeSelector } from "@/components/ColorModeSelector";
 import { Container } from "@/components/Container";
 import { StatusWidget } from "@/components/StatusWidget";
+import { ThemeImage } from "@/components/ThemeImage";
 import { DiscordIcon } from "@/components/icons/DiscordIcon";
 import { GdprLogo } from "@/components/icons/GdprLogo";
-import { GitHubIcon } from "@/components/icons/GitHubIcon";
 import { Soc2Logo } from "@/components/icons/Soc2Logo";
 import { XIcon } from "@/components/icons/XIcon";
+
+import { github } from "./assets/brands/library";
 
 const FooterSection = twc.div`my-2 flex flex-1 grow basis-36 flex-col gap-2 whitespace-nowrap`;
 const FooterSectionTitle = twc.div`mb-1 font-medium`;
@@ -63,7 +65,11 @@ export const AppFooter: React.FC = () => (
           </div>
           <div className="flex items-center gap-3">
             <FooterIconLink href="https://github.com/argos-ci/argos">
-              <GitHubIcon className="size-5" />
+              <ThemeImage
+                alt={github.name}
+                src={github.logo}
+                className="size-5"
+              />
             </FooterIconLink>
             <FooterIconLink
               href="https://twitter.com/argos_ci"

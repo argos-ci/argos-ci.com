@@ -2,8 +2,8 @@ import { GroupIcon, ScanEyeIcon, ThumbsUpIcon } from "lucide-react";
 
 import { mermaidQuote } from "@/app/assets/customers/library/mermaid";
 import { Button } from "@/components/Button";
+import { FeatureSection } from "@/components/feature-section/FeatureSection";
 
-import { FeatureSection } from "../common/feature-section/FeatureSection";
 import { FastApprovalFlow } from "./features/FastApprovalFlow";
 import { GroupedDiffs } from "./features/GroupedDiffs";
 import { Stabilization } from "./features/Stabilization";

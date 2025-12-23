@@ -15,6 +15,8 @@ import * as React from "react";
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 import { LocalDollar } from "@/components/IntlFormat";
+import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
+import { SectionDescription, SectionTitle } from "@/components/Typography";
 import { useInViewport } from "@/components/useInViewport";
 import {
   ARGOS_PRO_FLAT_PRICE,
@@ -22,9 +24,6 @@ import {
   ARGOS_SCREENSHOT_PRICE,
   ARGOS_STORYBOOK_SCREENSHOT_PRICE,
 } from "@/lib/constants";
-
-import { SectionHeader, SectionHeaderTexts } from "../common/SectionHeader";
-import { SectionDescription, SectionTitle } from "../common/Typography";
 
 const DEFAULT_SCENARIO_ID = "playwright-100k-storybook-100k";
 const TURBO_SNAP_RATIO = 1 / 5;

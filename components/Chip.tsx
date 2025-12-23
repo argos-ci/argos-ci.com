@@ -1,48 +1,47 @@
 import clsx from "clsx";
-import { ChevronRightIcon } from "lucide-react";
-import {
-  Children,
-  ComponentPropsWithRef,
-  ReactElement,
-  cloneElement,
-} from "react";
+import { ComponentPropsWithRef } from "react";
 
 export interface ChipProps extends ComponentPropsWithRef<"div"> {
   icon?: React.ComponentType<{ className?: string }>;
-  clickable?: boolean;
-  asChild?: boolean;
+  variant?: ChipVariant;
 }
 
-export function Chip({
-  ref,
-  children,
-  clickable,
-  asChild,
-  icon: Icon,
-  className,
-  ...props
-}: ChipProps) {
-  const child = asChild
-    ? Children.only(children as ReactElement<{ children: React.ReactNode }>)
-    : null;
-  const renderProps = {
-    className: clsx(
-      className,
-      "group/chip inline-flex items-center gap-2 text-primary-300 bg-primary-900/50 rounded-2xl text-sm font-medium py-2 px-4 no-underline w-fit",
-      clickable && "hover:bg-primary-900 transition",
-    ),
-    children: (
-      <>
-        {Icon && <Icon className="h-[1em] w-[1em]" />}
-        {child ? child.props.children : children}
-        {clickable ? (
-          <ChevronRightIcon className="h-[1em] w-[1em] opacity-50 transition group-hover/chip:translate-x-1 group-hover/chip:scale-110 group-hover/chip:opacity-100" />
-        ) : null}
-      </>
-    ),
-  };
-  if (asChild) {
-    return cloneElement(Children.only(children as ReactElement), renderProps);
-  }
-  return <div ref={ref} {...renderProps} {...props} />;
+type ChipVariant =
+  | "success"
+  | "danger"
+  | "primary"
+  | "pending"
+  | "warning"
+  | "neutral";
+
+const variantClassNames: Record<ChipVariant, string> = {
+  success: "border-(--success-7) bg-(--success-2) text-(--success-11)",
+  danger: "border-(--danger-7) bg-(--danger-2) text-(--danger-11)",
+  primary: "border-(--primary-7) bg-(--primary-2) text-(--primary-11)",
+  neutral: "border-(--neutral-7) bg-(--neutral-2) text-(--neutral-11)",
+  pending: "border-(--amber-7) bg-(--amber-2) text-(--amber-11)",
+  warning: "border-(--amber-7) bg-(--amber-2) text-(--amber-11)",
+};
+
+export function Chip(props: ChipProps) {
+  const {
+    variant = "neutral",
+    children,
+    icon: Icon,
+    className,
+    ...rest
+  } = props;
+  return (
+    <div
+      className={clsx(
+        "group/chip inline-flex w-fit items-center gap-[0.5em] rounded-[0.8em] border-[0.5px] px-[0.75em] py-[0.15em] font-medium no-underline",
+        variantClassNames[variant],
+        className,
+      )}
+      {...rest}
+    >
+      {Icon && <Icon className="h-[1em] w-[1em]" />}
+      {children}
+    </div>
+  );
 }

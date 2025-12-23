@@ -1,14 +1,14 @@
 import clsx from "clsx";
 import { GitBranchIcon, MessageSquareIcon, RocketIcon } from "lucide-react";
-import Image from "next/image";
 
-import slack from "@/app/assets/slack.svg";
-import { Card } from "@/app/home/common/Card";
-import { DotIndicator } from "@/app/home/common/DotIndicator";
+import { gitlab, slack } from "@/app/assets/brands/library";
 import { ArgosEmblem } from "@/components/ArgosEmblem";
-import { GitHubLogo } from "@/components/GitHubLogo";
+import { Card } from "@/components/Card";
+import { Chip } from "@/components/Chip";
+import { DotIndicator } from "@/components/DotIndicator";
+import { ThemeImage } from "@/components/ThemeImage";
 
-type TimelineTone = "success" | "attention" | "pending" | "muted" | "primary";
+type TimelineTone = "success" | "danger" | "pending" | "neutral" | "primary";
 type IconName = "commit" | "argos" | "comment" | "slack" | "deploy";
 
 const STEPS: Array<{
@@ -71,7 +71,7 @@ const toneStyles: Record<
     icon: "border-(--success-7) bg-(--success-2) text-(--success-11)",
     card: "border-(--success-6)/60",
   },
-  attention: {
+  danger: {
     stripe: "bg-gradient-to-b from-(--danger-8) to-(--danger-6)",
     pill: "border-(--danger-7) bg-(--danger-2) text-(--danger-11)",
     icon: "border-(--danger-7) bg-(--danger-2) text-(--danger-11)",
@@ -89,7 +89,7 @@ const toneStyles: Record<
     icon: "border-(--amber-7) bg-(--amber-2) text-(--amber-11)",
     card: "border-(--amber-6)/60",
   },
-  muted: {
+  neutral: {
     stripe: "bg-gradient-to-b from-(--neutral-7) to-(--neutral-5)",
     pill: "border-(--neutral-7) bg-(--neutral-2) text-(--neutral-11)",
     icon: "border-(--neutral-7) bg-(--neutral-2) text-(--neutral-11)",
@@ -137,7 +137,7 @@ function TimelineStep(props: (typeof STEPS)[number]) {
             <span>{title}</span>
           </div>
           <p className="text-low mt-1 text-sm leading-relaxed">{description}</p>
-          {tone === "attention" ? (
+          {tone === "danger" ? (
             <div className="mt-3 grid gap-1 text-[11px] font-semibold text-(--neutral-12)">
               <MiniStat label="15 snapshots changed" />
               <MiniStat label="2 added views" />
@@ -155,7 +155,7 @@ function StepMarker(props: { tone: TimelineTone; icon: IconName }) {
   return (
     <span
       className={clsx(
-        "grid size-8 place-items-center rounded-full border bg-white shadow-[0_14px_35px_-24px_rgba(0,0,0,0.5)]",
+        "bg-app grid size-8 place-items-center rounded-full border shadow-[0_14px_35px_-24px_rgba(0,0,0,0.5)]",
         toneClass.icon,
       )}
     >
@@ -176,26 +176,19 @@ function StepIcon(props: { icon: IconName }) {
     return <MessageSquareIcon className="size-3" aria-hidden />;
   }
   if (icon === "slack") {
-    return <Image src={slack} className="size-3" alt="" />;
+    return (
+      <ThemeImage src={slack.logo} className="size-3" alt="" aria-hidden />
+    );
   }
   if (icon === "deploy") {
     return <RocketIcon className="size-3" aria-hidden />;
   }
-  return <GitHubLogo className="size-3" aria-hidden />;
+  return <ThemeImage src={gitlab.logo} alt="" className="size-3" aria-hidden />;
 }
 
 function StatusPill(props: { tone: TimelineTone; children: React.ReactNode }) {
   const { tone, children } = props;
-  return (
-    <span
-      className={clsx(
-        "inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-semibold",
-        toneStyles[tone].pill,
-      )}
-    >
-      {children}
-    </span>
-  );
+  return <Chip variant={tone}>{children}</Chip>;
 }
 
 function MiniStat(props: { label: string }) {

@@ -1,8 +1,10 @@
 import clsx from "clsx";
 import { CheckCircle2Icon, Clock3Icon, XCircleIcon } from "lucide-react";
 
+import { github } from "@/app/assets/brands/library";
 import { ArgosEmblem } from "@/components/ArgosEmblem";
-import { GitHubLogo } from "@/components/GitHubLogo";
+import { Chip } from "@/components/Chip";
+import { ThemeImage } from "@/components/ThemeImage";
 
 type CheckStatus = "success" | "fail" | "pending" | "muted";
 type Provider = "argos" | "github" | "other";
@@ -84,11 +86,7 @@ function CheckRow(props: {
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap items-center gap-2 text-sm font-semibold text-(--neutral-12)">
           <span className="truncate">{title}</span>
-          {required ? (
-            <span className="bg-app text-low inline-flex items-center rounded-full border px-2 text-[0.6rem]">
-              Required
-            </span>
-          ) : null}
+          {required ? <Chip className="text-[0.6rem]">Required</Chip> : null}
         </div>
         <div className="text-low mt-0.5 text-xs">{description}</div>
       </div>
@@ -109,7 +107,7 @@ function ProviderMark(props: { provider: Provider }) {
   if (provider === "github") {
     return (
       <div className="grid size-9 place-items-center rounded-lg border border-(--neutral-6)/70 bg-(--neutral-2)">
-        <GitHubLogo className="size-4" aria-hidden />
+        <ThemeImage alt="" src={github.logo} className="size-4" aria-hidden />
       </div>
     );
   }

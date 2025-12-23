@@ -2,15 +2,19 @@ import clsx from "clsx";
 import { ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
 
-import { cypress, playwright, storybook, wdio } from "@/app/assets/sdk/library";
-import type { SDK } from "@/app/assets/sdk/types";
+import {
+  cypress,
+  playwright,
+  storybook,
+  wdio,
+} from "@/app/assets/brands/library";
+import type { Brand } from "@/app/assets/brands/types";
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 import { Grid } from "@/components/Grid";
+import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
 import { ThemeImage } from "@/components/ThemeImage";
-
-import { SectionHeader, SectionHeaderTexts } from "../common/SectionHeader";
-import { SectionDescription, SectionTitle } from "../common/Typography";
+import { SectionDescription, SectionTitle } from "@/components/Typography";
 
 export function FeaturedSDKs() {
   return (
@@ -65,7 +69,7 @@ export function FeaturedSDKs() {
 
 function SdkCard(props: {
   href: string;
-  sdk: SDK;
+  sdk: Brand;
   borderColor: string;
   bgColor: string;
 }) {

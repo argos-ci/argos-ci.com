@@ -1,11 +1,13 @@
 import clsx from "clsx";
 
-import cloudflare from "@/app/assets/cloudflare.svg";
-import vercel from "@/app/assets/vercel.svg";
+import {
+  cloudflare,
+  github,
+  gitlab,
+  vercel,
+} from "@/app/assets/brands/library";
 import { ArgosEmblem } from "@/components/ArgosEmblem";
-import { GitLabLogo } from "@/components/GitLabLogo";
 import { ThemeImage } from "@/components/ThemeImage";
-import { GitHubIcon } from "@/components/icons/GitHubIcon";
 
 type FlowPoint = { x: number; y: number };
 
@@ -35,10 +37,15 @@ export function DeploymentPreviewFlow() {
         style={toPercent(FLOW_POSITIONS.vercel)}
       >
         <FlowNode
-          label="Vercel Preview"
+          label="Vercel"
           detail="Deployment ready"
           logo={
-            <ThemeImage alt="" src={vercel} className="size-5" aria-hidden />
+            <ThemeImage
+              alt=""
+              src={vercel.logo}
+              className="size-5"
+              aria-hidden
+            />
           }
           tone="dark"
         />
@@ -48,12 +55,12 @@ export function DeploymentPreviewFlow() {
         style={toPercent(FLOW_POSITIONS.cloudflare)}
       >
         <FlowNode
-          label="Cloudflare Preview"
+          label="Cloudflare"
           detail="Edge deployed"
           logo={
             <ThemeImage
               alt=""
-              src={cloudflare}
+              src={cloudflare.logo}
               className="size-8"
               aria-hidden
             />
@@ -74,7 +81,7 @@ export function DeploymentPreviewFlow() {
         <FlowNode
           label="GitHub Checks"
           detail="Status reported"
-          logo={<GitHubIcon className="size-5" />}
+          logo={<ThemeImage alt="" src={github.logo} className="size-5" />}
           tone="dark"
         />
       </div>
@@ -85,7 +92,7 @@ export function DeploymentPreviewFlow() {
         <FlowNode
           label="GitLab Pipeline"
           detail="Checks updated"
-          logo={<GitLabLogo className="size-5" />}
+          logo={<ThemeImage alt="" src={gitlab.logo} className="size-5" />}
           tone="rose"
         />
       </div>
@@ -186,17 +193,22 @@ function FlowNode(props: {
 }) {
   const { logo, label, detail, tone } = props;
   const toneClass = {
-    dark: "border-(--neutral-8) bg-(--neutral-1) text-(--neutral-12) shadow-[0_10px_25px_-18px_rgba(40,40,40,0.6)]",
-    blue: "border-(--primary-7) bg-(--primary-1) text-(--primary-12) shadow-[0_10px_25px_-18px_rgba(80,62,255,0.7)]",
+    dark: "border-(--neutral-8) bg-(--neutral-1) shadow-[0_10px_25px_-18px_rgba(40,40,40,0.6)]",
+    blue: "border-(--primary-7) bg-(--primary-1) shadow-[0_10px_25px_-18px_rgba(80,62,255,0.7)]",
     amber:
-      "border-(--amber-7) bg-(--amber-1) text-(--amber-12) shadow-[0_10px_25px_-18px_rgba(255,159,10,0.45)]",
-    rose: "border-(--danger-7) bg-(--danger-1) text-(--danger-11) shadow-[0_10px_25px_-18px_rgba(220,38,38,0.35)]",
+      "border-(--amber-7) bg-(--amber-1) shadow-[0_10px_25px_-18px_rgba(255,159,10,0.45)]",
+    rose: "border-(--danger-7) bg-(--danger-1) shadow-[0_10px_25px_-18px_rgba(220,38,38,0.35)]",
   }[tone];
 
   return (
-    <div className={clsx("bg-app rounded-xl border px-4 py-3", toneClass)}>
+    <div
+      className={clsx(
+        "bg-app rounded-xl border px-4 py-3 whitespace-nowrap",
+        toneClass,
+      )}
+    >
       <div className="flex items-center gap-3">
-        <span className="grid size-10 place-items-center rounded-lg border bg-white text-lg">
+        <span className="bg-app grid size-10 shrink-0 place-items-center rounded-lg border text-lg">
           {logo}
         </span>
         <div className="min-w-0">

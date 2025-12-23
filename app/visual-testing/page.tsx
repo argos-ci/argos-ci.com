@@ -12,15 +12,12 @@ import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 import { FullPageGrid } from "@/components/FullPageGrid";
 import { Hero, HeroDescription, HeroHeading } from "@/components/Hero";
+import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
+import { SectionDescription, SectionTitle } from "@/components/Typography";
+import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
 import { getMetadata } from "@/lib/metadata";
 
 import { TrustedBy } from "../common/TrustedBy";
-import {
-  SectionHeader,
-  SectionHeaderTexts,
-} from "../home/common/SectionHeader";
-import { SectionDescription, SectionTitle } from "../home/common/Typography";
-import { FeatureIndicator } from "../home/common/feature-section/FeatureSection";
 import { CITimeline } from "./features/CITimeline";
 import { DeploymentPreviewFlow } from "./features/DeploymentPreviewFlow";
 import { GitHubChecks } from "./features/GitHubChecks";

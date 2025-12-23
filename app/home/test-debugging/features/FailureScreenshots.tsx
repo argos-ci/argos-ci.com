@@ -3,12 +3,11 @@
 import clsx from "clsx";
 import { CheckCircle2Icon, XCircleIcon, XIcon } from "lucide-react";
 
-import { cypress, playwright } from "@/app/assets/sdk/library";
-import type { SDK } from "@/app/assets/sdk/types";
+import { cypress, playwright } from "@/app/assets/brands/library";
+import type { Brand } from "@/app/assets/brands/types";
+import { Badge } from "@/components/Badge";
+import { Card } from "@/components/Card";
 import { ThemeImage } from "@/components/ThemeImage";
-
-import { Badge } from "../../common/Badge";
-import { Card } from "../../common/Card";
 
 export function FailureScreenshots() {
   return (
@@ -88,7 +87,7 @@ export function FailureScreenshots() {
   );
 }
 
-function SDKBubble(props: { sdk: SDK }) {
+function SDKBubble(props: { sdk: Brand }) {
   return (
     <div className="bg-app flex items-center justify-center rounded-full border p-2">
       <ThemeImage

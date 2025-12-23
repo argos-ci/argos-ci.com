@@ -2,8 +2,9 @@ import clsx from "clsx";
 import Link from "next/link";
 import type React from "react";
 
-import { Card } from "@/app/home/common/Card";
 import { ArgosEmblem } from "@/components/ArgosEmblem";
+import { Card } from "@/components/Card";
+import { Chip } from "@/components/Chip";
 
 type BuildStatus = "approved" | "clean";
 
@@ -60,7 +61,7 @@ function CommentCard() {
           .
         </p>
 
-        <div className="overflow-hidden rounded border shadow-xs">
+        <div className="overflow-hidden rounded border">
           <table className="w-full border-collapse text-sm">
             <thead className="bg-(--neutral-2)">
               <tr>
@@ -102,20 +103,15 @@ function CommentCard() {
 function BuildStatusPill(props: { status: BuildStatus }) {
   const { status } = props;
 
-  const pillStyle = {
-    approved: "text-(--success-11) bg-(--success-3) border-(--success-7)",
-    clean: "text-(--success-11) bg-(--success-3) border-(--success-7)",
-  }[status];
-
   return (
-    <span
-      className={clsx(
-        "inline-flex items-center gap-2 rounded-full border px-2 py-0.5 text-xs font-semibold",
-        pillStyle,
-      )}
+    <Chip
+      variant={
+        { approved: "success" as const, clean: "neutral" as const }[status]
+      }
+      className="text-xs"
     >
       {{ approved: "Changes approved", clean: "No changes detected" }[status]}
-    </span>
+    </Chip>
   );
 }
 

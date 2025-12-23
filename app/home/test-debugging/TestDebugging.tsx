@@ -2,8 +2,8 @@ import { BugPlayIcon, ImageOffIcon, RotateCcwIcon } from "lucide-react";
 
 import { leMondeQuote } from "@/app/assets/customers/library/le-monde";
 import { Button } from "@/components/Button";
+import { FeatureSection } from "@/components/feature-section/FeatureSection";
 
-import { FeatureSection } from "../common/feature-section/FeatureSection";
 import { FailureScreenshots } from "./features/FailureScreenshots";
 import { PlaywrightTrace } from "./features/PlaywrightTrace";
 import { RetryScreenshots } from "./features/RetryScreenshots";

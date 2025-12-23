@@ -5,15 +5,12 @@ import { Container } from "@/components/Container";
 import { FullPageGrid } from "@/components/FullPageGrid";
 import { Hero, HeroDescription, HeroHeading } from "@/components/Hero";
 import { Link } from "@/components/Link";
+import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
+import { SectionDescription, SectionTitle } from "@/components/Typography";
 import { getMetadata } from "@/lib/metadata";
 
 import { PricingSlider } from "../common/PricingSlider";
 import { TrustedBy } from "../common/TrustedBy";
-import {
-  SectionHeader,
-  SectionHeaderTexts,
-} from "../home/common/SectionHeader";
-import { SectionDescription, SectionTitle } from "../home/common/Typography";
 import { PricingCards } from "./PricingCard";
 import { FAQ } from "./PricingFaq";
 

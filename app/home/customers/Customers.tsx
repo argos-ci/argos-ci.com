@@ -14,10 +14,9 @@ import type {
 } from "@/app/assets/customers/types";
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
+import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
 import { ThemeImage } from "@/components/ThemeImage";
-
-import { SectionHeader, SectionHeaderTexts } from "../common/SectionHeader";
-import { SectionDescription, SectionTitle } from "../common/Typography";
+import { SectionDescription, SectionTitle } from "@/components/Typography";
 
 export function Customers() {
   return (
