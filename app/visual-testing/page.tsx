@@ -80,7 +80,7 @@ export default function Page() {
                 consistent across GitHub and GitLab.
               </>
             }
-            href="/docs/pull-request-comments"
+            href="/docs/github"
             illustration={<GitHubChecks />}
           />
           <FeatureGridFeature
@@ -122,7 +122,7 @@ export default function Page() {
                 request, and your production baseline stays clean and reliable.
               </>
             }
-            href="/docs/pull-request-comments"
+            href="/docs/run-on-preview-deployment"
             illustration={<DeploymentPreviewFlow />}
           />
         </FeatureGrid>
@@ -138,7 +138,7 @@ export default function Page() {
                 before they land on main.
               </>
             }
-            href="/docs/pull-request-comments"
+            href="/docs/github"
             icon={GitMergeIcon}
           />
           <FeatureGridFeatureSmall
@@ -149,7 +149,7 @@ export default function Page() {
                 the full workflow.
               </>
             }
-            href="/docs/pull-request-comments"
+            href="/docs/github"
             icon={RotateCcwIcon}
           />
           <FeatureGridFeatureSmall
@@ -160,7 +160,7 @@ export default function Page() {
                 exposing secrets with tokenless authentication.
               </>
             }
-            href="/docs/pull-request-comments"
+            href="/docs/github"
             icon={ShieldCheckIcon}
           />
         </Container>

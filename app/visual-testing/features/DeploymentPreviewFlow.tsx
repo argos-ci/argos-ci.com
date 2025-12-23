@@ -203,15 +203,15 @@ function FlowNode(props: {
   return (
     <div
       className={clsx(
-        "bg-app rounded-xl border px-4 py-3 whitespace-nowrap",
+        "bg-app rounded-xl border p-2 whitespace-nowrap",
         toneClass,
       )}
     >
       <div className="flex items-center gap-3">
-        <span className="bg-app grid size-10 shrink-0 place-items-center rounded-lg border text-lg">
+        <span className="bg-app grid size-10 shrink-0 place-items-center rounded-lg sm:border">
           {logo}
         </span>
-        <div className="min-w-0">
+        <div className="min-w-0 max-sm:hidden">
           <div className="truncate text-sm font-semibold">{label}</div>
           <div className="text-low text-xs">{detail}</div>
         </div>

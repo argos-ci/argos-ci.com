@@ -78,7 +78,7 @@ function CommentCard() {
                       <span>{build.name}</span>
                       <Link
                         href="https://app.argos-ci.com/jsfez/snkr-shop-2/builds/98/96709653"
-                        className="font-semibold text-(--primary-10) underline decoration-1 underline-offset-2 hover:text-(--primary-11)"
+                        className="font-semibold text-(--primary-10) underline decoration-1 underline-offset-2 hover:text-(--primary-11) max-sm:hidden"
                       >
                         Inspect
                       </Link>

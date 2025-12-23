@@ -86,7 +86,9 @@ function BuilderRow(props: {
         </span>
         <div className="font-semibold">{label}</div>
       </div>
-      <Chip variant={tone}>{value}</Chip>
+      <Chip variant={tone} className="text-xs sm:text-sm">
+        {value}
+      </Chip>
     </div>
   );
 }
