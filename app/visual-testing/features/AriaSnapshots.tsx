@@ -196,9 +196,14 @@ function DiffRow(props: { line: DiffLine }) {
       <div className="flex flex-1 items-start gap-2">
         <DotIndicator
           variant={
-            { added: "primary", removed: "danger", changed: "warning" }[
-              line.kind
-            ] || "neutral"
+            line.kind
+              ? {
+                  added: "primary" as const,
+                  removed: "danger" as const,
+                  changed: "warning" as const,
+                  context: "neutral" as const,
+                }[line.kind]
+              : "neutral"
           }
           className="mt-0.5"
         />
