@@ -72,19 +72,21 @@ export function FeaturesCarousel(props: {
   return (
     <div ref={ref} className="bg-subtle border-y">
       <div className="relative h-60 overflow-hidden sm:h-110">
-        <div className="relative size-full">
-          {features.map((feature, index) => {
-            return (
-              <FeaturePanel
-                key={feature.key}
-                direction={state.direction[index]}
-                isCurrent={index === state.index}
-                isVisible={inViewport}
-              >
-                {feature.main}
-              </FeaturePanel>
-            );
-          })}
+        <div className="relative size-full" role="presentation">
+          <div className="size-full mask-intersect max-sm:mask-[linear-gradient(black_70%,transparent),linear-gradient(90deg,transparent,black_20%,black_80%,transparent)]">
+            {features.map((feature, index) => {
+              return (
+                <FeaturePanel
+                  key={feature.key}
+                  direction={state.direction[index]}
+                  isCurrent={index === state.index}
+                  isVisible={inViewport}
+                >
+                  {feature.main}
+                </FeaturePanel>
+              );
+            })}
+          </div>
         </div>
       </div>
       <div

@@ -31,7 +31,7 @@ export function GitHubComment() {
 
 function CommentCard() {
   return (
-    <Card className="relative flex flex-col" shadow="shadow-lg">
+    <Card className="relative flex flex-col" shadow="shadow-md">
       <div className="flex items-center gap-2 border-b-[0.5px] px-3 py-2 text-xs">
         <div className="flex items-center gap-2">
           <div className="grid size-6 place-items-center rounded border bg-(--primary-2)">

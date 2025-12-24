@@ -23,6 +23,7 @@
     "@radix-ui/react-tooltip": "^1.2.8",
     "@radix-ui/react-visually-hidden": "^1.2.4",
     "@shikijs/rehype": "^3.20.0",
+    "@shikijs/transformers": "^3.20.0",
     "clsx": "^2.1.1",
     "fast-glob": "^3.3.3",
     "geist": "^1.5.1",

@@ -1,10 +1,11 @@
+"use client";
+
 import clsx from "clsx";
 import { GitBranchIcon, MessageSquareIcon, RocketIcon } from "lucide-react";
 
 import { gitlab, slack } from "@/app/assets/brands/library";
 import { ArgosEmblem } from "@/components/ArgosEmblem";
 import { Card } from "@/components/Card";
-import { Chip } from "@/components/Chip";
 import { DotIndicator } from "@/components/DotIndicator";
 import { ThemeImage } from "@/components/ThemeImage";
 
@@ -97,9 +98,9 @@ const toneStyles: Record<
   },
 };
 
-export function CITimeline() {
+export function CIIntegration() {
   return (
-    <div className="relative mx-auto w-full max-w-5xl overflow-hidden mask-b-from-80%">
+    <div className="relative mx-auto w-full max-w-3xl">
       <div className="space-y-4">
         {STEPS.map(({ key, ...step }) => (
           <TimelineStep key={key} {...step} />
@@ -110,7 +111,7 @@ export function CITimeline() {
 }
 
 function TimelineStep(props: (typeof STEPS)[number]) {
-  const { icon, tone, title, meta, description, badge, highlight } = props;
+  const { icon, tone, title, description, highlight } = props;
   const toneClass = toneStyles[tone];
 
   return (
@@ -127,11 +128,7 @@ function TimelineStep(props: (typeof STEPS)[number]) {
         <div
           className={clsx("absolute inset-y-0 left-0 w-1", toneClass.stripe)}
         />
-        <div className="text-low flex flex-wrap items-center gap-2 px-4 pt-3 text-xs">
-          <StatusPill tone={tone}>{badge}</StatusPill>
-          <span className="text-low">{meta}</span>
-        </div>
-        <div className="px-4 pt-1 pb-4">
+        <div className="p-4 py-2">
           <div className="flex items-center gap-2 text-sm font-semibold text-(--neutral-12)">
             {highlight ? <DotIndicator variant="primary" /> : null}
             <span>{title}</span>
@@ -184,11 +181,6 @@ function StepIcon(props: { icon: IconName }) {
     return <RocketIcon className="size-3" aria-hidden />;
   }
   return <ThemeImage src={gitlab.logo} alt="" className="size-3" aria-hidden />;
-}
-
-function StatusPill(props: { tone: TimelineTone; children: React.ReactNode }) {
-  const { tone, children } = props;
-  return <Chip variant={tone}>{children}</Chip>;
 }
 
 function MiniStat(props: { label: string }) {

@@ -46,18 +46,7 @@ const LOG_LINES: Array<{
 
 export function StorybookCIVitest() {
   return (
-    <div className="relative isolate mx-auto grid w-full max-w-5xl grid-cols-1 gap-4 md:grid-cols-[1.1fr,0.9fr]">
-      <Glow position="left" />
-      <Glow position="right" />
-      <VitestTerminal />
-      {/* <ArgosBuild /> */}
-    </div>
-  );
-}
-
-function VitestTerminal() {
-  return (
-    <Card className="relative" shadow="shadow-lg">
+    <Card className="relative" shadow="shadow-md">
       <div className="relative flex items-center justify-between border-b-[0.5px] px-3 py-2 text-[11px] font-semibold">
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1.5">
@@ -83,7 +72,7 @@ function VitestTerminal() {
           Running
         </Chip>
       </div>
-      <div className="relative space-y-1.5 px-3 py-3 font-mono text-[11px] leading-relaxed">
+      <div className="relative space-y-1.5 mask-b-from-70% p-3 font-mono text-[11px] leading-relaxed max-sm:h-60">
         {LOG_LINES.map((line) => (
           <TerminalLine key={line.text} {...line} />
         ))}
@@ -115,20 +104,5 @@ function TerminalLine(props: {
       </span>
       <span className="flex-1">{text}</span>
     </div>
-  );
-}
-function Glow(props: { position: "left" | "right" }) {
-  const { position } = props;
-  return (
-    <div
-      className={clsx(
-        "pointer-events-none absolute h-40 w-40 rounded-full blur-3xl",
-        {
-          left: "top-8 -left-16 bg-(--primary-4)/25",
-          right: "-right-12 bottom-6 bg-(--blue-4)/25",
-        }[position],
-      )}
-      aria-hidden
-    />
   );
 }

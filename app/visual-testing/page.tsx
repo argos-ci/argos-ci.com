@@ -2,11 +2,16 @@ import clsx from "clsx";
 import {
   CloudIcon,
   GitMergeIcon,
+  GitPullRequestIcon,
+  HistoryIcon,
+  KeyboardIcon,
   LayersIcon,
   type LucideIcon,
   RotateCcwIcon,
+  ScanSearchIcon,
   ScanTextIcon,
   ShieldCheckIcon,
+  SlidersHorizontalIcon,
   SlidersIcon,
   ZapIcon,
 } from "lucide-react";
@@ -14,29 +19,42 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 import { Button } from "@/components/Button";
+import { Chip } from "@/components/Chip";
 import { Container } from "@/components/Container";
 import { FullPageGrid } from "@/components/FullPageGrid";
-import { Hero, HeroDescription, HeroHeading } from "@/components/Hero";
+import {
+  Hero,
+  HeroActions,
+  HeroDescription,
+  HeroHeading,
+} from "@/components/Hero";
 import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
+import { ThemeImage } from "@/components/ThemeImage";
 import { SectionDescription, SectionTitle } from "@/components/Typography";
 import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
 import { FeaturesCarousel } from "@/components/feature-section/FeaturesCarousel";
 import { getMetadata } from "@/lib/metadata";
 
+import { playwright, storybook } from "../assets/brands/library";
 import { TrustedBy } from "../common/TrustedBy";
 import { AriaSnapshots } from "./features/AriaSnapshots";
 import { BrowserCoverage } from "./features/BrowserCoverage";
 import { CITimeline } from "./features/CITimeline";
 import { DeploymentPreviewFlow } from "./features/DeploymentPreviewFlow";
+import { DiffsReview } from "./features/DiffsReview";
 import { GitHubChecks } from "./features/GitHubChecks";
 import { GitHubComment } from "./features/GitHubComment";
+import { GroupedDiffs } from "./features/GroupedDiffs";
+import { InstantDiffInspector } from "./features/InstantDiffInspector";
 import { IntegratedRuns } from "./features/IntegratedRuns";
 import { PlayFunctionScreenshot } from "./features/PlayFunctionScreenshot";
+import { ReviewHistory } from "./features/ReviewHistory";
 import { ScreenshotsStayInCI } from "./features/ScreenshotsStayInCI";
 import { SlackNotification } from "./features/SlackNotification";
 import { StoryModes } from "./features/StoryModes";
 import { StorybookCIVitest } from "./features/StorybookCIVitest";
 import { StorybookSnapshots } from "./features/StorybookSnapshots";
+import { TestContext } from "./features/TestContext";
 
 export const metadata: Metadata = getMetadata({
   title: "Visual Testing for modern CI",
@@ -51,8 +69,8 @@ export default function Page() {
   return (
     <>
       <div className="overflow-hidden border-b px-4">
-        <Container className="relative py-16 md:h-90 md:py-24">
-          <FullPageGrid height="h-200 md:h-90" tint={color} />
+        <Container className="relative py-16 md:h-120 md:py-24">
+          <FullPageGrid height="h-200 md:h-120" tint={color} />
           <Hero align="center" className="relative">
             <div className={clsx("rounded-full border px-3 py-1.5")}>
               <FeatureIndicator color={color}>Visual Testing</FeatureIndicator>
@@ -64,13 +82,138 @@ export default function Page() {
               Catch visual regressions automatically, review changes fast, and
               trust every deployment across browsers, devices, and environments.
             </HeroDescription>
+            <HeroActions>
+              <Button size="large" asChild>
+                <Link href="https://app.argos-ci.com/signup">
+                  Start for free
+                </Link>
+              </Button>
+              <Button size="large" variant="outline" asChild>
+                <Link href="https://cal.com/gregberge">Get a demo</Link>
+              </Button>
+            </HeroActions>
           </Hero>
         </Container>
       </div>
       <TrustedBy />
       <section className="border-b px-4">
+        <Container className="border-x bg-linear-to-b from-transparent to-(--neutral-2) pb-12">
+          <SectionHeader align="center" className="container-gutter max-w-2xl">
+            <Chip>
+              <ScanSearchIcon className="size-4" />
+              Diffs Review
+            </Chip>
+            <SectionHeaderTexts>
+              <SectionTitle>Review diffs at full speed</SectionTitle>
+              <SectionDescription>
+                A review experience built for high volume visual testing. Side
+                by side and overlay modes, smart zoom and highlights, keyboard
+                shortcuts, masks, grouping, and a clean approval flow so you can
+                merge confidently in seconds.
+              </SectionDescription>
+            </SectionHeaderTexts>
+          </SectionHeader>
+          <DiffsReview />
+        </Container>
+      </section>
+      <section className="px-4">
+        <FeatureGrid>
+          <FeatureGridFeature
+            title={<>Find and inspect changes instantly</>}
+            description={
+              <>
+                Side by side and overlay views with synchronized zoom, plus a
+                built in changes highlighter. Jump from diff to diff, see
+                exactly what changed, and inspect details without losing
+                context.
+              </>
+            }
+            href="/docs/github"
+            illustration={<InstantDiffInspector />}
+          />
+          <FeatureGridFeature
+            title={<>Review history</>}
+            description={
+              <>
+                See what changed, who approved, and when. Keep a reliable audit
+                trail for releases and regressions.
+              </>
+            }
+            href="/docs/pull-request-comments"
+            illustration={<ReviewHistory />}
+          />
+        </FeatureGrid>
+        <FeatureGrid>
+          <FeatureGridFeature
+            title={<>Test context</>}
+            description={
+              <>
+                Every diff comes with the details you need: URL, viewport, color
+                mode, and your own annotations to understand intent instantly.
+              </>
+            }
+            href="/docs/slack"
+            illustration={<TestContext />}
+          />
+          <FeatureGridFeature
+            title={<>Diffs grouping</>}
+            description={
+              <>
+                Group related screenshots so you review once, not fifty times.
+                Keep PRs readable even when the UI changes ripple across pages.
+              </>
+            }
+            href="/docs/run-on-preview-deployment"
+            illustration={<GroupedDiffs />}
+          />
+        </FeatureGrid>
+        <Container
+          noGutter
+          className="relative grid grid-cols-1 border-x border-b max-md:divide-y md:grid-cols-3 md:divide-x"
+        >
+          <FeatureGridFeatureSmall
+            title="Review history"
+            description={
+              <>
+                See what changed, who approved, and when. Keep a reliable audit
+                trail for releases and regressions.
+              </>
+            }
+            href="/docs/github"
+            icon={HistoryIcon}
+          />
+          <FeatureGridFeatureSmall
+            title="Keyboard shortcuts"
+            description={
+              <>
+                Review at the speed of thought. Approve, reject, mask, and
+                navigate without leaving the keyboard.
+              </>
+            }
+            href="/docs/github"
+            icon={KeyboardIcon}
+          />
+          <FeatureGridFeatureSmall
+            title="Overlay customization"
+            description={
+              <>
+                Tune the overlay to your needs. Adjust opacity, colors, and
+                blending to isolate real visual changes and ignore noise.
+              </>
+            }
+            href="/docs/github"
+            icon={SlidersHorizontalIcon}
+          />
+        </Container>
+        <Container className="h-12 border-x" />
+      </section>
+      <section className="border-b px-4">
         <Container className="border-x">
           <SectionHeader align="center" className="container-gutter max-w-2xl">
+            <Chip>
+              <ThemeImage src={playwright.logo} alt="" className="size-6" />
+              Playwright
+            </Chip>
             <SectionHeaderTexts>
               <SectionTitle>Playwright at scale, without friction</SectionTitle>
               <SectionDescription>
@@ -115,6 +258,10 @@ export default function Page() {
       <section className="border-b px-4">
         <Container className="border-x bg-linear-to-b from-transparent to-(--neutral-2) pb-12">
           <SectionHeader align="center" className="container-gutter max-w-2xl">
+            <Chip>
+              <ThemeImage src={storybook.logo} alt="" className="size-6" />
+              Storybook
+            </Chip>
             <SectionHeaderTexts>
               <SectionTitle>Visual testing for Storybook</SectionTitle>
               <SectionDescription>
@@ -230,6 +377,10 @@ export default function Page() {
       <section className="border-b px-4">
         <Container className="border-x bg-linear-to-b from-transparent to-(--neutral-2) pb-12">
           <SectionHeader align="center" className="container-gutter max-w-2xl">
+            <Chip>
+              <GitPullRequestIcon className="size-4" />
+              Continuous Integration
+            </Chip>
             <SectionHeaderTexts>
               <SectionTitle>Built into your delivery flow</SectionTitle>
               <SectionDescription>

@@ -1,5 +1,7 @@
+"use client";
+
 import clsx from "clsx";
-import { ArrowLeftRightIcon, ScanTextIcon } from "lucide-react";
+import { GitBranchIcon, ScanTextIcon } from "lucide-react";
 
 import { Badge } from "@/components/Badge";
 import { Card } from "@/components/Card";
@@ -110,66 +112,64 @@ const PR_LINES: DiffLine[] = [
 
 export function AriaSnapshots() {
   return (
-    <div className="relative isolate mx-auto w-full max-w-5xl p-2">
-      <Glow position="left" />
-      <Glow position="right" />
-      <Card className="relative h-[420px] overflow-hidden border bg-[linear-gradient(120deg,--alpha(var(--primary-3)/35%),var(--neutral-1))] shadow-md md:h-[450px]">
-        <div className="grid h-full items-start gap-4 p-3 md:grid-cols-2 md:gap-5 md:p-5">
-          <DiffColumn
-            title="Baseline from production"
-            caption="5 days ago"
-            lines={BASELINE_LINES}
-            variant="left"
-          />
-          <DiffColumn
-            title="Changes from main"
-            caption="a day ago"
-            lines={PR_LINES}
-            variant="right"
-          />
-        </div>
-      </Card>
+    <div className="grid h-full items-start gap-4 p-3 md:grid-cols-2 md:gap-5 md:p-5">
+      <DiffColumn
+        title={
+          <SmallTitle>
+            <GitBranchIcon className="size-3" />
+            Baseline from main
+            <span className="text-low font-normal">5 days ago</span>
+          </SmallTitle>
+        }
+        lines={BASELINE_LINES}
+        variant="left"
+        className="animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both max-sm:hidden"
+      />
+      <DiffColumn
+        title={
+          <SmallTitle>
+            <GitBranchIcon className="size-3" />
+            Changes from feature-x
+            <span className="text-low font-normal max-sm:hidden">
+              one day ago
+            </span>
+          </SmallTitle>
+        }
+        lines={PR_LINES}
+        variant="right"
+        className="animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both sm:animate-delay-250"
+      />
     </div>
   );
 }
 
 function DiffColumn(props: {
-  title: string;
-  caption: string;
+  title: React.ReactNode;
   lines: DiffLine[];
   variant: "left" | "right";
+  className?: string;
 }) {
-  const { title, caption, lines, variant } = props;
+  const { title, lines, variant, className } = props;
   return (
-    <div className="relative flex h-full flex-col overflow-hidden rounded-2xl border border-(--neutral-6)/60 bg-white/85 shadow-xs">
-      <div className="flex items-center justify-between border-b border-(--neutral-6)/60 px-3 py-1.5">
-        <SmallTitle className="gap-2 text-[11px] text-(--neutral-12)">
-          <Badge className="border-(--neutral-6)/60 bg-(--neutral-2)/80 text-[11px] text-(--neutral-11)">
-            <ScanTextIcon className="size-3.5" aria-hidden />
-            {title}
-          </Badge>
-          <span className="text-low text-[10px] font-semibold">{caption}</span>
-        </SmallTitle>
-        <Badge className="border-(--primary-6)/60 bg-(--primary-2)/70 text-[11px] text-(--primary-10)">
-          <ArrowLeftRightIcon className="size-3" aria-hidden />
+    <Card
+      className={clsx(
+        "relative m-auto flex h-full max-h-80 max-w-100 flex-col overflow-hidden",
+        className,
+      )}
+    >
+      <div className="flex items-center justify-between border-b-[0.5px] px-3 py-1.5">
+        {title}
+        <Badge className="text-low text-[11px]">
+          <ScanTextIcon className="size-3" aria-hidden />
           ARIA snapshot
         </Badge>
       </div>
-      <div className="relative">
-        <div
-          className="absolute inset-y-0 right-3 w-1 rounded-full bg-(--neutral-6)/40"
-          aria-hidden
-        />
-        <div className="space-y-[2px] overflow-hidden mask-b-from-80% p-3 font-mono text-[11px] leading-[1.45] text-(--neutral-12) md:max-h-[360px]">
-          {lines.map((line) => (
-            <DiffRow
-              key={`${variant}-${line.number}-${line.text}`}
-              line={line}
-            />
-          ))}
-        </div>
+      <div className="relative space-y-0.5 overflow-hidden mask-b-from-80% p-3 font-mono text-[11px] leading-[1.45]">
+        {lines.map((line) => (
+          <DiffRow key={`${variant}-${line.number}-${line.text}`} line={line} />
+        ))}
       </div>
-    </div>
+    </Card>
   );
 }
 
@@ -186,14 +186,14 @@ function DiffRow(props: { line: DiffLine }) {
   return (
     <div
       className={clsx(
-        "flex items-stretch gap-2.5 overflow-hidden rounded-md border px-2.5 py-1.5",
+        "flex items-stretch gap-2.5 overflow-hidden rounded-md border px-1 py-1.5",
         tone,
       )}
     >
-      <span className="w-8 shrink-0 text-right text-[10px] font-semibold text-(--neutral-9)">
+      <span className="w-8 shrink-0 text-right text-(--neutral-9)">
         {line.number}
       </span>
-      <div className="flex flex-1 items-start gap-2">
+      <div className="flex flex-1 items-center gap-2">
         <DotIndicator
           variant={
             line.kind
@@ -205,26 +205,9 @@ function DiffRow(props: { line: DiffLine }) {
                 }[line.kind]
               : "neutral"
           }
-          className="mt-0.5"
         />
-        <span className="leading-[1.45] whitespace-pre">{line.text}</span>
+        <span className="whitespace-pre">{line.text}</span>
       </div>
     </div>
-  );
-}
-
-function Glow(props: { position: "left" | "right" }) {
-  const { position } = props;
-  return (
-    <div
-      className={clsx(
-        "pointer-events-none absolute h-48 w-48 rounded-full blur-3xl",
-        {
-          left: "top-4 -left-10 bg-(--primary-4)/18",
-          right: "-right-16 bottom-6 bg-(--blue-4)/18",
-        }[position],
-      )}
-      aria-hidden
-    />
   );
 }

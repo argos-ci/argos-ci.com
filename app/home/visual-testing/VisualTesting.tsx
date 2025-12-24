@@ -1,11 +1,12 @@
-import { GroupIcon, ScanEyeIcon, ThumbsUpIcon } from "lucide-react";
+import { GitPullRequestIcon, ScanEyeIcon, ThumbsUpIcon } from "lucide-react";
+import Link from "next/link";
 
 import { mermaidQuote } from "@/app/assets/customers/library/mermaid";
 import { Button } from "@/components/Button";
 import { FeatureSection } from "@/components/feature-section/FeatureSection";
 
+import { CIIntegration } from "./features/CIIntegration";
 import { FastApprovalFlow } from "./features/FastApprovalFlow";
-import { GroupedDiffs } from "./features/GroupedDiffs";
 import { Stabilization } from "./features/Stabilization";
 
 export function VisualTesting() {
@@ -27,22 +28,26 @@ export function VisualTesting() {
           main: <FastApprovalFlow />,
         },
         {
-          key: "grouped-diffs",
-          icon: <GroupIcon />,
-          title: "Grouped diffs",
-          text: "Similar changes are grouped, so you review once and move on.",
-          main: <GroupedDiffs />,
+          key: "ci-flow",
+          icon: <GitPullRequestIcon />,
+          title: "CI integration",
+          text: "Visual checks integrated directly into your CI, from commit to deploy.",
+          main: <CIIntegration />,
         },
       ]}
       color="blue"
       featureName="Visual Testing"
       title="Spot every change"
       description={`Catch, compare, and review visual changes.\nStay focused on real differences and skip the noise.`}
-      cta={<Button variant="outline">Explore Visual Testing</Button>}
       story={{
         quote: mermaidQuote,
         href: "/customers/mermaid",
       }}
+      cta={
+        <Button variant="outline" asChild>
+          <Link href="/visual-testing">Explore Visual Testing</Link>
+        </Button>
+      }
     />
   );
 }

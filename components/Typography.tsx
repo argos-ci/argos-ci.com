@@ -10,7 +10,7 @@ export function SmallTitle(
     <div
       {...props}
       className={clsx(
-        "flex items-center gap-2 text-xs font-semibold",
+        "flex items-center gap-2 text-xs font-medium",
         props.className,
       )}
     />

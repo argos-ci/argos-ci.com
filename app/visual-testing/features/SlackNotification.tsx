@@ -1,9 +1,15 @@
-import { CheckCircleIcon, type LucideIcon, ZapIcon } from "lucide-react";
+import {
+  CheckCircleIcon,
+  type LucideIcon,
+  WorkflowIcon,
+  ZapIcon,
+} from "lucide-react";
 
 import { slack } from "@/app/assets/brands/library";
 import { Card } from "@/components/Card";
 import { Chip } from "@/components/Chip";
 import { ThemeImage } from "@/components/ThemeImage";
+import { SmallTitle } from "@/components/Typography";
 
 export function SlackNotification() {
   return (
@@ -19,9 +25,12 @@ export function SlackNotification() {
 
 function AutomationBuilder() {
   return (
-    <Card className="overflow-hidden border" shadow="shadow-lg">
-      <div className="border-b-[0.5px] px-3 py-2 text-sm font-semibold">
-        Automations builder
+    <Card className="overflow-hidden border" shadow="shadow-md">
+      <div className="border-b-[0.5px] px-3 py-2">
+        <SmallTitle>
+          <WorkflowIcon className="size-3" />
+          Automations builder
+        </SmallTitle>
       </div>
 
       <div className="space-y-3 p-3">

@@ -1,254 +1,125 @@
-import clsx from "clsx";
-import { HardDriveIcon, ShieldCheckIcon, XCircleIcon } from "lucide-react";
+"use client";
+
+import {
+  ArrowRightIcon,
+  CheckCircle2Icon,
+  CloudIcon,
+  LockIcon,
+  ScanIcon,
+} from "lucide-react";
+import type { ReactNode } from "react";
 
 import { playwright } from "@/app/assets/brands/library";
-import { ArgosEmblem } from "@/components/ArgosEmblem";
 import { Badge } from "@/components/Badge";
 import { Card } from "@/components/Card";
 import { Chip } from "@/components/Chip";
-import { DotIndicator } from "@/components/DotIndicator";
 import { ThemeImage } from "@/components/ThemeImage";
-import { SmallTitle } from "@/components/Typography";
-
-type Tone = "primary" | "success" | "warning" | "neutral";
-
-const FLOW = [
-  {
-    title: "Playwright captures snapshots",
-    meta: "cart.spec.ts · shard 3/6",
-    tone: "primary" as Tone,
-    pill: "Inside CI",
-  },
-  {
-    title: "Synced straight to Argos",
-    meta: "12 screenshots · 18s",
-    tone: "success" as Tone,
-    pill: "No artifacts",
-  },
-  {
-    title: "Diffs reviewed from the run",
-    meta: "Status posted back to PR",
-    tone: "neutral" as Tone,
-    pill: "No repo noise",
-  },
-];
-
-const SNAPSHOTS = [
-  {
-    name: "dashboard.png",
-    meta: "desktop · light theme",
-    status: "Diff ready",
-    tone: "primary" as Tone,
-    className: "z-30 translate-y-0 md:translate-y-0",
-  },
-  {
-    name: "checkout.png",
-    meta: "mobile · dark theme",
-    status: "Approved",
-    tone: "success" as Tone,
-    className:
-      "z-20 -translate-y-3 -rotate-2 md:-translate-y-6 md:-rotate-3",
-  },
-  {
-    name: "profile.png",
-    meta: "preview env",
-    status: "Pending",
-    tone: "warning" as Tone,
-    className:
-      "z-10 translate-y-3 rotate-2 md:translate-y-6 md:rotate-3",
-  },
-];
-
-const toneClasses: Record<Tone, string> = {
-  primary:
-    "border-(--primary-6)/70 bg-[radial-gradient(circle_at_20%_20%,rgba(80,62,255,0.12),transparent_45%),var(--neutral-1)] text-(--neutral-12)",
-  success:
-    "border-(--success-6)/60 bg-[radial-gradient(circle_at_20%_20%,rgba(39,174,96,0.12),transparent_45%),var(--neutral-1)] text-(--neutral-12)",
-  warning:
-    "border-(--amber-6)/60 bg-[radial-gradient(circle_at_20%_20%,rgba(248,180,0,0.14),transparent_45%),var(--neutral-1)] text-(--neutral-12)",
-  neutral: "border-(--neutral-6)/70 bg-(--neutral-1) text-(--neutral-12)",
-};
 
 export function ScreenshotsStayInCI() {
   return (
-    <div className="relative mx-auto w-full max-w-5xl px-3">
-      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_10%_10%,rgba(80,62,255,0.14),transparent_35%),radial-gradient(circle_at_90%_30%,rgba(80,62,255,0.12),transparent_35%)]" />
-
-      <Card className="relative overflow-hidden border-(--primary-6)/70 bg-[linear-gradient(180deg,var(--neutral-1),var(--neutral-2))] shadow-lg">
-        <div className="pointer-events-none absolute inset-6 rounded-3xl border border-dashed border-(--primary-6)/60" />
-
-        <div className="relative grid items-center gap-6 px-5 py-6 md:grid-cols-[1.1fr_0.9fr] md:px-10">
-          <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              <span className="grid size-11 place-items-center rounded-2xl border border-(--neutral-6)/70 bg-white shadow-xs">
-                <ThemeImage src={playwright.logo} alt="" className="size-6" />
-              </span>
-              <div className="min-w-0">
-                <SmallTitle className="leading-tight">
-                  Playwright run in CI
-                </SmallTitle>
-                <p className="text-low text-xs">
-                  Screenshots generated where your tests already live.
-                </p>
-              </div>
-              <Chip variant="primary" className="ml-auto px-3 py-[2px] text-[11px]">
-                CI workspace
-              </Chip>
-            </div>
-
-            <Card className="overflow-hidden border-(--neutral-6)/60 bg-white/90 shadow-sm">
-              {FLOW.map((flow) => (
-                <FlowRow key={flow.title} {...flow} />
-              ))}
-            </Card>
-
-            <div className="grid gap-3 md:grid-cols-2">
-              <Card className="relative overflow-hidden border-(--primary-6)/70 bg-[linear-gradient(135deg,rgba(80,62,255,0.12),transparent_55%),var(--neutral-1)] shadow-sm">
-                <div className="flex items-center gap-2 px-4 pt-3">
-                  <ArgosEmblem className="size-4 w-auto text-(--primary-10)" />
-                  <SmallTitle className="text-sm font-semibold">
-                    Review happens inside the run
-                  </SmallTitle>
-                </div>
-                <div className="grid gap-2 px-4 pb-4 text-xs font-semibold text-(--neutral-12)">
-                  <MiniStat label="18 snapshots ready" />
-                  <MiniStat label="0 files pushed to git" icon="no-commit" />
-                </div>
-              </Card>
-
-              <Card className="flex items-center gap-3 border-(--neutral-6)/70 bg-white/85 px-4 py-3 shadow-sm">
-                <span className="grid size-9 place-items-center rounded-xl border border-dashed border-(--neutral-7)/60 bg-(--neutral-2)">
-                  <HardDriveIcon className="size-4 text-(--neutral-11)" />
-                </span>
-                <div className="min-w-0">
-                  <div className="text-sm font-semibold text-(--neutral-12)">
-                    No artifacts to clean up
-                  </div>
-                  <p className="text-low text-xs">
-                    Screenshots never leave the CI container.
-                  </p>
-                </div>
-                <Chip
-                  variant="neutral"
-                  className="ml-auto border-dashed px-2 py-[2px] text-[11px]"
-                >
-                  Ephemeral
-                </Chip>
-              </Card>
-            </div>
-          </div>
-
-          <div className="relative">
-            <div className="absolute -left-6 -right-6 top-10 h-32 rounded-full bg-(--primary-5)/15 blur-3xl" />
-            <div className="relative h-full min-h-[18rem]">
-              {SNAPSHOTS.map((shot) => (
-                <ScreenshotCard key={shot.name} {...shot} />
-              ))}
-              <Badge className="absolute -right-2 -bottom-2 flex items-center gap-2 border-dashed border-(--neutral-6)/70 bg-white/90 text-xs font-semibold text-(--neutral-11) shadow-xs">
-                <ShieldCheckIcon className="size-3.5 text-(--primary-10)" />
-                Linked to this CI job
-              </Badge>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-2 border-t border-(--neutral-6)/70 bg-(--neutral-2)/50 px-5 py-3 md:px-10">
-          <Chip variant="primary" className="px-3 py-[3px] text-[11px]">
-            Screenshots stay inside CI
-          </Chip>
-          <Chip variant="success" className="px-3 py-[3px] text-[11px]">
-            Review without artifact juggling
-          </Chip>
-          <Chip variant="neutral" className="px-3 py-[3px] text-[11px]">
-            No files committed back to git
-          </Chip>
-        </div>
-      </Card>
+    <div className="relative isolate flex w-full max-w-5xl flex-wrap items-center justify-center gap-4 px-3 py-5 md:gap-6 md:px-6">
+      <PlaywrightNode />
+      <SecureArrow />
+      <StorageNode />
     </div>
   );
 }
 
-function FlowRow(props: (typeof FLOW)[number]) {
-  const { title, meta, tone, pill } = props;
+function PlaywrightNode() {
   return (
-    <div className="flex items-start gap-3 border-b border-(--neutral-6)/60 px-4 py-3 last:border-none">
-      <span className="grid size-8 place-items-center rounded-full border border-(--neutral-6)/60 bg-(--neutral-2)">
-        <DotIndicator variant={tone === "warning" ? "warning" : tone} />
-      </span>
-      <div className="flex-1 min-w-0">
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="text-sm font-semibold text-(--neutral-12)">
-            {title}
+    <Card className="animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both relative flex min-w-56 flex-col gap-3 overflow-hidden p-4 max-sm:hidden">
+      <div
+        className="absolute top-6 -left-10 h-16 w-16 rounded-full bg-(--primary-3)/35 blur-3xl"
+        aria-hidden
+      />
+      <div className="flex items-center gap-2">
+        <div className="bg-app grid place-items-center rounded-xl border-[0.5px] border-(--neutral-6)/70 p-2 shadow-sm">
+          <ThemeImage src={playwright.logo} alt="" className="size-6" />
+        </div>
+        <div className="flex flex-col leading-tight">
+          <span className="text-[12px] tracking-wide text-(--neutral-9) uppercase">
+            CI job
           </span>
-          <Chip variant={tone} className="px-2 py-[2px] text-[11px]">
-            {pill}
-          </Chip>
+          <span className="text-sm font-semibold text-(--neutral-12)">
+            Playwright Tests
+          </span>
         </div>
-        <div className="text-low text-xs">{meta}</div>
       </div>
-    </div>
-  );
-}
-
-function ScreenshotCard(props: (typeof SNAPSHOTS)[number]) {
-  const { name, meta, status, tone, className } = props;
-  return (
-    <Card
-      className={clsx(
-        "absolute left-1/2 w-full max-w-96 -translate-x-1/2 overflow-hidden shadow-md transition-transform duration-500",
-        toneClasses[tone],
-        className,
-      )}
-    >
-      <div className="flex items-center justify-between gap-2 border-b border-(--neutral-6)/60 px-4 py-2 text-xs font-semibold text-(--neutral-12)">
-        <span className="truncate">{name}</span>
-        <span className="inline-flex items-center gap-2">
-          <Badge className="border-(--neutral-6)/70 bg-white/80 text-[11px] font-semibold">
-            CI-only path
-          </Badge>
-          <ArgosEmblem className="size-3.5 w-auto text-(--primary-10)" />
-        </span>
-      </div>
-
-      <div className="space-y-3 px-4 py-3">
-        <div className="rounded-lg border border-(--neutral-6)/60 bg-[linear-gradient(145deg,var(--neutral-1),var(--neutral-2))] p-2 shadow-xs">
-          <div className="mb-2 flex items-center justify-between text-[11px] font-semibold text-(--neutral-11)">
-            <span>{meta}</span>
-            <span className="flex items-center gap-2">
-              <span className="size-1.5 rounded-full bg-(--primary-8)" />
-              viewport.png
-            </span>
-          </div>
-          <div className="h-24 rounded-md border border-(--neutral-6)/70 bg-[linear-gradient(120deg,rgba(80,62,255,0.09),transparent_55%),linear-gradient(90deg,var(--neutral-3) 0%,var(--neutral-1) 60%)] shadow-inner">
-            <div className="h-full w-full bg-[radial-gradient(circle_at_30%_35%,rgba(80,62,255,0.18),transparent_32%),radial-gradient(circle_at_70%_60%,rgba(80,62,255,0.16),transparent_36%)]" />
-          </div>
+      <div className="rounded-xl border border-(--primary-6)/60 bg-(--primary-2)/60 p-2 shadow-inner">
+        <div className="grid grid-cols-2 gap-2 text-[11px] font-semibold text-(--neutral-12)">
+          <MiniPill label="Test suite" />
+          <MiniPill
+            label="Screenshots"
+            icon={<ScanIcon className="size-3" />}
+          />
         </div>
-
-        <div className="flex items-center justify-between text-xs font-semibold text-(--neutral-12)">
-          <div className="flex items-center gap-2">
-            <DotIndicator variant={tone === "warning" ? "warning" : tone} />
-            {status}
-          </div>
-          <div className="inline-flex items-center gap-1 rounded-full border border-(--neutral-6)/60 bg-white/80 px-2 py-[2px]">
-            <XCircleIcon className="size-3 text-(--neutral-10)" />
-            <span className="text-[11px]">Not committed</span>
-          </div>
+        <div className="mt-2 flex items-center gap-2 rounded-lg border border-dashed border-(--primary-6)/70 bg-(--primary-1)/70 px-2 py-1.5 text-[11px] text-(--primary-11)">
+          <span
+            className="h-1.5 w-1.5 rounded-full bg-(--primary-9)"
+            aria-hidden
+          />
+          <span>Screenshots generated inside your run</span>
         </div>
       </div>
     </Card>
   );
 }
 
-function MiniStat(props: { label: string; icon?: "no-commit" }) {
+function MiniPill(props: { label: string; icon?: ReactNode }) {
   const { label, icon } = props;
   return (
-    <div className="flex items-center gap-2 rounded-lg border border-(--primary-6)/60 bg-white/90 px-3 py-2 shadow-xs">
-      {icon === "no-commit" ? (
-        <XCircleIcon className="size-4 text-(--neutral-11)" aria-hidden />
-      ) : (
-        <ShieldCheckIcon className="size-4 text-(--primary-10)" aria-hidden />
-      )}
-      <span>{label}</span>
+    <div className="bg-app flex items-center justify-between gap-2 rounded-lg border border-(--neutral-6)/70 px-2 py-1 shadow-[0_6px_20px_-14px_rgba(0,0,0,0.5)]">
+      <span className="text-(--neutral-11)">{label}</span>
+      {icon}
     </div>
+  );
+}
+
+function SecureArrow() {
+  return (
+    <div className="animate-fade-in animate-delay-500 motion-reduce:animate-fade-in animate-duration-500 fill-mode-both relative flex items-center justify-center px-1 max-sm:hidden">
+      <div className="relative h-px w-24 bg-linear-to-r from-(--primary-6)/30 via-(--primary-8) to-(--primary-6)/30">
+        <div className="bg-app absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-1 rounded-full border border-(--primary-7) px-2 py-1 text-[10px] font-semibold tracking-wide text-(--primary-11) uppercase shadow-sm">
+          <LockIcon className="size-3" aria-hidden />
+          <span>TLS</span>
+        </div>
+      </div>
+      <ArrowRightIcon className="ml-2 size-4 text-(--primary-10)" aria-hidden />
+    </div>
+  );
+}
+
+function StorageNode() {
+  return (
+    <Card className="animate-slide-up-fade animate-delay-250 motion-reduce:animate-fade-in animate-duration-500 fill-mode-both relative flex min-w-64 flex-col gap-3 overflow-hidden p-4">
+      <div
+        className="absolute -top-8 left-8 h-16 w-16 rounded-full bg-(--primary-3)/40 blur-3xl"
+        aria-hidden
+      />
+      <div
+        className="absolute top-0 right-0 h-14 w-14 rounded-full bg-(--primary-4)/25 blur-2xl"
+        aria-hidden
+      />
+      <div className="flex items-center justify-between">
+        <Badge>
+          <CloudIcon className="size-3" aria-hidden />
+          Argos storage
+        </Badge>
+        <Chip variant="success" className="text-[11px]">
+          <CheckCircle2Icon className="size-3" aria-hidden />
+          Stored
+        </Chip>
+      </div>
+      <div className="relative rounded-2xl border p-3 shadow-inner">
+        <div className="grid grid-cols-3 gap-2">
+          {Array.from({ length: 9 }).map((_, index) => (
+            <div
+              key={index}
+              className="aspect-4/3 rounded-lg border nth-[n+7]:max-sm:hidden"
+            />
+          ))}
+        </div>
+      </div>
+    </Card>
   );
 }

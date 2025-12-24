@@ -38,7 +38,8 @@ export function FeatureSection(props: {
     href: string;
   };
 }) {
-  const { color, featureName, title, description, features, story } = props;
+  const { color, featureName, cta, title, description, features, story } =
+    props;
   const [firstLine, ...rest] = description.split("\n");
   return (
     <section className="separator-b relative px-4">
@@ -52,6 +53,7 @@ export function FeatureSection(props: {
               {...rest}
             </SectionDescription>
           </SectionHeaderTexts>
+          {cta}
         </SectionHeader>
         <FeaturesCarousel color={color} features={features} />
         <div className="relative">

@@ -111,7 +111,7 @@ function StoryCard(props: {
       )}
     >
       <div className="flex items-center gap-2 text-[11px] font-semibold text-(--neutral-11)">
-        <div className="grid size-7 place-items-center rounded-md border border-(--neutral-6)/50 bg-white shadow-xs">
+        <div className="grid size-7 place-items-center rounded-md border shadow-xs">
           <ThemeImage
             alt=""
             src={storybook.logo}
@@ -205,11 +205,7 @@ function StatusBadge(props: { status: SnapshotStatus }) {
       </Badge>
     );
   }
-  return (
-    <Badge className="border-(--neutral-6)/60 bg-(--neutral-1) text-(--neutral-11)">
-      Baseline
-    </Badge>
-  );
+  return <Badge className="text-(--neutral-11)">Baseline</Badge>;
 }
 
 function Preview(props: { status: SnapshotStatus }) {
@@ -217,7 +213,7 @@ function Preview(props: { status: SnapshotStatus }) {
   return (
     <div
       className={clsx(
-        "relative hidden w-24 shrink-0 rounded-lg border border-(--neutral-6)/60 bg-(--neutral-2)/60 p-2 md:block",
+        "relative hidden w-24 shrink-0 rounded-lg border p-2 md:block",
         {
           "border-(--danger-7)/60":
             status === "diff" || status === "diff-strong",
