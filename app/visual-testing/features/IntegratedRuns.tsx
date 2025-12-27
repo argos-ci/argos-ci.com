@@ -39,7 +39,7 @@ const FEATURES: FeatureTile[][] = [
   [
     { title: "Trace Visualizer", icon: BugPlayIcon },
     {
-      title: "@argos-ci/playwright",
+      title: "Argos SDK",
       icon: ArgosEmblem,
       featured: true,
     },
@@ -93,9 +93,9 @@ function Tile(
   return (
     <Card
       className={clsx(
-        "animate-zoom-in motion-reduce:animate-fade-in animate-duration-200 fill-mode-both flex items-center gap-2 p-3 font-semibold",
+        "animate-zoom-in motion-reduce:animate-fade-in animate-duration-200 fill-mode-both flex items-center justify-center gap-2 p-3 font-semibold",
         featured
-          ? "min-w-50 font-mono text-sm ring-4 ring-(--primary-4)"
+          ? "min-w-48 font-mono text-sm ring-4 ring-(--primary-4)"
           : "min-w-40 flex-col text-xs",
         className,
       )}

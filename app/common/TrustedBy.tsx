@@ -9,6 +9,7 @@ import { mui } from "@/app/assets/customers/library/mui";
 import { qonto } from "@/app/assets/customers/library/qonto";
 import { yotpo } from "@/app/assets/customers/library/yotpo";
 import { Container } from "@/components/Container";
+import { Link } from "@/components/Link";
 import { ThemeImage } from "@/components/ThemeImage";
 
 const customers = [
@@ -30,12 +31,14 @@ export function TrustedBy() {
       <Container className="border-x">
         <div className="relative grid grid-cols-2 content-center gap-6 px-8 py-10 sm:grid-cols-3 md:grid-cols-5">
           {customers.map((customer) => (
-            <ThemeImage
-              key={customer.name}
-              src={customer.logo["140x48"]}
-              alt={customer.name}
-              className="max-md:nth-[n+7]:hidden max-sm:nth-[n+5]:hidden dark:brightness-0 dark:invert"
-            />
+            <Link key={customer.name} href="/customers" className="contents">
+              <ThemeImage
+                src={customer.logo["140x48"]}
+                alt={customer.name}
+                aria-hidden
+                className="max-md:nth-[n+7]:hidden max-sm:nth-[n+5]:hidden dark:brightness-0 dark:invert"
+              />
+            </Link>
           ))}
         </div>
       </Container>

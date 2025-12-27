@@ -12,25 +12,29 @@ export function TestDebugging() {
     <FeatureSection
       features={[
         {
-          key: "failure-screenshots",
-          icon: <ImageOffIcon />,
-          title: "Failure screenshots",
-          text: "Capture screenshots on failure to instantly see what went wrong.",
-          main: <FailureScreenshots />,
-        },
-        {
           key: "playwright-traces",
           icon: <BugPlayIcon />,
           title: "Playwright traces",
           text: "Replay test sessions step by step to understand every action and state.",
           main: <PlaywrightTrace />,
+          href: "/docs/playwright#setup-tests-debugging",
         },
+        {
+          key: "failure-screenshots",
+          icon: <ImageOffIcon />,
+          title: "Failure screenshots",
+          text: "Capture screenshots on failure to instantly see what went wrong.",
+          main: <FailureScreenshots />,
+          href: "/docs/playwright#setup-tests-debugging",
+        },
+
         {
           key: "retry-screenshots",
           icon: <RotateCcwIcon />,
           title: "Retry screenshots",
-          text: "Compare retries to confirm if issues are consistent or flaky.",
+          text: "Compare retry screenshots to confirm if issues are consistent or flaky.",
           main: <RetryScreenshots />,
+          href: "/docs/playwright#setup-tests-debugging",
         },
       ]}
       color="teal"

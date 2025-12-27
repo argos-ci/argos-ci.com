@@ -1,14 +1,16 @@
 import clsx from "clsx";
 import {
+  BlocksIcon,
   CloudIcon,
+  CopyCheckIcon,
+  EyeIcon,
   GitMergeIcon,
   GitPullRequestIcon,
-  HistoryIcon,
   KeyboardIcon,
   LayersIcon,
   type LucideIcon,
   RotateCcwIcon,
-  ScanSearchIcon,
+  RouteIcon,
   ScanTextIcon,
   ShieldCheckIcon,
   SlidersHorizontalIcon,
@@ -19,6 +21,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 import { Button } from "@/components/Button";
+import { CallToActionSection } from "@/components/CallToActionSection";
 import { Chip } from "@/components/Chip";
 import { Container } from "@/components/Container";
 import { FullPageGrid } from "@/components/FullPageGrid";
@@ -28,14 +31,15 @@ import {
   HeroDescription,
   HeroHeading,
 } from "@/components/Hero";
+import { QuoteBlock } from "@/components/QuoteBlock";
 import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
-import { ThemeImage } from "@/components/ThemeImage";
 import { SectionDescription, SectionTitle } from "@/components/Typography";
 import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
 import { FeaturesCarousel } from "@/components/feature-section/FeaturesCarousel";
+import { FeaturedSDKsSection } from "@/components/featured-sdk/FeaturedSDKs";
 import { getMetadata } from "@/lib/metadata";
 
-import { playwright, storybook } from "../assets/brands/library";
+import { pivotQuote } from "../assets/customers/library/pivot";
 import { TrustedBy } from "../common/TrustedBy";
 import { AriaSnapshots } from "./features/AriaSnapshots";
 import { BrowserCoverage } from "./features/BrowserCoverage";
@@ -100,16 +104,14 @@ export default function Page() {
         <Container className="border-x bg-linear-to-b from-transparent to-(--neutral-2) pb-12">
           <SectionHeader align="center" className="container-gutter max-w-2xl">
             <Chip>
-              <ScanSearchIcon className="size-4" />
-              Diffs Review
+              <EyeIcon className="size-4" />
+              Visual Review
             </Chip>
             <SectionHeaderTexts>
               <SectionTitle>Review diffs at full speed</SectionTitle>
               <SectionDescription>
-                A review experience built for high volume visual testing. Side
-                by side and overlay modes, smart zoom and highlights, keyboard
-                shortcuts, masks, grouping, and a clean approval flow so you can
-                merge confidently in seconds.
+                Review visual diffs at speed with a high performance experience
+                built for large scale visual testing.
               </SectionDescription>
             </SectionHeaderTexts>
           </SectionHeader>
@@ -128,7 +130,7 @@ export default function Page() {
                 context.
               </>
             }
-            href="/docs/github"
+            href="/docs/getting-started"
             illustration={<InstantDiffInspector />}
           />
           <FeatureGridFeature
@@ -139,7 +141,7 @@ export default function Page() {
                 trail for releases and regressions.
               </>
             }
-            href="/docs/pull-request-comments"
+            href="/docs/getting-started"
             illustration={<ReviewHistory />}
           />
         </FeatureGrid>
@@ -152,7 +154,7 @@ export default function Page() {
                 mode, and your own annotations to understand intent instantly.
               </>
             }
-            href="/docs/slack"
+            href="/docs/getting-started"
             illustration={<TestContext />}
           />
           <FeatureGridFeature
@@ -163,7 +165,7 @@ export default function Page() {
                 Keep PRs readable even when the UI changes ripple across pages.
               </>
             }
-            href="/docs/run-on-preview-deployment"
+            href="/docs/getting-started"
             illustration={<GroupedDiffs />}
           />
         </FeatureGrid>
@@ -172,15 +174,15 @@ export default function Page() {
           className="relative grid grid-cols-1 border-x border-b max-md:divide-y md:grid-cols-3 md:divide-x"
         >
           <FeatureGridFeatureSmall
-            title="Review history"
+            title="Automatic approval reuse"
             description={
               <>
-                See what changed, who approved, and when. Keep a reliable audit
-                trail for releases and regressions.
+                Argos remembers what you already approved and reapplies it
+                automatically when identical changes show up again.
               </>
             }
-            href="/docs/github"
-            icon={HistoryIcon}
+            href="/docs/getting-started"
+            icon={CopyCheckIcon}
           />
           <FeatureGridFeatureSmall
             title="Keyboard shortcuts"
@@ -190,7 +192,7 @@ export default function Page() {
                 navigate without leaving the keyboard.
               </>
             }
-            href="/docs/github"
+            href="/docs/getting-started"
             icon={KeyboardIcon}
           />
           <FeatureGridFeatureSmall
@@ -201,26 +203,26 @@ export default function Page() {
                 blending to isolate real visual changes and ignore noise.
               </>
             }
-            href="/docs/github"
+            href="/docs/getting-started"
             icon={SlidersHorizontalIcon}
           />
         </Container>
-        <Container className="h-12 border-x" />
+        <Container className="h-12 border-x border-b" />
       </section>
+      <QuoteBlock quote={pivotQuote} className="border-b" />
       <section className="border-b px-4">
         <Container className="border-x">
           <SectionHeader align="center" className="container-gutter max-w-2xl">
-            <Chip>
-              <ThemeImage src={playwright.logo} alt="" className="size-6" />
-              Playwright
-            </Chip>
+            <Chip icon={RouteIcon}>End-to-end Testing</Chip>
             <SectionHeaderTexts>
-              <SectionTitle>Playwright at scale, without friction</SectionTitle>
+              <SectionTitle>
+                E2E visual testing at scale, without friction
+              </SectionTitle>
               <SectionDescription>
-                Run Playwright screenshots directly in your existing test suite
-                and review reliable visual diffs with zero extra setup. Built to
-                handle sharding, retries, parallel runs, and large volumes while
-                keeping feedback fast and predictable.
+                Run visual screenshots directly in your existing Playwright or
+                Cypress tests. Review reliable diffs with zero extra setup.
+                Built to handle sharding, retries, parallel runs, and large
+                volumes while keeping feedback fast and predictable.
               </SectionDescription>
             </SectionHeaderTexts>
           </SectionHeader>
@@ -235,6 +237,7 @@ export default function Page() {
                 title: "Screenshots outside Git",
                 text: "Capture screenshots directly from Playwright in CI. No files committed, no artifacts to manage, even at scale.",
                 main: <ScreenshotsStayInCI />,
+                href: "/docs/quickstart",
               },
               {
                 key: "aria-snapshots",
@@ -242,6 +245,7 @@ export default function Page() {
                 title: "ARIA snapshots, first-class",
                 text: "Validate accessibility trees with ARIA snapshots and catch semantic regressions beyond pixels.",
                 main: <AriaSnapshots />,
+                href: "/docs/playwright#aria-snapshots",
               },
               {
                 key: "integrated",
@@ -249,6 +253,7 @@ export default function Page() {
                 title: "Perfect integration",
                 text: "Works seamlessly with sharding, retries, and repeat-each so parallel and flaky runs stay deterministic.",
                 main: <IntegratedRuns />,
+                href: "/docs/playwright",
               },
             ]}
           />
@@ -258,17 +263,13 @@ export default function Page() {
       <section className="border-b px-4">
         <Container className="border-x bg-linear-to-b from-transparent to-(--neutral-2) pb-12">
           <SectionHeader align="center" className="container-gutter max-w-2xl">
-            <Chip>
-              <ThemeImage src={storybook.logo} alt="" className="size-6" />
-              Storybook
-            </Chip>
+            <Chip icon={BlocksIcon}>Components Testing</Chip>
             <SectionHeaderTexts>
               <SectionTitle>Visual testing for Storybook</SectionTitle>
               <SectionDescription>
-                Confidently ship UI changes by visually validating every
-                Storybook component. Argos turns your stories into visual
-                checkpoints, catching regressions early without slowing down
-                your workflow.
+                Validate every Storybook component visually with zero extra
+                setup. Turn stories into visual checkpoints and catch
+                regressions early, without slowing down your workflow.
               </SectionDescription>
             </SectionHeaderTexts>
           </SectionHeader>
@@ -374,6 +375,7 @@ export default function Page() {
         </Container>
         <Container className="h-12 border-x" />
       </section>
+      <FeaturedSDKsSection />
       <section className="border-b px-4">
         <Container className="border-x bg-linear-to-b from-transparent to-(--neutral-2) pb-12">
           <SectionHeader align="center" className="container-gutter max-w-2xl">
@@ -490,6 +492,7 @@ export default function Page() {
         </Container>
         <Container className="h-12 border-x" />
       </section>
+      <CallToActionSection />
     </>
   );
 }

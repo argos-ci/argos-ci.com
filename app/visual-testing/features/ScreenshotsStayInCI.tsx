@@ -41,7 +41,7 @@ function PlaywrightNode() {
             CI job
           </span>
           <span className="text-sm font-semibold text-(--neutral-12)">
-            Playwright Tests
+            E2E Tests
           </span>
         </div>
       </div>

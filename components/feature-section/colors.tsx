@@ -6,6 +6,12 @@ export const BORDER_BG_COLORS: Record<FeatureColor, string> = {
   teal: "bg-(--teal-9)",
 };
 
+export const TEXT_COLORS: Record<FeatureColor, string> = {
+  blue: "text-(--blue-11)",
+  amber: "text-(--amber-11)",
+  teal: "text-(--teal-11)",
+};
+
 export const INDICATOR_BG_COLORS: Record<FeatureColor, string> = {
   blue: "bg-(--blue-10)",
   amber: "bg-(--amber-10)",

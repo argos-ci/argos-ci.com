@@ -1,18 +1,21 @@
 "use client";
 
 import clsx from "clsx";
+import { ChevronRightIcon } from "lucide-react";
+import Link from "next/link";
 import { cloneElement, useCallback, useEffect, useRef, useState } from "react";
 
 import { useInViewport } from "@/components/useInViewport";
 
-import { BORDER_BG_COLORS, type FeatureColor } from "./colors";
+import { BORDER_BG_COLORS, type FeatureColor, TEXT_COLORS } from "./colors";
 
 export type Feature = {
   key: string;
-  icon: React.ReactElement<{ className?: string; strokeWidth: 1 }>;
+  icon: React.ReactElement<{ className?: string; strokeWidth: number }>;
   title: string;
   text: string;
   main: React.ReactNode;
+  href: string;
 };
 
 const DURATION = 6000;
@@ -119,10 +122,20 @@ export function FeaturesCarousel(props: {
               )}
               {cloneElement(feature.icon, {
                 className: "size-5",
-                strokeWidth: 1,
+                strokeWidth: 1.5,
               })}
               <h3 className="mt-2 mb-3 font-medium">{feature.title}</h3>
               <p className="text-low">{feature.text}</p>
+              <Link
+                href={feature.href}
+                className={clsx(
+                  "group mt-2 inline-block text-sm font-medium",
+                  TEXT_COLORS[color],
+                )}
+              >
+                Learn more
+                <ChevronRightIcon className="-mt-px ml-0.5 inline size-4 transition group-hover:translate-x-1 group-focus:translate-x-1" />
+              </Link>
             </div>
           );
         })}

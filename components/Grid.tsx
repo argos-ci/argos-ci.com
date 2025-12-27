@@ -11,7 +11,7 @@ export function Grid(
   const id = useId();
   const patternId = `grid-pattern-${id}`;
   return (
-    <svg width="100%" height="100%" {...rest}>
+    <svg aria-hidden width="100%" height="100%" {...rest}>
       <defs>
         <pattern
           id={patternId}

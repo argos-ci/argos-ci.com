@@ -16,14 +16,14 @@ import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
 import { ThemeImage } from "@/components/ThemeImage";
 import { SectionDescription, SectionTitle } from "@/components/Typography";
 
-export function FeaturedSDKs() {
+export function FeaturedSDKsSection() {
   return (
     <section className="separator-b relative px-4">
       <Container
         noGutter
         className="relative flex flex-col border-x max-md:pb-12 md:flex-row"
       >
-        <SectionHeader className="container-gutter max-w-sm flex-1 md:border-r md:py-24!">
+        <SectionHeader className="container-gutter max-w-100 flex-1 md:border-r md:py-24!">
           <SectionHeaderTexts>
             <SectionTitle>Add your first visual test in seconds</SectionTitle>
             <SectionDescription className="max-w-xl">
@@ -36,7 +36,7 @@ export function FeaturedSDKs() {
             <Link href="/docs/getting-started">Explore all SDKs</Link>
           </Button>
         </SectionHeader>
-        <div className="flex flex-1 flex-col gap-8 md:flex-row md:flex-wrap md:items-start md:justify-center md:py-24">
+        <div className="flex flex-1 flex-col gap-8 md:flex-row md:flex-wrap md:items-start md:justify-center md:px-8 md:py-24">
           <SdkCard
             href="/docs/quickstart/playwright"
             sdk={playwright}

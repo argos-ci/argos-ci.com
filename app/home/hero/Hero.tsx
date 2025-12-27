@@ -66,7 +66,7 @@ export function Hero() {
             <ThemeImage
               src={{ light: appLight, dark: appDark }}
               alt="Argos Build"
-              className="w-full max-w-[880px] rounded md:rounded-t-[0.875rem]"
+              className="w-full max-w-220 rounded md:rounded-t-[0.875rem]"
             />
           </div>
           <div
