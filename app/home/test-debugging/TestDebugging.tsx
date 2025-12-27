@@ -1,6 +1,8 @@
 import { BugPlayIcon, ImageOffIcon, RotateCcwIcon } from "lucide-react";
+import Link from "next/link";
 
 import { leMondeQuote } from "@/app/assets/customers/library/le-monde";
+import { Button } from "@/components/Button";
 import { FeatureSection } from "@/components/feature-section/FeatureSection";
 
 import { FailureScreenshots } from "./features/FailureScreenshots";
@@ -41,7 +43,11 @@ export function TestDebugging() {
       featureName="Test Debugging"
       title="See why tests fail"
       description={`Investigate failed tests with full visual context.\nSee what broke, understand why, and fix it instantly.`}
-      cta={null}
+      cta={
+        <Button variant="outline" asChild>
+          <Link href="/test-debugging">Explore Test Debugging</Link>
+        </Button>
+      }
       story={{
         quote: leMondeQuote,
         href: "/customers/lemonde",

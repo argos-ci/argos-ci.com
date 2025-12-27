@@ -10,15 +10,7 @@ type PreviewVariant = "baseline" | "changes";
 
 export function InstantDiffInspector() {
   return (
-    <Card className="flex flex-col gap-3">
-      <SideBySide />
-    </Card>
-  );
-}
-
-function SideBySide() {
-  return (
-    <Card className="relative flex flex-col gap-3 p-3" shadow="shadow-md">
+    <Card className="relative flex flex-col gap-3 p-3" shadow="high">
       <div className="flex gap-2">
         <Badge>
           <Columns2Icon className="size-3" />
@@ -41,14 +33,13 @@ function SideBySide() {
     </Card>
   );
 }
-
 function DiffPreview(props: { variant: PreviewVariant }) {
   const { variant } = props;
   const tone = variant === "changes" ? "danger" : "neutral";
 
   return (
     <div className="relative space-y-2">
-      <div className="flex items-center justify-between text-[11px] font-semibold text-(--neutral-12)">
+      <div className="text-xxs flex items-center justify-between font-semibold text-(--neutral-12)">
         <span className="flex items-center gap-2">
           <DotIndicator variant={tone} />
           {variant === "changes" ? "Changes" : "Baseline"}
@@ -86,7 +77,7 @@ function ZoomLens(props: { tone: "neutral" | "danger" }) {
         <div className="absolute inset-[6px] rounded-[14px] border border-dashed border-(--neutral-7)/70 bg-linear-to-br from-white/6 to-transparent" />
       </div>
 
-      <div className="bg-app absolute top-3 right-3 flex items-center gap-2 rounded-full border border-(--neutral-6)/70 px-2 py-[3px] text-[10px] font-semibold shadow-xs">
+      <div className="bg-app text-xxxs absolute top-3 right-3 flex items-center gap-2 rounded-full border border-(--neutral-6)/70 px-2 py-[3px] font-semibold shadow-xs">
         <FocusIcon className="size-3" />
         Synced zoom
       </div>
@@ -96,7 +87,7 @@ function ZoomLens(props: { tone: "neutral" | "danger" }) {
 
 function HighlightRibbon() {
   return (
-    <div className="pointer-events-none absolute right-3 bottom-3 flex items-center gap-2 rounded-full border border-(--danger-7)/70 bg-(--danger-2)/80 px-2 py-[3px] text-[10px] font-semibold text-(--danger-11) shadow-xs">
+    <div className="text-xxxs pointer-events-none absolute right-3 bottom-3 flex items-center gap-2 rounded-full border border-(--danger-7)/70 bg-(--danger-2)/80 px-2 py-[3px] font-semibold text-(--danger-11) shadow-xs">
       <ScanSearchIcon className="size-3" />
       Highlighter on
     </div>

@@ -26,35 +26,33 @@ const REVIEWS = [
 
 export function ReviewHistory() {
   return (
-    <div className="relative">
-      <div className="relative flex flex-col items-center gap-3">
-        <Chip
-          variant="success"
-          icon={ThumbsUpIcon}
-          className="px-4 py-2 text-base"
-        >
-          <span className="flex items-center gap-3">
-            Approved
-            <AvatarStack />
-          </span>
-        </Chip>
+    <div className="relative flex flex-col items-center gap-3">
+      <Chip
+        variant="success"
+        icon={ThumbsUpIcon}
+        className="px-4 py-2 text-base"
+      >
+        <span className="flex items-center gap-3">
+          Approved
+          <AvatarStack />
+        </span>
+      </Chip>
 
-        <Card className="w-full max-w-3xl p-3 text-sm" shadow="shadow-md">
-          <SmallTitle>History of reviews</SmallTitle>
-          <div className="mt-3 divide-y">
-            {REVIEWS.map((review) => (
-              <HistoryRow
-                key={review.author}
-                tone={review.tone}
-                status={review.status}
-                time={review.time}
-                author={review.author}
-                name={review.name}
-              />
-            ))}
-          </div>
-        </Card>
-      </div>
+      <Card className="w-full max-w-3xl p-3 text-sm" shadow="high">
+        <SmallTitle>History of reviews</SmallTitle>
+        <div className="mt-3 divide-y-[0.5px]">
+          {REVIEWS.map((review) => (
+            <HistoryRow
+              key={review.author}
+              tone={review.tone}
+              status={review.status}
+              time={review.time}
+              author={review.author}
+              name={review.name}
+            />
+          ))}
+        </div>
+      </Card>
     </div>
   );
 }

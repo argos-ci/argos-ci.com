@@ -10,6 +10,7 @@ import {
 import type { ComponentPropsWithRef } from "react";
 
 import { Card } from "@/components/Card";
+import { CircleProgress } from "@/components/CircleProgress";
 import { SmallTitle } from "@/components/Typography";
 
 const chartData = [
@@ -68,14 +69,6 @@ export function AdvancedAnalytics(props: { className?: string }) {
 }
 
 function FlakinessScoreCard(props: { className?: string }) {
-  const value = 73;
-  const ring = { size: 90, stroke: 8 };
-  const r = (ring.size - ring.stroke) / 2;
-  const c = 2 * Math.PI * r;
-  const progress = clamp(value / 100, 0, 1);
-  const dash = c * progress;
-  const gap = c - dash;
-
   return (
     <Card className={clsx("flex flex-col", props.className)}>
       <CardHeader>
@@ -85,38 +78,14 @@ function FlakinessScoreCard(props: { className?: string }) {
         </SmallTitle>
         <Description>Instantely see if a test is flaky or not.</Description>
       </CardHeader>
-      <div className="flex flex-1 items-center justify-center">
-        <svg
-          width={ring.size}
-          height={ring.size}
-          viewBox={`0 0 ${ring.size} ${ring.size}`}
-          aria-hidden="true"
-        >
-          <circle
-            cx={ring.size / 2}
-            cy={ring.size / 2}
-            r={r}
-            fill="none"
-            stroke="var(--neutral-6)"
-            strokeWidth={ring.stroke}
-          />
-          <circle
-            cx={ring.size / 2}
-            cy={ring.size / 2}
-            r={r}
-            fill="none"
-            stroke="var(--danger-10)"
-            strokeWidth={ring.stroke}
-            strokeDasharray={`${dash} ${gap}`}
-            transform={`rotate(-90 ${ring.size / 2} ${ring.size / 2})`}
-          />
-        </svg>
-
-        <div className="absolute text-center">
-          <div className="text-low text-[0.65rem]">Flakiness</div>
-          <div className="text-2xl leading-7 font-semibold">{value}</div>
-        </div>
-      </div>
+      <CircleProgress
+        stroke="var(--danger-10)"
+        strokeWidth={8}
+        size={90}
+        progress={73}
+        label="Flakiness"
+        className="flex-1"
+      />
     </Card>
   );
 }
@@ -210,7 +179,7 @@ function FirstLastSeenCard(props: { className?: string }) {
 function Metric(props: { label: string; value: string }) {
   return (
     <div className="flex flex-col gap-0.5">
-      <div className="text-low text-[0.7rem] font-medium">{props.label}</div>
+      <div className="text-low text-xxs font-medium">{props.label}</div>
       <div className="text-xl leading-6 font-semibold">{props.value}</div>
     </div>
   );

@@ -24,9 +24,9 @@ export function FullPageGrid(props: {
           className={clsx(
             "pointer-events-none absolute inset-x-px inset-y-0 -mt-4",
             {
-              blue: "bg-linear-to-t from-(--blue-3)/60",
-              amber: "bg-linear-to-t from-(--amber-3)/60",
-              teal: "bg-linear-to-t from-(--teal-3)/60",
+              blue: "bg-linear-to-t from-(--blue-3)/20",
+              amber: "bg-linear-to-t from-(--amber-3)/20",
+              teal: "bg-linear-to-t from-(--teal-3)/20",
             }[props.tint],
           )}
         />

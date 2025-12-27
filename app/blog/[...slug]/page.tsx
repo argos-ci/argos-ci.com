@@ -100,7 +100,7 @@ async function Siblings({ slug }: { slug: string }) {
     .map(({ value }) => value)
     .slice(0, 3);
   return (
-    <section className="border-t px-4">
+    <div className="border-t px-4">
       <Container noGutter className="border-x pt-4 md:pt-8">
         <h3 className="container-gutter text-default font-accent mb-8 text-2xl font-semibold">
           Read also
@@ -142,7 +142,7 @@ async function Siblings({ slug }: { slug: string }) {
       <div className="-mt-px border-t">
         <Container className="h-12 border-x" />
       </div>
-    </section>
+    </div>
   );
 }
 

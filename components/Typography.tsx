@@ -6,6 +6,7 @@ export function SmallTitle(
     children: React.ReactNode;
   },
 ) {
+  const { children } = props;
   return (
     <div
       {...props}
@@ -13,7 +14,9 @@ export function SmallTitle(
         "flex items-center gap-2 text-xs font-medium",
         props.className,
       )}
-    />
+    >
+      {children}
+    </div>
   );
 }
 

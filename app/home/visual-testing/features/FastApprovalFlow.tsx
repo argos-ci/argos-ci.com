@@ -73,7 +73,7 @@ function ViewportLabel(props: { tone: "baseline" | "changes" }) {
   return (
     <div
       className={clsx(
-        "inline-flex items-center justify-center gap-2 rounded-lg border px-3 py-0.5 text-[0.7rem] font-semibold md:py-1",
+        "text-xxs inline-flex items-center justify-center gap-2 rounded-lg border px-3 py-0.5 font-semibold md:py-1",
         { baseline: "border-(--neutral-6)", changes: "border-(--danger-6)" }[
           tone
         ],
@@ -129,7 +129,7 @@ function ActionButton(props: {
       <div className="absolute -right-4 max-md:top-[30%] md:-right-2 md:-bottom-0.5">
         <kbd
           className={clsx(
-            "inline-flex size-6 items-center justify-center rounded border-[0.5px] border-b-2 p-1 font-mono text-[11px] font-semibold",
+            "text-xxs inline-flex size-6 items-center justify-center rounded border-[0.5px] border-b-2 p-1 font-mono font-semibold",
             "bg-app text-low/80",
           )}
         >

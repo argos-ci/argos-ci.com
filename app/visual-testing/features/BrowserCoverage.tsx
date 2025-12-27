@@ -60,7 +60,7 @@ function BrowserRow(props: { brand: Brand }) {
         />
         <span className="text-sm font-semibold">{brand.name}</span>
       </div>
-      <Chip variant="success" className="px-2 py-0.5 text-[11px]">
+      <Chip variant="success" className="text-xxs px-2 py-0.5">
         Screenshot saved
       </Chip>
     </div>

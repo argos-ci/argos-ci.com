@@ -110,7 +110,7 @@ function StoryCard(props: {
           : "bg-(--neutral-1)",
       )}
     >
-      <div className="flex items-center gap-2 text-[11px] font-semibold text-(--neutral-11)">
+      <div className="text-xxs flex items-center gap-2 font-semibold text-(--neutral-11)">
         <div className="grid size-7 place-items-center rounded-md border shadow-xs">
           <ThemeImage
             alt=""

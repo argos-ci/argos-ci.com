@@ -31,11 +31,15 @@ export function TrustedBy() {
       <Container className="border-x">
         <div className="relative grid grid-cols-2 content-center gap-6 px-8 py-10 sm:grid-cols-3 md:grid-cols-5">
           {customers.map((customer) => (
-            <Link key={customer.name} href="/customers" className="contents">
+            <Link
+              key={customer.name}
+              aria-hidden
+              href="/customers"
+              className="contents"
+            >
               <ThemeImage
                 src={customer.logo["140x48"]}
                 alt={customer.name}
-                aria-hidden
                 className="max-md:nth-[n+7]:hidden max-sm:nth-[n+5]:hidden dark:brightness-0 dark:invert"
               />
             </Link>

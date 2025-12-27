@@ -152,7 +152,7 @@ export function Cost() {
                   <div className="relative w-full">
                     <select
                       id="cost-scenario"
-                      className="bg-app w-full appearance-none rounded-md border px-3 py-2 text-[0.65rem] font-medium shadow-xs transition outline-none focus-visible:border-(--primary-8) focus-visible:ring-2 focus-visible:ring-(--primary-5) lg:text-sm"
+                      className="bg-app text-xxxs w-full appearance-none rounded-md border px-3 py-2 font-medium shadow-xs transition outline-none focus-visible:border-(--primary-8) focus-visible:ring-2 focus-visible:ring-(--primary-5) lg:text-sm"
                       value={selectedScenarioId}
                       onChange={(event) =>
                         setSelectedScenarioId(

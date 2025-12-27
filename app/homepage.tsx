@@ -8,7 +8,7 @@ import { defaultDescription, defaultTitle, getMetadata } from "@/lib/metadata";
 import { TrustedBy } from "./common/TrustedBy";
 import { Cost } from "./home/cost/Cost";
 import { Customers } from "./home/customers/Customers";
-import { FlakyDetection } from "./home/flaky-detection/FlakyDetection";
+import { FlakyManagement } from "./home/flaky-management/FlakyManagement";
 import { Hero } from "./home/hero/Hero";
 import { Integrations } from "./home/integrations/Integrations";
 import { TestDebugging } from "./home/test-debugging/TestDebugging";
@@ -28,7 +28,7 @@ export default function Page() {
       <TrustedBy />
       <VisualTesting />
       <Integrations />
-      <FlakyDetection />
+      <FlakyManagement />
       <Cost />
       <TestDebugging />
       <FeaturedSDKsSection />

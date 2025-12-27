@@ -167,6 +167,9 @@
     "Droid Sans", "Helvetica Neue", sans-serif;
   --font-mono: var(--font-geist-mono);
 
+  --text-xxs: 0.7rem;
+  --text-xxxs: 0.625rem;
+
   --background-color-app: var(--neutral-1);
   --background-color-subtle: var(--neutral-2);
   --background-color-ui: var(--neutral-3);

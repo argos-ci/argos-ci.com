@@ -38,7 +38,7 @@ export function Stabilization() {
         >
           <StabilizationChipIcon />
         </div>
-        <div className="bg-app pointer-events-none absolute -bottom-12 left-1/2 -translate-1/2 rounded border-[0.5px] px-2 py-1 font-mono text-[0.65rem] whitespace-nowrap text-(--primary-9) uppercase">
+        <div className="bg-app text-xxxs pointer-events-none absolute -bottom-12 left-1/2 -translate-1/2 rounded border-[0.5px] px-2 py-1 font-mono whitespace-nowrap text-(--primary-9) uppercase">
           Stabilization engine
         </div>
       </Card>
@@ -85,7 +85,7 @@ export function Counter(props: {
       )}
     >
       <strong className="text-sm font-semibold">{props.count}</strong>
-      <span className="text-low text-[0.65rem] tracking-wider uppercase">
+      <span className="text-low text-xxxs tracking-wider uppercase">
         {props.unit}
       </span>
     </div>

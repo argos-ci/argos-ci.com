@@ -47,7 +47,7 @@ const LOG_LINES: Array<{
 export function StorybookCIVitest() {
   return (
     <Card className="relative" shadow="shadow-md">
-      <div className="relative flex items-center justify-between border-b-[0.5px] px-3 py-2 text-[11px] font-semibold">
+      <div className="text-xxs relative flex items-center justify-between border-b-[0.5px] px-3 py-2 font-semibold">
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1.5">
             <span
@@ -68,11 +68,11 @@ export function StorybookCIVitest() {
             Storybook CI · Vitest
           </SmallTitle>
         </div>
-        <Chip variant="primary" className="text-[10px]">
+        <Chip variant="primary" className="text-xxxs">
           Running
         </Chip>
       </div>
-      <div className="relative space-y-1.5 mask-b-from-70% p-3 font-mono text-[11px] leading-relaxed max-sm:h-60">
+      <div className="text-xxs relative space-y-1.5 mask-b-from-70% p-3 font-mono leading-relaxed max-sm:h-60">
         {LOG_LINES.map((line) => (
           <TerminalLine key={line.text} {...line} />
         ))}
@@ -99,7 +99,7 @@ function TerminalLine(props: {
         }[tone],
       )}
     >
-      <span className="text-[10px] tracking-wide text-(--neutral-10) uppercase">
+      <span className="text-xxxs tracking-wide text-(--neutral-10) uppercase">
         {label}
       </span>
       <span className="flex-1">{text}</span>

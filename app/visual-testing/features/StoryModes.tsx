@@ -62,12 +62,12 @@ function ModeRow(props: {
   return (
     <div className="bg-app rounded-lg border-[0.5px] p-2.5 shadow-sm">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2 text-[11px] font-semibold text-(--neutral-12)">
+        <div className="text-xxs flex items-center gap-2 font-semibold text-(--neutral-12)">
           <Icon className="size-3.5 text-(--neutral-10)" />
           <DotIndicator variant={tone} />
           {label}
         </div>
-        <span className="text-[11px] font-semibold tracking-wide text-(--neutral-10) uppercase">
+        <span className="text-xxs font-semibold tracking-wide text-(--neutral-10) uppercase">
           Enabled
         </span>
       </div>
@@ -96,7 +96,7 @@ function ModePill(props: {
     <span
       className={clsx(
         "inline-flex items-center gap-1.5 rounded-full border px-3 font-semibold",
-        compact ? "py-[3px] text-[10px]" : "py-[6px] text-[11px]",
+        compact ? "text-xxxs py-[3px]" : "text-xxs py-[6px]",
         toneClasses[tone],
       )}
     >

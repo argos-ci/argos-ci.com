@@ -1,13 +1,15 @@
 import { ChartSplineIcon, FlagOffIcon, WavesIcon } from "lucide-react";
 
 import { muiQuote } from "@/app/assets/customers/library/mui";
+import { Button } from "@/components/Button";
+import { Link } from "@/components/Link";
 import { FeatureSection } from "@/components/feature-section/FeatureSection";
 
 import { AdvancedAnalytics } from "./features/AdvancedAnalytics";
 import { FlakyIndicator } from "./features/FlakyIndicator";
 import { IgnoreChanges } from "./features/IgnoreChanges";
 
-export function FlakyDetection() {
+export function FlakyManagement() {
   return (
     <FeatureSection
       features={[
@@ -37,10 +39,14 @@ export function FlakyDetection() {
         },
       ]}
       color="amber"
-      featureName="Flaky Detection"
+      featureName="Flaky Management"
       title="Keep flakiness under control"
       description={`Detect, manage and fix flaky tests.\nTrack instability across builds and automatically silence flaky noise.`}
-      cta={null}
+      cta={
+        <Button variant="outline" asChild>
+          <Link href="/flaky-management">Explore Flaky Management</Link>
+        </Button>
+      }
       story={{
         quote: muiQuote,
         href: "/customers/gitbook",

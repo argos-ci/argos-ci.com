@@ -63,7 +63,7 @@ export function RetryScreenshots() {
               <SDKBubble sdk={playwright} />
               <SDKBubble sdk={cypress} />
             </div>
-            <Badge className="items-center gap-1.5 text-[11px]">
+            <Badge className="text-xxs items-center gap-1.5">
               <RefreshCwIcon className="text-low size-3" />
               Retry enabled
             </Badge>
@@ -93,7 +93,7 @@ export function RetryScreenshots() {
             ))}
           </div>
 
-          <div className="flex items-center justify-between text-[11px] text-(--neutral-11)">
+          <div className="text-xxs flex items-center justify-between text-(--neutral-11)">
             <span>Build #214 · Screenshots pinned</span>
             <span className="font-semibold text-(--success-10)">
               Stable after retry
@@ -141,11 +141,11 @@ function RetryRow(props: {
       }
       <div className="min-w-0 flex-1">
         <div className="truncate">{label}</div>
-        <div className="text-low text-[11px] font-normal">{note}</div>
+        <div className="text-low text-xxs font-normal">{note}</div>
       </div>
       <span
         className={clsx(
-          "text-[11px] font-semibold",
+          "text-xxs font-semibold",
           { fail: "text-(--danger-10)", pass: "text-(--success-10)" }[status],
         )}
       >
@@ -164,7 +164,7 @@ function ScreenshotCard(props: {
   const { label, status, caption, footer } = props;
   return (
     <div className="bg-app flex flex-col gap-2 rounded-lg border px-3 py-3 shadow-xs">
-      <div className="flex items-center justify-between text-[11px] font-semibold text-(--neutral-12)">
+      <div className="text-xxs flex items-center justify-between font-semibold text-(--neutral-12)">
         <span>{label}</span>
         <Chip
           variant={
@@ -200,7 +200,7 @@ function ScreenshotCard(props: {
         </div>
       </div>
 
-      <div className="text-low hidden text-[0.7rem] md:block">{footer}</div>
+      <div className="text-low text-xxs hidden md:block">{footer}</div>
     </div>
   );
 }

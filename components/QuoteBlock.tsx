@@ -12,14 +12,14 @@ export function QuoteBlock(props: {
   const { quote, className } = props;
   return (
     <section className={clsx("px-4", className)}>
-      <Container className="flex flex-col items-center justify-center gap-5 border-x py-24">
+      <Container className="flex flex-col items-center justify-center gap-5 border-x py-16 text-center md:py-24">
         <ThemeImage
           src={quote.company.logo.adjusted}
           alt={quote.company.name}
-          className="h-6 w-auto"
+          className="h-10 w-auto"
         />
         <blockquote>
-          <p className="font-accent [&_strong]:text-default max-w-3xl bg-linear-to-b from-(--neutral-11) to-(--neutral-12) bg-clip-text py-2 text-center text-lg text-balance text-transparent sm:text-xl md:text-2xl [&_strong]:font-medium">
+          <p className="font-accent [&_strong]:text-default max-w-3xl bg-linear-to-b from-(--neutral-11) to-(--neutral-12) bg-clip-text py-2 text-lg text-balance text-transparent sm:text-xl md:text-2xl [&_strong]:font-medium">
             “{quote.text}”
           </p>
         </blockquote>

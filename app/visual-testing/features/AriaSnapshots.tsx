@@ -159,12 +159,12 @@ function DiffColumn(props: {
     >
       <div className="flex items-center justify-between border-b-[0.5px] px-3 py-1.5">
         {title}
-        <Badge className="text-low text-[11px]">
+        <Badge className="text-low text-xxs">
           <ScanTextIcon className="size-3" aria-hidden />
           ARIA snapshot
         </Badge>
       </div>
-      <div className="relative space-y-0.5 overflow-hidden mask-b-from-80% p-3 font-mono text-[11px] leading-[1.45]">
+      <div className="text-xxs relative space-y-0.5 overflow-hidden mask-b-from-80% p-3 font-mono leading-[1.45]">
         {lines.map((line) => (
           <DiffRow key={`${variant}-${line.number}-${line.text}`} line={line} />
         ))}

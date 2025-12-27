@@ -42,7 +42,7 @@ export function FeatureSection(props: {
     props;
   const [firstLine, ...rest] = description.split("\n");
   return (
-    <section className="separator-b relative px-4">
+    <div className="separator-b relative px-4">
       <Container className="border-x" noGutter>
         <SectionHeader className="container-gutter">
           <SectionHeaderTexts>
@@ -113,6 +113,6 @@ export function FeatureSection(props: {
         </div>
         <div className="h-12 border-t" />
       </Container>
-    </section>
+    </div>
   );
 }

@@ -46,14 +46,14 @@ function PlaywrightNode() {
         </div>
       </div>
       <div className="rounded-xl border border-(--primary-6)/60 bg-(--primary-2)/60 p-2 shadow-inner">
-        <div className="grid grid-cols-2 gap-2 text-[11px] font-semibold text-(--neutral-12)">
+        <div className="text-xxs grid grid-cols-2 gap-2 font-semibold text-(--neutral-12)">
           <MiniPill label="Test suite" />
           <MiniPill
             label="Screenshots"
             icon={<ScanIcon className="size-3" />}
           />
         </div>
-        <div className="mt-2 flex items-center gap-2 rounded-lg border border-dashed border-(--primary-6)/70 bg-(--primary-1)/70 px-2 py-1.5 text-[11px] text-(--primary-11)">
+        <div className="text-xxs mt-2 flex items-center gap-2 rounded-lg border border-dashed border-(--primary-6)/70 bg-(--primary-1)/70 px-2 py-1.5 text-(--primary-11)">
           <span
             className="h-1.5 w-1.5 rounded-full bg-(--primary-9)"
             aria-hidden
@@ -79,7 +79,7 @@ function SecureArrow() {
   return (
     <div className="animate-fade-in animate-delay-500 motion-reduce:animate-fade-in animate-duration-500 fill-mode-both relative flex items-center justify-center px-1 max-sm:hidden">
       <div className="relative h-px w-24 bg-linear-to-r from-(--primary-6)/30 via-(--primary-8) to-(--primary-6)/30">
-        <div className="bg-app absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-1 rounded-full border border-(--primary-7) px-2 py-1 text-[10px] font-semibold tracking-wide text-(--primary-11) uppercase shadow-sm">
+        <div className="bg-app text-xxxs absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-1 rounded-full border border-(--primary-7) px-2 py-1 font-semibold tracking-wide text-(--primary-11) uppercase shadow-sm">
           <LockIcon className="size-3" aria-hidden />
           <span>TLS</span>
         </div>
@@ -105,7 +105,7 @@ function StorageNode() {
           <CloudIcon className="size-3" aria-hidden />
           Argos storage
         </Badge>
-        <Chip variant="success" className="text-[11px]">
+        <Chip variant="success" className="text-xxs">
           <CheckCircle2Icon className="size-3" aria-hidden />
           Stored
         </Chip>

@@ -11,7 +11,10 @@ export async function CodeBlock(props: {
   const html = await highlight(code, lang);
   return (
     <div
-      className={clsx("[&_.highlighted]:block", className)}
+      className={clsx(
+        "[&_.highlighted]:inline-block [&_.highlighted]:w-full",
+        className,
+      )}
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );

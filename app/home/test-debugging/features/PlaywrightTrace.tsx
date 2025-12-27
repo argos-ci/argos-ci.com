@@ -112,12 +112,12 @@ export function PlaywrightTrace() {
         </div>
 
         <div className="bg-app rounded-lg border-[0.5px] shadow-xs">
-          <div className="flex items-center justify-between border-b-[0.5px] px-3 py-2 text-[11px] text-(--neutral-11)">
+          <div className="text-xxs flex items-center justify-between border-b-[0.5px] px-3 py-2 text-(--neutral-11)">
             <span>trace.zip · checkout.spec.ts</span>
             <span className="font-semibold text-(--primary-10)">Replay</span>
           </div>
           <div className="flex flex-col gap-3 px-3 py-4">
-            <div className="bg-app rounded-md border px-3 py-2 text-[11px] text-(--neutral-11)">
+            <div className="bg-app text-xxs rounded-md border px-3 py-2 text-(--neutral-11)">
               <div className="flex items-center justify-between font-semibold text-(--neutral-12)">
                 Screenshot at failure
                 <span className="text-(--danger-10)">Failed</span>
@@ -127,7 +127,7 @@ export function PlaywrightTrace() {
                 <div className="h-1 w-full rounded-full bg-(--neutral-6)">
                   <div className="h-1 w-2/3 rounded-full bg-(--primary-9)" />
                 </div>
-                <span className="text-[11px] font-semibold text-(--neutral-11)">
+                <span className="text-xxs font-semibold text-(--neutral-11)">
                   00:12.6
                 </span>
               </div>
@@ -166,9 +166,9 @@ function TraceEvent(props: {
       />
       <div className="min-w-0 flex-1">
         <div className="truncate">{props.label}</div>
-        <div className="text-low text-[11px] font-normal">{props.detail}</div>
+        <div className="text-low text-xxs font-normal">{props.detail}</div>
       </div>
-      <span className="text-[11px] font-semibold tracking-wide uppercase">
+      <span className="text-xxs font-semibold tracking-wide uppercase">
         {props.duration}
       </span>
     </div>
@@ -183,7 +183,7 @@ function TimelineRow(props: { label: string; at: string; variant?: "danger" }) {
       />
       <div className="flex-1 truncate">{props.label}</div>
       <span
-        className={clsx("text-[11px] font-semibold", {
+        className={clsx("text-xxs font-semibold", {
           "text-(--danger-10)": props.variant === "danger",
           "text-(--primary-10)": props.variant !== "danger",
         })}

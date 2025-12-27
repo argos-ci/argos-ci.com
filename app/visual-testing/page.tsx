@@ -8,7 +8,6 @@ import {
   GitPullRequestIcon,
   KeyboardIcon,
   LayersIcon,
-  type LucideIcon,
   RotateCcwIcon,
   RouteIcon,
   ScanTextIcon,
@@ -24,6 +23,11 @@ import { Button } from "@/components/Button";
 import { CallToActionSection } from "@/components/CallToActionSection";
 import { Chip } from "@/components/Chip";
 import { Container } from "@/components/Container";
+import {
+  FeatureGrid,
+  FeatureGridFeature,
+  FeatureGridFeatureSmall,
+} from "@/components/FeatureGrid";
 import { FullPageGrid } from "@/components/FullPageGrid";
 import {
   Hero,
@@ -61,7 +65,7 @@ import { StorybookSnapshots } from "./features/StorybookSnapshots";
 import { TestContext } from "./features/TestContext";
 
 export const metadata: Metadata = getMetadata({
-  title: "Visual Testing for modern CI",
+  title: "Visual Testing",
   description:
     "Argos brings fast, reliable visual testing to your CI. Catch UI regressions with smart stabilization, automatic baselines, Playwright and Storybook support, and a review workflow built for speed.",
   pathname: "/visual-testing",
@@ -100,114 +104,118 @@ export default function Page() {
         </Container>
       </div>
       <TrustedBy />
-      <section className="border-b px-4">
-        <Container className="border-x bg-linear-to-b from-transparent to-(--neutral-2) pb-12">
-          <SectionHeader align="center" className="container-gutter max-w-2xl">
-            <Chip>
-              <EyeIcon className="size-4" />
-              Visual Review
-            </Chip>
-            <SectionHeaderTexts>
-              <SectionTitle>Review diffs at full speed</SectionTitle>
-              <SectionDescription>
-                Review visual diffs at speed with a high performance experience
-                built for large scale visual testing.
-              </SectionDescription>
-            </SectionHeaderTexts>
-          </SectionHeader>
-          <DiffsReview />
-        </Container>
-      </section>
-      <section className="px-4">
-        <FeatureGrid>
-          <FeatureGridFeature
-            title={<>Find and inspect changes instantly</>}
-            description={
-              <>
-                Side by side and overlay views with synchronized zoom, plus a
-                built in changes highlighter. Jump from diff to diff, see
-                exactly what changed, and inspect details without losing
-                context.
-              </>
-            }
-            href="/docs/getting-started"
-            illustration={<InstantDiffInspector />}
-          />
-          <FeatureGridFeature
-            title={<>Review history</>}
-            description={
-              <>
-                See what changed, who approved, and when. Keep a reliable audit
-                trail for releases and regressions.
-              </>
-            }
-            href="/docs/getting-started"
-            illustration={<ReviewHistory />}
-          />
-        </FeatureGrid>
-        <FeatureGrid>
-          <FeatureGridFeature
-            title={<>Test context</>}
-            description={
-              <>
-                Every diff comes with the details you need: URL, viewport, color
-                mode, and your own annotations to understand intent instantly.
-              </>
-            }
-            href="/docs/getting-started"
-            illustration={<TestContext />}
-          />
-          <FeatureGridFeature
-            title={<>Diffs grouping</>}
-            description={
-              <>
-                Group related screenshots so you review once, not fifty times.
-                Keep PRs readable even when the UI changes ripple across pages.
-              </>
-            }
-            href="/docs/getting-started"
-            illustration={<GroupedDiffs />}
-          />
-        </FeatureGrid>
-        <Container
-          noGutter
-          className="relative grid grid-cols-1 border-x border-b max-md:divide-y md:grid-cols-3 md:divide-x"
-        >
-          <FeatureGridFeatureSmall
-            title="Automatic approval reuse"
-            description={
-              <>
-                Argos remembers what you already approved and reapplies it
-                automatically when identical changes show up again.
-              </>
-            }
-            href="/docs/getting-started"
-            icon={CopyCheckIcon}
-          />
-          <FeatureGridFeatureSmall
-            title="Keyboard shortcuts"
-            description={
-              <>
-                Review at the speed of thought. Approve, reject, mask, and
-                navigate without leaving the keyboard.
-              </>
-            }
-            href="/docs/getting-started"
-            icon={KeyboardIcon}
-          />
-          <FeatureGridFeatureSmall
-            title="Overlay customization"
-            description={
-              <>
-                Tune the overlay to your needs. Adjust opacity, colors, and
-                blending to isolate real visual changes and ignore noise.
-              </>
-            }
-            href="/docs/getting-started"
-            icon={SlidersHorizontalIcon}
-          />
-        </Container>
-        <Container className="h-12 border-x border-b" />
+      <section>
+        <div className="border-b px-4">
+          <Container className="border-x bg-linear-to-b from-transparent to-(--neutral-2) pb-12">
+            <SectionHeader
+              align="center"
+              className="container-gutter max-w-2xl"
+            >
+              <Chip icon={EyeIcon}>Visual Review</Chip>
+              <SectionHeaderTexts>
+                <SectionTitle>Review diffs at full speed</SectionTitle>
+                <SectionDescription>
+                  Review visual diffs at speed with a high performance
+                  experience built for large scale visual testing.
+                </SectionDescription>
+              </SectionHeaderTexts>
+            </SectionHeader>
+            <DiffsReview />
+          </Container>
+        </div>
+        <div className="px-4">
+          <FeatureGrid>
+            <FeatureGridFeature
+              title={<>Find and inspect changes instantly</>}
+              description={
+                <>
+                  Side by side and overlay views with synchronized zoom, plus a
+                  built in changes highlighter. Jump from diff to diff, see
+                  exactly what changed, and inspect details without losing
+                  context.
+                </>
+              }
+              href="/docs/getting-started"
+              illustration={<InstantDiffInspector />}
+            />
+            <FeatureGridFeature
+              title={<>Review history</>}
+              description={
+                <>
+                  See what changed, who approved, and when. Keep a reliable
+                  audit trail for releases and regressions.
+                </>
+              }
+              href="/docs/getting-started"
+              illustration={<ReviewHistory />}
+            />
+          </FeatureGrid>
+          <FeatureGrid>
+            <FeatureGridFeature
+              title={<>Test context</>}
+              description={
+                <>
+                  Every diff comes with the details you need: URL, viewport,
+                  color mode, and your own annotations to understand intent
+                  instantly.
+                </>
+              }
+              href="/docs/getting-started"
+              illustration={<TestContext />}
+            />
+            <FeatureGridFeature
+              title={<>Diffs grouping</>}
+              description={
+                <>
+                  Group related screenshots so you review once, not fifty times.
+                  Keep PRs readable even when the UI changes ripple across
+                  pages.
+                </>
+              }
+              href="/docs/getting-started"
+              illustration={<GroupedDiffs />}
+            />
+          </FeatureGrid>
+          <Container
+            noGutter
+            className="relative grid grid-cols-1 border-x border-b max-md:divide-y md:grid-cols-3 md:divide-x"
+          >
+            <FeatureGridFeatureSmall
+              title="Automatic approval reuse"
+              description={
+                <>
+                  Argos remembers what you already approved and reapplies it
+                  automatically when identical changes show up again.
+                </>
+              }
+              href="/docs/getting-started"
+              icon={CopyCheckIcon}
+            />
+            <FeatureGridFeatureSmall
+              title="Keyboard shortcuts"
+              description={
+                <>
+                  Review at the speed of thought. Approve, reject, mask, and
+                  navigate without leaving the keyboard.
+                </>
+              }
+              href="/docs/getting-started"
+              icon={KeyboardIcon}
+            />
+            <FeatureGridFeatureSmall
+              title="Overlay customization"
+              description={
+                <>
+                  Tune the overlay to your needs. Adjust opacity, colors, and
+                  blending to isolate real visual changes and ignore noise.
+                </>
+              }
+              href="/docs/getting-started"
+              icon={SlidersHorizontalIcon}
+            />
+          </Container>
+          <Container className="h-12 border-x border-b" />
+        </div>
       </section>
       <QuoteBlock quote={pivotQuote} className="border-b" />
       <section className="border-b px-4">
@@ -260,120 +268,125 @@ export default function Page() {
         </Container>
         <Container className="h-12 border-x" />
       </section>
-      <section className="border-b px-4">
-        <Container className="border-x bg-linear-to-b from-transparent to-(--neutral-2) pb-12">
-          <SectionHeader align="center" className="container-gutter max-w-2xl">
-            <Chip icon={BlocksIcon}>Components Testing</Chip>
-            <SectionHeaderTexts>
-              <SectionTitle>Visual testing for Storybook</SectionTitle>
-              <SectionDescription>
-                Validate every Storybook component visually with zero extra
-                setup. Turn stories into visual checkpoints and catch
-                regressions early, without slowing down your workflow.
-              </SectionDescription>
-            </SectionHeaderTexts>
-          </SectionHeader>
-          <StorybookSnapshots />
-        </Container>
-      </section>
-      <section className="border-b px-4">
-        <FeatureGrid>
-          <FeatureGridFeature
-            title={<>Test all UI variants from a single Story</>}
-            description={
-              <>
-                Capture visual snapshots for every UI configuration
-                automatically. Argos runs each Storybook scenario across themes,
-                viewports, or locales without duplicating stories, so visual
-                coverage scales while your Storybook stays simple.
-              </>
-            }
-            href="/docs/storybook-story-modes"
-            illustration={<StoryModes />}
-          />
-          <FeatureGridFeature
-            title={<>Capture Storybook screenshots directly in CI</>}
-            description={
-              <>
-                Argos runs Storybook stories inside your CI using Vitest and
-                takes screenshots as part of your test suite. No local
-                rendering, no manual steps, just deterministic visual snapshots
-                generated where your code actually runs.
-              </>
-            }
-            href="/docs/storybook"
-            illustration={<StorybookCIVitest />}
-          />
-        </FeatureGrid>
-        <FeatureGrid>
-          <FeatureGridFeature
-            title={<>Take screenshots during interactive flows</>}
-            description={
-              <>
-                Capture visual snapshots at any moment inside the Storybook play
-                function. Argos lets you assert visuals after user interactions,
-                async states, or animations, so you can validate real UI
-                behavior, not just static renders.
-              </>
-            }
-            href="/docs/storybook"
-            illustration={<PlayFunctionScreenshot />}
-          />
-          <FeatureGridFeature
-            title={<>Cover all browsers with the same stories</>}
-            description={
-              <>
-                Run the exact same Storybook stories across multiple browsers in
-                CI and capture visual snapshots for each engine. Catch
-                cross-browser rendering issues early without maintaining
-                separate test setups or duplicated stories.
-              </>
-            }
-            href="/docs/storybook"
-            illustration={<BrowserCoverage />}
-          />
-        </FeatureGrid>
-        <Container
-          noGutter
-          className="relative grid grid-cols-1 border-x border-b max-md:divide-y md:grid-cols-3 md:divide-x"
-        >
-          <FeatureGridFeatureSmall
-            title="Story based baselines"
-            description={
-              <>
-                Each Storybook story gets its own visual baseline, stable across
-                refactors and story reordering.
-              </>
-            }
-            href="/docs/storybook"
-            icon={LayersIcon}
-          />
+      <section>
+        <div className="border-b px-4">
+          <Container className="border-x bg-linear-to-b from-transparent to-(--neutral-2) pb-12">
+            <SectionHeader
+              align="center"
+              className="container-gutter max-w-2xl"
+            >
+              <Chip icon={BlocksIcon}>Components Testing</Chip>
+              <SectionHeaderTexts>
+                <SectionTitle>Visual testing for Storybook</SectionTitle>
+                <SectionDescription>
+                  Validate every Storybook component visually with zero extra
+                  setup. Turn stories into visual checkpoints and catch
+                  regressions early, without slowing down your workflow.
+                </SectionDescription>
+              </SectionHeaderTexts>
+            </SectionHeader>
+            <StorybookSnapshots />
+          </Container>
+        </div>
+        <div className="border-b px-4">
+          <FeatureGrid>
+            <FeatureGridFeature
+              title={<>Test all UI variants from a single Story</>}
+              description={
+                <>
+                  Capture visual snapshots for every UI configuration
+                  automatically. Argos runs each Storybook scenario across
+                  themes, viewports, or locales without duplicating stories, so
+                  visual coverage scales while your Storybook stays simple.
+                </>
+              }
+              href="/docs/storybook-story-modes"
+              illustration={<StoryModes />}
+            />
+            <FeatureGridFeature
+              title={<>Capture Storybook screenshots directly in CI</>}
+              description={
+                <>
+                  Argos runs Storybook stories inside your CI using Vitest and
+                  takes screenshots as part of your test suite. No local
+                  rendering, no manual steps, just deterministic visual
+                  snapshots generated where your code actually runs.
+                </>
+              }
+              href="/docs/storybook"
+              illustration={<StorybookCIVitest />}
+            />
+          </FeatureGrid>
+          <FeatureGrid>
+            <FeatureGridFeature
+              title={<>Take screenshots during interactive flows</>}
+              description={
+                <>
+                  Capture visual snapshots at any moment inside the Storybook
+                  play function. Argos lets you assert visuals after user
+                  interactions, async states, or animations, so you can validate
+                  real UI behavior, not just static renders.
+                </>
+              }
+              href="/docs/storybook"
+              illustration={<PlayFunctionScreenshot />}
+            />
+            <FeatureGridFeature
+              title={<>Cover all browsers with the same stories</>}
+              description={
+                <>
+                  Run the exact same Storybook stories across multiple browsers
+                  in CI and capture visual snapshots for each engine. Catch
+                  cross-browser rendering issues early without maintaining
+                  separate test setups or duplicated stories.
+                </>
+              }
+              href="/docs/storybook"
+              illustration={<BrowserCoverage />}
+            />
+          </FeatureGrid>
+          <Container
+            noGutter
+            className="relative grid grid-cols-1 border-x border-b max-md:divide-y md:grid-cols-3 md:divide-x"
+          >
+            <FeatureGridFeatureSmall
+              title="Story based baselines"
+              description={
+                <>
+                  Each Storybook story gets its own visual baseline, stable
+                  across refactors and story reordering.
+                </>
+              }
+              href="/docs/storybook"
+              icon={LayersIcon}
+            />
 
-          <FeatureGridFeatureSmall
-            title="Zero config Storybook CI"
-            description={
-              <>
-                Detects stories, viewports, and themes automatically without
-                manual snapshot wiring.
-              </>
-            }
-            href="/docs/storybook"
-            icon={ZapIcon}
-          />
+            <FeatureGridFeatureSmall
+              title="Zero config Storybook CI"
+              description={
+                <>
+                  Detects stories, viewports, and themes automatically without
+                  manual snapshot wiring.
+                </>
+              }
+              href="/docs/storybook"
+              icon={ZapIcon}
+            />
 
-          <FeatureGridFeatureSmall
-            title="Addons aware rendering"
-            description={
-              <>
-                Correctly captures stories using controls, decorators, themes,
-                and globals.
-              </>
-            }
-            href="/docs/storybook"
-            icon={SlidersIcon}
-          />
-        </Container>
-        <Container className="h-12 border-x" />
+            <FeatureGridFeatureSmall
+              title="Addons aware rendering"
+              description={
+                <>
+                  Correctly captures stories using controls, decorators, themes,
+                  and globals.
+                </>
+              }
+              href="/docs/storybook"
+              icon={SlidersIcon}
+            />
+          </Container>
+          <Container className="h-12 border-x" />
+        </div>
       </section>
       <FeaturedSDKsSection />
       <section className="border-b px-4">
@@ -494,61 +507,5 @@ export default function Page() {
       </section>
       <CallToActionSection />
     </>
-  );
-}
-
-function FeatureGrid(props: { children: React.ReactNode }) {
-  const { children } = props;
-  return (
-    <Container
-      noGutter
-      className="relative grid grid-cols-1 border-x border-b max-md:divide-y md:grid-cols-2 md:divide-x"
-    >
-      {children}
-    </Container>
-  );
-}
-
-function FeatureGridFeature(props: {
-  title: React.ReactNode;
-  description: React.ReactNode;
-  href: string;
-  illustration: React.ReactNode;
-}) {
-  const { title, description, href, illustration } = props;
-  return (
-    <div className="relative flex flex-col gap-10 px-4 py-6 sm:px-10 sm:py-14">
-      <div className="relative flex h-72 items-center justify-center">
-        {illustration}
-      </div>
-      <div>
-        <h3 className="mb-1 font-semibold">{title}</h3>
-        <p className="text-low font-[450]">{description}</p>
-        <Button className="mt-4" variant="outline" asChild>
-          <Link href={href}>Learn more</Link>
-        </Button>
-      </div>
-    </div>
-  );
-}
-
-function FeatureGridFeatureSmall(props: {
-  title: React.ReactNode;
-  description: React.ReactNode;
-  href: string;
-  icon: LucideIcon;
-}) {
-  const { title, description, href, icon: Icon } = props;
-  return (
-    <div className="flex flex-col items-start gap-2 p-8 text-left text-sm lg:px-9 lg:py-10">
-      <Icon className="size-4 text-(--primary-10)" />
-      <div>
-        <h3 className="mb-1 font-semibold">{title}</h3>
-        <p className="text-low font-[450]">{description}</p>
-        <Button className="mt-4" variant="outline" asChild>
-          <Link href={href}>Learn more</Link>
-        </Button>
-      </div>
-    </div>
   );
 }

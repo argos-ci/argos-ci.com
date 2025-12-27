@@ -135,7 +135,7 @@ function TimelineStep(props: (typeof STEPS)[number]) {
           </div>
           <p className="text-low mt-1 text-sm leading-relaxed">{description}</p>
           {tone === "danger" ? (
-            <div className="mt-3 grid gap-1 text-[11px] font-semibold text-(--neutral-12)">
+            <div className="text-xxs mt-3 grid gap-1 font-semibold text-(--neutral-12)">
               <MiniStat label="15 snapshots changed" />
               <MiniStat label="2 added views" />
             </div>

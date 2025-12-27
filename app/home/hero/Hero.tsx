@@ -65,7 +65,8 @@ export function Hero() {
             <div className="absolute inset-0 bg-(--neutral-a6) opacity-0 transition duration-300 ease-in-out hover:opacity-100 dark:bg-[rgba(0,0,0,0.3)]" />
             <ThemeImage
               src={{ light: appLight, dark: appDark }}
-              alt="Argos Build"
+              alt=""
+              aria-hidden
               className="w-full max-w-220 rounded md:rounded-t-[0.875rem]"
             />
           </div>

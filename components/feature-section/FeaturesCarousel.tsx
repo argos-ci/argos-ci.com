@@ -75,7 +75,7 @@ export function FeaturesCarousel(props: {
   return (
     <div ref={ref} className="bg-subtle border-y">
       <div className="relative h-60 overflow-hidden sm:h-110">
-        <div className="relative size-full" role="presentation">
+        <div className="relative size-full">
           <div className="size-full mask-intersect max-sm:mask-[linear-gradient(black_70%,transparent),linear-gradient(90deg,transparent,black_20%,black_80%,transparent)]">
             {features.map((feature, index) => {
               return (
@@ -124,7 +124,7 @@ export function FeaturesCarousel(props: {
                 className: "size-5",
                 strokeWidth: 1.5,
               })}
-              <h3 className="mt-2 mb-3 font-medium">{feature.title}</h3>
+              <div className="mt-2 mb-3 font-medium">{feature.title}</div>
               <p className="text-low">{feature.text}</p>
               <Link
                 href={feature.href}
@@ -184,8 +184,9 @@ function FeaturePanel(props: {
     >
       <div
         key={mountKey}
+        role="presentation"
         className={clsx(
-          "absolute inset-0 flex items-center justify-center",
+          "absolute inset-0 flex items-center justify-center select-none",
           mountKey >= 1 ? null : "opacity-0",
         )}
       >

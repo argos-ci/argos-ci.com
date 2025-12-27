@@ -1,6 +1,6 @@
-import pivotLogo140x48Dark from "../140x48/pivot.svg";
+import pivotLogo140x48Dark from "../140x48/pivot-dark.svg";
 import pivotLogo140x48 from "../140x48/pivot.svg";
-import pivotLogoAdjustedDark from "../adjusted/pivot.svg";
+import pivotLogoAdjustedDark from "../adjusted/pivot-dark.svg";
 import pivotLogoAdjusted from "../adjusted/pivot.svg";
 import estelleGiulyAvatar from "../people/estelle-giuly.jpg";
 import type { CustomerCompany, CustomerQuote, CustomerUser } from "../types";
@@ -13,7 +13,7 @@ export const pivot: CustomerCompany = {
   name: "Pivot",
 };
 
-const olivierTassinari: CustomerUser = {
+const estelleGiuly: CustomerUser = {
   avatar: estelleGiulyAvatar,
   name: "Estelle Giuly",
   title: "CTO of Pivot",
@@ -28,5 +28,5 @@ export const pivotQuote: CustomerQuote = {
       confidence to deploy faster without sacrificing quality.
     </>
   ),
-  author: olivierTassinari,
+  author: estelleGiuly,
 };
