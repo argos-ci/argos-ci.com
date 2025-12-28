@@ -19,7 +19,7 @@ import { argosScreenshot } from "@argos-ci/storybook/vitest";
 
 export function PlayFunctionScreenshot() {
   return (
-    <Card className="max-h-80 overflow-hidden" shadow="shadow-md">
+    <Card className="max-h-80 overflow-hidden" shadow="high">
       <div className="flex items-center gap-2 border-b-[0.5px] px-3 py-2 text-xs font-semibold">
         <span
           aria-hidden

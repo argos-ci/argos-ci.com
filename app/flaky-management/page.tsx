@@ -21,15 +21,12 @@ import { getMetadata } from "@/lib/metadata";
 
 import { permitIoQuote } from "../assets/customers/library/permit-io";
 import { TrustedBy } from "../common/TrustedBy";
-import { FailureScreenshots as FailureScreenshotsIllustration } from "../home/test-debugging/features/FailureScreenshots";
 import { AdvancedAnalyticsCardsIllustration } from "./features/AdvancedAnalyticsCards";
+import { CleanSignalHistoryIllustration } from "./features/CleanSignalHistory";
 import { ChangeHistoryStackIllustration } from "./features/ChangeHistoryStack";
 import { FlakyIndicatorScreenshotIllustration } from "./features/FlakyIndicatorScreenshot";
-import { OneClickReplayIllustration } from "./features/OneClickReplay";
-import { OneLineSetupIllustration } from "./features/OneLineSetup";
-import { RetryScreenshotsLeftIllustration } from "./features/RetryScreenshotsLeft";
-import { SdkFloatingLogosIllustration } from "./features/SdkFloatingLogos";
-import { UnlimitedTracesIllustration } from "./features/UnlimitedTraces";
+import { SmartMatchingStackIllustration } from "./features/SmartMatchingStack";
+import { IgnoreFromReviewIllustration } from "./features/IgnoreFromReview";
 
 export const metadata: Metadata = getMetadata({
   title: "Flaky Management",
@@ -168,10 +165,10 @@ export default function Page() {
                 </>
               }
               href="/docs/getting-started"
-              illustration={null}
+              illustration={<IgnoreFromReviewIllustration />}
             />
             <FeatureGridFeature
-              title={<>Smart matching across future builds</>}
+              title={<>Smart matching across builds</>}
               description={
                 <>
                   Once ignored, Argos automatically detects the same change in
@@ -180,7 +177,7 @@ export default function Page() {
                 </>
               }
               href="/docs/getting-started"
-              illustration={null}
+              illustration={<SmartMatchingStackIllustration />}
             />
             <FeatureGridFeature
               title={<>Clean CI signal, preserved context</>}
@@ -192,7 +189,7 @@ export default function Page() {
                 </>
               }
               href="/docs/getting-started"
-              illustration={null}
+              illustration={<CleanSignalHistoryIllustration />}
             />
           </FeatureGrid>
           <Container className="h-12 border-x border-b" />

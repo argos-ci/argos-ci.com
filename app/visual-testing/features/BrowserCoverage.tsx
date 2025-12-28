@@ -26,7 +26,7 @@ export function BrowserCoverage() {
   return (
     <Card
       className="relative z-10 w-full max-w-80 bg-[linear-gradient(180deg,var(--neutral-1),var(--neutral-2))]"
-      shadow="shadow-lg"
+      shadow="high"
     >
       <div className="flex items-center gap-3 border-b px-4 py-3">
         <span className="grid size-12 place-items-center rounded-xl border shadow-[0_14px_36px_-18px_rgba(80,62,255,0.85)]">

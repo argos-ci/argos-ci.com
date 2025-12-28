@@ -27,7 +27,7 @@ export function OneClickReplayIllustration() {
         </div>
 
         <div className="space-y-3 p-3">
-          <div className="rounded-lg border border-(--neutral-6) bg-white/75 px-3 py-2 shadow-xs">
+          <div className="bg-subtle rounded-lg border border-(--neutral-6) px-3 py-2 shadow-xs">
             <div className="text-xxs flex items-center justify-between font-semibold text-(--neutral-12)">
               Replay failure
               <span className="text-(--danger-10)">Failed</span>
@@ -42,7 +42,7 @@ export function OneClickReplayIllustration() {
             </div>
           </div>
 
-          <div className="grid gap-1.5 rounded-lg border border-(--neutral-6) bg-white/80 p-3">
+          <div className="bg-subtle grid gap-1.5 rounded-lg border border-(--neutral-6) p-3">
             {timeline.map((item) => (
               <TimelineRow key={item.label} {...item} />
             ))}

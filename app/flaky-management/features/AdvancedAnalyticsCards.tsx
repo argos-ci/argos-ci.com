@@ -24,14 +24,14 @@ export function AdvancedAnalyticsCardsIllustration() {
         />
       </Card>
       <Card
-        className="absolute right-4 bottom-4 flex w-40 flex-col gap-1 p-3"
+        className="absolute right-4 bottom-4 flex w-40 flex-col gap-3 p-3"
         shadow="high"
       >
         <SmallTitle>
           <BarChart2Icon className="text-low size-3" />
           Build metrics
         </SmallTitle>
-        <div className="grid grid-cols-2 text-sm">
+        <div className="grid grid-cols-2 gap-2 text-sm">
           <Metric label="Builds" value="63" />
           <Metric label="Stability" value="51%" />
           <Metric label="Changes" value="31" />
@@ -44,7 +44,7 @@ export function AdvancedAnalyticsCardsIllustration() {
 
 function Metric(props: { label: string; value: string }) {
   return (
-    <div className="py-2">
+    <div>
       <div className="text-xxs text-(--neutral-11)">{props.label}</div>
       <div className="text-lg leading-7 font-semibold text-(--neutral-12)">
         {props.value}

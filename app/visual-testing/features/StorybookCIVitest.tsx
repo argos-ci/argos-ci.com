@@ -46,7 +46,7 @@ const LOG_LINES: Array<{
 
 export function StorybookCIVitest() {
   return (
-    <Card className="relative" shadow="shadow-md">
+    <Card className="relative" shadow="high">
       <div className="text-xxs relative flex items-center justify-between border-b-[0.5px] px-3 py-2 font-semibold">
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1.5">

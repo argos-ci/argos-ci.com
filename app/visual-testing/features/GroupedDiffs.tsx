@@ -12,6 +12,7 @@ export function GroupedDiffs() {
       <div className="relative grid items-center gap-2 sm:gap-8 md:grid-cols-2">
         <div>
           <Card
+            shadow="high"
             className={clsx(
               "animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both flex flex-col gap-3 p-3",
               "h-22 overflow-hidden max-md:mask-b-from-80% sm:h-40 md:h-auto",
@@ -35,6 +36,7 @@ export function GroupedDiffs() {
         </div>
 
         <Card
+          shadow="high"
           className={clsx(
             "animate-slide-up-fade animate-delay-150 motion-reduce:animate-fade-in animate-duration-500 fill-mode-both flex h-30 flex-col gap-3 p-3",
             "h-22 overflow-hidden max-md:mask-b-from-80% sm:h-40 md:h-auto",

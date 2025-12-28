@@ -25,7 +25,7 @@ export function SlackNotification() {
 
 function AutomationBuilder() {
   return (
-    <Card className="overflow-hidden border" shadow="shadow-md">
+    <Card className="overflow-hidden border" shadow="high">
       <div className="border-b-[0.5px] px-3 py-2">
         <SmallTitle>
           <WorkflowIcon className="size-3" />
