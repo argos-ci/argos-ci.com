@@ -3,7 +3,7 @@ import { Page, test } from "@playwright/test";
 
 const FOOTER_LINKS = {
   "visual-testing": "Visual Testing",
-  "flaky-management": "FlakyManagement",
+  "flaky-management": "Flaky Management",
   "test-debugging": "Test Debugging",
   pricing: "Pricing",
   "oss-friends": "OSS Friends",
