@@ -3,7 +3,7 @@ import { EyeIcon, ThumbsUpIcon, Wand2Icon } from "lucide-react";
 import type { ReactNode } from "react";
 
 import { github } from "@/app/assets/brands/library";
-import { greg, jeremy } from "@/app/assets/people/library";
+import { andrew, nina } from "@/app/assets/people/library";
 import { ApplicationSVG } from "@/components/ApplicationSVG";
 import { Badge } from "@/components/Badge";
 import { Card } from "@/components/Card";
@@ -254,7 +254,7 @@ function MiniPreview(props: { variant: SneakerVariant }) {
 function AvatarStack() {
   return (
     <div className="flex -space-x-2">
-      {[greg, jeremy].map((src, index) => (
+      {[andrew, nina].map((src, index) => (
         <ThemeImage
           key={index}
           alt=""

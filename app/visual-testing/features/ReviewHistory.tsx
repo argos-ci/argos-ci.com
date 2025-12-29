@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { ThumbsDownIcon, ThumbsUpIcon } from "lucide-react";
 
-import { greg, jeremy } from "@/app/assets/people/library";
+import { andrew, nina } from "@/app/assets/people/library";
 import { Card } from "@/components/Card";
 import { Chip } from "@/components/Chip";
 import { ThemeImage } from "@/components/ThemeImage";
@@ -12,15 +12,15 @@ const REVIEWS = [
     status: "Approved",
     tone: "success" as const,
     time: "2 minutes ago",
-    author: "Greg Bergé",
-    name: "greg" as const,
+    author: "Andrew",
+    name: "andrew" as const,
   },
   {
     status: "Rejected",
     tone: "danger" as const,
     time: "3 hours ago",
-    author: "Jeremy Sfez",
-    name: "jeremy" as const,
+    author: "Nina",
+    name: "nina" as const,
   },
 ];
 
@@ -62,7 +62,7 @@ function HistoryRow(props: {
   tone: "success" | "danger";
   time: string;
   author: string;
-  name: "greg" | "jeremy";
+  name: "andrew" | "nina";
 }) {
   const { name, status, tone, time, author } = props;
 
@@ -94,13 +94,13 @@ function HistoryRow(props: {
 function AvatarStack() {
   return (
     <span className="-mr-1 ml-1 flex items-center">
-      <Avatar name="greg" />
-      <Avatar name="jeremy" className="-ml-1.5" />
+      <Avatar name="andrew" />
+      <Avatar name="nina" className="-ml-1.5" />
     </span>
   );
 }
 
-function Avatar(props: { name: "greg" | "jeremy"; className?: string }) {
+function Avatar(props: { name: "andrew" | "nina"; className?: string }) {
   const { name, className } = props;
   return (
     <ThemeImage
@@ -108,7 +108,7 @@ function Avatar(props: { name: "greg" | "jeremy"; className?: string }) {
         "size-4 rounded-full border border-(--neutral-1)",
         className,
       )}
-      src={{ greg, jeremy }[name]}
+      src={{ andrew, nina }[name]}
       alt=""
     />
   );

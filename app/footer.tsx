@@ -14,10 +14,10 @@ import { XIcon } from "@/components/icons/XIcon";
 
 const FooterSection = twc.div`my-2 flex flex-1 grow basis-36 flex-col gap-2 whitespace-nowrap`;
 const FooterSectionTitle = twc.div`mb-1 font-medium`;
-const FooterIconLink = twc.a`text-low transition hover:text-default`;
+const FooterIconLink = twc.a`text-(--neutral-10) transition hover:text-default`;
 const FooterIconNextLink = twc(
   NextLink,
-)`text-low transition hover:text-default`;
+)`text-(--neutral-10) transition hover:text-default`;
 
 function FooterLink(props: { children: React.ReactNode; href: string }) {
   return (
