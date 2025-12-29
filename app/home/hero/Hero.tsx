@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { ArrowUpRightIcon, PlayCircleIcon } from "lucide-react";
 import Link from "next/link";
 
+import { app } from "@/app/assets/product/library";
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 import { FullPageGrid } from "@/components/FullPageGrid";
@@ -14,8 +15,6 @@ import {
 import { ThemeImage } from "@/components/ThemeImage";
 import { getPaginatedChangelogs } from "@/lib/api/changelog";
 
-import appDark from "./assets/app-dark.png";
-import appLight from "./assets/app-light.png";
 import gradients from "./assets/gradients.svg";
 
 export function Hero() {
@@ -64,7 +63,7 @@ export function Hero() {
           >
             <div className="absolute inset-0 bg-(--neutral-a6) opacity-0 transition duration-300 ease-in-out hover:opacity-100 dark:bg-[rgba(0,0,0,0.3)]" />
             <ThemeImage
-              src={{ light: appLight, dark: appDark }}
+              src={app}
               alt=""
               aria-hidden
               className="w-full max-w-220 rounded md:rounded-t-[0.875rem]"

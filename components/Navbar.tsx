@@ -47,7 +47,7 @@ export function Navbar(props: NavbarProps) {
               }
             }}
             className={clsx(
-              "bg-app fixed inset-0 top-[calc(3.75rem-1px)] z-10 flex flex-col items-start gap-3 overflow-auto p-6 md:hidden",
+              "bg-app fixed inset-0 top-14.75 flex flex-col items-start gap-3 overflow-auto p-6 md:hidden",
               "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 duration-200",
             )}
           >

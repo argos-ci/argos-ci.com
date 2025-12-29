@@ -22,11 +22,11 @@ import { getMetadata } from "@/lib/metadata";
 import { permitIoQuote } from "../assets/customers/library/permit-io";
 import { TrustedBy } from "../common/TrustedBy";
 import { AdvancedAnalyticsCardsIllustration } from "./features/AdvancedAnalyticsCards";
-import { CleanSignalHistoryIllustration } from "./features/CleanSignalHistory";
 import { ChangeHistoryStackIllustration } from "./features/ChangeHistoryStack";
+import { CleanSignalHistoryIllustration } from "./features/CleanSignalHistory";
 import { FlakyIndicatorScreenshotIllustration } from "./features/FlakyIndicatorScreenshot";
-import { SmartMatchingStackIllustration } from "./features/SmartMatchingStack";
 import { IgnoreFromReviewIllustration } from "./features/IgnoreFromReview";
+import { SmartMatchingStackIllustration } from "./features/SmartMatchingStack";
 
 export const metadata: Metadata = getMetadata({
   title: "Flaky Management",
@@ -45,7 +45,9 @@ export default function Page() {
           <FullPageGrid height="h-200 md:h-120" tint={color} />
           <Hero align="center" className="relative">
             <div className={clsx("rounded-full border px-3 py-1.5")}>
-              <FeatureIndicator color={color}>Test Debugging</FeatureIndicator>
+              <FeatureIndicator color={color}>
+                Flaky Management
+              </FeatureIndicator>
             </div>
             <HeroHeading>
               Flaky test management that keeps your CI reliable

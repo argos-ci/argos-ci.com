@@ -1,5 +1,5 @@
-import cloudflareSvg from "./cloudflare.svg";
 import chromeSvg from "./chrome.svg";
+import cloudflareSvg from "./cloudflare.svg";
 import cypressSvgDark from "./cypress-dark.svg";
 import cypressSvgLight from "./cypress.svg";
 import edgeSvg from "./edge.svg";
