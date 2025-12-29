@@ -1,13 +1,6 @@
 import { argosScreenshot } from "@argos-ci/playwright";
 import { Page, test } from "@playwright/test";
 
-const NAV_LINKS = {
-  pricing: "Pricing",
-  changelog: "Changelog",
-  blog: "Blog",
-  customers: "Customers",
-};
-
 const FOOTER_LINKS = {
   "visual-testing": "Visual Testing",
   "flaky-management": "FlakyManagement",
