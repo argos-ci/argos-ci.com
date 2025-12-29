@@ -41,7 +41,7 @@ export function TestDebugging() {
       ]}
       color="teal"
       featureName="Test Debugging"
-      title="See why tests fail"
+      title="See why E2E tests fail"
       description={`Investigate failed tests with full visual context.\nSee what broke, understand why, and fix it instantly.`}
       cta={
         <Button variant="outline" asChild>

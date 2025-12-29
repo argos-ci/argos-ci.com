@@ -16,7 +16,7 @@ export function Hero(
       className={clsx(
         "flex flex-col gap-5",
         {
-          center: "mx-auto max-w-2xl items-center text-center text-balance",
+          center: "mx-auto max-w-3xl items-center text-center text-balance",
           start: "items-start",
         }[align],
         rest.className,

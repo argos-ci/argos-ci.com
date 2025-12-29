@@ -41,7 +41,7 @@ export function FlakyManagement() {
       color="amber"
       featureName="Flaky Management"
       title="Keep flakiness under control"
-      description={`Detect, manage and fix flaky tests.\nTrack instability across builds and automatically silence flaky noise.`}
+      description={`Detect, manage and fix flaky tests.\nTrack instability across builds and automatically silence noise.`}
       cta={
         <Button variant="outline" asChild>
           <Link href="/flaky-management">Explore Flaky Management</Link>
@@ -49,7 +49,7 @@ export function FlakyManagement() {
       }
       story={{
         quote: muiQuote,
-        href: "/customers/gitbook",
+        href: "/customers/mui",
       }}
     />
   );
