@@ -49,7 +49,7 @@ export const AppNavbar: React.FC = () => {
   );
 };
 
-export default function SecondaryNavbar() {
+function SecondaryNavbar() {
   return (
     <NavigationMenu.Root className="min-w-max">
       <NavigationMenu.List className="relative flex max-md:flex-col">

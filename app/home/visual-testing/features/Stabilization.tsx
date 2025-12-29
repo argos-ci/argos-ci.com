@@ -72,26 +72,6 @@ function Header(props: ComponentPropsWithRef<"div">) {
   );
 }
 
-export function Counter(props: {
-  count: React.ReactNode;
-  unit: React.ReactNode;
-  className?: string;
-}) {
-  return (
-    <div
-      className={clsx(
-        "flex items-baseline justify-center gap-1.5",
-        props.className,
-      )}
-    >
-      <strong className="text-sm font-semibold">{props.count}</strong>
-      <span className="text-low text-xxxs tracking-wider uppercase">
-        {props.unit}
-      </span>
-    </div>
-  );
-}
-
 const DEFAULT_MATRIX = [
   0.25, 0.55, 0.4, 0.7, 0.6, 0.35, 0.5, 0.3, 0.45, 0.65, 0.28, 0.52, 0.38, 0.6,
   0.33, 0.48,

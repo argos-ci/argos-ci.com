@@ -102,7 +102,7 @@ function CardHeader(props: ComponentPropsWithRef<"div">) {
   );
 }
 
-export function Description(props: ComponentPropsWithRef<"p">) {
+function Description(props: ComponentPropsWithRef<"p">) {
   return <p {...props} className={clsx("text-low text-xs", props.className)} />;
 }
 

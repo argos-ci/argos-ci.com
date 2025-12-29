@@ -1,0 +1,37 @@
+name: CI
+permissions: {}
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  check-types:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js & install dependencies
+        uses: ./.github/actions/setup-deps
+
+      - name: Check types
+        run: pnpm run check-types
+
+  knip:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js & install dependencies
+        uses: ./.github/actions/setup-deps
+
+      - name: Check types
+        run: pnpm run knip

@@ -5,7 +5,7 @@ import permitIoLogoAdjusted from "../adjusted/permit-io.svg";
 import orWeisAvatar from "../people/or-weis.jpg";
 import type { CustomerCompany, CustomerQuote, CustomerUser } from "../types";
 
-export const permitIo: CustomerCompany = {
+const permitIo: CustomerCompany = {
   logo: {
     adjusted: { light: permitIoLogoAdjusted, dark: permitIoLogoAdjustedDark },
     "140x48": { light: permitIoLogo140x48, dark: permitIoLogo140x48Dark },

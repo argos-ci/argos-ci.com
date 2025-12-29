@@ -3,20 +3,10 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import clsx from "clsx";
-import Link from "next/link";
 import * as React from "react";
 
 import { Burger } from "./Burger";
 import { useIsScrolled } from "./useIsScrolled";
-
-export function NavbarLink(props: { href: string; children: React.ReactNode }) {
-  return (
-    <Link
-      className="hover:bg-ui block rounded-md px-4 py-1.5 font-medium no-underline transition"
-      {...props}
-    />
-  );
-}
 
 type NavbarProps = {
   primary: React.ReactNode;
