@@ -204,8 +204,8 @@ function Progress(props: { start: number; color: FeatureColor }) {
     const loop = () => {
       raf = requestAnimationFrame(() => {
         const now = Date.now();
-        const ellapsed = now - start;
-        setValue(Math.min(100, Math.round((ellapsed / DURATION) * 100) + 1));
+        const elapsed = now - start;
+        setValue(Math.min(100, Math.round((elapsed / DURATION) * 100) + 1));
         loop();
       });
     };
