@@ -30,7 +30,7 @@ export const AppNavbar: React.FC = () => {
   return (
     <Navbar
       primary={
-        <NextLink href="/">
+        <NextLink href="/" className="inline-flex">
           <ArgosLogo className="h-6" />
         </NextLink>
       }
@@ -100,28 +100,28 @@ export default function SecondaryNavbar() {
                 <SectionList>
                   <li>
                     <LinkCard
-                      href="/playwright"
+                      href="/docs/quickstart/playwright"
                       icon={{ src: playwright.logo }}
                       title="Playwright"
                     />
                   </li>
                   <li>
                     <LinkCard
-                      href="/storybook"
+                      href="/docs/quickstart/storybook"
                       icon={{ src: storybook.logo }}
                       title="Storybook"
                     />
                   </li>
                   <li>
                     <LinkCard
-                      href="/cypress"
+                      href="/docs/quickstart/cypress"
                       icon={{ src: cypress.logo }}
                       title="Cypress"
                     />
                   </li>
                   <li>
                     <LinkCard
-                      href="/webdriverIO"
+                      href="/docs/quickstart/webdriverio"
                       icon={{ src: wdio.logo }}
                       title="WebdriverIO"
                     />
@@ -270,7 +270,7 @@ function Link(props: NavigationMenu.Link.Props & { href: string }) {
 }
 
 const triggerClassName = clsx(
-  "hover:bg-ui rounded-md px-4 py-1.5 font-medium no-underline transition inline-flex gap-1 items-center",
+  "hover:bg-ui aria-expanded:bg-ui rounded-md px-4 py-1.5 font-medium no-underline transition inline-flex gap-1 items-center",
 );
 
 const navIconClassName = clsx(
@@ -295,10 +295,10 @@ function LinkCard(props: {
   description?: React.ReactNode;
 }) {
   const { href, title, description, color, icon: Icon } = props;
-  console.log(Icon);
   return (
     <Link
       href={href}
+      closeOnClick
       className="hover:bg-ui group xs:p-3 flex items-center gap-3 rounded-md p-2 text-sm text-inherit no-underline"
     >
       <div

@@ -34,15 +34,11 @@ function FooterLink(props: { children: React.ReactNode; href: string }) {
 
 export const AppFooter: React.FC = () => (
   <footer className="border-t pt-10 pb-10 text-sm leading-6">
-    <Container>
-      <div className="grid grid-cols-2 gap-x-8 gap-y-2 sm:grid-cols-4 md:grid-cols-6">
-        <FooterSection className="justify-between">
-          <div className="flex flex-col gap-3">
+    <Container className="flex flex-col gap-8">
+      <div className="flex gap-8 max-sm:flex-col">
+        <FooterSection className="flex-1 justify-between">
+          <div className="flex flex-col gap-4">
             <ArgosLogo width="128" />
-            <div className="text-low text-xs whitespace-normal">
-              The Open Source visual testing alternative.
-            </div>
-
             <div className="text-low flex items-center gap-3">
               <FooterIconNextLink href="/security">
                 <Soc2Logo className="h-7 w-auto" />
@@ -51,15 +47,6 @@ export const AppFooter: React.FC = () => (
                 <GdprLogo className="h-8 w-auto" />
               </FooterIconNextLink>
             </div>
-            <Suspense
-              fallback={
-                <div aria-busy className="text-low text-sm">
-                  Loading...
-                </div>
-              }
-            >
-              <StatusWidget className="text-sm" />
-            </Suspense>
           </div>
           <div className="flex items-center gap-3">
             <FooterIconLink href="https://github.com/argos-ci/argos">
@@ -76,49 +63,52 @@ export const AppFooter: React.FC = () => (
             </FooterIconLink>
           </div>
         </FooterSection>
-        <FooterSection>
-          <FooterSectionTitle>Product</FooterSectionTitle>
-          <FooterLink href="/docs/getting-started">Getting started</FooterLink>
-          <FooterLink href="/docs/why-argos">Why Argos?</FooterLink>
-          <FooterLink href="/pricing">Pricing</FooterLink>
-          <FooterLink href="https://github.com/orgs/argos-ci/projects/1">
-            Roadmap
-          </FooterLink>
-        </FooterSection>
+        <div className="grid grid-cols-2 gap-x-8 gap-y-2 md:grid-cols-4">
+          <FooterSection>
+            <FooterSectionTitle>Product</FooterSectionTitle>
+            <FooterLink href="/visual-testing">Visual Testing</FooterLink>
+            <FooterLink href="/flaky-management">Flaky Management</FooterLink>
+            <FooterLink href="/test-debugging">Test Debugging</FooterLink>
+            <FooterLink href="https://github.com/orgs/argos-ci/projects/1">
+              Roadmap
+            </FooterLink>
+          </FooterSection>
 
-        <FooterSection>
-          <FooterSectionTitle>Quickstart</FooterSectionTitle>
-          <FooterLink href="/docs/quickstart/playwright">Playwright</FooterLink>
-          <FooterLink href="/docs/quickstart/cypress">Cypress</FooterLink>
-          <FooterLink href="/docs/quickstart/storybook">Storybook</FooterLink>
-          <FooterLink href="/docs/quickstart/next-js">Next.js</FooterLink>
-          <FooterLink href="/docs/quickstart/remix">Remix</FooterLink>
-        </FooterSection>
+          <FooterSection>
+            <FooterSectionTitle>Resources</FooterSectionTitle>
+            <FooterLink href="/docs">Docs</FooterLink>
+            <FooterLink href="/pricing">Pricing</FooterLink>
+            <FooterLink href="/oss-friends">OSS Friends</FooterLink>
+          </FooterSection>
 
-        <FooterSection>
-          <FooterSectionTitle>Company</FooterSectionTitle>
-          <FooterLink href="/docs/about-us">About us</FooterLink>
-          <FooterLink href="/security">Security</FooterLink>
-          <FooterLink href="/security/soc-2">SOC 2</FooterLink>
-          <FooterLink href="/security/gdpr">GDPR</FooterLink>
-          <FooterLink href="/privacy">Privacy</FooterLink>
-          <FooterLink href="/terms">Terms</FooterLink>
-        </FooterSection>
+          <FooterSection>
+            <FooterSectionTitle>Company</FooterSectionTitle>
+            <FooterLink href="/about">About</FooterLink>
+            <FooterLink href="/security">Security</FooterLink>
+            <FooterLink href="/contact">Contact</FooterLink>
+            <FooterLink href="/privacy">Privacy</FooterLink>
+            <FooterLink href="/terms">Terms</FooterLink>
+          </FooterSection>
 
-        <FooterSection>
-          <FooterSectionTitle>Compare</FooterSectionTitle>
-          <FooterLink href="/compare/percy">Percy</FooterLink>
-          <FooterLink href="/compare/applitools">Applitools</FooterLink>
-          <FooterLink href="/compare/chromatic">Chromatic</FooterLink>
-
-          <FooterSectionTitle className="mt-2">Resources</FooterSectionTitle>
-          <FooterLink href="/oss-friends">OSS Friends</FooterLink>
-          <FooterLink href="mailto:contact@argos-ci.com">Contact us</FooterLink>
-        </FooterSection>
-        <FooterSection>
-          <FooterSectionTitle>Preferences</FooterSectionTitle>
-          <ColorModeSelector />
-        </FooterSection>
+          <FooterSection>
+            <FooterSectionTitle>Compare</FooterSectionTitle>
+            <FooterLink href="/compare/percy">Percy</FooterLink>
+            <FooterLink href="/compare/applitools">Applitools</FooterLink>
+            <FooterLink href="/compare/chromatic">Chromatic</FooterLink>
+          </FooterSection>
+        </div>
+      </div>
+      <div className="flex items-center justify-between gap-4">
+        <Suspense
+          fallback={
+            <div aria-busy className="text-low text-sm">
+              Loading...
+            </div>
+          }
+        >
+          <StatusWidget className="text-sm" />
+        </Suspense>
+        <ColorModeSelector />
       </div>
     </Container>
   </footer>
