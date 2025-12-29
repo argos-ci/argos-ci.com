@@ -19,7 +19,7 @@ import { SectionDescription, SectionTitle } from "@/components/Typography";
 import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
 import { getMetadata } from "@/lib/metadata";
 
-import { permitIoQuote } from "../assets/customers/library/permit-io";
+import { pivotQuote } from "../assets/customers/library/pivot";
 import { TrustedBy } from "../common/TrustedBy";
 import { AdvancedAnalyticsCardsIllustration } from "./features/AdvancedAnalyticsCards";
 import { ChangeHistoryStackIllustration } from "./features/ChangeHistoryStack";
@@ -134,7 +134,7 @@ export default function Page() {
           <Container className="h-12 border-x border-b" />
         </div>
       </section>
-      <QuoteBlock quote={permitIoQuote} className="border-b" />
+      <QuoteBlock quote={pivotQuote} className="border-b" />
       <section>
         <div className="border-b px-4">
           <Container className="border-x bg-linear-to-b from-transparent to-(--neutral-2)">
