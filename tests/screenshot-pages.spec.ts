@@ -9,16 +9,19 @@ const NAV_LINKS = {
 };
 
 const FOOTER_LINKS = {
-  "playwright+argos": "Playwright + Argos",
+  "visual-testing": "Visual Testing",
+  "flaky-management": "FlakyManagement",
+  "test-debugging": "Test Debugging",
+  pricing: "Pricing",
+  "oss-friends": "OSS Friends",
+  about: "About",
   security: "Security",
-  soc2: "SOC 2",
-  gdpr: "GDPR",
-  terms: "Terms",
+  contact: "Contact",
   privacy: "Privacy",
+  terms: "Terms",
   "percy-vs-argos": "Percy",
   "applitools-vs-argos": "Applitools",
   "chromatic-vs-argos": "Chromatic",
-  "oss-friends": "OSS Friends",
 };
 
 async function screenshot(page: Page, name: string, suffix = "") {
@@ -36,22 +39,6 @@ function runScreenshotTests(colorScheme?: "light" | "dark") {
     await page.goto("/");
     await screenshot(page, "homepage", screenshotSuffix);
   });
-
-  for (const [pageName, linkLabel] of Object.entries(NAV_LINKS)) {
-    test(`Screenshots for ${pageName} ${textSuffix}`, async ({ page }) => {
-      await page.goto("/");
-      const link = page
-        .getByRole("navigation")
-        .getByRole("link", { name: linkLabel });
-      const href = await link.evaluate((el) => el.getAttribute("href"));
-      if (!href) {
-        throw new Error("No href on the link");
-      }
-      await link.click();
-      await page.waitForURL(href);
-      await screenshot(page, pageName, screenshotSuffix);
-    });
-  }
 
   for (const [pageName, linkLabel] of Object.entries(FOOTER_LINKS)) {
     test(`Screenshots for ${pageName} ${textSuffix}`, async ({ page }) => {
@@ -78,6 +65,16 @@ function runScreenshotTests(colorScheme?: "light" | "dark") {
   test(`Screenshots for customer feedback ${textSuffix}`, async ({ page }) => {
     await page.goto("/customers/mermaid");
     await screenshot(page, "customer-feedback", screenshotSuffix);
+  });
+
+  test(`Screenshots for soc-2 ${textSuffix}`, async ({ page }) => {
+    await page.goto("/security/soc-2");
+    await screenshot(page, "soc-2", screenshotSuffix);
+  });
+
+  test(`Screenshots for gdpr ${textSuffix}`, async ({ page }) => {
+    await page.goto("/security/gdpr");
+    await screenshot(page, "gdpr", screenshotSuffix);
   });
 }
 

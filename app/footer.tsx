@@ -40,10 +40,10 @@ export const AppFooter: React.FC = () => (
           <div className="flex flex-col gap-4">
             <ArgosLogo width="128" />
             <div className="text-low flex items-center gap-3">
-              <FooterIconNextLink href="/security">
+              <FooterIconNextLink href="/security/soc-2">
                 <Soc2Logo className="h-7 w-auto" />
               </FooterIconNextLink>
-              <FooterIconNextLink href="/privacy">
+              <FooterIconNextLink href="/security/gdpr">
                 <GdprLogo className="h-8 w-auto" />
               </FooterIconNextLink>
             </div>
