@@ -15,6 +15,8 @@ import { TestDebugging } from "./home/test-debugging/TestDebugging";
 import { VisualTesting } from "./home/visual-testing/VisualTesting";
 
 export const metadata: Metadata = getMetadata({
+  title: "Argos",
+  subtitle: "Visual Regression for Playwright & Storybook",
   absoluteTitle: defaultTitle,
   description: defaultDescription,
   pathname: "/",

@@ -80,7 +80,7 @@ export function ComparisonTable(props: {
         <Tr>
           <Th>
             <ThMain>Playwright debugging</ThMain>
-            <ThSubLink href="/playwright">
+            <ThSubLink href="/test-debugging">
               Playwright trace viewer and failure screenshots
             </ThSubLink>
           </Th>

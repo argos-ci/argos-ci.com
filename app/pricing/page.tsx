@@ -7,7 +7,7 @@ import { Hero, HeroDescription, HeroHeading } from "@/components/Hero";
 import { Link } from "@/components/Link";
 import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
 import { SectionDescription, SectionTitle } from "@/components/Typography";
-import { getMetadata } from "@/lib/metadata";
+import { defaultDescription, getMetadata } from "@/lib/metadata";
 
 import { PricingSlider } from "../common/PricingSlider";
 import { TrustedBy } from "../common/TrustedBy";
@@ -15,9 +15,8 @@ import { PricingCards } from "./PricingCard";
 import { FAQ } from "./PricingFaq";
 
 export const metadata: Metadata = getMetadata({
-  title: "Pricing plans",
-  description:
-    "Argos pricing: Free Hobby Plan for personal projects, $0 forever, 5,000 screenshots. Pro Plan starts at $30/mo, ideal for teams with 15,000 screenshots included.",
+  title: "Pricing",
+  description: defaultDescription,
   pathname: "/pricing",
 });
 
