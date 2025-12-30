@@ -7,7 +7,7 @@ import { Hero, HeroDescription, HeroHeading } from "@/components/Hero";
 import { Link } from "@/components/Link";
 import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
 import { SectionDescription, SectionTitle } from "@/components/Typography";
-import { defaultDescription, getMetadata } from "@/lib/metadata";
+import { getMetadata } from "@/lib/metadata";
 
 import { PricingSlider } from "../common/PricingSlider";
 import { TrustedBy } from "../common/TrustedBy";
@@ -16,7 +16,8 @@ import { FAQ } from "./PricingFaq";
 
 export const metadata: Metadata = getMetadata({
   title: "Pricing",
-  description: defaultDescription,
+  description:
+    "Pricing built for visual testing at scale. Free to start, no credit card. Scale usage, not seats.",
   pathname: "/pricing",
 });
 

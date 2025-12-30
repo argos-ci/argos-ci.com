@@ -6,7 +6,7 @@ export const defaultTitle =
   "Argos · Visual Regression for Playwright & Storybook";
 
 export const defaultDescription =
-  "Prevent visual regressions without flaky tests. Argos uses deterministic pixel diffs to detect unintended UI changes in Playwright and Storybook, keeping CI fast and product quality high.";
+  "Prevent visual regressions without flaky tests. Argos uses deterministic pixel diffs to catch unintended UI changes in Playwright and Storybook.";
 
 export function getMetadata(
   props: {
