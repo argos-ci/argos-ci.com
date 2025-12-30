@@ -1,9 +1,10 @@
 import { Metadata } from "next";
 
 export const defaultTitle =
-  "Visual Testing for Web Apps with Playwright & Storybook • Argos";
+  "Argos · Visual Regression for Playwright & Storybook";
+
 export const defaultDescription =
-  "Catch UI bugs before production. Argos is a fast, open-source visual testing platform for Playwright, Storybook, and Cypress, built for modern CI workflows.";
+  "Prevent visual regressions without flaky tests. Argos uses deterministic pixel diffs to detect unintended UI changes in Playwright and Storybook, keeping CI fast and product quality high.";
 
 export function getMetadata({
   title,
@@ -28,7 +29,7 @@ export function getMetadata({
       canonical: url,
     },
     openGraph: {
-      title: absoluteTitle ?? `${title} • Argos`,
+      title: absoluteTitle ?? `${title} · Argos`,
       description,
       url,
       siteName: "Argos",
@@ -38,7 +39,7 @@ export function getMetadata({
     twitter: {
       card: "summary_large_image",
       site: "@argos_ci",
-      title: absoluteTitle ?? `${title} • Argos`,
+      title: absoluteTitle ?? `${title} · Argos`,
       description,
     },
   };

@@ -30,6 +30,7 @@ import { UnlimitedTracesIllustration } from "./features/UnlimitedTraces";
 
 export const metadata: Metadata = getMetadata({
   title: "Test Debugging",
+  absoluteTitle: "Argos Test Debugging · See why E2E tests fail",
   description:
     "Investigate failed visual tests from Playwright and Cypress with full context. See what changed, understand why tests failed, and debug UI regressions instantly in your CI.",
   pathname: "/test-debugging",

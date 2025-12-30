@@ -65,7 +65,8 @@ import { StorybookSnapshots } from "./features/StorybookSnapshots";
 import { TestContext } from "./features/TestContext";
 
 export const metadata: Metadata = getMetadata({
-  title: "Visual Testing",
+  absoluteTitle:
+    "Argos Visual Testing · Catch visual regressions automatically",
   description:
     "Argos brings fast, reliable visual testing to your CI. Catch UI regressions with smart stabilization, automatic baselines, Playwright and Storybook support, and a review workflow built for speed.",
   pathname: "/visual-testing",
