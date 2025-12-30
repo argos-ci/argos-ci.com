@@ -1,0 +1,256 @@
+---
+title:  DOM-agnostic scraping with Stagehand: a practical exploration
+description: I recently explored Stagehand for building an e-bike catalog by scraping manufacturer product pages. This article shares my findings, including the benefits of semantic extraction and the trade-offs involved.
+slug: stagehand
+category: AI
+author: Jeremy Sfez
+date: 2025-12-27
+image: ./main.jpg
+imageAlt: Cosy guy with dog — Photo by devn
+---
+
+<MainImage
+  credit={
+    <>
+      Photo by{" "}
+      <a href="https://unsplash.com/@devn?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">
+        devn
+      </a>{" "}
+      on{" "}
+      <a href="https://unsplash.com/fr/s/photos/sonar-de-jour?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">
+        Unsplash
+      </a>
+    </>
+  }
+/>
+
+I recently discovered Stagehand, which caught my attention for its promise of DOM-agnostic scraping.
+
+It matched a concrete need I had on a recent project: building a catalog of existing e-bikes by scraping manufacturer product pages.
+
+What I wanted was a generic way to extract structured product data across heterogeneous websites, without maintaining brittle DOM selectors.
+
+At first glance, this sounds straightforward. Browse e-bike manufacturer product pages and extract technical specifications.
+If you have experience with web scraping, you know this is easier said than done.
+
+Each site structures the same information differently. Some use tables, others lists, others plain text mixed with marketing content. Naming conventions vary. Units vary. Sometimes values are implicit.
+
+With a classic scraper like Playwright, this does not scale well.
+
+You need to locate and maintain selectors for each specification, for each brand, and for each layout variation. This is not a one-off task. It quickly becomes months of ongoing work for a brittle solution.
+
+That is why Stagehand caught my attention.
+
+Stagehand proposes extracting data based on semantics rather than DOM structure. You describe what data you are looking for and reuse the same logic across different layouts.
+
+I wanted to see what Stagehand could realistically bring to the table, and just as importantly, what the trade-offs are.
+
+## Defining the expected data
+
+Stagehand allows you to define the expected data structure using Zod schemas.
+
+For the e-bike catalog, I defined the following schema:
+
+```ts
+import { z } from "zod";
+
+export const EbikeSpecSchema = z.object({
+  model: z.string().nullish().describe("Bike model name"),
+  brand: z.string().nullish().describe("Brand name"),
+  year: z.number().int().nullish().describe("Model year"),
+  price: z
+    .object({
+      value: z.number().nullish().describe("Price amount"),
+      currency: z.string().nullish().describe("Currency code, e.g., USD, EUR"),
+    })
+    .nullish(),
+  frameMaterial: z.string().nullish().describe("Frame material"),
+  range: z
+    .object({
+      value: z.number().int().nullish().describe("Maximum range"),
+      unit: z
+        .string()
+        .nullish()
+        .describe("Unit of the range, e.g., miles or km"),
+    })
+    .nullish(),
+  battery: z
+    .object({
+      brand: z.string().nullish().describe("Battery brand"),
+      capacityWh: z.number().int().nullish().describe("Battery capacity in Wh"),
+    })
+    .nullish(),
+});
+```
+
+This schema serves as both documentation and a contract. It defines what “correct” means for this scraper.
+
+## Implementing the scraper
+
+This article intentionally skips how product pages are discovered. That part can be handled by a classic crawler or by Stagehand itself.
+Here, the focus is strictly on data extraction.
+
+Once the schema is defined, the scraper is simple:
+
+```ts
+import { Stagehand } from "@browserbasehq/stagehand";
+import "dotenv/config";
+
+import { EbikeSpecSchema } from "./ebike-spec.js";
+
+const stagehand = new Stagehand({
+  env: "BROWSERBASE",
+});
+
+const productPages = [
+  "https://www.giant-bicycles.com/fr/fastroad-eplus-ex--ridedash-evo--2022",
+  "https://www.kalkhoff-bikes.com/fr_fr/entice-7-excite-abs?color_combo=64668&ipmc_frame_shape=52206",
+  "https://www.aventon.com/products/level-3-commuter-ebike?variant=44177369759939",
+];
+
+async function main() {
+  const eBikeCatalog = [];
+
+  await stagehand.init();
+  const page = stagehand.context.pages()[0];
+
+  for (const url of productPages) {
+    await page.goto(url);
+    const extractResult = await stagehand.extract(
+      `Extract e-bike specifications from ${url}`,
+      EbikeSpecSchema,
+    );
+    eBikeCatalog.push({ url, ...extractResult });
+  }
+
+  await stagehand.close();
+  console.log("E-Bike Catalog:", eBikeCatalog);
+}
+
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
+```
+
+The key point is that the extraction logic stays identical across all pages. No selectors. No site-specific rules.
+
+## Scraping results
+
+Here is the output produced by the scraper:
+
+```json
+[
+  {
+    "model": "SyncDrive Pro",
+    "brand": "Giant",
+    "year": 2022,
+    "price": { "value": 3900, "currency": "€" },
+    "frameMaterial": "ALUXX Aluminum",
+    "range": { "value": 160, "unit": "km" },
+    "battery": { "brand": "EnergyPak Smart Compact", "capacityWh": 500 }
+  },
+  {
+    "model": "ENTICE 7+ EXCITE ABS",
+    "brand": "Kalkhoff",
+    "year": null,
+    "price": { "value": 6999, "currency": "€" },
+    "frameMaterial": null,
+    "range": { "value": 160, "unit": "km" },
+    "battery": { "brand": "Bosch", "capacityWh": 800 }
+  },
+  {
+    "model": "Level 3 Ebike",
+    "brand": "Aventon",
+    "year": null,
+    "price": { "value": 1899, "currency": "USD" },
+    "frameMaterial": "6061 Aluminum, Gravity Cast Front Triangle",
+    "range": { "value": 70, "unit": "Miles" },
+    "battery": { "brand": "LG", "capacityWh": 733 }
+  }
+]
+```
+
+The results look very good given the amount of work invested. Cross-site extraction works with no selectors, which is impressive. At the same time, several mistakes clearly stand out.
+
+## Observations and trade-offs
+
+Using Stagehand for this project has a few clear upsides.
+• **Simplicity**
+The code is easy to read. Zod schemas clearly define the expected data shape and make the extraction contract explicit.
+• **Scalability**
+The same extraction logic works across different websites.
+• **Resilience**
+Because extraction is semantic rather than selector-based, it is less likely to break on small markup changes.
+
+There are trade-offs.
+• **Reliability**
+Stagehand relies on an LLM. It can miss fields, infer incorrect values, or hallucinate data.
+• **Unexpected data structures**
+When page content does not match the schema, the output can be silently wrong.
+For example, if several models are listed on the same page, Stagehand may mix specifications.
+• **Normalization gaps**
+Output can be inconsistent. Currency is a good example, with “€” vs “EUR”. Units show similar issues with “Miles” vs “mi”.
+
+## The core risk: silent failures
+
+The biggest issue is not extraction failure. It is silent failure.
+
+The system often returns data that looks valid and passes schema checks but is semantically incorrect. This is much harder to detect than a broken selector.
+
+Without guardrails, incorrect data can flow downstream unnoticed.
+
+This is the fundamental difference compared to classic Playwright scraping, where failures tend to be loud and obvious.
+
+### Risk mitigation and guardrails
+
+To use Stagehand seriously, additional constraints are required.
+
+In practice, this means:
+• Enforcing strict schema validation
+• Normalizing currencies and units explicitly
+• Adding sanity checks on ranges and values
+• Detecting multi-model pages and rejecting ambiguous outputs
+• Retrying or falling back to deterministic scraping when confidence is low
+
+Stagehand works best as a semantic extraction layer combined with deterministic validation.
+
+## Performance and cost considerations
+
+Performance and cost depend heavily on scale.
+
+Qualitatively:
+
+- This approach is reasonable for dozens or hundreds of pages per day
+- It becomes questionable for very large catalogs or strict latency requirements
+
+AI operational cost is also higher than classic scraping, but it can be mitigated using Stagehand caching features: https://docs.stagehand.dev/v3/best-practices/caching
+
+## When does scraping with Stagehand make sense
+
+Based on this experiment:
+
+Use Stagehand if:
+• You need fast results with minimal engineering effort
+• You scrape heterogeneous websites
+• Maintenance cost dominates
+
+Avoid it if:
+• You need strict determinism
+• You operate at very high throughput
+• Silent errors are unacceptable
+
+In practice, the best results come from a hybrid approach.
+Use Stagehand to handle semantic extraction and reduce selector maintenance, then apply deterministic logic to validate, normalize, and reject incorrect outputs.
+
+This typically means relying on AI to understand page content, while keeping strict control over what is considered valid data. When validation fails or ambiguity is detected, falling back to traditional scraping or manual review helps preserve correctness.
+
+This approach limits silent failures while keeping most of the maintenance and iteration benefits of semantic extraction.
+
+## Conclusion
+
+Scraping with Stagehand offers a compelling alternative to traditional approaches for structured data extraction.
+
+Its semantic approach significantly reduces code size, avoids DOM-scoped scrapers, lowers maintenance cost, and improves adaptability across sites. However, it introduces probabilistic behavior that requires explicit guardrails.
+
+For teams willing to treat AI extraction as probabilistic and to invest in validation and normalization, Stagehand can meaningfully simplify scraping pipelines.
