@@ -37,8 +37,7 @@ const jsonLdOrganization: Organization = {
   logo: "https://argos-ci.com/logo.png",
   name: "Argos",
   legalName: "Argos by Smooth Code",
-  description:
-    "Argos is an open-source visual testing tool that helps teams catch visual regressions in their web applications. Seamlessly integrate with your CI/CD pipeline, automate visual tests, and ensure a consistent user experience. Improve your app's quality with fast, reliable visual comparisons.",
+  description: defaultDescription,
   email: "contact@argos-ci.com",
   contactPoint: { "@type": "ContactPoint", email: "contact@argos-ci.com" },
   address: {
