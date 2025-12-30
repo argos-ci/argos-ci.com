@@ -8,7 +8,7 @@ export const metadata: Metadata = getMetadata({
   title: "GDPR",
   description:
     "Argos is committed to the security and privacy of our customers' data",
-  pathname: "/security",
+  pathname: "/security/gdpr",
 });
 
 export default function Page() {
