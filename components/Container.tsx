@@ -18,11 +18,18 @@ export function Container({
   return (
     <Comp
       className={clsx(
-        "container mx-auto px-4 sm:px-8",
-        tight ? "max-w-4xl" : "max-w-6xl",
+        "container mx-auto",
+        noGutter ? null : "container-gutter",
+        tight ? "max-w-max-content-tight" : "max-w-max-content",
         className,
       )}
       {...props}
     />
+  );
+}
+
+export function SideBorder() {
+  return (
+    <div className="pointer-events-none absolute inset-0 -mt-4 border-x mask-[linear-gradient(transparent,black_40%)]" />
   );
 }

@@ -58,30 +58,20 @@ export const SECURITY_CONTROL_CATEGORIES: SecurityControlCategory[] = [
   },
 ];
 
-export const SecurityControls = ({
-  categories,
-}: {
+export function SecurityControls(props: {
   categories: SecurityControlCategory[];
-}) => {
-  const borderClass =
-    "border-dashed max-sm:border-r-0 md:border-r md:max-lg:nth-[2n]:border-r-0 lg:nth-[3n]:border-r-0";
-  const gridClass =
-    "grid w-full grid-cols-1 text-left sm:grid-cols-2 md:max-w-7xl md:flex-row lg:grid-cols-3";
+}) {
+  const { categories } = props;
   return (
     <div>
-      <div className={clsx(gridClass, "border-dashed md:border-b")}>
-        <div className={clsx("hidden h-6 md:block", borderClass)} />
-        <div className={clsx("hidden h-6 md:block", borderClass)} />
-        <div className={clsx("hidden h-6 lg:block", borderClass)} />
-      </div>
-      <div className={gridClass}>
+      <div className="grid w-full grid-cols-1 border-t text-left sm:grid-cols-2 md:flex-row lg:grid-cols-3">
         {categories.map((category) => (
           <div
             key={category.title}
             className={clsx(
               "flex flex-col gap-4 p-4 md:p-10",
               "md:border-b",
-              borderClass,
+              "max-sm:border-r-0 md:border-r md:max-lg:nth-[2n]:border-r-0 lg:nth-[3n]:border-r-0",
             )}
           >
             <h4 className="text-left text-xl">{category.title}</h4>
@@ -97,11 +87,7 @@ export const SecurityControls = ({
           </div>
         ))}
       </div>
-      <div className={gridClass}>
-        <div className={clsx("hidden h-6 md:block", borderClass)} />
-        <div className={clsx("hidden h-6 md:block", borderClass)} />
-        <div className={clsx("hidden h-6 lg:block", borderClass)} />
-      </div>
+      <div className="h-10" />
     </div>
   );
-};
+}

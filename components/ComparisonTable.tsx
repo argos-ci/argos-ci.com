@@ -33,44 +33,6 @@ export const ThSub = twc.div`text-sm text-low`;
 export const Check = twc(CircleCheckIcon)`inline-block text-(--violet-10)`;
 export const X = twc(CircleXIcon)`inline-block text-low`;
 
-export function List(props: {
-  list: string[];
-  icon?: React.ReactNode;
-  columns?: number;
-}) {
-  const { list, icon, columns = 1 } = props;
-  return (
-    <>
-      <div className="sm:hidden">{list.join(", ")}</div>
-      <ul
-        className={clsx(
-          "hidden sm:grid",
-          {
-            1: "sm:grid-cols-1",
-            2: "sm:grid-cols-2",
-          }[columns],
-        )}
-      >
-        {list.map((item) => {
-          if (icon) {
-            return (
-              <li key={item} className="flex items-center gap-1">
-                {icon}
-                {item}
-              </li>
-            );
-          }
-          return (
-            <li key={item} className="list-inside list-disc text-sm">
-              <span className="relative -left-1 text-base">{item}</span>
-            </li>
-          );
-        })}
-      </ul>
-    </>
-  );
-}
-
 export function THead(props: {
   title: string;
   logoSrc: string;

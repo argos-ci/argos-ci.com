@@ -1,60 +1,97 @@
-import Image from "next/image";
+import clsx from "clsx";
+import Link from "next/link";
 
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
-import { H2 } from "@/components/H2";
+import { Grid } from "@/components/Grid";
+import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
+import { ThemeImage, type ThemeImageProps } from "@/components/ThemeImage";
+import { Tooltip } from "@/components/Tooltip";
+import { SectionDescription, SectionTitle } from "@/components/Typography";
 
-import integrationsDark from "./integrations-dark.svg";
-import integrationsLight from "./integrations-light.svg";
+import githubDark from "./assets/github-dark.svg";
+import githubLight from "./assets/github-light.svg";
+import gitlab from "./assets/gitlab.svg";
+import slack from "./assets/slack.svg";
 
 export function Integrations() {
   return (
-    <Container
-      className="flex flex-col-reverse items-center pt-0 pb-16 md:flex-row md:py-20 md:pt-16"
-      asChild
+    <section className="separator-b bg-subtle relative px-4">
+      <Container
+        noGutter
+        className="relative flex flex-col border-x md:h-[400px] md:flex-row md:items-center"
+      >
+        <SectionHeader className="container-gutter max-w-125">
+          <SectionHeaderTexts>
+            <SectionTitle>Integrated with your everyday tools</SectionTitle>
+            <SectionDescription>
+              First class integrations with GitHub, GitLab, and Slack so your
+              reviews happen where your team collaborates.
+            </SectionDescription>
+          </SectionHeaderTexts>
+          <Button variant="outline" asChild>
+            <Link href="/docs/integrations">Explore Integrations</Link>
+          </Button>
+        </SectionHeader>
+        <div
+          className={clsx(
+            "self-center text-(--border-color-default)",
+            "relative h-[300px] [--grid-size:40px] max-md:w-[399px]",
+            "md:absolute md:inset-y-0 md:-right-[180px] md:left-[calc(50%-10px)] md:h-full md:[--grid-size:50px]",
+          )}
+        >
+          <div className="relative h-full mask-[linear-gradient(transparent,black_20%,black_80%,transparent),linear-gradient(90deg,transparent,black_20%,black_80%,transparent)] mask-intersect md:mask-[linear-gradient(90deg,transparent,black_20%,black_80%,transparent)]">
+            <Grid x={-1} y={-1} size={50} className="hidden md:block" />
+            <Grid x={-1} y={-1} size={40} className="md:hidden" />
+          </div>
+          <IntegrationButton
+            className="[--x:2] [--y:1] md:[--x:2] md:[--y:2]"
+            image={{ light: githubLight, dark: githubDark }}
+            title="GitHub"
+            href="/docs/github"
+          />
+          <IntegrationButton
+            className="[--x:4] [--y:4] md:[--x:6] md:[--y:4]"
+            image={slack}
+            title="Slack"
+            href="/docs/slack"
+          />
+          <IntegrationButton
+            className="[--x:6] [--y:1] md:[--x:10] md:[--y:2]"
+            image={gitlab}
+            title="GitLab"
+            href="/docs/gitlab"
+          />
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+function IntegrationButton(props: {
+  image: ThemeImageProps["src"];
+  title: string;
+  className: string;
+  href: string;
+}) {
+  const { image, href, title, className } = props;
+  return (
+    <Tooltip
+      content={<span className="text-xs">Explore {title} integration</span>}
+      delayDuration={0}
+      side="bottom"
     >
-      <section>
-        <div className="flex-1">
-          <H2 className="mb-8">Integrate Argos today.</H2>
-          <p className="mb-8 text-xl">
-            Argos provides SDK integrations for test frameworks and CI/CD
-            workflows. If you can capture screenshots, Argos is ready for you.
-          </p>
-          <div className="flex gap-4">
-            <Button size="large" variant="primary" asChild>
-              <a target="_blank" href="https://app.argos-ci.com/signup/">
-                Start for free
-              </a>
-            </Button>
-            <Button size="large" variant="outline" asChild>
-              <a
-                target="_blank"
-                href="https://argos-ci.com/docs/getting-started"
-              >
-                Browse integrations
-              </a>
-            </Button>
-          </div>
-        </div>
-        <div className="relative w-full flex-1 md:w-auto">
-          <div className="flex aspect-square w-full">
-            <Image
-              src={integrationsLight.src}
-              fill
-              sizes="max-width: 768px 100vw, 544px"
-              alt="Integrations like Playwright gravitating around Argos logo"
-              className="dark:hidden"
-            />
-            <Image
-              src={integrationsDark.src}
-              fill
-              sizes="max-width: 768px 100vw, 544px"
-              alt="Integrations like Playwright gravitating around Argos logo"
-              className="hidden dark:block"
-            />
-          </div>
-        </div>
-      </section>
-    </Container>
+      <a
+        className={clsx(
+          "bg-app absolute size-[calc(var(--grid-size)*2+1px)] rounded-lg border shadow",
+          "top-[calc(var(--grid-size)*var(--y)-1px)] left-[calc(var(--grid-size)*var(--x)-1px)]",
+          "transition duration-150 hover:scale-110 hover:shadow-lg",
+          className,
+        )}
+        href={href}
+      >
+        <ThemeImage src={image} alt={title} className="size-full" />
+      </a>
+    </Tooltip>
   );
 }

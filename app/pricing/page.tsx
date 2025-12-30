@@ -1,14 +1,16 @@
-import { ArrowRightIcon } from "lucide-react";
 import { Metadata } from "next";
-import * as React from "react";
-import { twc } from "react-twc";
 
-import { BrandTestimonials } from "@/components/BrandTestimonials";
+import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
+import { FullPageGrid } from "@/components/FullPageGrid";
+import { Hero, HeroDescription, HeroHeading } from "@/components/Hero";
 import { Link } from "@/components/Link";
+import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
+import { SectionDescription, SectionTitle } from "@/components/Typography";
 import { getMetadata } from "@/lib/metadata";
 
 import { PricingSlider } from "../common/PricingSlider";
+import { TrustedBy } from "../common/TrustedBy";
 import { PricingCards } from "./PricingCard";
 import { FAQ } from "./PricingFaq";
 
@@ -19,66 +21,60 @@ export const metadata: Metadata = getMetadata({
   pathname: "/pricing",
 });
 
-const H1 = twc.h1`my-8 font-accent text-5xl sm:text-6xl`;
-const H2 = twc.h2`mb-8 font-accent text-4xl md:text-5xl`;
-
-function Section(props: { children: React.ReactNode }) {
+export default function Page() {
   return (
-    <Container
-      asChild
-      className="flex flex-col items-center gap-6 py-12 text-center"
-    >
-      <section>{props.children}</section>
-    </Container>
+    <>
+      <div className="overflow-hidden border-b px-4">
+        <Container className="relative py-16 md:h-75 md:py-24">
+          <FullPageGrid height="h-200 md:h-75" />
+          <Hero align="center" className="relative">
+            <HeroHeading>Pricing built for visual testing at scale</HeroHeading>
+            <HeroDescription>
+              Free to start, no credit card. Scale usage, not seats.
+            </HeroDescription>
+          </Hero>
+        </Container>
+      </div>
+      <PricingCards />
+      <OpenSourceSponsoring />
+      <TrustedBy />
+      <section className="border-b px-4">
+        <Container className="border-x py-12 pb-6 md:py-18 md:pb-12">
+          <SectionTitle className="mb-12 text-center">
+            How much does it cost?
+          </SectionTitle>
+          <PricingSlider />
+        </Container>
+      </section>
+
+      <section className="px-4">
+        <Container className="border-x py-12 md:py-18">
+          <SectionTitle className="mx-auto mb-10 max-w-2xl">
+            Frequently Asked Questions
+          </SectionTitle>
+          <FAQ />
+        </Container>
+      </section>
+    </>
   );
 }
 
 function OpenSourceSponsoring() {
   return (
-    <div className="flex w-full flex-col items-center rounded-sm border-2 border-(--plum-6) p-6 md:py-16">
-      <H2>Open source sponsoring</H2>
-      <p className="text-lg md:text-center md:text-xl">
-        We ❤️ the open source community and we are happy to support it.
-      </p>
-      <Link
-        href="https://argos-ci.com/docs/open-source"
-        className="mt-6 transition-colors ease-in-out hover:underline hover:[&>svg]:translate-x-0.5"
-      >
-        Read more about our open source sponsoring program
-        <ArrowRightIcon className="ml-2 inline size-3 shrink-0 transition-transform ease-in-out" />
-      </Link>
-    </div>
-  );
-}
-
-export default function Page() {
-  return (
-    <div className="flex flex-col gap-8 pb-14">
-      <Section>
-        <H1>Pricing plans</H1>
-        <PricingCards />
-      </Section>
-
-      <Section>
-        <OpenSourceSponsoring />
-      </Section>
-
-      <Section>
-        <div className="text-center text-xl">
-          Trusted by the best frontend teams
-        </div>
-        <BrandTestimonials />
-      </Section>
-
-      <Section>
-        <H2>How much does it cost?</H2>
-        <PricingSlider />
-      </Section>
-
-      <Section>
-        <H2>Frequently Asked Questions</H2>
-        <FAQ />
-      </Section>
-    </div>
+    <section className="bg-subtle border-y px-4">
+      <Container className="border-x">
+        <SectionHeader align="center" className="container-gutter">
+          <SectionHeaderTexts>
+            <SectionTitle>Open source sponsoring</SectionTitle>
+            <SectionDescription className="text-lg md:text-center md:text-xl">
+              We ❤️ the open source community and we are happy to support it.
+            </SectionDescription>
+          </SectionHeaderTexts>
+          <Button variant="outline" asChild>
+            <Link href="/docs/open-source">Apply to sponsoring program</Link>
+          </Button>
+        </SectionHeader>
+      </Container>
+    </section>
   );
 }

@@ -2,7 +2,7 @@ import { Slot } from "@radix-ui/react-slot";
 import { clsx } from "clsx";
 import { ComponentPropsWithRef } from "react";
 
-export type ButtonVariant = "primary" | "outline";
+export type ButtonVariant = "primary" | "outline" | "outline-primary";
 export type ButtonSize = "base" | "small" | "large";
 
 export type ButtonProps = ComponentPropsWithRef<"button"> & {
@@ -12,17 +12,31 @@ export type ButtonProps = ComponentPropsWithRef<"button"> & {
 };
 
 const variantClassNames: Record<ButtonVariant, string> = {
-  primary:
-    "focus-visible:ring-primary text-white border-transparent bg-primary-solid [&:not([aria-disabled])]:hover:bg-primary-solid-hover [&:not([aria-disabled])]:active:bg-primary-solid-active aria-expanded:bg-primary-solid-active",
-  outline:
-    "focus-visible:ring-default text-default border border-default bg-app [&:not([aria-disabled])]:hover:border-(--mauve-10)",
+  primary: clsx(
+    "bg-linear-to-t from-(--primary-11) dark:from-(--primary-4) to-(--primary-9) dark:to-(--primary-6) text-white",
+    "shadow-[0_0_0_1px_var(--primary-11)_inset,0_2px_0_0_rgba(255,255,255,0.18)_inset]",
+    "dark:shadow-[0_0_0_1px_var(--primary-1)_inset,0_2px_0_0_rgba(255,255,255,0.18)_inset]",
+    "not-aria-disabled:hover:to-(--primary-8) not-aria-disabled:active:to-(--primary-8)",
+    "focus-visible:ring-(--primary-a7)",
+  ),
+
+  outline: clsx(
+    "bg-(--neutral-1) shadow-[0_0_0_1px_var(--neutral-8)]",
+    "not-aria-disabled:hover:bg-(--neutral-4) not-aria-disabled:hover:shadow-[0_0_0_1px_var(--neutral-8)]",
+    "focus-visible:ring-(--neutral-a7)",
+  ),
+
+  "outline-primary": clsx(
+    "bg-(--primary-1) shadow-[0_0_0_1px_var(--primary-8)]",
+    "not-aria-disabled:hover:bg-(--primary-4) not-aria-disabled:hover:shadow-[0_0_0_1px_var(--primary-8)]",
+    "focus-visible:ring-(--primary-a7)",
+  ),
 };
 
 const sizeClassNames: Record<ButtonSize, string> = {
-  base: "rounded-lg py-1.5 px-3 text-sm",
   small: "rounded-sm py-1 px-2 text-xs",
-  large:
-    "rounded-lg py-2 px-4 md:rounded-xl md:py-2 md:px-6 text-base md:text-lg",
+  base: "rounded-md py-1.5 px-3 text-sm",
+  large: "rounded-lg py-1.5 px-4 text-base",
 };
 
 export function Button({
@@ -51,7 +65,8 @@ export function Button({
         variantClassName,
         sizeClassName,
         "focus:outline-hidden focus-visible:ring-4",
-        "align-center aria-disabled:opacity-disabled inline-flex border font-sans font-medium whitespace-nowrap transition select-none [&:is(button)]:cursor-default",
+        "[&>svg]:mr-[0.5em] [&>svg]:size-[1em]",
+        "aria-disabled:opacity-disabled inline-flex items-center font-sans font-medium whitespace-nowrap transition select-none [button]:cursor-default",
       )}
       {...props}
     >

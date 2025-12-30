@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 import businessInsider from "@/images/brands/business-insider.svg";
 import cozy from "@/images/brands/cozy.svg";
 import defacto from "@/images/brands/defacto.svg";
@@ -22,8 +20,6 @@ import sindri from "@/images/brands/sindri.svg";
 import sivo from "@/images/brands/sivo.svg";
 import theEconomist from "@/images/brands/the-economist.svg";
 import yotpo from "@/images/brands/yotpo.svg";
-
-import { Container } from "./Container";
 
 export const BRANDS = {
   meta: { src: meta, alt: "Meta", url: "https://docusaurus.io" },
@@ -77,39 +73,3 @@ export const BRANDS = {
     url: "https://www.redventures.com/",
   },
 };
-
-const brands = [
-  BRANDS.meta,
-  BRANDS.gitbook,
-  BRANDS.yotpo,
-  BRANDS.qonto,
-  BRANDS.doctolib,
-  BRANDS.lemonde,
-  BRANDS.businessInsider,
-  BRANDS.theEconomist,
-  BRANDS.redVentures,
-  BRANDS.defacto,
-  BRANDS.pivot,
-  BRANDS.mui,
-  BRANDS.mermaid,
-  BRANDS.handsontable,
-];
-
-export function BrandTestimonials({ limit = Infinity }: { limit?: number }) {
-  return (
-    <Container className="mx-auto mt-8 grid w-full max-w-(--breakpoint-lg) grid-cols-2 items-center justify-center gap-4 px-5 md:flex md:flex-wrap md:px-0 md:*:max-w-40">
-      {brands
-        .filter((_, i) => i < limit)
-        .map((brand, index) => (
-          <Image
-            key={index}
-            priority
-            height={80}
-            className="shrink-0 dark:brightness-0 dark:invert"
-            src={brand.src}
-            alt={brand.alt}
-          />
-        ))}
-    </Container>
-  );
-}

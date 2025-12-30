@@ -1,3 +1,4 @@
+import { transformerNotationHighlight } from "@shikijs/transformers";
 import { BundledLanguage, codeToHtml } from "shiki";
 
 export type { BundledLanguage };
@@ -9,5 +10,6 @@ export async function highlight(code: string, lang: BundledLanguage) {
       light: "github-light",
       dark: "github-dark",
     },
+    transformers: [transformerNotationHighlight()],
   });
 }

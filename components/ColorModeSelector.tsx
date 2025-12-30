@@ -14,7 +14,7 @@ enum ColorMode {
 function ColorModeButton(props: React.ComponentPropsWithRef<"button">) {
   return (
     <button
-      className="hover:bg-hover aria-pressed:bg-active rounded-full p-2 transition"
+      className="hover:bg-hover aria-pressed:bg-active grid size-6 place-items-center rounded-full transition"
       type="button"
       {...props}
     />
@@ -42,7 +42,7 @@ export const ColorModeSelector = () => {
             aria-label="System"
             onClick={() => setTheme("system")}
           >
-            <MonitorIcon className="h-4 w-4" />
+            <MonitorIcon className="size-3" />
           </ColorModeButton>
         </Tooltip>
         <Tooltip content="Dark mode">
@@ -51,7 +51,7 @@ export const ColorModeSelector = () => {
             aria-pressed={theme === ColorMode.Dark}
             onClick={() => setTheme(ColorMode.Dark)}
           >
-            <MoonIcon className="h-4 w-4" />
+            <MoonIcon className="size-3" />
           </ColorModeButton>
         </Tooltip>
         <Tooltip content="Light mode">
@@ -60,7 +60,7 @@ export const ColorModeSelector = () => {
             aria-pressed={theme === ColorMode.Light}
             onClick={() => setTheme(ColorMode.Light)}
           >
-            <SunIcon className="h-4 w-4" />
+            <SunIcon className="size-3" />
           </ColorModeButton>
         </Tooltip>
       </>

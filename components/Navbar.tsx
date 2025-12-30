@@ -3,22 +3,10 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import clsx from "clsx";
-import Link from "next/link";
 import * as React from "react";
 
 import { Burger } from "./Burger";
-import { Container } from "./Container";
-import { useScrollListener } from "./useScrollListener";
-
-export const NavbarLink = (props: {
-  href: string;
-  children: React.ReactNode;
-}) => (
-  <Link
-    className="text-default hover:text-hover block font-medium no-underline transition"
-    {...props}
-  />
-);
+import { useIsScrolled } from "./useIsScrolled";
 
 type NavbarProps = {
   primary: React.ReactNode;
@@ -26,11 +14,9 @@ type NavbarProps = {
   actions: React.ReactNode;
 };
 
-export const Navbar = ({ primary, secondary, actions }: NavbarProps) => {
-  const [scrolled, setScrolled] = React.useState(false);
-  useScrollListener(() => {
-    setScrolled(window.scrollY > 0);
-  });
+export function Navbar(props: NavbarProps) {
+  const { primary, secondary, actions } = props;
+  const scrolled = useIsScrolled();
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -51,7 +37,7 @@ export const Navbar = ({ primary, secondary, actions }: NavbarProps) => {
               }
             }}
             className={clsx(
-              "bg-app fixed inset-0 top-[calc(3.75rem-1px)] z-10 flex flex-col items-start gap-3 overflow-auto p-6 md:hidden",
+              "bg-app fixed inset-0 top-14.75 flex flex-col items-start gap-3 overflow-auto p-6 md:hidden",
               "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 duration-200",
             )}
           >
@@ -66,17 +52,17 @@ export const Navbar = ({ primary, secondary, actions }: NavbarProps) => {
             <div className="flex items-center gap-4">{actions}</div>
           </DialogPrimitive.Content>
         </DialogPrimitive.Portal>
-        <Container className="flex items-center justify-between gap-6 md:justify-start">
-          {primary}
-          <div className="hidden flex-1 items-center gap-6 md:flex">
-            {secondary}
+        <div className="max-w-max-content container mx-auto flex items-center justify-between gap-14 px-3 md:justify-start md:px-7">
+          <div className="flex-1">{primary}</div>
+          <div className="hidden md:flex md:items-center">{secondary}</div>
+          <div className="hidden md:flex md:items-center md:gap-2">
+            {actions}
           </div>
-          <div className="hidden items-center gap-4 md:flex">{actions}</div>
           <DialogPrimitive.Trigger asChild>
             <Burger />
           </DialogPrimitive.Trigger>
-        </Container>
+        </div>
       </DialogPrimitive.Root>
     </nav>
   );
-};
+}

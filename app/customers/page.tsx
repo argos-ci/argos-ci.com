@@ -5,10 +5,17 @@ import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
 
-import { ArgosEmblem } from "@/components/ArgosEmblem";
 import { BRANDS } from "@/components/BrandTestimonials";
+import { Button } from "@/components/Button";
 import { CallToActionSection } from "@/components/CallToActionSection";
 import { Container } from "@/components/Container";
+import { FullPageGrid } from "@/components/FullPageGrid";
+import {
+  Hero,
+  HeroActions,
+  HeroDescription,
+  HeroHeading,
+} from "@/components/Hero";
 import { getMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = getMetadata({
@@ -19,16 +26,31 @@ export const metadata: Metadata = getMetadata({
 
 export default function Page() {
   return (
-    <div className="">
-      <Container className="my-20 text-center text-balance">
-        <h1 className="font-accent mb-4 text-5xl md:text-6xl">Customers</h1>
-        <p className="text-low mx-auto max-w-2xl text-lg">
-          Trusted by top teams, Argos helps companies catch visual bugs before
-          production — from fast-moving startups to enterprise-scale platforms.
-        </p>
-      </Container>
-      <Container className="grid grid-cols-1 gap-8 md:grid-cols-3" asChild>
-        <section>
+    <>
+      <div className="overflow-hidden border-b px-4">
+        <Container className="relative py-16 md:h-90 md:py-24">
+          <FullPageGrid height="h-200 md:h-90" />
+          <Hero className="relative">
+            <HeroHeading>Meet our customers</HeroHeading>
+            <HeroDescription>
+              From fast moving startups to large enterprises, teams use Argos to
+              prevent visual regressions and keep UI quality high.
+            </HeroDescription>
+            <HeroActions>
+              <Button size="large" asChild>
+                <Link href="https://app.argos-ci.com/signup">
+                  Make the switch
+                </Link>
+              </Button>
+              <Button size="large" variant="outline" asChild>
+                <Link href="https://cal.com/gregberge">Get a demo</Link>
+              </Button>
+            </HeroActions>
+          </Hero>
+        </Container>
+      </div>
+      <div className="px-4">
+        <Container className="grid grid-cols-1 gap-8 border-x py-16 pt-4 md:grid-cols-3 md:pt-10">
           <Column>
             <CustomerCard brand={BRANDS.meta} />
             <QuoteCard
@@ -47,6 +69,15 @@ export default function Page() {
             <CustomerCard brand={BRANDS.pivot} />
             <CustomerCard brand={BRANDS.planable} />
             <CustomerCard brand={BRANDS.businessInsider} />
+            <QuoteCard
+              href={BRANDS.mui.url}
+              brand={BRANDS.mui}
+              author="Olivier Tassinari"
+              authorRole="Co-founder & CEO"
+              quote={
+                <>Argos CI is very helpful for us to maintain Material UI!</>
+              }
+            />
           </Column>
           <Column>
             <QuoteCard
@@ -64,15 +95,6 @@ export default function Page() {
             />
             <CustomerCard brand={BRANDS.handsontable} />
             <CustomerCard brand={BRANDS.yotpo} />
-            <QuoteCard
-              href={BRANDS.mui.url}
-              brand={BRANDS.mui}
-              author="Olivier Tassinari"
-              authorRole="Co-founder & CEO"
-              quote={
-                <>Argos CI is very helpful for us to maintain Material UI!</>
-              }
-            />
             <CustomerCard brand={BRANDS.sindri} />
             <CustomerCard brand={BRANDS.forethought} />
             <CustomerCard brand={BRANDS.interactiveThings} />
@@ -112,19 +134,10 @@ export default function Page() {
             />
             <CustomerCard brand={BRANDS.sivo} />
           </Column>
-        </section>
-      </Container>
-      <Container asChild>
-        <section>
-          <CallToActionSection
-            supercharge="your visual testing experience"
-            description="Discover why Argos is the preferred visual testing tool of QA & developers."
-          >
-            <ArgosEmblem className="mx-auto aspect-square size-24" />
-          </CallToActionSection>
-        </section>
-      </Container>
-    </div>
+        </Container>
+      </div>
+      <CallToActionSection />
+    </>
   );
 }
 

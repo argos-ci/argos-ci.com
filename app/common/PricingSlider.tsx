@@ -95,7 +95,7 @@ export function PricingSlider() {
   const isMaxScreenshots = screenshots >= MAX_SCREENSHOTS;
 
   return (
-    <div className="flex w-full flex-col items-center gap-4">
+    <div className="flex flex-col items-center gap-4">
       <ScreenshotSlider
         label="Screenshots per month"
         value={screenshots}
@@ -141,19 +141,17 @@ export function PricingSlider() {
         .
       </div>
 
-      <div className="h-6 text-lg">
-        <div
-          className={clsx(
-            "transition-opacity duration-150 ease-in-out",
-            isMaxScreenshots ? "opacity-100" : "opacity-0",
-          )}
-        >
-          You should{" "}
-          <a href="mailto:contact@argos-ci.com" className="underline">
-            contact us
-          </a>{" "}
-          to discuss a custom plan.
-        </div>
+      <div
+        className={clsx(
+          "text-lg transition-opacity duration-150 ease-in-out",
+          isMaxScreenshots ? "opacity-100" : "opacity-0",
+        )}
+      >
+        You should{" "}
+        <a href="mailto:contact@argos-ci.com" className="underline">
+          contact us
+        </a>{" "}
+        to discuss a custom plan.
       </div>
     </div>
   );

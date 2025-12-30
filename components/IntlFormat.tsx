@@ -4,7 +4,7 @@ import * as React from "react";
 
 const SERVER_LOCALE = "en-US";
 
-export function IntlNumberFormat(props: {
+function IntlNumberFormat(props: {
   initialOptions: Intl.NumberFormatOptions;
   value: number;
 }) {

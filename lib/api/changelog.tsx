@@ -10,6 +10,7 @@ import { assertAllItems, getDocMdxSource, readMatterData } from "./common";
 const PAGE_SIZE = 10;
 
 const FrontmatterSchema = z.object({
+  homeTitle: z.string().optional(),
   title: z.string(),
   description: z.string(),
   slug: z.string(),
@@ -54,6 +55,7 @@ async function getChangelogFromPath(
   ]);
   return {
     filepath,
+    homeTitle: frontmatter.homeTitle,
     title: frontmatter.title,
     description: frontmatter.description,
     slug: `${YYYY_MM_DD}-${frontmatter.slug}`,

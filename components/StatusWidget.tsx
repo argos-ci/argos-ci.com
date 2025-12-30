@@ -1,5 +1,6 @@
 "use client";
 
+import clsx from "clsx";
 import * as React from "react";
 import { z } from "zod";
 
@@ -60,7 +61,8 @@ const statusDictionary: Record<Status, { label: string; color: string }> = {
 
 const slug = "argos";
 
-export function StatusWidget() {
+export function StatusWidget(props: { className?: string }) {
+  const { className } = props;
   const [status, setStatus] = React.useState<Status | null>(null);
   React.useEffect(() => {
     fetchStatus().then(({ status }) => {
@@ -69,7 +71,7 @@ export function StatusWidget() {
   }, []);
   if (!status) {
     return (
-      <div aria-busy className="text-low py-1 text-xs">
+      <div aria-busy className={clsx("text-low py-1", className)}>
         Loading status...
       </div>
     );
@@ -77,7 +79,10 @@ export function StatusWidget() {
   const { label, color } = statusDictionary[status];
   return (
     <a
-      className="text-low hover:border-hover -mx-2 inline-flex max-w-fit items-center gap-2 rounded-sm border border-transparent px-2 py-1 text-xs font-medium transition"
+      className={clsx(
+        "text-low hover:border-hover -mx-2 inline-flex max-w-fit items-center gap-2 rounded-sm border border-transparent px-2 py-1 font-medium transition",
+        className,
+      )}
       href={`https://${slug}.openstatus.dev`}
       target="_blank"
       rel="noreferrer"
