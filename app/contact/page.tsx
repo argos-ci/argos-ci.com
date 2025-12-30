@@ -48,7 +48,7 @@ const cards: ContactCard[] = [
     description:
       "Read about Argos platform development and API usage documentation.",
     cta: "Read docs",
-    href: "/docs",
+    href: "/docs/getting-started",
     icon: Code2,
   },
 ];
