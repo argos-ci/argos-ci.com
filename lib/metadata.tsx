@@ -23,11 +23,7 @@ export function getMetadata(
     subtitle: subtitle ?? description,
   };
   const config: Metadata = {
-    title: title
-      ? title
-      : absoluteTitle
-        ? { absolute: absoluteTitle }
-        : defaultTitle,
+    title: absoluteTitle ? { absolute: absoluteTitle } : title || defaultTitle,
     description,
     alternates: {
       canonical: url,
