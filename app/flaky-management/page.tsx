@@ -29,6 +29,8 @@ import { IgnoreFromReviewIllustration } from "./features/IgnoreFromReview";
 import { SmartMatchingStackIllustration } from "./features/SmartMatchingStack";
 
 export const metadata: Metadata = getMetadata({
+  title: "Argos Flaky Management",
+  subtitle: "Detect, track and control flaky visual tests",
   absoluteTitle:
     "Argos Flaky Management · Detect, track and control flaky visual tests",
   description:

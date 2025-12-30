@@ -19,6 +19,7 @@ import chromaticLogo from "./chromatic-logo.svg";
 import { FAQ } from "./faq";
 
 export const metadata: Metadata = getMetadata({
+  title: "Argos, the alternative to Chromatic",
   absoluteTitle: "Argos, the alternative to Chromatic",
   description:
     "Learn how Argos compares to Chromatic and why Argos is the best alternative for visual testing.",

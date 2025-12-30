@@ -18,6 +18,7 @@ import applitoolsLogo from "./applitools-logo.svg";
 import { FAQ } from "./faq";
 
 export const metadata: Metadata = getMetadata({
+  title: "Argos, the alternative to Applitools",
   absoluteTitle: "Argos, the alternative to Applitools",
   description:
     "Learn how Argos compares to Applitools and why Argos is the best alternative for visual testing.",

@@ -1,6 +1,7 @@
 User-agent: *
 
-Disallow:
+Allow: /
+
 Disallow: /discord
 
 Sitemap: https://argos-ci.com/sitemap.xml

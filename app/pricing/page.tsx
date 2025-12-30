@@ -15,9 +15,9 @@ import { PricingCards } from "./PricingCard";
 import { FAQ } from "./PricingFaq";
 
 export const metadata: Metadata = getMetadata({
-  title: "Pricing plans",
+  title: "Pricing",
   description:
-    "Argos pricing: Free Hobby Plan for personal projects, $0 forever, 5,000 screenshots. Pro Plan starts at $30/mo, ideal for teams with 15,000 screenshots included.",
+    "Pricing built for visual testing at scale. Free to start, no credit card. Scale usage, not seats.",
   pathname: "/pricing",
 });
 

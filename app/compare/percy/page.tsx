@@ -70,6 +70,7 @@ const features: Features = {
 };
 
 export const metadata: Metadata = getMetadata({
+  title: "Argos, the alternative to Percy",
   absoluteTitle: "Argos, the alternative to Percy Browserstack",
   description:
     "Learn how Argos compares to Percy and why Argos is the best alternative for visual testing.",

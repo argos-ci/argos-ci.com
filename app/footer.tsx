@@ -76,7 +76,7 @@ export const AppFooter: React.FC = () => (
 
           <FooterSection>
             <FooterSectionTitle>Resources</FooterSectionTitle>
-            <FooterLink href="/docs">Docs</FooterLink>
+            <FooterLink href="/docs/getting-started">Docs</FooterLink>
             <FooterLink href="/pricing">Pricing</FooterLink>
             <FooterLink href="/oss-friends">OSS Friends</FooterLink>
           </FooterSection>
@@ -84,6 +84,8 @@ export const AppFooter: React.FC = () => (
           <FooterSection>
             <FooterSectionTitle>Company</FooterSectionTitle>
             <FooterLink href="/about">About</FooterLink>
+            <FooterLink href="/changelog">Changelog</FooterLink>
+            <FooterLink href="/blog">Blog</FooterLink>
             <FooterLink href="/security">Security</FooterLink>
             <FooterLink href="/contact">Contact</FooterLink>
             <FooterLink href="/privacy">Privacy</FooterLink>

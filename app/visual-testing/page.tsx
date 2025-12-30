@@ -65,6 +65,8 @@ import { StorybookSnapshots } from "./features/StorybookSnapshots";
 import { TestContext } from "./features/TestContext";
 
 export const metadata: Metadata = getMetadata({
+  title: "Argos Visual Testing",
+  subtitle: "Catch visual regressions automatically",
   absoluteTitle:
     "Argos Visual Testing · Catch visual regressions automatically",
   description:

@@ -25,23 +25,10 @@ const description = defaultDescription;
 export const metadata: Metadata = {
   metadataBase: new URL("https://argos-ci.com"),
   title: {
-    template: "%s | Argos",
+    template: "%s · Argos",
     default: title,
   },
   description,
-  openGraph: {
-    title,
-    description,
-    siteName: "Argos",
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    site: "@argos_ci",
-    title,
-    description,
-  },
 };
 
 const jsonLdOrganization: Organization = {

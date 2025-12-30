@@ -20,7 +20,7 @@ import { getArticles } from "@/lib/api/blog";
 import { getMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = getMetadata({
-  title: "Updates from the Argos team",
+  title: "Blog",
   description: "All the latest Argos news, straight from the team.",
   pathname: "/blog",
 });

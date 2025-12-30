@@ -48,7 +48,7 @@ const cards: ContactCard[] = [
     description:
       "Read about Argos platform development and API usage documentation.",
     cta: "Read docs",
-    href: "/docs",
+    href: "/docs/getting-started",
     icon: Code2,
   },
 ];
@@ -56,7 +56,7 @@ const cards: ContactCard[] = [
 export const metadata: Metadata = getMetadata({
   title: "Contact",
   description:
-    "Contact the Argos team to discuss visual testing, CI stability, and product quality. Get help with setup, scaling, or enterprise needs and ship faster with confidence.",
+    "Contact the Argos team to discuss visual testing, CI stability, and product quality. Get help with setup, scaling, or enterprise needs and ship with confidence.",
   pathname: "/contact",
 });
 
