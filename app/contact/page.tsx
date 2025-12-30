@@ -40,7 +40,7 @@ const cards: ContactCard[] = [
     description:
       "Join the community of Argos users on Discord to get help and to speak with the team.",
     cta: "Join Discord",
-    href: "/articles",
+    href: "/discord",
     icon: DiscordIcon,
   },
   {
