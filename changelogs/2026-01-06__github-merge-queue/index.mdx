@@ -1,0 +1,16 @@
+---
+title: GitHub Merge Queue support
+description: Run Argos visual tests inside GitHub Merge Queue with correct merge bases and required checks.
+slug: github-merge-queue
+date: 2026-01-06
+image: /assets/changelogs/github-merge-queue/github-merge-queue.jpg
+---
+
+![Argos GitHub Merge Queue support](/assets/changelogs/github-merge-queue/github-merge-queue.jpg)
+
+Argos now runs inside the **GitHub Merge Queue** so the visual checks you rely on during pull requests also guard queued merges. With the Argos GitHub App, Argos reads commit history to compute the right merge base and publish required checks, making sure only clean, intentional visual changes land on your protected branches.
+
+- **Queue-aware required checks**: Argos computes the merge base against the last approved commit on the target branch and publishes required visual checks along the merge queue path, preventing regressions that only appear after rebases or batched merges.
+- **Straightforward setup**: Listen to both `pull_request` and `merge_group` events so Argos runs for reviews and queued merges.
+
+Read more in our [documentation](https://argos-ci.com/docs/github#github-merge-queue-support).
