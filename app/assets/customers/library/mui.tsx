@@ -13,6 +13,8 @@ export const mui = {
     emblem: muiEmblem,
   },
   name: "MUI",
+  url: "https://mui.com",
+  storyUrl: "/customers/mui",
 } satisfies CustomerCompany;
 
 const olivierTassinari = {

@@ -11,6 +11,8 @@ export const gitbook: CustomerCompany = {
     "140x48": { light: gitbookLogo140x48, dark: gitbookLogo140x48Dark },
   },
   name: "GitBook",
+  url: "https://gitbook.com",
+  storyUrl: "/customers/gitbook",
 };
 
 const samyPesse: CustomerUser = {

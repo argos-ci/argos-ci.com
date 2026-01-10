@@ -11,6 +11,8 @@ export const leMonde: CustomerCompany = {
     "140x48": { light: leMondeLogo140x48, dark: leMondeLogo140x48Dark },
   },
   name: "Le Monde",
+  url: "https://lemonde.fr",
+  storyUrl: "/customers/lemonde",
 };
 
 const paulLaleu: CustomerUser = {

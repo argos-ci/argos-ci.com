@@ -9,4 +9,5 @@ export const clickhouse: CustomerCompany = {
     "140x48": { light: clickhouseLogo140x48, dark: clickhouseLogo140x48Dark },
   },
   name: "ClickHouse",
+  url: "https://clickhouse.com",
 };

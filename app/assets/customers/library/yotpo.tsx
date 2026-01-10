@@ -8,4 +8,5 @@ export const yotpo: CustomerCompany = {
     "140x48": yotpoLogo140x48,
   },
   name: "Yotpo",
+  url: "https://yotpo.com",
 };

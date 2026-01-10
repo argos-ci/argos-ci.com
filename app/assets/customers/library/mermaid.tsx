@@ -9,6 +9,8 @@ export const mermaid: CustomerCompany = {
     "140x48": mermaidLogo140x48,
   },
   name: "Mermaid",
+  url: "https://mermaid.js.org",
+  storyUrl: "/customers/mermaid",
 };
 
 const sidharthVinod: CustomerUser = {

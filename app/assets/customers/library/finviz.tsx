@@ -14,6 +14,8 @@ export const finviz = {
     emblem: finvizEmblem,
   },
   name: "Finviz",
+  url: "https://finviz.com",
+  storyUrl: "/customers/finviz",
 } satisfies CustomerCompany;
 
 export const vojtechGintner = {

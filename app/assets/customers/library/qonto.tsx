@@ -9,4 +9,5 @@ export const qonto: CustomerCompany = {
     "140x48": { light: qontoLogo140x48, dark: qontoLogo140x48Dark },
   },
   name: "Qonto",
+  url: "https://qonto.com",
 };

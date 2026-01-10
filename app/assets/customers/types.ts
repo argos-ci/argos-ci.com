@@ -7,6 +7,8 @@ export type CustomerCompany = {
     emblem?: ThemeImageProps["src"];
   };
   name: string;
+  url: string;
+  storyUrl?: string;
 };
 
 export type CustomerUser = {
