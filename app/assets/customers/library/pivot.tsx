@@ -5,7 +5,7 @@ import pivotLogoAdjusted from "../adjusted/pivot.svg";
 import estelleGiulyAvatar from "../people/estelle-giuly.jpg";
 import type { CustomerCompany, CustomerQuote, CustomerUser } from "../types";
 
-export const pivot: CustomerCompany = {
+const pivot: CustomerCompany = {
   logo: {
     adjusted: { light: pivotLogoAdjusted, dark: pivotLogoAdjustedDark },
     "140x48": { light: pivotLogo140x48, dark: pivotLogo140x48Dark },

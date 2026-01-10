@@ -1,11 +1,9 @@
 import clsx from "clsx";
 import { ArrowRightIcon } from "lucide-react";
 import { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
 
-import { BRANDS } from "@/components/BrandTestimonials";
 import { Button } from "@/components/Button";
 import { CallToActionSection } from "@/components/CallToActionSection";
 import { Container } from "@/components/Container";
@@ -29,7 +27,7 @@ import { mermaidQuote } from "../assets/customers/library/mermaid";
 import { meta } from "../assets/customers/library/meta";
 import { muiQuote } from "../assets/customers/library/mui";
 import { permitIoQuote } from "../assets/customers/library/permit-io";
-import { pivot, pivotQuote } from "../assets/customers/library/pivot";
+import { pivotQuote } from "../assets/customers/library/pivot";
 import { planable } from "../assets/customers/library/planable";
 import { qonto } from "../assets/customers/library/qonto";
 import { rapidataQuote } from "../assets/customers/library/rapidata";

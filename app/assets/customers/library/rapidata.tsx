@@ -5,7 +5,7 @@ import rapidataLogoAdjusted from "../adjusted/rapidata.svg";
 import jasonCorkillAvatar from "../people/jason-corkill.jpg";
 import type { CustomerCompany, CustomerQuote, CustomerUser } from "../types";
 
-export const rapidata = {
+const rapidata = {
   logo: {
     adjusted: { light: rapidataLogoAdjusted, dark: rapidataLogoAdjustedDark },
     "140x48": { light: rapidataLogo140x48, dark: rapidataLogo140x48Dark },

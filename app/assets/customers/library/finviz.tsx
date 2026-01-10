@@ -7,7 +7,7 @@ import marosPistejAvatar from "../people/maros-pistej.jpg";
 import vojtechGintnerAvatar from "../people/vojtech-gintner.jpg";
 import type { CustomerCompany, CustomerQuote, CustomerUser } from "../types";
 
-export const finviz = {
+const finviz = {
   logo: {
     adjusted: { light: finvizLogoAdjusted, dark: finvizLogoAdjustedDark },
     "140x48": { light: finvizLogo140x48, dark: finvizLogo140x48Dark },
@@ -18,13 +18,13 @@ export const finviz = {
   storyUrl: "/customers/finviz",
 } satisfies CustomerCompany;
 
-export const vojtechGintner = {
+const vojtechGintner = {
   avatar: vojtechGintnerAvatar,
   name: "Vojtech Gintner",
   title: "Engineering Manager at Finviz",
 } satisfies CustomerUser;
 
-export const marosPistej: CustomerUser = {
+const marosPistej: CustomerUser = {
   avatar: marosPistejAvatar,
   name: "Maros Pistej",
   title: "Sotfware Engineer at Finviz",
