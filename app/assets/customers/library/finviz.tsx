@@ -21,13 +21,13 @@ const finviz = {
 const vojtechGintner = {
   avatar: vojtechGintnerAvatar,
   name: "Vojtech Gintner",
-  title: "Engineering Manager at Finviz",
+  title: "Engineering manager at Finviz",
 } satisfies CustomerUser;
 
 const marosPistej: CustomerUser = {
   avatar: marosPistejAvatar,
   name: "Maros Pistej",
-  title: "Sotfware Engineer at Finviz",
+  title: "Software engineer at Finviz",
 };
 
 export const finvizGintnerQuote: CustomerQuote = {
