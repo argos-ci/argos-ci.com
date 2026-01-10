@@ -121,7 +121,7 @@ function CardImage(props: { company: CustomerCompany }) {
   return (
     <div className="flex items-center justify-center p-8">
       <ThemeImage
-        className="h-16 w-auto dark:brightness-0 dark:invert"
+        className="h-16 w-auto"
         src={props.company.logo["140x48"]}
         alt={props.company.name}
       />
