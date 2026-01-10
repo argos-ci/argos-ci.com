@@ -70,7 +70,7 @@ export default function Page() {
             <CustomerCard brand={BRANDS.planable} />
             <CustomerCard brand={BRANDS.businessInsider} />
             <QuoteCard
-              href={BRANDS.mui.url}
+              href="/customers/mui"
               brand={BRANDS.mui}
               author="Olivier Tassinari"
               authorRole="Co-founder & CEO"
