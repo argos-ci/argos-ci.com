@@ -4,6 +4,7 @@ export type CustomerCompany = {
   logo: {
     adjusted: ThemeImageProps["src"];
     "140x48": ThemeImageProps["src"];
+    emblem?: ThemeImageProps["src"];
   };
   name: string;
 };

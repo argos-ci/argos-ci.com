@@ -3,6 +3,12 @@ import Image, { StaticImageData } from "next/image";
 import { dirname, join } from "node:path";
 import { z } from "zod";
 
+import {
+  finvizGintnerQuote,
+  finvizMarosQuote,
+} from "@/app/assets/customers/library/finviz";
+import type { CustomerQuote } from "@/app/assets/customers/types";
+import { ThemeImage, type ThemeImageProps } from "@/components/ThemeImage";
 import { Zoom } from "@/components/Zoom";
 
 import { assertAllItems, getDocMdxSource, readMatterData } from "./common";
@@ -106,6 +112,10 @@ export async function getCustomerCaseBySlug(
  */
 export async function getCustomerCaseMdxSource(customerCase: CustomerCase) {
   return getDocMdxSource(customerCase.filepath, {
+    scope: {
+      finvizGintnerQuote,
+      finvizMarosQuote,
+    },
     components: {
       img: ({ src, height, width, alt }) => {
         return (
@@ -122,26 +132,41 @@ export async function getCustomerCaseMdxSource(customerCase: CustomerCase) {
         );
       },
       Blockquote,
+      CustomerBlockQuote,
     },
   });
 }
 
+function CustomerBlockQuote(props: { quote: CustomerQuote }) {
+  const { quote } = props;
+  return (
+    <Blockquote
+      quote={quote.text}
+      authorAvatar={quote.author.avatar}
+      authorName={quote.author.name}
+      authorPosition={quote.author.title}
+      companyLogo={quote.company.logo.emblem ?? quote.company.logo.adjusted}
+      companyName={quote.company.name}
+    />
+  );
+}
+
 function Blockquote(props: {
-  authorAvatar: string;
+  authorAvatar: ThemeImageProps["src"];
   authorName: string;
   authorPosition: string;
-  companyLogo: string;
+  companyLogo: ThemeImageProps["src"];
   companyName: string;
   quote: React.ReactNode;
 }) {
   return (
     <div className="not-prose relative my-10 flex flex-col items-center gap-6 rounded-lg border p-6 md:gap-8">
       <div className="rounded-full bg-linear-to-r from-(--pink-8) to-(--violet-8) p-2">
-        <Image
-          className="shrink-0 rounded-full"
-          src={props.authorAvatar}
+        <ThemeImage
+          className="size-20 shrink-0 rounded-full"
           width={80}
           height={80}
+          src={props.authorAvatar}
           alt={props.authorName}
         />
       </div>
@@ -149,11 +174,11 @@ function Blockquote(props: {
         <p>{props.quote}</p>
       </blockquote>
       <div className="flex items-center gap-4">
-        <Image
-          className="rounded-sm"
-          src={props.companyLogo}
+        <ThemeImage
+          className="size-12 rounded-sm"
           width={48}
           height={48}
+          src={props.companyLogo}
           alt={props.companyName}
         />
         <div>

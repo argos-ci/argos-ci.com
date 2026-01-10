@@ -30,13 +30,15 @@ export function readMatterData<T extends ZodType>(
  */
 export async function getDocMdxSource(
   filepath: string,
-  options: Pick<MDXRemoteProps, "components">,
+  options: Pick<MDXRemoteProps, "components"> &
+    Pick<NonNullable<MDXRemoteProps["options"]>, "scope">,
 ) {
   const source = await readFile(filepath, "utf-8");
   const result = await compileMDX({
     source,
     components: options.components,
     options: {
+      scope: options.scope,
       mdxOptions: {
         // @ts-ignore
         rehypePlugins: [

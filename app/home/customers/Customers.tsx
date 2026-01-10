@@ -3,10 +3,10 @@ import { ArrowRightIcon } from "lucide-react";
 import Link from "next/link";
 
 import { clickhouse } from "@/app/assets/customers/library/clickhouse";
+import { finvizGintnerQuote } from "@/app/assets/customers/library/finviz";
 import { gitbookQuote } from "@/app/assets/customers/library/gitbook";
 import { mermaid } from "@/app/assets/customers/library/mermaid";
 import { meta } from "@/app/assets/customers/library/meta";
-import { muiQuote } from "@/app/assets/customers/library/mui";
 import { qonto } from "@/app/assets/customers/library/qonto";
 import type {
   CustomerCompany,
@@ -45,7 +45,7 @@ export function Customers() {
           <CustomerLogo company={meta} />
           <CustomerLogo company={qonto} />
           <CustomerCase quote={gitbookQuote} href="/customers/gitbook" />
-          <CustomerCase quote={muiQuote} href="/customers/mui" />
+          <CustomerCase quote={finvizGintnerQuote} href="/customers/finviz" />
           <CustomerLogo company={mermaid} />
           <CustomerLogo company={clickhouse} />
         </div>
