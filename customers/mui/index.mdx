@@ -6,15 +6,7 @@ date: 2025-01-15
 author: Greg Bergé
 image: ./main.jpg
 
-customer:
-  name: MUI
-  logo: ./mui-logo.svg
-  website: https://mui.com
-  about: MUI is the most popular React UI component library, powering products used by millions of developers worldwide.
-  industry: Developer Tools, Open Source
-  companySize: 50-100
-  founded: 2014
-  argosPlan: Enterprise
+customer: mui
 ---
 
 ## The Challenge
@@ -41,22 +33,7 @@ A key capability for MUI is Argos [flaky indicator](/docs/flaky-test-detection).
 
 MUI runs a fully open source workflow with a high volume of forked pull requests from contributors around the world. Argos is deeply [integrated with GitHub](/docs/github) and handles forked PRs automatically, without additional configuration or manual approval steps.
 
-<Blockquote
-  authorName="Olivier Tassinari"
-  authorAvatar="/assets/customers/mui/olivier-tassinari.jpg"
-  authorPosition="CEO"
-  companyName="MUI"
-  companyLogo="/assets/customers/mui/mui-logo.svg"
-  quote={
-    <>
-      Argos gives a stable visual baseline for the MUI and Base UI component
-      ecosystem. It lets us refactor confidently, catch layout drifts early, and{" "}
-      <strong>ship changes faster</strong> without adding noise to our workflow.
-      It is the kind of tooling that{" "}
-      <strong>scales with a component library as large as ours</strong>.
-    </>
-  }
-/>
+<CustomerBlockQuote quote={muiQuote} />
 
 Visual feedback is posted directly on pull requests, allowing maintainers and contributors to review changes in context. This makes it easy to catch visual regressions early, long before they are merged into the main branch.
 

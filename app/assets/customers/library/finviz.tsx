@@ -7,7 +7,7 @@ import marosPistejAvatar from "../people/maros-pistej.jpg";
 import vojtechGintnerAvatar from "../people/vojtech-gintner.jpg";
 import type { CustomerCompany, CustomerQuote, CustomerUser } from "../types";
 
-const finviz = {
+export const finviz = {
   logo: {
     adjusted: { light: finvizLogoAdjusted, dark: finvizLogoAdjustedDark },
     "140x48": { light: finvizLogo140x48, dark: finvizLogo140x48Dark },
@@ -16,6 +16,12 @@ const finviz = {
   name: "Finviz",
   url: "https://finviz.com",
   storyUrl: "/customers/finviz",
+  about:
+    "Finviz is a stock research and visualization platform used by traders and investors worldwide to analyze markets through high-density charts and financial data.",
+  industry: "Finance, Market Research",
+  size: "10-50",
+  founded: "2007",
+  argosPlan: "Pro",
 } satisfies CustomerCompany;
 
 const vojtechGintner = {

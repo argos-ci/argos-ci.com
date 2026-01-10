@@ -15,6 +15,12 @@ export const mui = {
   name: "MUI",
   url: "https://mui.com",
   storyUrl: "/customers/mui",
+  about:
+    "MUI is the most popular React UI component library, powering products used by millions of developers worldwide.",
+  industry: "Developer Tools, Open Source",
+  size: "50-100",
+  founded: "2014",
+  argosPlan: "Enterprise",
 } satisfies CustomerCompany;
 
 const olivierTassinari = {

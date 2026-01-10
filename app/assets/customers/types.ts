@@ -9,6 +9,11 @@ export type CustomerCompany = {
   name: string;
   url: string;
   storyUrl?: string;
+  about?: string;
+  industry?: string;
+  size?: string;
+  founded?: string;
+  argosPlan?: "Enterprise" | "Pro";
 };
 
 export type CustomerUser = {

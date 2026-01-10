@@ -10,6 +10,7 @@ import { CallToActionSection } from "@/components/CallToActionSection";
 import { Container } from "@/components/Container";
 import { FullPageGrid } from "@/components/FullPageGrid";
 import { JsonLd } from "@/components/JsonLd";
+import { ThemeImage } from "@/components/ThemeImage";
 import {
   getCustomerCaseBySlug,
   getCustomerCaseMdxSource,
@@ -166,8 +167,8 @@ export default async function Page(props: Props) {
           </div>
           <div className="divide-base sticky top-20 col-span-1 hidden flex-col divide-y self-start md:flex">
             <div className="flex items-center gap-4 py-5">
-              <Image
-                src={customerCase.customer.logo}
+              <ThemeImage
+                src={customerCase.customer.logo.emblem}
                 width={48}
                 height={48}
                 alt={customerCase.customer.name}
@@ -176,11 +177,11 @@ export default async function Page(props: Props) {
                 <div className="font-medium">{customerCase.customer.name}</div>
                 <div className="text-low text-sm">
                   <a
-                    href={customerCase.customer.website}
+                    href={customerCase.customer.url}
                     target="_blank"
                     className="text-low hover:underline"
                   >
-                    {simplifyUrl(customerCase.customer.website)}
+                    {simplifyUrl(customerCase.customer.url)}
                   </a>
                 </div>
               </div>
@@ -190,7 +191,7 @@ export default async function Page(props: Props) {
               {customerCase.customer.industry}
             </SideItem>
             <SideItem title="Company Size">
-              {customerCase.customer.companySize}
+              {customerCase.customer.size}
             </SideItem>
             <SideItem title="Founded">{customerCase.customer.founded}</SideItem>
             <SideItem title="Argos plan">
