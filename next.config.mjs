@@ -34,6 +34,21 @@ const nextConfig = {
         destination: "/changelog/2025-07-20-ignore-changes",
         permanent: false,
       },
+      {
+        source: "/playwright",
+        destination: "/visual-testing",
+        permanent: true,
+      },
+      {
+        source: "/docs/about-us",
+        destination: "/about",
+        permanent: true,
+      },
+      {
+        source: "/docs/contact-us",
+        destination: "/contact",
+        permanent: true,
+      },
     ];
   },
   rewrites: async () => {
