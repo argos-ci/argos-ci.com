@@ -27,7 +27,7 @@ export const finviz = {
 const vojtechGintner = {
   avatar: vojtechGintnerAvatar,
   name: "Vojtech Gintner",
-  title: "Engineering manager at Finviz",
+  title: "CTO of Finviz",
 } satisfies CustomerUser;
 
 const marosPistej: CustomerUser = {
