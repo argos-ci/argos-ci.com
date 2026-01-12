@@ -4,8 +4,16 @@ export type CustomerCompany = {
   logo: {
     adjusted: ThemeImageProps["src"];
     "140x48": ThemeImageProps["src"];
+    emblem?: ThemeImageProps["src"];
   };
   name: string;
+  url: string;
+  storyUrl?: string;
+  about?: string;
+  industry?: string;
+  size?: string;
+  founded?: string;
+  argosPlan?: "Enterprise" | "Pro";
 };
 
 export type CustomerUser = {

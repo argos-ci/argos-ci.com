@@ -60,6 +60,11 @@ function runScreenshotTests(colorScheme?: "light" | "dark") {
     await screenshot(page, "customer-feedback", screenshotSuffix);
   });
 
+  test(`Screenshots for customers page ${textSuffix}`, async ({ page }) => {
+    await page.goto("/customers");
+    await screenshot(page, "customers", screenshotSuffix);
+  });
+
   test(`Screenshots for soc-2 ${textSuffix}`, async ({ page }) => {
     await page.goto("/security/soc-2");
     await screenshot(page, "soc-2", screenshotSuffix);

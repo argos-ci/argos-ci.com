@@ -8,4 +8,5 @@ export const doctolib: CustomerCompany = {
     "140x48": doctolibLogo140x48,
   },
   name: "Doctolib",
+  url: "https://doctolib.com",
 };

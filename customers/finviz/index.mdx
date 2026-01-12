@@ -1,0 +1,71 @@
+---
+title: Visual Testing High-Precision Financial Charts with Playwright and Argos
+description: Finviz uses Argos visual testing on top of Playwright E2E tests to detect pixel-level regressions in high-definition stock charts across desktop and mobile.
+slug: finviz
+date: 2026-01-10
+author: Greg Bergé
+image: ./main.svg
+
+customer: finviz
+---
+
+## The Challenge
+
+Finviz builds a stock research platform where **visual accuracy is critical**. Their product relies heavily on high-definition charts that encode financial data directly into pixels. A single visual difference can signal a real functional regression in the rendering or data pipeline.
+
+Unlike traditional UI components, charts cannot be validated with simple assertions. A shifted line, a missing candle, or a slightly incorrect scale may indicate incorrect calculations or broken rendering logic.
+
+Finviz already relied on **Playwright for end-to-end testing**, but functional E2E tests alone were not enough. They needed **visual testing** to ensure that what users actually see on screen remains correct across changes, devices, and resolutions.
+
+Manual review did not scale, especially with responsive layouts and frequent iterations on charting logic.
+
+![Argos build with Finviz charts](/assets/customers/finviz/argos-build.jpg)
+
+## The Solution
+
+Finviz adopted **Argos** to add **visual regression testing** on top of their existing Playwright E2E suite.
+
+During E2E runs, Playwright captures screenshots from real user scenarios. These screenshots are uploaded to Argos, where they are compared against stable visual baselines. Any pixel-level difference is surfaced directly in CI before the pull request can be merged.
+
+The team runs visual testing across **multiple responsive breakpoints**, including desktop and mobile views, ensuring consistent rendering regardless of screen size.
+
+Thanks to Argos support for **high-definition screenshots** and its **smart zooming algorithm**, engineers can inspect differences at the exact level where regressions occur, without losing context.
+
+![High-definition zoomed diff](/assets/customers/finviz/hd-diff.png)
+
+Visual feedback is posted directly on pull requests, making visual testing a first-class part of the review process.
+
+## Visual Testing as Functional Validation
+
+For Finviz, visual testing is not limited to catching UI styling issues. A visual difference on a chart often reflects a **functional regression**.
+
+<CustomerBlockQuote quote={finvizGintnerQuote} />
+
+This approach allows the team to validate not only that a flow works, but that the **rendered financial data is correct** across environments.
+
+## Built for Responsive Visual Testing at Scale
+
+Finviz runs visual testing across a wide range of chart configurations, datasets, and responsive layouts. Despite the size and density of screenshots, Argos builds remain fast and deterministic.
+
+The smart zooming feature allows reviewers to immediately focus on meaningful changes, whether they appear in a dense desktop chart or a constrained mobile view.
+
+<CustomerBlockQuote quote={finvizMarosQuote} />
+
+## The Results
+
+With Argos integrated into their Playwright-based CI pipeline, Finviz has raised the bar on visual quality and reliability.
+
+The team now benefits from:
+
+- Pixel-level visual testing of high-definition financial charts
+- Early detection of functional regressions through visual diffs
+- Confident validation of responsive rendering on desktop and mobile
+- Automatic visual protection before pull requests are merged
+
+Argos enables Finviz to ship charting changes faster, while preserving the accuracy and trust users expect from a financial research platform.
+
+## Looking Ahead
+
+As Finviz continues to expand its analytical tools and visual complexity, Argos remains a core part of their visual testing strategy.
+
+By combining Playwright E2E tests with deterministic visual regression testing, Finviz ensures that every release preserves the precision and clarity that traders and investors rely on every day.

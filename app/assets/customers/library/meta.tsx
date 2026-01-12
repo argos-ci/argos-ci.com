@@ -9,4 +9,5 @@ export const meta: CustomerCompany = {
     "140x48": { light: metaLogo140x48, dark: metaLogo140x48Dark },
   },
   name: "Meta",
+  url: "https://docusaurus.io/",
 };

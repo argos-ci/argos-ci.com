@@ -1,11 +1,9 @@
 import clsx from "clsx";
 import { ArrowRightIcon } from "lucide-react";
 import { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import * as React from "react";
 
-import { BRANDS } from "@/components/BrandTestimonials";
 import { Button } from "@/components/Button";
 import { CallToActionSection } from "@/components/CallToActionSection";
 import { Container } from "@/components/Container";
@@ -16,7 +14,25 @@ import {
   HeroDescription,
   HeroHeading,
 } from "@/components/Hero";
+import { ThemeImage } from "@/components/ThemeImage";
 import { getMetadata } from "@/lib/metadata";
+
+import { businessInsider } from "../assets/customers/library/business-insider";
+import { clickhouse } from "../assets/customers/library/clickhouse";
+import { doctolib } from "../assets/customers/library/doctolib";
+import { finvizGintnerQuote } from "../assets/customers/library/finviz";
+import { gitbookQuote } from "../assets/customers/library/gitbook";
+import { leMondeQuote } from "../assets/customers/library/le-monde";
+import { mermaidQuote } from "../assets/customers/library/mermaid";
+import { meta } from "../assets/customers/library/meta";
+import { muiQuote } from "../assets/customers/library/mui";
+import { permitIoQuote } from "../assets/customers/library/permit-io";
+import { pivotQuote } from "../assets/customers/library/pivot";
+import { planable } from "../assets/customers/library/planable";
+import { qonto } from "../assets/customers/library/qonto";
+import { rapidataQuote } from "../assets/customers/library/rapidata";
+import { yotpo } from "../assets/customers/library/yotpo";
+import type { CustomerCompany, CustomerQuote } from "../assets/customers/types";
 
 export const metadata: Metadata = getMetadata({
   title: "Customers",
@@ -52,87 +68,26 @@ export default function Page() {
       <div className="px-4">
         <Container className="grid grid-cols-1 gap-8 border-x py-16 pt-4 md:grid-cols-3 md:pt-10">
           <Column>
-            <CustomerCard brand={BRANDS.meta} />
-            <QuoteCard
-              href="/customers/mermaid"
-              brand={BRANDS.mermaid}
-              author="Sidharth Vinod"
-              authorRole="Core maintainer"
-              quote={
-                <>
-                  Argos has been a game-changer for us. It catches even the
-                  smallest visual changes in our diagram rendering, giving us
-                  peace of mind before every release.
-                </>
-              }
-            />
-            <CustomerCard brand={BRANDS.pivot} />
-            <CustomerCard brand={BRANDS.planable} />
-            <CustomerCard brand={BRANDS.businessInsider} />
-            <QuoteCard
-              href="/customers/mui"
-              brand={BRANDS.mui}
-              author="Olivier Tassinari"
-              authorRole="Co-founder & CEO"
-              quote={
-                <>Argos CI is very helpful for us to maintain Material UI!</>
-              }
-            />
+            <CustomerCard company={meta} />
+            <QuoteCard quote={mermaidQuote} />
+            <CustomerCard company={planable} />
+            <QuoteCard quote={muiQuote} />
+            <CustomerCard company={businessInsider} />
           </Column>
           <Column>
-            <QuoteCard
-              href="/customers/lemonde"
-              brand={BRANDS.lemonde}
-              author="Paul Laleu"
-              authorRole="CTO/CIO"
-              quote={
-                <>
-                  Thanks to Argos, we can confidently deploy updates to Sirius
-                  without worrying about unexpected issues disrupting our
-                  editorial workflows.
-                </>
-              }
-            />
-            <CustomerCard brand={BRANDS.handsontable} />
-            <CustomerCard brand={BRANDS.yotpo} />
-            <CustomerCard brand={BRANDS.sindri} />
-            <CustomerCard brand={BRANDS.forethought} />
-            <CustomerCard brand={BRANDS.interactiveThings} />
+            <QuoteCard quote={leMondeQuote} />
+            <CustomerCard company={yotpo} />
+            <QuoteCard quote={pivotQuote} />
+            <QuoteCard quote={permitIoQuote} />
           </Column>
 
           <Column>
-            <CustomerCard brand={BRANDS.doctolib} />
-            <QuoteCard
-              href="/customers/gitbook"
-              brand={BRANDS.gitbook}
-              author="Samy Pessé"
-              authorRole="Co-founder & CTO"
-              quote={
-                <>
-                  Argos has become a cornerstone of our testing process. Its
-                  ability to catch visual issues early has saved us countless
-                  hours of manual QA and protected the integrity of our product
-                  for millions of users.
-                </>
-              }
-            />
-            <CustomerCard brand={BRANDS.qonto} />
-            <CustomerCard brand={BRANDS.rho} />
-
-            <QuoteCard
-              href={BRANDS.rapidata.url}
-              brand={BRANDS.rapidata}
-              author="Jason Corkill"
-              authorRole="Founder & CEO"
-              quote={
-                <>
-                  Before Argos, we had constant problems with our rapidly
-                  iterating UI breaking for random screen aspect ratios. With
-                  Argos catch all of these before we ever ship!
-                </>
-              }
-            />
-            <CustomerCard brand={BRANDS.sivo} />
+            <CustomerCard company={doctolib} />
+            <QuoteCard quote={gitbookQuote} />
+            <CustomerCard company={qonto} />
+            <QuoteCard quote={rapidataQuote} />
+            <CustomerCard company={clickhouse} />
+            <QuoteCard quote={finvizGintnerQuote} />
           </Column>
         </Container>
       </div>
@@ -153,7 +108,7 @@ function CardLink(props: {
   return (
     <Link
       className={clsx(
-        "group block rounded-lg border shadow-sm outline-hidden transition duration-300",
+        "group block rounded-lg border shadow-xs outline-hidden transition duration-300",
         "hover:border-primary-hover hover:shadow-lg",
         "focus:border-primary-hover focus:shadow-lg",
       )}
@@ -162,46 +117,53 @@ function CardLink(props: {
   );
 }
 
-type Brand = { src: string; alt: string; url: string };
-
-function CardImage(props: { brand: Brand }) {
+function CardImage(props: { company: CustomerCompany }) {
   return (
     <div className="flex items-center justify-center p-8">
-      <Image
-        priority
-        height={64}
-        className="dark:brightness-0 dark:invert"
-        src={props.brand.src}
-        alt={props.brand.alt}
+      <ThemeImage
+        className="h-16 w-auto"
+        src={props.company.logo["140x48"]}
+        alt={props.company.name}
       />
     </div>
   );
 }
 
-function CustomerCard(props: { brand: Brand }) {
+function CustomerCard(props: {
+  company: CustomerCompany;
+  children?: React.ReactNode;
+}) {
+  const { company, children } = props;
   return (
-    <CardLink href={props.brand.url} target="_blank">
-      <CardImage brand={props.brand} />
+    <CardLink
+      href={company.storyUrl ?? company.url}
+      target={company.storyUrl ? undefined : "_blank"}
+    >
+      <CardImage company={company} />
+      {children}
     </CardLink>
   );
 }
 
-function QuoteCard(props: {
-  href: string;
-  brand: Brand;
-  quote: React.ReactNode;
-  author: string;
-  authorRole: string;
-}) {
+function QuoteCard(props: { quote: CustomerQuote }) {
+  const { quote } = props;
   return (
-    <CardLink href={props.href}>
-      <CardImage brand={props.brand} />
+    <CustomerCard company={quote.company}>
       <div className="border-t p-8">
-        <div className="text-lg">{props.quote}</div>
+        <div className="text-lg [&_strong]:font-semibold">{quote.text}</div>
         <div className="mt-8 flex justify-between text-sm">
-          <div>
-            <div className="font-medium">{props.author}</div>
-            <div className="text-low">{props.authorRole}</div>
+          <div className="flex items-center gap-2.5">
+            <ThemeImage
+              src={quote.author.avatar}
+              className="size-8 rounded-full border"
+              alt=""
+            />
+            <div>
+              <div className="text-sm font-medium">{quote.author.name}</div>
+              <div className="text-low text-xs font-medium">
+                {quote.author.title}
+              </div>
+            </div>
           </div>
           <div>
             <div
@@ -216,6 +178,6 @@ function QuoteCard(props: {
           </div>
         </div>
       </div>
-    </CardLink>
+    </CustomerCard>
   );
 }

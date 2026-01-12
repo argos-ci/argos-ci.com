@@ -4,17 +4,9 @@ description: Discover how Mermaid, an open-source diagramming tool, uses Argos f
 slug: mermaid
 date: 2024-09-08
 author: Greg Bergé
-image: ./main.jpg
+image: ./main.svg
 
-customer:
-  name: Mermaid
-  logo: ./mermaid-logo.svg
-  website: https://mermaid.js.org/
-  about: Mermaid is a JavaScript based diagramming and charting tool that renders Markdown-inspired text definitions to create and modify diagrams dynamically.
-  industry: Open source project
-  companySize: < 10
-  founded: 2014
-  argosPlan: Open Source
+customer: mermaid
 ---
 
 ## Company Overview
@@ -43,21 +35,7 @@ Mermaid integrated [Argos](https://argos-ci.com/) into their CI pipeline to prev
 
 Since implementing Argos, Mermaid has seen a **significant reduction in visual regression bugs** in their diagram rendering. The team now has complete confidence that any updates or new features will not inadvertently disrupt the visual accuracy of the diagrams their users rely on.
 
-<Blockquote
-  authorName="Sidharth Vinod"
-  authorAvatar="/assets/customers/mermaid/sidharth.jpg"
-  authorPosition="Core maintainer"
-  companyName="Mermaid"
-  companyLogo="/assets/customers/mermaid/mermaid-logo.svg"
-  quote={
-    <>
-      Argos has been a game-changer for us. It catches even the smallest visual
-      changes in our diagram rendering, giving us peace of mind before every
-      release. The seamless integration with our CI pipeline makes it an
-      essential part of our development process.
-    </>
-  }
-/>
+<CustomerBlockQuote quote={mermaidQuote} />
 
 - **Increased Confidence in Deployments:** Argos' thorough visual testing allows the Mermaid team to deploy with the assurance that no diagram-breaking changes will slip through.
 - **Improved Development Efficiency:** By catching visual regressions early, Mermaid has reduced the time spent manually reviewing diagram outputs, allowing their team to focus on building new features.

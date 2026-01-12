@@ -12,4 +12,5 @@ export const businessInsider: CustomerCompany = {
     },
   },
   name: "Business Insider",
+  url: "https://www.businessinsider.com",
 };

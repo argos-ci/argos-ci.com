@@ -11,6 +11,7 @@ const permitIo: CustomerCompany = {
     "140x48": { light: permitIoLogo140x48, dark: permitIoLogo140x48Dark },
   },
   name: "Permit.io",
+  url: "https://www.permit.io",
 };
 
 const orWeis: CustomerUser = {

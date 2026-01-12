@@ -4,17 +4,9 @@ description: Le Monde uses Argos to prevent visual regressions in its CMS, Siriu
 slug: lemonde
 date: 2024-09-13
 author: Greg Bergé
-image: ./main.jpg
+image: ./main.svg
 
-customer:
-  name: Le Monde
-  logo: ./lemonde-logo.svg
-  website: https://www.lemonde.fr
-  about: Le Monde is one of the largest and most influential newspapers in France, known for its independent journalism and wide-ranging coverage of national and international news.
-  industry: Media & Publishing
-  companySize: 1,000-5,000
-  founded: 1944
-  argosPlan: Enterprise
+customer: leMonde
 ---
 
 ## Ensuring a Smooth Editorial Workflow with Argos
@@ -25,25 +17,13 @@ Sirius is the backbone of the group’s content operations. It is built around a
 
 To maintain a high level of reliability and ensure updates do not introduce regressions, Le Monde uses Argos for visual testing. Argos detects visual changes in Sirius early, allowing the team to fix issues before they reach production and disrupt editorial work.
 
-<Blockquote
-  authorName="Paul Laleu"
-  authorAvatar="/assets/customers/lemonde/paul-laleu.jpg"
-  authorPosition="CTO/CIO"
-  companyName="Le Monde"
-  companyLogo="/assets/customers/lemonde/lemonde-logo.svg"
-  quote={
-    <>
-      Thanks to Argos, we can confidently deploy updates to Sirius without
-      worrying about unexpected issues disrupting our editorial workflows.
-    </>
-  }
-/>
+<CustomerBlockQuote quote={leMondeQuote} />
 
 Beyond detection, the Sirius team relies heavily on screenshot failures to debug issues. When a test fails, the visual diff provides immediate context about what changed and where, making it much faster to understand the root cause. This visual feedback often removes the need for lengthy reproductions or manual checks and speeds up fixes during development.
 
 ![Test failure visible in Argos UI](/assets/customers/lemonde/test-failure.png)
 
-## Avoiding Costly Delays
+## Avoiding costly delays
 
 For Le Monde, a delay in publication can have serious consequences and may cost the group millions of euros. At this scale, CMS reliability is both a technical and a financial concern.
 
@@ -51,24 +31,11 @@ For Le Monde, a delay in publication can have serious consequences and may cost 
 
 Argos helps prevent regressions that could lead to these delays by ensuring every update is visually validated. The development team can ship new features and fixes with confidence, knowing that critical editorial flows will remain intact.
 
-<Blockquote
-  authorName="Marius Baron"
-  authorAvatar="/assets/customers/lemonde/marius-baron.jpg"
-  authorPosition="Lead Developer of Sirius"
-  companyName="Le Monde"
-  companyLogo="/assets/customers/lemonde/lemonde-logo.svg"
-  quote={
-    <>
-      Argos has become an essential part of our CI pipeline. By catching visual
-      changes early, we ensure that our CMS remains reliable and that our
-      journalists can continue focusing on their work without interruption.
-    </>
-  }
-/>
+<CustomerBlockQuote quote={leMondeMariusQuote} />
 
 By integrating Argos deeply into their CI pipeline, Le Monde maintains the level of reliability required for continuous news production. Visual regression testing helps keep Sirius stable and ensures the newsroom can publish on time without unexpected disruptions.
 
-## Why Le Monde Chose Argos
+## Why Le Monde chose Argos
 
 For a complex application like Sirius, Le Monde needed a visual testing solution that fit naturally into their existing workflow. Argos stood out with:
 

@@ -2,16 +2,26 @@ import gitbookLogo140x48Dark from "../140x48/gitbook-dark.svg";
 import gitbookLogo140x48 from "../140x48/gitbook.svg";
 import gitbookLogoAdjustedDark from "../adjusted/gitbook-dark.svg";
 import gitbookLogoAdjusted from "../adjusted/gitbook.svg";
+import gitbookEmblem from "../emblem/gitbook.svg";
 import samyPesseAvatar from "../people/samy-pesse.jpg";
 import type { CustomerCompany, CustomerQuote, CustomerUser } from "../types";
 
-export const gitbook: CustomerCompany = {
+export const gitbook = {
   logo: {
     adjusted: { light: gitbookLogoAdjusted, dark: gitbookLogoAdjustedDark },
     "140x48": { light: gitbookLogo140x48, dark: gitbookLogo140x48Dark },
+    emblem: gitbookEmblem,
   },
   name: "GitBook",
-};
+  url: "https://gitbook.com",
+  storyUrl: "/customers/gitbook",
+  about:
+    "GitBook is a modern documentation platform designed for teams to collaborate and share knowledge seamlessly.",
+  industry: "Documentation Tools, SaaS",
+  size: "10-50",
+  founded: "2015",
+  argosPlan: "Enterprise",
+} satisfies CustomerCompany;
 
 const samyPesse: CustomerUser = {
   avatar: samyPesseAvatar,

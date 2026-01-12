@@ -3,6 +3,24 @@ import Image, { StaticImageData } from "next/image";
 import { dirname, join } from "node:path";
 import { z } from "zod";
 
+import {
+  finviz,
+  finvizGintnerQuote,
+  finvizMarosQuote,
+} from "@/app/assets/customers/library/finviz";
+import { gitbook, gitbookQuote } from "@/app/assets/customers/library/gitbook";
+import {
+  leMonde,
+  leMondeMariusQuote,
+  leMondeQuote,
+} from "@/app/assets/customers/library/le-monde";
+import { mermaid, mermaidQuote } from "@/app/assets/customers/library/mermaid";
+import { mui, muiQuote } from "@/app/assets/customers/library/mui";
+import type {
+  CustomerCompany,
+  CustomerQuote,
+} from "@/app/assets/customers/types";
+import { ThemeImage, type ThemeImageProps } from "@/components/ThemeImage";
 import { Zoom } from "@/components/Zoom";
 
 import { assertAllItems, getDocMdxSource, readMatterData } from "./common";
@@ -18,27 +36,34 @@ const FrontmatterSchema = z.object({
   author: z.string(),
   image: z.string(),
 
-  customer: z.object({
-    name: z.string(),
-    logo: z.string(),
-    website: z.string(),
-    about: z.string(),
-    industry: z.string(),
-    companySize: z.string(),
-    founded: z.coerce.string(),
-    argosPlan: z.string(),
-  }),
+  customer: z.enum(["leMonde", "finviz", "gitbook", "mui", "mermaid"]),
 });
 
 export type Frontmatter = z.infer<typeof FrontmatterSchema>;
+
+type CustomerCompanyStoryReady = CustomerCompany &
+  Required<
+    Pick<
+      CustomerCompany,
+      "storyUrl" | "about" | "founded" | "argosPlan" | "industry" | "size"
+    >
+  > & {
+    logo: Required<CustomerCompany["logo"]>;
+  };
+
+const customers: Record<Frontmatter["customer"], CustomerCompanyStoryReady> = {
+  leMonde,
+  mermaid,
+  finviz,
+  mui,
+  gitbook,
+};
 
 export type CustomerCase = Omit<Frontmatter, "image" | "customer"> & {
   image: StaticImageData;
   filepath: string;
   slug: string;
-  customer: Omit<Frontmatter["customer"], "logo"> & {
-    logo: StaticImageData;
-  };
+  customer: CustomerCompanyStoryReady;
 };
 
 /**
@@ -61,8 +86,8 @@ async function getCustomerCaseData(
   if (!frontmatter) {
     return null;
   }
+  const customer = customers[frontmatter.customer];
   const image = await readImage(filepath, frontmatter.image);
-  const customerLogo = await readImage(filepath, frontmatter.customer.logo);
   const slug = filepath
     .replace(/^.\/customers\//, "")
     .replace(/\/index.mdx$/, "");
@@ -72,10 +97,7 @@ async function getCustomerCaseData(
     filepath,
     image,
     slug,
-    customer: {
-      ...frontmatter.customer,
-      logo: customerLogo,
-    },
+    customer,
   };
 }
 
@@ -106,6 +128,15 @@ export async function getCustomerCaseBySlug(
  */
 export async function getCustomerCaseMdxSource(customerCase: CustomerCase) {
   return getDocMdxSource(customerCase.filepath, {
+    scope: {
+      finvizGintnerQuote,
+      finvizMarosQuote,
+      leMondeQuote,
+      leMondeMariusQuote,
+      muiQuote,
+      mermaidQuote,
+      gitbookQuote,
+    },
     components: {
       img: ({ src, height, width, alt }) => {
         return (
@@ -122,38 +153,53 @@ export async function getCustomerCaseMdxSource(customerCase: CustomerCase) {
         );
       },
       Blockquote,
+      CustomerBlockQuote,
     },
   });
 }
 
+function CustomerBlockQuote(props: { quote: CustomerQuote }) {
+  const { quote } = props;
+  return (
+    <Blockquote
+      quote={quote.text}
+      authorAvatar={quote.author.avatar}
+      authorName={quote.author.name}
+      authorPosition={quote.author.title}
+      companyLogo={quote.company.logo.emblem ?? quote.company.logo.adjusted}
+      companyName={quote.company.name}
+    />
+  );
+}
+
 function Blockquote(props: {
-  authorAvatar: string;
+  authorAvatar: ThemeImageProps["src"];
   authorName: string;
   authorPosition: string;
-  companyLogo: string;
+  companyLogo: ThemeImageProps["src"];
   companyName: string;
   quote: React.ReactNode;
 }) {
   return (
     <div className="not-prose relative my-10 flex flex-col items-center gap-6 rounded-lg border p-6 md:gap-8">
       <div className="rounded-full bg-linear-to-r from-(--pink-8) to-(--violet-8) p-2">
-        <Image
-          className="shrink-0 rounded-full"
-          src={props.authorAvatar}
+        <ThemeImage
+          className="size-20 shrink-0 rounded-full"
           width={80}
           height={80}
+          src={props.authorAvatar}
           alt={props.authorName}
         />
       </div>
-      <blockquote className="text-center text-balance md:text-lg">
+      <blockquote className="text-center text-balance md:text-lg [&_strong]:font-semibold">
         <p>{props.quote}</p>
       </blockquote>
       <div className="flex items-center gap-4">
-        <Image
-          className="rounded-sm"
-          src={props.companyLogo}
+        <ThemeImage
+          className="size-12 rounded-sm"
           width={48}
           height={48}
+          src={props.companyLogo}
           alt={props.companyName}
         />
         <div>
