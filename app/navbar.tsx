@@ -25,6 +25,7 @@ import { ThemeImage, type ThemeImageProps } from "@/components/ThemeImage";
 import { type FeatureColor } from "@/components/feature-section/colors";
 
 import { cypress, playwright, storybook, wdio } from "./assets/brands/library";
+import { trackSignupClick } from "./google-ads";
 
 export const AppNavbar: React.FC = () => {
   return (
@@ -41,7 +42,12 @@ export const AppNavbar: React.FC = () => {
             <a href="https://app.argos-ci.com/login">Login</a>
           </Button>
           <Button asChild>
-            <a href="https://app.argos-ci.com/signup">Sign up</a>
+            <a
+              href="https://app.argos-ci.com/signup"
+              onClick={trackSignupClick}
+            >
+              Sign up
+            </a>
           </Button>
         </>
       }

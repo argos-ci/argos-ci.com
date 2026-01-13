@@ -21,6 +21,8 @@ import { getMetadata } from "@/lib/metadata";
 
 import { permitIoQuote } from "../assets/customers/library/permit-io";
 import { TrustedBy } from "../common/TrustedBy";
+import { trackDemoClick } from "../google-ads";
+import { trackSignupClick } from "../google-ads";
 import { FailureScreenshots as FailureScreenshotsIllustration } from "../home/test-debugging/features/FailureScreenshots";
 import { OneClickReplayIllustration } from "./features/OneClickReplay";
 import { OneLineSetupIllustration } from "./features/OneLineSetup";
@@ -55,12 +57,17 @@ export default function Page() {
             </HeroDescription>
             <HeroActions>
               <Button size="large" asChild>
-                <Link href="https://app.argos-ci.com/signup">
+                <Link
+                  href="https://app.argos-ci.com/signup"
+                  onClick={trackSignupClick}
+                >
                   Start for free
                 </Link>
               </Button>
               <Button size="large" variant="outline" asChild>
-                <Link href="https://cal.com/gregberge">Get a demo</Link>
+                <Link href="https://cal.com/gregberge" onClick={trackDemoClick}>
+                  Get a demo
+                </Link>
               </Button>
             </HeroActions>
           </Hero>

@@ -35,6 +35,8 @@ import {
   GITHUB_SSO_PRICE,
 } from "@/lib/constants";
 
+import { trackSignupClick } from "../google-ads";
+
 const PricingCardBody = twc.div`p-6 text-left text-low`;
 const Title = twc.h3`text-xl font-semibold text-default font-accent`;
 const Description = twc.div`my-2 md:h-12 last-of-type:mb-0`;
@@ -160,7 +162,10 @@ export function PricingCards() {
             recurring={true}
             fixedPrice={false}
           />
-          <CTA href="https://app.argos-ci.com/signup?plan=pro">
+          <CTA
+            href="https://app.argos-ci.com/signup?plan=pro"
+            onClick={trackSignupClick}
+          >
             Start Free Trial
           </CTA>
 
