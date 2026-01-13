@@ -15,6 +15,7 @@ import "@/styles/highlight-js-github-dark.min.css";
 
 import { ClientProviders } from "./client-providers";
 import { AppFooter } from "./footer";
+import { GoogleAdsConversion, GoogleAdsScripts } from "./google-ads";
 import { AppNavbar } from "./navbar";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -90,6 +91,7 @@ export default function RootLayout({
       <GoogleTagManager gtmId="GTM-NLJR9K93" />
       <head>
         <PlausibleProvider domain="argos-ci.com" />
+        <GoogleAdsScripts />
       </head>
       <body>
         <JsonLd json={jsonLdOrganization} />
@@ -102,6 +104,7 @@ export default function RootLayout({
             </div>
           </TooltipProvider>
         </ClientProviders>
+        <GoogleAdsConversion />
       </body>
     </html>
   );

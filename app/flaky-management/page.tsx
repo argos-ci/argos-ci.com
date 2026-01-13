@@ -21,6 +21,8 @@ import { getMetadata } from "@/lib/metadata";
 
 import { pivotQuote } from "../assets/customers/library/pivot";
 import { TrustedBy } from "../common/TrustedBy";
+import { trackDemoClick } from "../google-ads";
+import { trackSignupClick } from "../google-ads";
 import { AdvancedAnalyticsCardsIllustration } from "./features/AdvancedAnalyticsCards";
 import { ChangeHistoryStackIllustration } from "./features/ChangeHistoryStack";
 import { CleanSignalHistoryIllustration } from "./features/CleanSignalHistory";
@@ -62,12 +64,17 @@ export default function Page() {
             </HeroDescription>
             <HeroActions>
               <Button size="large" asChild>
-                <Link href="https://app.argos-ci.com/signup">
+                <Link
+                  href="https://app.argos-ci.com/signup"
+                  onClick={trackSignupClick}
+                >
                   Start for free
                 </Link>
               </Button>
               <Button size="large" variant="outline" asChild>
-                <Link href="https://cal.com/gregberge">Get a demo</Link>
+                <Link href="https://cal.com/gregberge" onClick={trackDemoClick}>
+                  Get a demo
+                </Link>
               </Button>
             </HeroActions>
           </Hero>

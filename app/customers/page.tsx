@@ -33,6 +33,7 @@ import { qonto } from "../assets/customers/library/qonto";
 import { rapidataQuote } from "../assets/customers/library/rapidata";
 import { yotpo } from "../assets/customers/library/yotpo";
 import type { CustomerCompany, CustomerQuote } from "../assets/customers/types";
+import { trackDemoClick, trackSignupClick } from "../google-ads";
 
 export const metadata: Metadata = getMetadata({
   title: "Customers",
@@ -54,12 +55,17 @@ export default function Page() {
             </HeroDescription>
             <HeroActions>
               <Button size="large" asChild>
-                <Link href="https://app.argos-ci.com/signup">
+                <Link
+                  href="https://app.argos-ci.com/signup"
+                  onClick={trackSignupClick}
+                >
                   Make the switch
                 </Link>
               </Button>
               <Button size="large" variant="outline" asChild>
-                <Link href="https://cal.com/gregberge">Get a demo</Link>
+                <Link href="https://cal.com/gregberge" onClick={trackDemoClick}>
+                  Get a demo
+                </Link>
               </Button>
             </HeroActions>
           </Hero>

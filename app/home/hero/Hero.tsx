@@ -3,6 +3,8 @@ import { ArrowUpRightIcon, PlayCircleIcon } from "lucide-react";
 import Link from "next/link";
 
 import { app } from "@/app/assets/product/library";
+import { trackDemoClick } from "@/app/google-ads";
+import { trackSignupClick } from "@/app/google-ads";
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 import { FullPageGrid } from "@/components/FullPageGrid";
@@ -38,12 +40,17 @@ export function Hero() {
             </HeroDescription>
             <HeroActions>
               <Button size="large" asChild>
-                <Link href="https://app.argos-ci.com/signup">
+                <Link
+                  href="https://app.argos-ci.com/signup"
+                  onClick={trackSignupClick}
+                >
                   Start for free
                 </Link>
               </Button>
               <Button size="large" variant="outline" asChild>
-                <Link href="https://cal.com/gregberge">Get a demo</Link>
+                <Link href="https://cal.com/gregberge" onClick={trackDemoClick}>
+                  Get a demo
+                </Link>
               </Button>
             </HeroActions>
           </HeroComponent>
