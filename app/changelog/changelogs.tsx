@@ -42,7 +42,7 @@ export function Changelogs(props: {
           </Hero>
         </Container>
       </div>
-      <div>
+      <div className="px-4">
         <Container noGutter className="border-x">
           {props.changelogs.map((changelog) => {
             return (
