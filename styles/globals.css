@@ -465,10 +465,6 @@
       transform: translateY(-5.5px) rotate(-45deg);
     }
   }
-
-  @media (width >= theme(--breakpoint-md)) {
-    display: none;
-  }
 }
 
 @layer components {
