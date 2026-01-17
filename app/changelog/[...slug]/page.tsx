@@ -35,7 +35,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
   const url = `https://argos-ci.com/changelog/${changelog.slug}`;
   const title = `${changelog.title} · Changelog · Argos`;
-  const images = changelog.image ? [changelog.image] : [];
+  const images = [changelog.image];
   return {
     title: {
       absolute: title,
