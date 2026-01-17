@@ -72,7 +72,7 @@ export const metadata: Metadata = getMetadata({
   absoluteTitle:
     "Argos Visual Testing · Catch visual regressions automatically",
   description:
-    "Argos brings fast, reliable visual testing to your CI. Catch UI regressions with smart stabilization, automatic baselines, Playwright and Storybook support, and a review workflow built for speed.",
+    "Fast, reliable visual testing for CI. Smart stabilization, automatic baselines, Playwright/Storybook support, and rapid reviews.",
   pathname: "/visual-testing",
 });
 
