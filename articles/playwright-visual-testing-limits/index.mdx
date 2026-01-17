@@ -55,7 +55,7 @@ Instead of running tests locally and storing screenshots in Git, what if:
 - No one had to commit images manually
 - Reviews in a dedicated UI where you can inspect visual diffs, accept or reject them, and track changes history
 
-This is the model [Argos](https://www.argos-ci.com) follows.
+This is the model [Argos](https://argos-ci.com) follows.
 
 You push your branch. Screenshots are captured automatically in CI.
 They're compared to the single source of truth: `main`.
@@ -102,7 +102,7 @@ You don't need to double-check every time.
 
 ## Setting it up Argos with Playwright takes 5 minutes
 
-Integrating [Argos into a Playwright](https://www.argos-ci.com/docs/playwright) project is straightforward.
+Integrating [Argos into a Playwright](/docs/playwright) project is straightforward.
 Basically, replace `toHaveScreenshot` with `argosScreenshot` in your tests.
 
 ```ts
@@ -137,8 +137,6 @@ export default defineConfig({
   },
 });
 ```
-
-**Curious? Try Argos on your next pull request:** [argos-ci.com](https://www.argos-ci.com)
 
 ## Conclusion: This isn't a plugin. It's a different model.
 

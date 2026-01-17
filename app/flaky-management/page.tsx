@@ -36,7 +36,7 @@ export const metadata: Metadata = getMetadata({
   absoluteTitle:
     "Argos Flaky Management · Detect, track and control flaky visual tests",
   description:
-    "Detect, track, and control flaky visual tests in CI. Argos identifies unstable screenshots across builds, silences flaky noise, and helps teams keep reliable visual signals at scale.",
+    "Detect and control flaky visual tests in CI. Argos spots unstable screenshots, reduces noise, and keeps signals reliable.",
   pathname: "/flaky-management",
 });
 

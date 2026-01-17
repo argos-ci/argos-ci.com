@@ -6,7 +6,7 @@ export const defaultTitle =
   "Argos · Visual Regression for Playwright & Storybook";
 
 export const defaultDescription =
-  "Argos helps product teams ship faster without sacrificing quality by catching visual regressions early with reliable visual testing for Storybook and Playwright.";
+  "Ship faster with Argos visual testing for Playwright and Storybook. Catch regressions early with reliable diffs and reviews.";
 
 export function getMetadata(
   props: {

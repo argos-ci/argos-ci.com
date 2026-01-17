@@ -34,7 +34,7 @@ export const metadata: Metadata = getMetadata({
   title: "Test Debugging",
   absoluteTitle: "Argos Test Debugging · See why E2E tests fail",
   description:
-    "Investigate failed visual tests from Playwright and Cypress with full context. See what changed, understand why tests failed, and debug UI regressions instantly in your CI.",
+    "Debug failed Playwright and Cypress visual tests with full context. See changes, understand failures, fix regressions fast.",
   pathname: "/test-debugging",
 });
 

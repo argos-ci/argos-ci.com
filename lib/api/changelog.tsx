@@ -15,7 +15,7 @@ const FrontmatterSchema = z.object({
   description: z.string(),
   slug: z.string(),
   date: z.date().transform((d) => d.toISOString()),
-  image: z.string().optional(),
+  image: z.string(),
 });
 
 export type Frontmatter = z.infer<typeof FrontmatterSchema>;
