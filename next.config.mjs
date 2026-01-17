@@ -49,6 +49,31 @@ const nextConfig = {
         destination: "/contact",
         permanent: true,
       },
+      {
+        source: "/docs/github-actions",
+        destination: "/docs/github",
+        permanent: true,
+      },
+      {
+        source: "/mui-org/material-ui",
+        destination: "/customers/mui",
+        permanent: true,
+      },
+      {
+        source: "/callemall/material-ui",
+        destination: "/customers/mui",
+        permanent: true,
+      },
+      {
+        source: "/docs/why-argos",
+        destination: "/about",
+        permanent: true,
+      },
+      {
+        source: "/docs/faq",
+        destination: "/",
+        permanent: true,
+      },
     ];
   },
   rewrites: async () => {
