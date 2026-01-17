@@ -17,8 +17,9 @@ import { TrustedBy } from "../common/TrustedBy";
 
 export const metadata: Metadata = getMetadata({
   title: "About",
+  absoluteTitle: "About Argos | Our Mission and Visual Testing Approach",
   description:
-    "Argos is committed to the security and privacy of our customers' data",
+    "Discover the story behind Argos, our mission, and how we help engineering teams prevent visual regressions and ship reliable user interfaces.",
   pathname: "/about",
 });
 

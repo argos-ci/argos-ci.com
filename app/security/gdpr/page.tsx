@@ -5,9 +5,9 @@ import { getMetadata } from "../../../lib/metadata";
 import GdprMdxPage from "../../markdown/gdpr.mdx";
 
 export const metadata: Metadata = getMetadata({
-  title: "GDPR",
+  title: "GDPR Compliance and Privacy Policy",
   description:
-    "Argos is committed to the security and privacy of our customers' data",
+    "Argos complies with GDPR requirements through strict data protection measures, secure infrastructure, and transparent privacy practices.",
   pathname: "/security/gdpr",
 });
 

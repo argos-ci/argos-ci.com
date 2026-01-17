@@ -5,9 +5,9 @@ import { getMetadata } from "../../../lib/metadata";
 import Soc2MdxPage from "../../markdown/soc-2.mdx";
 
 export const metadata: Metadata = getMetadata({
-  title: "SOC 2",
+  title: "SOC 2 Type II Compliance and Security",
   description:
-    "Argos is committed to the security and privacy of our customers' data",
+    "Argos is SOC 2 Type II compliant, with audited security controls protecting customer data across infrastructure, access, and operations.",
   pathname: "/security/soc-2",
 });
 
