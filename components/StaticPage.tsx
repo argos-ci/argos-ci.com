@@ -19,7 +19,7 @@ export const StaticPage = ({ children }: { children: React.ReactNode }) => {
         <div className="absolute inset-x-0 h-56">
           <SideBorder />
         </div>
-        <div className="absolute inset-x-0 top-56 bottom-0 border-x" />
+        <div className="absolute inset-x-0 top-56 bottom-0 -z-10 border-x" />
         {children}
       </Container>
     </div>
