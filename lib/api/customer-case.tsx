@@ -16,10 +16,16 @@ import {
 } from "@/app/assets/customers/library/le-monde";
 import { mermaid, mermaidQuote } from "@/app/assets/customers/library/mermaid";
 import { mui, muiQuote } from "@/app/assets/customers/library/mui";
+import {
+  pivot,
+  pivotAlexQuote,
+  pivotQuote,
+} from "@/app/assets/customers/library/pivot";
 import type {
   CustomerCompany,
   CustomerQuote,
 } from "@/app/assets/customers/types";
+import { StatsBlock } from "@/components/StatsBlock";
 import { ThemeImage, type ThemeImageProps } from "@/components/ThemeImage";
 import { Zoom } from "@/components/Zoom";
 
@@ -36,7 +42,7 @@ const FrontmatterSchema = z.object({
   author: z.string(),
   image: z.string(),
 
-  customer: z.enum(["leMonde", "finviz", "gitbook", "mui", "mermaid"]),
+  customer: z.enum(["leMonde", "finviz", "gitbook", "mui", "mermaid", "pivot"]),
 });
 
 export type Frontmatter = z.infer<typeof FrontmatterSchema>;
@@ -57,6 +63,7 @@ const customers: Record<Frontmatter["customer"], CustomerCompanyStoryReady> = {
   finviz,
   mui,
   gitbook,
+  pivot,
 };
 
 export type CustomerCase = Omit<Frontmatter, "image" | "customer"> & {
@@ -136,6 +143,8 @@ export async function getCustomerCaseMdxSource(customerCase: CustomerCase) {
       muiQuote,
       mermaidQuote,
       gitbookQuote,
+      pivotQuote,
+      pivotAlexQuote,
     },
     components: {
       img: ({ src, height, width, alt }) => {
@@ -154,6 +163,7 @@ export async function getCustomerCaseMdxSource(customerCase: CustomerCase) {
       },
       Blockquote,
       CustomerBlockQuote,
+      StatsBlock,
     },
   });
 }

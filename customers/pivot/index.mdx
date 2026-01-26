@@ -1,0 +1,83 @@
+---
+title: Shipping fast at scale without breaking production
+description: Pivot uses Argos from day one to ship fast with confidence, relying on visual testing with Playwright to protect their product with low test maintenance.
+slug: pivot
+date: 2025-01-26
+author: Greg Bergé
+image: ./main.svg
+customer: pivot
+---
+
+## The Challenge
+
+Pivot is a **fast growing Source-to-Pay platform** built by a team that scaled to **25 engineers** in less than 2 years. After raising **$5M in pre seed** and **$21.6M in Series A**, product velocity became a **strategic advantage**.
+
+But speed comes with risk.
+
+Traditional end to end testing approaches did not fit Pivot needs. **Assertion heavy tests are fragile**, expensive to maintain, and tend to slow teams down as the product evolves. Refactors become risky. Small UI changes create noisy failures.
+
+Pivot needed a way to **validate the product as users actually see it**, without building a testing system that would fight their velocity.
+
+![Pivot product UI with visual diffs overlay](/assets/customers/pivot/argos-build.png)
+
+## The Solution
+
+From day one, Pivot adopted **Argos** in the foundations of their testing strategy, building their setup on top of the native [Playwright integration](https://argos-ci.com/docs/playwright).
+
+Instead of relying on Playwright assertions, their tests follow a **simple workflow**:
+
+- Navigate to key pages
+- Use their app like a user would (if needed)
+- Capture screenshots
+- Let Argos detect any visual regression using its [visual testing workflow](/visual-testing)
+
+This approach allows Pivot to catch everything from **broken pages** to **subtle UI changes** like spacing, layout shifts, or button color regressions. The **visual baseline becomes the contract**, not the code.
+
+<CustomerBlockQuote quote={pivotAlexQuote} />
+
+Because there are **no assertions tied to implementation details**, the test suite requires **almost no ongoing maintenance**.
+
+<StatsBlock
+  title="Visual testing at real production scale"
+  stats={[
+    { value: "10M+", label: "screenshots processed" },
+    { value: "30k+", label: "CI builds validated" },
+    { value: "~300", label: "screenshots per build" },
+    { value: "12+ months", label: "continuous usage" },
+  ]}
+/>
+
+## Playwright without the Maintenance Cost
+
+Playwright is used **purely as a browser automation layer**, not as an assertion framework. There are no complex expectations, no brittle selectors, and no test logic tied to the internal structure of the UI. Playwright opens pages and captures screenshots. **Argos performs the visual validation**.
+
+This separation gives the team:
+
+- **Extremely stable end to end tests**
+- **Clear signal when something actually changes**
+- **Near zero maintenance over time**
+
+Visual feedback is posted **directly on pull requests** through GitHub Checks, using the native [GitHub integration](/docs/github), allowing the team to review regressions in context.
+
+![GitHub Checks with Argos](/assets/customers/pivot/github-checks.png)
+
+## The Results
+
+With Argos embedded into their workflow from the start, Pivot built a **testing strategy that scales with the team** instead of slowing it down.
+
+<CustomerBlockQuote quote={pivotQuote} />
+
+The team now benefits from:
+
+- **High confidence releases** despite rapid iteration
+- **Visual regressions caught before reaching production**
+- End to end tests that **rarely fail for the wrong reasons**
+- A testing setup that requires **almost no maintenance**
+
+Argos helps Pivot engineers **spend more time building product features**, with **less effort spent maintaining tests**.
+
+## Looking Ahead
+
+As Pivot continues to scale its product and engineering organization, **visual testing remains a core pillar** of their development workflow.
+
+With **fast feedback**, **clear signal**, and a system designed to **scale effortlessly**, Argos enables Pivot to keep moving fast without sacrificing quality.
