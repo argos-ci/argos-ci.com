@@ -67,7 +67,7 @@ const customers: Record<Frontmatter["customer"], CustomerCompanyStoryReady> = {
 };
 
 export type CustomerCase = Omit<Frontmatter, "image" | "customer"> & {
-  image: StaticImageData;
+  image: { svg: StaticImageData; jpg: StaticImageData };
   filepath: string;
   slug: string;
   customer: CustomerCompanyStoryReady;
@@ -78,9 +78,16 @@ export type CustomerCase = Omit<Frontmatter, "image" | "customer"> & {
  */
 async function readImage(filepath: string, imagepath: string) {
   const dir = dirname(filepath).replace(/^.\/customers\//, "");
-  const fullImagePath = join(dir, imagepath);
-  const { default: image } = await import(`../../customers/${fullImagePath}`);
-  return image as StaticImageData;
+  const svgImagePath = join(dir, imagepath);
+  const jpgImagePath = svgImagePath.replace(/\.svg$/, ".jpg");
+  const [{ default: svgImage }, { default: jpgImage }] = await Promise.all([
+    import(`../../customers/${svgImagePath}`),
+    import(`../../customers/${jpgImagePath}`),
+  ]);
+  return {
+    svg: svgImage as StaticImageData,
+    jpg: jpgImage as StaticImageData,
+  };
 }
 
 /**
