@@ -38,7 +38,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     notFound();
   }
 
-  const images = [customerCase.image.src];
+  const images = [customerCase.image.jpg.src];
 
   const url = `https://argos-ci.com/customers/${customerCase.slug}`;
 
@@ -81,7 +81,7 @@ export default async function Page(props: Props) {
   const jsonLdArticle: NewsArticle = {
     "@type": "NewsArticle",
     headline: customerCase.title,
-    image: [customerCase.image.src],
+    image: [customerCase.image.jpg.src],
     datePublished: customerCase.date,
     dateModified: customerCase.updatedAt ?? customerCase.date,
     author: [
@@ -147,8 +147,8 @@ export default async function Page(props: Props) {
               }}
             >
               <Image
-                src={customerCase.image.src}
-                blurDataURL={customerCase.image.blurDataURL}
+                src={customerCase.image.svg}
+                blurDataURL={customerCase.image.svg.blurDataURL}
                 width={undefined}
                 height={undefined}
                 priority
