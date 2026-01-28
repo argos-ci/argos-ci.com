@@ -21,7 +21,7 @@ import { getMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = getMetadata({
   title: "Blog",
-  absoluteTitle: "Argos Blog | Visual Testing, Playwright, and CI Insights",
+  absoluteTitle: "Argos Blog · Visual Testing, Playwright, and CI Insights",
   description:
     "Articles from the Argos team on visual testing, Playwright, CI workflows, and shipping UI changes safely at scale.",
   pathname: "/blog",
