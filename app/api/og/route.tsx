@@ -4,9 +4,18 @@ import { NextRequest } from "next/server";
 // Use Edge Runtime for faster cold starts
 export const runtime = "edge";
 
-async function loadGoogleFont(font: string, text: string) {
-  const url = `https://fonts.googleapis.com/css2?family=${font}&text=${encodeURIComponent(text)}`;
+async function loadGoogleFont(
+  font: string,
+  text: string,
+  weight: number,
+): Promise<ArrayBuffer> {
+  const url =
+    `https://fonts.googleapis.com/css2` +
+    `?family=${font}:wght@${weight}` +
+    `&text=${encodeURIComponent(text)}`;
+
   const css = await (await fetch(url)).text();
+
   const resource = css.match(
     /src: url\((.+)\) format\('(opentype|truetype)'\)/,
   );
@@ -28,8 +37,13 @@ export async function GET(req: NextRequest) {
     const title = searchParams.get("title") || "Argos";
     const subtitle = searchParams.get("subtitle") || "";
 
+    const rootURL =
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:3000"
+        : process.env.NEXT_PUBLIC_BASE_URL || "https://argos-ci.com";
+
     // Build background image URL if provided
-    const imageUrl = `${process.env.NEXT_PUBLIC_BASE_URL || "https://argos-ci.com"}/opengraph-bg.png`;
+    const imageUrl = `${rootURL}/opengraph-bg-2.png`;
 
     return new ImageResponse(
       <div
@@ -38,25 +52,30 @@ export async function GET(req: NextRequest) {
           width: "100%",
           display: "flex",
           flexDirection: "column",
-          alignItems: "flex-start",
-          justifyContent: "space-between",
           background: `url(${imageUrl})`,
           backgroundSize: "100% 100%",
           backgroundPosition: "center",
-          padding: "30px 60px",
+          padding: "96px 20px",
         }}
       >
         {/* Content */}
-        <div style={{ display: "flex", flexDirection: "column" }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            textAlign: "center",
+          }}
+        >
           {/* Main Title */}
           <div
             style={{
               fontFamily: '"Geist", system-ui, sans-serif',
-              fontSize: title.length > 50 ? "56px" : "70px",
+              fontSize: "52px",
               fontWeight: 700,
               color: "#1A1523",
               lineHeight: "1.1",
-              marginBottom: subtitle ? "10px" : "0",
+              marginBottom: subtitle ? "20px" : "0",
             }}
           >
             {title}
@@ -66,7 +85,7 @@ export async function GET(req: NextRequest) {
           {subtitle && (
             <div
               style={{
-                fontSize: "36px",
+                fontSize: "26px",
                 fontFamily: '"Inter", system-ui, sans-serif',
                 fontWeight: "400",
                 color: "#5C5A66",
@@ -85,14 +104,14 @@ export async function GET(req: NextRequest) {
         fonts: [
           {
             name: "Geist",
-            data: await loadGoogleFont("Geist", title),
+            data: await loadGoogleFont("Geist", title, 700),
             style: "normal" as const,
             weight: 700 as const,
           },
           subtitle
             ? {
                 name: "Inter",
-                data: await loadGoogleFont("Inter", subtitle),
+                data: await loadGoogleFont("Inter", subtitle, 400),
                 style: "normal" as const,
                 weight: 400 as const,
               }
