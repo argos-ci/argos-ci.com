@@ -1,0 +1,18 @@
+---
+title: Subset builds
+homeTitle: Run Argos on partial test suites
+description: Mark CI runs as subset to skip removal noise and focus on changed and added screenshots.
+slug: subset-builds
+date: 2026-01-31
+image: /assets/changelogs/subset-builds/subset-builds.jpg
+---
+
+![Argos running on a Playwright test suite with some skipped builds](/assets/changelogs/subset-builds/subset-builds.jpg)
+
+**Subset builds** let you run Argos on a partial test suite while keeping feedback focused on what actually ran. When a build is marked as subset, Argos ignores removed screenshots and only reports **changed** and **added** screenshots from the tests that executed.
+
+- **Fast feature validation**: Skip the full E2E suite on branches without losing visual insight.
+- **No false removals**: Missing screenshots from skipped tests won’t be flagged.
+- **Baseline safe**: Full runs on the main branch still power baseline builds.
+
+Learn more in our [Subset builds documentation](https://argos-ci.com/docs/subset-builds).
