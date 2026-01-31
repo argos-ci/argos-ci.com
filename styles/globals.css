@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@plugin "@midudev/tailwind-animations";
+@import "tailwind-animations";
 
 @import "@radix-ui/colors/mauve" layer(base);
 @import "@radix-ui/colors/mauve-dark" layer(base);
