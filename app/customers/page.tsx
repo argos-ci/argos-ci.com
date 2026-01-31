@@ -26,6 +26,7 @@ import { leMondeQuote } from "../assets/customers/library/le-monde";
 import { mermaidQuote } from "../assets/customers/library/mermaid";
 import { meta } from "../assets/customers/library/meta";
 import { muiQuote } from "../assets/customers/library/mui";
+import { noc0Quote } from "../assets/customers/library/noc0";
 import { permitIoQuote } from "../assets/customers/library/permit-io";
 import { pivotQuote } from "../assets/customers/library/pivot";
 import { planable } from "../assets/customers/library/planable";
@@ -79,6 +80,7 @@ export default function Page() {
             <CustomerCard company={planable} />
             <QuoteCard quote={muiQuote} />
             <CustomerCard company={businessInsider} />
+            <QuoteCard quote={noc0Quote} />
           </Column>
           <Column>
             <QuoteCard quote={leMondeQuote} />
