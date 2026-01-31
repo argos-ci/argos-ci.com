@@ -21,9 +21,6 @@ importers:
       '@mdx-js/react':
         specifier: ^3.1.1
         version: 3.1.1(@types/react@19.2.10)(react@19.2.4)
-      '@midudev/tailwind-animations':
-        specifier: ^1.0.1
-        version: 1.0.1(tailwindcss@4.1.18)
       '@next/mdx':
         specifier: ^16.1.6
         version: 16.1.6(@mdx-js/loader@3.1.1)(@mdx-js/react@3.1.1(@types/react@19.2.10)(react@19.2.4))
@@ -102,6 +99,9 @@ importers:
       shiki:
         specifier: ^3.22.0
         version: 3.22.0
+      tailwind-animations:
+        specifier: ^1.0.1
+        version: 1.0.1(tailwindcss@4.1.18)
       zod:
         specifier: ^4.3.6
         version: 4.3.6
@@ -529,11 +529,6 @@ packages:
     peerDependencies:
       '@types/react': '>=16'
       react: ^19.2.0
-
-  '@midudev/tailwind-animations@1.0.1':
-    resolution: {integrity: sha512-KOtvFo7LJlw4Xko9akFhPqpGEDx+r/Dle+44G9uBYeiGEJNVUEaEIG251j+USDxPtMV5grJuc4kFxTunv5rZvA==}
-    peerDependencies:
-      tailwindcss: ^4.0.0
 
   '@napi-rs/wasm-runtime@0.2.12':
     resolution: {integrity: sha512-ZVWUcfwY4E/yPitQJl481FjFo3K22D6qF0DuFH6Y/nbnE11GY5uguDxZMGXPQ8WQ0128MXQD7TnfHyK4oWoIJQ==}
@@ -3719,11 +3714,6 @@ snapshots:
       '@types/mdx': 2.0.13
       '@types/react': 19.2.10
       react: 19.2.4
-
-  '@midudev/tailwind-animations@1.0.1(tailwindcss@4.1.18)':
-    dependencies:
-      tailwind-animations: 1.0.1(tailwindcss@4.1.18)
-      tailwindcss: 4.1.18
 
   '@napi-rs/wasm-runtime@0.2.12':
     dependencies:
