@@ -11,7 +11,7 @@ import { GitHubIcon } from "@/components/icons/GitHubIcon";
 import { XIcon } from "@/components/icons/XIcon";
 import { getMetadata } from "@/lib/metadata";
 
-import { greg, jeremy } from "../assets/people/library";
+import { gregEmployee, jeremyEmployee } from "../assets/people/library";
 import { app } from "../assets/product/library";
 import { TrustedBy } from "../common/TrustedBy";
 
@@ -23,22 +23,7 @@ export const metadata: Metadata = getMetadata({
   pathname: "/about",
 });
 
-const people = [
-  {
-    name: "Greg Bergé",
-    avatar: greg,
-    title: "Co-founder and CEO",
-    github: "https://github.com/gregberge",
-    x: "https://x.com/gregberge_",
-  },
-  {
-    name: "Jeremy Sfez",
-    avatar: jeremy,
-    title: "Co-founder and HOS",
-    github: "https://github.com/sfez",
-    x: "https://x.com/SfezJeremy",
-  },
-];
+const people = [gregEmployee, jeremyEmployee];
 
 export default function SecurityPage() {
   return (

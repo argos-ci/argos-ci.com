@@ -1,20 +1,27 @@
+import clsx from "clsx";
 import Image, { ImageProps } from "next/image";
-import type { ComponentProps } from "react";
-import { TwcComponentProps, twc } from "react-twc";
+import type { ComponentPropsWithRef } from "react";
 
-export const PostCard = twc.div`text-left cursor-pointer transition duration-300 hover:bg-subtle`;
+import type { Employee } from "@/app/assets/people/library";
+
+export function PostCard(props: ComponentPropsWithRef<"div">) {
+  return (
+    <div
+      className={clsx(
+        "hover:bg-subtle cursor-pointer text-left transition duration-300",
+        props.className,
+      )}
+      {...props}
+    />
+  );
+}
 
 export interface PostCardImageProps extends ImageProps {
   extended?: Boolean;
 }
 
-export const PostCardImage = ({
-  extended,
-  alt,
-  width,
-  height,
-  ...props
-}: PostCardImageProps) => {
+export function PostCardImage(props: PostCardImageProps) {
+  const { extended, alt, width, height, ...rest } = props;
   return (
     <div
       className="relative overflow-hidden"
@@ -23,7 +30,7 @@ export const PostCardImage = ({
       }}
     >
       <Image
-        {...props}
+        {...rest}
         fill
         sizes={
           extended
@@ -39,47 +46,76 @@ export const PostCardImage = ({
       />
     </div>
   );
-};
+}
 
-export const PostCardBody = (props: ComponentProps<"div">) => (
-  <div className="p-6" {...props} />
-);
+export function PostCardBody(props: ComponentPropsWithRef<"div">) {
+  return <div className={clsx("p-6", props.className)} {...props} />;
+}
 
-export const PostCardTag: React.FC<{ children: React.ReactNode }> = (props) => (
-  <p className="text-low mb-2 text-xs" {...props} />
-);
+export function PostCardTag(props: ComponentPropsWithRef<"p">) {
+  return (
+    <p className={clsx("text-low mb-2 text-xs", props.className)} {...props} />
+  );
+}
 
-type PostCardTitleProps = TwcComponentProps<"h2"> & {
-  $extended?: boolean;
-  $classname?: string;
-};
+export function PostCardTitle(
+  props: ComponentPropsWithRef<"h2"> & {
+    extended?: boolean;
+  },
+) {
+  const { extended, ...rest } = props;
+  return (
+    <h2
+      className={clsx(
+        "font-accent mb-2 font-semibold",
+        extended ? "text-3xl" : "text-xl",
+        rest.className,
+      )}
+      {...rest}
+    />
+  );
+}
 
-export const PostCardTitle = twc.h2<PostCardTitleProps>((props) => [
-  "mb-2 font-accent font-semibold",
-  props.$extended ? "text-3xl" : "text-xl",
-  props.$classname,
-]);
+export function PostCardDescription(props: ComponentPropsWithRef<"div">) {
+  return (
+    <div
+      className={clsx("text-low mb-6 text-sm leading-normal", props.className)}
+      {...props}
+    />
+  );
+}
 
-export const PostCardDescription = (props: ComponentProps<"div">) => (
-  <div className="text-low mb-6 text-sm leading-normal" {...props} />
-);
+export function PostCardFooter(props: ComponentPropsWithRef<"div">) {
+  return (
+    <div
+      className={clsx(
+        "text-low flex items-center gap-2 text-sm",
+        props.className,
+      )}
+      {...props}
+    />
+  );
+}
 
-export const PostCardFooter = (props: ComponentProps<"div">) => (
-  <div className="text-low flex items-center gap-2 text-sm" {...props} />
-);
-
-export const PostCardAuthor = (props: ComponentProps<"div">) => (
-  <div className="text-low" {...props} />
-);
+export function PostCardAvatar(props: { author: Employee }) {
+  return (
+    <Image
+      alt={props.author.name}
+      src={props.author.avatar}
+      className="size-8 rounded-full"
+    />
+  );
+}
 
 const dateFormatter = new Intl.DateTimeFormat("en-US", {
   dateStyle: "medium",
 });
 
-export const PostCardDate = ({ date }: { date: string }) => {
+export function PostCardDate(props: { date: string }) {
+  const { date } = props;
   return (
     <time className="text-low" dateTime={date}>
       {dateFormatter.format(new Date(date))}
     </time>
   );
-};
+}

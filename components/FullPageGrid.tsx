@@ -7,6 +7,7 @@ import { Grid } from "./Grid";
 export function FullPageGrid(props: {
   height: string;
   radial?: boolean;
+  bottom?: boolean;
   tint?: FeatureColor;
 }) {
   return (
@@ -36,7 +37,9 @@ export function FullPageGrid(props: {
           "pointer-events-none absolute top-0 left-1/2 w-450 -translate-x-1/2 mask-intersect text-(--neutral-5)",
           props.radial
             ? "mask-[linear-gradient(transparent,black,transparent)]"
-            : "mask-[linear-gradient(transparent,black)] opacity-60",
+            : props.bottom
+              ? "mask-[linear-gradient(transparent,black_80%,transparent)] opacity-60"
+              : "mask-[linear-gradient(transparent,black)] opacity-60",
           props.height,
         )}
       >
@@ -53,7 +56,9 @@ export function FullPageGrid(props: {
           "pointer-events-none absolute inset-x-px top-0 overflow-hidden mask-intersect text-(--neutral-5)",
           props.radial
             ? "mask-[linear-gradient(transparent,black,transparent),radial-gradient(80%_50%_at_50%_55%,rgba(0,0,0,0.2),black)]"
-            : "mask-[linear-gradient(transparent,black)] opacity-60",
+            : props.bottom
+              ? "mask-[linear-gradient(transparent,black_80%,transparent)] opacity-60"
+              : "mask-[linear-gradient(transparent,black)] opacity-60",
           props.height,
         )}
       >

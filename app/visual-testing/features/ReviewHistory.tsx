@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { ThumbsDownIcon, ThumbsUpIcon } from "lucide-react";
 
-import { andrew, nina } from "@/app/assets/people/library";
+import { andrewAvatar, ninaAvatar } from "@/app/assets/people/library";
 import { Card } from "@/components/Card";
 import { Chip } from "@/components/Chip";
 import { ThemeImage } from "@/components/ThemeImage";
@@ -108,7 +108,7 @@ function Avatar(props: { name: "andrew" | "nina"; className?: string }) {
         "size-4 rounded-full border border-(--neutral-1)",
         className,
       )}
-      src={{ andrew, nina }[name]}
+      src={{ andrew: andrewAvatar, nina: ninaAvatar }[name]}
       alt=""
     />
   );
