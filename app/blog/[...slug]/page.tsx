@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { NewsArticle } from "schema-dts";
@@ -10,7 +11,7 @@ import { Hero, HeroDescription, HeroHeading } from "@/components/Hero";
 import { JsonLd } from "@/components/JsonLd";
 import {
   PostCard,
-  PostCardAuthor,
+  PostCardAvatar,
   PostCardBody,
   PostCardDate,
   PostCardFooter,
@@ -67,7 +68,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
       url,
       siteName: "Argos",
       locale: "en_US",
-      authors: [article.author],
+      authors: [article.author.name],
     },
     twitter: {
       title: article.title,
@@ -113,7 +114,7 @@ async function Siblings({ slug }: { slug: string }) {
                 href={`/blog/${article.slug}`}
                 className="group contents"
               >
-                <PostCard className="col-span-2 border-y md:col-span-1 md:border-r md:group-last:border-r-0">
+                <PostCard className="col-span-3 border-t md:col-span-1 md:border-r md:border-b md:group-last:border-r-0">
                   <PostCardImage
                     width={article.image.width}
                     height={article.image.height}
@@ -121,15 +122,12 @@ async function Siblings({ slug }: { slug: string }) {
                     alt={article.imageAlt}
                   />
                   <PostCardBody>
-                    {article.category && (
-                      <PostCardTag>{article.category}</PostCardTag>
-                    )}
-                    <PostCardTitle $classname="line-clamp-2">
+                    <PostCardTag>{article.category.title}</PostCardTag>
+                    <PostCardTitle className="line-clamp-2">
                       {article.title}
                     </PostCardTitle>
                     <PostCardFooter>
-                      <PostCardAuthor>{article.author}</PostCardAuthor>
-                      <span className="text-low text-xs">•</span>
+                      <PostCardAvatar author={article.author} />
                       <PostCardDate date={article.date} />
                     </PostCardFooter>
                   </PostCardBody>
@@ -166,7 +164,10 @@ export default async function Page(props: Props) {
     author: [
       {
         "@type": "Person",
-        name: article.author,
+        name: article.author.name,
+        jobTitle: article.author.title,
+        image: article.author.avatar.src,
+        sameAs: [article.author.github, article.author.x],
       },
     ],
   };
@@ -174,27 +175,39 @@ export default async function Page(props: Props) {
     <>
       <article>
         <header className="overflow-hidden border-b px-4">
-          <Container className="relative py-16 md:h-105 md:py-24">
-            <FullPageGrid height="h-200 md:h-105" />
+          <Container className="relative pt-16 pb-8 md:pt-24">
+            <FullPageGrid height="h-full" bottom />
             <Hero className="relative">
-              {article.category && (
-                <div className="font-medium text-(--primary-11)">
-                  {article.category}
-                </div>
-              )}
+              <div>
+                <Link
+                  className="font-medium text-(--primary-11) hover:underline"
+                  href={`/blog/category/${article.category.slug}`}
+                >
+                  {article.category.title}
+                </Link>
+              </div>
               <HeroHeading>{article.title}</HeroHeading>
               <HeroDescription>{article.description}</HeroDescription>
-              <div className="text-low my-4 flex items-center gap-2 text-sm">
-                <time dateTime={article.date}>
+              <div className="my-4 flex w-full flex-col justify-between gap-8 text-sm md:flex-row md:items-center md:gap-2">
+                <address className="flex gap-2 not-italic md:items-center">
+                  <Image
+                    src={article.author.avatar}
+                    alt=""
+                    className="size-8 rounded-full"
+                  />
+                  <div className="flex flex-col gap-x-2 md:flex-row md:items-center">
+                    <span className="font-medium">{article.author.name}</span>
+                    <span className="text-low">{article.author.title}</span>
+                  </div>
+                </address>
+                <time dateTime={article.date} className="text-low">
                   {dateFormatter.format(new Date(article.date))}
                 </time>
-                <span className="text-low text-xs">•</span>
-                <address className="not-italic">{article.author}</address>
               </div>
             </Hero>
           </Container>
         </header>
-        <div className="border-x px-4">
+        <div className="px-4">
           <Container className="border-x">
             <Container
               tight

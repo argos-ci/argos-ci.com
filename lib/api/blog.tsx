@@ -3,9 +3,58 @@ import Image, { ImageProps, StaticImageData } from "next/image";
 import { dirname, join } from "node:path";
 import { z } from "zod";
 
+import {
+  type Employee,
+  gregEmployee,
+  jeremyEmployee,
+} from "@/app/assets/people/library";
 import { MainImage } from "@/components/Post";
 
 import { assertAllItems, getDocMdxSource, readMatterData } from "./common";
+
+const authorSlugSchema = z.enum(["greg", "jeremy"]);
+
+const Authors: Record<z.infer<typeof authorSlugSchema>, Employee> = {
+  greg: gregEmployee,
+  jeremy: jeremyEmployee,
+};
+
+const categorySlugSchema = z.enum(["company", "guides", "engineering"]);
+type CategorySlug = z.infer<typeof categorySlugSchema>;
+
+type Category = {
+  title: string;
+  pageTitle: string;
+  description: string;
+  slug: CategorySlug;
+};
+
+export const Categories: Record<CategorySlug, Category> = {
+  company: {
+    title: "Company News",
+    pageTitle: "Company News Posts",
+    description: "Product launches and updates from the Argos team.",
+    slug: "company",
+  },
+
+  guides: {
+    title: "Guides",
+    pageTitle: "Guides Posts",
+    description: "Practical guides for visual testing and CI workflows.",
+    slug: "guides",
+  },
+
+  engineering: {
+    title: "Engineering",
+    pageTitle: "Engineering Posts",
+    description: "Technical deep dives into how Argos is built.",
+    slug: "engineering",
+  },
+};
+
+export function checkIsCategorySlug(value: string): value is CategorySlug {
+  return value in Categories;
+}
 
 const FrontmatterSchema = z.object({
   title: z.string(),
@@ -15,18 +64,20 @@ const FrontmatterSchema = z.object({
     .date()
     .optional()
     .transform((d) => d?.toISOString() ?? null),
-  author: z.string(),
+  author: authorSlugSchema,
   image: z.string(),
   imageAlt: z.string(),
-  category: z.string().optional(),
+  category: categorySlugSchema,
 });
 
 export type Frontmatter = z.infer<typeof FrontmatterSchema>;
 
-export type Article = Omit<Frontmatter, "image"> & {
+export type Article = Omit<Frontmatter, "image" | "author" | "category"> & {
   image: StaticImageData;
   filepath: string;
   slug: string;
+  author: Employee;
+  category: Category;
 };
 
 /**
@@ -59,15 +110,24 @@ async function getArticleDataFromPath(
     filepath,
     image,
     slug,
+    author: Authors[frontmatter.author],
+    category: Categories[frontmatter.category],
   };
 }
 
 /**
  * Get all the articles.
  */
-export async function getArticles(): Promise<Article[]> {
+export async function getArticles(filters?: {
+  category?: CategorySlug;
+}): Promise<Article[]> {
   const files = await fg("./articles/**/*.mdx");
-  const articles = await Promise.all(files.map(getArticleDataFromPath));
+  let articles = await Promise.all(files.map(getArticleDataFromPath));
+  if (filters?.category) {
+    articles = articles.filter(
+      (article) => article && article.category.slug === filters.category,
+    );
+  }
   assertAllItems(articles);
   return articles.sort(
     (a, b) => Number(new Date(b.date)) - Number(new Date(a.date)),
