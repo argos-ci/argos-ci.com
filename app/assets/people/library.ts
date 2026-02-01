@@ -1,11 +1,11 @@
 import type { StaticImageData } from "next/image";
 
-import andrew from "./andrew.jpg";
-import greg from "./greg.jpg";
-import jeremy from "./jeremy.jpg";
-import nina from "./nina.jpg";
+import andrewAvatar from "./andrew.jpg";
+import gregAvatar from "./greg.jpg";
+import jeremyAvatar from "./jeremy.jpg";
+import ninaAvatar from "./nina.jpg";
 
-export { greg, jeremy, andrew, nina };
+export { andrewAvatar, ninaAvatar };
 
 export type Employee = {
   name: string;
@@ -17,7 +17,7 @@ export type Employee = {
 
 export const gregEmployee: Employee = {
   name: "Greg Bergé",
-  avatar: greg,
+  avatar: gregAvatar,
   title: "Co-founder and CEO",
   github: "https://github.com/gregberge",
   x: "https://x.com/gregberge_",
@@ -25,7 +25,7 @@ export const gregEmployee: Employee = {
 
 export const jeremyEmployee: Employee = {
   name: "Jeremy Sfez",
-  avatar: jeremy,
+  avatar: jeremyAvatar,
   title: "Co-founder and HOS",
   github: "https://github.com/sfez",
   x: "https://x.com/SfezJeremy",
