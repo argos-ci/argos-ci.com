@@ -1,0 +1,202 @@
+---
+title: How we delegate a part of our algo to an AI
+description: Discover how we enhanced fingerprinting accuracy in Rust applications using AI agents to reduce false positives and improve security.
+category: engineering
+author: greg
+date: 2026-02-01
+image: ./main.jpg
+imageAlt: Image not loaded
+---
+
+## Context
+
+Argos is a visual testing tool, the main output of a test is a change represented by a mask overlay or in terms of pure data some pixels coordinates. Most visual testing tools are just outputing that change and that's it but Argos is a complete visual testing platform that goes way beyond that. We built some powerful features:
+
+We build stats on the change occurences happening on auto-approved builds (usually builds running on the "main" branch). By doing that we can detect if a test is flaky and we allow our users to ignore a specific change to remove the noise.
+
+We also auto-approve changes that have been already approved on the same branch to reduce the time spend into the review and optimize the process as much as possible.
+
+These features require to be able to compare two changes, knowing they are the same, but not only. We also need to be able to find the similar changes across a time period.
+
+## The problem
+
+When we implemented these features, we used the sha-256 of the mask image produced by our image-diffing library. With that key, we can identify that two changes are exactly similar, if the mask has exactly the same sha, then they are similar.
+
+The problem with that approach is its strictness. If a change is represented by 5,000 pixels, if only one pixel changes, then the change is not considered the same one. But for the human eye it's the same one. Also in terms of positionning, if the change has not the exact same coordinates, then it's not considered as the same one.
+
+## The solution
+
+So we needed a fingerprint, a kind of lazy shasum for a change. We can imagine how to do it, in input we have pixels (x, y) and from that we need to create a short string that is the same if the pixels are globally at the same coordinates.
+
+It seemed the perfect task for AI, so I decided to give a try. I described the problem to Codex and I asked him to build an algorithm to compare some masks in a "lazy way". Here's my first prompt to ChatGPT:
+
+```
+I have some diffs in Argos that are represented by PNG images with red pixels, some diffs are very close, only a few pixels are different. I would like to create a fingerprint that is the same for two diffs that are very close to each other. What can I do in a performant way to do that?
+```
+
+ChatGPT answered me with an approach that seemed correct to me:
+
+1. Extract the red mask
+2. Noise tolerance via morphology
+3. Normalize
+4. Hash
+5. Scale lookup
+
+So I continued, and asked him to implement the algorithm in TypeScript. He did a good job, the code seemed clean to me but he gave me this usage example:
+
+```ts
+// Suppose you already decoded the diff PNG into RGBA.
+const fpA = fingerprintDiffMaskFromRgba(rgbaA, widthA, heightA, {
+  gridSize: 32,
+  dilateRadius: 1,
+});
+const fpB = fingerprintDiffMaskFromRgba(rgbaB, widthB, heightB, {
+  gridSize: 32,
+  dilateRadius: 1,
+});
+
+if (isRoughlySimilarByOnes(fpA, fpB)) {
+  const d = hammingDistanceFingerprint(fpA, fpB);
+  const isNearDuplicate = d <= 40; // tune on your dataset
+}
+```
+
+That's not exactly what I wanted, being able to compare two images was not the point, I needed to have an indexable string to be able to find similar changes in my database. So I asked:
+
+```
+Thing is, I want to be able to do fingerprintA === fingerprintB because I will put this in a database and I can't do custom comparaison, I need indices.
+```
+
+And he answered me "The trick is to not hash raw pixels. Hash a coarse, quantized representation where tiny pixel changes do not change the representation." and implemented a new algorithm:
+
+1. Build a binary mask for red pixels.
+2. Optionally dilate radius 1 to absorb tiny gaps.
+3. Crop to bounding box.
+4. Split into a small grid, like 16 by 16.
+5. For each cell, compute the red density.
+6. Quantize density into a few bins, like 0..3.
+7. Hash the quantized grid into a fixed string, store it, index it.
+
+The algorithm seemed good, a bit complex. I needed to test it, why writing the test myself? Let's ask again:
+
+```
+Write a test using vitest that read two diffs (diff-1.png and diff-2.png) and that tries to compare them.
+```
+
+He gave me a perfect test and I integrated it into the project:
+
+```ts
+// tests/diff-fingerprint.test.ts
+import fs from "node:fs";
+import path from "node:path";
+import { PNG } from "pngjs";
+import { describe, expect, it } from "vitest";
+
+import { fingerprintDiffForEquality } from "../src/diff-fingerprint";
+
+function readPngRgba(filePath: string): {
+  rgba: Uint8Array;
+  width: number;
+  height: number;
+} {
+  const buffer = fs.readFileSync(filePath);
+  const png = PNG.sync.read(buffer);
+  return {
+    rgba: png.data,
+    width: png.width,
+    height: png.height,
+  };
+}
+
+describe("diff fingerprint", () => {
+  it("compares diff-1.png and diff-2.png using an equality fingerprint", () => {
+    const fixturesDir = path.join(__dirname, "fixtures");
+    const diff1Path = path.join(fixturesDir, "diff-1.png");
+    const diff2Path = path.join(fixturesDir, "diff-2.png");
+
+    const diff1 = readPngRgba(diff1Path);
+    const diff2 = readPngRgba(diff2Path);
+
+    const fingerprint1 = fingerprintDiffForEquality(
+      diff1.rgba,
+      diff1.width,
+      diff1.height,
+      {
+        gridSize: 16,
+        dilateRadius: 1,
+        // tweak these if needed
+        densityThresholds: [0.002, 0.02, 0.08],
+        padToSquare: true,
+      },
+    );
+
+    const fingerprint2 = fingerprintDiffForEquality(
+      diff2.rgba,
+      diff2.width,
+      diff2.height,
+      {
+        gridSize: 16,
+        dilateRadius: 1,
+        densityThresholds: [0.002, 0.02, 0.08],
+        padToSquare: true,
+      },
+    );
+
+    // This is what you want for DB indexing
+    expect(fingerprint1).toBe(fingerprint2);
+  });
+});
+```
+
+It was working very well! In less than 10 minutes I had a working algorithm that did exactly what I needed. I had already saved days at this point given the complexity of the algorithm. But this algorithm would run at the core of Argos, on every change processed by our system. Several millions time per month.
+
+So I made a quick benchmark of performances:
+
+```
+diff-A1.png: 35.244ms
+diff-A2.png: 25.204ms
+diff-A3.png: 12.56ms
+diff-B1.png: 11.609ms
+big-change.png: 981.52ms
+```
+
+On a big change with lot of pixels, it was taking nearly 1s on my MacBook Pro M1 Max. It would have taken probably 6x more time in production running on smaller CPU. So it wasn't performant enough. Also I knew that iterating over millions of pixels in TypeScript is not a very good idea, neither as decoding a PNG.
+
+So I asked AI to do another thing:
+
+```
+Can you rewrite this algorithm in Rust?
+```
+
+I never coded in Rust, I know it's a powerful language much faster than TypeScript for this type of things. And I also know that AI are better at writing code in it because the average level of the Rust codebase is higher than the TypeScript one.
+
+ChatGPT output the complete algorithm in Rust and I wanted to test it! So I bootstraped a project with [napi](https://napi.rs/) and I switch to Codex. Asking him to replace the dummy example `plus_100` by the new algorithm.
+
+Codex implemented it, along with a test and I ran the exact same benchmark:
+
+```
+diff-A1.png: 4.556ms
+diff-A2.png: 4.455ms
+diff-A3.png: 4.469ms
+diff-B1.png: 4.185ms
+big-change.png: 393.076ms
+```
+
+The result was outstanding, almost 3x times faster on the big change. It was perfect!
+
+I created a GitHub repository, setup the CI and the package publishing helped by Codex, in around 30 minutes I had a npm package with binary binding compiled from Rust ready to use in the Argos codebase: https://github.com/argos-ci/mask-fingerprint
+
+## Running in production
+
+I implemented the fingerprint in the core of Argos, running on every diffs to start populating the database on the new changes that were processed. For a few hours it was working well but at some point I detected some crashes in Sentry, the process was out of memory.
+
+Since I don't know anything about memory management in Rust, I asked Codex to optimize the memory usage by twice:
+
+https://github.com/argos-ci/mask-fingerprint/pull/2
+https://github.com/argos-ci/mask-fingerprint/pull/4
+
+I aslo asked to switch to an async API: https://github.com/argos-ci/mask-fingerprint/pull/3
+
+and a few days later I found another problem processing "unexpected EOF in PNG" that it fixed also very quickly: https://github.com/argos-ci/mask-fingerprint/pull/5
+
+I made a few interations in Argos to migrate progressively all our features to use the fingerprint. All our features are now powered by that fingerprint algorithm written and maintain by AI agent in Rust.
