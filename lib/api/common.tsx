@@ -39,6 +39,7 @@ export async function getDocMdxSource(
     components: options.components,
     options: {
       scope: options.scope,
+      blockJS: false,
       mdxOptions: {
         // @ts-ignore
         rehypePlugins: [
