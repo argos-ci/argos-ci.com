@@ -1,0 +1,20 @@
+---
+title: Auto-ignore flaky changes
+homeTitle: Auto-ignore flaky changes by default
+description: When Argos detects a flaky change, the Argos bot now auto-ignores it to reduce review noise.
+slug: auto-ignore-flaky-changes
+date: 2026-03-10
+image: /assets/changelogs/auto-ignore-flaky-changes/auto-ignore-flaky-changes.jpg
+---
+
+![Auto-ignore flaky changes](/assets/changelogs/auto-ignore-flaky-changes/auto-ignore-flaky-changes.jpg)
+
+When a visual change is detected as flaky, the **Argos bot** now **auto-ignores** it.
+
+This keeps build reviews focused on real regressions by reducing noise from unstable visual diffs.
+
+- **Enabled by default**: Active automatically on all projects.
+- **Available on all plans**: Included for every Argos user.
+- **Customizable**: You can configure the number of times a change must be detected as flaky before auto-ignoring it in your project settings.
+
+Read more about flaky changes and how to manage them in the [Argos documentation](/docs/flaky-test-detection).
