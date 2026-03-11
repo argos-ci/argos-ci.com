@@ -17,6 +17,7 @@ import {
 import { ThemeImage } from "@/components/ThemeImage";
 import { getMetadata } from "@/lib/metadata";
 
+import { attio } from "../assets/customers/library/attio";
 import { businessInsider } from "../assets/customers/library/business-insider";
 import { clickhouse } from "../assets/customers/library/clickhouse";
 import { doctolib } from "../assets/customers/library/doctolib";
@@ -32,6 +33,7 @@ import { pivotQuote } from "../assets/customers/library/pivot";
 import { planable } from "../assets/customers/library/planable";
 import { qonto } from "../assets/customers/library/qonto";
 import { rapidataQuote } from "../assets/customers/library/rapidata";
+import { redis } from "../assets/customers/library/redis";
 import { yotpo } from "../assets/customers/library/yotpo";
 import type { CustomerCompany, CustomerQuote } from "../assets/customers/types";
 import { trackDemoClick, trackSignupClick } from "../google-ads";
@@ -76,21 +78,23 @@ export default function Page() {
         <Container className="grid grid-cols-1 gap-8 border-x py-16 pt-4 md:grid-cols-3 md:pt-10">
           <Column>
             <CustomerCard company={meta} />
-            <QuoteCard quote={mermaidQuote} />
+            <QuoteCard quote={leMondeQuote} />
             <CustomerCard company={planable} />
             <QuoteCard quote={muiQuote} />
             <CustomerCard company={businessInsider} />
             <QuoteCard quote={noc0Quote} />
           </Column>
           <Column>
-            <QuoteCard quote={leMondeQuote} />
+            <QuoteCard quote={mermaidQuote} />
+            <CustomerCard company={attio} />
             <CustomerCard company={yotpo} />
             <QuoteCard quote={pivotQuote} />
             <QuoteCard quote={permitIoQuote} />
+            <CustomerCard company={doctolib} />
           </Column>
 
           <Column>
-            <CustomerCard company={doctolib} />
+            <CustomerCard company={redis} />
             <QuoteCard quote={gitbookQuote} />
             <CustomerCard company={qonto} />
             <QuoteCard quote={rapidataQuote} />
