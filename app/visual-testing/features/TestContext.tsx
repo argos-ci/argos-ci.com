@@ -1,6 +1,6 @@
 import {
-  ChromiumIcon,
   FlaskConicalIcon,
+  GlobeIcon,
   LinkIcon,
   MonitorSmartphoneIcon,
   MoonIcon,
@@ -12,7 +12,7 @@ import { Chip } from "@/components/Chip";
 export function TestContext() {
   return (
     <div className="flex flex-wrap justify-center gap-3">
-      <Chip variant="primary" icon={ChromiumIcon} className="shadow-sm">
+      <Chip variant="primary" icon={GlobeIcon} className="shadow-sm">
         Chrome
       </Chip>
       <Chip variant="warning" icon={RefreshCcwIcon} className="shadow-sm">
