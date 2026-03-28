@@ -64,7 +64,7 @@ function CustomerLogo(props: { company: CustomerCompany; className?: string }) {
         className,
       )}
     >
-      <div className="mx-auto h-10 md:h-16">
+      <div className="mx-auto h-10 md:h-14">
         <ThemeImage
           src={company.logo["140x48"]}
           alt={company.name}
@@ -92,7 +92,7 @@ function CustomerCase(props: {
       <ThemeImage
         src={quote.company.logo.adjusted}
         alt={quote.company.name}
-        className="h-7 w-auto"
+        className="h-6 w-auto self-start"
       />
       <p className="[&_strong]:font-semibold">{quote.text}</p>
       <div className="flex items-center justify-end md:justify-between">
