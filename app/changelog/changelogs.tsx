@@ -66,7 +66,7 @@ export function Changelogs(props: {
                     {dateFormatter.format(new Date(changelog.date))}
                   </time>
                 </div>
-                <div className="prose dark:prose-invert prose-h2:mt-4 prose-h2:font-accent sm:prose-h2:mt-8">
+                <div className="prose dark:prose-invert prose-h2:mt-4 prose-h2:font-accent sm:prose-h2:mt-8 min-w-0">
                   <header>
                     <NextLink
                       href={`/changelog/${changelog.slug}`}
