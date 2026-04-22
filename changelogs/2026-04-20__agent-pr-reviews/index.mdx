@@ -1,0 +1,31 @@
+---
+title: Build reviews from the CLI
+description: Inspect builds, list snapshots that need review, and submit review decisions from the Argos CLI.
+slug: agent-pr-reviews
+date: 2026-04-20
+image: /assets/changelogs/agent-pr-reviews/argos-cli.jpg
+---
+
+![Build reviews from the CLI](/assets/changelogs/agent-pr-reviews/argos-cli.jpg)
+
+Argos builds can now be inspected and reviewed from the terminal.
+
+Use the new CLI commands to fetch build metadata, list snapshots that still need review, and submit an approval or request changes without leaving your development workflow.
+
+Install the CLI with `npm install -D @argos-ci/cli`, then see the [CLI documentation](/docs/argos-cli) for authentication, commands, and examples.
+
+```bash
+argos build get <build>
+argos build snapshots <build> --needs-review
+argos build review <build> --conclusion approve
+```
+
+## Built for humans and agents
+
+The CLI gives developers a fast way to review Argos builds locally, and gives coding agents a structured way to inspect visual changes during pull request reviews.
+
+Agents can fetch build status, read machine-friendly snapshot data, compare visual diffs against the pull request intent, and help catch regressions before they merge.
+
+From a build page, use the new **Copy prompt** button to start an agent review with the build URL, pull request context, and review guidance already included.
+
+Reviews submitted from the CLI use personal access tokens and respect existing project permissions.
