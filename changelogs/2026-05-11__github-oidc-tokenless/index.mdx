@@ -1,0 +1,23 @@
+---
+title: Secure GitHub Actions authentication
+homeTitle: Secure GitHub Actions authentication without Argos tokens
+description: Authenticate Argos uploads from GitHub Actions with OIDC and a safer tokenless fallback, without storing ARGOS_TOKEN secrets.
+slug: github-oidc-tokenless
+date: 2026-05-11
+image: /assets/changelogs/github-oidc-tokenless/github-oidc-tokenless.png
+---
+
+![GitHub OIDC and tokenless authentication](/assets/changelogs/github-oidc-tokenless/github-oidc-tokenless.png)
+
+Argos can now authenticate GitHub Actions uploads without storing a long-lived `ARGOS_TOKEN` secret in your repository.
+
+With **GitHub OIDC**, each workflow run receives a short-lived identity token signed by GitHub. Argos verifies the token against the linked repository and workflow, then accepts the upload with credentials scoped to that build.
+
+For workflows where GitHub does not issue OIDC tokens, especially pull requests from forks, the SDK falls back to a more secure **tokenless** flow. Argos verifies the in-progress workflow run through the GitHub API before issuing a short-lived token.
+
+- **OIDC where available**: Enable GitHub OIDC in **Project Settings -> Authentication**, add `id-token: write` to your workflow permissions, and remove `ARGOS_TOKEN` from the job.
+- **No long-lived CI secret**: Uploads use GitHub-signed identity and short-lived scoped credentials instead of a reusable Argos token.
+- **Safer tokenless fallback**: Forked pull requests and public repositories can still upload without secrets while Argos checks the repository, commit, branch, and workflow run.
+- **One workflow for every PR**: Internal PRs use OIDC, while forked PRs fall back to tokenless automatically when OIDC is unavailable.
+
+Learn more in the [GitHub OIDC documentation](/docs/github-oidc) and the [GitHub tokenless documentation](/docs/github-tokenless).
