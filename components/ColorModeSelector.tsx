@@ -1,7 +1,7 @@
 "use client";
 
+import { useTheme } from "@teispace/next-themes";
 import { MonitorIcon, MoonIcon, SunIcon } from "lucide-react";
-import { useTheme } from "next-themes";
 import * as React from "react";
 
 import { Tooltip } from "./Tooltip";
