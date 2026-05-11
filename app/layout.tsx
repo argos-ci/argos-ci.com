@@ -90,7 +90,7 @@ export default function RootLayout({
     >
       <GoogleTagManager gtmId="GTM-NLJR9K93" />
       <head>
-        <PlausibleProvider domain="argos-ci.com" />
+        <PlausibleProvider src="https://plausible.io/js/pa-MUtv2DPAT8fCOLi_QqcGL.js" />
         <GoogleAdsScripts />
       </head>
       <body>

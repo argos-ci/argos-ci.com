@@ -9,7 +9,7 @@ export function JsonLd<T extends Thing>(props: { json: T }) {
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{
-        __html: JSON.stringify(jsonWithContext),
+        __html: JSON.stringify(jsonWithContext).replace(/</g, "\\u003c"),
       }}
     />
   );
