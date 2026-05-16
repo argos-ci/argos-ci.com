@@ -1,0 +1,21 @@
+---
+title: Deployments
+homeTitle: Deploy Storybook and static builds on every pull request
+description: Deploy a Storybook or any static build to Argos on every pull request and review it on a live URL.
+slug: deployments
+date: 2026-05-16
+image: /assets/changelogs/deployments/deployments.jpg
+---
+
+![Argos Deployments](/assets/changelogs/deployments/deployments.jpg)
+
+**Deployments** turn Argos into a host for your static builds. Run `argos deploy ./storybook-static` and get a unique live URL on every pull request—no extra infrastructure to maintain.
+
+- **Preview & production environments**: PRs ship to immutable preview URLs; merges to your production branch promote to a stable production domain.
+- **Stable URLs to share**: every deployment exposes an immutable deployment URL, a branch URL that follows the latest build, and—for production—a project-wide domain.
+- **Access protection**: keep previews private to your team while leaving the production domain public, or lock everything behind Argos login.
+- **Built into the PR comment**: deployment links sit next to your Argos visual build, with a commit status you can require in branch protection.
+
+Works with Storybook, Vite, Next.js exports, plain HTML—anything that builds to a static directory.
+
+Learn more in the [Deployments documentation](https://argos-ci.com/docs/deployments).
