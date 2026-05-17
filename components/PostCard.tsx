@@ -26,7 +26,7 @@ export function PostCardImage(props: PostCardImageProps) {
     <div
       className="relative overflow-hidden"
       style={{
-        aspectRatio: extended ? "21/9" : "2/1",
+        aspectRatio: "2/1",
       }}
     >
       <Image
