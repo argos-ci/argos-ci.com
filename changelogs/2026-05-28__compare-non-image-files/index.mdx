@@ -1,0 +1,22 @@
+---
+title: Compare non-image files
+homeTitle: Compare text-based artifacts in Argos
+description: Upload text-based artifacts with the CLI and review their diffs in Argos.
+slug: compare-non-image-files
+date: 2026-05-28
+image: /assets/changelogs/compare-non-image-files/compare-non-image-files.png
+---
+
+![Compare non-image files in Argos](/assets/changelogs/compare-non-image-files/compare-non-image-files.png)
+
+Argos can now compare more than screenshots. Upload text-based artifacts with the CLI and Argos will match them to baselines, surface changes in builds, and let reviewers inspect diffs alongside visual snapshots.
+
+Use it for API snapshots, generated HTML, Markdown files, CSS output, JavaScript bundles, XML documents, YAML files, JSON fixtures, and plain text files.
+
+- **Text artifact diffs**: Review changes to JSON, YAML, XML, HTML, Markdown, CSS, JavaScript, and plain text directly in Argos.
+- **Same baseline workflow**: Stable paths let Argos compare each file against its baseline on future builds, just like screenshots.
+- **CLI upload support**: Pass one or more `-f` / `--files` globs to `argos upload`, and include screenshot globs when you want mixed image and text comparisons.
+
+Non-image comparisons are supported through the CLI today.
+
+Learn more in the [non-image comparisons documentation](https://argos-ci.com/docs/compare-non-image-files).
