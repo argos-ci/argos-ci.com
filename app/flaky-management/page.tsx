@@ -176,7 +176,7 @@ export default function Page() {
                   rewrite.
                 </>
               }
-              href="/docs/getting-started"
+              href="/docs"
               illustration={<IgnoreFromReviewIllustration />}
             />
             <FeatureGridFeature
@@ -188,7 +188,7 @@ export default function Page() {
                   are still surfaced normally.
                 </>
               }
-              href="/docs/getting-started"
+              href="/docs"
               illustration={<SmartMatchingStackIllustration />}
             />
             <FeatureGridFeature
@@ -200,7 +200,7 @@ export default function Page() {
                   to understand what happened later.
                 </>
               }
-              href="/docs/getting-started"
+              href="/docs"
               illustration={<CleanSignalHistoryIllustration />}
             />
           </FeatureGrid>

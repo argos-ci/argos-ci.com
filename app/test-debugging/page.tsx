@@ -163,7 +163,7 @@ export default function Page() {
                   centralized in Argos.
                 </>
               }
-              href="/docs/getting-started"
+              href="/docs"
               illustration={<FailureScreenshotsIllustration />}
             />
             <FeatureGridFeature
@@ -175,7 +175,7 @@ export default function Page() {
                   of guessing.
                 </>
               }
-              href="/docs/getting-started"
+              href="/docs"
               illustration={<RetryScreenshotsLeftIllustration />}
             />
             <FeatureGridFeature
@@ -186,7 +186,7 @@ export default function Page() {
                   Same UI, same review flow, same guarantees.
                 </>
               }
-              href="/docs/getting-started"
+              href="/docs"
               illustration={<SdkFloatingLogosIllustration />}
             />
           </FeatureGrid>
