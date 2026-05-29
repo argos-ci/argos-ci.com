@@ -32,7 +32,7 @@ In this article, we’ll walk you through how we discovered the issue, why it ha
 
 At Argos, we continuously interact with our customers. One recurring complaint from users was that images inside their pages were rendering inconsistently, leading to layout shift and unreliable visual regression results. Small differences between browsers are expected, but in these cases, users noticed variations in CI on the same setup. That suggested something deeper was going on.
 
-After investigating, we found the issue often appeared when using the [viewports feature](https://argos-ci.com/docs/viewports) to test different screen sizes. Even in stable environments, image rendering wasn’t behaving as expected.
+After investigating, we found the issue often appeared when using the [viewports feature](https://argos-ci.com/docs/learn/how-to-guides/visual-coverage/responsive-viewports) to test different screen sizes. Even in stable environments, image rendering wasn’t behaving as expected.
 
 ## Analysis
 
