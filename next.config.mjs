@@ -49,8 +49,12 @@ const nextConfig = {
   rewrites: async () => {
     return [
       {
+        source: "/docs",
+        destination: "https://proxy.gitbook.site/sites/site_S9wzD",
+      },
+      {
         source: "/docs/:path*",
-        destination: "https://proxy.gitbook.site/sites/site_S9wzD/:path*", // The :path parameter is used here so will not be automatically passed in the query
+        destination: "https://proxy.gitbook.site/sites/site_S9wzD/:path*",
       },
     ];
   },
