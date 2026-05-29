@@ -190,7 +190,7 @@ function SecondaryNavbar() {
                 <SectionList>
                   <li>
                     <LinkCard
-                      href="/docs/getting-started"
+                      href="/docs"
                       icon={BookIcon}
                       title="Docs"
                       description="Argos documentation"

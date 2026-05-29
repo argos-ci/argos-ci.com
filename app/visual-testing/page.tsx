@@ -145,7 +145,7 @@ export default function Page() {
                   context.
                 </>
               }
-              href="/docs/getting-started"
+              href="/docs"
               illustration={<InstantDiffInspector />}
             />
             <FeatureGridFeature
@@ -156,7 +156,7 @@ export default function Page() {
                   audit trail for releases and regressions.
                 </>
               }
-              href="/docs/getting-started"
+              href="/docs"
               illustration={<ReviewHistory />}
             />
           </FeatureGrid>
@@ -170,7 +170,7 @@ export default function Page() {
                   instantly.
                 </>
               }
-              href="/docs/getting-started"
+              href="/docs"
               illustration={<TestContext />}
             />
             <FeatureGridFeature
@@ -182,7 +182,7 @@ export default function Page() {
                   pages.
                 </>
               }
-              href="/docs/getting-started"
+              href="/docs"
               illustration={<GroupedDiffs />}
             />
           </FeatureGrid>
@@ -198,7 +198,7 @@ export default function Page() {
                   automatically when identical changes show up again.
                 </>
               }
-              href="/docs/getting-started"
+              href="/docs"
               icon={CopyCheckIcon}
             />
             <FeatureGridFeatureSmall
@@ -209,7 +209,7 @@ export default function Page() {
                   navigate without leaving the keyboard.
                 </>
               }
-              href="/docs/getting-started"
+              href="/docs"
               icon={KeyboardIcon}
             />
             <FeatureGridFeatureSmall
@@ -220,7 +220,7 @@ export default function Page() {
                   blending to isolate real visual changes and ignore noise.
                 </>
               }
-              href="/docs/getting-started"
+              href="/docs"
               icon={SlidersHorizontalIcon}
             />
           </Container>
