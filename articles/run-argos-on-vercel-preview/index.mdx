@@ -80,7 +80,7 @@ export default defineConfig({
 
 ### 4. Take screenshots of your app
 
-The [Screenshot pages script](https://argos-ci.com/docs/screenshot-pages-script) from Argos's documentation was utilized for capturing the application's homepage, offering flexibility to include additional pages in the future.
+The [Screenshot pages script](https://argos-ci.com/docs/learn/how-to-guides/visual-coverage/capture-screenshots-from-urls) from Argos's documentation was utilized for capturing the application's homepage, offering flexibility to include additional pages in the future.
 
 ```ts
 import { argosScreenshot } from "@argos-ci/playwright";
@@ -140,7 +140,7 @@ jobs:
           ARGOS_BRANCH: ${{ github.event.deployment_status.environment == 'Production' && 'main' || '' }}
 ```
 
-For a comprehensive explanation of each step involved, refer to the [Argos Preview Deployment Guide](https://argos-ci.com/docs/run-on-preview-deployment).
+For a comprehensive explanation of each step involved, refer to the [Argos Preview Deployment Guide](https://argos-ci.com/docs/learn/how-to-guides/ci-pipelines/run-on-preview-deployments).
 
 Upon completion, you will receive status checks on GitHub:
 

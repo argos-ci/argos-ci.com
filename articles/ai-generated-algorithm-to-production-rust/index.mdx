@@ -14,13 +14,13 @@ imageAlt: a couple of black cats sitting next to each other from Viktor Talashuk
 
 Argos is a visual testing tool. Each test produces visual diffs, represented as mask overlays or, more concretely, sets of changed pixel coordinates. Most tools stop at showing the diff. **Argos treats diffs as data and builds higher level features on top of them** as part of its [visual testing platform](https://argos-ci.com/visual-testing).
 
-We compute statistics on change occurrences across auto approved builds, usually on the main branch. That lets us detect flaky tests and suppress recurring noise automatically, similar to what we describe in our [flaky test detection documentation](https://argos-ci.com/docs/flaky-test-detection). We also auto approve changes that were already approved earlier on the same branch to keep reviews fast and friction low, which is also related to our [flaky management features](https://argos-ci.com/flaky-management).
+We compute statistics on change occurrences across auto approved builds, usually on the main branch. That lets us detect flaky tests and suppress recurring noise automatically, similar to what we describe in our [flaky test detection documentation](https://argos-ci.com/docs/learn/reliability-and-flakiness/flaky-test-detection). We also auto approve changes that were already approved earlier on the same branch to keep reviews fast and friction low, which is also related to our [flaky management features](https://argos-ci.com/flaky-management).
 
 All of this depends on one core primitive: **reliably recognizing when two diffs represent the same change, or close enough, even across time and small variations.**
 
 ## The problem
 
-Our first implementation used the sha 256 of the mask image produced by our diffing library. Same mask, same sha, same change. Simple and correct. The way those masks are computed is described in our [diff algorithm documentation](https://argos-ci.com/docs/diff-algorithm).
+Our first implementation used the sha 256 of the mask image produced by our diffing library. Same mask, same sha, same change. Simple and correct. The way those masks are computed is described in our [diff algorithm documentation](https://argos-ci.com/docs/learn/platform-fundamentals/how-argos-detects-visual-differences#the-diff-algorithm).
 
 Also too strict.
 
