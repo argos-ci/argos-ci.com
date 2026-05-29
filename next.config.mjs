@@ -8,11 +8,6 @@ const nextConfig = {
   redirects: async () => {
     return [
       {
-        source: "/docs",
-        destination: "/docs/getting-started",
-        permanent: false,
-      },
-      {
         source: "/:organization/:repository/builds/:path*",
         destination:
           "https://app.argos-ci.com/:organization/:repository/builds/:path*",
@@ -40,21 +35,6 @@ const nextConfig = {
         permanent: true,
       },
       {
-        source: "/docs/about-us",
-        destination: "/about",
-        permanent: true,
-      },
-      {
-        source: "/docs/contact-us",
-        destination: "/contact",
-        permanent: true,
-      },
-      {
-        source: "/docs/github-actions",
-        destination: "/docs/github",
-        permanent: true,
-      },
-      {
         source: "/mui-org/material-ui",
         destination: "/customers/mui",
         permanent: true,
@@ -64,23 +44,13 @@ const nextConfig = {
         destination: "/customers/mui",
         permanent: true,
       },
-      {
-        source: "/docs/why-argos",
-        destination: "/about",
-        permanent: true,
-      },
-      {
-        source: "/docs/faq",
-        destination: "/",
-        permanent: true,
-      },
     ];
   },
   rewrites: async () => {
     return [
       {
         source: "/docs/:path*",
-        destination: "https://argos-docs.vercel.app/:path*", // The :path parameter is used here so will not be automatically passed in the query
+        destination: "https://proxy.gitbook.site/sites/site_S9wzD/:path*", // The :path parameter is used here so will not be automatically passed in the query
       },
     ];
   },
