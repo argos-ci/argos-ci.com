@@ -19,7 +19,7 @@ export function TestDebugging() {
           title: "Playwright traces",
           text: "Replay test sessions step by step to understand every action and state.",
           main: <PlaywrightTrace />,
-          href: "/docs/playwright#setup-tests-debugging",
+          href: "/docs/sdks-reference/playwright#setup-tests-debugging",
         },
         {
           key: "failure-screenshots",
@@ -27,7 +27,7 @@ export function TestDebugging() {
           title: "Failure screenshots",
           text: "Capture screenshots on failure to instantly see what went wrong.",
           main: <FailureScreenshots />,
-          href: "/docs/playwright#setup-tests-debugging",
+          href: "/docs/sdks-reference/playwright#setup-tests-debugging",
         },
 
         {
@@ -36,7 +36,7 @@ export function TestDebugging() {
           title: "Retry screenshots",
           text: "Compare retry screenshots to confirm if issues are consistent or flaky.",
           main: <RetryScreenshots />,
-          href: "/docs/playwright#setup-tests-debugging",
+          href: "/docs/sdks-reference/playwright#setup-tests-debugging",
         },
       ]}
       color="teal"

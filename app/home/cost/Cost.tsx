@@ -127,19 +127,19 @@ export function Cost() {
         <div className="bg-app flex flex-col border-y shadow-xs md:flex-row">
           <div className="container-gutter flex max-w-md flex-1 flex-col items-start justify-center gap-6 py-6 max-md:border-b md:gap-8 md:border-r md:py-8">
             <CostFeature
-              href="/docs/diff-algorithm"
+              href="/docs/learn/platform-fundamentals/how-argos-detects-visual-differences"
               icon={ScanIcon}
               title="No AI overhead"
               description="Argos uses pixel diffing so you avoid the extra fees tied to heuristic based engines."
             />
             <CostFeature
-              href="/docs/spend-management"
+              href="/docs/learn/billing-and-subscription/spend-management"
               icon={BellIcon}
               title="Stay in control of your budget"
               description="Set monthly spend limits and get notified before you exceed your threshold."
             />
             <CostFeature
-              href="/docs/pricing-plans"
+              href="/docs/learn/billing-and-subscription/subscription/pricing-plans"
               icon={TrendingDownIcon}
               title="Cheaper at every volume"
               description="From small teams to millions of snapshots, Argos stays below competitors."

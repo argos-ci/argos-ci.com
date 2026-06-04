@@ -19,7 +19,7 @@ export function FlakyManagement() {
           title: "Flaky indicator",
           text: "Highlights unstable changes to know when a test isn’t reliable.",
           main: <FlakyIndicator />,
-          href: "/docs/flaky-test-detection",
+          href: "/docs/learn/reliability-and-flakiness/flaky-test-detection",
         },
         {
           key: "advanced-analytics",
@@ -27,7 +27,7 @@ export function FlakyManagement() {
           title: "Advanced analytics",
           text: "Track instability trends across builds to uncover recurring issues.",
           main: <AdvancedAnalytics />,
-          href: "/docs/flaky-test-detection",
+          href: "/docs/learn/reliability-and-flakiness/flaky-test-detection",
         },
         {
           key: "ignore-changes",
@@ -35,7 +35,7 @@ export function FlakyManagement() {
           title: "Ignore changes",
           text: "Ignore flaky changes to keep your CI signal clean and focused.",
           main: <IgnoreChanges />,
-          href: "/docs/flaky-test-detection",
+          href: "/docs/learn/reliability-and-flakiness/flaky-test-detection",
         },
       ]}
       color="amber"

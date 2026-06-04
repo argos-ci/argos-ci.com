@@ -103,7 +103,7 @@ export default function Page() {
                   worrying about volume or cost.
                 </>
               }
-              href="/docs/playwright#aria-snapshots"
+              href="/docs/sdks-reference/playwright#aria-snapshots"
               illustration={<UnlimitedTracesIllustration />}
             />
             <FeatureGridFeature
@@ -114,7 +114,7 @@ export default function Page() {
                   extra infra, no CI tweaks, no artifact plumbing.
                 </>
               }
-              href="/docs/quickstart/playwright"
+              href="/docs/quickstart/playwright-quickstart"
               illustration={<OneLineSetupIllustration />}
             />
             <FeatureGridFeature
@@ -126,7 +126,7 @@ export default function Page() {
                   failed screenshot to the full execution context.
                 </>
               }
-              href="/docs/playwright#aria-snapshots"
+              href="/docs/sdks-reference/playwright#aria-snapshots"
               illustration={<OneClickReplayIllustration />}
             />
           </FeatureGrid>

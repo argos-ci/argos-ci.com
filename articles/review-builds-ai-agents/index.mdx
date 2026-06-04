@@ -8,7 +8,7 @@ image: ./main.jpg
 imageAlt: "AI agent interacting with an Argos build via the CLI"
 ---
 
-Visual regression testing is no longer a purely manual task. With the right setup, AI agents can fetch Argos build data, reason about screenshots in the context of a pull request, and even submit a build review on your behalf. This guide offers a clear, step-by-step process for enabling AI-assisted reviews in your workflow. It builds on the official [AI agent review documentation](/docs/review-builds-with-ai-agents) and uses only commands and features that currently exist in Argos, ensuring every instruction is actionable.
+Visual regression testing is no longer a purely manual task. With the right setup, AI agents can fetch Argos build data, reason about screenshots in the context of a pull request, and even submit a build review on your behalf. This guide offers a clear, step-by-step process for enabling AI-assisted reviews in your workflow. It builds on the official [AI agent review documentation](/docs/learn/review-workflow/review-builds-with-ai-agents) and uses only commands and features that currently exist in Argos, ensuring every instruction is actionable.
 
 <MainImage />
 
@@ -17,8 +17,8 @@ Visual regression testing is no longer a purely manual task. With the right setu
 Before inviting an AI agent to review your builds, make sure you have the following items in place:
 
 1. **A pull request with an Argos build** – either through a status check or a bot comment. Start with the [getting started guide](/docs) if Argos is not already connected to your project.
-2. **The [Argos CLI](/docs/argos-cli)** – installed via `npm i --save-dev @argos-ci/cli` or using `npx @argos-ci/cli`.
-3. **[Argos agent skills](/docs/argos-cli#ai-agent-skills)** – install them if your assistant supports skills.
+2. **The [Argos CLI](/docs/sdks-reference/argos-command-line-interface-cli)** – installed via `npm i --save-dev @argos-ci/cli` or using `npx @argos-ci/cli`.
+3. **[Argos agent skills](/docs/sdks-reference/argos-command-line-interface-cli#ai-agent-skills)** – install them if your assistant supports skills.
 4. **Project token** – allows read-only access to build data via `build get` and `build snapshots`.
 5. **User token (personal access token)** – required if the agent will submit a build review; obtained via `argos login` or from your Argos account settings.
 
@@ -35,7 +35,7 @@ The first skill exposes CLI commands, flags and output formats; the second encod
 
 ## Step 2: Configure authentication
 
-Agents need credentials to read build data and (optionally) create reviews. Two types of tokens are involved; the [CLI authentication documentation](/docs/argos-cli#authentication) explains how Argos resolves them.
+Agents need credentials to read build data and (optionally) create reviews. Two types of tokens are involved; the [CLI authentication documentation](/docs/sdks-reference/argos-command-line-interface-cli#authentication) explains how Argos resolves them.
 
 - **Project token** – set this as an environment variable so the agent can fetch build metadata and snapshots:
 
@@ -51,7 +51,7 @@ Agents need credentials to read build data and (optionally) create reviews. Two 
   npx @argos-ci/cli login
   ```
 
-  The `argos login` command opens a browser for OAuth and saves your token to `~/.config/argos-ci/config.json`. Do **not** run it in CI; use environment variables or [GitHub OIDC authentication](/docs/github-oidc) instead.
+  The `argos login` command opens a browser for OAuth and saves your token to `~/.config/argos-ci/config.json`. Do **not** run it in CI; use environment variables or [GitHub OIDC authentication](/docs/learn/integrations/github-oidc-authentication) instead.
 
 ## Step 3: Start the AI review
 
@@ -66,7 +66,7 @@ The agent will automatically locate the Argos build from the pull request status
 
 ## What the agent does
 
-Once invoked, the agent performs several actions to produce a meaningful review. The [AI agents documentation](/docs/review-builds-with-ai-agents) outlines this sequence:
+Once invoked, the agent performs several actions to produce a meaningful review. The [AI agents documentation](/docs/learn/review-workflow/review-builds-with-ai-agents) outlines this sequence:
 
 1. **Inspect the pull request context** – examine the title, description, linked issues, branch name and relevant code changes.
 2. **Find the Argos build** – locate the build URL via the status check or bot comment.
@@ -109,7 +109,7 @@ First summarize what changed visually in the build.  Then compare the screenshot
 After summarizing the visual changes, create an Argos build review with the appropriate conclusion.
 ```
 
-This prompt explicitly tells the assistant to follow the same steps encoded in the skills. If review submission is needed, ensure the CLI is authenticated as an Argos user or provide a personal token via `--token`; see the [project token and personal access token details](/docs/argos-cli#project-tokens-and-personal-access-tokens).
+This prompt explicitly tells the assistant to follow the same steps encoded in the skills. If review submission is needed, ensure the CLI is authenticated as an Argos user or provide a personal token via `--token`; see the [project token and personal access token details](/docs/sdks-reference/argos-command-line-interface-cli#project-tokens-and-personal-access-tokens).
 
 ## CLI commands summary
 
@@ -126,10 +126,10 @@ For reference, here are the key CLI commands your agent will use:
 | Finalize parallel builds | `argos finalize --parallel-nonce <nonce>`                    |
 | Mark a build as skipped  | `argos skip`                                                 |
 
-These commands are described in the [CLI documentation](/docs/argos-cli#build-commands). Remember that reading build data requires a project token, while submitting a review requires a personal access token.
+These commands are described in the [CLI documentation](/docs/sdks-reference/argos-command-line-interface-cli#build-commands). Remember that reading build data requires a project token, while submitting a review requires a personal access token.
 
 ## Why Argos is AI-ready
 
 Argos isn’t just compatible with AI agents – it was designed with them in mind. The CLI outputs structured JSON so machines can parse it reliably. The build UI offers a **Copy prompt** button that generates an optimized agent prompt with the build URL and guidance. The open-source skills encode domain knowledge about how to interpret visual diffs and compare them with pull request intent. By following the step-by-step process above you can integrate these capabilities into your workflow today.
 
-Argos still performs [deterministic, pixel-perfect visual comparison](/docs/diff-algorithm); the agent simply uses the data to assist decision-making. If a change looks unstable, use Argos' [flaky test detection](/docs/flaky-test-detection) signals before approving it. Ultimately the choice to approve or request changes remains yours, but with the help of an agent you can focus on the parts that need human judgement.
+Argos still performs [deterministic, pixel-perfect visual comparison](/docs/learn/platform-fundamentals/how-argos-detects-visual-differences); the agent simply uses the data to assist decision-making. If a change looks unstable, use Argos' [flaky test detection](/docs/learn/reliability-and-flakiness/flaky-test-detection) signals before approving it. Ultimately the choice to approve or request changes remains yours, but with the help of an agent you can focus on the parts that need human judgement.
