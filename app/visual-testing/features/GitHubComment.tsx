@@ -54,7 +54,7 @@ function CommentCard() {
           Learn more about{" "}
           <Link
             className="text-(--primary-10) underline decoration-1 underline-offset-2 transition hover:text-(--primary-11)"
-            href="/docs/github"
+            href="/docs/learn/integrations/github-integration"
           >
             Argos notifications
           </Link>

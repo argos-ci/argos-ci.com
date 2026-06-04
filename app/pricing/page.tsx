@@ -71,7 +71,9 @@ function OpenSourceSponsoring() {
             </SectionDescription>
           </SectionHeaderTexts>
           <Button variant="outline" asChild>
-            <Link href="/docs/open-source">Apply to sponsoring program</Link>
+            <Link href="/docs/learn/billing-and-subscription/subscription/open-source">
+              Apply to sponsoring program
+            </Link>
           </Button>
         </SectionHeader>
       </Container>

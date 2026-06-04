@@ -263,7 +263,7 @@ export default function Page() {
                 title: "ARIA snapshots, first-class",
                 text: "Validate accessibility trees with ARIA snapshots and catch semantic regressions beyond pixels.",
                 main: <AriaSnapshots />,
-                href: "/docs/playwright#aria-snapshots",
+                href: "/docs/sdks-reference/playwright#aria-snapshots",
               },
               {
                 key: "integrated",
@@ -271,7 +271,7 @@ export default function Page() {
                 title: "Perfect integration",
                 text: "Works seamlessly with sharding, retries, and repeat-each so parallel and flaky runs stay deterministic.",
                 main: <IntegratedRuns />,
-                href: "/docs/playwright",
+                href: "/docs/sdks-reference/playwright",
               },
             ]}
           />
@@ -310,7 +310,7 @@ export default function Page() {
                   visual coverage scales while your Storybook stays simple.
                 </>
               }
-              href="/docs/storybook-story-modes"
+              href="/docs/learn/how-to-guides/visual-coverage/storybook-story-modes"
               illustration={<StoryModes />}
             />
             <FeatureGridFeature
@@ -323,7 +323,7 @@ export default function Page() {
                   snapshots generated where your code actually runs.
                 </>
               }
-              href="/docs/storybook"
+              href="/docs/sdks-reference/storybook"
               illustration={<StorybookCIVitest />}
             />
           </FeatureGrid>
@@ -338,7 +338,7 @@ export default function Page() {
                   real UI behavior, not just static renders.
                 </>
               }
-              href="/docs/storybook"
+              href="/docs/sdks-reference/storybook"
               illustration={<PlayFunctionScreenshot />}
             />
             <FeatureGridFeature
@@ -351,7 +351,7 @@ export default function Page() {
                   separate test setups or duplicated stories.
                 </>
               }
-              href="/docs/storybook"
+              href="/docs/sdks-reference/storybook"
               illustration={<BrowserCoverage />}
             />
           </FeatureGrid>
@@ -367,7 +367,7 @@ export default function Page() {
                   across refactors and story reordering.
                 </>
               }
-              href="/docs/storybook"
+              href="/docs/sdks-reference/storybook"
               icon={LayersIcon}
             />
 
@@ -379,7 +379,7 @@ export default function Page() {
                   manual snapshot wiring.
                 </>
               }
-              href="/docs/storybook"
+              href="/docs/sdks-reference/storybook"
               icon={ZapIcon}
             />
 
@@ -391,7 +391,7 @@ export default function Page() {
                   and globals.
                 </>
               }
-              href="/docs/storybook"
+              href="/docs/sdks-reference/storybook"
               icon={SlidersIcon}
             />
           </Container>
@@ -429,7 +429,7 @@ export default function Page() {
                 consistent across GitHub and GitLab.
               </>
             }
-            href="/docs/github"
+            href="/docs/learn/integrations/github-integration"
             illustration={<GitHubChecks />}
           />
           <FeatureGridFeature
@@ -441,7 +441,7 @@ export default function Page() {
                 at a glance, without noise, without leaving GitHub.
               </>
             }
-            href="/docs/pull-request-comments"
+            href="/docs/learn/review-workflow/pull-request-comments"
             illustration={<GitHubComment />}
           />
         </FeatureGrid>
@@ -458,7 +458,7 @@ export default function Page() {
                 approved on main.
               </>
             }
-            href="/docs/slack"
+            href="/docs/learn/integrations/slack-integration"
             illustration={<SlackNotification />}
           />
           <FeatureGridFeature
@@ -471,7 +471,7 @@ export default function Page() {
                 request, and your production baseline stays clean and reliable.
               </>
             }
-            href="/docs/run-on-preview-deployment"
+            href="/docs/learn/how-to-guides/ci-pipelines/run-on-preview-deployments"
             illustration={<DeploymentPreviewFlow />}
           />
         </FeatureGrid>
@@ -487,7 +487,7 @@ export default function Page() {
                 before they land on main.
               </>
             }
-            href="/docs/github"
+            href="/docs/learn/integrations/github-integration#merge-queue-support"
             icon={GitMergeIcon}
           />
           <FeatureGridFeatureSmall
@@ -498,7 +498,7 @@ export default function Page() {
                 the full workflow.
               </>
             }
-            href="/docs/github"
+            href="/docs/learn/integrations/github-integration"
             icon={RotateCcwIcon}
           />
           <FeatureGridFeatureSmall
@@ -506,10 +506,10 @@ export default function Page() {
             description={
               <>
                 Run visual checks safely on pull requests from forks, without
-                exposing secrets with tokenless authentication.
+                exposing secrets with GitHub OIDC Authentication.
               </>
             }
-            href="/docs/github"
+            href="/docs/learn/integrations/github-oidc-authentication"
             icon={ShieldCheckIcon}
           />
         </Container>

@@ -101,7 +101,7 @@ export default function Page() {
               <Tr>
                 <Th>
                   <ThMain>Screenshot in Play function</ThMain>
-                  <ThSubLink href="/docs/storybook#interactions-using-the-play-function">
+                  <ThSubLink href="/docs/sdks-reference/storybook#interactions-using-the-play-function">
                     Take screenshots during the test
                   </ThSubLink>
                 </Th>

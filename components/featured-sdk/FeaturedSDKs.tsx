@@ -38,25 +38,25 @@ export function FeaturedSDKsSection() {
         </SectionHeader>
         <ul className="flex flex-1 flex-col gap-8 md:flex-row md:flex-wrap md:items-start md:justify-center md:px-8 md:py-24">
           <SdkCard
-            href="/docs/quickstart/playwright"
+            href="/docs/quickstart/playwright-quickstart"
             sdk={playwright}
             borderColor="text-(--red-6)"
             bgColor="bg-(--red-1)"
           />
           <SdkCard
-            href="/docs/quickstart/storybook"
+            href="/docs/quickstart/storybook-quickstart"
             sdk={storybook}
             borderColor="text-(--plum-6)"
             bgColor="bg-(--plum-1)"
           />
           <SdkCard
-            href="/docs/quickstart/cypress"
+            href="/docs/quickstart/cypress-quickstart"
             sdk={cypress}
             borderColor="text-(--green-6)"
             bgColor="bg-(--green-1)"
           />
           <SdkCard
-            href="/docs/quickstart/webdriverio"
+            href="/docs/quickstart/webdriverio-quickstart"
             sdk={wdio}
             borderColor="text-(--orange-6)"
             bgColor="bg-(--orange-1)"

@@ -112,7 +112,7 @@ export default function Page() {
                   you never approve noise by accident.
                 </>
               }
-              href="/docs/flaky-test-detection#view-flaky-indicators-in-your-build-review"
+              href="/docs/learn/reliability-and-flakiness/flaky-test-detection#view-flaky-indicators-in-your-build-review"
               illustration={<FlakyIndicatorScreenshotIllustration />}
             />
             <FeatureGridFeature
@@ -125,7 +125,7 @@ export default function Page() {
                   is.
                 </>
               }
-              href="/docs/flaky-test-detection#explore-the-test-page"
+              href="/docs/learn/reliability-and-flakiness/flaky-test-detection#explore-the-test-page"
               illustration={<AdvancedAnalyticsCardsIllustration />}
             />
             <FeatureGridFeature
@@ -137,7 +137,7 @@ export default function Page() {
                   flakiness happens.
                 </>
               }
-              href="/docs/flaky-test-detection#explore-the-test-page"
+              href="/docs/learn/reliability-and-flakiness/flaky-test-detection#explore-the-test-page"
               illustration={<ChangeHistoryStackIllustration />}
             />
           </FeatureGrid>

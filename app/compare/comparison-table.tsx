@@ -110,7 +110,7 @@ export function ComparisonTable(props: {
         <Tr>
           <Th>
             <ThMain>Spend Management</ThMain>
-            <ThSubLink href="/docs/spend-management">
+            <ThSubLink href="/docs/learn/billing-and-subscription/spend-management">
               Control your spendings by setting a budget limit
             </ThSubLink>
           </Th>

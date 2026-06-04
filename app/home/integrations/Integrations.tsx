@@ -30,7 +30,7 @@ export function Integrations() {
             </SectionDescription>
           </SectionHeaderTexts>
           <Button variant="outline" asChild>
-            <Link href="/docs/integrations">Explore Integrations</Link>
+            <Link href="/docs/learn/integrations">Explore Integrations</Link>
           </Button>
         </SectionHeader>
         <div
@@ -48,19 +48,19 @@ export function Integrations() {
             className="[--x:2] [--y:1] md:[--x:2] md:[--y:2]"
             image={{ light: githubLight, dark: githubDark }}
             title="GitHub"
-            href="/docs/github"
+            href="/docs/learn/integrations/github-integration"
           />
           <IntegrationButton
             className="[--x:4] [--y:4] md:[--x:6] md:[--y:4]"
             image={slack}
             title="Slack"
-            href="/docs/slack"
+            href="/docs/learn/integrations/slack-integration"
           />
           <IntegrationButton
             className="[--x:6] [--y:1] md:[--x:10] md:[--y:2]"
             image={gitlab}
             title="GitLab"
-            href="/docs/gitlab"
+            href="/docs/learn/integrations/gitlab-integration"
           />
         </div>
       </Container>
