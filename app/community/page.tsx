@@ -1,11 +1,19 @@
-import { HeartIcon, MessageCircleIcon, StarIcon } from "lucide-react";
+import {
+  ArrowDownIcon,
+  GitPullRequestIcon,
+  HeartIcon,
+  MessageCircleIcon,
+} from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
 
+import { Badge } from "@/components/Badge";
 import { Button } from "@/components/Button";
 import { CallToActionSection } from "@/components/CallToActionSection";
+import { Card } from "@/components/Card";
 import { Chip } from "@/components/Chip";
 import { Container } from "@/components/Container";
+import { DotIndicator } from "@/components/DotIndicator";
 import {
   FeatureGrid,
   FeatureGridFeature,
@@ -21,8 +29,6 @@ import { GitHubIcon } from "@/components/icons/GitHubIcon";
 import { SectionDescription, SectionTitle } from "@/components/Typography";
 import { getMetadata } from "@/lib/metadata";
 
-import { clickhouse } from "../assets/customers/library/clickhouse";
-import { mermaid } from "../assets/customers/library/mermaid";
 import { mui, muiQuote } from "../assets/customers/library/mui";
 import { TrustedBy } from "../common/TrustedBy";
 
@@ -30,7 +36,7 @@ export const metadata: Metadata = getMetadata({
   title: "Community",
   absoluteTitle: "Argos Community · Open source, Discord, and the OSS ecosystem",
   description:
-    "Argos is open source and built in the open. Join our Discord, star us on GitHub, and see how Argos helps ship some of the most-used UI projects in the world, from MUI's Base UI to Mermaid.",
+    "Argos is open source and built in the open. Join our Discord, contribute on GitHub, and see how Argos helps ship some of the most-used UI projects in the world, from MUI's Base UI to Mermaid.",
   pathname: "/community",
 });
 
@@ -46,21 +52,21 @@ export default function Page() {
             </div>
             <HeroHeading>Built with, and for, our community</HeroHeading>
             <HeroDescription>
-              Argos is open source and shaped in the open. Star us on GitHub,
+              Argos is open source and shaped in the open. Contribute on GitHub,
               join the conversation on Discord, and help build the quality
               platform for the age of AI agents.
             </HeroDescription>
             <HeroActions>
               <Button size="large" asChild>
-                <Link href="https://github.com/argos-ci/argos">
-                  <GitHubIcon className="size-4" />
-                  Star on GitHub
-                </Link>
-              </Button>
-              <Button size="large" variant="outline" asChild>
                 <Link href="/discord">
                   <DiscordIcon className="size-4" />
                   Join Discord
+                </Link>
+              </Button>
+              <Button size="large" variant="outline" asChild>
+                <Link href="https://github.com/argos-ci/argos">
+                  <GitHubIcon className="size-4" />
+                  View on GitHub
                 </Link>
               </Button>
             </HeroActions>
@@ -78,17 +84,10 @@ export default function Page() {
                 <SectionTitle>Open source, from SDK to platform</SectionTitle>
                 <SectionDescription>
                   Our SDKs and platform code are open source. Read them, learn
-                  from them, self-host the pieces you need, and send a PR. We
-                  build Argos the way we think tools should be built: in the
-                  open.
+                  from them, and send a PR. We build Argos the way we think tools
+                  should be built: in the open, with the people who use it.
                 </SectionDescription>
               </SectionHeaderTexts>
-              <Button variant="outline" asChild>
-                <Link href="https://github.com/argos-ci">
-                  <GitHubIcon className="size-4" />
-                  Explore the code
-                </Link>
-              </Button>
             </SectionHeader>
           </Container>
         </div>
@@ -100,49 +99,26 @@ export default function Page() {
                 Argos gives the <strong>MUI</strong> team a stable visual
                 baseline to ship <strong>Base UI</strong>, the headless
                 component library behind the next generation of design systems,
-                including <strong>shadcn/ui</strong>. When Argos catches a
-                regression, millions of downstream apps are protected.
+                including <strong>shadcn/ui</strong>. Catch one regression here,
+                protect millions of downstream apps.
               </>
             }
             href="/customers/mui"
-            illustration={
-              <div className="flex flex-col items-center gap-6">
-                <ThemeImage
-                  src={mui.logo["140x48"]}
-                  alt="MUI"
-                  className="h-10 w-auto"
-                />
-                <div className="text-low text-center text-xs">
-                  Trusted to ship Base UI to millions of developers
-                </div>
-              </div>
-            }
+            cta="Read MUI's story"
+            illustration={<EcosystemIllustration />}
           />
           <FeatureGridFeature
-            title={<>Loved by open-source maintainers</>}
+            title={<>Open source, from SDK to platform</>}
             description={
               <>
-                From <strong>Mermaid</strong>&apos;s diagram rendering to data
-                tooling at <strong>ClickHouse</strong>, maintainers rely on
-                Argos to catch the smallest visual changes before every release,
-                with a free plan for open-source projects.
+                The SDKs and the platform are public. Explore how Argos works,
+                open an issue, or contribute a fix. It&apos;s MIT-licensed and
+                built in the open.
               </>
             }
-            href="/docs/learn/billing-and-subscription/subscription/open-source"
-            illustration={
-              <div className="flex items-center gap-8">
-                <ThemeImage
-                  src={mermaid.logo["140x48"]}
-                  alt="Mermaid"
-                  className="h-8 w-auto"
-                />
-                <ThemeImage
-                  src={clickhouse.logo["140x48"]}
-                  alt="ClickHouse"
-                  className="h-8 w-auto"
-                />
-              </div>
-            }
+            href="https://github.com/argos-ci/argos"
+            cta="Explore the code"
+            illustration={<RepoIllustration />}
           />
         </FeatureGrid>
         <Container
@@ -158,18 +134,20 @@ export default function Page() {
               </>
             }
             href="/docs/learn/billing-and-subscription/subscription/open-source"
+            cta="See the program"
             icon={HeartIcon}
           />
           <FeatureGridFeatureSmall
-            title="Star us on GitHub"
+            title="Contributions welcome"
             description={
               <>
-                Follow along, open issues, and contribute to the SDKs and the
-                platform.
+                The SDKs and platform are public. Open an issue or send a pull
+                request.
               </>
             }
             href="https://github.com/argos-ci/argos"
-            icon={StarIcon}
+            cta="Contribute"
+            icon={GitPullRequestIcon}
           />
           <FeatureGridFeatureSmall
             title="Chat on Discord"
@@ -180,6 +158,7 @@ export default function Page() {
               </>
             }
             href="/discord"
+            cta="Join Discord"
             icon={MessageCircleIcon}
           />
         </Container>
@@ -190,5 +169,47 @@ export default function Page() {
 
       <CallToActionSection description="Open source, agent-ready, and built with the community. Come build with us." />
     </>
+  );
+}
+
+function EcosystemIllustration() {
+  return (
+    <div className="flex flex-col items-center gap-4">
+      <ThemeImage src={mui.logo["140x48"]} alt="MUI" className="h-14 w-auto" />
+      <ArrowDownIcon className="text-low size-4" aria-hidden />
+      <div className="flex items-center gap-2">
+        <Badge className="text-xs">Base UI</Badge>
+        <span className="text-low text-xs">powers</span>
+        <Badge className="text-xs">shadcn/ui</Badge>
+      </div>
+      <div className="text-low text-center text-xs">
+        Shipped to millions of developers
+      </div>
+    </div>
+  );
+}
+
+function RepoIllustration() {
+  return (
+    <Card shadow="high" className="w-full max-w-sm p-4">
+      <div className="flex items-center gap-2">
+        <GitHubIcon className="size-4" />
+        <span className="text-sm font-medium">argos-ci/argos</span>
+        <Badge className="text-xxs ml-auto">Public</Badge>
+      </div>
+      <p className="text-low mt-2 text-xs">
+        Visual &amp; snapshot testing platform for the age of AI agents.
+      </p>
+      <div className="text-low mt-4 flex items-center gap-4 text-xs">
+        <span className="flex items-center gap-1.5">
+          <DotIndicator variant="primary" />
+          TypeScript
+        </span>
+        <span className="flex items-center gap-1.5">
+          <DotIndicator variant="neutral" />
+          MIT license
+        </span>
+      </div>
+    </Card>
   );
 }

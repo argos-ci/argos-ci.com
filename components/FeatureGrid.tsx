@@ -31,8 +31,9 @@ export function FeatureGridFeature(props: {
   description: React.ReactNode;
   href: string;
   illustration: React.ReactNode;
+  cta?: React.ReactNode;
 }) {
-  const { title, description, href, illustration } = props;
+  const { title, description, href, illustration, cta = "Learn more" } = props;
   return (
     <div className="relative flex flex-col gap-10 px-4 py-6 sm:px-6 sm:py-14">
       <div
@@ -45,7 +46,7 @@ export function FeatureGridFeature(props: {
         <h3 className="mb-1 font-semibold">{title}</h3>
         <p className="text-low font-[450]">{description}</p>
         <Button className="mt-4" variant="outline" asChild>
-          <Link href={href}>Learn more</Link>
+          <Link href={href}>{cta}</Link>
         </Button>
       </div>
     </div>
@@ -57,8 +58,9 @@ export function FeatureGridFeatureSmall(props: {
   description: React.ReactNode;
   href: string;
   icon: LucideIcon;
+  cta?: React.ReactNode;
 }) {
-  const { title, description, href, icon: Icon } = props;
+  const { title, description, href, icon: Icon, cta = "Learn more" } = props;
   return (
     <div className="flex flex-col items-start gap-2 p-8 text-left text-sm lg:px-9 lg:py-10">
       <Icon className="size-4 text-(--primary-10)" />
@@ -66,7 +68,7 @@ export function FeatureGridFeatureSmall(props: {
         <h3 className="mb-1 font-semibold">{title}</h3>
         <p className="text-low font-[450]">{description}</p>
         <Button className="mt-4" variant="outline" asChild>
-          <Link href={href}>Learn more</Link>
+          <Link href={href}>{cta}</Link>
         </Button>
       </div>
     </div>
