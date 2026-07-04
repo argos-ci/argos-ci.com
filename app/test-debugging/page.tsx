@@ -52,8 +52,9 @@ export default function Page() {
             </div>
             <HeroHeading>See why your E2E fails</HeroHeading>
             <HeroDescription>
-              Investigate failed tests from Playwright and Cypress. See what
-              broke, understand why it failed instantly in your CI.
+              Investigate failed tests from Playwright and Cypress with full
+              visual context. See what broke and why—instantly, right in your
+              CI—so you (or your agent) can fix it fast.
             </HeroDescription>
             <HeroActions>
               <Button size="large" asChild>

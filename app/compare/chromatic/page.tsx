@@ -31,6 +31,22 @@ const features: Features = {
     argos: "$100/mo",
     competitor: "$179/mo",
   },
+  snapshotTesting: {
+    argos: "✔️",
+    competitor: "❌",
+  },
+  deployments: {
+    argos: "✔️",
+    competitor: "Storybook only",
+  },
+  collaborativeReviews: {
+    argos: "✔️",
+    competitor: "✔️",
+  },
+  agentReady: {
+    argos: "✔️",
+    competitor: "❌",
+  },
   playwrightDebugging: {
     argos: "✔️",
     competitor: "❌",
@@ -94,7 +110,7 @@ export default function Page() {
         <ComparisonTable
           logoSrc={chromaticLogo}
           logoSrcDark={chromaticLogoDark}
-          title="Percy"
+          title="Chromatic"
           features={features}
           additionals={
             <>

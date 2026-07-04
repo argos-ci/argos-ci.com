@@ -23,6 +23,22 @@ const features: Features = {
     argos: "$100/mo",
     competitor: "$599/mo",
   },
+  snapshotTesting: {
+    argos: "✔️",
+    competitor: "❌",
+  },
+  deployments: {
+    argos: "✔️",
+    competitor: "❌",
+  },
+  collaborativeReviews: {
+    argos: "✔️",
+    competitor: "❌",
+  },
+  agentReady: {
+    argos: "✔️",
+    competitor: "❌",
+  },
   playwrightDebugging: {
     argos: "✔️",
     competitor: "❌",

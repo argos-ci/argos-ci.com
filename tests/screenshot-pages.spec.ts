@@ -2,7 +2,10 @@ import { argosScreenshot } from "@argos-ci/playwright";
 import { Page, test } from "@playwright/test";
 
 const FOOTER_LINKS = {
-  "visual-testing": "Visual Testing",
+  "visual-testing": "Change Detection",
+  deployments: "Deployments",
+  "collaborative-reviews": "Collaborative Reviews",
+  "ai-agents": "For AI Agents",
   "flaky-management": "Flaky Management",
   "test-debugging": "Test Debugging",
   pricing: "Pricing",

@@ -1,13 +1,17 @@
 import clsx from "clsx";
 import {
   BlocksIcon,
+  BotIcon,
   CloudIcon,
   CopyCheckIcon,
   EyeIcon,
+  FileDiffIcon,
   GitMergeIcon,
   GitPullRequestIcon,
   KeyboardIcon,
   LayersIcon,
+  MessagesSquareIcon,
+  RocketIcon,
   RotateCcwIcon,
   RouteIcon,
   ScanTextIcon,
@@ -47,6 +51,7 @@ import { pivotQuote } from "../assets/customers/library/pivot";
 import { TrustedBy } from "../common/TrustedBy";
 import { trackDemoClick } from "../google-ads";
 import { trackSignupClick } from "../google-ads";
+import { SnapshotFiles } from "../home/visual-testing/features/SnapshotFiles";
 import { AriaSnapshots } from "./features/AriaSnapshots";
 import { BrowserCoverage } from "./features/BrowserCoverage";
 import { CITimeline } from "./features/CITimeline";
@@ -67,12 +72,12 @@ import { StorybookSnapshots } from "./features/StorybookSnapshots";
 import { TestContext } from "./features/TestContext";
 
 export const metadata: Metadata = getMetadata({
-  title: "Argos Visual Testing",
-  subtitle: "Catch visual regressions automatically",
+  title: "Argos Visual & Snapshot Testing",
+  subtitle: "See exactly what every change does",
   absoluteTitle:
-    "Argos Visual Testing · Catch visual regressions automatically",
+    "Argos Change Detection · Visual & snapshot testing for any file",
   description:
-    "Fast, reliable visual testing for CI. Smart stabilization, automatic baselines, Playwright/Storybook support, and rapid reviews.",
+    "Fast, reliable change detection for CI. Visual testing plus snapshot diffs for Markdown, JSON, HTML and more. Smart stabilization, automatic baselines, Playwright/Storybook support, and rapid reviews.",
   pathname: "/visual-testing",
 });
 
@@ -86,14 +91,17 @@ export default function Page() {
           <FullPageGrid height="h-200 md:h-120" tint={color} />
           <Hero align="center" className="relative">
             <div className={clsx("rounded-full border px-3 py-1.5")}>
-              <FeatureIndicator color={color}>Visual Testing</FeatureIndicator>
+              <FeatureIndicator color={color}>
+                Change Detection
+              </FeatureIndicator>
             </div>
             <HeroHeading>
-              Visual testing that scales from PRs to production
+              See exactly what every PR changes
             </HeroHeading>
             <HeroDescription>
-              Catch visual regressions automatically, review changes fast, and
-              trust every deployment across browsers, devices, and environments.
+              Catch every change automatically—pixels or any file—review it fast,
+              and merge with confidence across browsers, devices, and
+              environments.
             </HeroDescription>
             <HeroActions>
               <Button size="large" asChild>
@@ -277,6 +285,26 @@ export default function Page() {
           />
         </Container>
         <Container className="h-12 border-x" />
+      </section>
+      <section className="border-b px-4">
+        <Container className="border-x bg-linear-to-b from-transparent to-(--neutral-2) pb-12">
+          <SectionHeader align="center" className="container-gutter max-w-2xl">
+            <Chip icon={FileDiffIcon}>Snapshot Testing</Chip>
+            <SectionHeaderTexts>
+              <SectionTitle>Not just screenshots — any file</SectionTitle>
+              <SectionDescription>
+                Upload text-based artifacts with the CLI and Argos matches them
+                to baselines just like screenshots. Review changes to Markdown,
+                JSON, HTML, CSS, JavaScript, XML, YAML, and plain text alongside
+                your visual diffs — essential now that agents produce as much
+                Markdown and structured data as UI.
+              </SectionDescription>
+            </SectionHeaderTexts>
+          </SectionHeader>
+          <div className="flex justify-center pt-4">
+            <SnapshotFiles />
+          </div>
+        </Container>
       </section>
       <section>
         <div className="border-b px-4">
@@ -514,6 +542,57 @@ export default function Page() {
           />
         </Container>
         <Container className="h-12 border-x" />
+      </section>
+      <section className="border-b px-4">
+        <Container className="border-x">
+          <SectionHeader align="center" className="container-gutter max-w-2xl">
+            <SectionHeaderTexts>
+              <SectionTitle>One platform, from change to merge</SectionTitle>
+              <SectionDescription>
+                Change detection is the foundation. Deploy every PR, review
+                together, and let your agents in on it too.
+              </SectionDescription>
+            </SectionHeaderTexts>
+          </SectionHeader>
+        </Container>
+        <Container
+          noGutter
+          className="relative grid grid-cols-1 border-x max-md:divide-y md:grid-cols-3 md:divide-x"
+        >
+          <FeatureGridFeatureSmall
+            title="Deployments"
+            description={
+              <>
+                Deploy Storybook and static builds to a live URL on every pull
+                request.
+              </>
+            }
+            href="/deployments"
+            icon={RocketIcon}
+          />
+          <FeatureGridFeatureSmall
+            title="Collaborative Reviews"
+            description={
+              <>
+                Pin comments to the exact change, discuss in threads, and review
+                in real time.
+              </>
+            }
+            href="/collaborative-reviews"
+            icon={MessagesSquareIcon}
+          />
+          <FeatureGridFeatureSmall
+            title="For AI Agents"
+            description={
+              <>
+                100% agent-ready: agents read the diff, fix their mistakes, and
+                review from the CLI.
+              </>
+            }
+            href="/ai-agents"
+            icon={BotIcon}
+          />
+        </Container>
       </section>
       <CallToActionSection />
     </>

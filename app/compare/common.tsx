@@ -114,9 +114,10 @@ export function KeyFeaturesSection() {
           <SectionHeaderTexts>
             <SectionTitle>Why teams choose Argos</SectionTitle>
             <SectionDescription>
-              Argos focuses on what makes visual testing effective at scale. A
-              great UI, tight integrations, precise permissions, and support
-              from people who actually build frontend tools.
+              More features, lower price, higher quality. Argos catches every
+              change—pixels or any file—deploys every PR, and is 100%
+              agent-ready, with a great UI and support from people who actually
+              build frontend tools.
             </SectionDescription>
           </SectionHeaderTexts>
         </SectionHeader>

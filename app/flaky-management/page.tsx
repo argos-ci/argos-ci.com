@@ -59,8 +59,8 @@ export default function Page() {
             </HeroHeading>
             <HeroDescription>
               Detect unstable visual tests, track flakiness over time, and
-              automatically silence noisy changes before they slow your team
-              down.
+              automatically silence noisy changes. As agents push test volume
+              higher, a green build stays a build you can trust.
             </HeroDescription>
             <HeroActions>
               <Button size="large" asChild>
