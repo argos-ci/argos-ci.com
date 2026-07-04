@@ -99,7 +99,7 @@ const toneStyles: Record<
 
 export function CITimeline() {
   return (
-    <div className="relative mx-auto w-full max-w-5xl overflow-hidden mask-b-from-80%">
+    <div className="relative mx-auto w-full max-w-5xl cursor-default overflow-hidden mask-b-from-80%">
       <div className="space-y-4">
         {STEPS.map(({ key, ...step }) => (
           <TimelineStep key={key} {...step} />

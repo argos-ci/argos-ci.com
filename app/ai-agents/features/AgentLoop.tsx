@@ -54,7 +54,7 @@ export function AgentLoop() {
   return (
     <Card
       shadow="high"
-      className="animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both w-full max-w-md p-4"
+      className="animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both w-full max-w-md cursor-default p-4"
     >
       <ol className="relative flex flex-col gap-3">
         <span

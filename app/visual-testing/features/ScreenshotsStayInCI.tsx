@@ -17,7 +17,7 @@ import { ThemeImage } from "@/components/ThemeImage";
 
 export function ScreenshotsStayInCI() {
   return (
-    <div className="relative isolate flex w-full max-w-5xl flex-wrap items-center justify-center gap-4 px-3 py-5 md:gap-6 md:px-6">
+    <div className="relative isolate flex w-full max-w-5xl cursor-default flex-wrap items-center justify-center gap-4 px-3 py-5 md:gap-6 md:px-6">
       <PlaywrightNode />
       <SecureArrow />
       <StorageNode />

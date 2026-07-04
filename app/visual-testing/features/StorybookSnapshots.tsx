@@ -41,7 +41,7 @@ const SNAPSHOTS: Array<{
 
 export function StorybookSnapshots() {
   return (
-    <div className="relative isolate mx-auto w-full max-w-5xl mask-b-from-80% p-4">
+    <div className="relative isolate mx-auto w-full max-w-5xl cursor-default mask-b-from-80% p-4">
       <Glow position="left" />
       <Glow position="right" />
 
