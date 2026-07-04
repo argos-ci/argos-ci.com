@@ -33,6 +33,7 @@ import { planable } from "../assets/customers/library/planable";
 import { qonto } from "../assets/customers/library/qonto";
 import { rapidataQuote } from "../assets/customers/library/rapidata";
 import { redis } from "../assets/customers/library/redis";
+import { square } from "../assets/customers/library/square";
 import { yotpo } from "../assets/customers/library/yotpo";
 import type { CustomerCompany, CustomerQuote } from "../assets/customers/types";
 import { trackDemoClick, trackSignupClick } from "../google-ads";
@@ -61,6 +62,7 @@ const CELLS: Cell[] = [
   { type: "logo", company: attio },
   { type: "logo", company: yotpo },
   { type: "logo", company: doctolib },
+  { type: "logo", company: square },
   { type: "quote", quote: pivotQuote },
   { type: "quote", quote: permitIoQuote },
   { type: "quote", quote: finvizGintnerQuote },
