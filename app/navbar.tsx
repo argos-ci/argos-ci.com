@@ -212,10 +212,10 @@ function SecondaryNavbar() {
                   </li>
                   <li>
                     <LinkCard
-                      href="/discord"
+                      href="/community"
                       icon={MessageCircleIcon}
                       title="Community"
-                      description="Join the conversation"
+                      description="Open source & Discord"
                     />
                   </li>
                 </SectionList>
