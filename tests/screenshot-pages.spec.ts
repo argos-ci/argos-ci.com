@@ -18,6 +18,8 @@ const FOOTER_LINKS = {
   "percy-vs-argos": "Percy",
   "applitools-vs-argos": "Applitools",
   "chromatic-vs-argos": "Chromatic",
+  "playwright-vs-argos": "Playwright",
+  "backstopjs-vs-argos": "BackstopJS",
 };
 
 async function screenshot(page: Page, name: string, suffix = "") {
@@ -66,16 +68,6 @@ function runScreenshotTests(colorScheme?: "light" | "dark") {
   test(`Screenshots for customers page ${textSuffix}`, async ({ page }) => {
     await page.goto("/customers");
     await screenshot(page, "customers", screenshotSuffix);
-  });
-
-  test(`Screenshots for soc-2 ${textSuffix}`, async ({ page }) => {
-    await page.goto("/security/soc-2");
-    await screenshot(page, "soc-2", screenshotSuffix);
-  });
-
-  test(`Screenshots for gdpr ${textSuffix}`, async ({ page }) => {
-    await page.goto("/security/gdpr");
-    await screenshot(page, "gdpr", screenshotSuffix);
   });
 }
 
