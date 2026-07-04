@@ -164,7 +164,7 @@ export default function Page() {
                   centralized in Argos.
                 </>
               }
-              href="/docs"
+              href="/docs/sdks-reference/playwright#setup-tests-debugging"
               illustration={<FailureScreenshotsIllustration />}
             />
             <FeatureGridFeature
@@ -176,7 +176,7 @@ export default function Page() {
                   of guessing.
                 </>
               }
-              href="/docs"
+              href="/changelog/2024-04-29-retried-failures"
               illustration={<RetryScreenshotsLeftIllustration />}
             />
             <FeatureGridFeature
@@ -187,7 +187,7 @@ export default function Page() {
                   Same UI, same review flow, same guarantees.
                 </>
               }
-              href="/docs"
+              href="/docs/sdks-reference/cypress"
               illustration={<SdkFloatingLogosIllustration />}
             />
           </FeatureGrid>

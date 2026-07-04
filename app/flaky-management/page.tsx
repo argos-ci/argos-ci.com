@@ -176,7 +176,7 @@ export default function Page() {
                   rewrite.
                 </>
               }
-              href="/docs"
+              href="/docs/learn/reliability-and-flakiness/flaky-test-detection#ignore-changes"
               illustration={<IgnoreFromReviewIllustration />}
             />
             <FeatureGridFeature
@@ -188,7 +188,7 @@ export default function Page() {
                   are still surfaced normally.
                 </>
               }
-              href="/docs"
+              href="/docs/learn/reliability-and-flakiness/flaky-test-detection#automatically-ignore-recurring-flaky-changes"
               illustration={<SmartMatchingStackIllustration />}
             />
             <FeatureGridFeature
@@ -200,7 +200,7 @@ export default function Page() {
                   to understand what happened later.
                 </>
               }
-              href="/docs"
+              href="/docs/learn/reliability-and-flakiness/flaky-test-detection"
               illustration={<CleanSignalHistoryIllustration />}
             />
           </FeatureGrid>

@@ -154,7 +154,7 @@ export default function Page() {
                   context.
                 </>
               }
-              href="/docs"
+              href="/docs/learn/review-workflow/review-a-build"
               illustration={<InstantDiffInspector />}
             />
             <FeatureGridFeature
@@ -165,7 +165,7 @@ export default function Page() {
                   audit trail for releases and regressions.
                 </>
               }
-              href="/docs"
+              href="/docs/learn/review-workflow/builds-list"
               illustration={<ReviewHistory />}
             />
           </FeatureGrid>
@@ -179,7 +179,7 @@ export default function Page() {
                   instantly.
                 </>
               }
-              href="/docs"
+              href="/docs/learn/how-to-guides/visual-coverage/adding-screenshot-metadata"
               illustration={<TestContext />}
             />
             <FeatureGridFeature
@@ -191,7 +191,7 @@ export default function Page() {
                   pages.
                 </>
               }
-              href="/docs"
+              href="/docs/learn/review-workflow/review-a-build"
               illustration={<GroupedDiffs />}
             />
           </FeatureGrid>
@@ -207,7 +207,7 @@ export default function Page() {
                   automatically when identical changes show up again.
                 </>
               }
-              href="/docs"
+              href="/docs/learn/review-workflow/review-a-build"
               icon={CopyCheckIcon}
             />
             <FeatureGridFeatureSmall
@@ -218,7 +218,7 @@ export default function Page() {
                   navigate without leaving the keyboard.
                 </>
               }
-              href="/docs"
+              href="/docs/learn/review-workflow/review-a-build"
               icon={KeyboardIcon}
             />
             <FeatureGridFeatureSmall
@@ -229,7 +229,7 @@ export default function Page() {
                   blending to isolate real visual changes and ignore noise.
                 </>
               }
-              href="/docs"
+              href="/docs/learn/platform-fundamentals/how-argos-detects-visual-differences"
               icon={SlidersHorizontalIcon}
             />
           </Container>

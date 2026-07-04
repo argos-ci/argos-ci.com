@@ -33,7 +33,7 @@ export function FeaturedSDKsSection() {
             </SectionDescription>
           </SectionHeaderTexts>
           <Button variant="outline" asChild>
-            <Link href="/docs">Explore all SDKs</Link>
+            <Link href="/docs/quickstart">Explore all SDKs</Link>
           </Button>
         </SectionHeader>
         <ul className="flex flex-1 flex-col gap-8 md:flex-row md:flex-wrap md:items-start md:justify-center md:px-8 md:py-24">
