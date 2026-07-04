@@ -66,8 +66,8 @@ export default function Page() {
   return (
     <>
       <div className="overflow-hidden border-b px-4">
-        <Container className="relative py-16 md:h-75 md:py-24">
-          <FullPageGrid height="h-200 md:h-75" />
+        <Container className="relative py-16 md:h-96 md:py-24">
+          <FullPageGrid height="h-200 md:h-96" />
           <Hero align="center" className="relative">
             <HeroHeading>Pricing calculator</HeroHeading>
             <HeroDescription>
