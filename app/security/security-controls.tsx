@@ -1,93 +1,79 @@
-import clsx from "clsx";
-import "lucide-react";
-import { CircleCheck } from "lucide-react";
+import {
+  DatabaseIcon,
+  EyeOffIcon,
+  KeyRoundIcon,
+  LockIcon,
+  ScanEyeIcon,
+  ShieldCheckIcon,
+  type LucideIcon,
+} from "lucide-react";
 
-export type SecurityControlCategory = {
+export type SecurityHighlight = {
+  icon: LucideIcon;
   title: string;
-  controls: string[];
+  description: string;
 };
 
-export const SECURITY_CONTROL_CATEGORIES: SecurityControlCategory[] = [
+export const SECURITY_HIGHLIGHTS: SecurityHighlight[] = [
   {
-    title: "Infrastructure Security",
-    controls: [
-      "CloudTrail with integrity validation enabled",
-      "Intrusion detection system active (AWS)",
-      "Firewall blocks all traffic by default",
-    ],
+    icon: ScanEyeIcon,
+    title: "Open source, auditable",
+    description:
+      "Every line of the platform and the SDKs is public. Read the code, verify our claims, and send a PR.",
   },
   {
-    title: "Access Management",
-    controls: [
-      "MFA enforced on GitHub and infrastructure",
-      "IAM user keys rotate every 90 days",
-      "Access reviews completed regularly",
-    ],
+    icon: KeyRoundIcon,
+    title: "Encrypted access tokens",
+    description:
+      "Your GitHub and GitLab access tokens are encrypted at rest, never stored in plain text.",
   },
   {
-    title: "Data Protection",
-    controls: [
-      "Customer data deleted upon leaving",
-      "Data encrypted at rest and in transit",
-      "Daily backups performed (Heroku)",
-    ],
+    icon: DatabaseIcon,
+    title: "Screenshots on secure S3",
+    description:
+      "Stored on AWS S3 in the US, encrypted at rest and in transit with modern protocols.",
   },
   {
-    title: "Vulnerability Management",
-    controls: [
-      "Automated vulnerability scans performed",
-      "Critical vulnerabilities promptly remediated",
-      "Penetration tests conducted regularly",
-    ],
+    icon: ShieldCheckIcon,
+    title: "SOC 2 Type II",
+    description:
+      "Independently audited controls across infrastructure, access management, and data protection.",
   },
   {
-    title: "Organizational Policies",
-    controls: [
-      "Cybersecurity insurance maintained",
-      "Disaster recovery plans tested",
-      "Asset disposal policies enforced",
-    ],
+    icon: EyeOffIcon,
+    title: "No source code access",
+    description:
+      "Argos never needs your source. An optional GitHub mode works without any content permission.",
   },
   {
-    title: "Development Practices",
-    controls: [
-      "Branch protection rules enforced",
-      "Code reviewed by a different author",
-      "Private GitHub repositories",
-    ],
+    icon: LockIcon,
+    title: "Least-privilege access",
+    description:
+      "Access to your data is role-based, logged, and monitored, and deleted when you leave.",
   },
 ];
 
-export function SecurityControls(props: {
-  categories: SecurityControlCategory[];
-}) {
-  const { categories } = props;
+export function SecurityHighlights(props: { highlights: SecurityHighlight[] }) {
+  const { highlights } = props;
   return (
-    <div>
-      <div className="grid w-full grid-cols-1 border-t text-left sm:grid-cols-2 md:flex-row lg:grid-cols-3">
-        {categories.map((category) => (
+    <div className="-mb-px grid w-full grid-cols-1 border-t text-left sm:grid-cols-2 lg:grid-cols-3">
+      {highlights.map((highlight) => {
+        const Icon = highlight.icon;
+        return (
           <div
-            key={category.title}
-            className={clsx(
-              "flex flex-col gap-4 p-4 md:p-10",
-              "md:border-b",
-              "max-sm:border-r-0 md:border-r md:max-lg:nth-[2n]:border-r-0 lg:nth-[3n]:border-r-0",
-            )}
+            key={highlight.title}
+            className="flex flex-col gap-3 border-b border-r p-6 max-sm:border-r-0 sm:max-lg:nth-[2n]:border-r-0 md:p-10 lg:nth-[3n]:border-r-0"
           >
-            <h4 className="text-left text-xl">{category.title}</h4>
-            <ul className="flex flex-col gap-4">
-              {category.controls.map((control) => (
-                <li key={control} className="flex gap-2">
-                  <CircleCheck className="size-5 shrink-0 text-(--violet-8)" />
-                  <div className="text-sm">{control}</div>
-                </li>
-              ))}
-            </ul>
-            <p className="text-sm">and more…</p>
+            <div className="bg-app flex size-10 items-center justify-center rounded-lg border">
+              <Icon className="size-5 text-(--violet-9)" strokeWidth={1.5} />
+            </div>
+            <h4 className="text-lg font-medium">{highlight.title}</h4>
+            <p className="text-low text-sm leading-relaxed">
+              {highlight.description}
+            </p>
           </div>
-        ))}
-      </div>
-      <div className="h-10" />
+        );
+      })}
     </div>
   );
 }

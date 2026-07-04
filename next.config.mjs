@@ -35,6 +35,16 @@ const nextConfig = {
         permanent: true,
       },
       {
+        source: "/security/soc-2",
+        destination: "/security#soc-2",
+        permanent: true,
+      },
+      {
+        source: "/security/gdpr",
+        destination: "/security#gdpr",
+        permanent: true,
+      },
+      {
         source: "/mui-org/material-ui",
         destination: "/customers/mui",
         permanent: true,
