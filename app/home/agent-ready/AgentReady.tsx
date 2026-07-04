@@ -1,19 +1,13 @@
-import {
-  ClipboardCheckIcon,
-  RefreshCwIcon,
-  ScanEyeIcon,
-  TerminalIcon,
-} from "lucide-react";
+import { ClipboardCheckIcon, RefreshCwIcon, ScanEyeIcon } from "lucide-react";
 import Link from "next/link";
 
-import { ArgosEmblem } from "@/components/ArgosEmblem";
-import { Badge } from "@/components/Badge";
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
-import { DotIndicator } from "@/components/DotIndicator";
 import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
 import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
 import { SectionDescription, SectionTitle } from "@/components/Typography";
+
+import { AgentTerminal } from "./AgentTerminal";
 
 const POINTS = [
   {
@@ -68,7 +62,7 @@ export function AgentReady() {
               </li>
             ))}
           </ul>
-          <div className="relative flex items-center justify-center p-6 md:p-10">
+          <div className="relative flex cursor-default items-center justify-center p-6 md:p-10">
             <AgentTerminal />
           </div>
         </div>
@@ -77,51 +71,3 @@ export function AgentReady() {
   );
 }
 
-function AgentTerminal() {
-  return (
-    <div className="bg-app animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both w-full max-w-md overflow-hidden rounded-xl border-[0.5px] shadow-md/7">
-      <div className="flex items-center justify-between border-b-[0.5px] px-3 py-2">
-        <div className="text-low flex items-center gap-2 text-xs font-medium">
-          <TerminalIcon className="size-3.5" />
-          agent · terminal
-        </div>
-        <Badge className="text-low text-xxs gap-1">
-          <ArgosEmblem className="size-3 text-(--violet-11)" />
-          @argos-ci/cli
-        </Badge>
-      </div>
-      <div className="text-xxs space-y-1.5 p-4 font-mono leading-relaxed">
-        <Line prompt>argos build snapshots 1234 --needs-review</Line>
-        <Line muted>→ 3 snapshots changed · 1 flaky · machine-readable</Line>
-        <Line prompt>argos build review 1234 --conclusion approve</Line>
-        <div className="flex items-center gap-2 pt-1">
-          <DotIndicator variant="success" />
-          <span className="text-(--success-11)">
-            Review submitted, safe to merge
-          </span>
-        </div>
-      </div>
-      <div className="flex items-center justify-between border-t-[0.5px] px-3 py-2">
-        <span className="text-low text-xxs">Start a review from any build</span>
-        <Badge className="text-xxs gap-1 border-(--violet-7) text-(--violet-11)">
-          <ClipboardCheckIcon className="size-3" />
-          Copy prompt
-        </Badge>
-      </div>
-    </div>
-  );
-}
-
-function Line(props: {
-  children: React.ReactNode;
-  prompt?: boolean;
-  muted?: boolean;
-}) {
-  const { children, prompt, muted } = props;
-  return (
-    <div className={muted ? "text-low pl-4" : "flex gap-2"}>
-      {prompt ? <span className="text-(--violet-11)">$</span> : null}
-      <span className={prompt ? "text-default" : undefined}>{children}</span>
-    </div>
-  );
-}

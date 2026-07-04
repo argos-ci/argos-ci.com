@@ -11,7 +11,7 @@ import Link from "next/link";
 
 import { Button } from "@/components/Button";
 import { CallToActionSection } from "@/components/CallToActionSection";
-import { Card } from "@/components/Card";
+import { Terminal } from "@/components/Terminal";
 import { Chip } from "@/components/Chip";
 import { CodeBlock } from "@/components/CodeBlock";
 import { Container } from "@/components/Container";
@@ -143,9 +143,9 @@ export default function Page() {
             }
             href="/docs/sdks-reference/argos-command-line-interface-cli"
             illustration={
-              <Card className="w-full max-w-md overflow-hidden p-4 text-left">
+              <Terminal title="Terminal · @argos-ci/cli">
                 <CodeBlock code={cliCode} lang="bash" className="text-xs" />
-              </Card>
+              </Terminal>
             }
           />
         </FeatureGrid>
@@ -161,7 +161,7 @@ export default function Page() {
                 into an agent&apos;s context.
               </>
             }
-            href="/docs/api-reference"
+            href="/docs/learn/review-workflow/review-builds-with-ai-agents"
             icon={FileJson2Icon}
           />
           <FeatureGridFeatureSmall
