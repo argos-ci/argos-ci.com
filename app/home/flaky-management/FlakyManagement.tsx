@@ -1,11 +1,11 @@
-import { BugPlayIcon, FlagOffIcon, WavesIcon } from "lucide-react";
+import { ChartSplineIcon, FlagOffIcon, WavesIcon } from "lucide-react";
 
 import { muiQuote } from "@/app/assets/customers/library/mui";
 import { Button } from "@/components/Button";
 import { Link } from "@/components/Link";
 import { FeatureSection } from "@/components/feature-section/FeatureSection";
 
-import { PlaywrightTrace } from "../test-debugging/features/PlaywrightTrace";
+import { AdvancedAnalytics } from "./features/AdvancedAnalytics";
 import { FlakyIndicator } from "./features/FlakyIndicator";
 import { IgnoreChanges } from "./features/IgnoreChanges";
 
@@ -17,34 +17,34 @@ export function FlakyManagement() {
           key: "flaky-indicator",
           icon: <WavesIcon />,
           title: "Flaky indicator",
-          text: "Highlights unstable changes so you know when a test isn’t reliable.",
+          text: "Highlights unstable changes to know when a test isn’t reliable.",
           main: <FlakyIndicator />,
-          href: "/flaky-management",
+          href: "/docs/learn/reliability-and-flakiness/flaky-test-detection",
+        },
+        {
+          key: "advanced-analytics",
+          icon: <ChartSplineIcon />,
+          title: "Advanced analytics",
+          text: "Track instability trends across builds to uncover recurring issues.",
+          main: <AdvancedAnalytics />,
+          href: "/docs/learn/reliability-and-flakiness/flaky-test-detection",
         },
         {
           key: "ignore-changes",
           icon: <FlagOffIcon />,
-          title: "Ignore the noise",
-          text: "Silence flaky changes to keep your CI signal clean and focused.",
+          title: "Ignore changes",
+          text: "Ignore flaky changes to keep your CI signal clean and focused.",
           main: <IgnoreChanges />,
-          href: "/flaky-management",
-        },
-        {
-          key: "test-debugging",
-          icon: <BugPlayIcon />,
-          title: "Debug every failure",
-          text: "Playwright traces, failure and retry screenshots to see why a test broke.",
-          main: <PlaywrightTrace />,
-          href: "/test-debugging",
+          href: "/docs/learn/reliability-and-flakiness/flaky-test-detection",
         },
       ]}
       color="amber"
-      featureName="Reliability"
-      title="Keep your CI trustworthy at scale"
-      description={`Detect flaky tests, silence the noise, and debug failures fast.\nAs test volume explodes, a green build stays a green build.`}
+      featureName="Flaky Management"
+      title="Keep flakiness under control"
+      description={`Detect, manage and fix flaky tests.\nTrack instability across builds and automatically silence noise.`}
       cta={
         <Button variant="outline" asChild>
-          <Link href="/flaky-management">Explore Reliability</Link>
+          <Link href="/flaky-management">Explore Flaky Management</Link>
         </Button>
       }
       story={{

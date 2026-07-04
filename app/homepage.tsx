@@ -13,6 +13,7 @@ import { Deployments } from "./home/deployments/Deployments";
 import { FlakyManagement } from "./home/flaky-management/FlakyManagement";
 import { Hero } from "./home/hero/Hero";
 import { Integrations } from "./home/integrations/Integrations";
+import { TestDebugging } from "./home/test-debugging/TestDebugging";
 import { VisualTesting } from "./home/visual-testing/VisualTesting";
 
 export const metadata: Metadata = getMetadata({
@@ -34,6 +35,7 @@ export default function Page() {
       <Deployments />
       <Integrations />
       <FlakyManagement />
+      <TestDebugging />
       <Cost />
       <FeaturedSDKsSection />
       <Customers />
