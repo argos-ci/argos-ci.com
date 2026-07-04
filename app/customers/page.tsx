@@ -2,7 +2,6 @@ import clsx from "clsx";
 import { ArrowRightIcon } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
-import * as React from "react";
 
 import { Button } from "@/components/Button";
 import { CallToActionSection } from "@/components/CallToActionSection";
@@ -44,6 +43,31 @@ export const metadata: Metadata = getMetadata({
   pathname: "/customers",
 });
 
+type Cell =
+  | { type: "logo"; company: CustomerCompany }
+  | { type: "quote"; quote: CustomerQuote };
+
+const CELLS: Cell[] = [
+  { type: "logo", company: meta },
+  { type: "logo", company: qonto },
+  { type: "quote", quote: gitbookQuote },
+  { type: "quote", quote: muiQuote },
+  { type: "logo", company: redis },
+  { type: "logo", company: planable },
+  { type: "logo", company: clickhouse },
+  { type: "logo", company: businessInsider },
+  { type: "quote", quote: mermaidQuote },
+  { type: "quote", quote: leMondeQuote },
+  { type: "logo", company: attio },
+  { type: "logo", company: yotpo },
+  { type: "logo", company: doctolib },
+  { type: "quote", quote: pivotQuote },
+  { type: "quote", quote: permitIoQuote },
+  { type: "quote", quote: finvizGintnerQuote },
+  { type: "quote", quote: rapidataQuote },
+  { type: "quote", quote: noc0Quote },
+];
+
 export default function Page() {
   return (
     <>
@@ -53,8 +77,8 @@ export default function Page() {
           <Hero className="relative">
             <HeroHeading>Meet our customers</HeroHeading>
             <HeroDescription>
-              From fast moving startups to large enterprises, teams use Argos to
-              prevent visual regressions and keep UI quality high.
+              From fast-moving startups to large enterprises, teams use Argos to
+              catch every change and ship UI with confidence.
             </HeroDescription>
             <HeroActions>
               <Button size="large" asChild>
@@ -74,122 +98,83 @@ export default function Page() {
           </Hero>
         </Container>
       </div>
-      <div className="px-4">
-        <Container className="grid grid-cols-1 gap-8 border-x py-16 pt-4 md:grid-cols-3 md:pt-10">
-          <Column>
-            <CustomerCard company={meta} />
-            <QuoteCard quote={leMondeQuote} />
-            <CustomerCard company={planable} />
-            <QuoteCard quote={muiQuote} />
-            <CustomerCard company={businessInsider} />
-            <QuoteCard quote={noc0Quote} />
-          </Column>
-          <Column>
-            <QuoteCard quote={mermaidQuote} />
-            <CustomerCard company={attio} />
-            <CustomerCard company={yotpo} />
-            <QuoteCard quote={pivotQuote} />
-            <QuoteCard quote={permitIoQuote} />
-            <CustomerCard company={doctolib} />
-          </Column>
-
-          <Column>
-            <CustomerCard company={redis} />
-            <QuoteCard quote={gitbookQuote} />
-            <CustomerCard company={qonto} />
-            <QuoteCard quote={rapidataQuote} />
-            <CustomerCard company={clickhouse} />
-            <QuoteCard quote={finvizGintnerQuote} />
-          </Column>
+      <section className="px-4">
+        <Container noGutter className="border-x">
+          <div className="grid grid-flow-row-dense grid-cols-2 gap-px bg-(--neutral-6) md:grid-cols-4">
+            {CELLS.map((cell, index) =>
+              cell.type === "logo" ? (
+                <LogoCell key={index} company={cell.company} />
+              ) : (
+                <QuoteCell key={index} quote={cell.quote} />
+              ),
+            )}
+          </div>
         </Container>
-      </div>
+      </section>
       <CallToActionSection />
     </>
   );
 }
 
-function Column(props: { children: React.ReactNode }) {
-  return <div className="flex flex-col gap-8">{props.children}</div>;
+function cellHref(company: CustomerCompany) {
+  return {
+    href: company.storyUrl ?? company.url,
+    target: company.storyUrl ? undefined : "_blank",
+  };
 }
 
-function CardLink(props: {
-  href: string;
-  target?: string;
-  children: React.ReactNode;
-}) {
+function LogoCell(props: { company: CustomerCompany }) {
+  const { company } = props;
   return (
     <Link
-      className={clsx(
-        "group block rounded-lg border shadow-xs outline-hidden transition duration-300",
-        "hover:border-primary-hover hover:shadow-lg",
-        "focus:border-primary-hover focus:shadow-lg",
-      )}
-      {...props}
-    />
-  );
-}
-
-function CardImage(props: { company: CustomerCompany }) {
-  return (
-    <div className="flex items-center justify-center p-8">
-      <ThemeImage
-        className="h-16 w-auto"
-        src={props.company.logo["140x48"]}
-        alt={props.company.name}
-      />
-    </div>
-  );
-}
-
-function CustomerCard(props: {
-  company: CustomerCompany;
-  children?: React.ReactNode;
-}) {
-  const { company, children } = props;
-  return (
-    <CardLink
-      href={company.storyUrl ?? company.url}
-      target={company.storyUrl ? undefined : "_blank"}
+      {...cellHref(company)}
+      className="bg-app flex items-center justify-center p-8 transition duration-200 hover:bg-(--neutral-3)"
     >
-      <CardImage company={company} />
-      {children}
-    </CardLink>
+      <ThemeImage
+        src={company.logo["140x48"]}
+        alt={company.name}
+        className="h-9 w-auto md:h-11"
+      />
+    </Link>
   );
 }
 
-function QuoteCard(props: { quote: CustomerQuote }) {
+function QuoteCell(props: { quote: CustomerQuote }) {
   const { quote } = props;
   return (
-    <CustomerCard company={quote.company}>
-      <div className="border-t p-8">
-        <div className="text-lg [&_strong]:font-semibold">{quote.text}</div>
-        <div className="mt-8 flex justify-between text-sm">
-          <div className="flex items-center gap-2.5">
-            <ThemeImage
-              src={quote.author.avatar}
-              className="size-8 rounded-full border"
-              alt=""
-            />
-            <div>
-              <div className="text-sm font-medium">{quote.author.name}</div>
-              <div className="text-low text-xs font-medium">
-                {quote.author.title}
-              </div>
-            </div>
-          </div>
+    <Link
+      {...cellHref(quote.company)}
+      className="bg-app group col-span-2 flex flex-col gap-6 p-6 transition duration-200 hover:bg-(--neutral-3) md:p-8"
+    >
+      <ThemeImage
+        src={quote.company.logo.adjusted}
+        alt={quote.company.name}
+        className="h-6 w-auto self-start"
+      />
+      <p className="[&_strong]:font-semibold">{quote.text}</p>
+      <div className="mt-auto flex items-center justify-between">
+        <div className="flex items-center gap-2.5">
+          <ThemeImage
+            src={quote.author.avatar}
+            className="size-8 rounded-full border"
+            alt=""
+          />
           <div>
-            <div
-              className={clsx(
-                "rounded-full border p-2 transition duration-300",
-                "group-hover:translate-x-1 group-hover:scale-105",
-                "group-focus:translate-x-1 group-focus:scale-105",
-              )}
-            >
-              <ArrowRightIcon className="size-5" strokeWidth={1} />
+            <div className="text-sm font-medium">{quote.author.name}</div>
+            <div className="text-low text-xs font-medium">
+              {quote.author.title}
             </div>
           </div>
         </div>
+        <div
+          className={clsx(
+            "rounded-full border p-2 transition duration-200",
+            "group-hover:translate-x-1 group-hover:scale-105",
+          )}
+        >
+          <ArrowRightIcon className="size-4" strokeWidth={1.25} />
+        </div>
       </div>
-    </CustomerCard>
+    </Link>
   );
 }
