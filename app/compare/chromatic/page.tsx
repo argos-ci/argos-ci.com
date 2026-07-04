@@ -104,6 +104,7 @@ export default function Page() {
       <HeroSection
         title="Chromatic vs Argos"
         description="Learn how Argos compares to Chromatic and why Argos is the best alternative for visual testing."
+        migrationHref="/docs/learn/how-to-guides/migrate-to-argos/from-chromatic"
         {...emblemProps}
       />
       <TableSection>

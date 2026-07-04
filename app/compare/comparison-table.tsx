@@ -14,7 +14,7 @@ import {
 type Feature = { argos: React.ReactNode; competitor: React.ReactNode };
 
 export type Features = {
-  pricing: Feature;
+  pricing?: Feature;
   snapshotTesting: Feature;
   deployments: Feature;
   collaborativeReviews: Feature;
@@ -71,13 +71,15 @@ export function ComparisonTable(props: {
       />
 
       <tbody>
-        <Tr>
-          <Th>
-            <ThMain>Monthly pricing</ThMain>
-            <ThSubLink href="/pricing">How much it costs per month</ThSubLink>
-          </Th>
-          <Feature feature={props.features.pricing} />
-        </Tr>
+        {props.features.pricing ? (
+          <Tr>
+            <Th>
+              <ThMain>Monthly pricing</ThMain>
+              <ThSubLink href="/pricing">How much it costs per month</ThSubLink>
+            </Th>
+            <Feature feature={props.features.pricing} />
+          </Tr>
+        ) : null}
 
         <Tr>
           <Th>

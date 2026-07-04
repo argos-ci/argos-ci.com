@@ -103,6 +103,8 @@ export const AppFooter: React.FC = () => (
             <FooterLink href="/compare/percy">Percy</FooterLink>
             <FooterLink href="/compare/applitools">Applitools</FooterLink>
             <FooterLink href="/compare/chromatic">Chromatic</FooterLink>
+            <FooterLink href="/compare/playwright">Playwright</FooterLink>
+            <FooterLink href="/compare/backstopjs">BackstopJS</FooterLink>
           </FooterSection>
         </div>
       </div>

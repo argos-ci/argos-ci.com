@@ -103,6 +103,7 @@ export default function Page() {
       <HeroSection
         title="Applitools vs Argos"
         description="Learn how Argos compares to Applitools and why Argos is the best alternative for visual testing."
+        migrationHref="/docs/learn/how-to-guides/migrate-to-argos/from-applitools"
         {...emblemProps}
       />
 
