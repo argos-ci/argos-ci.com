@@ -114,7 +114,7 @@ function SecondaryNavbar() {
                 </SectionList>
               </Section>
               <Section>
-                <SectionTitle>Built for the AI age</SectionTitle>
+                <SectionTitle>Use cases</SectionTitle>
                 <SectionList>
                   <li>
                     <LinkCard

@@ -302,7 +302,7 @@ export default function Page() {
               </SectionDescription>
             </SectionHeaderTexts>
           </SectionHeader>
-          <div className="flex justify-center pt-4">
+          <div className="flex cursor-default justify-center pt-4">
             <SnapshotFiles />
           </div>
         </Container>

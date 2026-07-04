@@ -36,7 +36,7 @@ export function FeatureGridFeature(props: {
   return (
     <div className="relative flex flex-col gap-10 px-4 py-6 sm:px-6 sm:py-14">
       <div
-        className="relative flex h-72 items-center justify-center select-none"
+        className="relative flex h-72 cursor-default items-center justify-center select-none"
         role="presentation"
       >
         {illustration}
