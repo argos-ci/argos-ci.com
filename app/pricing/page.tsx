@@ -13,11 +13,12 @@ import { PricingSlider } from "../common/PricingSlider";
 import { TrustedBy } from "../common/TrustedBy";
 import { PricingCards } from "./PricingCard";
 import { FAQ } from "./PricingFaq";
+import { PricingTable } from "./PricingTable";
 
 export const metadata: Metadata = getMetadata({
   title: "Pricing",
   description:
-    "Pricing built for visual testing at scale. Free to start, no credit card. Scale usage, not seats.",
+    "Simple, usage-based pricing with explicit per-screenshot rates. Free to start, no credit card. Scale usage, not seats.",
   pathname: "/pricing",
 });
 
@@ -28,9 +29,10 @@ export default function Page() {
         <Container className="relative py-16 md:h-75 md:py-24">
           <FullPageGrid height="h-200 md:h-75" />
           <Hero align="center" className="relative">
-            <HeroHeading>Pricing built for visual testing at scale</HeroHeading>
+            <HeroHeading>Pricing that scales with usage, not seats</HeroHeading>
             <HeroDescription>
-              Free to start, no credit card. Scale usage, not seats.
+              Free to start, no credit card. Explicit per-screenshot rates you
+              can read and verify.
             </HeroDescription>
           </Hero>
         </Container>
@@ -40,10 +42,32 @@ export default function Page() {
       <TrustedBy />
       <section className="border-b px-4">
         <Container className="border-x py-12 pb-6 md:py-18 md:pb-12">
-          <SectionTitle className="mb-12 text-center">
+          <SectionTitle className="mb-4 text-center">
             How much does it cost?
           </SectionTitle>
+          <SectionDescription className="mx-auto mb-12 max-w-2xl text-center">
+            Estimate your bill below, or open the{" "}
+            <Link href="/pricing/calculator" className="underline">
+              pricing calculator
+            </Link>{" "}
+            for worked examples at 10K, 100K, and 1M screenshots.
+          </SectionDescription>
           <PricingSlider />
+        </Container>
+      </section>
+
+      <section className="border-b px-4">
+        <Container className="border-x py-12 md:py-18">
+          <SectionTitle className="mb-4 text-center">
+            Pricing details
+          </SectionTitle>
+          <SectionDescription className="mx-auto mb-10 max-w-2xl text-center">
+            Explicit per-plan and per-screenshot rates, readable by humans and
+            AI agents alike.
+          </SectionDescription>
+          <div className="mx-auto max-w-3xl border-y md:rounded-lg md:border">
+            <PricingTable />
+          </div>
         </Container>
       </section>
 
