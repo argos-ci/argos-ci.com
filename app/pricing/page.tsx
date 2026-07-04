@@ -42,16 +42,9 @@ export default function Page() {
       <TrustedBy />
       <section className="border-b px-4">
         <Container className="border-x py-12 pb-6 md:py-18 md:pb-12">
-          <SectionTitle className="mb-4 text-center">
+          <SectionTitle className="mb-12 text-center">
             How much does it cost?
           </SectionTitle>
-          <SectionDescription className="mx-auto mb-12 max-w-2xl text-center">
-            Estimate your bill below, or open the{" "}
-            <Link href="/pricing/calculator" className="underline">
-              pricing calculator
-            </Link>{" "}
-            for worked examples at 10K, 100K, and 1M screenshots.
-          </SectionDescription>
           <PricingSlider />
         </Container>
       </section>

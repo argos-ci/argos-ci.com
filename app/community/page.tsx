@@ -44,8 +44,8 @@ export default function Page() {
   return (
     <>
       <div className="overflow-hidden border-b px-4">
-        <Container className="relative py-16 md:h-112">
-          <FullPageGrid height="h-200 md:h-112" />
+        <Container className="relative py-16 md:h-105">
+          <FullPageGrid height="h-200 md:h-105" />
           <Hero align="center" className="relative">
             <div className="rounded-full border px-3 py-1.5 text-xs font-medium">
               Open source · built in the open
