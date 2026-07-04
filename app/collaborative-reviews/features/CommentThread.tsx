@@ -1,26 +1,24 @@
 "use client";
 
-import clsx from "clsx";
 import {
   CheckCircle2Icon,
   CornerDownRightIcon,
   MessageSquareIcon,
 } from "lucide-react";
 
+import { andrewAvatar, ninaAvatar } from "@/app/assets/people/library";
 import { Badge } from "@/components/Badge";
 import { Card } from "@/components/Card";
+import { ThemeImage, type ThemeImageProps } from "@/components/ThemeImage";
 import { SmallTitle } from "@/components/Typography";
 
-function Avatar(props: { initials: string; className?: string }) {
+function Avatar(props: { src: ThemeImageProps["src"] }) {
   return (
-    <span
-      className={clsx(
-        "grid size-6 shrink-0 place-items-center rounded-full border-[0.5px] text-[0.6rem] font-semibold",
-        props.className,
-      )}
-    >
-      {props.initials}
-    </span>
+    <ThemeImage
+      src={props.src}
+      alt=""
+      className="size-6 shrink-0 rounded-full border object-cover"
+    />
   );
 }
 
@@ -42,18 +40,16 @@ export function CommentThread() {
       </div>
       <div className="space-y-3 p-3">
         <div className="flex gap-2.5">
-          <Avatar
-            initials="JD"
-            className="bg-(--primary-3) text-(--primary-11)"
-          />
+          <Avatar src={ninaAvatar} />
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-medium">Jane</span>
+              <span className="text-xs font-medium">Nina</span>
               <span className="text-low text-xxs">2m ago</span>
             </div>
             <p className="text-low mt-0.5 text-xs">
               The logo shifted 4px right here. Intended? <br />
-              <span className="text-(--primary-11)">@sam</span> can you confirm?
+              <span className="text-(--primary-11)">@andrew</span> can you
+              confirm?
             </p>
             <div className="mt-1.5 flex items-center gap-2">
               <Badge className="text-xxs">👍 2</Badge>
@@ -63,10 +59,10 @@ export function CommentThread() {
         </div>
         <div className="flex gap-2.5 pl-4">
           <CornerDownRightIcon className="text-low mt-1 size-3 shrink-0" />
-          <Avatar initials="SM" className="bg-(--teal-3) text-(--teal-11)" />
+          <Avatar src={andrewAvatar} />
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-medium">Sam</span>
+              <span className="text-xs font-medium">Andrew</span>
               <span className="text-low text-xxs">just now</span>
             </div>
             <p className="text-low mt-0.5 text-xs">

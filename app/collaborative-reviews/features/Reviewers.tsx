@@ -3,47 +3,46 @@
 import clsx from "clsx";
 import { CheckIcon, ClockIcon, XIcon } from "lucide-react";
 
+import { andrewAvatar, ninaAvatar } from "@/app/assets/people/library";
+import { ArgosEmblem } from "@/components/ArgosEmblem";
 import { Badge } from "@/components/Badge";
 import { Card } from "@/components/Card";
 import { DotIndicator } from "@/components/DotIndicator";
+import { ThemeImage, type ThemeImageProps } from "@/components/ThemeImage";
 import { SmallTitle } from "@/components/Typography";
 
 type Verdict = "approved" | "changes" | "pending";
 
-const REVIEWERS: Array<{
-  initials: string;
+type Reviewer = {
   name: string;
   time: string;
   online: boolean;
   verdict: Verdict;
-}> = [
+  avatar?: ThemeImageProps["src"];
+  agent?: boolean;
+};
+
+const REVIEWERS: Reviewer[] = [
   {
-    initials: "JD",
-    name: "Jane",
+    name: "Nina",
     time: "10:24 local",
     online: true,
     verdict: "approved",
+    avatar: ninaAvatar,
   },
   {
-    initials: "SM",
-    name: "Sam",
+    name: "Andrew",
     time: "17:24 local",
     online: true,
     verdict: "changes",
+    avatar: andrewAvatar,
   },
   {
-    initials: "AI",
     name: "Argos Agent",
     time: "via CLI",
     online: false,
     verdict: "approved",
-  },
-  {
-    initials: "PL",
-    name: "Priya",
-    time: "requested",
-    online: false,
-    verdict: "pending",
+    agent: true,
   },
 ];
 
@@ -85,14 +84,19 @@ export function Reviewers() {
       </div>
       <ul className="divide-y">
         {REVIEWERS.map((reviewer) => (
-          <li
-            key={reviewer.name}
-            className="flex items-center gap-3 px-3 py-2.5"
-          >
+          <li key={reviewer.name} className="flex items-center gap-3 px-3 py-2.5">
             <span className="relative">
-              <span className="grid size-7 place-items-center rounded-full border-[0.5px] bg-(--neutral-3) text-[0.6rem] font-semibold">
-                {reviewer.initials}
-              </span>
+              {reviewer.agent ? (
+                <span className="grid size-7 place-items-center rounded-full border-[0.5px] bg-(--violet-3)">
+                  <ArgosEmblem className="size-4 text-(--violet-11)" />
+                </span>
+              ) : (
+                <ThemeImage
+                  src={reviewer.avatar!}
+                  alt=""
+                  className="size-7 rounded-full border object-cover"
+                />
+              )}
               {reviewer.online ? (
                 <span className="absolute -right-0.5 -bottom-0.5">
                   <DotIndicator variant="success" />
