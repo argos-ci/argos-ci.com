@@ -1,21 +1,13 @@
-import {
-  GlobeIcon,
-  LockIcon,
-  RocketIcon,
-  ShieldCheckIcon,
-} from "lucide-react";
+import { GlobeIcon, RocketIcon, ShieldCheckIcon } from "lucide-react";
 import Link from "next/link";
 
-import { storybook } from "@/app/assets/brands/library";
-import { ArgosEmblem } from "@/components/ArgosEmblem";
-import { Badge } from "@/components/Badge";
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
-import { DotIndicator } from "@/components/DotIndicator";
 import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
-import { ThemeImage } from "@/components/ThemeImage";
 import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
 import { SectionDescription, SectionTitle } from "@/components/Typography";
+
+import { DeployPreview } from "./DeployPreview";
 
 const POINTS = [
   {
@@ -54,7 +46,7 @@ export function Deployments() {
           </Button>
         </SectionHeader>
         <div className="grid border-t md:grid-cols-2">
-          <div className="relative flex items-center justify-center border-b p-6 md:border-r md:border-b-0 md:p-10">
+          <div className="relative flex cursor-default items-center justify-center border-b p-6 md:border-r md:border-b-0 md:p-10">
             <DeployPreview />
           </div>
           <ul className="flex flex-col divide-y">
@@ -74,72 +66,5 @@ export function Deployments() {
         </div>
       </Container>
     </section>
-  );
-}
-
-function DeployPreview() {
-  return (
-    <div className="bg-app animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both w-full max-w-md overflow-hidden rounded-xl border-[0.5px] shadow-md/7">
-      <div className="flex items-center gap-2 border-b-[0.5px] px-3 py-2">
-        <ArgosEmblem className="size-4 text-(--teal-11)" />
-        <span className="text-xs font-medium">Argos Deployment</span>
-        <Badge className="text-xxs ml-auto gap-1 border-(--success-7) text-(--success-11)">
-          <DotIndicator variant="success" />
-          Ready
-        </Badge>
-      </div>
-      <div className="space-y-3 p-4">
-        <EnvRow
-          icon={
-            <ThemeImage src={storybook.logo} alt="" className="size-4" />
-          }
-          label="Preview"
-          url="pr-482.storybook.argos.app"
-          tag="feat/checkout"
-          tone="teal"
-        />
-        <EnvRow
-          icon={<GlobeIcon className="size-4 text-(--primary-11)" />}
-          label="Production"
-          url="storybook.acme.com"
-          tag="main"
-          tone="primary"
-        />
-      </div>
-      <div className="flex items-center gap-2 border-t-[0.5px] px-3 py-2">
-        <LockIcon className="text-low size-3" />
-        <span className="text-low text-xxs">
-          Preview private to your team · Production public
-        </span>
-      </div>
-    </div>
-  );
-}
-
-function EnvRow(props: {
-  icon: React.ReactNode;
-  label: string;
-  url: string;
-  tag: string;
-  tone: "teal" | "primary";
-}) {
-  const { icon, label, url, tag, tone } = props;
-  const toneClass = {
-    teal: "border-(--teal-7) text-(--teal-11)",
-    primary: "border-(--primary-7) text-(--primary-11)",
-  }[tone];
-  return (
-    <div className="flex items-center gap-3 rounded-lg border-[0.5px] p-2.5">
-      <span className="bg-app grid size-8 shrink-0 place-items-center rounded-md border-[0.5px]">
-        {icon}
-      </span>
-      <div className="min-w-0 flex-1">
-        <div className="flex items-center gap-2">
-          <span className="text-sm font-medium">{label}</span>
-          <Badge className={`text-xxs ${toneClass}`}>{tag}</Badge>
-        </div>
-        <div className="text-low truncate font-mono text-xs">{url}</div>
-      </div>
-    </div>
   );
 }
