@@ -3,12 +3,14 @@ import {
   BotIcon,
   FileJson2Icon,
   KeyRoundIcon,
+  PlugIcon,
   TerminalIcon,
   WorkflowIcon,
 } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
 
+import { Badge } from "@/components/Badge";
 import { Button } from "@/components/Button";
 import { CallToActionSection } from "@/components/CallToActionSection";
 import { Terminal } from "@/components/Terminal";
@@ -46,6 +48,15 @@ export const metadata: Metadata = getMetadata({
     "Argos is 100% agent-ready. Agents see exactly what their PR changed, iterate to fix their own mistakes, and review builds from the CLI and REST API, so you merge AI-generated code with confidence.",
   pathname: "/ai-agents",
 });
+
+const mcpCode = `{
+  "mcpServers": {
+    "argos": {
+      "command": "npx",
+      "args": ["-y", "@argos-ci/mcp"]
+    }
+  }
+}`;
 
 const cliCode = `npm install -D @argos-ci/cli
 
@@ -188,6 +199,29 @@ export default function Page() {
           />
         </Container>
         <Container className="h-12 border-x border-b" />
+      </section>
+      <section className="border-b px-4">
+        <Container className="border-x py-12 md:py-18">
+          <SectionHeader align="center" className="container-gutter max-w-2xl">
+            <Chip icon={PlugIcon}>Coming soon</Chip>
+            <SectionHeaderTexts>
+              <SectionTitle>Connect your agents with the Argos MCP</SectionTitle>
+              <SectionDescription>
+                The Argos MCP server lets any MCP-compatible agent, like Claude
+                or Cursor, inspect builds, read diffs, and submit reviews
+                natively. No glue code, no custom integration.
+              </SectionDescription>
+            </SectionHeaderTexts>
+          </SectionHeader>
+          <div className="mx-auto mt-10 max-w-md">
+            <Terminal
+              title="mcp.json"
+              right={<Badge>Coming soon</Badge>}
+            >
+              <CodeBlock code={mcpCode} lang="json" className="text-xs" />
+            </Terminal>
+          </div>
+        </Container>
       </section>
       <QuoteBlock quote={gitbookAgentQuote} className="border-b" />
       <section className="px-4">
