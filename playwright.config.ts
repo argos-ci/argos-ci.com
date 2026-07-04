@@ -53,6 +53,12 @@ export default defineConfig({
     trace: "on-first-retry",
     // Capture screenshot after each test failure.
     screenshot: "only-on-failure",
+
+    // Stabilize text rendering so screenshots match across macOS and CI.
+    // https://argos-ci.com/docs/quickstart/playwright-quickstart
+    launchOptions: {
+      args: ["--disable-lcd-text", "--font-render-hinting=none"],
+    },
   },
 
   /* Boot a local production server when we are not testing a deployment. */
