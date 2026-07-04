@@ -16,8 +16,8 @@ export function VisualTesting() {
         {
           key: "fast-approval-flow",
           icon: <ThumbsUpIcon />,
-          title: "Confidence to merge",
-          text: "See exactly what a PR changes, then review, approve, and ship in seconds.",
+          title: "Review at a glance",
+          text: "Baseline and changes side by side, with a built-in highlighter and keyboard shortcuts to approve or reject in seconds.",
           main: <FastApprovalFlow />,
           href: "/visual-testing",
         },
@@ -32,8 +32,8 @@ export function VisualTesting() {
         {
           key: "smart-detection",
           icon: <ScanEyeIcon />,
-          title: "Smart detection",
-          text: "Built-in stabilization filters out noise for cleaner, more reliable diffs.",
+          title: "Only the real changes",
+          text: "Deterministic pixel diffing catches the real change and ignores rendering noise, so every diff you review matters.",
           main: <Stabilization />,
           href: "/visual-testing",
         },
