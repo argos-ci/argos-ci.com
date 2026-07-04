@@ -3,3 +3,5 @@ allowBuilds:
   unrs-resolver: true
 overrides:
   postcss: ^8.5.14
+  react: ^19.2.0
+  react-dom: ^19.2.0
