@@ -33,7 +33,7 @@ import { SectionDescription, SectionTitle } from "@/components/Typography";
 import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
 import { getMetadata } from "@/lib/metadata";
 
-import { pivotQuote } from "../assets/customers/library/pivot";
+import { leMondeReviewsQuote } from "../assets/customers/library/le-monde";
 import { TrustedBy } from "../common/TrustedBy";
 import { trackDemoClick, trackSignupClick } from "../google-ads";
 import { CommentThread } from "./features/CommentThread";
@@ -66,8 +66,8 @@ export default function Page() {
             <HeroDescription>
               Request the reviewers you need, pin comments to the exact pixel or
               line that changed, and resolve the discussion together. Every
-              reviewer&apos;s decision counts—so a build reflects the whole team,
-              not just the last click.
+              reviewer&apos;s decision counts, so a build reflects the whole
+              team, not just the last click.
             </HeroDescription>
             <HeroActions>
               <Button size="large" asChild>
@@ -140,7 +140,7 @@ export default function Page() {
               description={
                 <>
                   Gather comments into a pending review that stays private until
-                  you submit—then notifies everyone at once, GitHub-style.
+                  you submit, then notifies everyone at once, GitHub-style.
                 </>
               }
               href="/docs/learn/review-workflow/review-a-build"
@@ -172,7 +172,7 @@ export default function Page() {
           <Container className="h-12 border-x border-b" />
         </div>
       </section>
-      <QuoteBlock quote={pivotQuote} className="border-b" />
+      <QuoteBlock quote={leMondeReviewsQuote} className="border-b" />
       <section className="px-4">
         <Container
           noGutter
@@ -206,7 +206,7 @@ export default function Page() {
             description={
               <>
                 Dismiss and list reviews, full comment CRUD, replies, reactions,
-                and thread resolve—all in the public REST API.
+                and thread resolve, all in the public REST API.
               </>
             }
             href="/docs/api-reference"

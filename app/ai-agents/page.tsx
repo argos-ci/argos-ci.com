@@ -33,7 +33,7 @@ import { SectionDescription, SectionTitle } from "@/components/Typography";
 import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
 import { getMetadata } from "@/lib/metadata";
 
-import { finvizGintnerQuote } from "../assets/customers/library/finviz";
+import { gitbookAgentQuote } from "../assets/customers/library/gitbook";
 import { TrustedBy } from "../common/TrustedBy";
 import { trackDemoClick, trackSignupClick } from "../google-ads";
 import { AgentLoop } from "./features/AgentLoop";
@@ -43,7 +43,7 @@ export const metadata: Metadata = getMetadata({
   title: "Argos for AI Agents",
   absoluteTitle: "Argos for AI Agents · Merge AI-generated code with confidence",
   description:
-    "Argos is 100% agent-ready. Agents see exactly what their PR changed, iterate to fix their own mistakes, and review builds from the CLI and REST API—so you merge AI-generated code with confidence.",
+    "Argos is 100% agent-ready. Agents see exactly what their PR changed, iterate to fix their own mistakes, and review builds from the CLI and REST API, so you merge AI-generated code with confidence.",
   pathname: "/ai-agents",
 });
 
@@ -53,7 +53,7 @@ const cliCode = `npm install -D @argos-ci/cli
 argos build get <build>
 argos build snapshots <build> --needs-review
 
-# Submit a decision — respects project permissions
+# Submit a decision (respects project permissions)
 argos build review <build> --conclusion approve`;
 
 const color = "violet" as const;
@@ -122,8 +122,9 @@ export default function Page() {
             description={
               <>
                 Every build exposes machine-readable snapshot data. An agent can
-                read what moved—pixels, Markdown, or JSON—and compare it against
-                the PR intent. From any build, <strong>Copy prompt</strong>{" "}
+                read what moved, whether pixels, Markdown, or JSON, and compare
+                it against the PR intent. From any build,{" "}
+                <strong>Copy prompt</strong>{" "}
                 hands it the build URL, PR context, and review guidance.
               </>
             }
@@ -135,7 +136,7 @@ export default function Page() {
             description={
               <>
                 Fetch build status, list snapshots that still need review, and
-                submit an approval or request changes—without leaving the
+                submit an approval or request changes, without leaving the
                 terminal. Reviews use personal access tokens and respect existing
                 project permissions.
               </>
@@ -179,7 +180,7 @@ export default function Page() {
             description={
               <>
                 Agents authenticate with personal access tokens and inherit your
-                project permissions—no broad access required.
+                project permissions, with no broad access required.
               </>
             }
             href="/docs/sdks-reference/argos-command-line-interface-cli"
@@ -188,7 +189,7 @@ export default function Page() {
         </Container>
         <Container className="h-12 border-x border-b" />
       </section>
-      <QuoteBlock quote={finvizGintnerQuote} className="border-b" />
+      <QuoteBlock quote={gitbookAgentQuote} className="border-b" />
       <section className="px-4">
         <Container
           noGutter
@@ -198,8 +199,8 @@ export default function Page() {
             title="Any agent, any CI"
             description={
               <>
-                The CLI runs anywhere your agents and pipelines run—no special
-                integration needed.
+                The CLI runs anywhere your agents and pipelines run, with no
+                special integration needed.
               </>
             }
             href="/docs/sdks-reference/argos-command-line-interface-cli"
@@ -220,7 +221,8 @@ export default function Page() {
             title="Confidence to merge"
             description={
               <>
-                See every change before it ships, whoever—or whatever—wrote it.
+                See every change before it ships, whoever (or whatever) wrote
+                it.
               </>
             }
             href="/visual-testing"

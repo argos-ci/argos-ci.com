@@ -52,7 +52,7 @@ export function CommentThread() {
               <span className="text-low text-xxs">2m ago</span>
             </div>
             <p className="text-low mt-0.5 text-xs">
-              The logo shifted 4px right here — intended? <br />
+              The logo shifted 4px right here. Intended? <br />
               <span className="text-(--primary-11)">@sam</span> can you confirm?
             </p>
             <div className="mt-1.5 flex items-center gap-2">
@@ -70,7 +70,7 @@ export function CommentThread() {
               <span className="text-low text-xxs">just now</span>
             </div>
             <p className="text-low mt-0.5 text-xs">
-              Good catch — pushing a fix now.
+              Good catch, pushing a fix now.
             </p>
           </div>
         </div>

@@ -19,7 +19,7 @@ export const metadata: Metadata = getMetadata({
   title: "About",
   absoluteTitle: "About Argos | Our Mission and Approach to Product Quality",
   description:
-    "Discover the story behind Argos, our mission, and how we help engineering teams keep product quality high—and merge with confidence—in the age of AI agents.",
+    "Discover the story behind Argos, our mission, and how we help engineering teams keep product quality high, and merge with confidence, in the age of AI agents.",
   pathname: "/about",
 });
 
@@ -48,7 +48,7 @@ export default function SecurityPage() {
           <SectionTitle className="mb-8">What is Argos?</SectionTitle>
           <p className="my-4 text-xl font-medium text-balance">
             Argos is the platform that keeps product quality high in the age of
-            AI agents—showing your team and your agents exactly what every
+            AI agents. It shows your team and your agents exactly what every
             change does, so you can merge with confidence.
           </p>
           <ThemeImage

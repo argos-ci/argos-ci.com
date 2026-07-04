@@ -38,8 +38,8 @@ export function Hero() {
             </HeroHeading>
             <HeroDescription>
               Agents ship UI, Markdown, and JSON faster than anyone can review by
-              eye. Argos shows exactly what every PR changes—and lets your team
-              and your agents review it—so you merge with confidence.
+              eye. Argos shows exactly what every PR changes, and lets your team
+              and your agents review it, so you merge with confidence.
             </HeroDescription>
             <HeroActions>
               <Button size="large" asChild>

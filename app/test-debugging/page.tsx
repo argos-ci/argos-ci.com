@@ -53,8 +53,8 @@ export default function Page() {
             <HeroHeading>See why your E2E fails</HeroHeading>
             <HeroDescription>
               Investigate failed tests from Playwright and Cypress with full
-              visual context. See what broke and why—instantly, right in your
-              CI—so you (or your agent) can fix it fast.
+              visual context. See what broke and why, instantly, right in your
+              CI, so you (or your agent) can fix it fast.
             </HeroDescription>
             <HeroActions>
               <Button size="large" asChild>

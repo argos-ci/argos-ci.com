@@ -32,7 +32,7 @@ import { SectionDescription, SectionTitle } from "@/components/Typography";
 import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
 import { getMetadata } from "@/lib/metadata";
 
-import { gitbookQuote } from "../assets/customers/library/gitbook";
+import { muiDeploymentsQuote } from "../assets/customers/library/mui";
 import { TrustedBy } from "../common/TrustedBy";
 import { trackDemoClick, trackSignupClick } from "../google-ads";
 import { DeployUrlCard } from "./features/DeployUrlCard";
@@ -43,7 +43,7 @@ export const metadata: Metadata = getMetadata({
   absoluteTitle:
     "Argos Deployments · Deploy Storybook & static builds on every PR",
   description:
-    "Deploy Storybook, Vite, Next.js exports, or any static build to Argos on every pull request. Live preview URLs, a production domain, and access protection—no extra infra.",
+    "Deploy Storybook, Vite, Next.js exports, or any static build to Argos on every pull request. Live preview URLs, a production domain, and access protection, with no extra infra.",
   pathname: "/deployments",
 });
 
@@ -63,7 +63,7 @@ export default function Page() {
             <HeroDescription>
               Run <code className="font-mono">argos deploy</code> and get a live,
               shareable URL for every PR. Preview what your team and your agents
-              built before you merge—no extra infrastructure to maintain.
+              built before you merge, with no extra infrastructure to maintain.
             </HeroDescription>
             <HeroActions>
               <Button size="large" asChild>
@@ -107,9 +107,9 @@ export default function Page() {
               description={
                 <>
                   <code className="font-mono">argos deploy ./storybook-static</code>{" "}
-                  ships your build to a unique, immutable URL—perfect for sharing
-                  a change with reviewers, designers, or an agent before it
-                  merges.
+                  ships your build to a unique, immutable URL, perfect for
+                  sharing a change with reviewers, designers, or an agent before
+                  it merges.
                 </>
               }
               href="/docs/learn/deployments"
@@ -136,7 +136,7 @@ export default function Page() {
               title="Works with your stack"
               description={
                 <>
-                  Storybook, Vite, Next.js exports, or plain HTML—anything that
+                  Storybook, Vite, Next.js exports, or plain HTML. Anything that
                   builds to a static directory.
                 </>
               }
@@ -169,7 +169,7 @@ export default function Page() {
           <Container className="h-12 border-x border-b" />
         </div>
       </section>
-      <QuoteBlock quote={gitbookQuote} className="border-b" />
+      <QuoteBlock quote={muiDeploymentsQuote} className="border-b" />
       <section className="px-4">
         <Container
           noGutter

@@ -29,7 +29,7 @@ const POINTS = [
   {
     icon: ClipboardCheckIcon,
     title: "Agents review from the CLI",
-    text: "Inspect a build, list what needs review, and submit a decision — or hit Copy prompt to hand an agent the full context.",
+    text: "Inspect a build, list what needs review, and submit a decision, or hit Copy prompt to hand an agent the full context.",
   },
 ];
 
@@ -44,7 +44,7 @@ export function AgentReady() {
             </FeatureIndicator>
             <SectionTitle>100% agent-ready</SectionTitle>
             <SectionDescription className="max-w-2xl">
-              Your agents write the code. Argos gives them — and you — the ground
+              Your agents write the code. Argos gives them (and you) the ground
               truth of what actually changed, from the same CLI and REST API they
               already use.
             </SectionDescription>
@@ -97,7 +97,7 @@ function AgentTerminal() {
         <div className="flex items-center gap-2 pt-1">
           <DotIndicator variant="success" />
           <span className="text-(--success-11)">
-            Review submitted — safe to merge
+            Review submitted, safe to merge
           </span>
         </div>
       </div>

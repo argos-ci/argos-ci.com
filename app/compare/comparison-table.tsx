@@ -83,7 +83,7 @@ export function ComparisonTable(props: {
           <Th>
             <ThMain>Snapshot testing for any file</ThMain>
             <ThSubLink href="/visual-testing">
-              Diff Markdown, JSON, HTML and more — not just images
+              Diff Markdown, JSON, HTML and more, not just images
             </ThSubLink>
           </Th>
           <Feature feature={props.features.snapshotTesting} />

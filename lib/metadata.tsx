@@ -6,7 +6,7 @@ export const defaultTitle =
   "Argos · Product quality for the age of AI agents";
 
 export const defaultDescription =
-  "Argos keeps product quality high while your team and your agents ship faster. See every change a PR makes—pixels, Markdown, or JSON—review it with confidence, and deploy every PR. Visual & snapshot testing for Playwright and Storybook.";
+  "Argos keeps product quality high while your team and your agents ship faster. See every change a PR makes, whether pixels, Markdown, or JSON, review it with confidence, and deploy every PR. Visual & snapshot testing for Playwright and Storybook.";
 
 export function getMetadata(
   props: {

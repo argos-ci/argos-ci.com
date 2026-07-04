@@ -60,3 +60,15 @@ export const leMondeMariusQuote: CustomerQuote = {
   ),
   author: mariusBaron,
 };
+
+export const leMondeReviewsQuote: CustomerQuote = {
+  company: leMonde,
+  text: (
+    <>
+      Pinning a comment to the <strong>exact thing that changed</strong> ended
+      our endless back and forth. Reviews now happen in a{" "}
+      <strong>single thread, in real time</strong>.
+    </>
+  ),
+  author: paulLaleu,
+};

@@ -20,7 +20,7 @@ const STEPS: Array<{
   {
     icon: GitPullRequestIcon,
     title: "Your agent opens a PR",
-    text: "New UI, Markdown, or JSON — shipped in minutes.",
+    text: "New UI, Markdown, or JSON, shipped in minutes.",
     tone: "violet",
   },
   {
@@ -32,7 +32,7 @@ const STEPS: Array<{
   {
     icon: WandSparklesIcon,
     title: "The agent reads it and fixes",
-    text: "It sees its own mistake and iterates — before you look.",
+    text: "It sees its own mistake and iterates, before you look.",
     tone: "amber",
   },
   {

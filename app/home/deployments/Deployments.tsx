@@ -21,7 +21,7 @@ const POINTS = [
   {
     icon: RocketIcon,
     title: "A live preview on every PR",
-    text: "Run argos deploy ./storybook-static and get a unique, shareable URL for each pull request — no extra infra to maintain.",
+    text: "Run argos deploy ./storybook-static and get a unique, shareable URL for each pull request, with no extra infra to maintain.",
   },
   {
     icon: GlobeIcon,
@@ -31,7 +31,7 @@ const POINTS = [
   {
     icon: ShieldCheckIcon,
     title: "Access protection",
-    text: "Keep previews private to your team while leaving production public — or lock everything behind Argos login.",
+    text: "Keep previews private to your team while leaving production public, or lock everything behind Argos login.",
   },
 ];
 
@@ -45,7 +45,7 @@ export function Deployments() {
             <SectionTitle>Deploy Storybook on every PR</SectionTitle>
             <SectionDescription className="max-w-2xl">
               Turn Argos into a host for your static builds. Storybook, Vite,
-              Next.js exports, or plain HTML — deployed to a live URL and wired
+              Next.js exports, or plain HTML, deployed to a live URL and wired
               straight into your pull request.
             </SectionDescription>
           </SectionHeaderTexts>

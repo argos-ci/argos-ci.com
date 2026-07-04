@@ -47,6 +47,7 @@ import { FeaturesCarousel } from "@/components/feature-section/FeaturesCarousel"
 import { FeaturedSDKsSection } from "@/components/featured-sdk/FeaturedSDKs";
 import { getMetadata } from "@/lib/metadata";
 
+import { mermaidSnapshotQuote } from "../assets/customers/library/mermaid";
 import { pivotQuote } from "../assets/customers/library/pivot";
 import { TrustedBy } from "../common/TrustedBy";
 import { trackDemoClick } from "../google-ads";
@@ -99,8 +100,8 @@ export default function Page() {
               See exactly what every PR changes
             </HeroHeading>
             <HeroDescription>
-              Catch every change automatically—pixels or any file—review it fast,
-              and merge with confidence across browsers, devices, and
+              Catch every change automatically, pixels or any file, review it
+              fast, and merge with confidence across browsers, devices, and
               environments.
             </HeroDescription>
             <HeroActions>
@@ -291,12 +292,12 @@ export default function Page() {
           <SectionHeader align="center" className="container-gutter max-w-2xl">
             <Chip icon={FileDiffIcon}>Snapshot Testing</Chip>
             <SectionHeaderTexts>
-              <SectionTitle>Not just screenshots — any file</SectionTitle>
+              <SectionTitle>Not just screenshots: any file</SectionTitle>
               <SectionDescription>
                 Upload text-based artifacts with the CLI and Argos matches them
                 to baselines just like screenshots. Review changes to Markdown,
                 JSON, HTML, CSS, JavaScript, XML, YAML, and plain text alongside
-                your visual diffs — essential now that agents produce as much
+                your visual diffs. Essential now that agents produce as much
                 Markdown and structured data as UI.
               </SectionDescription>
             </SectionHeaderTexts>
@@ -306,6 +307,7 @@ export default function Page() {
           </div>
         </Container>
       </section>
+      <QuoteBlock quote={mermaidSnapshotQuote} className="border-b" />
       <section>
         <div className="border-b px-4">
           <Container className="border-x bg-linear-to-b from-transparent to-(--neutral-2) pb-12">

@@ -25,7 +25,7 @@ export function VisualTesting() {
           key: "any-file",
           icon: <FileDiffIcon />,
           title: "Any file, not just pixels",
-          text: "Snapshot screenshots, Markdown, JSON, HTML, CSS — anything your app or your agents produce.",
+          text: "Snapshot screenshots, Markdown, JSON, HTML, CSS: anything your app or your agents produce.",
           main: <SnapshotFiles />,
           href: "/visual-testing",
         },
@@ -41,7 +41,7 @@ export function VisualTesting() {
       color="blue"
       featureName="Change Detection"
       title="See exactly what changed"
-      description={`Catch, compare, and review every change — pixels or any file.\nStay focused on real differences and skip the noise.`}
+      description={`Catch, compare, and review every change, from pixels to any file.\nStay focused on real differences and skip the noise.`}
       story={{
         quote: mermaidQuote,
         href: "/customers/mermaid",

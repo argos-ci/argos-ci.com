@@ -42,3 +42,15 @@ export const mermaidQuote: CustomerQuote = {
   ),
   author: sidharthVinod,
 };
+
+export const mermaidSnapshotQuote: CustomerQuote = {
+  company: mermaid,
+  text: (
+    <>
+      A lot of what we test isn&apos;t a screenshot at all. Argos diffs our{" "}
+      <strong>rendered output and the text behind it</strong> against a baseline,
+      so we catch changes in <strong>structure, not just pixels</strong>.
+    </>
+  ),
+  author: sidharthVinod,
+};

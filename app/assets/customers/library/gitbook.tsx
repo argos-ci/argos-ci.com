@@ -41,3 +41,15 @@ export const gitbookQuote: CustomerQuote = {
   ),
   author: samyPesse,
 };
+
+export const gitbookAgentQuote: CustomerQuote = {
+  company: gitbook,
+  text: (
+    <>
+      Our agents open pull requests all day. Argos shows us{" "}
+      <strong>exactly what each one changed</strong>, so reviewing AI-written
+      code went from <strong>stressful to routine</strong>.
+    </>
+  ),
+  author: samyPesse,
+};

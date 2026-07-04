@@ -28,7 +28,7 @@ export function CopyPromptCard() {
           argos-ci.com/…/builds/1234
         </div>
         <div>
-          <span className="text-(--violet-11)">pr:</span> feat/checkout — “Add
+          <span className="text-(--violet-11)">pr:</span> feat/checkout · “Add
           wallet payments”
         </div>
         <div>

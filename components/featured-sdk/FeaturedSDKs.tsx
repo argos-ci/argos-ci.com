@@ -28,7 +28,7 @@ export function FeaturedSDKsSection() {
             <SectionTitle>Add your first snapshot in seconds</SectionTitle>
             <SectionDescription className="max-w-xl">
               Argos plugs into Playwright, Cypress, Storybook, WebdriverIO, the
-              CLI, or any framework — so you can start catching changes without
+              CLI, or any framework, so you can start catching changes without
               changing your stack.
             </SectionDescription>
           </SectionHeaderTexts>

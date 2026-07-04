@@ -115,7 +115,7 @@ export function KeyFeaturesSection() {
             <SectionTitle>Why teams choose Argos</SectionTitle>
             <SectionDescription>
               More features, lower price, higher quality. Argos catches every
-              change—pixels or any file—deploys every PR, and is 100%
+              change, whether pixels or any file, deploys every PR, and is 100%
               agent-ready, with a great UI and support from people who actually
               build frontend tools.
             </SectionDescription>
