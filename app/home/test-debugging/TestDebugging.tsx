@@ -5,7 +5,7 @@ import { leMondeQuote } from "@/app/assets/customers/library/le-monde";
 import { Button } from "@/components/Button";
 import { FeatureSection } from "@/components/feature-section/FeatureSection";
 
-import { FailureScreenshots } from "./features/FailureScreenshots";
+import { FailureScreenshotsLarge } from "./features/FailureScreenshotsLarge";
 import { PlaywrightTrace } from "./features/PlaywrightTrace";
 import { RetryScreenshots } from "./features/RetryScreenshots";
 
@@ -26,7 +26,7 @@ export function TestDebugging() {
           icon: <ImageOffIcon />,
           title: "Failure screenshots",
           text: "Capture screenshots on failure to instantly see what went wrong.",
-          main: <FailureScreenshots />,
+          main: <FailureScreenshotsLarge />,
           href: "/docs/sdks-reference/playwright#setup-tests-debugging",
         },
 
