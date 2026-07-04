@@ -44,8 +44,8 @@ export default function Page() {
   return (
     <>
       <div className="overflow-hidden border-b px-4">
-        <Container className="relative py-16 md:h-90 md:py-24">
-          <FullPageGrid height="h-200 md:h-90" />
+        <Container className="relative py-16 md:h-112">
+          <FullPageGrid height="h-200 md:h-112" />
           <Hero align="center" className="relative">
             <div className="rounded-full border px-3 py-1.5 text-xs font-medium">
               Open source · built in the open
@@ -177,15 +177,15 @@ function EcosystemIllustration() {
       <ThemeImage src={mui.logo["140x48"]} alt="MUI" className="h-18 w-auto" />
       <ArrowDownIcon className="text-low size-4" aria-hidden />
       <div className="flex items-center gap-2">
-        <span className="bg-app inline-flex items-center rounded-lg border-[0.5px] px-2.5 py-1.5 text-xs leading-none font-medium">
+        <span className="bg-app inline-flex items-center rounded-lg border-[0.5px] px-3 py-2 text-sm leading-none font-medium">
           Base UI
         </span>
-        <span className="text-low text-xs">powers</span>
-        <span className="bg-app inline-flex items-center rounded-lg border-[0.5px] px-2.5 py-1.5 text-xs leading-none font-medium">
+        <span className="text-low text-sm">powers</span>
+        <span className="bg-app inline-flex items-center rounded-lg border-[0.5px] px-3 py-2 text-sm leading-none font-medium">
           shadcn/ui
         </span>
       </div>
-      <div className="text-low text-center text-xs">
+      <div className="text-low text-center text-sm">
         Shipped to millions of developers
       </div>
     </div>
@@ -194,16 +194,16 @@ function EcosystemIllustration() {
 
 function RepoIllustration() {
   return (
-    <Card shadow="high" className="w-full max-w-sm p-4">
+    <Card shadow="high" className="w-full max-w-sm p-5">
       <div className="flex items-center gap-2">
-        <GitHubIcon className="size-4" />
-        <span className="text-sm font-medium">argos-ci/argos</span>
-        <Badge className="text-xxs ml-auto">Public</Badge>
+        <GitHubIcon className="size-5" />
+        <span className="text-base font-medium">argos-ci/argos</span>
+        <Badge className="text-xs ml-auto">Public</Badge>
       </div>
-      <p className="text-low mt-2 text-xs">
+      <p className="text-low mt-3 text-sm">
         Visual &amp; snapshot testing platform for the age of AI agents.
       </p>
-      <div className="text-low mt-4 flex items-center gap-4 text-xs">
+      <div className="text-low mt-4 flex items-center gap-4 text-sm">
         <span className="flex items-center gap-1.5">
           <DotIndicator variant="primary" />
           TypeScript

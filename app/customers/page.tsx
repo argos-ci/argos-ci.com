@@ -100,8 +100,8 @@ export default function Page() {
           </Hero>
         </Container>
       </div>
-      <section className="px-4">
-        <Container noGutter className="border-x border-b">
+      <section className="border-b px-4">
+        <Container noGutter className="border-x">
           <div className="grid grid-flow-row-dense grid-cols-2 gap-px bg-(--neutral-6) md:grid-cols-4">
             {CELLS.map((cell, index) =>
               cell.type === "logo" ? (

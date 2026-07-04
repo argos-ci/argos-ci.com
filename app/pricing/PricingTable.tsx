@@ -111,7 +111,7 @@ export function PricingTable() {
           ))}
         </tbody>
       </table>
-      <p className="text-low mt-6 border-t px-4 py-5 text-sm">
+      <p className="text-low border-t px-4 py-5 text-sm">
         A screenshot is any snapshot Argos stores for a build: an image, or a
         non-image file such as Markdown, JSON, or HTML. Usage is billed only on
         successful builds. GitHub SSO is an optional add-on at{" "}

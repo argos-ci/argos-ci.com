@@ -61,7 +61,7 @@ export default function Page() {
           <SectionTitle className="mb-4 text-center">
             Pricing details
           </SectionTitle>
-          <SectionDescription className="mx-auto mb-10 max-w-2xl text-center">
+          <SectionDescription className="mx-auto mb-10 max-w-2xl text-center text-balance">
             Explicit per-plan and per-screenshot rates, readable by humans and
             AI agents alike.
           </SectionDescription>
