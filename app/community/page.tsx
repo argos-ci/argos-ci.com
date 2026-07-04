@@ -97,10 +97,9 @@ export default function Page() {
             description={
               <>
                 Argos gives the <strong>MUI</strong> team a stable visual
-                baseline to ship <strong>Base UI</strong>, the headless
-                component library behind the next generation of design systems,
-                including <strong>shadcn/ui</strong>. Catch one regression here,
-                protect millions of downstream apps.
+                baseline to ship <strong>Base UI</strong>, the headless library
+                behind the next generation of design systems, including{" "}
+                <strong>shadcn/ui</strong>.
               </>
             }
             href="/customers/mui"
@@ -111,9 +110,9 @@ export default function Page() {
             title={<>Open source, from SDK to platform</>}
             description={
               <>
-                The SDKs and the platform are public. Explore how Argos works,
-                open an issue, or contribute a fix. It&apos;s MIT-licensed and
-                built in the open.
+                The SDKs and the platform are public and MIT-licensed. Explore
+                how Argos works under the hood, open an issue, or send a pull
+                request and help shape the roadmap.
               </>
             }
             href="https://github.com/argos-ci/argos"
@@ -175,12 +174,16 @@ export default function Page() {
 function EcosystemIllustration() {
   return (
     <div className="flex flex-col items-center gap-4">
-      <ThemeImage src={mui.logo["140x48"]} alt="MUI" className="h-14 w-auto" />
+      <ThemeImage src={mui.logo["140x48"]} alt="MUI" className="h-18 w-auto" />
       <ArrowDownIcon className="text-low size-4" aria-hidden />
       <div className="flex items-center gap-2">
-        <Badge className="text-xs">Base UI</Badge>
+        <span className="bg-app inline-flex items-center rounded-lg border-[0.5px] px-2.5 py-1.5 text-xs leading-none font-medium">
+          Base UI
+        </span>
         <span className="text-low text-xs">powers</span>
-        <Badge className="text-xs">shadcn/ui</Badge>
+        <span className="bg-app inline-flex items-center rounded-lg border-[0.5px] px-2.5 py-1.5 text-xs leading-none font-medium">
+          shadcn/ui
+        </span>
       </div>
       <div className="text-low text-center text-xs">
         Shipped to millions of developers
