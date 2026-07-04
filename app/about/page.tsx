@@ -25,7 +25,7 @@ export const metadata: Metadata = getMetadata({
 
 const people = [gregEmployee, jeremyEmployee];
 
-export default function SecurityPage() {
+export default function AboutPage() {
   return (
     <>
       <section className="overflow-hidden border-b px-4">
@@ -36,8 +36,9 @@ export default function SecurityPage() {
               Keep product quality high while shipping faster
             </HeroHeading>
             <HeroDescription>
-              Argos catches visual regressions before they reach users.
-              Deterministic diffs. Predictable reviews. CI you can trust.
+              Argos shows your team and your agents exactly what a pull request
+              changes, from pixels to Markdown and JSON, so you can review with
+              confidence and merge faster.
             </HeroDescription>
           </Hero>
         </Container>
@@ -66,24 +67,27 @@ export default function SecurityPage() {
           </SectionTitle>
           <div>
             <p className="my-4">
-              We believe visual testing should strengthen CI, not turn it into a
-              fragile system nobody trusts.
+              We believe teams and agents should see exactly what changes before
+              they merge, not guess. As agents ship faster than anyone can review
+              by eye, that visibility is what keeps quality high.
             </p>
             <p className="my-4">
-              Argos detects visual changes deterministically and explains them
-              pixel by pixel. No probabilities. No heuristics. No guessing
-              whether a failure matters.
+              Argos detects changes deterministically and explains them
+              precisely, whether it is a pixel in a screenshot or a line in a
+              Markdown or JSON file. No probabilities. No heuristics. No guessing
+              whether a change matters.
             </p>
             <p className="my-4">
               Instead of hiding flakiness behind tolerance thresholds or AI
               guesses, we focus on eliminating it at the source. Stable
-              baselines. Clear signals. Reviews teams can make with confidence.
+              baselines. Clear signals. Reviews your team and your agents can
+              make with confidence.
             </p>
             <p className="my-4">
               We build tools that keep maintenance low and CI healthy over time.
               <br />
-              No silent failures. No mystery diffs. Just reliable visual testing
-              that teams rely on every day.
+              No silent failures. No mystery diffs. Just a clear picture of every
+              change, that teams rely on every day.
             </p>
             <p className="my-4">
               Flakiness is not noise to ignore. It is technical debt to fix.
