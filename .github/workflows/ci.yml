@@ -35,3 +35,36 @@ jobs:
 
       - name: Check types
         run: pnpm run knip
+
+  e2e-local:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      # Required to access pull request metadata for Argos with GITHUB_TOKEN
+      pull-requests: read
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js & install dependencies
+        uses: ./.github/actions/setup-deps
+
+      - name: Install Chromium
+        run: pnpm exec playwright install chromium --with-deps
+
+      # No BASE_URL: Playwright builds and serves the branch locally, and the
+      # results upload to Argos under the "local" build name, separate from the
+      # Vercel deployment tests.
+      - name: Run Playwright tests against the local build
+        run: pnpm exec playwright test
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report-local
+          path: playwright-report/
+          retention-days: 30

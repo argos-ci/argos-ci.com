@@ -22,8 +22,8 @@ export function Stabilization() {
             <ContainedIcon variant="danger" icon={AlertTriangleIcon} />
             No stabilization
           </SmallTitle>
-          <Badge>
-            <DotIndicator variant="danger" />
+          <Badge className="border-(--danger-6) text-(--danger-11)">
+            <DotIndicator variant="danger" className="animate-pulse" />
             34 diffs
           </Badge>
         </Header>
@@ -33,7 +33,13 @@ export function Stabilization() {
 
       <Card className="animate-zoom-in motion-reduce:animate-fade-in animate-delay-100 animate-duration-500 fill-mode-both relative hidden p-5 md:block">
         <div
-          className="flex size-24 items-center justify-center rounded-full border border-(--primary-6) bg-[radial-gradient(circle_at_30%_30%,rgba(124,92,255,0.25),rgba(124,92,255,0.02)_60%)] shadow-[0_0_0_10px_rgba(124,92,255,0.08)]"
+          className="pointer-events-none absolute inset-0 grid place-items-center"
+          aria-hidden="true"
+        >
+          <div className="size-24 animate-pulse rounded-full bg-(--primary-9)/15 blur-xl" />
+        </div>
+        <div
+          className="relative flex size-24 items-center justify-center rounded-full border border-(--primary-6) bg-[radial-gradient(circle_at_30%_30%,rgba(124,92,255,0.25),rgba(124,92,255,0.02)_60%)] shadow-[0_0_0_10px_rgba(124,92,255,0.08)]"
           aria-hidden="true"
         >
           <StabilizationChipIcon />
@@ -46,11 +52,11 @@ export function Stabilization() {
       <Card className="animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both relative flex flex-1 flex-col gap-3 p-3">
         <Header>
           <SmallTitle>
-            <ContainedIcon variant="primary" icon={CheckIcon} />
+            <ContainedIcon variant="success" icon={CheckIcon} />
             Stabilized
           </SmallTitle>
-          <Badge>
-            <DotIndicator variant="primary" />2 diffs
+          <Badge className="border-(--success-6) text-(--success-11)">
+            <DotIndicator variant="success" />2 diffs
           </Badge>
         </Header>
 
@@ -274,6 +280,11 @@ function StabilizationChipIcon(
   );
 }
 
+const FLOW_IN_TOP = "M 0 105 C 110 105 125 135 150 150";
+const FLOW_IN_BOTTOM = "M 0 195 C 110 195 125 165 150 150";
+const FLOW_OUT_TOP = "M 150 150 C 175 135 190 105 300 105";
+const FLOW_OUT_BOTTOM = "M 150 150 C 175 165 190 195 300 195";
+
 function Funnel(props: ComponentPropsWithoutRef<"svg">) {
   return (
     <svg
@@ -282,47 +293,54 @@ function Funnel(props: ComponentPropsWithoutRef<"svg">) {
       className={clsx("pointer-events-none", props.className)}
       aria-hidden="true"
     >
-      {/* Outer funnel hint */}
-      <path
-        d="M 0 105 C 110 105 125 135 150 150 C 175 165 190 195 300 195"
-        fill="none"
-        stroke="var(--primary-8)"
-        strokeWidth="1"
-        opacity="0.18"
-        strokeLinecap="round"
-      />
-      <path
-        d="M 0 195 C 110 195 125 165 150 150 C 175 135 190 105 300 105"
-        fill="none"
-        stroke="var(--primary-8)"
-        strokeWidth="1"
-        opacity="0.18"
-        strokeLinecap="round"
-      />
+      {/* Funnel guides: noisy on the way in, clean on the way out */}
+      {[FLOW_IN_TOP, FLOW_IN_BOTTOM].map((d) => (
+        <path
+          key={d}
+          d={d}
+          fill="none"
+          stroke="var(--danger-9)"
+          strokeWidth="1"
+          opacity="0.2"
+          strokeLinecap="round"
+        />
+      ))}
+      {[FLOW_OUT_TOP, FLOW_OUT_BOTTOM].map((d) => (
+        <path
+          key={d}
+          d={d}
+          fill="none"
+          stroke="var(--success-9)"
+          strokeWidth="1"
+          opacity="0.2"
+          strokeLinecap="round"
+        />
+      ))}
 
-      {/* Thick in */}
+      {/* Thick, noisy inflow */}
       <path
         d="M 0 150 C 95 150 120 150 150 150"
         fill="none"
-        stroke="var(--primary-8)"
+        stroke="var(--danger-9)"
         strokeWidth="2.5"
-        strokeLinecap="square"
+        strokeLinecap="round"
         strokeDasharray="2 6"
+        opacity="0.85"
       >
         <animate
           attributeName="stroke-dashoffset"
           from="0"
           to="-48"
-          dur="1.25s"
+          dur="1.1s"
           repeatCount="indefinite"
         />
       </path>
 
-      {/* Thin out */}
+      {/* Thin, clean outflow */}
       <path
         d="M 150 150 C 180 150 205 150 300 150"
         fill="none"
-        stroke="var(--primary-8)"
+        stroke="var(--success-9)"
         strokeWidth="1"
         strokeLinecap="round"
         strokeDasharray="2 5"
@@ -332,13 +350,70 @@ function Funnel(props: ComponentPropsWithoutRef<"svg">) {
           attributeName="stroke-dashoffset"
           from="0"
           to="-49"
-          dur="1.25s"
+          dur="1.4s"
           repeatCount="indefinite"
         />
       </path>
 
-      {/* Pinch marker */}
-      <circle cx="150" cy="150" r="2" fill="var(--primary-8)" opacity="0.35" />
+      {/* Noise particles converging into the engine */}
+      <FlowParticle path={FLOW_IN_TOP} color="var(--danger-9)" begin="0s" />
+      <FlowParticle
+        path={FLOW_IN_BOTTOM}
+        color="var(--danger-9)"
+        begin="0.6s"
+      />
+      <FlowParticle path={FLOW_IN_TOP} color="var(--danger-9)" begin="1.1s" />
+
+      {/* Clean pulses spreading out of the engine */}
+      <FlowParticle
+        path={FLOW_OUT_TOP}
+        color="var(--success-9)"
+        begin="0.3s"
+        radius="1.6"
+      />
+      <FlowParticle
+        path={FLOW_OUT_BOTTOM}
+        color="var(--success-9)"
+        begin="0.9s"
+        radius="1.6"
+      />
+
+      {/* Pinch marker at the engine */}
+      <circle cx="150" cy="150" r="2.5" fill="var(--primary-9)" opacity="0.5">
+        <animate
+          attributeName="r"
+          values="2;3;2"
+          dur="1.6s"
+          repeatCount="indefinite"
+        />
+      </circle>
     </svg>
+  );
+}
+
+function FlowParticle(props: {
+  path: string;
+  color: string;
+  begin: string;
+  radius?: string;
+}) {
+  const { path, color, begin, radius = "2" } = props;
+  return (
+    <circle r={radius} fill={color}>
+      <animateMotion
+        path={path}
+        dur="1.7s"
+        begin={begin}
+        repeatCount="indefinite"
+      />
+      <animate
+        attributeName="opacity"
+        values="0;1;1;0"
+        keyTimes="0;0.15;0.75;1"
+        dur="1.7s"
+        begin={begin}
+        repeatCount="indefinite"
+      />
+    </circle>
   );
 }

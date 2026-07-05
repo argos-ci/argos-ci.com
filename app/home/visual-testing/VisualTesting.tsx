@@ -1,12 +1,12 @@
-import { GitPullRequestIcon, ScanEyeIcon, ThumbsUpIcon } from "lucide-react";
+import { FileDiffIcon, ScanEyeIcon, ThumbsUpIcon } from "lucide-react";
 import Link from "next/link";
 
 import { mermaidQuote } from "@/app/assets/customers/library/mermaid";
 import { Button } from "@/components/Button";
 import { FeatureSection } from "@/components/feature-section/FeatureSection";
 
-import { CIIntegration } from "./features/CIIntegration";
 import { FastApprovalFlow } from "./features/FastApprovalFlow";
+import { SnapshotFiles } from "./features/SnapshotFiles";
 import { Stabilization } from "./features/Stabilization";
 
 export function VisualTesting() {
@@ -16,39 +16,39 @@ export function VisualTesting() {
         {
           key: "fast-approval-flow",
           icon: <ThumbsUpIcon />,
-          title: "Fast approval flow",
-          text: "A UX built for speed, review, approve, and ship confidently in seconds.",
+          title: "Review at a glance",
+          text: "Baseline and changes side by side, with a built-in highlighter and keyboard shortcuts to approve or reject in seconds.",
           main: <FastApprovalFlow />,
           href: "/visual-testing",
         },
         {
-          key: "ci-flow",
-          icon: <GitPullRequestIcon />,
-          title: "CI integration",
-          text: "Visual checks integrated directly into your CI, from commit to deploy.",
-          main: <CIIntegration />,
+          key: "any-file",
+          icon: <FileDiffIcon />,
+          title: "Any file, not just pixels",
+          text: "Snapshot screenshots, Markdown, JSON, HTML, CSS: anything your app or your agents produce.",
+          main: <SnapshotFiles />,
           href: "/visual-testing",
         },
         {
           key: "smart-detection",
           icon: <ScanEyeIcon />,
-          title: "Smart detection",
-          text: "Built-in stabilization that filters out noise for cleaner, more reliable visual diffs.",
+          title: "Only the real changes",
+          text: "Deterministic pixel diffing catches the real change and ignores rendering noise, so every diff you review matters.",
           main: <Stabilization />,
           href: "/visual-testing",
         },
       ]}
       color="blue"
-      featureName="Visual Testing"
-      title="Spot every change"
-      description={`Catch, compare, and review visual changes.\nStay focused on real differences and skip the noise.`}
+      featureName="Change Detection"
+      title="See exactly what changed"
+      description={`Catch, compare, and review every change, from pixels to any file.\nStay focused on real differences and skip the noise.`}
       story={{
         quote: mermaidQuote,
         href: "/customers/mermaid",
       }}
       cta={
         <Button variant="outline" asChild>
-          <Link href="/visual-testing">Explore Visual Testing</Link>
+          <Link href="/visual-testing">Explore Change Detection</Link>
         </Button>
       }
     />

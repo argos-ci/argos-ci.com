@@ -33,10 +33,13 @@ export function Hero() {
         <div className="relative flex w-full flex-col items-center gap-10 py-16 text-center md:pt-20 md:pb-24">
           <LastChangelog />
           <HeroComponent align="center">
-            <HeroHeading>Stop visual regressions, not releases.</HeroHeading>
+            <HeroHeading>
+              Merge what your agents build, with confidence.
+            </HeroHeading>
             <HeroDescription>
-              Argos detects unintended visual changes in your UI, helping teams
-              maintain high product quality as they ship faster.
+              Agents ship UI, Markdown, and JSON faster than anyone can review by
+              eye. Argos shows exactly what every PR changes, and lets your team
+              and your agents review it, so you merge with confidence.
             </HeroDescription>
             <HeroActions>
               <Button size="large" asChild>

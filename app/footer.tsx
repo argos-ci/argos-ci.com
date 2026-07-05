@@ -40,10 +40,10 @@ export const AppFooter: React.FC = () => (
           <div className="flex flex-col gap-4">
             <ArgosLogo width="128" />
             <div className="text-low flex items-center gap-3">
-              <FooterIconNextLink href="/security/soc-2">
+              <FooterIconNextLink href="/security#soc-2">
                 <Soc2Logo className="h-7 w-auto" />
               </FooterIconNextLink>
-              <FooterIconNextLink href="/security/gdpr">
+              <FooterIconNextLink href="/security#gdpr">
                 <GdprLogo className="h-8 w-auto" />
               </FooterIconNextLink>
             </div>
@@ -66,12 +66,14 @@ export const AppFooter: React.FC = () => (
         <div className="grid grid-cols-2 gap-x-8 gap-y-2 md:grid-cols-4">
           <FooterSection>
             <FooterSectionTitle>Product</FooterSectionTitle>
-            <FooterLink href="/visual-testing">Visual Testing</FooterLink>
+            <FooterLink href="/visual-testing">Change Detection</FooterLink>
+            <FooterLink href="/deployments">Deployments</FooterLink>
+            <FooterLink href="/collaborative-reviews">
+              Collaborative Reviews
+            </FooterLink>
+            <FooterLink href="/ai-agents">For AI Agents</FooterLink>
             <FooterLink href="/flaky-management">Flaky Management</FooterLink>
             <FooterLink href="/test-debugging">Test Debugging</FooterLink>
-            <FooterLink href="https://github.com/orgs/argos-ci/projects/1">
-              Roadmap
-            </FooterLink>
           </FooterSection>
 
           <FooterSection>
@@ -79,11 +81,15 @@ export const AppFooter: React.FC = () => (
             <FooterLink href="/docs">Docs</FooterLink>
             <FooterLink href="/pricing">Pricing</FooterLink>
             <FooterLink href="/oss-friends">OSS Friends</FooterLink>
+            <FooterLink href="https://github.com/orgs/argos-ci/projects/1">
+              Roadmap
+            </FooterLink>
           </FooterSection>
 
           <FooterSection>
             <FooterSectionTitle>Company</FooterSectionTitle>
             <FooterLink href="/about">About</FooterLink>
+            <FooterLink href="/community">Community</FooterLink>
             <FooterLink href="/changelog">Changelog</FooterLink>
             <FooterLink href="/blog">Blog</FooterLink>
             <FooterLink href="/security">Security</FooterLink>
@@ -97,6 +103,8 @@ export const AppFooter: React.FC = () => (
             <FooterLink href="/compare/percy">Percy</FooterLink>
             <FooterLink href="/compare/applitools">Applitools</FooterLink>
             <FooterLink href="/compare/chromatic">Chromatic</FooterLink>
+            <FooterLink href="/compare/playwright">Playwright</FooterLink>
+            <FooterLink href="/compare/backstopjs">BackstopJS</FooterLink>
           </FooterSection>
         </div>
       </div>

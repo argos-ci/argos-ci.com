@@ -18,6 +18,31 @@ const questions: FAQQuestion[] = [
     textAnswer: `The Hobby plan is designed for personal GitHub repositories, providing up to ${ARGOS_HOBBY_SCREENSHOT_COUNT} screenshots. If you're seeking to collaborate as a team, need a higher screenshot limit, or wish to use Argos on a repository within a private GitHub organization, our Pro plan is the necessary choice.`,
   },
   {
+    name: "Does Argos only test screenshots?",
+    answer: (
+      <>
+        No. Beyond images, Argos does snapshot testing for any file: Markdown,
+        JSON, HTML, and more. Every capture, image or not, counts as one
+        screenshot for billing.
+      </>
+    ),
+    textAnswer:
+      "No. Beyond images, Argos does snapshot testing for any file: Markdown, JSON, HTML, and more. Every capture, image or not, counts as one screenshot for billing.",
+  },
+  {
+    name: "Can AI agents use Argos?",
+    answer: (
+      <>
+        Yes. Argos is 100% agent-ready. Agents inspect builds, read
+        machine-readable diffs, and submit reviews from the CLI and REST API, so
+        they can see what changed and fix their own mistakes before you merge.
+        There is no separate charge for agent usage.
+      </>
+    ),
+    textAnswer:
+      "Yes. Argos is 100% agent-ready. Agents inspect builds, read machine-readable diffs, and submit reviews from the CLI and REST API, so they can see what changed and fix their own mistakes before you merge. There is no separate charge for agent usage.",
+  },
+  {
     name: "Can Argos be used for mobile app testing?",
     answer: (
       <>

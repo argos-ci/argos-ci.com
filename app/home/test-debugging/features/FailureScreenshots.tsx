@@ -1,51 +1,53 @@
 "use client";
 
-import clsx from "clsx";
-import { XIcon } from "lucide-react";
+import { AlertTriangleIcon, CameraIcon, XIcon } from "lucide-react";
 
+import { ApplicationSVG } from "@/components/ApplicationSVG";
+import { Badge } from "@/components/Badge";
 import { Card } from "@/components/Card";
+import { DotIndicator } from "@/components/DotIndicator";
+import { SmallTitle } from "@/components/Typography";
 
 export function FailureScreenshots() {
   return (
-    <Card className="w-70 rotate-3">
-      <div className="p-4">
-        <div className="rounded-lg border-[0.5px] bg-(--neutral-3) px-3 py-2" />
+    <Card
+      shadow="high"
+      className="w-64 rotate-2 overflow-hidden select-none"
+    >
+      <div className="flex items-center justify-between border-b-[0.5px] px-3 py-1.5">
+        <SmallTitle>
+          <DotIndicator variant="danger" />
+          <span className="font-mono">checkout.spec.ts</span>
+        </SmallTitle>
+        <Badge className="text-xxs gap-1 border-(--danger-7) text-(--danger-11)">
+          <XIcon className="size-3" />
+          Failed
+        </Badge>
+      </div>
 
-        <div className="flex flex-col items-center gap-4 px-4 pt-2 text-center">
-          <div className="text-low flex size-16 items-center justify-center rounded-full border">
-            <XIcon className="size-7" />
+      <div className="p-2.5">
+        <div className="relative flex justify-center overflow-hidden rounded-lg border-[0.5px] bg-(--neutral-2) py-2">
+          <ApplicationSVG withChanges className="h-24 w-auto" />
+          <div className="absolute inset-x-0 top-1.5 flex justify-center">
+            <span className="flex items-center gap-1 rounded-md bg-(--danger-9) px-2 py-0.5 text-[0.5rem] font-semibold text-white shadow-sm">
+              <AlertTriangleIcon className="size-2.5" />
+              Something went wrong
+            </span>
           </div>
-          <div className="text-base font-medium">Page not found</div>
-          <div className="w-full space-y-2">
-            <SkeletonLine className="w-4/5" />
-            <SkeletonLine className="w-3/5" />
-          </div>
+          <span className="bg-app text-low absolute right-1.5 bottom-1.5 flex items-center gap-1 rounded border-[0.5px] px-1.5 py-0.5 text-[0.5rem] font-medium">
+            <CameraIcon className="size-2.5" />
+            Captured on failure
+          </span>
         </div>
-
-        <div className="mt-4 space-y-2">
-          <SkeletonLine className="w-full" />
-          <SkeletonLine className="w-11/12" />
+        <div className="mt-2 truncate rounded-md bg-(--danger-2) px-2 py-1 font-mono text-[0.5rem] text-(--danger-11)">
+          {"Error: expect(getByText('Order total')).toBeVisible()"}
         </div>
       </div>
 
-      <div className="text-xxs mt-5 flex items-center justify-between border-t-[0.5px] p-3 text-(--neutral-11)">
+      <div className="text-xxs flex items-center justify-between border-t-[0.5px] px-3 py-1.5 text-(--neutral-11)">
         <span>Build #214</span>
-        <span className="font-semibold text-(--danger-10)">
-          Failure screenshot
-        </span>
+        <span className="text-low">Attempt 1 of 3</span>
       </div>
     </Card>
-  );
-}
-
-function SkeletonLine(props: { className?: string }) {
-  return (
-    <div
-      className={clsx(
-        "h-2.5 rounded border-[0.5px] bg-(--neutral-3)",
-        props.className,
-      )}
-      aria-hidden="true"
-    />
   );
 }

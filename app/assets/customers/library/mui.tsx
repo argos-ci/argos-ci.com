@@ -42,3 +42,15 @@ export const muiQuote: CustomerQuote = {
   ),
   author: olivierTassinari,
 };
+
+export const muiDeploymentsQuote: CustomerQuote = {
+  company: mui,
+  text: (
+    <>
+      Every pull request gets a <strong>live preview</strong> of our components
+      now. The team reviews the real thing before merging, with{" "}
+      <strong>zero infrastructure on our side</strong>.
+    </>
+  ),
+  author: olivierTassinari,
+};

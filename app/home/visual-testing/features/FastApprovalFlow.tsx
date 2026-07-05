@@ -20,18 +20,20 @@ function CardStack() {
   return (
     <div className="animate-fade-in-up motion-reduce:animate-fade-in animate-duration-500 fill-mode-both flex items-center justify-center">
       <div className="relative w-[75%]">
-        <div className="absolute inset-0 translate-y-7 scale-[0.96] -rotate-4">
+        <div className="absolute inset-0 translate-y-6 scale-[0.97] -rotate-3">
           <SwipeCard tone="idle" />
         </div>
 
-        <div className="absolute inset-0 translate-y-3 scale-[0.98] rotate-4">
+        <div className="absolute inset-0 translate-y-3 scale-[0.985] rotate-3">
           <SwipeCard tone="idle" />
         </div>
 
         <div className="animate-nudge-right relative z-10">
           <SwipeCard tone="active" />
+
+          {/* Approved glow, synced with the swipe + thumbs-up */}
           <div
-            className="animate-green-pulse pointer-events-none absolute inset-0 z-20 rounded-xl bg-(--success-9)"
+            className="animate-green-pulse pointer-events-none absolute inset-0 z-20 rounded-xl ring-2 ring-(--success-9)"
             aria-hidden="true"
           />
         </div>

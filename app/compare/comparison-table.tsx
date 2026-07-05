@@ -14,7 +14,11 @@ import {
 type Feature = { argos: React.ReactNode; competitor: React.ReactNode };
 
 export type Features = {
-  pricing: Feature;
+  pricing?: Feature;
+  snapshotTesting: Feature;
+  deployments: Feature;
+  collaborativeReviews: Feature;
+  agentReady: Feature;
   playwrightDebugging: Feature;
   playwrightTestRetries: Feature;
   githubSso: Feature;
@@ -67,12 +71,54 @@ export function ComparisonTable(props: {
       />
 
       <tbody>
+        {props.features.pricing ? (
+          <Tr>
+            <Th>
+              <ThMain>Monthly pricing</ThMain>
+              <ThSubLink href="/pricing">How much it costs per month</ThSubLink>
+            </Th>
+            <Feature feature={props.features.pricing} />
+          </Tr>
+        ) : null}
+
         <Tr>
           <Th>
-            <ThMain>Monthly pricing</ThMain>
-            <ThSubLink href="/pricing">How much it costs per month</ThSubLink>
+            <ThMain>Snapshot testing for any file</ThMain>
+            <ThSubLink href="/visual-testing">
+              Diff Markdown, JSON, HTML and more, not just images
+            </ThSubLink>
           </Th>
-          <Feature feature={props.features.pricing} />
+          <Feature feature={props.features.snapshotTesting} />
+        </Tr>
+
+        <Tr>
+          <Th>
+            <ThMain>Deployments &amp; PR previews</ThMain>
+            <ThSubLink href="/deployments">
+              Host Storybook or any static build on a live URL
+            </ThSubLink>
+          </Th>
+          <Feature feature={props.features.deployments} />
+        </Tr>
+
+        <Tr>
+          <Th>
+            <ThMain>Collaborative reviews</ThMain>
+            <ThSubLink href="/collaborative-reviews">
+              Pinned comments, threads, reactions, real-time presence
+            </ThSubLink>
+          </Th>
+          <Feature feature={props.features.collaborativeReviews} />
+        </Tr>
+
+        <Tr>
+          <Th>
+            <ThMain>Agent-ready CLI &amp; API</ThMain>
+            <ThSubLink href="/ai-agents">
+              Agents inspect and review builds from the CLI and REST API
+            </ThSubLink>
+          </Th>
+          <Feature feature={props.features.agentReady} />
         </Tr>
 
         {props.additionals}

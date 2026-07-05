@@ -186,7 +186,7 @@ function FeaturePanel(props: {
         key={mountKey}
         role="presentation"
         className={clsx(
-          "absolute inset-0 flex items-center justify-center select-none",
+          "absolute inset-0 flex cursor-default items-center justify-center select-none",
           mountKey >= 1 ? null : "opacity-0",
         )}
       >

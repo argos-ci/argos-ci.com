@@ -25,15 +25,15 @@ export function FeaturedSDKsSection() {
       >
         <SectionHeader className="container-gutter max-w-100 flex-1 md:border-r md:py-24!">
           <SectionHeaderTexts>
-            <SectionTitle>Add your first visual test in seconds</SectionTitle>
+            <SectionTitle>Add your first snapshot in seconds</SectionTitle>
             <SectionDescription className="max-w-xl">
-              Argos plugs into Playwright, Cypress, Storybook, Webdriver IO or
-              any framework so you can add visual testing without changing your
-              stack.
+              Argos plugs into Playwright, Cypress, Storybook, WebdriverIO, the
+              CLI, or any framework, so you can start catching changes without
+              changing your stack.
             </SectionDescription>
           </SectionHeaderTexts>
           <Button variant="outline" asChild>
-            <Link href="/docs">Explore all SDKs</Link>
+            <Link href="/docs/quickstart">Explore all SDKs</Link>
           </Button>
         </SectionHeader>
         <ul className="flex flex-1 flex-col gap-8 md:flex-row md:flex-wrap md:items-start md:justify-center md:px-8 md:py-24">

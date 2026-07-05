@@ -13,7 +13,8 @@ export function CallToActionSection(props: {
     children = <ArgosEmblem className="mx-auto aspect-square size-24" />,
     description = (
       <>
-        One source of truth for UI changes. Review, approve, and ships faster.
+        See every change your team and your agents make. Review with confidence,
+        and merge faster.
       </>
     ),
   } = props;

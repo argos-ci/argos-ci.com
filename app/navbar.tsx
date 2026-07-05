@@ -3,6 +3,7 @@ import { NavigationMenu } from "@base-ui/react/navigation-menu";
 import clsx from "clsx";
 import {
   BookIcon,
+  BotIcon,
   BugPlayIcon,
   ChevronDownIcon,
   EyeIcon,
@@ -11,6 +12,8 @@ import {
   type LucideIcon,
   MailIcon,
   MessageCircleIcon,
+  MessagesSquareIcon,
+  RocketIcon,
   ShieldCheckIcon,
   UsersIcon,
   WavesIcon,
@@ -77,8 +80,17 @@ function SecondaryNavbar() {
                       href="/visual-testing"
                       icon={EyeIcon}
                       color="blue"
-                      title="Visual Testing"
-                      description="Scale visual regression"
+                      title="Change Detection"
+                      description="See every change: pixels or any file"
+                    />
+                  </li>
+                  <li>
+                    <LinkCard
+                      href="/deployments"
+                      icon={RocketIcon}
+                      color="teal"
+                      title="Deployments"
+                      description="Preview Storybook on every PR"
                     />
                   </li>
                   <li>
@@ -87,7 +99,7 @@ function SecondaryNavbar() {
                       icon={WavesIcon}
                       color="amber"
                       title="Flaky Management"
-                      description="Keep CI stable"
+                      description="Keep your CI signal clean"
                     />
                   </li>
                   <li>
@@ -96,7 +108,30 @@ function SecondaryNavbar() {
                       icon={BugPlayIcon}
                       color="teal"
                       title="Test Debugging"
-                      description="Debug test failures"
+                      description="See why E2E tests fail"
+                    />
+                  </li>
+                </SectionList>
+              </Section>
+              <Section>
+                <SectionTitle>Use cases</SectionTitle>
+                <SectionList>
+                  <li>
+                    <LinkCard
+                      href="/ai-agents"
+                      icon={BotIcon}
+                      color="violet"
+                      title="For AI Agents"
+                      description="100% agent-ready CLI & API"
+                    />
+                  </li>
+                  <li>
+                    <LinkCard
+                      href="/collaborative-reviews"
+                      icon={MessagesSquareIcon}
+                      color="blue"
+                      title="Collaborative Reviews"
+                      description="Review together, in real time"
                     />
                   </li>
                 </SectionList>
@@ -177,10 +212,10 @@ function SecondaryNavbar() {
                   </li>
                   <li>
                     <LinkCard
-                      href="/discord"
+                      href="/community"
                       icon={MessageCircleIcon}
                       title="Community"
-                      description="Join the conversation"
+                      description="Open source & Discord"
                     />
                   </li>
                 </SectionList>
@@ -255,9 +290,18 @@ function Section(props: { children: React.ReactNode }) {
   return <div className="w-[calc(100vw-4rem)] p-3 md:max-w-80">{children}</div>;
 }
 
-function SectionTitle(props: { children: React.ReactNode }) {
-  const { children } = props;
-  return <div className="text-low mb-1 pl-2 text-xs uppercase">{children}</div>;
+function SectionTitle(props: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  const { children, className } = props;
+  return (
+    <div
+      className={clsx("text-low mb-1 pl-2 text-xs uppercase", className)}
+    >
+      {children}
+    </div>
+  );
 }
 
 function SectionList(props: { children: React.ReactNode }) {
@@ -316,6 +360,11 @@ function LinkCard(props: {
                 amber:
                   "group-hover:border-(--amber-10) group-hover:bg-(--amber-10)",
                 teal: "group-hover:border-(--teal-10) group-hover:bg-(--teal-10)",
+                violet:
+                  "group-hover:border-(--violet-10) group-hover:bg-(--violet-10)",
+                plum: "group-hover:border-(--plum-10) group-hover:bg-(--plum-10)",
+                green:
+                  "group-hover:border-(--green-10) group-hover:bg-(--green-10)",
               }[color]
             : "src" in Icon
               ? "group-hover:bg-(--neutral-2)"

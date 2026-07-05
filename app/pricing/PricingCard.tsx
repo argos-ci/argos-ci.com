@@ -1,7 +1,8 @@
 import clsx from "clsx";
 import {
+  ActivityIcon,
   BellIcon,
-  BugPlayIcon,
+  BotIcon,
   GaugeIcon,
   GitGraphIcon,
   HandFistIcon,
@@ -11,7 +12,9 @@ import {
   ImagesIcon,
   LockKeyholeIcon,
   type LucideIcon,
+  RocketIcon,
   ScanEyeIcon,
+  ShieldIcon,
   SlidersHorizontalIcon,
   UserCheckIcon,
 } from "lucide-react";
@@ -138,10 +141,14 @@ export function PricingCards() {
               Up to <LocalString value={ARGOS_HOBBY_SCREENSHOT_COUNT} />{" "}
               screenshots
             </Feature>
-            <Feature icon={BugPlayIcon}>Unlimited Playwright Traces</Feature>
-            <Feature icon={ScanEyeIcon}>Visual changes detection</Feature>
+            <Feature icon={ScanEyeIcon}>
+              Visual & snapshot testing for any file
+            </Feature>
+            <Feature icon={RocketIcon}>Storybook & static deployments</Feature>
+            <Feature icon={BotIcon}>Agent-ready CLI & REST API</Feature>
+            <Feature icon={ActivityIcon}>Flaky detection & debugging</Feature>
             <Feature icon={GitGraphIcon}>GitHub & GitLab integration</Feature>
-            <Feature icon={HandFistIcon}>Community Support</Feature>
+            <Feature icon={HandFistIcon}>Community support</Feature>
           </Features>
         </PricingCardBody>
       </PricingCard>
@@ -181,9 +188,12 @@ export function PricingCards() {
               for Storybook{" "}
               <LocalDollar value={ARGOS_STORYBOOK_SCREENSHOT_PRICE} />
             </Feature>
-            <Feature icon={HeartHandshakeIcon}>Collaborative review</Feature>
+            <Feature icon={HeartHandshakeIcon}>
+              Team collaboration & reviews
+            </Feature>
+            <Feature icon={ShieldIcon}>Private deployment protection</Feature>
             <Feature icon={BellIcon}>Slack notifications</Feature>
-            <Feature icon={HeadsetIcon}>Pro Support</Feature>
+            <Feature icon={HeadsetIcon}>Pro support</Feature>
             <div className="mt-4 text-sm font-medium">Optional</div>
             <Feature icon={LockKeyholeIcon}>
               GitHub SSO

@@ -31,6 +31,22 @@ const features: Features = {
     argos: "$100/mo",
     competitor: "$179/mo",
   },
+  snapshotTesting: {
+    argos: "✔️",
+    competitor: "❌",
+  },
+  deployments: {
+    argos: "✔️",
+    competitor: "Storybook only",
+  },
+  collaborativeReviews: {
+    argos: "✔️",
+    competitor: "✔️",
+  },
+  agentReady: {
+    argos: "✔️",
+    competitor: "❌",
+  },
   playwrightDebugging: {
     argos: "✔️",
     competitor: "❌",
@@ -88,13 +104,14 @@ export default function Page() {
       <HeroSection
         title="Chromatic vs Argos"
         description="Learn how Argos compares to Chromatic and why Argos is the best alternative for visual testing."
+        migrationHref="/docs/learn/how-to-guides/migrate-to-argos/from-chromatic"
         {...emblemProps}
       />
       <TableSection>
         <ComparisonTable
           logoSrc={chromaticLogo}
           logoSrcDark={chromaticLogoDark}
-          title="Percy"
+          title="Chromatic"
           features={features}
           additionals={
             <>

@@ -39,7 +39,7 @@ const UNCHANGED = [
 
 export function DiffsReview() {
   return (
-    <div className="relative mx-auto w-full max-w-5xl mask-b-from-70%">
+    <div className="relative mx-auto w-full max-w-5xl cursor-default mask-b-from-70%">
       <Card className="relative overflow-hidden">
         <Header />
         <div className="flex">

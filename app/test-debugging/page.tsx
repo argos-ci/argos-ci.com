@@ -52,8 +52,9 @@ export default function Page() {
             </div>
             <HeroHeading>See why your E2E fails</HeroHeading>
             <HeroDescription>
-              Investigate failed tests from Playwright and Cypress. See what
-              broke, understand why it failed instantly in your CI.
+              Investigate failed tests from Playwright and Cypress with full
+              visual context. See what broke and why, instantly, right in your
+              CI, so you (or your agent) can fix it fast.
             </HeroDescription>
             <HeroActions>
               <Button size="large" asChild>
@@ -163,7 +164,7 @@ export default function Page() {
                   centralized in Argos.
                 </>
               }
-              href="/docs"
+              href="/docs/sdks-reference/playwright#setup-tests-debugging"
               illustration={<FailureScreenshotsIllustration />}
             />
             <FeatureGridFeature
@@ -175,7 +176,7 @@ export default function Page() {
                   of guessing.
                 </>
               }
-              href="/docs"
+              href="/changelog/2024-04-29-retried-failures"
               illustration={<RetryScreenshotsLeftIllustration />}
             />
             <FeatureGridFeature
@@ -186,7 +187,7 @@ export default function Page() {
                   Same UI, same review flow, same guarantees.
                 </>
               }
-              href="/docs"
+              href="/docs/sdks-reference/cypress"
               illustration={<SdkFloatingLogosIllustration />}
             />
           </FeatureGrid>

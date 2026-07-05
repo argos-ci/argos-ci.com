@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import {
   ArrowRight,
+  ArrowRightIcon,
   BlocksIcon,
   BookOpenTextIcon,
   LockKeyholeIcon,
@@ -9,6 +10,7 @@ import {
   Users2Icon,
 } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 import { ArgosEmblem } from "@/components/ArgosEmblem";
 import { CallToActionSection } from "@/components/CallToActionSection";
@@ -67,6 +69,7 @@ export function HeroSection(
   props: {
     title: React.ReactNode;
     description: React.ReactNode;
+    migrationHref?: string;
   } & EmblemProps,
 ) {
   return (
@@ -80,6 +83,15 @@ export function HeroSection(
           <Hero align="center">
             <HeroHeading>{props.title}</HeroHeading>
             <HeroDescription>{props.description}</HeroDescription>
+            {props.migrationHref ? (
+              <Link
+                href={props.migrationHref}
+                className="group mt-2 inline-flex items-center gap-1 text-sm font-medium text-(--primary-11)"
+              >
+                Read the migration guide
+                <ArrowRightIcon className="size-4 transition group-hover:translate-x-0.5" />
+              </Link>
+            ) : null}
           </Hero>
           <HeroEmblem>
             <ArgosEmblem className="aspect-square size-full" />
@@ -114,9 +126,10 @@ export function KeyFeaturesSection() {
           <SectionHeaderTexts>
             <SectionTitle>Why teams choose Argos</SectionTitle>
             <SectionDescription>
-              Argos focuses on what makes visual testing effective at scale. A
-              great UI, tight integrations, precise permissions, and support
-              from people who actually build frontend tools.
+              More features, lower price, higher quality. Argos catches every
+              change, whether pixels or any file, deploys every PR, and is 100%
+              agent-ready, with a great UI and support from people who actually
+              build frontend tools.
             </SectionDescription>
           </SectionHeaderTexts>
         </SectionHeader>
