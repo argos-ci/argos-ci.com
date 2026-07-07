@@ -1,0 +1,138 @@
+---
+title: "Lost Pixel Alternatives in 2026: Where to Migrate Now"
+description: "Lost Pixel is shutting down after its team joined Figma. Compare the best Lost Pixel alternatives in 2026 and migrate your visual tests in an afternoon."
+category: guides
+author: greg
+date: 2026-07-14
+image: ./main.jpg
+imageAlt: "Abstract illustration of screenshots migrating from a fading platform to a new one"
+---
+
+Lost Pixel is shutting down: on April 22, 2026, the team [announced they are joining Figma](https://www.lost-pixel.com/blog/lost-pixel-team-is-joining-figma) and sunsetting the product. If you run visual tests with Lost Pixel today, the best alternative in 2026 is [Argos](/docs/quickstart): it is open source like Lost Pixel, works with the Playwright and Storybook screenshots you already capture, and replaces committed baseline images with automatic baselines from Git history, starting free for 5,000 screenshots per month.
+
+<MainImage />
+
+## Why is Lost Pixel shutting down?
+
+On April 22, 2026, the Lost Pixel co-founders published a short post titled "Lost Pixel team is joining Figma." The message is direct: "We're sunsetting Lost Pixel." The team is moving to Figma to work on next-generation developer tools, motivated by the idea that "AI is reshaping how software gets built. The gap between design and code is closing fast."
+
+What the announcement does not include matters just as much. As of July 2026, there is no published shutdown date for the cloud platform, no wind-down plan, and no statement about the future of the open-source repository. That uncertainty is exactly why you should not wait for a hard deadline to plan your exit.
+
+## What does this mean for Lost Pixel users?
+
+Practically, three things:
+
+1. **The cloud platform is on borrowed time.** No end date has been announced, but a sunset announcement with no maintenance commitment means bug fixes, browser updates, and support are no longer guaranteed.
+2. **The open-source mode is unmaintained.** Lost Pixel's OSS mode did local pixel diffs against baseline images committed to Git. Without active maintainers, you inherit every future breakage from Playwright, browser, and OS rendering changes.
+3. **Your test investment is portable.** This is the good news. Lost Pixel worked by capturing screenshots from Playwright, Storybook, Cypress, or Ladle. Every alternative below consumes the same kind of screenshots, so migration is mostly swapping the capture call and the review backend, not rewriting tests.
+
+## What are the best Lost Pixel alternatives in 2026?
+
+Here is how the realistic options compare, as of July 2026:
+
+| Tool | Pricing | Capture model | Open source | Team review UI |
+| --- | --- | --- | --- | --- |
+| [Argos](/pricing) | Free 5k/mo, then $100/mo flat (35k included) | Local, in your real test browser | ✔️ | ✔️ |
+| [Chromatic](/compare/chromatic) | From $179/mo | Chromatic cloud infrastructure | ❌ | ✔️ |
+| [Percy](/compare/percy) | From $599/mo | DOM upload, re-rendered in Percy's cloud | ❌ | ✔️ |
+| [BackstopJS](/compare/backstopjs) | Free, self-hosted | Local (Puppeteer/Playwright) | ✔️ | ❌ |
+| [Playwright `toHaveScreenshot`](/compare/playwright) | Free, built-in | Local, baselines in Git | ✔️ | ❌ |
+
+### Argos
+
+Argos is the closest match to what made Lost Pixel appealing, minus the parts that hurt. It is [open source](https://github.com/argos-ci), and it captures screenshots **locally in the real browser your tests already run**, so what you see in Playwright is exactly what gets diffed. There is no cloud re-rendering step and no separate browser configuration to maintain.
+
+The biggest upgrade over Lost Pixel's open-source mode: **no baseline images committed to Git**. Argos picks baselines automatically from your Git history, so approving a change is a click in the review UI, not a commit that bloats your repository. On top of diffing, you get [collaborative reviews](/collaborative-reviews) with threads and pinned comments, [PR-preview deployments](/deployments) for Storybook or any static build, [snapshot testing of any file](/visual-testing) (Markdown, JSON, HTML, not just images), and an [agent-ready CLI and API](/ai-agents) so AI coding agents can inspect and review builds. Pricing is the lowest of the cloud options: free up to 5,000 screenshots per month, then $100/month flat with 35,000 screenshots and unlimited parallelization included. See [pricing](/pricing) for details.
+
+### Chromatic
+
+Chromatic is made by the Storybook maintainers and remains the deepest Storybook integration on the market, with a polished review UI, accessibility testing, and their SteadySnap anti-flake rendering. If your visual testing is 100% Storybook-centric and budget is not a concern, it is an excellent product. The trade-offs: it captures in Chromatic's cloud rather than your own test browser, deployments are limited to Storybook, it is not open source, and snapshot-based billing (from $179/month) grows quickly as you add viewports and browsers. Full comparison: [Argos vs Chromatic](/compare/chromatic).
+
+### Percy
+
+Percy, now part of BrowserStack, uploads your DOM, CSS, and assets and re-renders snapshots in its cloud across configured widths and browsers. That gives you genuine cross-browser rendering without running those browsers yourself, which is its real strength. The downsides are the flip side of the same design: what gets diffed is a cloud re-render, not what your test actually displayed, which can produce hard-to-debug flakiness with complex JavaScript. Entry pricing sits at $599/month, and parallel uploads cost extra. Full comparison: [Argos vs Percy](/compare/percy), and if you are weighing the big three, see [Percy vs Chromatic vs Argos](/blog/percy-vs-chromatic-vs-argos).
+
+### BackstopJS
+
+BackstopJS is free, open source, and fully self-hosted: scenarios in `backstop.json`, Puppeteer or Playwright engines, HTML reports. If you want zero external services and are willing to own the operational work, it does the job. But it keeps the two things you are trying to leave behind with Lost Pixel's OSS mode: baselines committed to Git and no team review workflow. It also sits in maintenance mode (v6.x), and flakiness handling is entirely manual. See [Argos vs BackstopJS](/compare/backstopjs).
+
+### Playwright native (`toHaveScreenshot`)
+
+Playwright's built-in `toHaveScreenshot` assertion is free and requires no new dependencies, which makes it a fine starting point for a handful of screenshots. At scale it breaks down: rendering is platform-dependent (you need the same OS and browser to regenerate baselines), the repository gets heavy with images, there is no review UI for teammates, and updating baselines means re-running locally or committing from CI. We wrote up the details in [Playwright visual testing limits](/blog/playwright-visual-testing-limits). See also [Argos vs Playwright](/compare/playwright).
+
+## How do you migrate from Lost Pixel to Argos?
+
+If you used Lost Pixel, you already capture screenshots from Playwright or Storybook. Migration is swapping the capture layer and deleting your baseline images. Three paths, pick the one matching your setup:
+
+### 1. Playwright projects
+
+Install the Argos Playwright integration and add its reporter:
+
+```bash
+npm install --save-dev @argos-ci/playwright
+```
+
+```ts
+// playwright.config.ts
+export default defineConfig({
+  reporter: [["list"], ["@argos-ci/playwright/reporter"]],
+});
+```
+
+Then replace your Lost Pixel screenshot calls with `argosScreenshot`:
+
+```ts
+import { test } from "@playwright/test";
+import { argosScreenshot } from "@argos-ci/playwright";
+
+test("homepage", async ({ page }) => {
+  await page.goto("/");
+  await argosScreenshot(page, "homepage");
+});
+```
+
+`argosScreenshot` also stabilizes the page before capture: it waits for fonts, images, and network idle, and hides carets and scrollbars, which removes a whole class of flaky diffs. More on that in [screenshot stabilization](/blog/screenshot-stabilization).
+
+### 2. Storybook projects
+
+If Lost Pixel was screenshotting your Storybook, install the Argos Storybook addon (`@argos-ci/storybook`) and it captures every story automatically, including via the Storybook Vitest addon. Storybook screenshots are also billed at a reduced rate ($0.0015 each beyond your included quota). If you are going this route, read [Storybook visual testing without Chromatic](/blog/storybook-visual-testing-without-chromatic).
+
+### 3. Any framework, via the CLI
+
+Lost Pixel supported Cypress and Ladle too. If you already produce a folder of screenshots by any means, upload it directly:
+
+```bash
+npx @argos-ci/cli upload ./screenshots
+```
+
+This works from any test framework or custom script.
+
+### Finish the setup
+
+1. Create a project on Argos and set the `ARGOS_TOKEN` environment variable in your CI (GitHub Actions supports OIDC authentication, so you can skip the secret entirely there).
+2. **Delete your committed baseline images** and remove `lostpixel.config.ts`. Argos selects baselines automatically from Git history, so there is nothing to commit or manually approve per branch.
+3. Push a PR. Argos posts a status check, and any visual change shows up as a diff to approve or reject in the review UI.
+
+The whole migration typically fits in an afternoon. The [getting started guide](/docs/quickstart) covers each SDK step by step.
+
+## FAQ
+
+### Is Lost Pixel still maintained?
+
+No. The team announced on April 22, 2026 that they are joining Figma and sunsetting Lost Pixel. As of July 2026, no shutdown date for the cloud platform or maintenance plan for the open-source project has been published, so you should treat both as unmaintained and migrate proactively.
+
+### What is the closest alternative to Lost Pixel's open-source mode?
+
+Argos, which is also open source and captures screenshots locally in your real test browser. The main difference is an improvement: instead of committing baseline images to Git and diffing locally, Argos pulls baselines from Git history automatically and gives your team a cloud review UI. BackstopJS is the closest like-for-like if you insist on fully self-hosted, but you keep committed baselines and get no review workflow.
+
+### Do I have to rewrite my tests to leave Lost Pixel?
+
+No. Lost Pixel consumed Playwright, Storybook, Cypress, or Ladle screenshots, and so does Argos. In Playwright you swap the screenshot call for `argosScreenshot(page, "name")`; in Storybook you install the Argos addon; for anything else you upload your existing screenshot folder with the Argos CLI.
+
+### How much does Argos cost compared to other Lost Pixel alternatives?
+
+As of July 2026, Argos is free up to 5,000 screenshots per month, then $100/month flat with 35,000 screenshots included and unlimited parallelization. Chromatic starts at $179/month and Percy at $599/month, both with snapshot-based billing that grows with viewports and browsers. You can also set a budget limit on Argos to cap spending. See [pricing](/pricing).
+
+## Conclusion
+
+Lost Pixel's sunset is a forced migration, but a small one. Your screenshots, your Playwright tests, and your Storybook stories all carry over. If you want cross-browser cloud rendering and can absorb the price, Percy works; if you live entirely in Storybook, Chromatic is polished; if you want free and self-hosted with manual upkeep, BackstopJS or native Playwright will do. For most teams leaving Lost Pixel, Argos is the strongest landing spot: open source, local capture in your real test browser, automatic baselines from Git history, a real review workflow, and the lowest price of any cloud option. Start with the free tier and run it against your next PR.

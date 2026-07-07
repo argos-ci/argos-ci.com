@@ -1,0 +1,172 @@
+---
+title: "Storybook Visual Testing Without Chromatic (2026 Guide)"
+description: "Three ways to run Storybook visual testing without Chromatic in 2026: the Argos addon, a DIY Playwright setup, or staying put. Real pricing and setup code."
+category: guides
+author: jeremy
+date: 2026-08-18
+image: ./main.jpg
+imageAlt: "Abstract illustration of Storybook components being visually compared outside of Chromatic"
+---
+
+You can run Storybook visual testing without Chromatic in two solid ways: the [Argos Storybook addon](/compare/chromatic), which captures every story during your Vitest or test-runner run and bills Storybook screenshots at $0.0015 each (free up to 5,000/month), or a DIY setup with the Storybook test-runner and Playwright's `toHaveScreenshot`, which is free but leaves baseline management and CI rendering issues on your plate. As of July 2026, Chromatic's paid plans start at $179/month, and that price gap is the main reason teams look at alternatives.
+
+<MainImage />
+
+## Why Chromatic is the default, and why that's fair
+
+Let's be honest about this upfront: Chromatic is made by the Storybook maintainers. It has the deepest Storybook integration on the market, a polished review UI, and it keeps shipping: accessibility testing in 2025, "SteadySnap" anti-flake rendering in September 2025, Storybook MCP servers in March 2026, and Vitest and React Native previews in May 2026. If you write stories, Chromatic is the path of least resistance, and there is nothing wrong with defaulting to it.
+
+So why do teams search for a way out? Two reasons come up constantly:
+
+1. **Pricing.** Paid plans start at $179/month, and snapshot-based billing grows with every viewport and browser you add. A component library tested at three viewports burns snapshots three times as fast.
+2. **Flexibility.** Chromatic captures screenshots in its own cloud infrastructure, and its deployment/preview feature is limited to Storybook. If you also want visual coverage on your app's E2E tests, or PR previews for a docs site, you need something broader.
+
+Here are your three real options, starting with the one we recommend.
+
+## Option 1: The Argos Storybook addon (recommended)
+
+[Argos](/docs/quickstart) is an open-source visual testing platform with a dedicated Storybook addon. The capture model is the key difference from Chromatic: screenshots are taken **locally, in the browser your tests already run in CI**, then uploaded to Argos for diffing. No cloud re-rendering step, and what you see in your test run is exactly what gets diffed. Baselines are picked automatically from Git history, so there is no per-branch baseline juggling.
+
+On pricing, the comparison is direct (as of July 2026):
+
+| | Argos | Chromatic |
+| --- | --- | --- |
+| Free tier | 5,000 screenshots/month (Hobby) | Limited free plan |
+| Paid entry | $100/month flat, 35,000 screenshots included | $179/month |
+| Extra Storybook screenshots | $0.0015 each | Snapshot billing grows with viewports/browsers |
+| Capture model | Local, in your CI browser | Chromatic's cloud infrastructure |
+| Deployments / PR previews | [Any static build](/deployments) (Storybook, docs, apps) | Storybook only |
+| Parallelization | Unlimited, included | — |
+| Open source | Yes ([github.com/argos-ci](https://github.com/argos-ci)) | No |
+
+A concrete scenario: a design system with 400 stories, tested on every PR, roughly 30 builds a month. That's 12,000 Storybook screenshots, inside the 35,000 included in the $100 Pro plan with room to spare, and small projects fit entirely in the free Hobby tier. You can also set a budget limit to cap spending. Full details on [/pricing](/pricing).
+
+### How do you set up Argos with Storybook?
+
+The modern path uses the [Storybook Vitest addon](https://storybook.js.org/docs/writing-tests/integrations/vitest-addon) (Storybook 8+). Install the Argos addon:
+
+```bash
+npm i --save-dev @argos-ci/storybook
+```
+
+Then add the Argos plugin to your Vitest configuration, next to `storybookTest`:
+
+```ts
+// vitest.config.ts
+import { defineConfig } from "vitest/config";
+import { playwright } from "@vitest/browser-playwright";
+import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
+import { argosVitestPlugin } from "@argos-ci/storybook/vitest-plugin";
+
+export default defineConfig({
+  test: {
+    projects: [
+      {
+        extends: true,
+        plugins: [
+          storybookTest({ configDir: ".storybook" }),
+          argosVitestPlugin({
+            // Upload to Argos on CI only.
+            uploadToArgos: !!process.env.CI,
+          }),
+        ],
+        test: {
+          name: "storybook",
+          browser: {
+            enabled: true,
+            headless: true,
+            provider: playwright({
+              // Stabilize text rendering across macOS and CI.
+              launchOptions: {
+                args: ["--disable-lcd-text", "--font-render-hinting=none"],
+              },
+            }),
+            instances: [{ browser: "chromium" }],
+          },
+          setupFiles: [".storybook/vitest.setup.ts"],
+        },
+      },
+    ],
+  },
+});
+```
+
+Every story is captured automatically when the tests run. In CI, two commands do the whole job — visual tests plus a live Storybook preview:
+
+```yaml
+# .github/workflows/argos.yml (excerpt)
+- run: npx playwright install --with-deps chromium
+- run: npx vitest --project=storybook
+  env:
+    ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }}
+- run: npm run build-storybook
+- run: npx --no-install argos deploy ./storybook-static
+  env:
+    ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }}
+```
+
+That `argos deploy` step is worth pausing on: Argos hosts your built Storybook on a unique preview URL for every pull request, so reviewers browse the actual components, not just diffs. Chromatic offers this for Storybook only; Argos [deployments](/deployments) host any static build, so the same feature covers your docs site or a static app build. Under the hood, the Argos SDK also waits for fonts, images, and network idle before each capture, which kills most flakiness at the source ([more on stabilization](/blog/screenshot-stabilization)).
+
+If you're on the Storybook test-runner rather than Vitest, the setup is just as supported: see our [Storybook + GitHub Actions guide](/blog/storybook-github-actions). And if you're migrating an existing Chromatic project, the [Chromatic migration guide](/docs/learn/how-to-guides/migrate-to-argos/from-chromatic) walks through it step by step.
+
+## Option 2: DIY with Storybook test-runner and Playwright
+
+If you want zero SaaS involvement, you can build visual testing yourself. Point Playwright at a built Storybook and snapshot each story with `toHaveScreenshot`:
+
+```ts
+// stories.spec.ts
+import { test, expect } from "@playwright/test";
+import index from "../storybook-static/index.json";
+
+const stories = Object.values(index.entries).filter(
+  (entry) => entry.type === "story",
+);
+
+for (const story of stories) {
+  test(story.id, async ({ page }) => {
+    await page.goto(`/iframe.html?id=${story.id}&viewMode=story`);
+    await expect(page).toHaveScreenshot(`${story.id}.png`);
+  });
+}
+```
+
+It works, it's free, and for a small project with one or two developers it can be enough. But be honest with yourself about the ongoing cost:
+
+- **Baselines live in your Git repo.** Hundreds of PNGs bloat the repository, and every intentional UI change means regenerating and committing them.
+- **Rendering is platform-dependent.** Screenshots taken on macOS won't match Linux CI pixel-for-pixel. In practice you must generate baselines in CI (usually via Docker), which makes local iteration painful.
+- **You own the stabilization.** Fonts still loading, images not decoded, animations mid-flight: each one is a flaky failure you debug yourself. Play functions and lazy-loaded stories need explicit waits.
+- **There's no review workflow.** Diffs are red-pixel overlays in a terminal or HTML report. No team UI, no approvals, no history.
+
+We wrote a deeper analysis of where this approach breaks down in [Playwright visual testing limits](/blog/playwright-visual-testing-limits). The pattern: DIY costs nothing in dollars and a lot in engineering hours once the story count and team size grow.
+
+## Option 3: Staying on Chromatic
+
+Sometimes the right move is not to move. Chromatic remains a strong choice if:
+
+- Your visual testing is **Storybook-only** and will stay that way.
+- The $179/month tier fits your budget and your snapshot volume is stable.
+- You value having the tool built by the same team that builds Storybook, with day-one support for new Storybook releases.
+
+The trade-offs to accept: cloud-based capture means what's diffed is rendered on Chromatic's infrastructure rather than in your own CI browser, snapshot billing scales with every viewport and browser you enable, and previews stop at Storybook. If any of those pinch, the [Argos vs. Chromatic comparison](/compare/chromatic) lays out the differences feature by feature.
+
+## Verdict
+
+For most teams asking this question, the answer is the Argos Storybook addon. You keep the "every story is a visual test" workflow that made Chromatic popular, at $100/month flat (or free under 5,000 screenshots/month) instead of $179/month, with local capture in your own CI browser, PR preview deployments for any static build, and an open-source stack you can inspect. DIY with `toHaveScreenshot` is fine for tiny projects that will stay tiny; Chromatic is fine if budget isn't the constraint and Storybook is your whole testing world. Migration takes an afternoon: [start here](/docs/learn/how-to-guides/migrate-to-argos/from-chromatic).
+
+## FAQ
+
+### Can I use Storybook visual testing without Chromatic?
+
+Yes. The Argos Storybook addon captures every story during your Vitest or test-runner run and uploads screenshots for review, with a free tier of 5,000 screenshots/month. You can also build a DIY setup with Playwright's `toHaveScreenshot`, at the cost of managing baselines and CI rendering differences yourself.
+
+### How much cheaper is Argos than Chromatic for Storybook?
+
+As of July 2026, Chromatic's paid plans start at $179/month with snapshot billing that grows with viewports and browsers. Argos Pro is $100/month flat with 35,000 screenshots included, extra Storybook screenshots at $0.0015 each, and a free Hobby tier covering 5,000 screenshots/month.
+
+### Does Argos host my Storybook like Chromatic does?
+
+Yes. Running `argos deploy ./storybook-static` in CI publishes your built Storybook to a unique preview URL on every pull request. Unlike Chromatic, Argos deployments aren't limited to Storybook: the same feature hosts any static build, such as a docs site.
+
+### Do I have to rewrite my stories to migrate from Chromatic?
+
+No. Your stories are the test suite in both tools, so they stay untouched. Migration means installing `@argos-ci/storybook`, adding the plugin to your Vitest config (or the test-runner hook), and swapping the CI step. The migration guide covers the details.

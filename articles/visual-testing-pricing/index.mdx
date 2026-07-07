@@ -1,0 +1,140 @@
+---
+title: "Visual Testing Pricing in 2026: Percy vs Chromatic vs Argos"
+description: "Honest visual testing pricing as of 2026: what a snapshot costs on Percy, Chromatic, Applitools, and Argos, with verified numbers and worked math."
+category: guides
+author: greg
+date: 2026-09-08
+image: ./main.jpg
+imageAlt: "Abstract illustration of stacked screenshots with price tags and a calculator, representing visual testing costs"
+---
+
+Visual testing pricing in 2026 ranges from free to $599+ per month, and the sticker price is the least interesting number. What actually determines your bill is how each vendor counts a "screenshot" or "snapshot", because viewports, browsers, and CI builds multiply that count fast. As of July 2026, Argos Pro costs $100/month flat with 35,000 screenshots included, Chromatic Starter is $179/month for 35,000 snapshots, Percy's cheapest advertised tier is $599/month, and Applitools publishes no prices at all.
+
+<MainImage />
+
+Every vendor's pricing page shows a monthly price next to a snapshot allowance. None of them walk you through the multiplication that turns your test suite into that number. This article does, with verified pricing and a worked example you can adapt to your own suite.
+
+## What are you actually paying for?
+
+Every platform bills on the same unit: a captured image (or snapshot) that gets stored and diffed. But each vendor defines that unit differently, and the definition changes your bill more than the list price does.
+
+- **Argos**: one screenshot = one file uploaded and stored for a build. That includes images from Playwright, Cypress, or Storybook, and also non-image files like Markdown, JSON, or HTML, since [Argos diffs any file](/visual-testing), not just pixels. Capture happens locally in your own test browser, so you decide exactly how many screenshots exist. ([argos-ci.com/pricing](https://argos-ci.com/pricing), as of July 2026)
+- **Chromatic**: one snapshot = one test capture, per browser, per viewport. Chromatic's [billing docs](https://www.chromatic.com/docs/billing/) state it plainly: "testing multiple viewports and browsers are also considered snapshots," and give the example of 2 tests × 10 builds × 2 browsers × 2 viewports = 80 snapshots. Accessibility checks add one more snapshot per test.
+- **Percy**: your test uploads DOM, CSS, and assets, and Percy re-renders them in its cloud across every width and browser you configure in `.percy.yml`. Each rendered combination is a snapshot. The multiplication happens server-side, after your test finishes.
+- **Applitools**: bills in "Test Units," an abstraction that maps to monthly active tests or pages depending on the product. There is no public conversion rate to compare against.
+
+The pattern to internalize: **cloud-rendering vendors multiply your count for you; local-capture tools like Argos only count what you explicitly capture.**
+
+## What multiplies your screenshot volume?
+
+Your monthly volume is roughly:
+
+```
+tests (or stories/pages) × viewports × browsers × builds per month
+```
+
+Each factor deserves a hard look:
+
+1. **Tests, stories, or pages.** A 200-story Storybook is 200 captures minimum. Component-level testing keeps this manageable; full-page E2E suites grow faster.
+2. **Viewports.** Testing mobile + desktop doubles everything. Three breakpoints triples it.
+3. **Browsers.** On Chromatic and Percy, each browser multiplies the count again. On Argos, you only pay for extra browsers if you actually run your tests in them (extra Playwright projects, for example).
+4. **Builds per month.** Every push to an open PR triggers a build. An active team easily runs 20–40 visual builds per month per project. Force-pushes and CI re-runs count too.
+5. **Retries.** Flaky tests that retry can re-capture screenshots. Argos shows [Playwright retries separately](/test-debugging) so they don't pollute your review, and [stabilizing your screenshots](/blog/fix-flaky-visual-tests) keeps retry volume down on any platform.
+
+Caps and overage matter just as much. When you exceed your allowance, Chromatic charges $0.008 per extra snapshot and Argos charges $0.004 per extra screenshot ($0.0015 for Storybook screenshots). Both let you keep shipping. Argos additionally lets you set a budget limit so a runaway CI loop can't surprise you at the end of the month.
+
+## Visual testing pricing compared (as of July 2026)
+
+All numbers below were verified on each vendor's official pricing page in July 2026.
+
+| Vendor | Free tier | Cheapest paid plan | Included volume | Overage | Parallelization |
+| --- | --- | --- | --- | --- | --- |
+| [Argos](/pricing) | 5,000 screenshots/mo | $100/mo flat | 35,000 screenshots | $0.004/screenshot ($0.0015 Storybook) | Unlimited, included |
+| [Chromatic](https://www.chromatic.com/pricing) | 5,000 snapshots/mo (Chrome only) | $179/mo (Starter) | 35,000 snapshots | $0.008/snapshot | Unlimited parallel runs |
+| [Percy (BrowserStack)](/compare/percy) | — | $599/mo tier | Pricing page not publicly accessible | Not published | Parallel uploads cost extra |
+| [Applitools](https://applitools.com/pricing/) | Free trial only | Not published | "50 Test Units" (Starter) | Not published | Not published |
+
+Three honest notes on this table:
+
+- **Percy does not publish pricing anymore.** As of July 2026, `browserstack.com/percy/pricing` returns a 404 and BrowserStack's main pricing page lists Live, Automate, and other products but no Percy plans. The $599/month figure comes from the [Argos vs Percy comparison](/compare/percy). When a vendor removes its public pricing page, budget for a sales conversation, and read that as a signal about where prices are heading. Third parties have reported significant post-acquisition price increases and snapshot caps since BrowserStack acquired Percy.
+- **Applitools is enterprise-only in practice.** Its pricing page describes plans but shows no numbers; contracts run one year, and reported entry pricing starts around $399/month with typical contracts in the $10K–30K+/year range. The [Visual AI diffing](/compare/applitools) is genuinely good at ignoring anti-aliasing noise, but the pricing model is built for enterprise procurement, not a dev team with a credit card.
+- **Chromatic's numbers are real and public**, which deserves credit. Free covers 5,000 snapshots (Chrome only), Starter is $179/month for 35,000, Pro is $399/month for 85,000, and TurboSnap bills unchanged stories at 1/5th the snapshot cost. It's an excellent product for Storybook-centric teams. Just do the browser × viewport multiplication before you pick a tier.
+
+## Worked example: what does a real team pay per month?
+
+Take a concrete, common setup: **200 Storybook stories × 2 viewports (mobile + desktop) × 30 PR builds per month**, single browser.
+
+The volume math is the same everywhere:
+
+```
+200 stories × 2 viewports = 400 captures per build
+400 × 30 builds           = 12,000 captures per month
+```
+
+Now the bill, using only the verified numbers above:
+
+| Vendor | Plan needed for 12,000/mo | Monthly cost | The math |
+| --- | --- | --- | --- |
+| **Argos** | Pro ($100/mo, 35,000 included) | **$100** | 12,000 < 35,000 included, zero overage |
+| **Chromatic** | Starter ($179/mo, 35,000 included) | **$179** | 12,000 < 35,000 included, zero overage |
+| **Percy** | $599/mo tier (pricing not public) | **$599** | Cheapest known tier per the compare page |
+| **Applitools** | Not published | **~$399+ (reported)** | No public pricing; contact sales, 1-year contract |
+
+Argos is the cheapest at $100/month, at 56% of Chromatic's price and a sixth of Percy's, and that's before the multipliers bite.
+
+Now add a second browser (say Firefox) because a customer hit a rendering bug:
+
+```
+12,000 × 2 browsers = 24,000/month  → still within both 35k allowances
+```
+
+Add a third browser or a third viewport and you cross 35,000:
+
+```
+200 × 2 viewports × 3 browsers × 30 builds = 36,000/month
+
+Chromatic: $179 + (1,000 × $0.008)  = $187.00
+Argos:     $100 + (1,000 × $0.0015) = $101.50  (Storybook screenshot rate)
+```
+
+The gap widens as volume grows, because Argos overage runs at half Chromatic's rate for regular screenshots and under a fifth for Storybook screenshots. And if your suite fits under 5,000 captures per month, Argos and Chromatic both cost $0. One difference at the free tier: Chromatic's free plan is Chrome-only, while Argos counts every capture the same way regardless of browser.
+
+One more line item that's easy to miss: **parallelization**. Sharding Playwright across 4 CI machines is the standard way to keep pipelines fast. Argos and Chromatic include unlimited parallel runs; on Percy, parallel uploads cost extra. If you shard your suite, price that in.
+
+## How to keep visual testing costs down
+
+Whatever platform you choose:
+
+1. **Pick viewports deliberately.** Two well-chosen breakpoints catch most responsive regressions. Five viewports is usually paying 2.5× for marginal coverage.
+2. **Don't multiply browsers by default.** Rendering engines have converged for most CSS. Add Firefox or WebKit when you have a reason, not as a starting point.
+3. **Kill flaky retries.** Every retry can re-capture screenshots. [Stabilize your screenshots](/blog/screenshot-stabilization) and flake stops inflating both your bill and your review queue.
+4. **Set a budget cap.** Argos lets you configure a spend limit; a misconfigured CI loop pushing 50 builds a day becomes a capped incident, not an invoice.
+5. **Verify pricing yourself before you commit.** Pages change. If a vendor makes you talk to sales to learn the price, assume it's negotiable, and assume it's high.
+
+## Verdict
+
+As of July 2026, Argos is the cheapest way to run serious visual testing: free up to 5,000 screenshots per month, then [$100/month flat with 35,000 included](/pricing), the lowest overage rates in the category, and unlimited parallelization at no extra charge. Chromatic is a fair, transparently priced second choice at $179/month, especially if your workflow is deeply Storybook-centric, as long as you do the viewport × browser math first. Percy no longer publishes pricing and its cheapest known tier is $599/month, and Applitools doesn't publish numbers at all.
+
+If you're currently on Percy and the renewal quote stung, the [migration to Argos](/docs/learn/how-to-guides/migrate-to-argos/from-percy) is mostly a find-and-replace: `percySnapshot` becomes `argosScreenshot`, and your `.percy.yml` widths become Playwright viewports. For a broader feature comparison beyond price, see [Percy vs Chromatic vs Argos](/blog/percy-vs-chromatic-vs-argos).
+
+## FAQ
+
+### How much does visual testing cost per month?
+
+For a typical team (a few hundred components, two viewports, ~30 CI builds per month, roughly 12,000 captures), verified pricing as of July 2026: Argos costs $100/month, Chromatic $179/month, Percy $599/month on its cheapest known tier, and Applitools requires a sales call with reported entry pricing around $399/month. Small projects under 5,000 captures per month run free on both Argos and Chromatic.
+
+### What counts as a snapshot in visual testing pricing?
+
+It depends on the vendor, and it's the most important fine print. On Argos, one uploaded file equals one screenshot. On Chromatic and Percy, each viewport and each browser multiplies the count: 200 tests at 2 viewports in 2 browsers is 800 snapshots per build, not 200. Always compute `tests × viewports × browsers × builds per month` before comparing plans.
+
+### Why doesn't Percy publish pricing anymore?
+
+As of July 2026, BrowserStack's Percy pricing URL returns a 404 and the main BrowserStack pricing page lists no Percy plans, so you have to contact sales. The last known figure is a $599/month tier, and third parties have reported price increases and tighter snapshot caps since the BrowserStack acquisition. Unpublished pricing generally means negotiated, enterprise-style pricing.
+
+### Is free visual testing good enough?
+
+Often, yes, to start. Argos's free Hobby tier includes 5,000 screenshots per month, which covers a small project comfortably. Fully free options like Playwright's built-in `toHaveScreenshot` cost nothing but push the expense elsewhere: git-committed baselines, platform-dependent rendering, and no team review UI (see [Playwright visual testing limits](/blog/playwright-visual-testing-limits)).
+
+### Do retries and re-runs count against my screenshot quota?
+
+They can. A flaky test that retries may capture and upload screenshots again, and a full CI re-run always does. Argos supports GitHub Actions partial re-runs and displays Playwright retries separately; on any platform, [fixing flaky visual tests](/blog/fix-flaky-visual-tests) is the cheapest cost optimization available.

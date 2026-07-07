@@ -1,0 +1,177 @@
+---
+title: "Cypress Visual Regression Testing: The 2026 Guide"
+description: "How to do visual regression testing in Cypress in 2026: local diff plugins vs cloud services, real setup code, and an honest comparison of your options."
+category: guides
+author: jeremy
+date: 2026-09-01
+image: ./main.jpg
+imageAlt: "Abstract illustration of two overlapping browser windows being compared side by side, representing Cypress visual regression testing"
+---
+
+Cypress has no built-in visual regression testing, so you add it one of two ways: a **local diff plugin** (like cypress-visual-regression or cypress-image-diff-js) that compares screenshots against baselines committed to your repo, or a **cloud service** (like Argos) that captures screenshots in your Cypress browser, diffs them server-side, and gives your team a review workflow on every pull request. Plugins are free and fine for a handful of stable pages; cloud services are what you want once multiple people ship UI changes daily. This guide covers both, with runnable code.
+
+<MainImage />
+
+## Why Cypress needs a visual testing layer
+
+Cypress assertions verify the DOM: an element exists, contains text, is visible. They say nothing about how the page actually looks. A broken CSS import, an unintended `z-index` change, or a design-token update that turns your primary button gray will all pass a green Cypress run.
+
+[Visual regression testing](/blog/what-is-visual-testing) fills that gap by capturing screenshots during your tests and comparing them pixel-by-pixel against known-good baselines. Any difference is flagged for a human (or an AI agent) to approve or reject.
+
+The [official Cypress documentation on visual testing](https://docs.cypress.io/app/tooling/visual-testing) splits the ecosystem exactly along the line this guide follows: open-source plugins that diff locally, and commercial services with official Cypress integrations. Argos is one of the services Cypress recommends there: "Argos captures screenshots during your Cypress runs and provides a review workflow with CI and pull request integration to detect and approve visual changes."
+
+## Option 1: local diff plugins
+
+Two plugins dominate this category as of 2026, and both are actively maintained:
+
+- **[cypress-visual-regression](https://github.com/cypress-visual-regression/cypress-visual-regression)**: the classic. Baselines live in `cypress/snapshots/base`, and you switch between generating and comparing baselines with an environment variable.
+- **[cypress-image-diff-js](https://github.com/haim-io/cypress-image-diff)**: built on Pixelmatch, with an HTML report and one-click baseline updates. Baselines live in `cypress-image-diff-screenshots/baseline`.
+
+Here is a minimal cypress-visual-regression setup. Register the plugin in `cypress.config.js`:
+
+```js
+const { defineConfig } = require("cypress");
+const { configureVisualRegression } = require("cypress-visual-regression");
+
+module.exports = defineConfig({
+  e2e: {
+    screenshotsFolder: "./cypress/snapshots/actual",
+    setupNodeEvents(on, config) {
+      configureVisualRegression(on);
+    },
+  },
+});
+```
+
+Add the command in `cypress/support/e2e.js`:
+
+```js
+const {
+  addCompareSnapshotCommand,
+} = require("cypress-visual-regression/dist/command");
+
+addCompareSnapshotCommand();
+```
+
+Then use it in a test:
+
+```js
+it("renders the homepage", () => {
+  cy.visit("/");
+  cy.compareSnapshot("homepage");
+});
+```
+
+Generate baselines with `CYPRESS_visualRegressionType=base`, then run comparisons with `CYPRESS_visualRegressionType=regression`. The cypress-image-diff-js API is similar (`cy.compareSnapshot("home-page")`) with its own config file and reporter.
+
+### Where the plugin approach breaks down
+
+Plugins are genuinely a good fit for a small suite maintained by one or two developers. But three problems show up as soon as the suite or the team grows:
+
+1. **CI rendering differences.** A screenshot taken on your Mac will not match one taken on the Linux CI runner: font rasterization, scrollbars, and GPU rendering all differ. In practice you must generate baselines in CI, or in a Docker image identical to CI, and every developer needs that workflow wired up. Most teams learn this after a week of "why does CI fail when it passes locally?"
+2. **Baselines committed to Git.** Hundreds of PNGs bloat the repository, produce unreviewable binary diffs in PRs, and create merge conflicts when two branches update the same baseline. Updating baselines means re-running the suite in base mode and committing the output.
+3. **No review workflow.** A failed diff is an image buried in CI artifacts. There is no UI where a designer or teammate can look at before/after side by side, approve intentional changes, or comment on a regression. Every red diff is a developer downloading artifacts and squinting.
+
+There is also the flakiness tax: plugins compare raw pixels, so animations, unfinished font loading, and lazy-loaded images produce false positives you must engineer around yourself. We wrote a whole post on [screenshot stabilization](/blog/screenshot-stabilization) because this is hard to get right.
+
+## Option 2: cloud visual testing with Argos
+
+The cloud approach keeps capture in your existing Cypress run and moves storage, diffing, and review to a service. Argos is built specifically for this workflow, and setup takes about five minutes ([full quickstart here](/docs/quickstart)).
+
+Install the SDK:
+
+```bash
+npm i --save-dev @argos-ci/cypress
+```
+
+Import the support file in `cypress/support/e2e.js`:
+
+```js
+import "@argos-ci/cypress/support";
+```
+
+Register the Argos task in `cypress.config.js`:
+
+```js
+const { defineConfig } = require("cypress");
+const { registerArgosTask } = require("@argos-ci/cypress/task");
+
+module.exports = defineConfig({
+  e2e: {
+    async setupNodeEvents(on, config) {
+      registerArgosTask(on, config, {
+        // Only upload when running in CI
+        uploadToArgos: !!process.env.CI,
+      });
+    },
+  },
+});
+```
+
+Then capture screenshots in your tests:
+
+```js
+it("screenshot homepage", () => {
+  cy.visit("http://localhost:3000/");
+  cy.argosScreenshot("homepage");
+});
+```
+
+Run your suite in CI with the `ARGOS_TOKEN` environment variable set, and screenshots upload automatically. That is the whole integration.
+
+Three things make this fundamentally different from the plugin workflow:
+
+- **Screenshots are captured locally, in your real Cypress browser.** Argos does not re-render your pages in a remote cloud browser. What your test sees is exactly what gets diffed, so there is no second rendering environment to keep in sync. Before capture, `cy.argosScreenshot` waits for fonts and images to load, network to go idle, and hides carets and scrollbars, which eliminates most flakiness at the source.
+- **Baselines come from Git history, automatically.** Argos picks the correct baseline build by looking at your branch's merge base. No baseline PNGs in the repo, no base/regression mode switching, no "regenerate baselines" chore.
+- **Review happens on the pull request.** Each PR gets a status check; visual changes appear in a [collaborative review UI](/collaborative-reviews) with side-by-side and overlay diffs, threads, and one-click approval. Approving a change on `main` makes it the new baseline for everyone. You can even let [AI agents review builds](/ai-agents) through the CLI and API.
+
+Pricing is deliberately simple: **free up to 5,000 screenshots/month**, then a flat **$100/month Pro plan with 35,000 screenshots included** and unlimited parallelization ([pricing details](/pricing)). Argos is also open source, so the SDK and platform code are on [GitHub](https://github.com/argos-ci).
+
+## Argos vs Percy vs Chromatic for Cypress users
+
+All three appear on the Cypress docs page as commercial integrations. Here is how they compare for a Cypress-first team, as of 2026:
+
+| | Argos | Percy (BrowserStack) | Chromatic |
+| --- | --- | --- | --- |
+| Capture model | Locally, in your real Cypress browser | DOM uploaded, re-rendered in Percy's cloud | Rendered in Chromatic's cloud |
+| Baseline management | Automatic from Git history | Managed in dashboard | Managed in dashboard |
+| Entry paid plan | $100/mo flat (35k screenshots) | $599/mo | $179/mo |
+| Free tier | 5,000 screenshots/mo | — | — |
+| Parallel test runs | Unlimited, included | Costs extra | Included |
+| Open source | Yes | No | No |
+| Snapshot any file (JSON, Markdown, ...) | Yes | No | No |
+| Best fit | Cypress/Playwright E2E teams | Cross-browser cloud rendering needs | Storybook-centric teams |
+
+To be fair to the alternatives: Percy's cloud re-rendering gives you real cross-browser rendering at multiple widths from a single capture, and Chromatic, made by the Storybook maintainers, is excellent if your visual testing strategy is component-first in Storybook. But Percy's cloud re-render means the diffed page is not exactly what your Cypress test rendered, which can introduce hard-to-debug discrepancies with complex JavaScript, and both are priced well above Argos. See the detailed breakdowns on [Argos vs Percy](/compare/percy) and [Argos vs Chromatic](/compare/chromatic), or the migration guide for [moving from Percy to Argos](/docs/learn/how-to-guides/migrate-to-argos/from-percy).
+
+## Which approach should you pick?
+
+Use a **local plugin** if all of these are true: solo project or very small team, fewer than a few dozen screenshots, a single stable CI environment, and you are comfortable managing baselines in Git.
+
+Use a **cloud service** when any of these apply: multiple contributors ship UI changes, you want visual checks as a PR status, designers or non-engineers should review changes, or you are tired of fighting baseline drift and CI rendering mismatches. The free 5,000 screenshots/month tier on Argos covers most projects at the point where plugins start hurting, so the switch usually costs nothing.
+
+## Conclusion
+
+Cypress visual regression testing in 2026 is a solved problem, and the Cypress docs themselves point the way: plugins like cypress-visual-regression and cypress-image-diff-js for small, self-managed setups; a cloud service for team workflows. Among the services Cypress lists, Argos stands out for Cypress users specifically because it diffs exactly what your Cypress browser rendered, manages baselines from Git history with zero ceremony, and does it at a flat $100/month with a generous free tier. Add `cy.argosScreenshot("name")` to a test, set `ARGOS_TOKEN` in CI, and you have PR-level visual reviews on your next push.
+
+## FAQ
+
+### Does Cypress have built-in visual regression testing?
+
+No. Cypress ships `cy.screenshot()` for capturing images but has no built-in comparison or baseline mechanism. Visual regression testing requires either an open-source diff plugin or a commercial service; the [official Cypress docs](https://docs.cypress.io/app/tooling/visual-testing) list both categories, including Argos.
+
+### What is the best Cypress visual testing plugin?
+
+cypress-visual-regression and cypress-image-diff-js are the two most established open-source options, both actively maintained in 2026. They work well for small suites, but you manage baselines in Git, keep rendering environments consistent yourself, and review diffs from CI artifacts without a UI.
+
+### How do I avoid flaky visual tests in Cypress?
+
+Most flakiness comes from capturing before the page settles: fonts loading, images decoding, animations running, blinking carets. `cy.argosScreenshot()` from @argos-ci/cypress handles this automatically by waiting for fonts, images, and network idle and hiding carets and scrollbars. With raw plugins you must implement that stabilization yourself; our [screenshot stabilization guide](/blog/screenshot-stabilization) covers the techniques.
+
+### How much does Cypress visual testing with Argos cost?
+
+Argos is free up to 5,000 screenshots per month on the Hobby plan. The Pro plan is a flat $100/month with 35,000 screenshots included and $0.004 per extra screenshot, with unlimited parallelization at no extra cost, as of 2026. Compare that with Percy at $599/month and Chromatic at $179/month on their entry paid tiers.
+
+### Do I need to commit screenshot baselines to Git with Argos?
+
+No. Argos selects baselines automatically from your Git history: when you open a pull request, screenshots are compared against the approved build from your branch's merge base. Approving changes in the Argos review UI updates the baseline for the whole team, with no binary files in your repository.
