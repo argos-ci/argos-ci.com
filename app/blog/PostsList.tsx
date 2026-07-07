@@ -1,5 +1,7 @@
+import NextLink from "next/link";
 import { notFound } from "next/navigation";
 
+import { Button } from "@/components/Button";
 import { CallToActionSection } from "@/components/CallToActionSection";
 import { Container } from "@/components/Container";
 import { FullPageGrid } from "@/components/FullPageGrid";
@@ -20,16 +22,47 @@ import { type Article, Categories } from "@/lib/api/blog";
 
 import { CategoryLink } from "./CategoryLink";
 
+function ArticleCard(props: { article: Article }) {
+  const { article } = props;
+  return (
+    <Link href={`/blog/${article.slug}`} className="group contents">
+      <PostCard className="col-span-3 border-b max-md:group-last:border-b-0 md:col-span-1 md:border-r md:group-nth-[3n+1]:border-r-0">
+        <PostCardImage
+          width={article.image.width}
+          height={article.image.height}
+          src={article.image.src}
+          alt={article.imageAlt}
+        />
+        <PostCardBody>
+          <PostCardTag>{article.category.title}</PostCardTag>
+          <PostCardTitle>{article.title}</PostCardTitle>
+          <PostCardDescription>{article.description}</PostCardDescription>
+          <PostCardFooter>
+            <PostCardAvatar author={article.author} />
+            <PostCardDate date={article.date} />
+          </PostCardFooter>
+        </PostCardBody>
+      </PostCard>
+    </Link>
+  );
+}
+
 export function PostsList(props: {
   title: string;
   description: string;
   articles: Article[];
+  basePath?: string;
+  previous?: number | null;
+  next?: number | null;
 }) {
-  const { title, description, articles } = props;
+  const { title, description, articles, basePath = "/blog" } = props;
   const firstArticle = articles[0];
   if (!firstArticle) {
     notFound();
   }
+  // Feature the first article only on the first page.
+  const featureFirst = !props.previous;
+  const cardArticles = featureFirst ? articles.slice(1) : articles;
   return (
     <>
       <div className="relative overflow-hidden border-b px-4">
@@ -57,61 +90,65 @@ export function PostsList(props: {
       <div className="px-4">
         <Container noGutter className="relative border-x">
           <div className="grid grid-cols-3">
-            <Link href={`/blog/${firstArticle.slug}`} className="contents">
-              <PostCard className="col-span-3 border-b">
-                <PostCardImage
-                  width={firstArticle.image.width}
-                  height={firstArticle.image.height}
-                  src={firstArticle.image.src}
-                  alt={firstArticle.imageAlt}
-                  extended
-                />
-                <PostCardBody>
-                  <PostCardTag>{firstArticle.category.title}</PostCardTag>
-                  <PostCardTitle extended>{firstArticle.title}</PostCardTitle>
-                  <PostCardDescription>
-                    {firstArticle.description}
-                  </PostCardDescription>
-                  <PostCardFooter>
-                    <PostCardAvatar author={firstArticle.author} />
-                    <PostCardDate date={firstArticle.date} />
-                  </PostCardFooter>
-                </PostCardBody>
-              </PostCard>
-            </Link>
+            {featureFirst ? (
+              <Link href={`/blog/${firstArticle.slug}`} className="contents">
+                <PostCard className="col-span-3 border-b">
+                  <PostCardImage
+                    width={firstArticle.image.width}
+                    height={firstArticle.image.height}
+                    src={firstArticle.image.src}
+                    alt={firstArticle.imageAlt}
+                    extended
+                  />
+                  <PostCardBody>
+                    <PostCardTag>{firstArticle.category.title}</PostCardTag>
+                    <PostCardTitle extended>{firstArticle.title}</PostCardTitle>
+                    <PostCardDescription>
+                      {firstArticle.description}
+                    </PostCardDescription>
+                    <PostCardFooter>
+                      <PostCardAvatar author={firstArticle.author} />
+                      <PostCardDate date={firstArticle.date} />
+                    </PostCardFooter>
+                  </PostCardBody>
+                </PostCard>
+              </Link>
+            ) : null}
 
-            {articles.slice(1).map((article) => {
-              return (
-                <Link
-                  key={article.slug}
-                  href={`/blog/${article.slug}`}
-                  className="group contents"
-                >
-                  <PostCard className="col-span-3 border-b max-md:group-last:border-b-0 md:col-span-1 md:border-r md:group-nth-[3n+1]:border-r-0">
-                    <PostCardImage
-                      width={article.image.width}
-                      height={article.image.height}
-                      src={article.image.src}
-                      alt={article.imageAlt}
-                    />
-                    <PostCardBody>
-                      <PostCardTag>{article.category.title}</PostCardTag>
-                      <PostCardTitle>{article.title}</PostCardTitle>
-                      <PostCardDescription>
-                        {article.description}
-                      </PostCardDescription>
-                      <PostCardFooter>
-                        <PostCardAvatar author={article.author} />
-                        <PostCardDate date={article.date} />
-                      </PostCardFooter>
-                    </PostCardBody>
-                  </PostCard>
-                </Link>
-              );
-            })}
+            {cardArticles.map((article) => (
+              <ArticleCard key={article.slug} article={article} />
+            ))}
           </div>
         </Container>
       </div>
+      {props.previous || props.next ? (
+        <div className="-mt-px border-t px-4">
+          <Container noGutter className="border-x">
+            <div className="flex gap-4 p-6">
+              {props.previous ? (
+                <Button variant="outline" className="mr-auto" asChild>
+                  <NextLink
+                    href={
+                      props.previous === 1
+                        ? basePath
+                        : `${basePath}/page/${props.previous}`
+                    }
+                  >
+                    Newer posts
+                  </NextLink>
+                </Button>
+              ) : null}
+              {props.next ? (
+                <Button variant="outline" className="ml-auto" asChild>
+                  <NextLink href={`${basePath}/page/${props.next}`}>
+                    Previous posts
+                  </NextLink>
+                </Button>
+              ) : null}
+            </div>
+          </Container>
+        </div>
+      ) : null}
       <div className="-mt-px border-t">
         <Container className="h-12 border-x" />
       </div>

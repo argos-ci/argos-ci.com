@@ -72,6 +72,22 @@ const FrontmatterSchema = z.object({
 
 export type Frontmatter = z.infer<typeof FrontmatterSchema>;
 
+/**
+ * Scheduled articles (publish date in the future) are hidden from the
+ * production build. They stay visible in dev and on Vercel preview
+ * deployments so they can be reviewed before their release. A daily
+ * GitHub Actions cron redeploys the site to reveal articles whose
+ * publish date has elapsed (see .github/workflows/publish-scheduled-articles.yml).
+ */
+const showScheduledArticles =
+  process.env.NODE_ENV === "development" ||
+  process.env.VERCEL_ENV === "preview" ||
+  process.env.SHOW_SCHEDULED_ARTICLES === "true";
+
+function checkIsPublished(frontmatter: { date: string }): boolean {
+  return new Date(frontmatter.date) <= new Date();
+}
+
 export type Article = Omit<Frontmatter, "image" | "author" | "category"> & {
   image: StaticImageData;
   filepath: string;
@@ -129,9 +145,45 @@ export async function getArticles(filters?: {
     );
   }
   assertAllItems(articles);
-  return articles.sort(
+  const publishedArticles = showScheduledArticles
+    ? articles
+    : articles.filter(checkIsPublished);
+  return publishedArticles.sort(
     (a, b) => Number(new Date(b.date)) - Number(new Date(a.date)),
   );
+}
+
+const PAGE_SIZE = 16;
+
+/**
+ * Get a paginated slice of articles, optionally filtered by category.
+ */
+export async function getPaginatedArticles(input: {
+  page: number;
+  category?: CategorySlug;
+}) {
+  const allArticles = await getArticles(
+    input.category ? { category: input.category } : undefined,
+  );
+  const articles = allArticles.slice(
+    (input.page - 1) * PAGE_SIZE,
+    input.page * PAGE_SIZE,
+  );
+  const hasMore = allArticles.length > input.page * PAGE_SIZE;
+  const hasLess = input.page > 1;
+  return {
+    articles,
+    total: allArticles.length,
+    next: hasMore ? input.page + 1 : null,
+    previous: hasLess ? input.page - 1 : null,
+  };
+}
+
+/**
+ * Get the number of pages for a given article count.
+ */
+export function getArticlesPagesCount(nbArticles: number) {
+  return Math.ceil(nbArticles / PAGE_SIZE);
 }
 
 /**
@@ -139,7 +191,11 @@ export async function getArticles(filters?: {
  */
 export async function getArticleBySlug(slug: string): Promise<Article | null> {
   const filepath = `./articles/${slug}/index.mdx`;
-  return getArticleDataFromPath(filepath);
+  const article = await getArticleDataFromPath(filepath);
+  if (article && !showScheduledArticles && !checkIsPublished(article)) {
+    return null;
+  }
+  return article;
 }
 
 /**

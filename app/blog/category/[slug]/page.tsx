@@ -1,7 +1,11 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { Categories, checkIsCategorySlug, getArticles } from "@/lib/api/blog";
+import {
+  Categories,
+  checkIsCategorySlug,
+  getPaginatedArticles,
+} from "@/lib/api/blog";
 import { getMetadata } from "@/lib/metadata";
 
 import { PostsList } from "../../PostsList";
@@ -33,12 +37,18 @@ export default async function Page(props: Props) {
     notFound();
   }
   const category = Categories[params.slug];
-  const articles = await getArticles({ category: category.slug });
+  const result = await getPaginatedArticles({
+    page: 1,
+    category: category.slug,
+  });
   return (
     <PostsList
-      articles={articles}
+      articles={result.articles}
       title={category.title}
       description={category.description}
+      basePath={`/blog/category/${category.slug}`}
+      previous={result.previous}
+      next={result.next}
     />
   );
 }
