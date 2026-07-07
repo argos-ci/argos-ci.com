@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import { getArticles } from "@/lib/api/blog";
+import { getPaginatedArticles } from "@/lib/api/blog";
 import { getMetadata } from "@/lib/metadata";
 
 import { PostsList } from "./PostsList";
@@ -14,12 +14,15 @@ export const metadata: Metadata = getMetadata({
 });
 
 export default async function Page() {
-  const articles = await getArticles();
+  const result = await getPaginatedArticles({ page: 1 });
   return (
     <PostsList
-      articles={articles}
+      articles={result.articles}
       title="Blog"
       description="All the latest Argos news, straight from the team."
+      basePath="/blog"
+      previous={result.previous}
+      next={result.next}
     />
   );
 }

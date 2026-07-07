@@ -10,14 +10,24 @@ imageAlt: "Abstract illustration of two overlapping screenshots being compared p
 
 Playwright ships visual regression testing out of the box: `expect(page).toHaveScreenshot()` captures a screenshot, compares it pixel by pixel against a baseline image committed to your repo, and fails the test if they differ. To make it reliable in CI, you need one thing above all: screenshots must always be generated on the same OS and browser version, which in practice means running Playwright in Docker and updating baselines from CI, not from your laptop. This guide covers the full setup, the workflows that keep it sane, and what to do when git-committed baselines stop scaling.
 
-<MainImage />
+<MainImage
+  credit={
+    <>
+      Photo by{" "}
+      <a href="https://unsplash.com/@homaappliances">Homa Appliances</a> on{" "}
+      <a href="https://unsplash.com/photos/a-large-group-of-boxes-sitting-on-top-of-a-conveyor-belt-KntF2PVAf1o">
+        Unsplash
+      </a>
+    </>
+  }
+/>
 
 ## How does toHaveScreenshot work?
 
 `toHaveScreenshot` is a built-in Playwright assertion. The first time a test runs, it saves a reference image next to the test file; every subsequent run compares the new capture against that reference using the [pixelmatch](https://github.com/mapbox/pixelmatch) library.
 
 ```ts
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 test("homepage", async ({ page }) => {
   await page.goto("/");
@@ -34,7 +44,7 @@ tests/
     homepage-chromium-linux.png
 ```
 
-Note the suffix: `chromium-linux`. Playwright encodes the **browser and platform into the baseline filename** because rendering differs across operating systems. Fonts, anti-aliasing, and subpixel rounding are not identical on macOS, Linux, and Windows. A baseline generated on your Mac is named `homepage-chromium-darwin.png` and is simply *missing* when the test runs on a Linux CI runner. This single detail drives the entire CI strategy below. You can customize the layout with `snapshotPathTemplate` in your config, but the platform constraint remains.
+Note the suffix: `chromium-linux`. Playwright encodes the **browser and platform into the baseline filename** because rendering differs across operating systems. Fonts, anti-aliasing, and subpixel rounding are not identical on macOS, Linux, and Windows. A baseline generated on your Mac is named `homepage-chromium-darwin.png` and is simply _missing_ when the test runs on a Linux CI runner. This single detail drives the entire CI strategy below. You can customize the layout with `snapshotPathTemplate` in your config, but the platform constraint remains.
 
 ### The options that matter
 
@@ -98,7 +108,7 @@ jobs:
           path: playwright-report/
 ```
 
-Uploading the HTML report on failure is essential: it contains the actual/expected/diff images, and it's the only way anyone can see *what changed* without rerunning locally.
+Uploading the HTML report on failure is essential: it contains the actual/expected/diff images, and it's the only way anyone can see _what changed_ without rerunning locally.
 
 ### Updating baselines with --update-snapshots
 
@@ -187,15 +197,15 @@ test("homepage", async ({ page }) => {
 
 What changes compared to the native workflow:
 
-| Concern | Native `toHaveScreenshot` | Playwright + Argos |
-| --- | --- | --- |
-| Baseline storage | PNGs committed to git | Cloud, zero repo weight |
-| Baseline selection | Manual `--update-snapshots` | Automatic from Git history |
-| Updating after a change | Docker run or CI commit loop | Approve diffs in the PR check |
-| Reviewing diffs | Raw PNGs in the git diff | Side-by-side review UI with overlays |
-| Cross-platform | Baselines break across OSes | Diffed server-side, capture anywhere |
-| Failure debugging | HTML report artifact | [Trace viewer and failure screenshots](/test-debugging) in the UI |
-| Cost | Free (plus CI time and repo weight) | Free up to 5,000 screenshots/month, then [$100/mo flat](/pricing) |
+| Concern                 | Native `toHaveScreenshot`           | Playwright + Argos                                                |
+| ----------------------- | ----------------------------------- | ----------------------------------------------------------------- |
+| Baseline storage        | PNGs committed to git               | Cloud, zero repo weight                                           |
+| Baseline selection      | Manual `--update-snapshots`         | Automatic from Git history                                        |
+| Updating after a change | Docker run or CI commit loop        | Approve diffs in the PR check                                     |
+| Reviewing diffs         | Raw PNGs in the git diff            | Side-by-side review UI with overlays                              |
+| Cross-platform          | Baselines break across OSes         | Diffed server-side, capture anywhere                              |
+| Failure debugging       | HTML report artifact                | [Trace viewer and failure screenshots](/test-debugging) in the UI |
+| Cost                    | Free (plus CI time and repo weight) | Free up to 5,000 screenshots/month, then [$100/mo flat](/pricing) |
 
 The baseline model is the biggest shift: Argos picks the reference build automatically from your Git history (usually the latest approved build on your base branch), so there is no `--update-snapshots` step at all. When a shared component changes 60 screenshots, you review them in a dedicated UI and approve the build; the next merge becomes the new baseline. Because Argos also ingests Playwright traces, a failing or flaky test shows its full trace and failure screenshot right next to the visual diff.
 

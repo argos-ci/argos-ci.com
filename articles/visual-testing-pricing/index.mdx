@@ -10,7 +10,16 @@ imageAlt: "Abstract illustration of stacked screenshots with price tags and a ca
 
 Visual testing pricing in 2026 ranges from free to $599+ per month, and the sticker price is the least interesting number. What actually determines your bill is how each vendor counts a "screenshot" or "snapshot", because viewports, browsers, and CI builds multiply that count fast. As of July 2026, Argos Pro costs $100/month flat with 35,000 screenshots included, Chromatic Starter is $179/month for 35,000 snapshots, Percy's cheapest advertised tier is $599/month, and Applitools publishes no prices at all.
 
-<MainImage />
+<MainImage
+  credit={
+    <>
+      Photo by <a href="https://unsplash.com/@varpap">Vardan Papikyan</a> on{" "}
+      <a href="https://unsplash.com/photos/a-calculator-on-money-3Q4H1BQAvVo">
+        Unsplash
+      </a>
+    </>
+  }
+/>
 
 Every vendor's pricing page shows a monthly price next to a snapshot allowance. None of them walk you through the multiplication that turns your test suite into that number. This article does, with verified pricing and a worked example you can adapt to your own suite.
 
@@ -47,12 +56,12 @@ Caps and overage matter just as much. When you exceed your allowance, Chromatic 
 
 All numbers below were verified on each vendor's official pricing page in July 2026.
 
-| Vendor | Free tier | Cheapest paid plan | Included volume | Overage | Parallelization |
-| --- | --- | --- | --- | --- | --- |
-| [Argos](/pricing) | 5,000 screenshots/mo | $100/mo flat | 35,000 screenshots | $0.004/screenshot ($0.0015 Storybook) | Unlimited, included |
-| [Chromatic](https://www.chromatic.com/pricing) | 5,000 snapshots/mo (Chrome only) | $179/mo (Starter) | 35,000 snapshots | $0.008/snapshot | Unlimited parallel runs |
-| [Percy (BrowserStack)](/compare/percy) | — | $599/mo tier | Pricing page not publicly accessible | Not published | Parallel uploads cost extra |
-| [Applitools](https://applitools.com/pricing/) | Free trial only | Not published | "50 Test Units" (Starter) | Not published | Not published |
+| Vendor                                         | Free tier                        | Cheapest paid plan | Included volume                      | Overage                               | Parallelization             |
+| ---------------------------------------------- | -------------------------------- | ------------------ | ------------------------------------ | ------------------------------------- | --------------------------- |
+| [Argos](/pricing)                              | 5,000 screenshots/mo             | $100/mo flat       | 35,000 screenshots                   | $0.004/screenshot ($0.0015 Storybook) | Unlimited, included         |
+| [Chromatic](https://www.chromatic.com/pricing) | 5,000 snapshots/mo (Chrome only) | $179/mo (Starter)  | 35,000 snapshots                     | $0.008/snapshot                       | Unlimited parallel runs     |
+| [Percy (BrowserStack)](/compare/percy)         | —                                | $599/mo tier       | Pricing page not publicly accessible | Not published                         | Parallel uploads cost extra |
+| [Applitools](https://applitools.com/pricing/)  | Free trial only                  | Not published      | "50 Test Units" (Starter)            | Not published                         | Not published               |
 
 Three honest notes on this table:
 
@@ -73,12 +82,12 @@ The volume math is the same everywhere:
 
 Now the bill, using only the verified numbers above:
 
-| Vendor | Plan needed for 12,000/mo | Monthly cost | The math |
-| --- | --- | --- | --- |
-| **Argos** | Pro ($100/mo, 35,000 included) | **$100** | 12,000 < 35,000 included, zero overage |
-| **Chromatic** | Starter ($179/mo, 35,000 included) | **$179** | 12,000 < 35,000 included, zero overage |
-| **Percy** | $599/mo tier (pricing not public) | **$599** | Cheapest known tier per the compare page |
-| **Applitools** | Not published | **~$399+ (reported)** | No public pricing; contact sales, 1-year contract |
+| Vendor         | Plan needed for 12,000/mo          | Monthly cost          | The math                                          |
+| -------------- | ---------------------------------- | --------------------- | ------------------------------------------------- |
+| **Argos**      | Pro ($100/mo, 35,000 included)     | **$100**              | 12,000 < 35,000 included, zero overage            |
+| **Chromatic**  | Starter ($179/mo, 35,000 included) | **$179**              | 12,000 < 35,000 included, zero overage            |
+| **Percy**      | $599/mo tier (pricing not public)  | **$599**              | Cheapest known tier per the compare page          |
+| **Applitools** | Not published                      | **~$399+ (reported)** | No public pricing; contact sales, 1-year contract |
 
 Argos is the cheapest at $100/month, at 56% of Chromatic's price and a sixth of Percy's, and that's before the multipliers bite.
 

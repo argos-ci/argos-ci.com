@@ -10,7 +10,16 @@ imageAlt: "Abstract illustration of stacked screenshot frames being compared sid
 
 Vitest now supports visual testing natively: in [browser mode](https://vitest.dev/guide/browser/), the `toMatchScreenshot` assertion captures an element or the test page and compares it pixel by pixel against a baseline image committed to your repo. It works like Playwright's `toHaveScreenshot`, and it hits the same wall at team scale: committed baselines, OS rendering differences, and no review workflow. This guide covers the official setup, its limits, and how to scale it with Argos.
 
-<MainImage />
+<MainImage
+  credit={
+    <>
+      Photo by <a href="https://unsplash.com/@philcat">Sam Tsonis</a> on{" "}
+      <a href="https://unsplash.com/photos/lightning-strikes-through-a-dark-stormy-sky--qjtPw44Cag">
+        Unsplash
+      </a>
+    </>
+  }
+/>
 
 ## What is Vitest visual testing?
 
@@ -30,8 +39,8 @@ Then enable browser mode in your config and tune the screenshot comparator if ne
 
 ```ts
 // vitest.config.ts
-import { defineConfig } from "vitest/config";
 import { playwright } from "@vitest/browser-playwright";
+import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
@@ -186,14 +195,14 @@ Set `ARGOS_TOKEN` as a CI secret and Argos handles the rest: baseline selection 
 
 Here is the honest comparison. Local `toMatchScreenshot` is free, has zero external dependencies, and is perfect for a solo project or a handful of stable snapshots. A cloud review workflow costs money and adds a service, but removes baselines from Git, makes diffs reviewable by the whole team, and keeps rendering consistent because comparisons always happen against CI-captured baselines.
 
-| | Vitest `toMatchScreenshot` (local) | Vitest + Argos |
-| --- | --- | --- |
-| Baselines | PNGs committed to Git | Auto-selected from Git history, stored in Argos |
-| Cross-OS consistency | Manual (Docker or CI-only updates) | Baselines always from CI |
-| Review workflow | None (files on disk) | PR checks, visual diff UI, one-click approval |
-| Team collaboration | Merge conflicts on images | [Threads, comments, review states](/collaborative-reviews) |
-| Approving a change | Re-run with `--update`, commit PNGs | Click "Approve" in the PR |
-| Cost | Free | Free up to 5,000 screenshots/month, then [$100/mo flat Pro plan](/pricing) |
+|                      | Vitest `toMatchScreenshot` (local)  | Vitest + Argos                                                             |
+| -------------------- | ----------------------------------- | -------------------------------------------------------------------------- |
+| Baselines            | PNGs committed to Git               | Auto-selected from Git history, stored in Argos                            |
+| Cross-OS consistency | Manual (Docker or CI-only updates)  | Baselines always from CI                                                   |
+| Review workflow      | None (files on disk)                | PR checks, visual diff UI, one-click approval                              |
+| Team collaboration   | Merge conflicts on images           | [Threads, comments, review states](/collaborative-reviews)                 |
+| Approving a change   | Re-run with `--update`, commit PNGs | Click "Approve" in the PR                                                  |
+| Cost                 | Free                                | Free up to 5,000 screenshots/month, then [$100/mo flat Pro plan](/pricing) |
 
 The switch point is usually the second developer, or the first time a Linux CI run rejects baselines generated on macOS. If you are fighting flaky diffs before that, start with [fixing flaky visual tests](/blog/fix-flaky-visual-tests); if you are fighting the model itself, switch models.
 

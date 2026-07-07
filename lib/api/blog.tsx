@@ -153,6 +153,39 @@ export async function getArticles(filters?: {
   );
 }
 
+const PAGE_SIZE = 15;
+
+/**
+ * Get a paginated slice of articles, optionally filtered by category.
+ */
+export async function getPaginatedArticles(input: {
+  page: number;
+  category?: CategorySlug;
+}) {
+  const allArticles = await getArticles(
+    input.category ? { category: input.category } : undefined,
+  );
+  const articles = allArticles.slice(
+    (input.page - 1) * PAGE_SIZE,
+    input.page * PAGE_SIZE,
+  );
+  const hasMore = allArticles.length > input.page * PAGE_SIZE;
+  const hasLess = input.page > 1;
+  return {
+    articles,
+    total: allArticles.length,
+    next: hasMore ? input.page + 1 : null,
+    previous: hasLess ? input.page - 1 : null,
+  };
+}
+
+/**
+ * Get the number of pages for a given article count.
+ */
+export function getArticlesPagesCount(nbArticles: number) {
+  return Math.ceil(nbArticles / PAGE_SIZE);
+}
+
 /**
  * Get the article by the slug.
  */

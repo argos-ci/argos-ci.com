@@ -10,7 +10,14 @@ imageAlt: "Abstract illustration of screenshots branching away from a central no
 
 The best Percy alternatives in 2026 are **Argos** ($100/mo flat, open source, captures in your real test browser), **Chromatic** (deepest Storybook integration), **Applitools** (enterprise Visual AI), **BackstopJS** (free, self-hosted), and **Playwright's built-in `toHaveScreenshot`**. For most teams, Argos is the closest workflow match to Percy: PR-based review, CI-driven captures, and a one-file migration, at a fraction of Percy's $599/mo entry tier.
 
-<MainImage />
+<MainImage
+  credit={
+    <>
+      Photo by <a href="https://unsplash.com/@matreding">Mathias Reding</a> on{" "}
+      <a href="https://unsplash.com/photos/z1DDcgNioyI">Unsplash</a>
+    </>
+  }
+/>
 
 ## Why are teams looking for Percy alternatives?
 
@@ -24,13 +31,13 @@ To be fair, Percy is still shipping: it released an AI "Visual Review Agent" in 
 
 ## Percy alternatives compared (July 2026)
 
-| Tool | Entry paid price | Free tier | Capture model | Review workflow |
-| --- | --- | --- | --- | --- |
-| [Argos](/compare/percy) | $100/mo flat (35k screenshots) | 5,000 screenshots/mo | Local, in your real test browser | PR-based, CI-driven, collaborative |
-| [Chromatic](/compare/chromatic) | $179/mo | Yes | Chromatic's cloud infrastructure | PR-based, Storybook-centric |
-| [Applitools](/compare/applitools) | ~$399/mo reported, contracts often $10K+/yr | Trial | Cloud rendering grid | Enterprise dashboard |
-| [BackstopJS](/compare/backstopjs) | Free (self-hosted) | N/A | Local Puppeteer/Playwright | HTML reports, no team UI |
-| [Playwright native](/compare/playwright) | Free (built-in) | N/A | Local, baselines in git | None (git diffs) |
+| Tool                                     | Entry paid price                            | Free tier            | Capture model                    | Review workflow                    |
+| ---------------------------------------- | ------------------------------------------- | -------------------- | -------------------------------- | ---------------------------------- |
+| [Argos](/compare/percy)                  | $100/mo flat (35k screenshots)              | 5,000 screenshots/mo | Local, in your real test browser | PR-based, CI-driven, collaborative |
+| [Chromatic](/compare/chromatic)          | $179/mo                                     | Yes                  | Chromatic's cloud infrastructure | PR-based, Storybook-centric        |
+| [Applitools](/compare/applitools)        | ~$399/mo reported, contracts often $10K+/yr | Trial                | Cloud rendering grid             | Enterprise dashboard               |
+| [BackstopJS](/compare/backstopjs)        | Free (self-hosted)                          | N/A                  | Local Puppeteer/Playwright       | HTML reports, no team UI           |
+| [Playwright native](/compare/playwright) | Free (built-in)                             | N/A                  | Local, baselines in git          | None (git diffs)                   |
 
 Pricing as of July 2026; Percy's own paid tier is $599/mo for context.
 
@@ -89,11 +96,12 @@ npm install --save-dev @argos-ci/playwright
 
 ```ts
 // Before
-import percySnapshot from "@percy/playwright";
-await percySnapshot(page, "Homepage");
-
 // After
 import { argosScreenshot } from "@argos-ci/playwright";
+import percySnapshot from "@percy/playwright";
+
+await percySnapshot(page, "Homepage");
+
 await argosScreenshot(page, "Homepage");
 ```
 

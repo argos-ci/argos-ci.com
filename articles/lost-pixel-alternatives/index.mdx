@@ -10,7 +10,16 @@ imageAlt: "Abstract illustration of screenshots migrating from a fading platform
 
 Lost Pixel is shutting down: on April 22, 2026, the team [announced they are joining Figma](https://www.lost-pixel.com/blog/lost-pixel-team-is-joining-figma) and sunsetting the product. If you run visual tests with Lost Pixel today, the best alternative in 2026 is [Argos](/docs/quickstart): it is open source like Lost Pixel, works with the Playwright and Storybook screenshots you already capture, and replaces committed baseline images with automatic baselines from Git history, starting free for 5,000 screenshots per month.
 
-<MainImage />
+<MainImage
+  credit={
+    <>
+      Photo by <a href="https://unsplash.com/@madebyjens">Jens Lelie</a> on{" "}
+      <a href="https://unsplash.com/photos/two-roads-between-trees-u0vgcIOQG08">
+        Unsplash
+      </a>
+    </>
+  }
+/>
 
 ## Why is Lost Pixel shutting down?
 
@@ -30,13 +39,13 @@ Practically, three things:
 
 Here is how the realistic options compare, as of July 2026:
 
-| Tool | Pricing | Capture model | Open source | Team review UI |
-| --- | --- | --- | --- | --- |
-| [Argos](/pricing) | Free 5k/mo, then $100/mo flat (35k included) | Local, in your real test browser | ✔️ | ✔️ |
-| [Chromatic](/compare/chromatic) | From $179/mo | Chromatic cloud infrastructure | ❌ | ✔️ |
-| [Percy](/compare/percy) | From $599/mo | DOM upload, re-rendered in Percy's cloud | ❌ | ✔️ |
-| [BackstopJS](/compare/backstopjs) | Free, self-hosted | Local (Puppeteer/Playwright) | ✔️ | ❌ |
-| [Playwright `toHaveScreenshot`](/compare/playwright) | Free, built-in | Local, baselines in Git | ✔️ | ❌ |
+| Tool                                                 | Pricing                                      | Capture model                            | Open source | Team review UI |
+| ---------------------------------------------------- | -------------------------------------------- | ---------------------------------------- | ----------- | -------------- |
+| [Argos](/pricing)                                    | Free 5k/mo, then $100/mo flat (35k included) | Local, in your real test browser         | ✔️          | ✔️             |
+| [Chromatic](/compare/chromatic)                      | From $179/mo                                 | Chromatic cloud infrastructure           | ❌          | ✔️             |
+| [Percy](/compare/percy)                              | From $599/mo                                 | DOM upload, re-rendered in Percy's cloud | ❌          | ✔️             |
+| [BackstopJS](/compare/backstopjs)                    | Free, self-hosted                            | Local (Puppeteer/Playwright)             | ✔️          | ❌             |
+| [Playwright `toHaveScreenshot`](/compare/playwright) | Free, built-in                               | Local, baselines in Git                  | ✔️          | ❌             |
 
 ### Argos
 
@@ -82,8 +91,8 @@ export default defineConfig({
 Then replace your Lost Pixel screenshot calls with `argosScreenshot`:
 
 ```ts
-import { test } from "@playwright/test";
 import { argosScreenshot } from "@argos-ci/playwright";
+import { test } from "@playwright/test";
 
 test("homepage", async ({ page }) => {
   await page.goto("/");

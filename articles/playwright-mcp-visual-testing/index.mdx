@@ -10,7 +10,16 @@ imageAlt: "Abstract illustration of a robotic eye looking at a browser window, s
 
 Playwright MCP gives a coding agent eyes on your UI **while it writes code**: the agent drives a real browser, reads the page's accessibility tree, and takes screenshots to check its own work. Visual testing in CI gives your team eyes on the UI **when the code is reviewed**: deterministic screenshot diffs on every pull request. They solve different halves of the same problem, and if you let agents touch your frontend, you want both.
 
-<MainImage />
+<MainImage
+  credit={
+    <>
+      Photo by <a href="https://unsplash.com/@blenderdesigner">Sufyan</a> on{" "}
+      <a href="https://unsplash.com/photos/a-green-and-black-robot-with-a-camera-attached-to-it--f1OJB2uArk">
+        Unsplash
+      </a>
+    </>
+  }
+/>
 
 ## What is Playwright MCP?
 
@@ -99,15 +108,15 @@ The full review flow is documented in [review builds with AI agents](/docs/learn
 
 ## Playwright MCP vs. visual testing in CI
 
-| | Playwright MCP | Visual testing in CI (Argos) |
-|---|---|---|
-| **When it runs** | During development, on demand | On every pull request, automatically |
-| **What it checks** | Whatever the agent navigates to | Every screenshot in your test suite |
-| **How it sees** | Accessibility tree + ad-hoc screenshots | Pixel diffs against Git-derived baselines |
-| **Determinism** | Depends on the agent's choices | Same coverage on every run |
-| **Persistence** | Gone when the session ends | Build history, audit trail, approvals |
-| **Guards the PR** | No | Yes, as a status check |
-| **Agent access** | Native (it's an MCP server) | CLI JSON output + REST API + skills |
+|                    | Playwright MCP                          | Visual testing in CI (Argos)              |
+| ------------------ | --------------------------------------- | ----------------------------------------- |
+| **When it runs**   | During development, on demand           | On every pull request, automatically      |
+| **What it checks** | Whatever the agent navigates to         | Every screenshot in your test suite       |
+| **How it sees**    | Accessibility tree + ad-hoc screenshots | Pixel diffs against Git-derived baselines |
+| **Determinism**    | Depends on the agent's choices          | Same coverage on every run                |
+| **Persistence**    | Gone when the session ends              | Build history, audit trail, approvals     |
+| **Guards the PR**  | No                                      | Yes, as a status check                    |
+| **Agent access**   | Native (it's an MCP server)             | CLI JSON output + REST API + skills       |
 
 The table makes the point: these are not competing tools. One is a development-time sensor, the other is a review-time gate.
 

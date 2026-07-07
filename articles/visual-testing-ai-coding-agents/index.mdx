@@ -10,13 +10,22 @@ imageAlt: "Abstract illustration of an AI agent inspecting visual diffs of a use
 
 AI coding agents like Claude Code, Cursor, and Codex now write a large share of frontend code, but they ship it blind: they never render the page they just changed. Visual testing closes that loop. Deterministic screenshots captured on every pull request become the agent's eyes and the human's safety net: the agent opens a PR, CI captures screenshots, a tool like [Argos](/visual-testing) diffs them against the baseline, and the agent inspects the diffs, fixes its own regressions, or submits a review.
 
-<MainImage />
+<MainImage
+  credit={
+    <>
+      Photo by <a href="https://unsplash.com/@cadop">Mathew Schwartz</a> on{" "}
+      <a href="https://unsplash.com/photos/a-robot-that-is-standing-on-a-white-surface-c5sTal8LQyo">
+        Unsplash
+      </a>
+    </>
+  }
+/>
 
 ## Agents write the UI. They never see it.
 
 Here is the uncomfortable truth about the 2026 development workflow: the entity writing most of your CSS has never rendered your app.
 
-A coding agent works on text. It reads your components, your stylesheets, your tests, and it edits them with remarkable competence. Then it runs your test suite, sees green, and opens a pull request. At no point in that loop did anything *look* at the page. The agent's confidence is built entirely on signals that were designed for a different era, when a human would eyeball the change in a browser before pushing.
+A coding agent works on text. It reads your components, your stylesheets, your tests, and it edits them with remarkable competence. Then it runs your test suite, sees green, and opens a pull request. At no point in that loop did anything _look_ at the page. The agent's confidence is built entirely on signals that were designed for a different era, when a human would eyeball the change in a browser before pushing.
 
 That eyeballing step is exactly what disappears when you delegate UI work to an agent. You prompt "make the sidebar collapsible," the agent delivers a working toggle, the unit tests pass, and three days later someone notices the sidebar now overlaps the footer on the settings page. The agent touched a shared flex container. Nothing it could observe told it that was a problem.
 
@@ -53,7 +62,7 @@ Argos selects the baseline automatically from Git history and reports the result
 1. The agent writes code and opens a PR.
 2. CI runs the test suite and captures screenshots along the way.
 3. Argos diffs every screenshot against the baseline and flags changes on the PR.
-4. Anyone, human or agent, can now answer the only question that matters: *does the change on screen match the intent of the PR?*
+4. Anyone, human or agent, can now answer the only question that matters: _does the change on screen match the intent of the PR?_
 
 Step 4 is where it gets interesting, because "anyone" now genuinely includes the agent itself.
 
@@ -83,7 +92,7 @@ npx skills add argos-ci/argos-javascript@argos-pr-review
 
 With the skills installed, the loop closes end to end. The agent that wrote the code opens the PR, waits for the Argos status check, pulls the diffs as JSON, compares them against the PR's intent, and either fixes its own regression and pushes again or submits an approval. A project token grants read access to build data; submitting a review requires a personal access token. There is even a **Copy prompt** button in the Argos build UI that generates an agent-optimized prompt for assistants without skill support.
 
-If you want the full setup walkthrough with authentication details and prompt templates, we wrote a dedicated step-by-step guide: [reviewing Argos builds with AI agents](/blog/review-builds-ai-agents). This article is the *why*; that one is the *how*.
+If you want the full setup walkthrough with authentication details and prompt templates, we wrote a dedicated step-by-step guide: [reviewing Argos builds with AI agents](/blog/review-builds-ai-agents). This article is the _why_; that one is the _how_.
 
 ## Why deterministic diffs matter more in the agent era, not less
 
@@ -91,7 +100,7 @@ There is a tempting counter-narrative: if AI is everywhere, why not let AI decid
 
 We think that gets the architecture backwards. Agents are probabilistic. Their verification layer should not be.
 
-When a probabilistic author meets a probabilistic verifier, errors compound. An agent that hallucinates a layout fix, checked by a model that shrugs at a 12-pixel shift, produces a pipeline where nobody is sure of anything. The value of a deterministic diff is that it is *ground truth*: either pixels changed or they did not, and the same input produces the same answer every time. The agent's judgment then operates on reliable evidence ("the sidebar moved 12px on these 3 pages, does that match the PR intent?") instead of adding a second layer of guesswork.
+When a probabilistic author meets a probabilistic verifier, errors compound. An agent that hallucinates a layout fix, checked by a model that shrugs at a 12-pixel shift, produces a pipeline where nobody is sure of anything. The value of a deterministic diff is that it is _ground truth_: either pixels changed or they did not, and the same input produces the same answer every time. The agent's judgment then operates on reliable evidence ("the sidebar moved 12px on these 3 pages, does that match the PR intent?") instead of adding a second layer of guesswork.
 
 Determinism is also what makes the diff trustworthy enough to automate around. It requires stable inputs, which is why Argos SDKs wait for fonts, images, and network idle and hide carets and scrollbars before capture ([screenshot stabilization](/blog/screenshot-stabilization) covers the details), and why capturing locally in your real test browser beats re-rendering in a separate cloud environment: what your test rendered is exactly what gets diffed, with no second rendering pass to introduce its own noise.
 
@@ -123,7 +132,7 @@ An agent can screenshot a page locally, but that gives you a single unmanaged im
 
 ### Should the visual diff itself be AI-powered?
 
-The diff should stay deterministic; AI belongs in the interpretation layer above it. A pixel diff gives the same answer for the same input every time, which is what makes it safe to build automation on. Let agents reason about *whether a change is intentional*, not about *whether a change happened*.
+The diff should stay deterministic; AI belongs in the interpretation layer above it. A pixel diff gives the same answer for the same input every time, which is what makes it safe to build automation on. Let agents reason about _whether a change is intentional_, not about _whether a change happened_.
 
 ## Conclusion
 

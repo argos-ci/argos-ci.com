@@ -10,7 +10,16 @@ imageAlt: "Abstract illustration of two overlapping browser windows being compar
 
 Cypress has no built-in visual regression testing, so you add it one of two ways: a **local diff plugin** (like cypress-visual-regression or cypress-image-diff-js) that compares screenshots against baselines committed to your repo, or a **cloud service** (like Argos) that captures screenshots in your Cypress browser, diffs them server-side, and gives your team a review workflow on every pull request. Plugins are free and fine for a handful of stable pages; cloud services are what you want once multiple people ship UI changes daily. This guide covers both, with runnable code.
 
-<MainImage />
+<MainImage
+  credit={
+    <>
+      Photo by <a href="https://unsplash.com/@chrisvomradio">Chris Weiher</a> on{" "}
+      <a href="https://unsplash.com/photos/rolling-hills-with-cypress-trees-and-flowers-myl8aco05PM">
+        Unsplash
+      </a>
+    </>
+  }
+/>
 
 ## Why Cypress needs a visual testing layer
 
@@ -131,16 +140,16 @@ Pricing is deliberately simple: **free up to 5,000 screenshots/month**, then a f
 
 All three appear on the Cypress docs page as commercial integrations. Here is how they compare for a Cypress-first team, as of 2026:
 
-| | Argos | Percy (BrowserStack) | Chromatic |
-| --- | --- | --- | --- |
-| Capture model | Locally, in your real Cypress browser | DOM uploaded, re-rendered in Percy's cloud | Rendered in Chromatic's cloud |
-| Baseline management | Automatic from Git history | Managed in dashboard | Managed in dashboard |
-| Entry paid plan | $100/mo flat (35k screenshots) | $599/mo | $179/mo |
-| Free tier | 5,000 screenshots/mo | — | — |
-| Parallel test runs | Unlimited, included | Costs extra | Included |
-| Open source | Yes | No | No |
-| Snapshot any file (JSON, Markdown, ...) | Yes | No | No |
-| Best fit | Cypress/Playwright E2E teams | Cross-browser cloud rendering needs | Storybook-centric teams |
+|                                         | Argos                                 | Percy (BrowserStack)                       | Chromatic                     |
+| --------------------------------------- | ------------------------------------- | ------------------------------------------ | ----------------------------- |
+| Capture model                           | Locally, in your real Cypress browser | DOM uploaded, re-rendered in Percy's cloud | Rendered in Chromatic's cloud |
+| Baseline management                     | Automatic from Git history            | Managed in dashboard                       | Managed in dashboard          |
+| Entry paid plan                         | $100/mo flat (35k screenshots)        | $599/mo                                    | $179/mo                       |
+| Free tier                               | 5,000 screenshots/mo                  | —                                          | —                             |
+| Parallel test runs                      | Unlimited, included                   | Costs extra                                | Included                      |
+| Open source                             | Yes                                   | No                                         | No                            |
+| Snapshot any file (JSON, Markdown, ...) | Yes                                   | No                                         | No                            |
+| Best fit                                | Cypress/Playwright E2E teams          | Cross-browser cloud rendering needs        | Storybook-centric teams       |
 
 To be fair to the alternatives: Percy's cloud re-rendering gives you real cross-browser rendering at multiple widths from a single capture, and Chromatic, made by the Storybook maintainers, is excellent if your visual testing strategy is component-first in Storybook. But Percy's cloud re-render means the diffed page is not exactly what your Cypress test rendered, which can introduce hard-to-debug discrepancies with complex JavaScript, and both are priced well above Argos. See the detailed breakdowns on [Argos vs Percy](/compare/percy) and [Argos vs Chromatic](/compare/chromatic), or the migration guide for [moving from Percy to Argos](/docs/learn/how-to-guides/migrate-to-argos/from-percy).
 

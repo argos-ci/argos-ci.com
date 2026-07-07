@@ -10,7 +10,16 @@ imageAlt: "Abstract illustration of Storybook components being visually compared
 
 You can run Storybook visual testing without Chromatic in two solid ways: the [Argos Storybook addon](/compare/chromatic), which captures every story during your Vitest or test-runner run and bills Storybook screenshots at $0.0015 each (free up to 5,000/month), or a DIY setup with the Storybook test-runner and Playwright's `toHaveScreenshot`, which is free but leaves baseline management and CI rendering issues on your plate. As of July 2026, Chromatic's paid plans start at $179/month, and that price gap is the main reason teams look at alternatives.
 
-<MainImage />
+<MainImage
+  credit={
+    <>
+      Photo by <a href="https://unsplash.com/@bozu">Michał Bożek</a> on{" "}
+      <a href="https://unsplash.com/photos/assorted-color-wooden-blocks-RcxR1aLw8X0">
+        Unsplash
+      </a>
+    </>
+  }
+/>
 
 ## Why Chromatic is the default, and why that's fair
 
@@ -29,15 +38,15 @@ Here are your three real options, starting with the one we recommend.
 
 On pricing, the comparison is direct (as of July 2026):
 
-| | Argos | Chromatic |
-| --- | --- | --- |
-| Free tier | 5,000 screenshots/month (Hobby) | Limited free plan |
-| Paid entry | $100/month flat, 35,000 screenshots included | $179/month |
-| Extra Storybook screenshots | $0.0015 each | Snapshot billing grows with viewports/browsers |
-| Capture model | Local, in your CI browser | Chromatic's cloud infrastructure |
-| Deployments / PR previews | [Any static build](/deployments) (Storybook, docs, apps) | Storybook only |
-| Parallelization | Unlimited, included | — |
-| Open source | Yes ([github.com/argos-ci](https://github.com/argos-ci)) | No |
+|                             | Argos                                                    | Chromatic                                      |
+| --------------------------- | -------------------------------------------------------- | ---------------------------------------------- |
+| Free tier                   | 5,000 screenshots/month (Hobby)                          | Limited free plan                              |
+| Paid entry                  | $100/month flat, 35,000 screenshots included             | $179/month                                     |
+| Extra Storybook screenshots | $0.0015 each                                             | Snapshot billing grows with viewports/browsers |
+| Capture model               | Local, in your CI browser                                | Chromatic's cloud infrastructure               |
+| Deployments / PR previews   | [Any static build](/deployments) (Storybook, docs, apps) | Storybook only                                 |
+| Parallelization             | Unlimited, included                                      | —                                              |
+| Open source                 | Yes ([github.com/argos-ci](https://github.com/argos-ci)) | No                                             |
 
 A concrete scenario: a design system with 400 stories, tested on every PR, roughly 30 builds a month. That's 12,000 Storybook screenshots, inside the 35,000 included in the $100 Pro plan with room to spare, and small projects fit entirely in the free Hobby tier. You can also set a budget limit to cap spending. Full details on [/pricing](/pricing).
 
@@ -53,10 +62,10 @@ Then add the Argos plugin to your Vitest configuration, next to `storybookTest`:
 
 ```ts
 // vitest.config.ts
-import { defineConfig } from "vitest/config";
-import { playwright } from "@vitest/browser-playwright";
-import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
 import { argosVitestPlugin } from "@argos-ci/storybook/vitest-plugin";
+import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
+import { playwright } from "@vitest/browser-playwright";
+import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
@@ -115,7 +124,8 @@ If you want zero SaaS involvement, you can build visual testing yourself. Point 
 
 ```ts
 // stories.spec.ts
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
+
 import index from "../storybook-static/index.json";
 
 const stories = Object.values(index.entries).filter(

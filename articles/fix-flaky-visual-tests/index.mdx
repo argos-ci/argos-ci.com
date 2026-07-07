@@ -10,7 +10,16 @@ imageAlt: "Abstract illustration of two almost identical frames with a small gli
 
 A flaky visual test is a test whose screenshot changes between runs even though the code under test did not. The diff is real (pixels really changed), but the cause is nondeterministic rendering: a font that loaded late, an animation caught mid-frame, a lazy-loaded image, a timestamp, or a GPU rendering text slightly differently. The good news is that the list of root causes is short and every one of them has a known fix.
 
-<MainImage />
+<MainImage
+  credit={
+    <>
+      Photo by <a href="https://unsplash.com/@photoholgic">Photoholgic</a> on{" "}
+      <a href="https://unsplash.com/photos/balanced-stones-aEaXkNAZNTE">
+        Unsplash
+      </a>
+    </>
+  }
+/>
 
 ## What is a flaky visual test?
 

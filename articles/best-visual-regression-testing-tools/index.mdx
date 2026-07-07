@@ -10,7 +10,17 @@ imageAlt: "Abstract illustration of a grid of interface screenshots being compar
 
 The best visual regression testing tools in 2026 are **Argos** (open source, local capture in your real test browser, free up to 5,000 screenshots/month, then $100/month flat), **Chromatic** (best for Storybook-centric teams, from $179/month), and **Percy** (cloud cross-browser re-rendering, from $599/month). Free options like Playwright's `toHaveScreenshot`, Vitest browser mode, and BackstopJS work for solo developers but lack a team review workflow. Here's the full ranking, with pricing and trade-offs verified as of July 2026.
 
-<MainImage />
+<MainImage
+  credit={
+    <>
+      Photo by <a href="https://unsplash.com/@trnavskauni">Trnava University</a>{" "}
+      on{" "}
+      <a href="https://unsplash.com/photos/tools-are-laying-out-on-a-piece-of-wood-ELr8gYeLdPo">
+        Unsplash
+      </a>
+    </>
+  }
+/>
 
 ## How we picked these tools
 
@@ -26,17 +36,17 @@ If you're new to the practice itself, start with [what visual testing is](/blog/
 
 ## Comparison table
 
-| Tool | Entry pricing (July 2026) | Open source | Capture model | Team review UI |
-| --- | --- | --- | --- | --- |
-| **Argos** | Free 5k screenshots/mo, then $100/mo flat (35k incl.) | ✔️ | Local, in your real test browser | ✔️ |
-| **Chromatic** | From $179/mo | ❌ | Cloud rendering (Chromatic infra) | ✔️ |
-| **Percy** | From $599/mo | ❌ | DOM upload + cloud re-render | ✔️ |
-| **Applitools** | Reported $399/mo entry, enterprise contracts | ❌ | Cloud + Visual AI comparison | ✔️ |
-| **Playwright `toHaveScreenshot`** | Free | ✔️ | Local, baselines in Git | ❌ |
-| **Vitest browser mode** | Free | ✔️ | Local, baselines in Git | ❌ |
-| **BackstopJS** | Free | ✔️ | Local (Puppeteer/Playwright), baselines in Git | ❌ |
-| **reg-suit** | Free (BYO storage) | ✔️ | BYO images, reports to S3/GCS | ❌ |
-| **Lost Pixel** | Sunsetting (team joined Figma, April 2026) | ✔️ | Local capture | ✔️ (cloud, discontinued) |
+| Tool                              | Entry pricing (July 2026)                             | Open source | Capture model                                  | Team review UI           |
+| --------------------------------- | ----------------------------------------------------- | ----------- | ---------------------------------------------- | ------------------------ |
+| **Argos**                         | Free 5k screenshots/mo, then $100/mo flat (35k incl.) | ✔️          | Local, in your real test browser               | ✔️                       |
+| **Chromatic**                     | From $179/mo                                          | ❌          | Cloud rendering (Chromatic infra)              | ✔️                       |
+| **Percy**                         | From $599/mo                                          | ❌          | DOM upload + cloud re-render                   | ✔️                       |
+| **Applitools**                    | Reported $399/mo entry, enterprise contracts          | ❌          | Cloud + Visual AI comparison                   | ✔️                       |
+| **Playwright `toHaveScreenshot`** | Free                                                  | ✔️          | Local, baselines in Git                        | ❌                       |
+| **Vitest browser mode**           | Free                                                  | ✔️          | Local, baselines in Git                        | ❌                       |
+| **BackstopJS**                    | Free                                                  | ✔️          | Local (Puppeteer/Playwright), baselines in Git | ❌                       |
+| **reg-suit**                      | Free (BYO storage)                                    | ✔️          | BYO images, reports to S3/GCS                  | ❌                       |
+| **Lost Pixel**                    | Sunsetting (team joined Figma, April 2026)            | ✔️          | Local capture                                  | ✔️ (cloud, discontinued) |
 
 ## 1. Argos — best overall for most teams
 
