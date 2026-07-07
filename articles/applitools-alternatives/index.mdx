@@ -1,0 +1,165 @@
+---
+title: "Applitools Alternatives in 2026: Pricing & 4 Tools Compared"
+description: "Applitools hides its pricing and contracts often run $10K–30K+/yr. Compare the best Applitools alternatives in 2026: Argos, Chromatic, Percy, and more."
+category: guides
+author: greg
+date: 2026-07-07
+image: ./main.jpg
+imageAlt: "A man looking through binoculars in a forest, scanning for a better option"
+---
+
+The best Applitools alternatives in 2026 are **Argos** (open source, $100/mo flat, free 5,000 screenshots/month), **Chromatic** (deepest Storybook integration, $179/mo), **Percy** (cloud cross-browser re-rendering, $599/mo), and free open-source options like **BackstopJS** and **Playwright's `toHaveScreenshot`**. For most product teams, Argos delivers what they actually wanted from Applitools, reliable visual diffs on every PR, without the sales call, the one-year contract, or the black-box AI.
+
+<MainImage
+  credit={
+    <>
+      Photo by <a href="https://unsplash.com/@anniespratt">Annie Spratt</a> on{" "}
+      <a href="https://unsplash.com/photos/a-man-looking-through-binoculars-in-the-woods-RR5w4xq4GGA">
+        Unsplash
+      </a>
+    </>
+  }
+/>
+
+## Why are teams looking for Applitools alternatives?
+
+Applitools pioneered modern visual testing and its "Visual AI" is genuinely powerful. But three things push teams to look elsewhere.
+
+### 1. You can't see the price
+
+As of July 2026, [applitools.com/pricing](https://applitools.com/pricing/) shows **no dollar amounts at all**. There are three tiers: a Starter plan capped at 50 "Test Units" with a free trial, and Public Cloud and Dedicated Cloud plans that both say "Custom — contact us." The FAQ on that page confirms that Test Units are the primary pricing variable and that **contracts are for one year**.
+
+What teams report from actual sales conversations: entry pricing around **$399/month**, with real-world contracts commonly landing in the **$10K–30K+ per year** range. If you're a five-person frontend team that wants visual coverage on your Playwright suite, you're being asked to commit to enterprise procurement before you know what a screenshot costs.
+
+### 2. Visual AI is a black box
+
+Applitools' core differentiator is AI-powered diffing: it ignores anti-aliasing and rendering noise and surfaces only "meaningful" changes. That's a real strength, noise is the number one problem in visual testing.
+
+The trade-off is that the decision isn't yours to inspect. When Visual AI passes or flags a change, you can't reproduce that judgment locally, tune it deterministically, or debug why two runs were classified differently. You configure match levels (Strict, Layout, Content, Exact) and trust the model. For teams that treat their test suite as code, an unreproducible assertion is an uncomfortable foundation.
+
+The alternative approach: solve the noise **at capture time**, then diff deterministically. Argos SDKs [stabilize screenshots before capture](/blog/screenshot-stabilization) (wait for fonts, images, and network idle; hide carets and scrollbars), and a per-screenshot sensitivity threshold handles the rest. Same outcome, fewer false positives, but every decision is reproducible.
+
+### 3. The enterprise and agentic-SDLC pivot
+
+Applitools' product and messaging increasingly target large enterprises and an "agentic SDLC" narrative. That's a reasonable strategy, but it moves the product further from the everyday dev-team loop of "run tests in CI, review diffs on the PR, merge." If that loop is what you need, you're paying for a platform built around something else.
+
+## Applitools alternatives compared (July 2026)
+
+| Tool                                     | Entry paid price                                         | Free tier             | Diffing model                                        | Capture model                    |
+| ---------------------------------------- | -------------------------------------------------------- | --------------------- | ---------------------------------------------------- | -------------------------------- |
+| [Argos](/compare/applitools)             | $100/mo flat (35k screenshots)                           | 5,000 screenshots/mo  | Deterministic pixel diff + per-screenshot thresholds | Local, in your real test browser |
+| [Chromatic](/compare/chromatic)          | $179/mo                                                  | Yes                   | Pixel diff with anti-flake rendering                 | Chromatic's cloud infrastructure |
+| [Percy](/compare/percy)                  | $599/mo (plans no longer public)                         | Yes                   | Pixel diff                                           | Cloud DOM re-render              |
+| Applitools                               | Not published; ~$399/mo reported, $10K–30K+/yr contracts | Trial (50 Test Units) | Visual AI (black box)                                | Cloud rendering grid             |
+| [BackstopJS](/compare/backstopjs)        | Free (self-hosted)                                       | N/A                   | Pixel diff, manual tuning                            | Local Puppeteer/Playwright       |
+| [Playwright native](/compare/playwright) | Free (built-in)                                          | N/A                   | Pixel diff, baselines in git                         | Local, platform-dependent        |
+
+Pricing as of July 2026. Applitools contract figures are third-party reported since no public prices exist.
+
+## 1. Argos: transparent diffs at a flat $100/month
+
+[Argos](/visual-testing) is an open source visual testing platform built by frontend developers, used by MUI (Material UI) and other well-known open source projects. It targets exactly the workflow Applitools has drifted away from: screenshots captured in CI, a status check on your PR, diffs reviewed and approved in a web UI.
+
+Where it answers the three Applitools complaints directly:
+
+- **Public, flat pricing.** Free Hobby tier with 5,000 screenshots/month. Pro is **$100/month flat** with 35,000 screenshots included, then $0.004 per extra screenshot ($0.0015 for Storybook screenshots). Unlimited parallelization included, no per-seat fees, and you can set a budget limit to cap spending. It's all on the [pricing page](/pricing), no sales call required.
+- **Deterministic diffs you can debug.** Argos does pixel diffing with a **per-screenshot sensitivity threshold** (0 to 1, default 0.5; higher means less sensitive). Combined with SDK-level stabilization, this solves the same noise problem Visual AI addresses, transparently. When a diff fires, you can see exactly why, and reproduce it.
+- **Local capture in your real test browser.** `argosScreenshot(page, "name")` captures in the same Playwright or Cypress browser your tests already run. No cloud rendering grid, no second environment to keep in sync: what your test rendered is what gets diffed.
+- **Agent-ready by design.** The [CLI and REST API](/ai-agents) output structured JSON (`argos build get <ref> --json`, `argos build review <ref> --conclusion approve`), so coding agents can inspect and review builds without screen-scraping a dashboard.
+- **Beyond screenshots.** Argos snapshot-tests **any file**: Markdown, JSON, HTML, and more. It also hosts [PR-preview deployments](/deployments) for Storybook or any static build.
+
+Baselines are selected automatically from Git history, so there's no per-branch baseline management in a dashboard, a chore Applitools users know well.
+
+## 2. Chromatic: best for Storybook-centric teams
+
+[Chromatic](/compare/chromatic) is built by the Storybook maintainers, and if your visual testing strategy is "every story is a visual test," it's excellent: the deepest Storybook integration available, a polished review UI, accessibility testing, and "SteadySnap" anti-flake rendering. It also supports Playwright and Cypress.
+
+Compared to Applitools, pricing is public and sane: entry at $179/mo. The trade-offs: capture happens in Chromatic's cloud infrastructure rather than your own test browser, snapshot billing grows with viewports and browsers, and deployments are limited to Storybook. If your tests are E2E-first rather than story-first, it's not the natural fit.
+
+## 3. Percy: cloud cross-browser re-rendering
+
+[Percy](/compare/percy) (acquired by BrowserStack) uploads your page's DOM and assets and re-renders snapshots in its cloud across configured widths and browsers. If Applitools' Ultrafast Grid was the feature you cared about, Percy is the closest architectural match.
+
+But it inherits similar problems: the known paid tier is **$599/month**, BrowserStack no longer displays Percy plans on its public pricing page, and parallel CI uploads cost extra. The cloud re-render also means what you review is not exactly what your test rendered, which produces its own class of hard-to-reproduce diffs.
+
+## 4. Open source and DIY: BackstopJS and Playwright
+
+If the budget is zero, two options:
+
+- **[BackstopJS](/compare/backstopjs)**: scenario-based config in `backstop.json`, Puppeteer or Playwright engines, HTML diff reports, baselines in git. Free and self-hosted, but no team review UI, no PR status checks, and the project is in maintenance-mode releases (v6.x).
+- **[Playwright's `toHaveScreenshot`](/compare/playwright)**: built in and free, but rendering is platform-dependent (regenerating baselines requires the same OS and browser), the repo fills up with PNGs, and there's no review workflow. Details in [Playwright visual testing limits](/blog/playwright-visual-testing-limits).
+
+Both work for solo developers. They strain as soon as a team needs to review and approve visual changes together.
+
+## How to migrate from Applitools to Argos
+
+The full walkthrough is in the docs: [migrate to Argos from Applitools](/docs/learn/how-to-guides/migrate-to-argos/from-applitools). The concept mapping:
+
+| Applitools                                      | Argos                                                |
+| ----------------------------------------------- | ---------------------------------------------------- |
+| `@applitools/eyes-playwright`                   | `@argos-ci/playwright`                               |
+| `eyes.open()` / `eyes.check()` / `eyes.close()` | `argosScreenshot(page, "Name")`                      |
+| `cy.eyesCheckWindow()`                          | `cy.argosScreenshot("Name")`                         |
+| Batch                                           | Build                                                |
+| Match levels (Strict, Layout, Content)          | Per-screenshot sensitivity threshold + stabilization |
+| Ultrafast Grid widths                           | Playwright projects with viewports                   |
+| `APPLITOOLS_API_KEY`                            | `ARGOS_TOKEN`                                        |
+| Baselines managed in dashboard                  | Baselines auto-selected from Git history             |
+
+In a Playwright test, the three-call Eyes lifecycle collapses into one line:
+
+```ts
+// After (Argos)
+import { argosScreenshot } from "@argos-ci/playwright";
+
+// Before (Applitools)
+await eyes.open(page, "My App", "Homepage");
+await eyes.check("Homepage", Target.window().fully());
+await eyes.close();
+
+await argosScreenshot(page, "homepage");
+```
+
+Add the Argos reporter to `playwright.config.ts` (no wrapper command needed):
+
+```ts
+export default defineConfig({
+  reporter: [["list"], ["@argos-ci/playwright/reporter"]],
+});
+```
+
+For screenshots that were on a looser match level, raise the sensitivity threshold instead:
+
+```ts
+await argosScreenshot(page, "dashboard", {
+  threshold: 0.8, // 0–1, default 0.5; higher = less sensitive
+});
+```
+
+Swap `APPLITOOLS_API_KEY` for `ARGOS_TOKEN` in CI (on GitHub Actions, OIDC lets you skip the token entirely), push, and your first main-branch run establishes baselines. The [getting started guide](/docs/quickstart) covers the rest.
+
+## When should you stay on Applitools?
+
+Honestly: if you're a large enterprise testing across a huge browser and device matrix, the Ultrafast Grid's ability to render one capture across many environments is hard to replicate, and Visual AI's noise handling shines at that scale. If you have compliance requirements, a dedicated-cloud deployment need, and a budget where $10K–30K/year is a rounding error, Applitools remains a serious platform. The alternatives above are for the much larger group of teams paying enterprise prices for a PR-review workflow they could get for $0–100/month.
+
+## FAQ
+
+### How much does Applitools cost?
+
+Applitools does not publish prices. As of July 2026, its pricing page lists a Starter trial plan (50 Test Units) and two "Custom — contact us" cloud plans, with subscription price based on Test Units and one-year contracts. Reported entry pricing is around $399/month, and real-world contracts commonly run $10K–30K+ per year.
+
+### Is there a free alternative to Applitools?
+
+Yes. Argos has a free Hobby tier with 5,000 screenshots per month including the full PR review workflow, and it's open source. BackstopJS and Playwright's `toHaveScreenshot` are entirely free but self-managed: no team review UI, and baselines live in your git repo.
+
+### Do I need Visual AI to avoid flaky visual tests?
+
+No. Most visual noise comes from unstable captures: fonts still loading, animations mid-frame, blinking carets. Argos SDKs stabilize all of that before capture, and a per-screenshot sensitivity threshold absorbs residual rendering variance. The result is deterministic: the same input always produces the same verdict, which AI-based diffing can't guarantee.
+
+### How long does migrating from Applitools to Argos take?
+
+For most suites, under a day. It's a package swap, replacing each `eyes.open`/`eyes.check`/`eyes.close` block with a single `argosScreenshot` call (or `cy.argosScreenshot` in Cypress), and switching the CI token. See the [migration guide](/docs/learn/how-to-guides/migrate-to-argos/from-applitools) and the [Argos vs Applitools comparison](/compare/applitools).
+
+## Verdict
+
+Applitools sells a strong product to a specific buyer: large enterprises with big matrices and bigger budgets. If that's not you, **Argos** is the best alternative: open source, $100/month flat, free 5k tier, local capture in your real test browser, and deterministic diffing that solves the noise problem without a black box. **Chromatic** wins for Storybook-first teams, and **Percy** if cloud cross-browser re-rendering is non-negotiable. Start with the [Argos vs Applitools comparison](/compare/applitools).
