@@ -153,7 +153,7 @@ export async function getArticles(filters?: {
   );
 }
 
-const PAGE_SIZE = 15;
+const PAGE_SIZE = 16;
 
 /**
  * Get a paginated slice of articles, optionally filtered by category.
