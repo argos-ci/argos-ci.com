@@ -56,18 +56,6 @@ const nextConfig = {
       },
     ];
   },
-  rewrites: async () => {
-    return [
-      {
-        source: "/docs",
-        destination: "https://proxy.gitbook.site/sites/site_S9wzD",
-      },
-      {
-        source: "/docs/:path*",
-        destination: "https://proxy.gitbook.site/sites/site_S9wzD/:path*",
-      },
-    ];
-  },
   transpilePackages: ["next-mdx-remote", "geist"],
 };
 
