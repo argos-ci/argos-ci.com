@@ -132,6 +132,41 @@ None of this is a knock on Vitest. `toMatchScreenshot` is well designed for its 
 
 There are two ways to plug Argos into a Vitest setup, depending on whether you use Storybook.
 
+### Any Vitest setup: the Argos Vitest SDK
+
+Argos ships a [dedicated Vitest SDK](/blog/argos-vitest-sdk), [`@argos-ci/vitest`](/docs/sdks-reference/vitest). Add the plugin to your Vitest config:
+
+```ts
+// vitest.config.ts
+import { argosVitestPlugin } from "@argos-ci/vitest/plugin";
+import { defineConfig } from "vitest/config";
+
+export default defineConfig({
+  plugins: [
+    argosVitestPlugin({
+      uploadToArgos: !!process.env.CI,
+    }),
+  ],
+});
+```
+
+Then capture screenshots in your browser tests with `argosScreenshot` — it stabilizes the UI (fonts, images, animations, hover states) before capturing, and supports multiple viewports, ARIA snapshots, and tags:
+
+```ts
+import { argosScreenshot } from "@argos-ci/vitest";
+import { test } from "vitest";
+import { render } from "vitest-browser-react";
+
+import { Hero } from "./Hero";
+
+test("hero section", async () => {
+  render(<Hero />);
+  await argosScreenshot("hero-section");
+});
+```
+
+The SDK also provides `argosSnapshot` to diff **any value** — API responses, JSON, generated HTML, Markdown — from browser or plain Node tests, no browser required. The plugin uploads everything at the end of the CI run; setup details are in the [Vitest Quickstart](/docs/quickstart/vitest-quickstart).
+
 ### If you use Storybook: the Vitest addon
 
 Argos ships first-class support for Storybook's Vitest-powered testing through [`@argos-ci/storybook`](/docs/sdks-reference/storybook). Add the plugin to your Vitest config:
@@ -166,30 +201,7 @@ export const FilledForm: Story = {
 
 If you are weighing this against Chromatic's cloud rendering, see [Storybook visual testing without Chromatic](/blog/storybook-visual-testing-without-chromatic).
 
-### Any Vitest setup: upload a screenshot folder
-
-No Storybook? Capture screenshots with Vitest's own `page.screenshot()` API into a folder, then upload that folder with the [Argos CLI](/docs/sdks-reference/argos-command-line-interface-cli). This works with any test framework that produces images, Vitest included:
-
-```ts
-import { test } from "vitest";
-import { page } from "vitest/browser";
-import { render } from "vitest-browser-react";
-import { Hero } from "./Hero";
-
-test("hero section", async () => {
-  render(<Hero />);
-  await page.screenshot({ path: "./screenshots/hero-section.png" });
-});
-```
-
-Then in CI, after the test run:
-
-```bash
-npm i --save-dev @argos-ci/cli
-npm exec -- argos upload ./screenshots
-```
-
-Set `ARGOS_TOKEN` as a CI secret and Argos handles the rest: baseline selection from Git history, diffing, and the PR status check. Setup details are in the [getting started guide](/docs/quickstart).
+Either way, set `ARGOS_TOKEN` as a CI secret and Argos handles the rest: baseline selection from Git history, diffing, and the PR status check.
 
 ## Local Vitest VRT vs. a cloud review workflow
 
@@ -222,12 +234,12 @@ Run `vitest --update` to regenerate reference screenshots, then commit the new i
 
 ### Is there a dedicated Argos SDK for Vitest?
 
-Not a standalone one, and you don't need it. If you use Storybook, the `@argos-ci/storybook` package includes a Vitest plugin that captures and uploads stories automatically. For any other Vitest setup, save screenshots to a folder with `page.screenshot()` and upload it with `argos upload`, which works with any framework that produces images.
+Yes. [`@argos-ci/vitest`](/docs/sdks-reference/vitest) captures screenshots in Vitest browser tests with `argosScreenshot`, snapshots any value with `argosSnapshot` (browser or Node tests, no browser required), and uploads everything to Argos at the end of the run via a Vitest plugin. Read the [announcement](/blog/argos-vitest-sdk) or the [Vitest Quickstart](/docs/quickstart/vitest-quickstart).
 
 ### Do I need Storybook to use Argos with Vitest?
 
-No. Storybook gives you the most automated path via the Vitest addon plugin, but the Argos CLI uploads any folder of screenshots from any Vitest browser mode run. The workflow, baselines, diffs, and PR review is identical either way.
+No. The `@argos-ci/vitest` SDK works with any Vitest browser mode setup. If you do use Storybook, the `@argos-ci/storybook` package builds on the same integration and captures every tested story automatically. The workflow, baselines, diffs, and PR review is identical either way.
 
 ## Conclusion
 
-Vitest browser mode's `toMatchScreenshot` is the real thing: an official, well-built visual regression assertion in the test runner you already use. Start there. When committed baselines, OS-specific rendering, and reviewless updates start costing your team time, keep your Vitest tests exactly as they are and move the comparison to Argos, through the Storybook Vitest plugin or a plain CLI upload. Local capture in the browser you already run, a real review workflow on top.
+Vitest browser mode's `toMatchScreenshot` is the real thing: an official, well-built visual regression assertion in the test runner you already use. Start there. When committed baselines, OS-specific rendering, and reviewless updates start costing your team time, keep your Vitest tests exactly as they are and move the comparison to Argos with the [`@argos-ci/vitest` SDK](/blog/argos-vitest-sdk). Local capture in the browser you already run, a real review workflow on top.
