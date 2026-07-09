@@ -1,0 +1,35 @@
+---
+title: Vitest SDK
+homeTitle: Visual testing in Vitest with the new Argos SDK
+description: Capture screenshots in Vitest browser tests and snapshot any value — JSON, HTML, Markdown — with @argos-ci/vitest, stable today.
+slug: vitest-sdk
+date: 2026-07-09
+image: /assets/changelogs/vitest-sdk/vitest-sdk.jpg
+---
+
+![Vitest test run flowing into Argos visual diffs](/assets/changelogs/vitest-sdk/vitest-sdk.jpg)
+
+Argos now ships a dedicated **Vitest SDK**. `@argos-ci/vitest` brings visual testing to [Vitest browser tests](https://vitest.dev/guide/browser/) — and snapshot diffing of _any value_ to every Vitest test, browser or Node. It's stable and ready for production today.
+
+- **`argosScreenshot`** — capture screenshots in your browser tests with the full Argos toolkit: multiple viewports, ARIA snapshots, automatic UI stabilization, tags, and more.
+- **`argosSnapshot`** — snapshot **any value**, not just UI: API responses, JSON, generated HTML, Markdown. Objects are serialized automatically, and the file extension controls how Argos renders and diffs them. Works in plain Node tests too — no browser required.
+- **One plugin** — `argosVitestPlugin` registers both commands in your Vitest config and uploads everything captured to Argos at the end of your CI run.
+
+```tsx
+import { argosScreenshot } from "@argos-ci/vitest";
+import { test } from "vitest";
+import { render } from "vitest-browser-react";
+
+import { Button } from "./Button";
+
+test("Button", async () => {
+  render(<Button>Click me</Button>);
+  await argosScreenshot("button");
+});
+```
+
+No PNG baselines committed to Git and no `--update` round-trips: Argos picks the baseline from your Git history, and your team reviews visual changes right on the pull request.
+
+Read the [announcement blog post](https://argos-ci.com/blog/argos-vitest-sdk) for the full story and a step-by-step setup guide.
+
+👉 [Get started in the docs](https://argos-ci.com/docs/quickstart/vitest-quickstart)
