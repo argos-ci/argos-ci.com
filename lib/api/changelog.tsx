@@ -66,10 +66,28 @@ async function getChangelogFromPath(
 }
 
 /**
+ * Scheduled changelog entries (date in the future) are hidden from the
+ * production build, following the same rules as scheduled blog articles
+ * (see blog.tsx). The date is read from the folder name (YYYY-MM-DD__slug).
+ */
+const showScheduledEntries =
+  process.env.NODE_ENV === "development" ||
+  process.env.VERCEL_ENV === "preview" ||
+  process.env.SHOW_SCHEDULED_ARTICLES === "true";
+
+function checkIsPublished(filepath: string): boolean {
+  const match = filepath.match(/\/(\d{4}-\d{2}-\d{2})__/);
+  return !match || new Date(match[1]) <= new Date();
+}
+
+/**
  * Get all the changelog files.
  */
 export async function getChangelogFiles() {
-  const files = await fg("./changelogs/**/*.mdx");
+  const allFiles = await fg("./changelogs/**/*.mdx");
+  const files = showScheduledEntries
+    ? allFiles
+    : allFiles.filter(checkIsPublished);
   files.sort((a, b) => b.localeCompare(a));
   return files;
 }
@@ -117,5 +135,8 @@ export async function getChangelogEntryBySlug(
   const date = urlSlug.split("-").slice(0, 3).join("-");
   const slug = urlSlug.split("-").slice(3).join("-");
   const filepath = `./changelogs/${date}__${slug}/index.mdx`;
+  if (!showScheduledEntries && !checkIsPublished(filepath)) {
+    return null;
+  }
   return getChangelogFromPath(filepath);
 }
