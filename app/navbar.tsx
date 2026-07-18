@@ -24,35 +24,44 @@ import * as React from "react";
 import { ArgosLogo } from "@/components/ArgosLogo";
 import { Button } from "@/components/Button";
 import { Navbar } from "@/components/Navbar";
+import { OpenArgosButton } from "@/components/OpenArgosButton";
 import { ThemeImage, type ThemeImageProps } from "@/components/ThemeImage";
 import { type FeatureColor } from "@/components/feature-section/colors";
+import { useIsLoggedIn } from "@/components/session";
 
 import { cypress, playwright, storybook, wdio } from "./assets/brands/library";
 import { trackSignupClick } from "./google-ads";
 
 export const AppNavbar: React.FC = () => {
+  const loggedIn = useIsLoggedIn();
   return (
     <Navbar
       primary={
-        <NextLink href="/" className="inline-flex">
+        // Logged-in users point "home" to /homepage so navigating home never
+        // triggers the "/" → app redirect.
+        <NextLink href={loggedIn ? "/homepage" : "/"} className="inline-flex">
           <ArgosLogo className="h-6" />
         </NextLink>
       }
       secondary={<SecondaryNavbar />}
       actions={
-        <>
-          <Button variant="outline" asChild>
-            <a href="https://app.argos-ci.com/login">Login</a>
-          </Button>
-          <Button asChild>
-            <a
-              href="https://app.argos-ci.com/signup"
-              onClick={trackSignupClick}
-            >
-              Sign up
-            </a>
-          </Button>
-        </>
+        loggedIn ? (
+          <OpenArgosButton />
+        ) : (
+          <>
+            <Button variant="outline" asChild>
+              <a href="https://app.argos-ci.com/login">Login</a>
+            </Button>
+            <Button asChild>
+              <a
+                href="https://app.argos-ci.com/signup"
+                onClick={trackSignupClick}
+              >
+                Sign up
+              </a>
+            </Button>
+          </>
+        )
       }
     />
   );
@@ -296,9 +305,7 @@ function SectionTitle(props: {
 }) {
   const { children, className } = props;
   return (
-    <div
-      className={clsx("text-low mb-1 pl-2 text-xs uppercase", className)}
-    >
+    <div className={clsx("text-low mb-1 pl-2 text-xs uppercase", className)}>
       {children}
     </div>
   );
