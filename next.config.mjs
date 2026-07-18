@@ -8,6 +8,11 @@ const nextConfig = {
   redirects: async () => {
     return [
       {
+        source: "/.well-known/:path*",
+        destination: "https://app.argos-ci.com/.well-known/:path*",
+        permanent: false,
+      },
+      {
         source: "/:organization/:repository/builds/:path*",
         destination:
           "https://app.argos-ci.com/:organization/:repository/builds/:path*",
