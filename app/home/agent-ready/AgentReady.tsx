@@ -1,11 +1,16 @@
-import { ClipboardCheckIcon, RefreshCwIcon, ScanEyeIcon } from "lucide-react";
+import {
+  ClipboardCheckIcon,
+  PlugIcon,
+  RefreshCwIcon,
+  ScanEyeIcon,
+} from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
-import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
 import { SectionDescription, SectionTitle } from "@/components/Typography";
+import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
 
 import { AgentTerminal } from "./AgentTerminal";
 
@@ -25,6 +30,11 @@ const POINTS = [
     title: "Agents review from the CLI",
     text: "Inspect a build, list what needs review, and submit a decision, or hit Copy prompt to hand an agent the full context.",
   },
+  {
+    icon: PlugIcon,
+    title: "Agents connect over MCP",
+    text: "Connect Claude, Cursor, or any MCP client to the Argos MCP server with OAuth — every review action, natively in your agent.",
+  },
 ];
 
 export function AgentReady() {
@@ -39,8 +49,8 @@ export function AgentReady() {
             <SectionTitle>100% agent-ready</SectionTitle>
             <SectionDescription className="max-w-2xl">
               Your agents write the code. Argos gives them (and you) the ground
-              truth of what actually changed, from the same CLI and REST API they
-              already use.
+              truth of what actually changed, from the MCP server, CLI, and REST
+              API they already use.
             </SectionDescription>
           </SectionHeaderTexts>
           <Button variant="outline" asChild>
@@ -70,4 +80,3 @@ export function AgentReady() {
     </section>
   );
 }
-

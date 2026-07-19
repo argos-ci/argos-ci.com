@@ -13,7 +13,6 @@ import Link from "next/link";
 import { Badge } from "@/components/Badge";
 import { Button } from "@/components/Button";
 import { CallToActionSection } from "@/components/CallToActionSection";
-import { Terminal } from "@/components/Terminal";
 import { Chip } from "@/components/Chip";
 import { CodeBlock } from "@/components/CodeBlock";
 import { Container } from "@/components/Container";
@@ -31,6 +30,7 @@ import {
 } from "@/components/Hero";
 import { QuoteBlock } from "@/components/QuoteBlock";
 import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
+import { Terminal } from "@/components/Terminal";
 import { SectionDescription, SectionTitle } from "@/components/Typography";
 import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
 import { getMetadata } from "@/lib/metadata";
@@ -43,17 +43,17 @@ import { CopyPromptCard } from "./features/CopyPromptCard";
 
 export const metadata: Metadata = getMetadata({
   title: "Argos for AI Agents",
-  absoluteTitle: "Argos for AI Agents · Merge AI-generated code with confidence",
+  absoluteTitle:
+    "Argos for AI Agents · Merge AI-generated code with confidence",
   description:
-    "Argos is 100% agent-ready. Agents see exactly what their PR changed, iterate to fix their own mistakes, and review builds from the CLI and REST API, so you merge AI-generated code with confidence.",
+    "Argos is 100% agent-ready. Agents see exactly what their PR changed, iterate to fix their own mistakes, and review builds from the MCP server, CLI, and REST API, so you merge AI-generated code with confidence.",
   pathname: "/ai-agents",
 });
 
 const mcpCode = `{
   "mcpServers": {
     "argos": {
-      "command": "npx",
-      "args": ["-y", "@argos-ci/mcp"]
+      "url": "https://mcp.argos-ci.com"
     }
   }
 }`;
@@ -81,9 +81,9 @@ export default function Page() {
             </div>
             <HeroHeading>Merge AI-generated code with confidence</HeroHeading>
             <HeroDescription>
-              Your agents write the code. Reviewing what they changed is the hard
-              part. Argos is 100% agent-ready: it shows exactly what every PR
-              changed, so agents can fix their own mistakes and you can merge
+              Your agents write the code. Reviewing what they changed is the
+              hard part. Argos is 100% agent-ready: it shows exactly what every
+              PR changed, so agents can fix their own mistakes and you can merge
               without second-guessing.
             </HeroDescription>
             <HeroActions>
@@ -135,8 +135,8 @@ export default function Page() {
                 Every build exposes machine-readable snapshot data. An agent can
                 read what moved, whether pixels, Markdown, or JSON, and compare
                 it against the PR intent. From any build,{" "}
-                <strong>Copy prompt</strong>{" "}
-                hands it the build URL, PR context, and review guidance.
+                <strong>Copy prompt</strong> hands it the build URL, PR context,
+                and review guidance.
               </>
             }
             href="/docs/learn/review-workflow/review-builds-with-ai-agents"
@@ -148,8 +148,8 @@ export default function Page() {
               <>
                 Fetch build status, list snapshots that still need review, and
                 submit an approval or request changes, without leaving the
-                terminal. Reviews use personal access tokens and respect existing
-                project permissions.
+                terminal. Reviews use personal access tokens and respect
+                existing project permissions.
               </>
             }
             href="/docs/sdks-reference/argos-command-line-interface-cli"
@@ -168,8 +168,8 @@ export default function Page() {
             title="Machine-readable diffs"
             description={
               <>
-                Structured snapshot data for every change, ready to feed straight
-                into an agent&apos;s context.
+                Structured snapshot data for every change, ready to feed
+                straight into an agent&apos;s context.
               </>
             }
             href="/docs/learn/review-workflow/review-builds-with-ai-agents"
@@ -179,8 +179,8 @@ export default function Page() {
             title="Full review REST API"
             description={
               <>
-                Reviews, comments, replies, reactions, and thread resolve are all
-                in the public API.
+                Reviews, comments, replies, reactions, and thread resolve are
+                all in the public API.
               </>
             }
             href="/docs/api-reference"
@@ -190,11 +190,11 @@ export default function Page() {
             title="Scoped, permission-safe"
             description={
               <>
-                Agents authenticate with personal access tokens and inherit your
-                project permissions, with no broad access required.
+                Agents authenticate with OAuth or personal access tokens and
+                inherit your project permissions, with no broad access required.
               </>
             }
-            href="/docs/sdks-reference/argos-command-line-interface-cli"
+            href="/docs/agents/mcp-server"
             icon={KeyRoundIcon}
           />
         </Container>
@@ -203,23 +203,28 @@ export default function Page() {
       <section className="border-b px-4">
         <Container className="border-x py-12 md:py-18">
           <SectionHeader align="center" className="container-gutter max-w-2xl">
-            <Chip icon={PlugIcon}>Coming soon</Chip>
+            <Chip icon={PlugIcon}>MCP server</Chip>
             <SectionHeaderTexts>
-              <SectionTitle>Connect your agents with the Argos MCP</SectionTitle>
+              <SectionTitle>
+                Connect your agents with the Argos MCP
+              </SectionTitle>
               <SectionDescription>
                 The Argos MCP server lets any MCP-compatible agent, like Claude
                 or Cursor, inspect builds, read diffs, and submit reviews
-                natively. No glue code, no custom integration.
+                natively. Sign in with OAuth, no glue code, no custom
+                integration.
               </SectionDescription>
             </SectionHeaderTexts>
           </SectionHeader>
           <div className="mx-auto mt-10 max-w-md">
-            <Terminal
-              title="mcp.json"
-              right={<Badge>Coming soon</Badge>}
-            >
+            <Terminal title="mcp.json" right={<Badge>mcp.argos-ci.com</Badge>}>
               <CodeBlock code={mcpCode} lang="json" className="text-xs" />
             </Terminal>
+          </div>
+          <div className="mt-8 flex justify-center">
+            <Button variant="outline" asChild>
+              <Link href="/docs/agents/mcp-server">Set up the MCP server</Link>
+            </Button>
           </div>
         </Container>
       </section>
