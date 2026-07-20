@@ -1,7 +1,5 @@
 "use client";
 
-import * as React from "react";
-
 export const APP_URL = "https://app.argos-ci.com/";
 
 /**
@@ -52,17 +50,4 @@ export const dismissNudge = () => writeFlag(NUDGE_DISMISSED_KEY);
 
 export function openApp(): void {
   window.location.href = APP_URL;
-}
-
-/**
- * Returns `false` during SSR and the first client render, then `true` after
- * mount when the user is logged in. Keeping the first client render in sync with
- * the (logged-out) server markup avoids hydration mismatches.
- */
-export function useIsLoggedIn(): boolean {
-  const [loggedIn, setLoggedIn] = React.useState(false);
-  React.useEffect(() => {
-    setLoggedIn(isLoggedIn());
-  }, []);
-  return loggedIn;
 }

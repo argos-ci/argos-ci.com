@@ -27,28 +27,32 @@ import { Navbar } from "@/components/Navbar";
 import { OpenArgosButton } from "@/components/OpenArgosButton";
 import { ThemeImage, type ThemeImageProps } from "@/components/ThemeImage";
 import { type FeatureColor } from "@/components/feature-section/colors";
-import { useIsLoggedIn } from "@/components/session";
 
 import { cypress, playwright, storybook, wdio } from "./assets/brands/library";
 import { trackSignupClick } from "./google-ads";
 
 export const AppNavbar: React.FC = () => {
-  const loggedIn = useIsLoggedIn();
   return (
     <Navbar
       primary={
-        // Logged-in users point "home" to /homepage so navigating home never
-        // triggers the "/" → app redirect.
-        <NextLink href={loggedIn ? "/homepage" : "/"} className="inline-flex">
-          <ArgosLogo className="h-6" />
-        </NextLink>
+        // Both logos are rendered; CSS shows the one matching the login state
+        // (flagged pre-paint on <html>). Logged-in users point "home" to
+        // /homepage so navigating home never triggers the "/" → app redirect.
+        <>
+          <NextLink data-when-guest href="/" className="inline-flex">
+            <ArgosLogo className="h-6" />
+          </NextLink>
+          <NextLink data-when-authed href="/homepage" className="inline-flex">
+            <ArgosLogo className="h-6" />
+          </NextLink>
+        </>
       }
       secondary={<SecondaryNavbar />}
       actions={
-        loggedIn ? (
-          <OpenArgosButton />
-        ) : (
-          <>
+        // Both action sets are rendered; CSS hides the one that doesn't apply.
+        // `contents` wrappers keep the buttons in the parent flex layout.
+        <>
+          <div data-when-guest className="contents">
             <Button variant="outline" asChild>
               <a href="https://app.argos-ci.com/login">Login</a>
             </Button>
@@ -60,8 +64,11 @@ export const AppNavbar: React.FC = () => {
                 Sign up
               </a>
             </Button>
-          </>
-        )
+          </div>
+          <div data-when-authed className="contents">
+            <OpenArgosButton />
+          </div>
+        </>
       }
     />
   );

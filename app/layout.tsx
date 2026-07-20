@@ -90,6 +90,17 @@ export default function RootLayout({
     >
       <GoogleTagManager gtmId="GTM-NLJR9K93" />
       <head>
+        {/*
+          Read the non-HttpOnly `argos_logged_in` hint cookie before first paint
+          and flag `<html>` so CSS can pick the logged-in vs logged-out navbar
+          without a hydration flash. Mirrors how next-themes sets the theme class.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{if(document.cookie.indexOf('argos_logged_in=1')>-1)document.documentElement.classList.add('argos-authed')}catch(e){}",
+          }}
+        />
         <PlausibleProvider src="https://plausible.io/js/pa-MUtv2DPAT8fCOLi_QqcGL.js" />
         <GoogleAdsScripts />
       </head>
