@@ -477,3 +477,13 @@
     }
   }
 }
+
+/*
+  Logged-in-aware UI. Both variants are rendered server-side; the pre-paint
+  script in <head> flags `<html>` with `argos-authed`, so we only ever hide the
+  variant that doesn't apply. Shown elements keep their own display value.
+*/
+html:not(.argos-authed) [data-when-authed],
+html.argos-authed [data-when-guest] {
+  display: none !important;
+}
