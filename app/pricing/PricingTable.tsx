@@ -5,6 +5,7 @@ import {
   ARGOS_SCREENSHOT_PRICE,
   ARGOS_STORYBOOK_SCREENSHOT_PRICE,
   GITHUB_SSO_PRICE,
+  SAML_SSO_PRICE,
 } from "@/lib/constants";
 
 const numberFormatter = new Intl.NumberFormat("en-US");
@@ -115,7 +116,8 @@ export function PricingTable() {
         A screenshot is any snapshot Argos stores for a build: an image, or a
         non-image file such as Markdown, JSON, or HTML. Usage is billed only on
         successful builds. GitHub SSO is an optional add-on at{" "}
-        {usd(GITHUB_SSO_PRICE)} / mo.
+        {usd(GITHUB_SSO_PRICE)} / mo, and SAML SSO at {usd(SAML_SSO_PRICE)} /
+        mo.
       </p>
     </div>
   );

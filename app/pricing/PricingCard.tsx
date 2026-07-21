@@ -36,6 +36,7 @@ import {
   ARGOS_SCREENSHOT_PRICE,
   ARGOS_STORYBOOK_SCREENSHOT_PRICE,
   GITHUB_SSO_PRICE,
+  SAML_SSO_PRICE,
 } from "@/lib/constants";
 
 import { trackSignupClick } from "../google-ads";
@@ -201,6 +202,12 @@ export function PricingCards() {
                 <LocalDollar value={GITHUB_SSO_PRICE} /> /mo
               </PriceBadge>
             </Feature>
+            <Feature icon={LockKeyholeIcon}>
+              SAML SSO
+              <PriceBadge>
+                <LocalDollar value={SAML_SSO_PRICE} /> /mo
+              </PriceBadge>
+            </Feature>
           </Features>
         </PricingCardBody>
       </PricingCard>
@@ -219,7 +226,7 @@ export function PricingCards() {
           <Features>
             <FeaturesCaption>Everything in Pro, plus:</FeaturesCaption>
             <Feature icon={ImagesIcon}>Custom screenshot number</Feature>
-            <Feature icon={LockKeyholeIcon}>SAML SSO</Feature>
+            <Feature icon={LockKeyholeIcon}>SAML SSO included</Feature>
             <Feature icon={SlidersHorizontalIcon}>
               Fine-grained access control
             </Feature>
