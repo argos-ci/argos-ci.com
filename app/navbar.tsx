@@ -292,7 +292,7 @@ function SecondaryNavbar() {
             ["--easing" as string]: "cubic-bezier(0.22, 1, 0.36, 1)",
           }}
         >
-          <NavigationMenu.Popup className="data-[ending-style]:easing-[ease] xs:w-[var(--popup-width)] relative h-(--popup-height) w-(--popup-width) origin-(--transform-origin) overflow-hidden rounded-lg bg-[canvas] shadow-lg/8 outline outline-(--neutral-6) transition-[opacity,transform,width,height,scale,translate] duration-(--duration) ease-(--easing) data-ending-style:scale-90 data-ending-style:opacity-0 data-ending-style:duration-150 data-starting-style:scale-90 data-starting-style:opacity-0">
+          <NavigationMenu.Popup className="data-[ending-style]:easing-[ease] xs:w-[var(--popup-width)] relative h-(--popup-height) max-h-(--available-height) w-(--popup-width) origin-(--transform-origin) overflow-hidden rounded-lg bg-[canvas] shadow-lg/8 outline outline-(--neutral-6) transition-[opacity,transform,width,height,scale,translate] duration-(--duration) ease-(--easing) data-ending-style:scale-90 data-ending-style:opacity-0 data-ending-style:duration-150 data-starting-style:scale-90 data-starting-style:opacity-0">
             <NavigationMenu.Viewport className="relative h-full w-full overflow-hidden" />
           </NavigationMenu.Popup>
         </NavigationMenu.Positioner>
@@ -342,7 +342,7 @@ const navIconClassName = clsx(
 );
 
 const contentClassName = clsx(
-  "h-full bg-app z-40",
+  "h-full bg-app z-40 overflow-y-auto overscroll-contain",
   "transition-[opacity,transform,translate] duration-(--duration) ease-(--easing)",
   "data-starting-style:opacity-0 data-ending-style:opacity-0",
   "data-starting-style:data-[activation-direction=left]:translate-x-[-50%]",
