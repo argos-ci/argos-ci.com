@@ -12,6 +12,7 @@ import { SectionDescription, SectionTitle } from "@/components/Typography";
 import githubDark from "./assets/github-dark.svg";
 import githubLight from "./assets/github-light.svg";
 import gitlab from "./assets/gitlab.svg";
+import msteams from "./assets/msteams.svg";
 import slack from "./assets/slack.svg";
 
 export function Integrations() {
@@ -25,8 +26,8 @@ export function Integrations() {
           <SectionHeaderTexts>
             <SectionTitle>Integrated with your everyday tools</SectionTitle>
             <SectionDescription>
-              First class integrations with GitHub, GitLab, and Slack so your
-              reviews happen where your team collaborates.
+              First class integrations with GitHub, GitLab, Slack, and Microsoft
+              Teams so your reviews happen where your team collaborates.
             </SectionDescription>
           </SectionHeaderTexts>
           <Button variant="outline" asChild>
@@ -45,22 +46,28 @@ export function Integrations() {
             <Grid x={-1} y={-1} size={40} className="md:hidden" />
           </div>
           <IntegrationButton
-            className="[--x:2] [--y:1] md:[--x:2] md:[--y:2]"
+            className="[--x:1] [--y:1] md:[--x:2] md:[--y:2]"
             image={{ light: githubLight, dark: githubDark }}
             title="GitHub"
             href="/docs/learn/integrations/github-integration"
           />
           <IntegrationButton
-            className="[--x:4] [--y:4] md:[--x:6] md:[--y:4]"
+            className="[--x:3] [--y:4] md:[--x:6] md:[--y:4]"
             image={slack}
             title="Slack"
             href="/docs/learn/integrations/slack-integration"
           />
           <IntegrationButton
-            className="[--x:6] [--y:1] md:[--x:10] md:[--y:2]"
+            className="[--x:5] [--y:1] md:[--x:10] md:[--y:2]"
             image={gitlab}
             title="GitLab"
             href="/docs/learn/integrations/gitlab-integration"
+          />
+          <IntegrationButton
+            className="[--x:7] [--y:4] md:[--x:6] md:[--y:1]"
+            image={msteams}
+            title="Microsoft Teams"
+            href="/docs/learn/integrations/microsoft-teams-integration"
           />
         </div>
       </Container>

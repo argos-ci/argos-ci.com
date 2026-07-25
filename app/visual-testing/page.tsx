@@ -478,17 +478,17 @@ export default function Page() {
         <FeatureGrid>
           <FeatureGridFeature
             title={
-              <>Actionable Slack notifications, right where your team is</>
+              <>Actionable chat notifications, right where your team is</>
             }
             description={
               <>
                 Use Automations to send concise Argos updates to the right Slack
-                channels at the right time. Notify your team when a build is
-                ready for review, changes are requested, or a build is auto
-                approved on main.
+                or Microsoft Teams channels at the right time. Notify your team
+                when a build is ready for review, changes are requested, or a
+                build is auto approved on main.
               </>
             }
-            href="/docs/learn/integrations/slack-integration"
+            href="/docs/learn/integrations"
             illustration={<SlackNotification />}
           />
           <FeatureGridFeature
