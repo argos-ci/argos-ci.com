@@ -193,7 +193,9 @@ export function PricingCards() {
               Team collaboration & reviews
             </Feature>
             <Feature icon={ShieldIcon}>Private deployment protection</Feature>
-            <Feature icon={BellIcon}>Slack notifications</Feature>
+            <Feature icon={BellIcon}>
+              Slack & Microsoft Teams notifications
+            </Feature>
             <Feature icon={HeadsetIcon}>Pro support</Feature>
             <div className="mt-4 text-sm font-medium">Optional</div>
             <Feature icon={LockKeyholeIcon}>
