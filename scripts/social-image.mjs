@@ -17,7 +17,7 @@ import { dirname, join, resolve } from "node:path";
  * The brand lock. Do not edit per-image — edit here and re-render the set,
  * otherwise old and new images stop matching.
  */
-export const STYLE =
+const STYLE =
   " Flat editorial vector illustration for a modern developer-tool brand. " +
   "Deep indigo navy background, violet and cyan accents, warm off-white surfaces. " +
   "Geometric and calm, generous negative space, subtle dot-grid and thin concentric line details. " +

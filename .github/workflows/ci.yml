@@ -33,7 +33,7 @@ jobs:
       - name: Setup Node.js & install dependencies
         uses: ./.github/actions/setup-deps
 
-      - name: Check types
+      - name: Check unused files, dependencies and exports
         run: pnpm run knip
 
   e2e-local:
