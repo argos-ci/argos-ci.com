@@ -52,7 +52,7 @@ The differences from Percy are the point:
 - **Unlimited parallelization included.** No extra fee for parallel CI workers.
 - **Snapshot testing for any file.** Argos diffs Markdown, JSON, HTML, and more, not just images. Useful for testing generated output beyond the UI.
 - **[Deployments and PR previews](/deployments)** for Storybook or any static build, and [collaborative reviews](/collaborative-reviews) with threads, reactions, and real-time presence.
-- **[Agent-ready CLI and API](/ai-agents).** Coding agents can inspect and approve builds via structured JSON output (`argos build get <ref> --json`, `argos build review <ref> --conclusion approve`).
+- **[Agent-ready CLI and API](/ai-agents).** Coding agents can inspect and approve builds via structured JSON output (`argos build get <ref> --json`, `argos review create <ref> --event approve`).
 - **Automatic baselines from Git history.** No manual baseline management per branch in a dashboard.
 
 What you give up versus Percy: Percy's cloud re-render gives you multiple browser engines and widths from a single test run. With Argos, cross-viewport coverage comes from your own Playwright projects (shown in the migration section below), which is more explicit but runs in your CI. If you want the full head-to-head, see [Percy vs Chromatic vs Argos](/blog/percy-vs-chromatic-vs-argos).

@@ -78,9 +78,9 @@ argos build get <buildRef> --json
 argos build snapshots <buildRef> --needs-review --json
 
 # Submit a review once the diffs are verified
-argos build review <buildRef> --conclusion approve
+argos review create <buildRef> --event approve
 # or
-argos build review <buildRef> --conclusion request-changes
+argos review create <buildRef> --event reject
 ```
 
 The `--needs-review` output includes the baseline URL, the new screenshot URL, and the diff mask for each changed snapshot, which is exactly the evidence an agent needs to reason about a visual change in context. Two open-source skills encode the whole workflow so you do not have to prompt it from scratch:
@@ -120,7 +120,7 @@ Whichever level you choose, the prerequisite is the same: a visual testing layer
 
 ### Can AI coding agents verify their own UI changes?
 
-Yes, as of 2026 this is a real, shipped workflow. With Argos, an agent uses the CLI (`argos build get`, `argos build snapshots --needs-review --json`) to fetch visual diffs as structured JSON, compares them against the pull request's intent, and can submit a review with `argos build review`. Open-source skills encode the full workflow for assistants like Claude Code.
+Yes, as of 2026 this is a real, shipped workflow. With Argos, an agent uses the CLI (`argos build get`, `argos build snapshots --needs-review --json`) to fetch visual diffs as structured JSON, compares them against the pull request's intent, and can submit a review with `argos review create`. Open-source skills encode the full workflow for assistants like Claude Code.
 
 ### Why aren't functional tests enough for AI-generated code?
 

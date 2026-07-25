@@ -19,7 +19,7 @@ type TerminalLine =
 const LINES: TerminalLine[] = [
   { kind: "prompt", text: "argos build snapshots 1234 --needs-review" },
   { kind: "output", text: "→ 3 snapshots changed · 1 flaky · machine-readable" },
-  { kind: "prompt", text: "argos build review 1234 --conclusion approve" },
+  { kind: "prompt", text: "argos review create 1234 --event approve" },
   { kind: "status", text: "Review submitted, safe to merge" },
 ];
 

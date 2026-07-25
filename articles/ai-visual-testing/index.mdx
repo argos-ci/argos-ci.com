@@ -49,7 +49,7 @@ npx @argos-ci/cli build get <buildRef> --json
 npx @argos-ci/cli build snapshots <buildRef> --needs-review --json
 
 # Submit a review conclusion
-npx @argos-ci/cli build review <buildRef> --conclusion approve
+npx @argos-ci/cli review create <buildRef> --event approve
 ```
 
 Open-source skills teach the agent the whole workflow (`npx skills add argos-ci/argos-javascript@argos-pr-review`), and a **Copy prompt** button in the build UI generates an agent-optimized prompt for any assistant. We wrote a full walkthrough in [reviewing Argos builds with AI agents](/blog/review-builds-ai-agents), and a broader piece on [how AI coding agents change visual testing](/blog/visual-testing-ai-coding-agents).
