@@ -76,7 +76,7 @@ Once invoked, the agent performs several actions to produce a meaningful review.
 6. **Summarize visual changes** – for each diff, the agent compares the `head.url`, `base.url` and `url` mask to explain what changed visually.
 7. **Compare screenshots with intent** – decide whether the visual difference matches the expected change derived from the pull request context.
 8. **Suggest a conclusion** – if all snapshots align with intent, the agent recommends approval; otherwise it recommends requesting changes and describes the problematic snapshots.
-9. **Optionally submit the review** – if authenticated with a user token, call `argos build review <buildRef> --conclusion <approve|request-changes>` to record the decision.
+9. **Optionally submit the review** – if authenticated with a user token, call `argos review create <buildRef> --event <approve|reject>` to record the decision.
 
 ## Alternative prompts and scenarios
 
@@ -115,16 +115,16 @@ This prompt explicitly tells the assistant to follow the same steps encoded in t
 
 For reference, here are the key CLI commands your agent will use:
 
-| Purpose                  | Command                                                      |
-| ------------------------ | ------------------------------------------------------------ |
-| Authenticate as a user   | `argos login` (interactive – store a personal token)         |
-| Read build metadata      | `argos build get <buildRef> --json`                          |
-| Read snapshot diffs      | `argos build snapshots <buildRef> --needs-review --json`     |
-| Submit a build review    | `argos build review <buildRef> --conclusion approve`         |
-| Request changes          | `argos build review <buildRef> --conclusion request-changes` |
-| Upload screenshots in CI | `argos upload <dir> --token <project-token>`                 |
-| Finalize parallel builds | `argos finalize --parallel-nonce <nonce>`                    |
-| Mark a build as skipped  | `argos skip`                                                 |
+| Purpose                  | Command                                                  |
+| ------------------------ | -------------------------------------------------------- |
+| Authenticate as a user   | `argos login` (interactive – store a personal token)     |
+| Read build metadata      | `argos build get <buildRef> --json`                      |
+| Read snapshot diffs      | `argos build snapshots <buildRef> --needs-review --json` |
+| Submit a build review    | `argos review create <buildRef> --event approve`         |
+| Request changes          | `argos review create <buildRef> --event reject`          |
+| Upload screenshots in CI | `argos upload <dir> --token <project-token>`             |
+| Finalize parallel builds | `argos finalize --parallel-nonce <nonce>`                |
+| Mark a build as skipped  | `argos skip`                                             |
 
 These commands are described in the [CLI documentation](/docs/sdks-reference/argos-command-line-interface-cli#build-commands). Remember that reading build data requires a project token, while submitting a review requires a personal access token.
 

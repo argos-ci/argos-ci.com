@@ -94,7 +94,7 @@ argos build get pr-42 --json
 argos build snapshots pr-42 --needs-review --json
 
 # Submit a review (requires a personal access token)
-argos build review pr-42 --conclusion approve
+argos review create pr-42 --event approve
 ```
 
 There are also installable skills that teach your agent the whole workflow:
@@ -139,7 +139,7 @@ It gets a JSON list of changed snapshots with image URLs, inspects the diffs, an
 **4. Submit the review.** Once the diffs match the intent, the agent (or you) approves:
 
 ```bash
-argos build review pr-42 --conclusion approve
+argos review create pr-42 --event approve
 ```
 
 A project token grants read access for inspection; submitting reviews requires a personal access token, so review authority stays tied to a real account. There is also a "Copy prompt" button in the Argos build UI that generates an agent-optimized prompt if you'd rather paste the context into your agent manually.
@@ -158,7 +158,7 @@ No, and it doesn't need one for agent workflows. Agents interact with Argos thro
 
 ### Can an agent approve its own Argos build?
 
-Yes, with a personal access token, via `argos build review <ref> --conclusion approve` or `request-changes`. Many teams prefer a middle ground: the agent inspects diffs and posts its analysis, while a human clicks approve. Argos supports both; the [review docs](/docs/learn/review-workflow/review-builds-with-ai-agents) cover the token model.
+Yes, with a personal access token, via `argos review create <ref> --event approve` or `--event reject`. Many teams prefer a middle ground: the agent inspects diffs and posts its analysis, while a human clicks approve. Argos supports both; the [review docs](/docs/learn/review-workflow/review-builds-with-ai-agents) cover the token model.
 
 ### Why not just have the agent screenshot everything with Playwright MCP?
 

@@ -65,7 +65,7 @@ argos build get <build>
 argos build snapshots <build> --needs-review
 
 # Submit a decision (respects project permissions)
-argos build review <build> --conclusion approve`;
+argos review create <build> --event approve`;
 
 const color = "violet" as const;
 
