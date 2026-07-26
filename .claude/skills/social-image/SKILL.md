@@ -23,6 +23,22 @@ that string, not the individual prompt, is what makes a set look like a set.
 - **Cost**: roughly $0.10–0.15 per image. A 40-image set is a few dollars, so batch deliberately and never regenerate a set casually.
 - **Destination**: a scratch directory. Social assets — do **not** commit them.
 
+### Blog headers
+
+The same style, a different frame. Blog headers render at `aspectRatio: 2/1` with
+`object-fit: cover` in both the article (`MainImage`) and the post grid
+(`PostCardImage`), so a 3:2 image loses a quarter of its height to the crop.
+Generate those at 2:1 instead — `--size 2048x1024`, or `"size"` in the spec:
+
+```bash
+node scripts/social-image.mjs --spec /tmp/blog.json --size 2048x1024
+```
+
+2048 is wide enough for the full-width featured card (1100 CSS px) at ~1.9× DPR
+and lands exactly on a Next.js `deviceSizes` breakpoint. These images *are*
+committed, next to their article as `main.jpg` — convert the PNG before landing
+it, and drop the article's photo credit so `<MainImage />` renders bare.
+
 ## Steps
 
 ### A batch (preferred)

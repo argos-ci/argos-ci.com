@@ -5,22 +5,12 @@ category: guides
 author: jeremy
 date: 2026-07-16
 image: ./main.jpg
-imageAlt: "Abstract illustration of three overlapping browser windows being compared side by side"
+imageAlt: "Abstract illustration of three browser windows side by side with the rightmost one highlighted"
 ---
 
 Percy, Chromatic, and Argos all catch visual regressions, but they work very differently where it counts. Percy uploads your DOM and re-renders it in BrowserStack's cloud, starting at $599/month. Chromatic captures your UI in its own cloud infrastructure, starting at $179/month for 35,000 snapshots. Argos diffs screenshots captured locally in the real browser your tests already run, for $100/month flat with 35,000 screenshots included. As of July 2026, **Argos is the best overall choice for most teams**: it is the cheapest, the only open-source option of the three, and the only one that snapshots any file, hosts PR previews for any static build, and ships an agent-ready CLI and API. Chromatic remains a strong pick for strictly Storybook-centric teams, and Percy makes sense if you are already committed to the BrowserStack ecosystem.
 
-<MainImage
-  credit={
-    <>
-      Photo by <a href="https://unsplash.com/@albertstoynov">Albert Stoynov</a>{" "}
-      on{" "}
-      <a href="https://unsplash.com/photos/statue-of-lady-justice-holding-scales-indoors-kIM48Mpp9iY">
-        Unsplash
-      </a>
-    </>
-  }
-/>
+<MainImage />
 
 ## Percy vs Chromatic vs Argos at a glance
 

@@ -5,21 +5,12 @@ category: guides
 author: jeremy
 date: 2026-08-06
 image: ./main.jpg
-imageAlt: "Abstract illustration of two overlapping browser windows being compared side by side, representing Cypress visual regression testing"
+imageAlt: "Abstract illustration of two overlapping browser windows with highlighted pixel differences along their seam"
 ---
 
 Cypress has no built-in visual regression testing, so you add it one of two ways: a **local diff plugin** (like cypress-visual-regression or cypress-image-diff-js) that compares screenshots against baselines committed to your repo, or a **cloud service** (like Argos) that captures screenshots in your Cypress browser, diffs them server-side, and gives your team a review workflow on every pull request. Plugins are free and fine for a handful of stable pages; cloud services are what you want once multiple people ship UI changes daily. This guide covers both, with runnable code.
 
-<MainImage
-  credit={
-    <>
-      Photo by <a href="https://unsplash.com/@chrisvomradio">Chris Weiher</a> on{" "}
-      <a href="https://unsplash.com/photos/rolling-hills-with-cypress-trees-and-flowers-myl8aco05PM">
-        Unsplash
-      </a>
-    </>
-  }
-/>
+<MainImage />
 
 ## Why Cypress needs a visual testing layer
 

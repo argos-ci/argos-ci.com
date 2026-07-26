@@ -5,22 +5,12 @@ category: guides
 author: greg
 date: 2026-08-18
 image: ./main.jpg
-imageAlt: "Abstract illustration of two overlapping screenshots being compared pixel by pixel in a CI pipeline."
+imageAlt: "Abstract illustration of a CI pipeline ending in a pixel-by-pixel screenshot comparison"
 ---
 
 Playwright ships visual regression testing out of the box: `expect(page).toHaveScreenshot()` captures a screenshot, compares it pixel by pixel against a baseline image committed to your repo, and fails the test if they differ. To make it reliable in CI, you need one thing above all: screenshots must always be generated on the same OS and browser version, which in practice means running Playwright in Docker and updating baselines from CI, not from your laptop. This guide covers the full setup, the workflows that keep it sane, and what to do when git-committed baselines stop scaling.
 
-<MainImage
-  credit={
-    <>
-      Photo by{" "}
-      <a href="https://unsplash.com/@homaappliances">Homa Appliances</a> on{" "}
-      <a href="https://unsplash.com/photos/a-large-group-of-boxes-sitting-on-top-of-a-conveyor-belt-KntF2PVAf1o">
-        Unsplash
-      </a>
-    </>
-  }
-/>
+<MainImage />
 
 ## How does toHaveScreenshot work?
 
