@@ -6,23 +6,10 @@ category: engineering
 author: greg
 date: 2025-03-25
 image: ./main.jpg
-imageAlt: Happy moment — Photo by Aziz Acharki
+imageAlt: "Abstract illustration of misaligned ghosted screenshots being measured and resolved into one crisp aligned frame"
 ---
 
-<MainImage
-  credit={
-    <>
-      Photo by{" "}
-      <a href="https://unsplash.com/@acharki95?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">
-        Aziz Acharki
-      </a>{" "}
-      on{" "}
-      <a href="https://unsplash.com/photos/photo-of-silhouette-photo-of-man-standing-on-rock-U3C79SeHa7k?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">
-        Unsplash
-      </a>
-    </>
-  }
-/>
+<MainImage />
 
 Image stabilization is a real challenge in visual testing. Even after images finish loading, subtle rendering differences often sneak in and trigger false positives. After years of chasing down these inconsistencies, we finally cracked one of the most elusive causes: responsive images using `srcset`.
 

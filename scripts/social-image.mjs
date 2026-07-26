@@ -7,6 +7,7 @@
  *
  *   node scripts/social-image.mjs --spec images.json --out-dir ./out
  *   node scripts/social-image.mjs --scene "Two panels…" --out /tmp/a.png
+ *   node scripts/social-image.mjs --spec blog.json --size 2048x1024
  *
  * Requires ARGOS_OPENAI_API_KEY. See .claude/skills/social-image/SKILL.md
  */
@@ -25,7 +26,8 @@ const STYLE =
   "Confident, minimal, high craft.";
 
 const MODEL = "gpt-image-2";
-const SIZE = "1536x1024";
+/** Social feeds crop to 3:2. Blog headers need 2:1 — override with --size. */
+const DEFAULT_SIZE = "1536x1024";
 const CONCURRENCY = 4;
 
 const KEY = process.env.ARGOS_OPENAI_API_KEY;
@@ -48,6 +50,7 @@ function parseArgs(argv) {
 
 const args = parseArgs(process.argv.slice(2));
 const force = Boolean(args.force);
+let size = args.size ?? DEFAULT_SIZE;
 
 /** @type {{name:string, scene:string, out:string}[]} */
 const jobs = [];
@@ -55,6 +58,7 @@ const jobs = [];
 if (args.spec) {
   const specPath = resolve(args.spec);
   const spec = JSON.parse(readFileSync(specPath, "utf8"));
+  size = args.size ?? spec.size ?? DEFAULT_SIZE;
   const outDir = resolve(args["out-dir"] ?? spec.outDir ?? dirname(specPath));
   mkdirSync(outDir, { recursive: true });
   for (const image of spec.images) {
@@ -72,8 +76,8 @@ if (args.spec) {
 } else {
   console.error(
     "Usage:\n" +
-      "  node scripts/social-image.mjs --spec <spec.json> [--out-dir <dir>] [--force true]\n" +
-      "  node scripts/social-image.mjs --scene <text> --out <file.png>",
+      "  node scripts/social-image.mjs --spec <spec.json> [--out-dir <dir>] [--size WxH] [--force true]\n" +
+      "  node scripts/social-image.mjs --scene <text> --out <file.png> [--size WxH]",
   );
   process.exit(1);
 }
@@ -93,7 +97,7 @@ async function generate(job, attempt = 1) {
       body: JSON.stringify({
         model: MODEL,
         prompt: job.scene + STYLE,
-        size: SIZE,
+        size,
         n: 1,
       }),
     });
@@ -111,7 +115,7 @@ async function generate(job, attempt = 1) {
   }
 }
 
-console.log(`generating ${jobs.length} image(s) at ${SIZE}`);
+console.log(`generating ${jobs.length} image(s) at ${size}`);
 
 const queue = [...jobs];
 const workers = Array.from(

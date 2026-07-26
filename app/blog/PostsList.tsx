@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import NextLink from "next/link";
 import { notFound } from "next/navigation";
 
@@ -22,11 +23,21 @@ import { type Article, Categories } from "@/lib/api/blog";
 
 import { CategoryLink } from "./CategoryLink";
 
-function ArticleCard(props: { article: Article }) {
-  const { article } = props;
+function ArticleCard(props: { article: Article; afterFeatured: boolean }) {
+  const { article, afterFeatured } = props;
   return (
     <Link href={`/blog/${article.slug}`} className="group contents">
-      <PostCard className="col-span-3 border-b max-md:group-last:border-b-0 md:col-span-1 md:border-r md:group-nth-[3n+1]:border-r-0">
+      <PostCard
+        className={clsx(
+          "col-span-3 border-b max-md:group-last:border-b-0 md:col-span-1 md:border-r",
+          // Drop the divider on the last column, which already sits against the
+          // container border. The featured card takes the grid's first slot, so
+          // when it is present every card's nth-child index shifts by one.
+          afterFeatured
+            ? "md:group-nth-[3n+1]:border-r-0"
+            : "md:group-nth-[3n]:border-r-0",
+        )}
+      >
         <PostCardImage
           width={article.image.width}
           height={article.image.height}
@@ -116,7 +127,11 @@ export function PostsList(props: {
             ) : null}
 
             {cardArticles.map((article) => (
-              <ArticleCard key={article.slug} article={article} />
+              <ArticleCard
+                key={article.slug}
+                article={article}
+                afterFeatured={featureFirst}
+              />
             ))}
           </div>
         </Container>

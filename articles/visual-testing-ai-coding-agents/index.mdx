@@ -5,21 +5,12 @@ category: guides
 author: greg
 date: 2026-07-21
 image: ./main.jpg
-imageAlt: "Abstract illustration of an AI agent inspecting visual diffs of a user interface"
+imageAlt: "Abstract illustration of a lens being fitted into a blind AI agent's empty socket beside a visual comparison"
 ---
 
 AI coding agents like Claude Code, Cursor, and Codex now write a large share of frontend code, but they ship it blind: they never render the page they just changed. Visual testing closes that loop. Deterministic screenshots captured on every pull request become the agent's eyes and the human's safety net: the agent opens a PR, CI captures screenshots, a tool like [Argos](/visual-testing) diffs them against the baseline, and the agent inspects the diffs, fixes its own regressions, or submits a review.
 
-<MainImage
-  credit={
-    <>
-      Photo by <a href="https://unsplash.com/@cadop">Mathew Schwartz</a> on{" "}
-      <a href="https://unsplash.com/photos/a-robot-that-is-standing-on-a-white-surface-c5sTal8LQyo">
-        Unsplash
-      </a>
-    </>
-  }
-/>
+<MainImage />
 
 ## Agents write the UI. They never see it.
 

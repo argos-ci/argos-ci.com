@@ -5,19 +5,12 @@ category: guides
 author: jeremy
 date: 2026-08-13
 image: ./main.jpg
-imageAlt: "Abstract illustration of two overlapping UI screenshots being compared, with highlighted diff regions"
+imageAlt: "Abstract illustration of the screenshot testing flow: capture, baselines, CI, and comparison"
 ---
 
 **Screenshot testing** is an automated testing technique that captures images of your application's UI, compares them pixel by pixel against approved baseline images, and flags any visual difference for human review. It catches the bugs functional tests can't see: a broken layout, an invisible button, a font that silently changed. Your assertions still pass; your app looks wrong. Screenshot testing closes that gap.
 
-<MainImage
-  credit={
-    <>
-      Photo by <a href="https://unsplash.com/@retrosupply">RetroSupply</a> on{" "}
-      <a href="https://unsplash.com/photos/LUDk8uFb7gE">Unsplash</a>
-    </>
-  }
-/>
+<MainImage />
 
 This guide covers the practical side: how screenshot testing works, where to capture screenshots, how to manage baselines, how to wire it into CI, and which tools to consider. If you want the conceptual overview first, read [What is Visual Testing?](/blog/what-is-visual-testing) — this article is the hands-on companion.
 
