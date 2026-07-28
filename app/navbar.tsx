@@ -145,7 +145,7 @@ function SecondaryNavbar() {
                     <LinkCard
                       href="/collaborative-reviews"
                       icon={MessagesSquareIcon}
-                      color="blue"
+                      color="plum"
                       title="Collaborative Reviews"
                       description="Review together, in real time"
                     />

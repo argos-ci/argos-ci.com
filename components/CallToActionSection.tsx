@@ -85,11 +85,11 @@ export function CallToActionSection(props: {
             </p>
             <div className="mt-8 flex justify-center gap-4">
               <Button asChild>
-                <a href="https://app.argos-ci.com/signup">Sign up</a>
+                <a href="https://app.argos-ci.com/signup">Start for free</a>
               </Button>
               <Button variant="outline" asChild>
                 <a href="https://cal.com/gregberge" target="_blank">
-                  Request demo
+                  Get a demo
                 </a>
               </Button>
             </div>

@@ -33,13 +33,12 @@ export function Hero() {
         <div className="relative flex w-full flex-col items-center gap-10 py-16 text-center md:pt-20 md:pb-24">
           <LastChangelog />
           <HeroComponent align="center">
-            <HeroHeading>
-              Merge what your agents build, with confidence.
-            </HeroHeading>
+            <HeroHeading>Review every UI change.</HeroHeading>
             <HeroDescription>
-              Agents ship UI, Markdown, and JSON faster than anyone can review by
-              eye. Argos shows exactly what every PR changes, and lets your team
-              and your agents review it, so you merge with confidence.
+              Agents ship more changes than anyone can check by eye. Argos
+              captures what every pull request actually changed so your{" "}
+              <span className="font-semibold"> team and agents</span> can
+              approve it with confidence.
             </HeroDescription>
             <HeroActions>
               <Button size="large" asChild>

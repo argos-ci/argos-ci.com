@@ -48,7 +48,7 @@ export const metadata: Metadata = getMetadata({
   pathname: "/collaborative-reviews",
 });
 
-const color = "blue" as const;
+const color = "plum" as const;
 
 export default function Page() {
   return (

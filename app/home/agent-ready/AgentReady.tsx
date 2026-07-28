@@ -1,8 +1,8 @@
 import {
   ClipboardCheckIcon,
+  MessageSquareCodeIcon,
   PlugIcon,
   RefreshCwIcon,
-  ScanEyeIcon,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -16,9 +16,9 @@ import { AgentTerminal } from "./AgentTerminal";
 
 const POINTS = [
   {
-    icon: ScanEyeIcon,
-    title: "Agents see the diff",
-    text: "Machine-readable snapshots let an agent read exactly what its change did to the UI, the Markdown, or the API output.",
+    icon: MessageSquareCodeIcon,
+    title: "Agents act on your review",
+    text: "Ask your agent to pick up a build and it reads every comment, plus the screenshot each one is pinned to, then fixes exactly what you flagged.",
   },
   {
     icon: RefreshCwIcon,
@@ -46,11 +46,13 @@ export function AgentReady() {
             <FeatureIndicator color="violet">
               Built for the AI age
             </FeatureIndicator>
-            <SectionTitle>100% agent-ready</SectionTitle>
+            <SectionTitle>
+              Your comments become the agent&apos;s next task
+            </SectionTitle>
             <SectionDescription className="max-w-2xl">
-              Your agents write the code. Argos gives them (and you) the ground
-              truth of what actually changed, from the MCP server, CLI, and REST
-              API they already use.
+              Pin what&apos;s wrong on the screenshot. Your agent pulls the
+              comments and the images they point to straight from the CLI or
+              over MCP, ships the fix, and Argos shows you whether it worked.
             </SectionDescription>
           </SectionHeaderTexts>
           <Button variant="outline" asChild>

@@ -119,8 +119,9 @@ export function Cost() {
           <SectionHeaderTexts>
             <SectionTitle>Cut visual testing costs, not coverage</SectionTitle>
             <SectionDescription className="max-w-xl">
-              Argos gives you reliable snapshots and scalable review flows while
-              keeping your testing budget under control.
+              Same coverage, a fraction of the bill. Deterministic pixel diffing
+              means no per-snapshot AI fees, and Argos stays below Percy and
+              Chromatic at every volume.
             </SectionDescription>
           </SectionHeaderTexts>
         </SectionHeader>
@@ -129,8 +130,8 @@ export function Cost() {
             <CostFeature
               href="/docs/learn/platform-fundamentals/how-argos-detects-visual-differences"
               icon={ScanIcon}
-              title="No AI overhead"
-              description="Argos uses pixel diffing so you avoid the extra fees tied to heuristic based engines."
+              title="No AI diffing surcharge"
+              description="Argos compares pixels deterministically, so you never pay the per-snapshot fees that heuristic engines add on top."
             />
             <CostFeature
               href="/docs/learn/billing-and-subscription/spend-management"
@@ -192,6 +193,29 @@ export function Cost() {
               <Button variant="outline" asChild>
                 <Link href="/pricing">Explore Pricing</Link>
               </Button>
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-x-1.5 gap-y-1 border-t p-4 text-sm max-md:text-center">
+              <span className="text-low">Coming from another tool?</span>
+              <Link
+                href="/compare/percy"
+                className="font-medium text-(--primary-11) hover:underline"
+              >
+                Compare with Percy
+              </Link>
+              <span className="text-low">·</span>
+              <Link
+                href="/compare/chromatic"
+                className="font-medium text-(--primary-11) hover:underline"
+              >
+                Chromatic
+              </Link>
+              <span className="text-low">·</span>
+              <Link
+                href="/compare/applitools"
+                className="font-medium text-(--primary-11) hover:underline"
+              >
+                Applitools
+              </Link>
             </div>
           </div>
         </div>

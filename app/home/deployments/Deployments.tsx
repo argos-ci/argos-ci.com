@@ -4,8 +4,8 @@ import Link from "next/link";
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
-import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
 import { SectionDescription, SectionTitle } from "@/components/Typography";
+import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
 
 import { DeployPreview } from "./DeployPreview";
 
@@ -46,18 +46,20 @@ export function Deployments() {
           </Button>
         </SectionHeader>
         <div className="grid border-t md:grid-cols-2">
-          <div className="relative flex cursor-default items-center justify-center border-b p-6 md:border-r md:border-b-0 md:p-10">
+          <div className="relative flex cursor-default items-center justify-center border-b p-6 md:border-r md:border-b-0 md:p-8">
             <DeployPreview />
           </div>
-          <ul className="flex flex-col divide-y">
+          <ul className="flex flex-col justify-center divide-y">
             {POINTS.map((point) => (
-              <li key={point.title} className="flex gap-4 p-6 md:p-8">
+              <li key={point.title} className="flex gap-4 px-6 py-5 md:px-8">
                 <point.icon
                   className="mt-0.5 size-5 shrink-0 text-(--teal-11)"
                   strokeWidth={1.5}
                 />
                 <div>
-                  <h3 className="font-accent font-medium">{point.title}</h3>
+                  <h3 className="font-accent text-sm font-medium">
+                    {point.title}
+                  </h3>
                   <p className="text-low text-sm">{point.text}</p>
                 </div>
               </li>
