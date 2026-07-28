@@ -24,13 +24,13 @@ export function Hero() {
     <section className="px-4">
       <Container className="separator-b relative">
         <div
-          className="pointer-events-none absolute inset-y-0 left-1/2 -mt-15 w-450 -translate-x-1/2 bg-cover bg-top opacity-70"
+          className="pointer-events-none absolute inset-y-0 left-1/2 -mt-15 w-450 -translate-x-1/2 bg-cover bg-top opacity-90"
           style={{
             backgroundImage: `url(${gradients.src})`,
           }}
         />
         <FullPageGrid radial height="h-125" />
-        <div className="relative flex w-full flex-col items-center gap-10 py-16 text-center md:pt-20 md:pb-24">
+        <div className="relative flex w-full flex-col items-center gap-8 py-12 text-center md:pt-16 md:pb-16">
           <LastChangelog />
           <HeroComponent align="center">
             <HeroHeading>Review every UI change.</HeroHeading>
@@ -104,13 +104,13 @@ async function LastChangelog() {
   return (
     <Link
       href="/changelog"
-      className="bg-app group mx-auto flex items-center rounded-full border text-xs font-medium shadow-xs transition hover:bg-(--neutral-3) hover:shadow-sm md:text-sm"
+      className="bg-app group text-low mx-auto flex items-center gap-2 rounded-full border py-1 pr-3 pl-1 text-xs font-medium transition hover:bg-(--neutral-3)"
     >
-      <span className="px-3 py-1.5">{first.homeTitle ?? first.title}</span>
-      <span className="text-low inline-flex items-center gap-1 py-1.5 pr-3 md:border-l md:px-3">
-        <span className="hidden md:inline">Read more </span>
-        <ArrowUpRightIcon className="size-4 transition group-hover:translate-x-px group-hover:-translate-y-px" />
+      <span className="rounded-full bg-(--primary-3) px-2 py-0.5 text-(--primary-11)">
+        New
       </span>
+      <span>{first.homeTitle ?? first.title}</span>
+      <ArrowUpRightIcon className="size-3.5 transition group-hover:translate-x-px group-hover:-translate-y-px" />
     </Link>
   );
 }
