@@ -1,17 +1,43 @@
 "use client";
 
 import clsx from "clsx";
-import { ThumbsDownIcon, ThumbsUpIcon } from "lucide-react";
+import {
+  ClockIcon,
+  GaugeIcon,
+  ThumbsDownIcon,
+  ThumbsUpIcon,
+} from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 import { ApplicationSVG } from "@/components/ApplicationSVG";
+import { Badge } from "@/components/Badge";
 import { Card } from "@/components/Card";
 
 export function FastApprovalFlow() {
   return (
-    <div className="relative mx-auto flex w-full max-w-3xl flex-col gap-4 md:gap-8">
+    <div className="relative mx-auto flex w-full max-w-3xl flex-col gap-2 md:gap-6">
+      <ReviewInsights />
       <CardStack />
       <ActionRow />
+    </div>
+  );
+}
+
+/**
+ * Argos sizes the review before you open it. Without these, the illustration
+ * is the only one in the section that carries no figure.
+ */
+function ReviewInsights() {
+  return (
+    <div className="animate-fade-in motion-reduce:animate-fade-in animate-duration-500 fill-mode-both flex items-center justify-center gap-2">
+      <Badge className="border-(--primary-6) text-(--primary-11)">
+        <ClockIcon className="size-3" />
+        &lt; 2 min
+      </Badge>
+      <Badge className="border-(--primary-6) text-(--primary-11)">
+        <GaugeIcon className="size-3" />
+        Subtle change
+      </Badge>
     </div>
   );
 }
@@ -19,7 +45,7 @@ export function FastApprovalFlow() {
 function CardStack() {
   return (
     <div className="animate-fade-in-up motion-reduce:animate-fade-in animate-duration-500 fill-mode-both flex items-center justify-center">
-      <div className="relative w-[75%]">
+      <div className="relative w-[64%]">
         <div className="absolute inset-0 translate-y-6 scale-[0.97] -rotate-3">
           <SwipeCard tone="idle" />
         </div>
