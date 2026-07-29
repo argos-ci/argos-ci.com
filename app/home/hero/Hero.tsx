@@ -58,7 +58,7 @@ export function Hero() {
           </HeroComponent>
         </div>
         <a
-          href="https://app.argos-ci.com/jsfez/snkr-shop-2/builds/98/96709653"
+          href="https://app.argos-ci.com/argos-ci/snkr-shop/builds/7/381128991"
           target="_blank"
           className={clsx(
             "group relative mx-auto block w-fit",
