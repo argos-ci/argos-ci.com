@@ -111,7 +111,6 @@ export function FeatureSection(props: {
             </div>
           ) : null}
         </div>
-        <div className="h-12 border-t" />
       </Container>
     </div>
   );

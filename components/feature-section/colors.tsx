@@ -1,10 +1,5 @@
 export type FeatureColor =
-  | "blue"
-  | "amber"
-  | "teal"
-  | "violet"
-  | "plum"
-  | "green";
+  "blue" | "amber" | "teal" | "violet" | "plum" | "green";
 
 export const BORDER_BG_COLORS: Record<FeatureColor, string> = {
   blue: "bg-(--blue-9)",
@@ -33,11 +28,16 @@ export const INDICATOR_BG_COLORS: Record<FeatureColor, string> = {
   green: "bg-(--green-10)",
 };
 
+/**
+ * Step 3, not step 1. Step 1 is Radix's app-background step: in dark mode it
+ * reads as a tint, but in light mode it is white by construction — which is why
+ * the wash under each story used to show up only in dark.
+ */
 export const FROM_COLORS: Record<FeatureColor, string> = {
-  blue: "from-(--blue-1)",
-  amber: "from-(--amber-1)",
-  teal: "from-(--teal-1)",
-  violet: "from-(--violet-1)",
-  plum: "from-(--plum-1)",
-  green: "from-(--green-1)",
+  blue: "from-(--blue-3)",
+  amber: "from-(--amber-3)",
+  teal: "from-(--teal-3)",
+  violet: "from-(--violet-3)",
+  plum: "from-(--plum-3)",
+  green: "from-(--green-3)",
 };
