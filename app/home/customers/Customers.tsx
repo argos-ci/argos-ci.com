@@ -22,7 +22,7 @@ import { SECTION_FADE } from "@/components/section-fade";
 export function Customers() {
   return (
     <section className={clsx("separator-b relative px-4", SECTION_FADE)}>
-      <Container noGutter className="border-x">
+      <Container noGutter className="border-x pb-12">
         <div className="border-b">
           <SectionHeader
             align="center"
@@ -50,7 +50,6 @@ export function Customers() {
           <CustomerLogo company={mermaid} />
           <CustomerLogo company={clickhouse} />
         </div>
-        <div className="h-12 border-t" />
       </Container>
     </section>
   );

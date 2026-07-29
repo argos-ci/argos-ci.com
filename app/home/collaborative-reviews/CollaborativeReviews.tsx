@@ -47,8 +47,8 @@ export function CollaborativeReviews() {
 
 function ReviewsSection() {
   return (
-    <section className="separator-b relative px-4">
-      <Container noGutter className="border-x">
+    <section className="relative px-4">
+      <Container noGutter className="border-x pb-12">
         <SectionHeader className="container-gutter">
           <SectionHeaderTexts>
             <FeatureIndicator color="plum">

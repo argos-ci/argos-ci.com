@@ -112,10 +112,7 @@ export function Cost() {
 
   return (
     <section className={clsx("separator-b relative px-4", SECTION_FADE)}>
-      <Container
-        noGutter
-        className="relative flex flex-col border-x pb-12 md:pb-18"
-      >
+      <Container noGutter className="relative flex flex-col border-x pb-8">
         <SectionHeader className="container-gutter">
           <SectionHeaderTexts>
             <SectionTitle>Cut visual testing costs, not coverage</SectionTitle>

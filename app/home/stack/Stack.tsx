@@ -74,7 +74,7 @@ const INTEGRATIONS = [
 export function Stack() {
   return (
     <section className={clsx("separator-b relative px-4", SECTION_FADE)}>
-      <Container noGutter className="border-x">
+      <Container noGutter className="border-x pb-4">
         <SectionHeader className="container-gutter">
           <SectionHeaderTexts>
             <FeatureIndicator color="teal">Stack</FeatureIndicator>
