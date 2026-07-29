@@ -39,7 +39,13 @@ const POINTS = [
 
 export function AgentReady() {
   return (
-    <section className="separator-b bg-subtle relative px-4">
+    // `dark` re-scopes the Radix scales for this subtree, so the whole section
+    // flips with the design system instead of being restyled by hand. It gives
+    // the page a landmark at its midpoint, where six light sections otherwise
+    // run together.
+    // `text-default` has to be reapplied: colour inherits from `body` as a
+    // computed value, so it would stay dark-on-dark without it.
+    <section className="separator-b bg-app text-default dark relative px-4 [color-scheme:dark]">
       <Container noGutter className="border-x">
         <SectionHeader className="container-gutter">
           <SectionHeaderTexts>
