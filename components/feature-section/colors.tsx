@@ -29,16 +29,22 @@ export const INDICATOR_BG_COLORS: Record<FeatureColor, string> = {
 };
 
 /**
- * Step 2, not step 1. Step 1 is Radix's app-background step: in dark mode it
- * reads as a tint, but in light mode it is white by construction — which is why
- * the wash under each story used to show up only in dark. Step 3 works too and
- * is markedly more saturated; 2 keeps the page airy.
+ * The wash closing a section, under its customer story.
+ *
+ * Never step 1: that is Radix's app-background step, tinted in dark mode but
+ * white by construction in light, so the wash only ever showed up in dark.
+ *
+ * The step is picked per hue rather than shared, because Radix steps are not
+ * perceptually equal across scales. Measured as the spread between channels at
+ * step 2: blue 11, amber 21, teal 8, plum 6. Plum at step 2 is all but grey —
+ * and the section fade underneath ends on #f0f0f0, darker than plum-2, so the
+ * grey swallowed it. Plum therefore sits one step further out.
  */
 export const FROM_COLORS: Record<FeatureColor, string> = {
   blue: "from-(--blue-2)",
   amber: "from-(--amber-2)",
   teal: "from-(--teal-2)",
-  violet: "from-(--violet-2)",
-  plum: "from-(--plum-2)",
+  violet: "from-(--violet-3)",
+  plum: "from-(--plum-3)",
   green: "from-(--green-2)",
 };
