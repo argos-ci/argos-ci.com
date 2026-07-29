@@ -29,7 +29,8 @@ export function FeatureIndicator(props: {
 
 export function FeatureSection(props: {
   color: FeatureColor;
-  featureName: string;
+  /** Eyebrow. Omit on supporting chapters — its presence marks a pillar. */
+  featureName?: string;
   title: string;
   description: string;
   cta: React.ReactNode;
@@ -47,7 +48,9 @@ export function FeatureSection(props: {
       <Container className="border-x" noGutter>
         <SectionHeader className="container-gutter">
           <SectionHeaderTexts>
-            <FeatureIndicator color={color}>{featureName}</FeatureIndicator>
+            {featureName ? (
+              <FeatureIndicator color={color}>{featureName}</FeatureIndicator>
+            ) : null}
             <SectionTitle>{title}</SectionTitle>
             <SectionDescription>
               <span className="after:content-['_'] md:block">{firstLine}</span>

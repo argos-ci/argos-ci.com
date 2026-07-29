@@ -12,7 +12,6 @@ import { Container } from "@/components/Container";
 import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
 import { ThemeImage, type ThemeImageProps } from "@/components/ThemeImage";
 import { SectionDescription, SectionTitle } from "@/components/Typography";
-import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
 import { SECTION_FADE } from "@/components/section-fade";
 
 import githubDark from "../integrations/assets/github-dark.svg";
@@ -77,7 +76,6 @@ export function Stack() {
       <Container noGutter className="border-x pb-4">
         <SectionHeader className="container-gutter">
           <SectionHeaderTexts>
-            <FeatureIndicator color="teal">Stack</FeatureIndicator>
             <SectionTitle>Fits the stack you already have</SectionTitle>
             <SectionDescription className="max-w-2xl">
               Plug into Playwright, Cypress, Storybook, or WebdriverIO in a few
@@ -88,7 +86,9 @@ export function Stack() {
             <Link href="/docs/quickstart">Explore all SDKs</Link>
           </Button>
         </SectionHeader>
-        <div className="grid border-t max-md:divide-y md:grid-cols-2 md:divide-x">
+        {/* Stacked rather than split: three sections in a row already put text
+            on the left and a visual on the right. */}
+        <div className="divide-y border-t">
           <StackGroup title="Run your tests with" items={SDKS} />
           <StackGroup title="Get results in" items={INTEGRATIONS} />
         </div>
@@ -103,9 +103,11 @@ function StackGroup(props: {
 }) {
   const { title, items } = props;
   return (
-    <div className="flex flex-col gap-4 p-6 md:p-8">
-      <div className="text-low text-xs font-medium">{title}</div>
-      <ul className="grid grid-cols-2 gap-3">
+    <div className="flex flex-col gap-4 p-6 md:flex-row md:items-center md:gap-8 md:p-8">
+      <div className="text-low shrink-0 text-xs font-medium md:w-40">
+        {title}
+      </div>
+      <ul className="grid flex-1 grid-cols-2 gap-3 sm:grid-cols-4">
         {items.map((item) => (
           <li key={item.name} className="contents">
             <Link

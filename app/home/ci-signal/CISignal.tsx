@@ -43,7 +43,6 @@ export function CISignal() {
         },
       ]}
       color="amber"
-      featureName="CI Signal"
       title="A CI signal you can actually trust"
       description={`Argos flags unstable tests, silences recurring noise, and attaches the trace and failure screenshots to every failed run.\nSo a red build always means something real.`}
       cta={
