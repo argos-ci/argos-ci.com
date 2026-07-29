@@ -110,7 +110,7 @@ export function Cost() {
   }));
 
   return (
-    <section className="separator-b bg-subtle relative px-4">
+    <section className="separator-b bg-ui relative px-4">
       <Container
         noGutter
         className="relative flex flex-col border-x pb-12 md:pb-18"

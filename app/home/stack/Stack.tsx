@@ -71,7 +71,7 @@ const INTEGRATIONS = [
  */
 export function Stack() {
   return (
-    <section className="separator-b bg-subtle relative px-4">
+    <section className="separator-b bg-ui relative px-4">
       <Container noGutter className="border-x">
         <SectionHeader className="container-gutter">
           <SectionHeaderTexts>
