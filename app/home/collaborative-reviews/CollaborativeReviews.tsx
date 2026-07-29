@@ -33,7 +33,11 @@ export function CollaborativeReviews() {
   return (
     <>
       <ReviewsSection />
-      <QuoteBlock quote={leMondeReviewsQuote} className="separator-b" />
+      <QuoteBlock
+        quote={leMondeReviewsQuote}
+        color="plum"
+        className="separator-b"
+      />
     </>
   );
 }

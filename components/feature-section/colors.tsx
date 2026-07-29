@@ -29,15 +29,16 @@ export const INDICATOR_BG_COLORS: Record<FeatureColor, string> = {
 };
 
 /**
- * Step 3, not step 1. Step 1 is Radix's app-background step: in dark mode it
+ * Step 2, not step 1. Step 1 is Radix's app-background step: in dark mode it
  * reads as a tint, but in light mode it is white by construction — which is why
- * the wash under each story used to show up only in dark.
+ * the wash under each story used to show up only in dark. Step 3 works too and
+ * is markedly more saturated; 2 keeps the page airy.
  */
 export const FROM_COLORS: Record<FeatureColor, string> = {
-  blue: "from-(--blue-3)",
-  amber: "from-(--amber-3)",
-  teal: "from-(--teal-3)",
-  violet: "from-(--violet-3)",
-  plum: "from-(--plum-3)",
-  green: "from-(--green-3)",
+  blue: "from-(--blue-2)",
+  amber: "from-(--amber-2)",
+  teal: "from-(--teal-2)",
+  violet: "from-(--violet-2)",
+  plum: "from-(--plum-2)",
+  green: "from-(--green-2)",
 };

@@ -3,16 +3,33 @@ import clsx from "clsx";
 import type { CustomerQuote } from "@/app/assets/customers/types";
 
 import { Container } from "./Container";
+import { Pattern } from "./Pattern";
 import { ThemeImage } from "./ThemeImage";
+import { FROM_COLORS, type FeatureColor } from "./feature-section/colors";
 
 export function QuoteBlock(props: {
   quote: CustomerQuote;
+  /** Accent wash closing the section, as `FeatureSection` does for its story. */
+  color?: FeatureColor;
   className?: string;
 }) {
-  const { quote, className } = props;
+  const { quote, color, className } = props;
   return (
-    <section className={clsx("px-4", className)}>
-      <Container className="flex flex-col items-center justify-center gap-5 border-x py-16 text-center md:py-24">
+    <section className={clsx("relative px-4", className)}>
+      {color ? (
+        <Container className="pointer-events-none absolute inset-0" noGutter>
+          <div
+            className={clsx(
+              "absolute inset-0 bg-linear-to-t",
+              FROM_COLORS[color],
+            )}
+          />
+          <div className="absolute inset-x-4 inset-y-5 text-(--neutral-3)">
+            <Pattern />
+          </div>
+        </Container>
+      ) : null}
+      <Container className="relative flex flex-col items-center justify-center gap-5 border-x py-16 text-center md:py-24">
         <ThemeImage
           src={quote.company.logo["140x48"]}
           alt={quote.company.name}
