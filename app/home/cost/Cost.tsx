@@ -17,6 +17,7 @@ import { Container } from "@/components/Container";
 import { LocalDollar } from "@/components/IntlFormat";
 import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
 import { SectionDescription, SectionTitle } from "@/components/Typography";
+import { SECTION_FADE } from "@/components/section-fade";
 import { useInViewport } from "@/components/useInViewport";
 import {
   ARGOS_PRO_FLAT_PRICE,
@@ -110,7 +111,7 @@ export function Cost() {
   }));
 
   return (
-    <section className="separator-b bg-ui relative px-4">
+    <section className={clsx("separator-b relative px-4", SECTION_FADE)}>
       <Container
         noGutter
         className="relative flex flex-col border-x pb-12 md:pb-18"

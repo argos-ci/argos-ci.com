@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import Link from "next/link";
 
 import {
@@ -12,6 +13,7 @@ import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
 import { ThemeImage, type ThemeImageProps } from "@/components/ThemeImage";
 import { SectionDescription, SectionTitle } from "@/components/Typography";
 import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
+import { SECTION_FADE } from "@/components/section-fade";
 
 import githubDark from "../integrations/assets/github-dark.svg";
 import githubLight from "../integrations/assets/github-light.svg";
@@ -71,7 +73,7 @@ const INTEGRATIONS = [
  */
 export function Stack() {
   return (
-    <section className="separator-b bg-ui relative px-4">
+    <section className={clsx("separator-b relative px-4", SECTION_FADE)}>
       <Container noGutter className="border-x">
         <SectionHeader className="container-gutter">
           <SectionHeaderTexts>

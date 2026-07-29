@@ -17,10 +17,11 @@ import { Container } from "@/components/Container";
 import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
 import { ThemeImage } from "@/components/ThemeImage";
 import { SectionDescription, SectionTitle } from "@/components/Typography";
+import { SECTION_FADE } from "@/components/section-fade";
 
 export function Customers() {
   return (
-    <section className="separator-b relative px-4">
+    <section className={clsx("separator-b relative px-4", SECTION_FADE)}>
       <Container noGutter className="border-x">
         <div className="border-b">
           <SectionHeader
