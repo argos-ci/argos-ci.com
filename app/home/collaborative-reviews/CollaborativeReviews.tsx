@@ -71,7 +71,9 @@ function ReviewsSection() {
         <div className="bg-subtle border-y px-4 py-10 md:px-10 md:py-16">
           <ReviewCanvas />
         </div>
-        <ul className="grid divide-y md:grid-cols-3 md:divide-x md:divide-y-0">
+        {/* Closed by its own rule rather than the section's: the story below
+            belongs to this chapter, so the section must not end here. */}
+        <ul className="grid divide-y border-b md:grid-cols-3 md:divide-x md:divide-y-0">
           {POINTS.map((point) => (
             <li key={point.title} className="flex gap-4 p-6 md:p-8">
               <point.icon
