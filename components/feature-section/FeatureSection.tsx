@@ -7,6 +7,7 @@ import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 import { Pattern } from "@/components/Pattern";
 import { ThemeImage } from "@/components/ThemeImage";
+import { SECTION_FADE } from "@/components/section-fade";
 
 import { SectionHeader, SectionHeaderTexts } from "../SectionHeader";
 import { SectionDescription, SectionTitle } from "../Typography";
@@ -42,7 +43,7 @@ export function FeatureSection(props: {
     props;
   const [firstLine, ...rest] = description.split("\n");
   return (
-    <div className="separator-b relative px-4">
+    <div className={clsx("separator-b relative px-4", SECTION_FADE)}>
       <Container className="border-x" noGutter>
         <SectionHeader className="container-gutter">
           <SectionHeaderTexts>

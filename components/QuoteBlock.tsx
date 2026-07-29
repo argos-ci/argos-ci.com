@@ -29,11 +29,11 @@ export function QuoteBlock(props: {
           </div>
         </Container>
       ) : null}
-      <Container className="relative flex flex-col items-center justify-center gap-5 border-x py-16 text-center md:py-24">
+      <Container className="relative flex flex-col items-center justify-center gap-4 border-x py-12 text-center md:py-16">
         <ThemeImage
           src={quote.company.logo["140x48"]}
           alt={quote.company.name}
-          className="h-12 w-auto"
+          className="h-8 w-auto"
         />
         <blockquote>
           <p className="font-accent [&_strong]:text-default max-w-3xl bg-linear-to-b from-(--neutral-11) to-(--neutral-12) bg-clip-text py-2 text-lg text-balance text-transparent sm:text-xl md:text-2xl [&_strong]:font-medium">
@@ -43,7 +43,7 @@ export function QuoteBlock(props: {
         <div className="flex flex-col items-center gap-2.5">
           <ThemeImage
             src={quote.author.avatar}
-            className="size-14 rounded-full border"
+            className="size-12 rounded-full border"
             alt=""
           />
           <div>
