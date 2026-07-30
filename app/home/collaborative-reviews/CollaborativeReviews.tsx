@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { MapPinIcon, MessageSquareCodeIcon, VoteIcon } from "lucide-react";
 import Link from "next/link";
 
@@ -9,6 +10,7 @@ import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
 import { SectionDescription, SectionTitle } from "@/components/Typography";
 import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
 import { SectionGlow } from "@/components/feature-section/SectionGlow";
+import { SUBTLE_BG_COLORS } from "@/components/feature-section/colors";
 
 import { ReviewCanvas } from "./ReviewCanvas";
 
@@ -66,8 +68,13 @@ function ReviewsSection() {
           </Button>
         </SectionHeader>
         {/* Same as the feature sections: no rule against the header, one below
-            against the points row. */}
-        <div className="bg-subtle border-b px-4 py-10 md:px-10 md:py-16">
+            against the points row, and the chapter's hue as its ground. */}
+        <div
+          className={clsx(
+            "border-b px-4 py-10 md:px-10 md:py-16",
+            SUBTLE_BG_COLORS.pink,
+          )}
+        >
           <ReviewCanvas />
         </div>
         {/* Closed by its own rule rather than the section's: the story below
