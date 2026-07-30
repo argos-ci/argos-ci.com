@@ -11,35 +11,19 @@ import { DotIndicator } from "@/components/DotIndicator";
 const EASTER_EGG_PROMPT =
   "Help me set up Argos in my project so my agents stop shipping visual bugs 👀";
 
-type TerminalLine =
+export type TerminalLine =
   | { kind: "prompt"; text: string }
   | { kind: "output"; text: string }
   | { kind: "status"; text: string };
 
-/**
- * Real commands, checked against `origin/main` of argos-javascript.
- *
- * `build snapshots` authenticates as `project`, so it resolves the project from
- * the token and a bare build number is enough. `review create` authenticates as
- * `user` — a personal access token is not scoped to one project — so it fails
- * with "--project <owner/project> is required for build-number references"
- * unless it gets `--project` or a full build URL. Hence the asymmetry between
- * these two lines; it is not an oversight.
- */
-const LINES: TerminalLine[] = [
-  { kind: "prompt", text: "argos build snapshots 482 --needs-review" },
-  {
-    kind: "output",
-    text: "→ 3 snapshots need review · 1 flagged flaky",
-  },
-  {
-    kind: "prompt",
-    text: "argos review create 482 --project acme/web --event approve",
-  },
-  { kind: "status", text: "Review submitted, safe to merge" },
-];
-
-export function AgentTerminal() {
+export function AgentTerminal(props: {
+  /** Re-keys the body so switching steps replays the fade. */
+  stateId: string;
+  lines: TerminalLine[];
+  badge: string;
+  footer: string;
+}) {
+  const { stateId, lines, badge, footer } = props;
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
@@ -69,12 +53,18 @@ export function AgentTerminal() {
         </div>
         <Badge className="text-low text-xxs gap-1">
           <ArgosEmblem className="size-3 text-(--violet-11)" />
-          @argos-ci/cli
+          {badge}
         </Badge>
       </div>
 
-      <div className="text-xxs space-y-1.5 p-4 font-mono leading-relaxed">
-        {LINES.map((line, index) => (
+      {/* `min-h` so the steps do not resize the panel as the reader moves
+          between them — a box that grows and shrinks under the cursor is what
+          makes a selector feel unstable. */}
+      <div
+        key={stateId}
+        className="text-xxs animate-fade-in animate-duration-300 fill-mode-both min-h-26 space-y-1.5 p-4 font-mono leading-relaxed"
+      >
+        {lines.map((line, index) => (
           <Line key={index} line={line} />
         ))}
         <div className="flex items-center gap-2">
@@ -84,7 +74,7 @@ export function AgentTerminal() {
       </div>
 
       <div className="flex items-center justify-between border-t-[0.5px] px-3 py-2">
-        <span className="text-low text-xxs">Start a review from any build</span>
+        <span className="text-low text-xxs">{footer}</span>
         <button
           type="button"
           onClick={handleCopy}

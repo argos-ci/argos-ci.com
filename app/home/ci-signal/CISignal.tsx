@@ -48,7 +48,7 @@ export function CISignal() {
       color="amber"
       featureName="Test Reliability"
       title="A CI signal you can actually trust"
-      description={`Argos flags unstable tests, silences recurring noise, and attaches the trace and failure screenshots to every failed run.\nSo a red build always means something real.`}
+      description={`Argos flags unstable tests, silences recurring noise, and attaches the trace and failure screenshots to every failed run. So a red build always means something real.`}
       cta={
         <div className="flex flex-wrap gap-3">
           <Button variant="outline" asChild>
