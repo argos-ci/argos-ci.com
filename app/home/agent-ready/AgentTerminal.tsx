@@ -18,7 +18,10 @@ type TerminalLine =
 
 const LINES: TerminalLine[] = [
   { kind: "prompt", text: "argos build snapshots 1234 --needs-review" },
-  { kind: "output", text: "→ 3 snapshots changed · 1 flaky · machine-readable" },
+  {
+    kind: "output",
+    text: "→ 3 snapshots changed · 1 flaky · machine-readable",
+  },
   { kind: "prompt", text: "argos review create 1234 --event approve" },
   { kind: "status", text: "Review submitted, safe to merge" },
 ];
@@ -42,7 +45,10 @@ export function AgentTerminal() {
   };
 
   return (
-    <div className="bg-app animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both w-full max-w-md overflow-hidden rounded-xl border-[0.5px] shadow-md/7">
+    // `--neutral-1` and not `bg-app`: the section around it is now `--violet-1`,
+    // and a terminal reading darker and cooler than its surroundings is what
+    // makes it a screen rather than a card.
+    <div className="animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both w-full max-w-md overflow-hidden rounded-xl border-[0.5px] bg-(--neutral-1) shadow-md/7">
       <div className="flex items-center justify-between border-b-[0.5px] px-3 py-2">
         <div className="text-low flex items-center gap-2 text-xs font-medium">
           <TerminalIcon className="size-3.5" />

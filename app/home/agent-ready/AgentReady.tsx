@@ -45,8 +45,19 @@ export function AgentReady() {
     // run together.
     // `text-default` has to be reapplied: colour inherits from `body` as a
     // computed value, so it would stay dark-on-dark without it.
-    <section className="separator-b bg-app text-default dark relative px-4 [color-scheme:dark]">
-      <Container noGutter className="border-x">
+    <section className="separator-b text-default dark relative bg-(--violet-1) px-4 [color-scheme:dark]">
+      {/* `--violet-1` rather than `--neutral-1`: the same depth to within ΔL 3
+          (#14121f against #111), but it carries the hue of this chapter's
+          eyebrow and of the Argos mark, where a neutral black left the page's
+          largest surface saying nothing.
+
+          The glow does two jobs. `SectionHeader` is `max-w-4xl`, so the right
+          half of the header is empty — on a black band that reads as dead space
+          rather than as air. And the terminal is a #111 panel that sat on a #111
+          ground, with only its hairline to separate the two. Lighting this
+          quadrant fills the void and gives the terminal something to sit on. */}
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-full bg-[radial-gradient(70%_55%_at_72%_38%,var(--violet-3),transparent_70%)] md:w-3/5" />
+      <Container noGutter className="relative border-x pb-12">
         <SectionHeader className="container-gutter">
           <SectionHeaderTexts>
             <FeatureIndicator color="violet">
@@ -65,7 +76,7 @@ export function AgentReady() {
             <Link href="/ai-agents">Explore Argos for AI Agents</Link>
           </Button>
         </SectionHeader>
-        <div className="grid border-t md:grid-cols-2">
+        <div className="grid border-y md:grid-cols-2">
           <ul className="flex flex-col divide-y border-b md:border-r md:border-b-0">
             {POINTS.map((point) => (
               <li key={point.title} className="flex gap-4 p-6 md:p-8">
