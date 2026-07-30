@@ -16,13 +16,26 @@ type TerminalLine =
   | { kind: "output"; text: string }
   | { kind: "status"; text: string };
 
+/**
+ * Real commands, checked against `origin/main` of argos-javascript.
+ *
+ * `build snapshots` authenticates as `project`, so it resolves the project from
+ * the token and a bare build number is enough. `review create` authenticates as
+ * `user` — a personal access token is not scoped to one project — so it fails
+ * with "--project <owner/project> is required for build-number references"
+ * unless it gets `--project` or a full build URL. Hence the asymmetry between
+ * these two lines; it is not an oversight.
+ */
 const LINES: TerminalLine[] = [
-  { kind: "prompt", text: "argos build snapshots 1234 --needs-review" },
+  { kind: "prompt", text: "argos build snapshots 482 --needs-review" },
   {
     kind: "output",
-    text: "→ 3 snapshots changed · 1 flaky · machine-readable",
+    text: "→ 3 snapshots need review · 1 flagged flaky",
   },
-  { kind: "prompt", text: "argos review create 1234 --event approve" },
+  {
+    kind: "prompt",
+    text: "argos review create 482 --project acme/web --event approve",
+  },
   { kind: "status", text: "Review submitted, safe to merge" },
 ];
 
