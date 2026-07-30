@@ -57,7 +57,12 @@ const SDKS = [
  */
 export function Stack() {
   return (
-    <section className={clsx("separator-b relative px-4", SECTION_FADE)}>
+    <section
+      className={clsx(
+        "separator-b relative overflow-x-clip px-4",
+        SECTION_FADE,
+      )}
+    >
       <Container noGutter className="border-x pb-4">
         <SectionHeader className="container-gutter">
           <SectionHeaderTexts>
@@ -127,7 +132,16 @@ function StackRow(props: { title: string; children: React.ReactNode }) {
  */
 function IntegrationsCanvas() {
   return (
-    <div className="relative h-60 flex-1 [--grid-size:40px] md:h-50 md:[--grid-size:50px]">
+    // `flex-1` only from `md`. Below that `StackRow` is a column, so `flex-1`
+    // resolves against the vertical axis: `flex-basis: 0%` beat `h-60`, the box
+    // collapsed to 0, and the tiles — being absolute — spilled out of the section
+    // and ended up underneath the next one, unclickable.
+    //
+    // `-mr-30` lets the plane run past the right rail, which is the gesture this
+    // section had before the merge and the one thing on the page that breaks the
+    // frame. The section clips horizontally so the bleed can never open a scroll
+    // bar at widths where the container is narrower than its max.
+    <div className="relative h-60 w-full [--grid-size:40px] md:-mr-30 md:h-52 md:flex-1 md:[--grid-size:50px]">
       <div className="absolute inset-0 mask-[linear-gradient(transparent,black_20%,black_80%,transparent),linear-gradient(90deg,transparent,black_15%,black_85%,transparent)] mask-intersect text-(--border-color-default)">
         <Grid x={-1} y={-1} size={40} className="md:hidden" />
         <Grid x={-1} y={-1} size={50} className="hidden md:block" />
@@ -139,19 +153,20 @@ function IntegrationsCanvas() {
         href="/docs/learn/integrations/github-integration"
       />
       <IntegrationTile
-        className="[--x:5] [--y:1] md:[--x:5] md:[--y:0]"
+        className="[--x:5] [--y:1] md:[--x:6] md:[--y:0]"
         image={gitlab}
         title="GitLab"
         href="/docs/learn/integrations/gitlab-integration"
       />
       <IntegrationTile
-        className="[--x:1] [--y:4] md:[--x:9] md:[--y:2]"
+        className="[--x:1] [--y:4] md:[--x:11] md:[--y:2]"
         image={slack}
         title="Slack"
         href="/docs/learn/integrations/slack-integration"
       />
+      {/* Sits on the rail, half outside it. */}
       <IntegrationTile
-        className="[--x:5] [--y:4] md:[--x:13] md:[--y:1]"
+        className="[--x:5] [--y:4] md:[--x:17] md:[--y:1]"
         image={msteams}
         title="Microsoft Teams"
         href="/docs/learn/integrations/microsoft-teams-integration"
@@ -168,8 +183,11 @@ function IntegrationTile(props: {
 }) {
   const { image, href, title, className } = props;
   return (
+    // No type override on the content: the popup is `px-2 py-1 text-sm`, and
+    // forcing `text-xs` inside it left the padding sized for a larger line than
+    // the text it wrapped, which is what made it look loose.
     <Tooltip
-      content={<span className="text-xs">Explore {title} integration</span>}
+      content={`Explore ${title} integration`}
       delayDuration={0}
       side="bottom"
     >
