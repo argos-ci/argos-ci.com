@@ -76,9 +76,12 @@ export function AgentReady() {
             <FeatureIndicator color="violet">
               Built for the AI age
             </FeatureIndicator>
-            <SectionTitle>
-              Your comments become the agent&apos;s next task
-            </SectionTitle>
+            {/* Imperative, and honest about the direction. The previous title
+                said comments "become" the agent's next task, which describes a
+                push: a queue that fills itself. Argos pushes nothing — the agent
+                fetches, as the description right below already said with
+                "pulls". The title contradicted its own subtitle. */}
+            <SectionTitle>Hand your review to your agent</SectionTitle>
             <SectionDescription className="max-w-2xl">
               Pin what&apos;s wrong on the screenshot. Your agent pulls the
               comments and the images they point to straight from the CLI or
