@@ -38,7 +38,7 @@ export function CollaborativeReviews() {
       <ReviewsSection />
       <QuoteBlock
         quote={leMondeReviewsQuote}
-        color="plum"
+        color="pink"
         className="separator-b"
       />
     </div>
@@ -51,7 +51,7 @@ function ReviewsSection() {
       <Container noGutter className="border-x pb-12">
         <SectionHeader className="container-gutter pb-8 md:pb-10">
           <SectionHeaderTexts>
-            <FeatureIndicator color="plum">
+            <FeatureIndicator color="pink">
               Collaborative Reviews
             </FeatureIndicator>
             <SectionTitle>Review it together, right on the pixel</SectionTitle>
@@ -79,7 +79,7 @@ function ReviewsSection() {
           {POINTS.map((point) => (
             <li key={point.title} className="flex gap-4 p-6 md:p-8">
               <point.icon
-                className="mt-0.5 size-5 shrink-0 text-(--plum-11)"
+                className="mt-0.5 size-5 shrink-0 text-(--pink-11)"
                 strokeWidth={1.5}
               />
               <div>

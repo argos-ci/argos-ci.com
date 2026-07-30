@@ -39,7 +39,7 @@ function Toolbar() {
   return (
     <div className="flex items-center justify-between gap-3 border-b-[0.5px] px-3 py-2">
       <SmallTitle className="min-w-0">
-        <GitPullRequestArrowIcon className="size-3.5 shrink-0 text-(--plum-11)" />
+        <GitPullRequestArrowIcon className="size-3.5 shrink-0 text-(--pink-11)" />
         <span className="truncate">checkout-summary</span>
         <span className="text-low shrink-0">#482</span>
       </SmallTitle>
@@ -99,8 +99,8 @@ function Pin() {
       style={{ left: "50%", top: "73%" }}
       aria-hidden
     >
-      <span className="absolute inset-0 animate-ping rounded-full bg-(--plum-9) opacity-40" />
-      <span className="text-xxs relative grid size-5 place-items-center rounded-full bg-(--plum-9) font-semibold text-white shadow-md/20 ring-2 ring-(--neutral-1)">
+      <span className="absolute inset-0 animate-ping rounded-full bg-(--pink-9) opacity-40" />
+      <span className="text-xxs relative grid size-5 place-items-center rounded-full bg-(--pink-9) font-semibold text-white shadow-md/20 ring-2 ring-(--neutral-1)">
         1
       </span>
     </span>

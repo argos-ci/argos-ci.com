@@ -145,7 +145,7 @@ function SecondaryNavbar() {
                     <LinkCard
                       href="/collaborative-reviews"
                       icon={MessagesSquareIcon}
-                      color="plum"
+                      color="pink"
                       title="Collaborative Reviews"
                       description="Review together, in real time"
                     />
@@ -378,7 +378,7 @@ function LinkCard(props: {
                 teal: "group-hover:border-(--teal-10) group-hover:bg-(--teal-10)",
                 violet:
                   "group-hover:border-(--violet-10) group-hover:bg-(--violet-10)",
-                plum: "group-hover:border-(--plum-10) group-hover:bg-(--plum-10)",
+                pink: "group-hover:border-(--pink-10) group-hover:bg-(--pink-10)",
                 green:
                   "group-hover:border-(--green-10) group-hover:bg-(--green-10)",
               }[color]
