@@ -46,7 +46,10 @@ export function FeatureSection(props: {
   return (
     <div className={clsx("separator-b relative px-4", SECTION_FADE)}>
       <Container className="border-x" noGutter>
-        <SectionHeader className="container-gutter">
+        {/* Tighter at the bottom than the shared default: with no rule between
+            them, the header and the illustration read as one block, so the gap
+            has to be smaller than the space above the header. */}
+        <SectionHeader className="container-gutter pb-8 md:pb-10">
           <SectionHeaderTexts>
             {featureName ? (
               <FeatureIndicator color={color}>{featureName}</FeatureIndicator>

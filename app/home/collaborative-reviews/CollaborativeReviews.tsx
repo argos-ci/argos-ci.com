@@ -49,7 +49,7 @@ function ReviewsSection() {
   return (
     <section className="relative px-4">
       <Container noGutter className="border-x pb-12">
-        <SectionHeader className="container-gutter">
+        <SectionHeader className="container-gutter pb-8 md:pb-10">
           <SectionHeaderTexts>
             <FeatureIndicator color="plum">
               Collaborative Reviews
@@ -68,7 +68,9 @@ function ReviewsSection() {
             </Link>
           </Button>
         </SectionHeader>
-        <div className="bg-subtle border-y px-4 py-10 md:px-10 md:py-16">
+        {/* Same as the feature sections: no rule against the header, one below
+            against the points row. */}
+        <div className="bg-subtle border-b px-4 py-10 md:px-10 md:py-16">
           <ReviewCanvas />
         </div>
         {/* Closed by its own rule rather than the section's: the story below

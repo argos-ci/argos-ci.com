@@ -73,7 +73,10 @@ export function FeaturesCarousel(props: {
     throw new Error(`Invalid index ${state.index}`);
   }
   return (
-    <div ref={ref} className="bg-subtle border-y">
+    // No rule on top: the header above is the same chapter, and the background
+    // shift is enough to tell the illustration apart from it. The bottom rule
+    // stays — below it the customer story is a different kind of block.
+    <div ref={ref} className="bg-subtle border-b">
       <div className="relative h-60 overflow-hidden sm:h-110">
         <div className="relative size-full">
           <div className="size-full mask-intersect max-sm:mask-[linear-gradient(black_70%,transparent),linear-gradient(90deg,transparent,black_20%,black_80%,transparent)]">
