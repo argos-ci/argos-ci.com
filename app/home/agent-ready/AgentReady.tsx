@@ -14,7 +14,30 @@ import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
 
 import { AgentTerminal } from "./AgentTerminal";
 
+/**
+ * Ordered from mechanism to consequence, not strongest first.
+ *
+ * "Agents act on your review" used to open, and it asks the reader to accept
+ * three things at once — that comments are pinned to pixels, that an agent can
+ * reach them, and that it can act on them — right after a title that already
+ * claimed the same thing. Two assertions of the payoff before anything made it
+ * credible.
+ *
+ * MCP and the CLI are concrete and checkable, and they are what earns the last
+ * two points. Once "the agent reads and writes through these" is established,
+ * acting on the review is a consequence rather than a promise.
+ */
 const POINTS = [
+  {
+    icon: PlugIcon,
+    title: "Agents connect over MCP",
+    text: "Connect Claude, Cursor, or any MCP client to the Argos MCP server with OAuth — every review action, natively in your agent.",
+  },
+  {
+    icon: ClipboardCheckIcon,
+    title: "Agents review from the CLI",
+    text: "Inspect a build, list what needs review, and submit a decision, or hit Copy prompt to hand an agent the full context.",
+  },
   {
     icon: MessageSquareCodeIcon,
     title: "Agents act on your review",
@@ -24,16 +47,6 @@ const POINTS = [
     icon: RefreshCwIcon,
     title: "Agents iterate and self-correct",
     text: "When Argos surfaces an unintended change, the agent has the context to fix its own mistake before you ever look.",
-  },
-  {
-    icon: ClipboardCheckIcon,
-    title: "Agents review from the CLI",
-    text: "Inspect a build, list what needs review, and submit a decision, or hit Copy prompt to hand an agent the full context.",
-  },
-  {
-    icon: PlugIcon,
-    title: "Agents connect over MCP",
-    text: "Connect Claude, Cursor, or any MCP client to the Argos MCP server with OAuth — every review action, natively in your agent.",
   },
 ];
 
