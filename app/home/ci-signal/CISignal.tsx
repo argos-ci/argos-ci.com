@@ -12,6 +12,9 @@ import { PlaywrightTrace } from "../test-debugging/features/PlaywrightTrace";
 /**
  * Flaky management and test debugging both answer the same objection — "can I
  * trust a red build?" — so they share one section instead of two.
+ *
+ * Hence the eyebrow is "Test Reliability" rather than either product name: it
+ * has to cover both, and it must not simply echo the title.
  */
 export function CISignal() {
   return (
@@ -43,6 +46,7 @@ export function CISignal() {
         },
       ]}
       color="amber"
+      featureName="Test Reliability"
       title="A CI signal you can actually trust"
       description={`Argos flags unstable tests, silences recurring noise, and attaches the trace and failure screenshots to every failed run.\nSo a red build always means something real.`}
       cta={
