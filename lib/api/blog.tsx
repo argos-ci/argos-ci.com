@@ -11,6 +11,7 @@ import {
 import { MainImage } from "@/components/Post";
 
 import { assertAllItems, getDocMdxSource, readMatterData } from "./common";
+import { checkIsPublished, showScheduledContent } from "./schedule";
 
 const authorSlugSchema = z.enum(["greg", "jeremy"]);
 
@@ -72,22 +73,6 @@ const FrontmatterSchema = z.object({
 
 export type Frontmatter = z.infer<typeof FrontmatterSchema>;
 
-/**
- * Scheduled articles (publish date in the future) are hidden from the
- * production build. They stay visible in dev and on Vercel preview
- * deployments so they can be reviewed before their release. A daily
- * GitHub Actions cron redeploys the site to reveal articles whose
- * publish date has elapsed (see .github/workflows/publish-scheduled-articles.yml).
- */
-const showScheduledArticles =
-  process.env.NODE_ENV === "development" ||
-  process.env.VERCEL_ENV === "preview" ||
-  process.env.SHOW_SCHEDULED_ARTICLES === "true";
-
-function checkIsPublished(frontmatter: { date: string }): boolean {
-  return new Date(frontmatter.date) <= new Date();
-}
-
 export type Article = Omit<Frontmatter, "image" | "author" | "category"> & {
   image: StaticImageData;
   filepath: string;
@@ -145,9 +130,9 @@ export async function getArticles(filters?: {
     );
   }
   assertAllItems(articles);
-  const publishedArticles = showScheduledArticles
+  const publishedArticles = showScheduledContent
     ? articles
-    : articles.filter(checkIsPublished);
+    : articles.filter((article) => checkIsPublished(article.date));
   return publishedArticles.sort(
     (a, b) => Number(new Date(b.date)) - Number(new Date(a.date)),
   );
@@ -192,7 +177,7 @@ export function getArticlesPagesCount(nbArticles: number) {
 export async function getArticleBySlug(slug: string): Promise<Article | null> {
   const filepath = `./articles/${slug}/index.mdx`;
   const article = await getArticleDataFromPath(filepath);
-  if (article && !showScheduledArticles && !checkIsPublished(article)) {
+  if (article && !showScheduledContent && !checkIsPublished(article.date)) {
     return null;
   }
   return article;
