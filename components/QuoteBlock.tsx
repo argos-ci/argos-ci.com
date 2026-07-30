@@ -5,25 +5,22 @@ import type { CustomerQuote } from "@/app/assets/customers/types";
 import { Container } from "./Container";
 import { Pattern } from "./Pattern";
 import { ThemeImage } from "./ThemeImage";
-import { FROM_COLORS, type FeatureColor } from "./feature-section/colors";
 
 export function QuoteBlock(props: {
   quote: CustomerQuote;
-  /** Accent wash closing the section, as `FeatureSection` does for its story. */
-  color?: FeatureColor;
+  /**
+   * Texture for a quote that closes a section, as `FeatureSection` gives its
+   * story. The tint is not this block's job: it comes from the section's
+   * `SectionGlow`, which runs past the rails where a wash here would stop.
+   */
+  pattern?: boolean;
   className?: string;
 }) {
-  const { quote, color, className } = props;
+  const { quote, pattern, className } = props;
   return (
     <section className={clsx("relative px-4", className)}>
-      {color ? (
+      {pattern ? (
         <Container className="pointer-events-none absolute inset-0" noGutter>
-          <div
-            className={clsx(
-              "absolute inset-0 bg-linear-to-t",
-              FROM_COLORS[color],
-            )}
-          />
           <div className="absolute inset-x-4 inset-y-5 text-(--neutral-3)">
             <Pattern />
           </div>

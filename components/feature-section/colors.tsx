@@ -27,24 +27,3 @@ export const INDICATOR_BG_COLORS: Record<FeatureColor, string> = {
   pink: "bg-(--pink-10)",
   green: "bg-(--green-10)",
 };
-
-/**
- * The wash closing a section, under its customer story.
- *
- * Never step 1: that is Radix's app-background step, tinted in dark mode but
- * white by construction in light, so the wash only ever showed up in dark.
- *
- * The step is picked per hue rather than shared, because Radix steps are not
- * perceptually equal across scales. Measured as the spread between channels at
- * step 2: blue 11, amber 21, teal 8, pink 7. Pink at step 2 is all but grey —
- * and the section fade underneath ends on #f0f0f0, darker than pink-2, so the
- * grey swallowed it. Pink therefore sits one step further out.
- */
-export const FROM_COLORS: Record<FeatureColor, string> = {
-  blue: "from-(--blue-2)",
-  amber: "from-(--amber-2)",
-  teal: "from-(--teal-2)",
-  violet: "from-(--violet-3)",
-  pink: "from-(--pink-3)",
-  green: "from-(--green-2)",
-};

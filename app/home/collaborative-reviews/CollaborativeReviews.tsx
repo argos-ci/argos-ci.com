@@ -8,7 +8,7 @@ import { QuoteBlock } from "@/components/QuoteBlock";
 import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
 import { SectionDescription, SectionTitle } from "@/components/Typography";
 import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
-import { SECTION_FADE } from "@/components/section-fade";
+import { SectionGlow } from "@/components/feature-section/SectionGlow";
 
 import { ReviewCanvas } from "./ReviewCanvas";
 
@@ -32,15 +32,12 @@ const POINTS = [
 
 export function CollaborativeReviews() {
   return (
-    // The fade spans the section and its story together, so the chapter closes
+    // The glow spans the section and its story together, so the chapter closes
     // once — the story is part of it, not a block of its own.
-    <div className={SECTION_FADE}>
+    <div className="relative">
+      <SectionGlow color="pink" />
       <ReviewsSection />
-      <QuoteBlock
-        quote={leMondeReviewsQuote}
-        color="pink"
-        className="separator-b"
-      />
+      <QuoteBlock quote={leMondeReviewsQuote} pattern className="separator-b" />
     </div>
   );
 }

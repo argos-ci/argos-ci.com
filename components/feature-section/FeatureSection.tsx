@@ -7,12 +7,12 @@ import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 import { Pattern } from "@/components/Pattern";
 import { ThemeImage } from "@/components/ThemeImage";
-import { SECTION_FADE } from "@/components/section-fade";
 
 import { SectionHeader, SectionHeaderTexts } from "../SectionHeader";
 import { SectionDescription, SectionTitle } from "../Typography";
 import { type Feature, FeaturesCarousel } from "./FeaturesCarousel";
-import { FROM_COLORS, type FeatureColor, INDICATOR_BG_COLORS } from "./colors";
+import { SectionGlow } from "./SectionGlow";
+import { type FeatureColor, INDICATOR_BG_COLORS } from "./colors";
 
 export function FeatureIndicator(props: {
   color: FeatureColor;
@@ -44,8 +44,9 @@ export function FeatureSection(props: {
     props;
   const [firstLine, ...rest] = description.split("\n");
   return (
-    <div className={clsx("separator-b relative px-4", SECTION_FADE)}>
-      <Container className="border-x" noGutter>
+    <div className="separator-b relative px-4">
+      <SectionGlow color={color} />
+      <Container className="relative border-x" noGutter>
         {/* Tighter at the bottom than the shared default: with no rule between
             them, the header and the illustration read as one block, so the gap
             has to be smaller than the space above the header. */}
@@ -63,13 +64,9 @@ export function FeatureSection(props: {
           {cta}
         </SectionHeader>
         <FeaturesCarousel color={color} features={features} />
+        {/* No wash of its own — the story sits on `SectionGlow`, which is the
+            section's single tint and runs past the rails. See SectionGlow. */}
         <div className="relative">
-          <div
-            className={clsx(
-              "absolute inset-0 bg-linear-to-t",
-              FROM_COLORS[color],
-            )}
-          />
           <div className="absolute inset-x-4 inset-y-5 text-(--neutral-3)">
             <Pattern />
           </div>
