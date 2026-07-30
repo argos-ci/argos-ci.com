@@ -5,7 +5,7 @@ import {
   cypress,
   playwright,
   storybook,
-  wdio,
+  vitest,
 } from "@/app/assets/brands/library";
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
@@ -34,14 +34,14 @@ const SDKS = [
     href: "/docs/quickstart/storybook-quickstart",
   },
   {
+    name: vitest.name,
+    logo: vitest.logo,
+    href: "/docs/quickstart/vitest-quickstart",
+  },
+  {
     name: cypress.name,
     logo: cypress.logo,
     href: "/docs/quickstart/cypress-quickstart",
-  },
-  {
-    name: wdio.name,
-    logo: wdio.logo,
-    href: "/docs/quickstart/webdriverio-quickstart",
   },
 ];
 
@@ -49,11 +49,11 @@ const SDKS = [
  * Both halves answer the same objection — "how much work is this to adopt?" —
  * so the SDKs and the integrations share one compact section.
  *
- * The two rows are deliberately not built the same. Playwright, Cypress,
- * Storybook and WebdriverIO are not recognisable from their mark alone, so they
- * need a chip with their name written out. GitHub, GitLab, Slack and Teams are,
- * so they can be tiles on a grid — and that buys the page its one composition
- * that is not a row of boxes.
+ * The two rows are deliberately not built the same. Playwright, Storybook,
+ * Vitest and Cypress are not recognisable from their mark alone, so they need a
+ * chip with their name written out. GitHub, GitLab, Slack and Teams are, so they
+ * can be tiles on a grid — and that buys the page its one composition that is
+ * not a row of boxes.
  */
 export function Stack() {
   return (
@@ -68,7 +68,7 @@ export function Stack() {
           <SectionHeaderTexts>
             <SectionTitle>Fits the stack you already have</SectionTitle>
             <SectionDescription className="max-w-2xl">
-              Plug into Playwright, Cypress, Storybook, or WebdriverIO in a few
+              Plug into Playwright, Storybook, Vitest, or Cypress in a few
               lines, then get every result where your team already works.
             </SectionDescription>
           </SectionHeaderTexts>
@@ -79,8 +79,12 @@ export function Stack() {
         {/* Stacked rather than split: three sections in a row already put text
             on the left and a visual on the right. */}
         <div className="divide-y border-t">
-          <StackRow title="Run your tests with">
-            <ul className="grid flex-1 grid-cols-2 gap-3 sm:grid-cols-4">
+          {/* A promise rather than a property: "Run your tests with" described a
+              compatibility, so the chips read as a list of what Argos supports.
+              Naming the outcome makes them read as ways to get there, which is
+              what they are — each one opens its quickstart. */}
+          <StackRow title="Add your first snapshot in seconds">
+            <ul className="grid flex-1 grid-cols-2 gap-3 md:grid-cols-5">
               {SDKS.map((item) => (
                 <li key={item.name} className="contents">
                   <Link
@@ -98,6 +102,20 @@ export function Stack() {
                   </Link>
                 </li>
               ))}
+              {/* Deliberately not a chip: no logo, dashed, no lift on hover. It
+                  is an opening, not a fifth product — Argos takes screenshots
+                  from anything, and four marks would otherwise read as the whole
+                  list. */}
+              <li className="contents">
+                <Link
+                  href="/docs/quickstart/any-test-framework"
+                  className="text-low hover:text-default flex items-center justify-center rounded-lg border-[0.5px] border-dashed px-3 py-2.5 text-center transition duration-200"
+                >
+                  <span className="font-accent text-sm font-medium">
+                    …and many more
+                  </span>
+                </Link>
+              </li>
             </ul>
           </StackRow>
           <StackRow title="Get results in">
@@ -113,7 +131,9 @@ function StackRow(props: { title: string; children: React.ReactNode }) {
   const { title, children } = props;
   return (
     <div className="flex flex-col gap-4 p-6 md:flex-row md:items-center md:gap-8 md:p-8">
-      <div className="text-low shrink-0 text-xs font-medium md:w-40">
+      {/* w-48, not w-40: the first label is a sentence now, and at 160px it
+          broke onto four lines against a single row of chips. */}
+      <div className="text-low shrink-0 text-xs font-medium md:w-48">
         {title}
       </div>
       {children}
