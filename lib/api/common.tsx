@@ -2,10 +2,13 @@ import rehypeShiki from "@shikijs/rehype";
 import * as matter from "gray-matter";
 import { MDXRemoteProps, compileMDX } from "next-mdx-remote/rsc";
 import { readFile } from "node:fs/promises";
+import type { ComponentProps } from "react";
 import rehypeImgSize from "rehype-img-size";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkGfm from "remark-gfm";
 import { ZodType, type output } from "zod";
+
+import { getScheduledPaths } from "./schedule";
 
 /**
  * Read the frontmatter data from a file.
@@ -25,6 +28,42 @@ export function readMatterData<T extends ZodType>(
   }
 }
 
+const SITE_URL = "https://argos-ci.com";
+
+/**
+ * Get the pathname of an internal link, or `null` if the href points somewhere
+ * else (external site, anchor, mailto, …).
+ */
+function getInternalPathname(href: string): string | null {
+  const path = href.startsWith(`${SITE_URL}/`)
+    ? href.slice(SITE_URL.length)
+    : href;
+  if (!path.startsWith("/")) {
+    return null;
+  }
+  return path.replace(/[?#].*$/, "").replace(/\/$/, "");
+}
+
+/**
+ * Anchor used for links in MDX content. Links pointing to content that is not
+ * published yet are rendered as plain text instead of a link to a 404. They
+ * become real links again on their own once the publish date has elapsed and the
+ * site is rebuilt (see `getScheduledPaths`).
+ */
+function createMdxAnchor(scheduledPaths: ReadonlySet<string>) {
+  return function MdxAnchor({ href, children, ...props }: ComponentProps<"a">) {
+    const pathname = href ? getInternalPathname(href) : null;
+    if (pathname && scheduledPaths.has(pathname)) {
+      return <>{children}</>;
+    }
+    return (
+      <a href={href} {...props}>
+        {children}
+      </a>
+    );
+  };
+}
+
 /**
  * Get the MDX source of a MDX file.
  */
@@ -33,10 +72,13 @@ export async function getDocMdxSource(
   options: Pick<MDXRemoteProps, "components"> &
     Pick<NonNullable<MDXRemoteProps["options"]>, "scope">,
 ) {
-  const source = await readFile(filepath, "utf-8");
+  const [source, scheduledPaths] = await Promise.all([
+    readFile(filepath, "utf-8"),
+    getScheduledPaths(),
+  ]);
   const result = await compileMDX({
     source,
-    components: options.components,
+    components: { a: createMdxAnchor(scheduledPaths), ...options.components },
     options: {
       scope: options.scope,
       blockJS: false,

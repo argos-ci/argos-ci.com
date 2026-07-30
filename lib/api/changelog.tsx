@@ -6,6 +6,7 @@ import { z } from "zod";
 import { Zoom } from "@/components/Zoom";
 
 import { assertAllItems, getDocMdxSource, readMatterData } from "./common";
+import { checkIsPublished, showScheduledContent } from "./schedule";
 
 const PAGE_SIZE = 10;
 
@@ -68,16 +69,11 @@ async function getChangelogFromPath(
 /**
  * Scheduled changelog entries (date in the future) are hidden from the
  * production build, following the same rules as scheduled blog articles
- * (see blog.tsx). The date is read from the folder name (YYYY-MM-DD__slug).
+ * (see schedule.ts). The date is read from the folder name (YYYY-MM-DD__slug).
  */
-const showScheduledEntries =
-  process.env.NODE_ENV === "development" ||
-  process.env.VERCEL_ENV === "preview" ||
-  process.env.SHOW_SCHEDULED_ARTICLES === "true";
-
-function checkIsPublished(filepath: string): boolean {
+function checkIsEntryPublished(filepath: string): boolean {
   const match = filepath.match(/\/(\d{4}-\d{2}-\d{2})__/);
-  return !match || new Date(match[1]) <= new Date();
+  return !match || checkIsPublished(match[1]);
 }
 
 /**
@@ -85,9 +81,9 @@ function checkIsPublished(filepath: string): boolean {
  */
 export async function getChangelogFiles() {
   const allFiles = await fg("./changelogs/**/*.mdx");
-  const files = showScheduledEntries
+  const files = showScheduledContent
     ? allFiles
-    : allFiles.filter(checkIsPublished);
+    : allFiles.filter(checkIsEntryPublished);
   files.sort((a, b) => b.localeCompare(a));
   return files;
 }
@@ -135,7 +131,7 @@ export async function getChangelogEntryBySlug(
   const date = urlSlug.split("-").slice(0, 3).join("-");
   const slug = urlSlug.split("-").slice(3).join("-");
   const filepath = `./changelogs/${date}__${slug}/index.mdx`;
-  if (!showScheduledEntries && !checkIsPublished(filepath)) {
+  if (!showScheduledContent && !checkIsEntryPublished(filepath)) {
     return null;
   }
   return getChangelogFromPath(filepath);
