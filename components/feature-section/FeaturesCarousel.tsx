@@ -73,11 +73,12 @@ export function FeaturesCarousel(props: {
     throw new Error(`Invalid index ${state.index}`);
   }
   return (
-    // No rule on top: the header above is the same chapter, and the background
-    // shift is enough to tell the illustration apart from it. The bottom rule
-    // stays — below it the customer story is a different kind of block.
-    <div ref={ref} className="bg-subtle border-b">
-      <div className="relative h-60 overflow-hidden sm:h-110">
+    <div ref={ref}>
+      {/* The tint covers the illustration and nothing else, so it means one
+          thing across the page. No rule on top: the header above is the same
+          chapter, and the background shift alone is the weaker signal that
+          pairing calls for. */}
+      <div className="bg-subtle relative h-60 overflow-hidden border-b sm:h-110">
         <div className="relative size-full">
           <div className="size-full mask-intersect max-sm:mask-[linear-gradient(black_70%,transparent),linear-gradient(90deg,transparent,black_20%,black_80%,transparent)]">
             {features.map((feature, index) => {
@@ -95,9 +96,12 @@ export function FeaturesCarousel(props: {
           </div>
         </div>
       </div>
+      {/* Same ground and rhythm as the points rows elsewhere on the page: these
+          read as the same kind of block, so they sit on the same background —
+          being controls is not a visible enough difference to justify one. */}
       <div
         role="tablist"
-        className="relative -ml-px flex flex-col items-start justify-center gap-10 py-8 pt-4 md:ml-0 md:flex-row md:pt-8"
+        className="relative -ml-px flex flex-col items-start justify-center gap-10 border-b py-6 md:ml-0 md:flex-row md:py-8"
       >
         {features.map((feature, index) => {
           const isCurrent = index === state.index;

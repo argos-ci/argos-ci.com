@@ -42,7 +42,7 @@ export function Customers() {
             </Button>
           </SectionHeader>
         </div>
-        <div className="grid grid-cols-2 gap-px bg-(--neutral-6) md:grid-cols-4">
+        <div className="grid grid-cols-2 gap-px divide-y bg-(--neutral-6) md:grid-cols-4">
           <CustomerLogo company={meta} />
           <CustomerLogo company={qonto} />
           <CustomerCase quote={gitbookQuote} href="/customers/gitbook" />
