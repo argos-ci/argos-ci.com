@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import {
+  BotIcon,
   CheckIcon,
   ClockIcon,
   CornerDownRightIcon,
@@ -146,7 +147,7 @@ function Discussion() {
           avatar={andrewAvatar}
           online
         />
-        <ReviewerRow name="Argos Agent" verdict="pending" agent />
+        <ReviewerRow name="Claude" verdict="pending" agent />
       </ul>
     </div>
   );
@@ -182,7 +183,7 @@ function ReviewerRow(props: {
       <span className="relative shrink-0">
         {agent ? (
           <span className="grid size-6 place-items-center rounded-full border-[0.5px] bg-(--violet-3)">
-            <ArgosEmblem className="size-3 text-(--violet-11)" />
+            <BotIcon className="size-3.5 text-(--violet-11)" strokeWidth={2} />
           </span>
         ) : (
           <ThemeImage
