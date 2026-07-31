@@ -19,28 +19,6 @@ export const TEXT_COLORS: Record<FeatureColor, string> = {
   green: "text-(--green-11)",
 };
 
-/**
- * The ground under a section's illustration.
- *
- * This is the section's largest surface, and it used to be the one place with no
- * colour at all: the hue only showed in the eyebrow, the links and the closing
- * band, so a chapter read grey with a coloured foot.
- *
- * Step 2, which is where the neutral it replaced already sat: `--neutral-2` is
- * #f9f9f9, and blue-2 #f4faff, pink-2 #fef7fb are within ΔL 2 of it. So the hue
- * changes and nothing else does — the illustrations and captions keep exactly
- * the contrast they were drawn against.
- *
- * Step 2 is also forced from above: `SectionGlow` closes the section at step 3,
- * and the band has to stay lighter than that, or the middle of a chapter and its
- * end carry the same value and stop being distinguishable.
- *
- * Amber is the exception, in light only. On a flat field this size what reads as
- * "coloured" is chroma, not luminance, and amber-2 spreads 21 against blue-2's
- * 11 — twice as loud as every other hue. Halving it against the neutral lands it
- * back at ~11. Dark keeps the raw token: there the order reverses, amber-2
- * spreading 14 where blue-2 spreads 22, so mixing would erase it.
- */
 export const SUBTLE_BG_COLORS: Record<FeatureColor, string> = {
   blue: "bg-(--blue-2)",
   amber:

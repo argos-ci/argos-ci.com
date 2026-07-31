@@ -8,11 +8,6 @@ import { Chip } from "@/components/Chip";
 
 const BUILD_COUNT = 28;
 
-/**
- * Indices of the builds where the same change came back. Hardcoded rather than
- * random so the illustration renders identically on every build — this page is
- * itself under visual test.
- */
 const RECURRING = [5, 12, 13, 21];
 
 export function FlakyIndicator() {
@@ -43,8 +38,6 @@ export function FlakyIndicator() {
           </p>
         </div>
       </TestRow>
-      {/* The contrast row is the first thing to drop: the panel is 240px tall on
-          small screens and the flaky row plus its callout already fills it. */}
       <TestRow
         name="cart vw-480.png"
         recurring={[]}
@@ -82,10 +75,6 @@ function TestRow(props: {
   );
 }
 
-/**
- * One mark per build over the last 7 days. Turning "4 / 28" into a shape is the
- * point: you read the ratio before you read the sentence.
- */
 function BuildStrip(props: { recurring: number[] }) {
   const { recurring } = props;
   return (

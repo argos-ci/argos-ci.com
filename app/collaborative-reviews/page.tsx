@@ -91,14 +91,19 @@ export default function Page() {
       <section>
         <div className="border-b px-4">
           <Container className="border-x bg-linear-to-b from-transparent to-(--neutral-2)">
-            <SectionHeader align="center" className="container-gutter max-w-2xl">
+            <SectionHeader
+              align="center"
+              className="container-gutter max-w-2xl"
+            >
               <Chip icon={MessagesSquareIcon}>Discussion</Chip>
               <SectionHeaderTexts>
-                <SectionTitle>Talk about the exact thing that changed</SectionTitle>
+                <SectionTitle>
+                  Talk about the exact thing that changed
+                </SectionTitle>
                 <SectionDescription>
                   Reviewing a build is now a place to collaborate. Pin a comment
-                  to a precise point on a screenshot, or to a line range inside a
-                  text snapshot, and discuss it in a full thread.
+                  to a precise point on a screenshot, or to a line range inside
+                  a text snapshot, and discuss it in a full thread.
                 </SectionDescription>
               </SectionHeaderTexts>
             </SectionHeader>
@@ -194,8 +199,8 @@ export default function Page() {
             title="Humans and agents together"
             description={
               <>
-                The full review toolkit is in the CLI and REST API, so agents can
-                read a build and submit a complete review beside your team.
+                The full review toolkit is in the CLI and REST API, so agents
+                can read a build and submit a complete review beside your team.
               </>
             }
             href="/ai-agents"

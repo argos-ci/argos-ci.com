@@ -35,7 +35,6 @@ function getInitialState() {
 export function FeaturesCarousel(props: {
   features: Feature[];
   color: FeatureColor;
-  /** Off when the section paints the tint itself, across its full height. */
   background?: boolean;
 }) {
   const { features, color, background = true } = props;
@@ -77,9 +76,6 @@ export function FeaturesCarousel(props: {
     }, DURATION);
     return () => window.clearTimeout(timeout);
   }, [isStopped, inViewport, state, total, move]);
-  // Keep the active caption in view while the carousel advances on its own.
-  // Setting `scrollLeft` rather than calling `scrollIntoView`, which would drag
-  // the page vertically too. A no-op on desktop, where nothing overflows.
   useEffect(() => {
     const tablist = tablistRef.current;
     const tab = tabRefs.current[state.index];
@@ -94,15 +90,6 @@ export function FeaturesCarousel(props: {
     throw new Error(`Invalid index ${state.index}`);
   }
   return (
-    // The tint covers the panel and its captions together, on purpose: the
-    // captions are this carousel's tabs, so they are one thing with the
-    // illustration they drive. It reads differently from the points rows
-    // elsewhere on the page, which sit on white — those are prose, tied to
-    // nothing above them.
-    //
-    // No rule on top: the header above is the same chapter, and the background
-    // shift is enough to tell the illustration apart from it. The bottom rule
-    // stays — below it the customer story is a different kind of block.
     <div
       ref={ref}
       className={clsx("border-b", background && SUBTLE_BG_COLORS[color])}
@@ -125,10 +112,6 @@ export function FeaturesCarousel(props: {
           </div>
         </div>
       </div>
-      {/* A row at every width. Stacked, the three captions ran to roughly 900px
-          on a phone — the longest uniform stretch on the page. As a snapping
-          scroller they cost one caption's height and stay switchable, which
-          showing only the active one would have taken away. */}
       <div
         ref={tablistRef}
         role="tablist"

@@ -8,11 +8,6 @@ import { ThemeImage } from "./ThemeImage";
 
 export function QuoteBlock(props: {
   quote: CustomerQuote;
-  /**
-   * Texture for a quote that closes a section, as `FeatureSection` gives its
-   * story. The tint is not this block's job: it comes from the section's
-   * `SectionGlow`, which runs past the rails where a wash here would stop.
-   */
   pattern?: boolean;
   className?: string;
 }) {

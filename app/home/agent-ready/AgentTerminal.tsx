@@ -12,15 +12,12 @@ const EASTER_EGG_PROMPT =
   "Help me set up Argos in my project so my agents stop shipping visual bugs 👀";
 
 export type TerminalLine =
-  /** A shell command, marked with `$`. */
   | { kind: "prompt"; text: string }
-  /** Something asked of an agent in plain language, marked with `›`. */
   | { kind: "agent"; text: string }
   | { kind: "output"; text: string }
   | { kind: "status"; text: string };
 
 export function AgentTerminal(props: {
-  /** Re-keys the body so switching steps replays the fade. */
   stateId: string;
   lines: TerminalLine[];
   footer: string;
@@ -44,9 +41,6 @@ export function AgentTerminal(props: {
   };
 
   return (
-    // `--neutral-1` and not `bg-app`: the section around it is now `--violet-1`,
-    // and a terminal reading darker and cooler than its surroundings is what
-    // makes it a screen rather than a card.
     <div className="animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both w-full max-w-md overflow-hidden rounded-xl border-[0.5px] bg-(--neutral-1) shadow-md/7">
       <div className="flex items-center justify-between border-b-[0.5px] px-3 py-2">
         <div className="text-low flex items-center gap-2 text-xs font-medium">
@@ -59,9 +53,6 @@ export function AgentTerminal(props: {
         </Badge>
       </div>
 
-      {/* `min-h` so the steps do not resize the panel as the reader moves
-          between them — a box that grows and shrinks under the cursor is what
-          makes a selector feel unstable. */}
       <div
         key={stateId}
         className="text-xxs animate-fade-in animate-duration-300 fill-mode-both min-h-26 space-y-1.5 p-4 font-mono leading-relaxed"
@@ -115,10 +106,6 @@ function Line(props: { line: TerminalLine }) {
     >
       {line.kind === "prompt" || line.kind === "agent" ? (
         <>
-          {/* A different marker, because it is a different act: `$` is a command
-              you run, `›` is something you ask of an agent. No client is named —
-              a `claude` or a `cursor` here would date the page and contradict
-              the first row, which is careful to stay agnostic. */}
           <span className="text-(--violet-11)">
             {line.kind === "agent" ? "›" : "$"}
           </span>

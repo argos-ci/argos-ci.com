@@ -111,9 +111,6 @@ export function Cost() {
   }));
 
   return (
-    // Grey, not a hue: this chapter owns no colour, and it ends on an opaque
-    // panel 32px from the boundary — too little room for `SectionGlow`'s arc,
-    // which would then show in full outside the rails and in a sliver inside.
     <section className={clsx("separator-b relative px-4", SECTION_FADE)}>
       <Container noGutter className="relative flex flex-col border-x pb-8">
         <SectionHeader className="container-gutter">
@@ -126,8 +123,6 @@ export function Cost() {
             </SectionDescription>
           </SectionHeaderTexts>
         </SectionHeader>
-        {/* Mirrored on purpose: the section before this one also puts its text on
-            the left and its visual on the right. */}
         <div className="bg-app flex flex-col border-y shadow-xs md:flex-row-reverse">
           <div className="container-gutter flex max-w-md flex-1 flex-col items-start justify-center gap-6 py-6 max-md:border-b md:gap-8 md:border-l md:py-8">
             <CostFeature

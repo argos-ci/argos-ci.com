@@ -34,14 +34,7 @@ const POINTS = [
 
 export function CollaborativeReviews() {
   return (
-    // Tint and glow span the section and its story together, so the chapter is
-    // one ground and closes once — the story is part of it, not a block of its
-    // own. Both are clipped to the rails, as in `FeatureSection`, so the margins
-    // stay neutral.
     <div className="relative">
-      {/* `px-4` to match the gutter the sections below carry, since `inset-0`
-          resolves against the padding box and would otherwise run wider than
-          their rails at viewports narrower than the max content width. */}
       <div className="pointer-events-none absolute inset-0 px-4">
         <Container noGutter className="relative h-full overflow-hidden">
           <div className={clsx("absolute inset-0", SUBTLE_BG_COLORS.pink)} />
@@ -77,14 +70,9 @@ function ReviewsSection() {
             </Link>
           </Button>
         </SectionHeader>
-        {/* Same as the feature sections: a rule against the header, another
-            below against the points row. The ground is the section's, not this
-            block's. */}
         <div className="border-t border-b px-4 py-10 md:px-10 md:py-16">
           <ReviewCanvas />
         </div>
-        {/* Closed by its own rule rather than the section's: the story below
-            belongs to this chapter, so the section must not end here. */}
         <ul className="grid divide-y border-b md:grid-cols-3 md:divide-x md:divide-y-0">
           {POINTS.map((point) => (
             <li key={point.title} className="flex gap-4 p-6 md:p-8">

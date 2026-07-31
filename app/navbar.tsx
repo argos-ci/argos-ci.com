@@ -35,9 +35,6 @@ export const AppNavbar: React.FC = () => {
   return (
     <Navbar
       primary={
-        // Both logos are rendered; CSS shows the one matching the login state
-        // (flagged pre-paint on <html>). Logged-in users point "home" to
-        // /homepage so navigating home never triggers the "/" → app redirect.
         <>
           <NextLink data-when-guest href="/" className="inline-flex">
             <ArgosLogo className="h-6" />
@@ -49,8 +46,6 @@ export const AppNavbar: React.FC = () => {
       }
       secondary={<SecondaryNavbar />}
       actions={
-        // Both action sets are rendered; CSS hides the one that doesn't apply.
-        // `contents` wrappers keep the buttons in the parent flex layout.
         <>
           <div data-when-guest className="contents">
             <Button variant="outline" asChild>
@@ -342,8 +337,6 @@ const navIconClassName = clsx(
 );
 
 const contentClassName = clsx(
-  // Clamp the content itself: when --popup-height is `auto` (prod), the
-  // popup height is indefinite so `h-full` can't resolve against it.
   "h-full max-h-(--available-height) bg-app z-40 overflow-y-auto overscroll-contain",
   "transition-[opacity,transform,translate] duration-(--duration) ease-(--easing)",
   "data-starting-style:opacity-0 data-ending-style:opacity-0",

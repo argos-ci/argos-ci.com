@@ -16,10 +16,6 @@ import { DotIndicator } from "@/components/DotIndicator";
 import { ThemeImage, type ThemeImageProps } from "@/components/ThemeImage";
 import { SmallTitle } from "@/components/Typography";
 
-/**
- * A single Argos review screen: the baseline and the changes side by side,
- * with the discussion docked next to them.
- */
 export function ReviewCanvas() {
   return (
     <Card
@@ -88,10 +84,6 @@ function Pane(props: { tone: "baseline" | "changes" }) {
   );
 }
 
-/**
- * Anchored on the card that ApplicationSVG renders as changed,
- * so the comment visibly points at the thing that moved.
- */
 function Pin() {
   return (
     <span

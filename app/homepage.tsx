@@ -26,19 +26,14 @@ export default function Page() {
   return (
     <>
       <RedirectIfCookie />
-      {/* What Argos is */}
       <Hero />
       <TrustedBy />
       <VisualTesting />
-      {/* Why it's better */}
       <CollaborativeReviews />
       <AgentReady />
-      {/* Why switch */}
       <Cost />
-      {/* Objections */}
       <CISignal />
       <Stack />
-      {/* Proof and conversion */}
       <Customers />
       <CallToActionSection />
     </>
