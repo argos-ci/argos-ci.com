@@ -2,10 +2,9 @@
 
 import clsx from "clsx";
 import {
-  ClipboardCheckIcon,
   MessageSquareCodeIcon,
-  PlugIcon,
   RefreshCwIcon,
+  ScanEyeIcon,
 } from "lucide-react";
 import { useId, useRef, useState } from "react";
 
@@ -13,103 +12,92 @@ import { AgentTerminal, type TerminalLine } from "./AgentTerminal";
 
 type Step = {
   key: string;
-  icon: typeof PlugIcon;
+  icon: typeof ScanEyeIcon;
   title: string;
   text: string;
-  badge: string;
   footer: string;
   lines: TerminalLine[];
 };
 
 /**
- * Ordered from mechanism to consequence, not strongest first.
+ * Ordered by what each one asks of the reader, not by chronology.
  *
- * "Agents act on your review" used to open, and it asks the reader to accept
- * three things at once — that comments are pinned to pixels, that an agent can
- * reach them, and that it can act on them — right after a title that already
- * claimed the same thing. Two assertions of the payoff before anything made it
- * credible.
+ * Reading the diff and self-correcting happen on any build with changes, with
+ * nothing required of you. The feedback loop is the step where you weigh in, so
+ * it comes last — the list escalates from "costs you nothing" to "costs you a
+ * comment", and lands on the reader rather than on the machine.
  *
- * MCP and the CLI are concrete and checkable, and they are what earns the last
- * two points. Once "the agent reads and writes through these" is established,
- * acting on the review is a consequence rather than a promise.
+ * The subject shifts with it: "Agents" twice, then "Argos", and the third body
+ * is the only one that says "your agent". That change of person is what marks
+ * the change of level, more than the titles do.
  *
- * Every command is real, checked against `origin/main` of argos-javascript and
- * the MCP page of the docs. Note the asymmetry on `--project`: `build snapshots`
- * authenticates as `project` and resolves the account from the token, while
- * `comment list` and `review create` authenticate as `user` — a personal access
- * token is not scoped to one project — so a bare build number is not enough for
- * them. It is not an oversight.
+ * CLI and MCP used to be two rows of their own. They describe the transport,
+ * which is a means, not a capability — they are now a clause inside the first
+ * point, which is also what let the list come down to three.
+ *
+ * Every command is real, checked against `origin/main` of argos-javascript.
+ * `build snapshots` and `build get` both authenticate as `project` and resolve
+ * the account from the token, which is why a bare build number is enough and
+ * neither carries `--project`.
  */
 const STEPS: Step[] = [
   {
-    key: "mcp",
-    icon: PlugIcon,
-    title: "Agents connect over MCP",
-    text: "Connect Claude, Cursor, or any MCP client to the Argos MCP server with OAuth — every review action, natively in your agent.",
-    badge: "mcp.argos-ci.com",
-    footer: "One remote server, no package to install",
-    lines: [
-      {
-        kind: "prompt",
-        text: "claude mcp add --transport http argos https://mcp.argos-ci.com",
-      },
-      { kind: "output", text: "→ Authenticating with OAuth…" },
-      { kind: "status", text: "Connected, review tools available" },
-    ],
-  },
-  {
-    key: "cli",
-    icon: ClipboardCheckIcon,
-    title: "Agents review from the CLI",
-    text: "Inspect a build, list what needs review, and submit a decision, or hit Copy prompt to hand an agent the full context.",
-    badge: "@argos-ci/cli",
-    footer: "Start a review from any build",
+    key: "diff",
+    icon: ScanEyeIcon,
+    title: "Agents see their own changes",
+    text: "The Argos CLI and MCP server let agents read exactly what their changes did to the UI, the Markdown, and the API output.",
+    footer: "Screenshots, Markdown and API output",
     lines: [
       { kind: "prompt", text: "argos build snapshots 482 --needs-review" },
-      { kind: "output", text: "→ 3 snapshots need review · 1 flagged flaky" },
-      { kind: "status", text: "Ready to inspect" },
-    ],
-  },
-  {
-    key: "comments",
-    icon: MessageSquareCodeIcon,
-    title: "Agents act on your review",
-    text: "Ask your agent to pick up a build and it reads every comment, plus the screenshot each one is pinned to, then fixes exactly what you flagged.",
-    badge: "@argos-ci/cli",
-    footer: "Comments carry the pixels they point at",
-    lines: [
-      { kind: "prompt", text: "argos comment list 482 --project acme/web" },
       {
         kind: "output",
-        text: "→ “Spacing is off under the CTA” · Checkout / mobile",
+        text: "→ 3 snapshots need review · 1 flagged flaky",
       },
-      { kind: "status", text: "Agent has the image and the coordinates" },
+      { kind: "status", text: "Diffs ready to read" },
     ],
   },
   {
     key: "iterate",
     icon: RefreshCwIcon,
     title: "Agents iterate and self-correct",
-    text: "When Argos surfaces an unintended change, the agent has the context to fix its own mistake before you ever look.",
-    badge: "@argos-ci/cli",
-    footer: "Ship once the diff is the one you asked for",
+    text: "When Argos surfaces an unintended change, agents have the context to fix it before you ever look.",
+    footer: "The next build is the proof",
     lines: [
+      { kind: "prompt", text: "argos build get 483" },
       {
-        kind: "prompt",
-        text: "argos review create 482 --project acme/web --event approve",
+        kind: "output",
+        text: "→ #483 · no changes detected · after the agent’s fix",
       },
-      { kind: "status", text: "Review submitted, safe to merge" },
+      { kind: "status", text: "Nothing left to review" },
+    ],
+  },
+  {
+    key: "loop",
+    icon: MessageSquareCodeIcon,
+    title: "Argos becomes the feedback loop",
+    text: "Pin a comment on what’s wrong and your agent picks it up with the screenshot it points to.",
+    footer: "Comments carry the pixels they point at",
+    // The only step that does not open on a command. This is the row where the
+    // reader acts, and what the reader does is ask an agent — `argos comment
+    // list` showed the agent's side of it, not theirs.
+    //
+    // The agent closes on a push, not on a build: it edits code and pushes a
+    // branch. The Argos build that follows is CI's doing, and claiming the agent
+    // produced one would be the wrong actor.
+    lines: [
+      { kind: "agent", text: "handle the comments on build 482" },
+      { kind: "output", text: "→ 2 comments · 2 screenshots pulled over MCP" },
+      { kind: "status", text: "Fixed and pushed to fix/checkout-spacing" },
     ],
   },
 ];
 
 /**
- * The four points drive the terminal instead of sitting beside it.
+ * The points drive the terminal instead of sitting beside it.
  *
  * As a static list opposite a fixed panel, nothing said which row the panel was
- * illustrating — the reader had to assume it stood for all four, which made it
- * decoration. Selecting a row and watching the terminal answer is what turns the
+ * illustrating — the reader had to assume it stood for all of them, which made
+ * it decoration. Selecting a row and watching the terminal answer is what turns the
  * two columns into one demonstration.
  */
 export function AgentShowcase() {
@@ -197,7 +185,6 @@ export function AgentShowcase() {
         <AgentTerminal
           stateId={current.key}
           lines={current.lines}
-          badge={current.badge}
           footer={current.footer}
         />
       </div>

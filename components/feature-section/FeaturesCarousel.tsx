@@ -35,8 +35,10 @@ function getInitialState() {
 export function FeaturesCarousel(props: {
   features: Feature[];
   color: FeatureColor;
+  /** Off when the section paints the tint itself, across its full height. */
+  background?: boolean;
 }) {
-  const { features, color } = props;
+  const { features, color, background = true } = props;
   const total = features.length;
   const { ref, inViewport } = useInViewport();
   const tablistRef = useRef<HTMLDivElement | null>(null);
@@ -101,7 +103,10 @@ export function FeaturesCarousel(props: {
     // No rule on top: the header above is the same chapter, and the background
     // shift is enough to tell the illustration apart from it. The bottom rule
     // stays — below it the customer story is a different kind of block.
-    <div ref={ref} className={clsx("border-b", SUBTLE_BG_COLORS[color])}>
+    <div
+      ref={ref}
+      className={clsx("border-b", background && SUBTLE_BG_COLORS[color])}
+    >
       <div className="relative h-60 overflow-hidden sm:h-110">
         <div className="relative size-full">
           <div className="size-full mask-intersect max-sm:mask-[linear-gradient(black_70%,transparent),linear-gradient(90deg,transparent,black_20%,black_80%,transparent)]">

@@ -34,10 +34,20 @@ const POINTS = [
 
 export function CollaborativeReviews() {
   return (
-    // The glow spans the section and its story together, so the chapter closes
-    // once — the story is part of it, not a block of its own.
+    // Tint and glow span the section and its story together, so the chapter is
+    // one ground and closes once — the story is part of it, not a block of its
+    // own. Both are clipped to the rails, as in `FeatureSection`, so the margins
+    // stay neutral.
     <div className="relative">
-      <SectionGlow color="pink" />
+      {/* `px-4` to match the gutter the sections below carry, since `inset-0`
+          resolves against the padding box and would otherwise run wider than
+          their rails at viewports narrower than the max content width. */}
+      <div className="pointer-events-none absolute inset-0 px-4">
+        <Container noGutter className="relative h-full overflow-hidden">
+          <div className={clsx("absolute inset-0", SUBTLE_BG_COLORS.pink)} />
+          <SectionGlow color="pink" />
+        </Container>
+      </div>
       <ReviewsSection />
       <QuoteBlock quote={leMondeReviewsQuote} pattern className="separator-b" />
     </div>
@@ -67,14 +77,10 @@ function ReviewsSection() {
             </Link>
           </Button>
         </SectionHeader>
-        {/* Same as the feature sections: no rule against the header, one below
-            against the points row, and the chapter's hue as its ground. */}
-        <div
-          className={clsx(
-            "border-b px-4 py-10 md:px-10 md:py-16",
-            SUBTLE_BG_COLORS.pink,
-          )}
-        >
+        {/* Same as the feature sections: a rule against the header, another
+            below against the points row. The ground is the section's, not this
+            block's. */}
+        <div className="border-t border-b px-4 py-10 md:px-10 md:py-16">
           <ReviewCanvas />
         </div>
         {/* Closed by its own rule rather than the section's: the story below

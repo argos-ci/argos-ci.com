@@ -34,16 +34,24 @@ export function AgentReady() {
             <FeatureIndicator color="violet">
               Built for the AI age
             </FeatureIndicator>
-            {/* Imperative, and honest about the direction. The previous title
-                said comments "become" the agent's next task, which describes a
-                push: a queue that fills itself. Argos pushes nothing — the agent
-                fetches, as the description right below already said with
-                "pulls". The title contradicted its own subtitle. */}
-            <SectionTitle>Hand your review to your agent</SectionTitle>
+            {/* A claim no other visual testing tool can make, and one the rows
+                below actually support.
+
+                "Hand your review to your agent" promised a delegation, but the
+                strongest point of the section — agents catching what they broke
+                and fixing it — happens without you handing over anything. The
+                title described the last and most demanding of the three rows as
+                if it were the whole section. */}
+            <SectionTitle>Your agents check their own work</SectionTitle>
+            {/* Opens on the autonomy the title claims and closes on your part,
+                in the order the rows use. Leading on "pin what's wrong", as it
+                did, put the one step that costs the reader something first and
+                contradicted the title right above it. */}
             <SectionDescription className="max-w-2xl">
-              Pin what&apos;s wrong on the screenshot. Your agent pulls the
-              comments and the images they point to straight from the CLI or
-              over MCP, ships the fix, and Argos shows you whether it worked.
+              Your agents pull the diff from the CLI or over MCP, catch what
+              they broke, and fix it before you look. Pin a comment when you
+              want something else, and the next build tells you whether they got
+              it.
             </SectionDescription>
           </SectionHeaderTexts>
           <Button variant="outline" asChild>

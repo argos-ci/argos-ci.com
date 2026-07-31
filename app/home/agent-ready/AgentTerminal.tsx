@@ -12,7 +12,10 @@ const EASTER_EGG_PROMPT =
   "Help me set up Argos in my project so my agents stop shipping visual bugs 👀";
 
 export type TerminalLine =
+  /** A shell command, marked with `$`. */
   | { kind: "prompt"; text: string }
+  /** Something asked of an agent in plain language, marked with `›`. */
+  | { kind: "agent"; text: string }
   | { kind: "output"; text: string }
   | { kind: "status"; text: string };
 
@@ -20,10 +23,9 @@ export function AgentTerminal(props: {
   /** Re-keys the body so switching steps replays the fade. */
   stateId: string;
   lines: TerminalLine[];
-  badge: string;
   footer: string;
 }) {
-  const { stateId, lines, badge, footer } = props;
+  const { stateId, lines, footer } = props;
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
@@ -53,7 +55,7 @@ export function AgentTerminal(props: {
         </div>
         <Badge className="text-low text-xxs gap-1">
           <ArgosEmblem className="size-3 text-(--violet-11)" />
-          {badge}
+          @argos-ci/cli
         </Badge>
       </div>
 
@@ -111,9 +113,15 @@ function Line(props: { line: TerminalLine }) {
         line.kind !== "output" && "flex items-center gap-2",
       )}
     >
-      {line.kind === "prompt" ? (
+      {line.kind === "prompt" || line.kind === "agent" ? (
         <>
-          <span className="text-(--violet-11)">$</span>
+          {/* A different marker, because it is a different act: `$` is a command
+              you run, `›` is something you ask of an agent. No client is named —
+              a `claude` or a `cursor` here would date the page and contradict
+              the first row, which is careful to stay agnostic. */}
+          <span className="text-(--violet-11)">
+            {line.kind === "agent" ? "›" : "$"}
+          </span>
           <span className="text-default">{line.text}</span>
         </>
       ) : line.kind === "status" ? (

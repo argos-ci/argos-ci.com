@@ -12,7 +12,11 @@ import { SectionHeader, SectionHeaderTexts } from "../SectionHeader";
 import { SectionDescription, SectionTitle } from "../Typography";
 import { type Feature, FeaturesCarousel } from "./FeaturesCarousel";
 import { SectionGlow } from "./SectionGlow";
-import { type FeatureColor, INDICATOR_BG_COLORS } from "./colors";
+import {
+  type FeatureColor,
+  INDICATOR_BG_COLORS,
+  SUBTLE_BG_COLORS,
+} from "./colors";
 
 export function FeatureIndicator(props: {
   color: FeatureColor;
@@ -45,12 +49,36 @@ export function FeatureSection(props: {
   const [firstLine, ...rest] = description.split("\n");
   return (
     <div className="separator-b relative px-4">
-      <SectionGlow color={color} />
+      {/* Everything coloured lives between the rails, and runs the full height
+          of the chapter — header, carousel and story together.
+
+          The tint used to sit under the illustration only. That put a second
+          boundary marker one block below the one the header already sets, so the
+          reader saw the ground change mid-chapter and read it as a new section
+          starting. It also gave a step 2 tint — ΔL 1-2 off the neutral, about as
+          light as a tint can be and still exist — a hard edge to announce itself
+          with, which is what made it read as loud.
+
+          A Container-width layer rather than a background on the section: the
+          margins outside the rails stay neutral, so the hue reads as belonging
+          to the content rather than to the page. `SectionGlow` sits in the same
+          layer and is clipped to the same width, for the same reason.
+
+          `px-4` is repeated here because `inset-0` resolves against the padding
+          box, so without it the layer runs wider than the rails at viewports
+          narrower than the max content width. */}
+      <div className="pointer-events-none absolute inset-0 px-4">
+        <Container noGutter className="relative h-full overflow-hidden">
+          <div className={clsx("absolute inset-0", SUBTLE_BG_COLORS[color])} />
+          <SectionGlow color={color} />
+        </Container>
+      </div>
       <Container className="relative border-x" noGutter>
-        {/* Tighter at the bottom than the shared default: with no rule between
-            them, the header and the illustration read as one block, so the gap
-            has to be smaller than the space above the header. */}
-        <SectionHeader className="container-gutter pb-8 md:pb-10">
+        {/* Tighter at the bottom than the shared default, and closed by a rule:
+            the tint now covers header and illustration alike, so it no longer
+            says where the chapter's content starts. The rule does that, and the
+            short gap keeps the two reading as one block despite it. */}
+        <SectionHeader className="container-gutter border-b pb-8 md:pb-10">
           <SectionHeaderTexts>
             {featureName ? (
               <FeatureIndicator color={color}>{featureName}</FeatureIndicator>
@@ -63,7 +91,11 @@ export function FeatureSection(props: {
           </SectionHeaderTexts>
           {cta}
         </SectionHeader>
-        <FeaturesCarousel color={color} features={features} />
+        <FeaturesCarousel
+          color={color}
+          features={features}
+          background={false}
+        />
         {/* No wash of its own — the story sits on `SectionGlow`, which is the
             section's single tint and runs past the rails. See SectionGlow. */}
         <div className="relative">
@@ -115,6 +147,7 @@ export function FeatureSection(props: {
             </div>
           ) : null}
         </div>
+        <div className="bg-app h-12 border-t" />
       </Container>
     </div>
   );
