@@ -136,7 +136,7 @@ export function Stack() {
             </Button>
           </SectionHeader>
 
-          <div className="relative order-last h-100 overflow-x-visible overflow-y-hidden md:absolute md:inset-0 md:order-0 md:h-full md:overflow-visible">
+          <div className="relative order-last h-100 overflow-x-visible overflow-y-hidden mask-[linear-gradient(to_bottom,transparent,black_60px)] md:absolute md:inset-0 md:order-0 md:h-full md:overflow-visible md:mask-none">
             <CheckerboardLines />
 
             <CheckerboardTiles>
