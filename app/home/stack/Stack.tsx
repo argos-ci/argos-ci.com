@@ -6,178 +6,275 @@ import {
   playwright,
   storybook,
   vitest,
+  wdio,
 } from "@/app/assets/brands/library";
-import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
-import { Grid } from "@/components/Grid";
 import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
 import { ThemeImage, type ThemeImageProps } from "@/components/ThemeImage";
 import { Tooltip } from "@/components/Tooltip";
 import { SectionDescription, SectionTitle } from "@/components/Typography";
 import { SECTION_FADE } from "@/components/section-fade";
 
+import { Button } from "../../../components/Button";
 import githubDark from "./assets/github-dark.svg";
 import githubLight from "./assets/github-light.svg";
 import gitlab from "./assets/gitlab.svg";
 import msteams from "./assets/msteams.svg";
 import slack from "./assets/slack.svg";
 
-const SDKS = [
-  {
-    name: playwright.name,
-    logo: playwright.logo,
-    href: "/docs/quickstart/playwright-quickstart",
-  },
-  {
-    name: storybook.name,
-    logo: storybook.logo,
-    href: "/docs/quickstart/storybook-quickstart",
-  },
-  {
-    name: vitest.name,
-    logo: vitest.logo,
-    href: "/docs/quickstart/vitest-quickstart",
-  },
-  {
-    name: cypress.name,
-    logo: cypress.logo,
-    href: "/docs/quickstart/cypress-quickstart",
-  },
-];
+type Tile = {
+  name: string;
+  image: ThemeImageProps["src"];
+  href: string;
+  tooltip: string;
+};
 
-export function Stack() {
+const CHECKER_CELL = 60;
+const CHECKER_COLS = Math.ceil(1600 / CHECKER_CELL);
+const CHECKER_ROWS = 8;
+
+function CheckerboardCell(props: {
+  row: number;
+  col: number;
+  className?: string;
+  children: React.ReactNode;
+}) {
+  const { row, col, className, children } = props;
   return (
-    <section
-      className={clsx(
-        "separator-b relative overflow-x-clip px-4",
-        SECTION_FADE,
-      )}
+    <div
+      className={className}
+      style={{
+        gridColumn: col,
+        gridRow: row,
+        width: CHECKER_CELL + 1,
+        height: CHECKER_CELL + 1,
+      }}
     >
-      <Container noGutter className="border-x pb-4">
-        <SectionHeader className="container-gutter">
-          <SectionHeaderTexts>
-            <SectionTitle>Fits the stack you already have</SectionTitle>
-            <SectionDescription className="max-w-2xl">
-              Plug into Playwright, Storybook, Vitest, or Cypress in a few
-              lines, then get every result where your team already works.
-            </SectionDescription>
-          </SectionHeaderTexts>
-          <Button variant="outline" asChild>
-            <Link href="/docs/quickstart">Explore all SDKs</Link>
-          </Button>
-        </SectionHeader>
-        <div className="divide-y border-t">
-          <StackRow title="Add your first snapshot in seconds">
-            <ul className="grid flex-1 grid-cols-2 gap-3 md:grid-cols-5">
-              {SDKS.map((item) => (
-                <li key={item.name} className="contents">
-                  <Link
-                    href={item.href}
-                    className="bg-app flex items-center gap-3 rounded-lg border-[0.5px] px-3 py-2.5 shadow-xs transition duration-200 hover:-translate-y-0.5 hover:shadow"
-                  >
-                    <ThemeImage
-                      src={item.logo}
-                      alt=""
-                      className="size-6 shrink-0"
-                    />
-                    <span className="font-accent truncate text-sm font-medium">
-                      {item.name}
-                    </span>
-                  </Link>
-                </li>
-              ))}
-              <li className="contents">
-                <Link
-                  href="/docs/quickstart/any-test-framework"
-                  className="text-low hover:text-default flex items-center justify-center rounded-lg border-[0.5px] border-dashed px-3 py-2.5 text-center transition duration-200"
-                >
-                  <span className="font-accent text-sm font-medium">
-                    …and many more
-                  </span>
-                </Link>
-              </li>
-            </ul>
-          </StackRow>
-          <StackRow title="Get results in">
-            <IntegrationsCanvas />
-          </StackRow>
-        </div>
-      </Container>
-    </section>
-  );
-}
-
-function StackRow(props: { title: string; children: React.ReactNode }) {
-  const { title, children } = props;
-  return (
-    <div className="flex flex-col gap-4 p-6 md:flex-row md:items-center md:gap-8 md:p-8">
-      <div className="text-low shrink-0 text-xs font-medium md:w-48">
-        {title}
-      </div>
       {children}
     </div>
   );
 }
 
-function IntegrationsCanvas() {
+function LogoTile({ name, image, href, tooltip }: Tile) {
   return (
-    <div className="relative h-60 w-full [--grid-size:40px] md:-mr-30 md:h-52 md:flex-1 md:[--grid-size:50px]">
-      <div className="absolute inset-0 mask-[linear-gradient(transparent,black_20%,black_80%,transparent),linear-gradient(90deg,transparent,black_15%,black_85%,transparent)] mask-intersect text-(--border-color-default)">
-        <Grid x={-1} y={-1} size={40} className="md:hidden" />
-        <Grid x={-1} y={-1} size={50} className="hidden md:block" />
-      </div>
-      <IntegrationTile
-        className="[--x:1] [--y:1] md:[--x:1] md:[--y:1]"
-        image={{ light: githubLight, dark: githubDark }}
-        title="GitHub"
-        href="/docs/learn/integrations/github-integration"
-      />
-      <IntegrationTile
-        className="[--x:5] [--y:1] md:[--x:6] md:[--y:0]"
-        image={gitlab}
-        title="GitLab"
-        href="/docs/learn/integrations/gitlab-integration"
-      />
-      <IntegrationTile
-        className="[--x:1] [--y:4] md:[--x:11] md:[--y:2]"
-        image={slack}
-        title="Slack"
-        href="/docs/learn/integrations/slack-integration"
-      />
-      <IntegrationTile
-        className="[--x:5] [--y:4] md:[--x:17] md:[--y:1]"
-        image={msteams}
-        title="Microsoft Teams"
-        href="/docs/learn/integrations/microsoft-teams-integration"
-      />
+    <Tooltip content={tooltip} delayDuration={0} side="bottom">
+      <Link
+        href={href}
+        className="bg-app border-hover relative grid size-full place-items-center rounded-lg border p-2.5 shadow-md transition duration-150 hover:z-10 hover:scale-110 hover:shadow-lg"
+      >
+        <ThemeImage src={image} alt={name} className="size-full" />
+      </Link>
+    </Tooltip>
+  );
+}
+
+function GhostTile() {
+  return (
+    <div
+      aria-hidden
+      className="border-hover from-bg-app size-full rounded-lg border bg-linear-to-t to-(--neutral-3)"
+    />
+  );
+}
+
+function CheckerboardLines() {
+  return (
+    <div
+      className="absolute top-0 -left-0.5 border bg-white"
+      style={{
+        width: CHECKER_COLS * CHECKER_CELL,
+        height: CHECKER_ROWS * CHECKER_CELL,
+        backgroundImage:
+          "linear-gradient(to right, var(--border-color-default) 1px, transparent 1px), linear-gradient(to bottom, var(--border-color-default) 1px, transparent 1px)",
+        backgroundSize: `${CHECKER_CELL}px ${CHECKER_CELL}px`,
+        backgroundOrigin: "border-box",
+      }}
+    />
+  );
+}
+
+function CheckerboardTiles(props: { children: React.ReactNode }) {
+  return (
+    <div
+      className="absolute top-0 -left-0.5 grid"
+      style={{
+        gridTemplateColumns: `repeat(${CHECKER_COLS}, ${CHECKER_CELL}px)`,
+        gridAutoRows: `${CHECKER_CELL}px`,
+      }}
+    >
+      {props.children}
     </div>
   );
 }
 
-function IntegrationTile(props: {
-  image: ThemeImageProps["src"];
-  title: string;
-  className: string;
-  href: string;
-}) {
-  const { image, href, title, className } = props;
+export function Stack() {
   return (
-    <Tooltip
-      content={`Explore ${title} integration`}
-      delayDuration={0}
-      side="bottom"
+    <section
+      className={clsx(
+        "separator-b relative overflow-x-clip overflow-y-hidden px-4",
+        SECTION_FADE,
+      )}
     >
-      <Link
-        className={clsx(
-          "bg-app absolute size-[calc(var(--grid-size)*2+1px)] rounded-lg border shadow",
-          "top-[calc(var(--grid-size)*var(--y)-1px)] left-[calc(var(--grid-size)*var(--x)-1px)]",
-          "transition duration-150 hover:scale-110 hover:shadow-lg",
-          className,
-        )}
-        href={href}
-      >
-        <ThemeImage src={image} alt={title} className="size-full" />
-      </Link>
-    </Tooltip>
+      <Container className="border-x md:-mt-10 md:h-110 md:max-h-110" noGutter>
+        <div className="relative flex flex-col md:block md:h-full">
+          <SectionHeader
+            className="container-gutter relative order-first md:absolute md:inset-y-0 md:left-0 md:z-10 md:order-0 md:h-full md:w-1/2 md:justify-center md:py-0"
+            style={{
+              background:
+                "linear-gradient(to right, var(--background-color-app) 45%, transparent 95%)",
+            }}
+          >
+            <SectionHeaderTexts>
+              <SectionTitle>Fits the stack you already have</SectionTitle>
+              <SectionDescription className="max-w-2xl">
+                Plug into Playwright, Storybook, Vitest, or Cypress in a few
+                lines, then get every result where your team already works.
+              </SectionDescription>
+            </SectionHeaderTexts>
+            <Button variant="outline" asChild>
+              <Link href="/docs/quickstart">Explore all SDKs</Link>
+            </Button>
+          </SectionHeader>
+
+          <div className="relative order-last h-100 overflow-x-visible overflow-y-hidden md:absolute md:inset-0 md:order-0 md:h-full md:overflow-visible">
+            <CheckerboardLines />
+
+            <CheckerboardTiles>
+              {/* Mobile only: the viewport is too narrow to reach the col 14-18
+                  cluster below, so a few brands get a second, low-column
+                  placement here just to stay visible above the fold. */}
+              <CheckerboardCell row={2} col={2} className="md:hidden">
+                <GhostTile />
+              </CheckerboardCell>
+              <CheckerboardCell row={2} col={5} className="md:hidden">
+                <LogoTile
+                  name="Slack"
+                  image={slack}
+                  href="/docs/learn/integrations/slack-integration"
+                  tooltip="Explore Slack integration"
+                />
+              </CheckerboardCell>
+              <CheckerboardCell row={4} col={3} className="md:hidden">
+                <LogoTile
+                  name={playwright.name}
+                  image={playwright.logo}
+                  href="/docs/quickstart/playwright-quickstart"
+                  tooltip="Playwright quickstart"
+                />
+              </CheckerboardCell>
+              <CheckerboardCell row={4} col={6} className="md:hidden">
+                <LogoTile
+                  name={storybook.name}
+                  image={storybook.logo}
+                  href="/docs/quickstart/storybook-quickstart"
+                  tooltip="Storybook quickstart"
+                />
+              </CheckerboardCell>
+              <CheckerboardCell row={5} col={2} className="md:hidden">
+                <LogoTile
+                  name="GitHub"
+                  image={{ light: githubLight, dark: githubDark }}
+                  href="/docs/learn/integrations/github-integration"
+                  tooltip="Explore GitHub integration"
+                />
+              </CheckerboardCell>
+              <CheckerboardCell row={6} col={5} className="md:hidden">
+                <GhostTile />
+              </CheckerboardCell>
+
+              <CheckerboardCell row={2} col={10}>
+                <GhostTile />
+              </CheckerboardCell>
+              <CheckerboardCell row={2} col={13}>
+                <LogoTile
+                  name={playwright.name}
+                  image={playwright.logo}
+                  href="/docs/quickstart/playwright-quickstart"
+                  tooltip="Playwright quickstart"
+                />
+              </CheckerboardCell>
+              <CheckerboardCell row={2} col={17}>
+                <LogoTile
+                  name="GitHub"
+                  image={{ light: githubLight, dark: githubDark }}
+                  href="/docs/learn/integrations/github-integration"
+                  tooltip="Explore GitHub integration"
+                />
+              </CheckerboardCell>
+              <CheckerboardCell row={3} col={11}>
+                <LogoTile
+                  name={vitest.name}
+                  image={vitest.logo}
+                  href="/docs/quickstart/vitest-quickstart"
+                  tooltip="Vitest quickstart"
+                />
+              </CheckerboardCell>
+
+              <CheckerboardCell row={4} col={8}>
+                <GhostTile />
+              </CheckerboardCell>
+              <CheckerboardCell row={4} col={13}>
+                <LogoTile
+                  name="Microsoft Teams"
+                  image={msteams}
+                  href="/docs/learn/integrations/microsoft-teams-integration"
+                  tooltip="Explore Microsoft Teams integration"
+                />
+              </CheckerboardCell>
+              <CheckerboardCell row={4} col={15}>
+                <LogoTile
+                  name="GitLab"
+                  image={gitlab}
+                  href="/docs/learn/integrations/gitlab-integration"
+                  tooltip="Explore GitLab integration"
+                />
+              </CheckerboardCell>
+              <CheckerboardCell row={5} col={11}>
+                <LogoTile
+                  name={storybook.name}
+                  image={storybook.logo}
+                  href="/docs/quickstart/storybook-quickstart"
+                  tooltip="Storybook quickstart"
+                />
+              </CheckerboardCell>
+              <CheckerboardCell row={5} col={16}>
+                <GhostTile />
+              </CheckerboardCell>
+              <CheckerboardCell row={5} col={19}>
+                <LogoTile
+                  name={wdio.name}
+                  image={wdio.logo}
+                  href="/docs/quickstart/webdriverio-quickstart"
+                  tooltip="WebdriverIO quickstart"
+                />
+              </CheckerboardCell>
+              <CheckerboardCell row={6} col={12}>
+                <LogoTile
+                  name={cypress.name}
+                  image={cypress.logo}
+                  href="/docs/quickstart/cypress-quickstart"
+                  tooltip="Cypress quickstart"
+                />
+              </CheckerboardCell>
+              <CheckerboardCell row={6} col={15}>
+                <LogoTile
+                  name="Slack"
+                  image={slack}
+                  href="/docs/learn/integrations/slack-integration"
+                  tooltip="Explore Slack integration"
+                />
+              </CheckerboardCell>
+
+              <CheckerboardCell row={7} col={9}>
+                <GhostTile />
+              </CheckerboardCell>
+              <CheckerboardCell row={7} col={14}>
+                <GhostTile />
+              </CheckerboardCell>
+            </CheckerboardTiles>
+          </div>
+        </div>
+      </Container>
+    </section>
   );
 }
