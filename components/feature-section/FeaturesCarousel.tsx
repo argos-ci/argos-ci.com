@@ -34,6 +34,8 @@ export function FeaturesCarousel(props: {
   const { features, color } = props;
   const total = features.length;
   const { ref, inViewport } = useInViewport();
+  const tablistRef = useRef<HTMLDivElement | null>(null);
+  const tabRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [isStopped, setIsStopped] = useState(false);
   const [start, setStart] = useState(() => Date.now());
   const [state, setState] = useState(getInitialState);
@@ -68,6 +70,18 @@ export function FeaturesCarousel(props: {
     }, DURATION);
     return () => window.clearTimeout(timeout);
   }, [isStopped, inViewport, state, total, move]);
+  // Keep the active caption in view while the carousel advances on its own.
+  // Setting `scrollLeft` rather than calling `scrollIntoView`, which would drag
+  // the page vertically too. A no-op on desktop, where nothing overflows.
+  useEffect(() => {
+    const tablist = tablistRef.current;
+    const tab = tabRefs.current[state.index];
+    if (!tablist || !tab || tablist.scrollWidth <= tablist.clientWidth) {
+      return;
+    }
+    tablist.scrollTo({ left: tab.offsetLeft, behavior: "smooth" });
+  }, [state.index]);
+
   const current = features[state.index];
   if (!current) {
     throw new Error(`Invalid index ${state.index}`);
@@ -92,22 +106,34 @@ export function FeaturesCarousel(props: {
           </div>
         </div>
       </div>
+      {/* A row at every width. Stacked, the three captions ran to roughly 900px
+          on a phone — the longest uniform stretch on the page. As a snapping
+          scroller they cost one caption's height and stay switchable, which
+          showing only the active one would have taken away. */}
       <div
+        ref={tablistRef}
         role="tablist"
-        className="relative -ml-px flex flex-col items-start justify-center gap-10 py-8 pt-4 md:ml-0 md:flex-row md:pt-8"
+        className={clsx(
+          "relative -ml-px flex snap-x snap-mandatory items-start justify-start overflow-x-auto py-6",
+          "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
+          "md:ml-0 md:snap-none md:justify-center md:gap-10 md:overflow-x-visible md:py-8",
+        )}
       >
         {features.map((feature, index) => {
           const isCurrent = index === state.index;
           return (
             <div
               key={feature.key}
+              ref={(node) => {
+                tabRefs.current[index] = node;
+              }}
               data-current={isCurrent}
               role="button"
               onClick={() => {
                 setIsStopped(true);
                 move(index);
               }}
-              className="relative flex cursor-pointer flex-col px-6 text-sm transition-opacity duration-300 data-[current=false]:opacity-50 data-[current=false]:hover:opacity-90 md:max-w-56 md:pr-0"
+              className="relative flex w-[78%] shrink-0 cursor-pointer snap-start flex-col px-6 text-sm transition-opacity duration-300 data-[current=false]:opacity-50 data-[current=false]:hover:opacity-90 md:w-auto md:max-w-56 md:shrink md:pr-0"
             >
               <div
                 className={clsx(
