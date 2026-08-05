@@ -36,6 +36,7 @@ export function FeaturesCarousel(props: {
   const { ref, inViewport } = useInViewport();
   const tablistRef = useRef<HTMLDivElement | null>(null);
   const tabRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const indexRef = useRef(0);
   const [isStopped, setIsStopped] = useState(false);
   const [start, setStart] = useState(() => Date.now());
   const [state, setState] = useState(getInitialState);
@@ -70,17 +71,76 @@ export function FeaturesCarousel(props: {
     }, DURATION);
     return () => window.clearTimeout(timeout);
   }, [isStopped, inViewport, state, total, move]);
+  useEffect(() => {
+    indexRef.current = state.index;
+  }, [state.index]);
+  // Where the strip rests once snapped to a caption. Scroll padding holds the
+  // caption clear of the section's own border, so the rail that fills reads as
+  // the caption's own edge rather than as the frame changing colour.
+  const restingScroll = useCallback((index: number) => {
+    const tablist = tablistRef.current;
+    const tab = tabRefs.current[index];
+    if (!tablist || !tab) {
+      return null;
+    }
+    const inset = parseFloat(getComputedStyle(tablist).scrollPaddingLeft) || 0;
+    return tab.offsetLeft - inset;
+  }, []);
   // Keep the active caption in view while the carousel advances on its own.
   // Setting `scrollLeft` rather than calling `scrollIntoView`, which would drag
   // the page vertically too. A no-op on desktop, where nothing overflows.
   useEffect(() => {
     const tablist = tablistRef.current;
-    const tab = tabRefs.current[state.index];
-    if (!tablist || !tab || tablist.scrollWidth <= tablist.clientWidth) {
+    const left = restingScroll(state.index);
+    if (
+      !tablist ||
+      left === null ||
+      tablist.scrollWidth <= tablist.clientWidth
+    ) {
       return;
     }
-    tablist.scrollTo({ left: tab.offsetLeft, behavior: "smooth" });
-  }, [state.index]);
+    tablist.scrollTo({ left, behavior: "smooth" });
+  }, [state.index, restingScroll]);
+  // Scrolling the strip by hand brings its illustration along, and stops the
+  // autoplay the way tapping a caption does. The carousel's own scroll settles
+  // on the caption that is already current, so it never trips this.
+  useEffect(() => {
+    const tablist = tablistRef.current;
+    if (!tablist) {
+      return;
+    }
+    let settle = 0;
+    const onScroll = () => {
+      window.clearTimeout(settle);
+      settle = window.setTimeout(() => {
+        const middle = tablist.scrollLeft + tablist.clientWidth / 2;
+        let nearest = -1;
+        let shortest = Infinity;
+        tabRefs.current.forEach((tab, index) => {
+          if (!tab) {
+            return;
+          }
+          const distance = Math.abs(
+            tab.offsetLeft + tab.offsetWidth / 2 - middle,
+          );
+          if (distance < shortest) {
+            shortest = distance;
+            nearest = index;
+          }
+        });
+        if (nearest === -1 || nearest === indexRef.current) {
+          return;
+        }
+        setIsStopped(true);
+        move(nearest);
+      }, 120);
+    };
+    tablist.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      tablist.removeEventListener("scroll", onScroll);
+      window.clearTimeout(settle);
+    };
+  }, [move]);
 
   const current = features[state.index];
   if (!current) {
@@ -114,9 +174,9 @@ export function FeaturesCarousel(props: {
         ref={tablistRef}
         role="tablist"
         className={clsx(
-          "relative -ml-px flex snap-x snap-mandatory items-start justify-start overflow-x-auto py-6",
+          "relative flex snap-x snap-mandatory scroll-pl-4 items-start justify-start overflow-x-auto py-6",
           "[scrollbar-width:none] [&::-webkit-scrollbar]:hidden",
-          "md:ml-0 md:snap-none md:justify-center md:gap-10 md:overflow-x-visible md:py-8",
+          "md:snap-none md:scroll-pl-0 md:justify-center md:gap-10 md:overflow-x-visible md:py-8",
         )}
       >
         {features.map((feature, index) => {
@@ -133,7 +193,7 @@ export function FeaturesCarousel(props: {
                 setIsStopped(true);
                 move(index);
               }}
-              className="relative flex w-[78%] shrink-0 cursor-pointer snap-start flex-col px-6 text-sm transition-opacity duration-300 data-[current=false]:opacity-50 data-[current=false]:hover:opacity-90 md:w-auto md:max-w-56 md:shrink md:pr-0"
+              className="relative flex w-[78%] shrink-0 cursor-pointer snap-start flex-col px-6 text-sm transition-opacity duration-300 first:ml-4 last:mr-[22%] data-[current=false]:opacity-50 data-[current=false]:hover:opacity-90 md:w-auto md:max-w-56 md:shrink md:pr-0 md:first:ml-0 md:last:mr-0"
             >
               <div
                 className={clsx(
