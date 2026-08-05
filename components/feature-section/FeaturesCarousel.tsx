@@ -101,9 +101,13 @@ export function FeaturesCarousel(props: {
     }
     tablist.scrollTo({ left, behavior: "smooth" });
   }, [state.index, restingScroll]);
-  // Scrolling the strip by hand brings its illustration along, and stops the
-  // autoplay the way tapping a caption does. The carousel's own scroll settles
-  // on the caption that is already current, so it never trips this.
+  // Scrolling the strip by hand brings its illustration along, and leaves the
+  // autoplay running from wherever it lands — the rail keeps filling and the
+  // chapter keeps turning. Tapping a caption is the gesture that stops it;
+  // swiping is how you look around, and killing the rotation for the rest of
+  // the visit is too much to read into it. Landing on a caption restarts the
+  // timer, so it holds there a full turn first. The carousel's own scroll
+  // settles on the caption that is already current, so it never trips this.
   useEffect(() => {
     const tablist = tablistRef.current;
     if (!tablist) {
@@ -131,7 +135,6 @@ export function FeaturesCarousel(props: {
         if (nearest === -1 || nearest === indexRef.current) {
           return;
         }
-        setIsStopped(true);
         move(nearest);
       }, 120);
     };
