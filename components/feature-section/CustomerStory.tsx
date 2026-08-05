@@ -22,7 +22,12 @@ import { FROM_COLORS, type FeatureColor } from "./colors";
  */
 export function CustomerStory(props: {
   color: FeatureColor;
-  story?: { quote: CustomerQuote; href: string };
+  /**
+   * `href` points at the customer's case study. Leave it out for a customer who
+   * does not have one — the quote still stands, it just loses the button rather
+   * than pointing somewhere that is not a story.
+   */
+  story?: { quote: CustomerQuote; href?: string };
 }) {
   const { color, story } = props;
   return (
@@ -46,12 +51,14 @@ export function CustomerStory(props: {
                 “{story.quote.text}”
               </p>
             </blockquote>
-            <Button variant="outline" asChild>
-              <Link href={story.href}>
-                <BookTextIcon />
-                Read the story
-              </Link>
-            </Button>
+            {story.href ? (
+              <Button variant="outline" asChild>
+                <Link href={story.href}>
+                  <BookTextIcon />
+                  Read the story
+                </Link>
+              </Button>
+            ) : null}
           </div>
           <div className="flex flex-col items-center gap-6 text-center whitespace-nowrap md:items-end md:text-end">
             <ThemeImage

@@ -1,7 +1,7 @@
 import { BugPlayIcon, ImageOffIcon, RotateCcwIcon } from "lucide-react";
 import Link from "next/link";
 
-import { leMondeQuote } from "@/app/assets/customers/library/le-monde";
+import { permitIoQuote } from "@/app/assets/customers/library/permit-io";
 import { Button } from "@/components/Button";
 import { FeatureSection } from "@/components/feature-section/FeatureSection";
 
@@ -48,10 +48,7 @@ export function TestDebugging() {
           <Link href="/test-debugging">Explore Test Debugging</Link>
         </Button>
       }
-      story={{
-        quote: leMondeQuote,
-        href: "/customers/lemonde",
-      }}
+      story={{ quote: permitIoQuote }}
     />
   );
 }

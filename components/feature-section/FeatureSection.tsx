@@ -31,7 +31,7 @@ export function FeatureSection(props: {
   features: Feature[];
   story?: {
     quote: CustomerQuote;
-    href: string;
+    href?: string;
   };
 }) {
   const { color, featureName, cta, title, description, features, story } =
