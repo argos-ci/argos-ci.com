@@ -34,20 +34,26 @@ export const INDICATOR_BG_COLORS: Record<FeatureColor, string> = {
 /**
  * The hue a section's closing band fades up from.
  *
- * Step 3, shared rather than tuned per hue. Never step 1: that is Radix's
+ * Step 2, shared rather than tuned per hue. Never step 1: that is Radix's
  * app-background step, white by construction in light — `blue-1` is #fbfdff
  * against a #fcfcfc page, ΔL* 0.2 — so the band only ever showed up in dark,
  * and even there only for blue, whose step 1 is the most saturated of the set.
  *
- * Measured against `--neutral-1`, step 3 puts all seven hues at ΔL* 2.3-4.7 in
- * light and 8.3-11.1 in dark. It is the first step where every hue reads in
- * both themes; step 1 sits at 0.1-0.4 and 0.6-1.5, i.e. nothing.
+ * Measured against `--neutral-1`, the steps land at:
  *
- * Lightness is not the whole story. Amber has the lowest ΔL* of the set here
- * yet reads loudest, because chroma carries it instead: `amber-2` is #fff7c2,
- * 61 points between channels, where `violet-2` spreads 14. Evening that out
- * needs a colour-mix toward the neutral, not a different step — moving amber
- * down would only make the band it already has the faintest of disappear.
+ *     step 1   ΔL* 0.1-0.4 light   0.6-1.5 dark
+ *     step 2   ΔL* 0.6-1.1 light   2.6-4.2 dark
+ *     step 3   ΔL* 2.3-4.7 light   8.3-11.1 dark
+ *
+ * Step 2 is the quiet end of what registers. It is a deliberately faint band in
+ * light; go to step 3 if it needs to carry from across the room.
+ *
+ * Lightness is not the whole story. Amber reads warmer than its ΔL* suggests,
+ * because chroma carries it instead: `amber-2` is #fefbe9, 21 points between
+ * channels, where `violet-2` spreads 7. The gap widens with the step — at 3 it
+ * is 61 against 14 — so raising the step makes amber louder faster than the
+ * rest. Evening that out needs a color-mix toward the neutral, not a
+ * per-hue step.
  */
 export const FROM_COLORS: Record<FeatureColor, string> = {
   blue: "from-(--blue-2)",
