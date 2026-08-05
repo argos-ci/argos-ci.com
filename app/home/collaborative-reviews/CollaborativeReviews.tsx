@@ -1,7 +1,6 @@
 import { MapPinIcon, SparklesIcon, UserPlusIcon } from "lucide-react";
 import Link from "next/link";
 
-import { leMondeReviewsQuote } from "@/app/assets/customers/library/le-monde";
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
@@ -66,10 +65,10 @@ export function CollaborativeReviews() {
             </li>
           ))}
         </ul>
-        <CustomerStory
-          color="pink"
-          story={{ quote: leMondeReviewsQuote, href: "/customers/lemonde" }}
-        />
+        {/* No story yet: Le Monde already speaks under test debugging, and a
+            second quote from the same customer on one page reads as thin.
+            Waiting on an approved quote from another customer. */}
+        <CustomerStory color="pink" />
         <div className="h-12 border-t" />
       </Container>
     </div>
