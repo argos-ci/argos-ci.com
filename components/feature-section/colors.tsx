@@ -1,10 +1,5 @@
 export type FeatureColor =
-  | "blue"
-  | "amber"
-  | "teal"
-  | "violet"
-  | "plum"
-  | "green";
+  "blue" | "amber" | "teal" | "violet" | "plum" | "pink" | "green";
 
 export const BORDER_BG_COLORS: Record<FeatureColor, string> = {
   blue: "bg-(--blue-9)",
@@ -12,6 +7,7 @@ export const BORDER_BG_COLORS: Record<FeatureColor, string> = {
   teal: "bg-(--teal-9)",
   violet: "bg-(--violet-9)",
   plum: "bg-(--plum-9)",
+  pink: "bg-(--pink-9)",
   green: "bg-(--green-9)",
 };
 
@@ -21,6 +17,7 @@ export const TEXT_COLORS: Record<FeatureColor, string> = {
   teal: "text-(--teal-11)",
   violet: "text-(--violet-11)",
   plum: "text-(--plum-11)",
+  pink: "text-(--pink-11)",
   green: "text-(--green-11)",
 };
 
@@ -30,6 +27,7 @@ export const INDICATOR_BG_COLORS: Record<FeatureColor, string> = {
   teal: "bg-(--teal-10)",
   violet: "bg-(--violet-10)",
   plum: "bg-(--plum-10)",
+  pink: "bg-(--pink-10)",
   green: "bg-(--green-10)",
 };
 
@@ -39,5 +37,6 @@ export const FROM_COLORS: Record<FeatureColor, string> = {
   teal: "from-(--teal-1)",
   violet: "from-(--violet-1)",
   plum: "from-(--plum-1)",
+  pink: "from-(--pink-1)",
   green: "from-(--green-1)",
 };

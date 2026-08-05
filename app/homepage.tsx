@@ -7,6 +7,7 @@ import { defaultDescription, defaultTitle, getMetadata } from "@/lib/metadata";
 
 import { TrustedBy } from "./common/TrustedBy";
 import { AgentReady } from "./home/agent-ready/AgentReady";
+import { CollaborativeReviews } from "./home/collaborative-reviews/CollaborativeReviews";
 import { Cost } from "./home/cost/Cost";
 import { Customers } from "./home/customers/Customers";
 import { Deployments } from "./home/deployments/Deployments";
@@ -31,6 +32,7 @@ export default function Page() {
       <Hero />
       <TrustedBy />
       <VisualTesting />
+      <CollaborativeReviews />
       <AgentReady />
       <Deployments />
       <Integrations />

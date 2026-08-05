@@ -30,6 +30,7 @@ export function FullPageGrid(props: {
               teal: "bg-linear-to-t from-(--teal-3)/20",
               violet: "bg-linear-to-t from-(--violet-3)/20",
               plum: "bg-linear-to-t from-(--plum-3)/20",
+              pink: "bg-linear-to-t from-(--pink-3)/20",
               green: "bg-linear-to-t from-(--green-3)/20",
             }[props.tint],
           )}
