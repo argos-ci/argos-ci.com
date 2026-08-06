@@ -49,7 +49,7 @@ export function CollaborativeReviews() {
             </Link>
           </Button>
         </SectionHeader>
-        <div className="border-t border-b px-4 py-10 md:px-10 md:py-16">
+        <div className="bg-subtle border-t border-b px-4 py-8 md:px-10 md:py-10">
           <ReviewCanvas />
         </div>
         <ul className="grid divide-y border-b md:grid-cols-3 md:divide-x md:divide-y-0">
