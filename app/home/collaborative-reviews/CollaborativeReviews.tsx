@@ -25,7 +25,7 @@ const FEATURES = [
   {
     icon: SparklesIcon,
     title: "Your agent takes it from there",
-    text: "Hit Handle with AI to let your agent take over. The fix lands in the next commit.",
+    text: "Send the thread to your agent, straight into your editor. The fix lands in the next commit",
   },
 ];
 
