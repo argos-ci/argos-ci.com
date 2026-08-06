@@ -2,7 +2,6 @@ import { Metadata } from "next";
 
 import { CallToActionSection } from "@/components/CallToActionSection";
 import { RedirectIfCookie } from "@/components/RedirectIfCookie";
-import { FeaturedSDKsSection } from "@/components/featured-sdk/FeaturedSDKs";
 import { defaultDescription, defaultTitle, getMetadata } from "@/lib/metadata";
 
 import { TrustedBy } from "./common/TrustedBy";
@@ -12,7 +11,7 @@ import { Customers } from "./home/customers/Customers";
 import { Deployments } from "./home/deployments/Deployments";
 import { FlakyManagement } from "./home/flaky-management/FlakyManagement";
 import { Hero } from "./home/hero/Hero";
-import { Integrations } from "./home/integrations/Integrations";
+import { Stack } from "./home/stack/Stack";
 import { TestDebugging } from "./home/test-debugging/TestDebugging";
 import { VisualTesting } from "./home/visual-testing/VisualTesting";
 
@@ -33,11 +32,10 @@ export default function Page() {
       <VisualTesting />
       <AgentReady />
       <Deployments />
-      <Integrations />
       <FlakyManagement />
       <TestDebugging />
       <Cost />
-      <FeaturedSDKsSection />
+      <Stack />
       <Customers />
       <CallToActionSection />
     </>
