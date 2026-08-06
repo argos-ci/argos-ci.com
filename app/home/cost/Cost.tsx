@@ -119,19 +119,18 @@ export function Cost() {
           <SectionHeaderTexts>
             <SectionTitle>Cut visual testing costs, not coverage</SectionTitle>
             <SectionDescription className="max-w-xl">
-              Same coverage, a fraction of the bill. Deterministic pixel diffing
-              means no per-snapshot AI fees, and Argos stays below Percy and
-              Chromatic at every volume.
+              Argos gives you reliable snapshots and scalable review flows while
+              keeping your testing budget under control.
             </SectionDescription>
           </SectionHeaderTexts>
         </SectionHeader>
-        <div className="bg-app flex flex-col border-y shadow-xs md:flex-row">
-          <div className="container-gutter flex max-w-md flex-1 flex-col items-start justify-center gap-6 py-6 max-md:border-b md:gap-8 md:border-r md:py-8">
+        <div className="bg-app flex flex-col border-y shadow-xs md:flex-row-reverse">
+          <div className="container-gutter flex flex-col items-start justify-center gap-6 py-6 max-md:border-b md:basis-1/2 md:gap-8 md:border-l md:py-8 lg:basis-2/5">
             <CostFeature
               href="/docs/learn/platform-fundamentals/how-argos-detects-visual-differences"
               icon={ScanIcon}
               title="No AI diffing surcharge"
-              description="Argos compares pixels deterministically, so you never pay the per-snapshot fees that heuristic engines add on top."
+              description="Argos uses deterministic pixel diffing, so you don’t pay extra AI fees per snapshot."
             />
             <CostFeature
               href="/docs/learn/billing-and-subscription/spend-management"
@@ -146,7 +145,7 @@ export function Cost() {
               description="From small teams to millions of snapshots, Argos stays below competitors."
             />
           </div>
-          <div className="flex flex-1 flex-col">
+          <div className="flex flex-col md:basis-1/2 lg:basis-3/5">
             <div className="flex flex-1 flex-col gap-6 p-6 md:p-18">
               <div className="flex flex-col gap-8">
                 <div className="flex flex-col gap-2">
