@@ -1,5 +1,10 @@
 import clsx from "clsx";
-import { CheckIcon, GitPullRequestArrowIcon, XIcon } from "lucide-react";
+import {
+  ArrowUpIcon,
+  CheckIcon,
+  GitPullRequestArrowIcon,
+  XIcon,
+} from "lucide-react";
 
 import { andrewAvatar, ninaAvatar } from "@/app/assets/people/library";
 import { ApplicationSVG } from "@/components/ApplicationSVG";
@@ -141,17 +146,21 @@ const ACTIVITY: ActivityEvent[] = [
     avatar: andrewAvatar,
     kind: "approved",
     action: "approved",
-    time: "14m ago",
+    time: "5m ago",
   },
   {
     name: "Nina",
     avatar: ninaAvatar,
     kind: "changes",
     action: "requested changes",
-    time: "4m ago",
-    comment: "This card shifted 4px right, the total is cut off.",
-    pin: 1,
-    reactions: "👍 2",
+    time: "2m ago",
+    comment: (
+      <>
+        <span className="text-(--violet-11)">@Andrew</span> Price tag is hidden
+        on mobile
+      </>
+    ),
+    reactions: "👍 1",
   },
   {
     name: "Andrew",
@@ -183,6 +192,14 @@ function Activity() {
           />
         ))}
       </ol>
+      {/* Pinned to the bottom: the rail is short next to two screenshot panes,
+          and the composer is what says the thread is still open. */}
+      <div className="mt-auto flex items-center gap-2 border-t-[0.5px] px-3 py-2">
+        <span className="text-subtle text-xs">Leave a reply…</span>
+        <span className="ml-auto grid size-5 shrink-0 place-items-center rounded-full border-[0.5px]">
+          <ArrowUpIcon className="text-low size-3" />
+        </span>
+      </div>
     </div>
   );
 }
@@ -223,7 +240,7 @@ function ActivityRow(props: { event: ActivityEvent; last: boolean }) {
         <div className="flex flex-wrap items-baseline gap-x-1.5">
           <span className="text-xs font-medium">{event.name}</span>
           <span className={clsx("text-xs", kind.text)}>{event.action}</span>
-          <span className="text-low text-xxs">{event.time}</span>
+          <span className="text-low text-xxs"> • {event.time}</span>
         </div>
         {event.comment ? (
           <p className="text-low mt-1 text-xs">
@@ -232,7 +249,9 @@ function ActivityRow(props: { event: ActivityEvent; last: boolean }) {
           </p>
         ) : null}
         {event.reactions ? (
-          <Badge className="mt-1.5">{event.reactions}</Badge>
+          <div className="text-xxs mt-1.5 inline-flex items-center gap-1 rounded-lg bg-(--neutral-3) px-2 py-0.5 font-medium text-(--neutral-11)">
+            {event.reactions}
+          </div>
         ) : null}
       </div>
     </li>
