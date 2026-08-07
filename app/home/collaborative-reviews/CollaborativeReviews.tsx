@@ -66,10 +66,6 @@ export function CollaborativeReviews() {
             </li>
           ))}
         </ul>
-        <CustomerStory
-          color="pink"
-          story={{ quote: leMondeReviewsQuote, href: "/customers/lemonde" }}
-        />
         <div className="h-12 border-t" />
       </Container>
     </div>

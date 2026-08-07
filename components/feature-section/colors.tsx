@@ -31,30 +31,6 @@ export const INDICATOR_BG_COLORS: Record<FeatureColor, string> = {
   green: "bg-(--green-10)",
 };
 
-/**
- * The hue a section's closing band fades up from.
- *
- * Step 2, shared rather than tuned per hue. Never step 1: that is Radix's
- * app-background step, white by construction in light — `blue-1` is #fbfdff
- * against a #fcfcfc page, ΔL* 0.2 — so the band only ever showed up in dark,
- * and even there only for blue, whose step 1 is the most saturated of the set.
- *
- * Measured against `--neutral-1`, the steps land at:
- *
- *     step 1   ΔL* 0.1-0.4 light   0.6-1.5 dark
- *     step 2   ΔL* 0.6-1.1 light   2.6-4.2 dark
- *     step 3   ΔL* 2.3-4.7 light   8.3-11.1 dark
- *
- * Step 2 is the quiet end of what registers. It is a deliberately faint band in
- * light; go to step 3 if it needs to carry from across the room.
- *
- * Lightness is not the whole story. Amber reads warmer than its ΔL* suggests,
- * because chroma carries it instead: `amber-2` is #fefbe9, 21 points between
- * channels, where `violet-2` spreads 7. The gap widens with the step — at 3 it
- * is 61 against 14 — so raising the step makes amber louder faster than the
- * rest. Evening that out needs a color-mix toward the neutral, not a
- * per-hue step.
- */
 export const FROM_COLORS: Record<FeatureColor, string> = {
   blue: "from-(--blue-2)",
   amber: "from-(--amber-2)",
