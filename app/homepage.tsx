@@ -10,11 +10,9 @@ import { AgentReady } from "./home/agent-ready/AgentReady";
 import { CollaborativeReviews } from "./home/collaborative-reviews/CollaborativeReviews";
 import { Cost } from "./home/cost/Cost";
 import { Customers } from "./home/customers/Customers";
-import { Deployments } from "./home/deployments/Deployments";
-import { FlakyManagement } from "./home/flaky-management/FlakyManagement";
 import { Hero } from "./home/hero/Hero";
 import { Integrations } from "./home/integrations/Integrations";
-import { TestDebugging } from "./home/test-debugging/TestDebugging";
+import { More } from "./home/more/More";
 import { VisualTesting } from "./home/visual-testing/VisualTesting";
 
 export const metadata: Metadata = getMetadata({
@@ -34,10 +32,8 @@ export default function Page() {
       <VisualTesting />
       <CollaborativeReviews />
       <AgentReady />
-      <Deployments />
       <Integrations />
-      <FlakyManagement />
-      <TestDebugging />
+      <More />
       <Cost />
       <FeaturedSDKsSection />
       <Customers />

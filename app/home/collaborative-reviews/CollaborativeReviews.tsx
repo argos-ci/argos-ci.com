@@ -1,10 +1,12 @@
 import { MapPinIcon, SparklesIcon, UserPlusIcon } from "lucide-react";
 import Link from "next/link";
 
+import { muiQuote } from "@/app/assets/customers/library/mui";
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
 import { SectionDescription, SectionTitle } from "@/components/Typography";
+import { CustomerStory } from "@/components/feature-section/CustomerStory";
 import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
 
 import { ReviewCanvas } from "./ReviewCanvas";
@@ -64,6 +66,10 @@ export function CollaborativeReviews() {
             </li>
           ))}
         </ul>
+        <CustomerStory
+          color="pink"
+          story={{ quote: muiQuote, href: "/customers/mui" }}
+        />
         <div className="h-12 border-t" />
       </Container>
     </div>
