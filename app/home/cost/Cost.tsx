@@ -124,13 +124,13 @@ export function Cost() {
             </SectionDescription>
           </SectionHeaderTexts>
         </SectionHeader>
-        <div className="bg-app flex flex-col border-y shadow-xs md:flex-row">
-          <div className="container-gutter flex max-w-md flex-1 flex-col items-start justify-center gap-6 py-6 max-md:border-b md:gap-8 md:border-r md:py-8">
+        <div className="bg-app flex flex-col border-y shadow-xs md:flex-row-reverse">
+          <div className="container-gutter flex flex-col items-start justify-center gap-6 py-6 max-md:border-b md:basis-1/2 md:gap-8 md:border-l md:py-8 lg:basis-2/5">
             <CostFeature
               href="/docs/learn/platform-fundamentals/how-argos-detects-visual-differences"
               icon={ScanIcon}
-              title="No AI overhead"
-              description="Argos uses pixel diffing so you avoid the extra fees tied to heuristic based engines."
+              title="No AI diffing surcharge"
+              description="Argos uses deterministic pixel diffing, so you don’t pay extra AI fees per snapshot."
             />
             <CostFeature
               href="/docs/learn/billing-and-subscription/spend-management"
@@ -145,7 +145,7 @@ export function Cost() {
               description="From small teams to millions of snapshots, Argos stays below competitors."
             />
           </div>
-          <div className="flex flex-1 flex-col">
+          <div className="flex flex-col md:basis-1/2 lg:basis-3/5">
             <div className="flex flex-1 flex-col gap-6 p-6 md:p-18">
               <div className="flex flex-col gap-8">
                 <div className="flex flex-col gap-2">
@@ -192,6 +192,29 @@ export function Cost() {
               <Button variant="outline" asChild>
                 <Link href="/pricing">Explore Pricing</Link>
               </Button>
+            </div>
+            <div className="flex flex-wrap items-center justify-center gap-x-1.5 gap-y-1 border-t p-4 text-sm max-md:text-center">
+              <span className="text-low">Coming from another tool?</span>
+              <Link
+                href="/compare/percy"
+                className="font-medium text-(--primary-11) hover:underline"
+              >
+                Compare with Percy
+              </Link>
+              <span className="text-low">·</span>
+              <Link
+                href="/compare/chromatic"
+                className="font-medium text-(--primary-11) hover:underline"
+              >
+                Chromatic
+              </Link>
+              <span className="text-low">·</span>
+              <Link
+                href="/compare/applitools"
+                className="font-medium text-(--primary-11) hover:underline"
+              >
+                Applitools
+              </Link>
             </div>
           </div>
         </div>
