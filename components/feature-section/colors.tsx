@@ -32,11 +32,11 @@ export const INDICATOR_BG_COLORS: Record<FeatureColor, string> = {
 };
 
 export const FROM_COLORS: Record<FeatureColor, string> = {
-  blue: "from-(--blue-1)",
-  amber: "from-(--amber-1)",
-  teal: "from-(--teal-1)",
-  violet: "from-(--violet-1)",
-  plum: "from-(--plum-1)",
-  pink: "from-(--pink-1)",
-  green: "from-(--green-1)",
+  blue: "from-(--blue-2)",
+  amber: "from-(--amber-2)",
+  teal: "from-(--teal-2)",
+  violet: "from-(--violet-2)",
+  plum: "from-(--plum-2)",
+  pink: "from-(--pink-2)",
+  green: "from-(--green-2)",
 };
