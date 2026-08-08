@@ -1,0 +1,32 @@
+---
+title: Management API
+homeTitle: Manage teams, projects, and reviews from the API, the CLI, and your agent
+description: Thirty-four new REST endpoints cover team members, project settings, contributors, automations, and review requests — with matching MCP tools and CLI commands.
+slug: management-api
+date: 2026-08-10
+image: /assets/changelogs/management-api/management-api.jpg
+---
+
+![Team, project, and automation settings driven from an API and a terminal](/assets/changelogs/management-api/management-api.jpg)
+
+The Argos API could read your builds and review them. Everything else — who is on the team, how a project is configured, which automations fire — lived only in the app. The **management API** closes that gap with thirty-four new endpoints.
+
+- **Teams** — list members and change their role, send and cancel invites, rotate the invite link, open a team to a verified email domain.
+- **Projects** — read and update every setting, transfer a project to another account, grant contributors access, list deployments, set the deployment domain.
+- **Automations** — list, create, replace, and deactivate the rules that run when a build event matches.
+- **Tests and reviews** — a project's tests flakiest first, the changes it currently ignores, and the reviewers requested on a build.
+- **Plan and usage** — screenshot consumption against the plan for the current billing period, so you see an overage coming.
+
+The CLI grew the matching commands, including a `project` group that changes one setting at a time and an `account` group for everything team-shaped:
+
+```bash
+argos test list --project acme/web --limit 20
+argos project update --project acme/web --summary-check auto --auto-ignore-after 3
+argos account member list --account acme
+```
+
+## Thirty-four endpoints, thirty-four agent tools
+
+The [MCP server](https://argos-ci.com/docs/agents/mcp-server) derives its tools from the API, so it went from 37 tools to 71 the moment these shipped — no client update needed. An agent can now onboard a teammate, tune a project's flaky-change settings, or ask who still owes a review, with the same OAuth scopes that govern the API. Scopes are unchanged: `account:admin` covers team administration, `projects:write` project configuration, `reviews:write` review requests.
+
+Learn more in the [API reference](https://argos-ci.com/docs/api-reference) and the [CLI documentation](https://argos-ci.com/docs/reference/argos-command-line-interface-cli).
