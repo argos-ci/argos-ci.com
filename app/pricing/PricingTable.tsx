@@ -1,5 +1,7 @@
 import {
   ARGOS_HOBBY_SCREENSHOT_COUNT,
+  ARGOS_MEDIA_IMAGE_UNITS,
+  ARGOS_MEDIA_VIDEO_UNITS,
   ARGOS_PRO_FLAT_PRICE,
   ARGOS_PRO_FLAT_SCREENSHOT_COUNT,
   ARGOS_SCREENSHOT_PRICE,
@@ -115,9 +117,11 @@ export function PricingTable() {
       <p className="text-low border-t px-4 py-5 text-sm">
         A screenshot is any snapshot Argos stores for a build: an image, or a
         non-image file such as Markdown, JSON, or HTML. Usage is billed only on
-        successful builds. GitHub SSO is an optional add-on at{" "}
-        {usd(GITHUB_SSO_PRICE)} / mo, and SAML SSO at {usd(SAML_SSO_PRICE)} /
-        mo.
+        successful builds. Media uploads draw on the same allowance — one
+        uploaded image counts as {num(ARGOS_MEDIA_IMAGE_UNITS)} screenshot and
+        one uploaded video as {num(ARGOS_MEDIA_VIDEO_UNITS)} — with no separate
+        quota. GitHub SSO is an optional add-on at {usd(GITHUB_SSO_PRICE)} / mo,
+        and SAML SSO at {usd(SAML_SSO_PRICE)} / mo.
       </p>
     </div>
   );

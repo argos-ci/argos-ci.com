@@ -8,6 +8,7 @@ import {
   HandFistIcon,
   HeadsetIcon,
   HeartHandshakeIcon,
+  ImagePlayIcon,
   ImagePlusIcon,
   ImagesIcon,
   LockKeyholeIcon,
@@ -31,6 +32,8 @@ import {
 } from "@/components/IntlFormat";
 import {
   ARGOS_HOBBY_SCREENSHOT_COUNT,
+  ARGOS_MEDIA_HOBBY_RETENTION_DAYS,
+  ARGOS_MEDIA_PRO_MAX_MB,
   ARGOS_PRO_FLAT_PRICE,
   ARGOS_PRO_FLAT_SCREENSHOT_COUNT,
   ARGOS_SCREENSHOT_PRICE,
@@ -147,6 +150,11 @@ export function PricingCards() {
             </Feature>
             <Feature icon={RocketIcon}>Storybook & static deployments</Feature>
             <Feature icon={BotIcon}>Agent-ready CLI & REST API</Feature>
+            <Feature icon={ImagePlayIcon}>
+              Image & video sharing, public links,{" "}
+              <LocalString value={ARGOS_MEDIA_HOBBY_RETENTION_DAYS} />
+              -day retention
+            </Feature>
             <Feature icon={ActivityIcon}>Flaky detection & debugging</Feature>
             <Feature icon={GitGraphIcon}>GitHub & GitLab integration</Feature>
             <Feature icon={HandFistIcon}>Community support</Feature>
@@ -193,6 +201,10 @@ export function PricingCards() {
               Team collaboration & reviews
             </Feature>
             <Feature icon={ShieldIcon}>Private deployment protection</Feature>
+            <Feature icon={ImagePlayIcon}>
+              Team-scoped media pages, 1-year retention,{" "}
+              <LocalString value={ARGOS_MEDIA_PRO_MAX_MB} /> MB files
+            </Feature>
             <Feature icon={BellIcon}>
               Slack & Microsoft Teams notifications
             </Feature>

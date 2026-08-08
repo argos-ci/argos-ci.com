@@ -8,6 +8,7 @@ import {
   ChevronDownIcon,
   EyeIcon,
   FeatherIcon,
+  ImagePlayIcon,
   LogsIcon,
   type LucideIcon,
   MailIcon,
@@ -125,6 +126,15 @@ function SecondaryNavbar() {
                       color="teal"
                       title="Test Debugging"
                       description="See why E2E tests fail"
+                    />
+                  </li>
+                  <li>
+                    <LinkCard
+                      href="/docs/learn/media/standalone-media-upload"
+                      icon={ImagePlayIcon}
+                      color="violet"
+                      title="Media Sharing"
+                      description="Put screenshots & videos in a PR"
                     />
                   </li>
                 </SectionList>
