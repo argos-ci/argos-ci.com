@@ -9,8 +9,8 @@ export function FAQ() {
         <>
           <p>
             <strong>BackstopJS</strong> is a self-hosted tool: you describe
-            scenarios in <code>backstop.json</code>, capture baselines to a local
-            folder, and diff them on your machine or CI.
+            scenarios in <code>backstop.json</code>, capture baselines to a
+            local folder, and diff them on your machine or CI.
           </p>
           <p>
             <strong>Argos</strong> keeps the same idea, visit a page, screenshot

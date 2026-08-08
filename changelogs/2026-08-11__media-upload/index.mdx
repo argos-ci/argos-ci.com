@@ -12,19 +12,21 @@ image: /assets/changelogs/media-upload/media-upload.jpg
 An agent working from a terminal cannot attach an image to a pull request — GitHub has no public API for comment attachments. **Media upload** closes that gap: send an image or a video to Argos and get back a shareable URL with ready-to-paste Markdown, with no build and no test run behind it.
 
 - **One command** — `argos media upload before.png after.png` prints a share URL and a Markdown embed per file. Images, MP4, WebM and MOV, up to 500 MB.
-- **Team-scoped share pages** — on Pro, the branded page a link opens can require an Argos session, so context and history stay inside the team. Files themselves stay embeddable, because GitHub fetches images server-side.
+- **Comment on a screenshot, and have the agent read it** — pin a comment to a spot on an uploaded image and `argos media feedback` reads every open thread back with its coordinates, so the agent that produced the screenshot can act on what you pointed at.
 - **Managed pull request comment** — `--pr 1234 --comment` maintains a single Argos comment listing every media on that pull request, edited in place rather than appended to.
 - **Stable links** — `--slug pr-1234-after` replaces the file in place on the next run, so Markdown already posted to a pull request never goes stale.
 - **Videos that actually embed** — the Markdown links a poster frame to the share page, because GitHub renders inline players only for media it hosts itself. The frame is derived by the CDN, so there is nothing to wait for.
+- **Project-scoped share pages** — on Pro, the branded page a link opens can require an Argos session, so context and history stay with the project. Files themselves stay embeddable, because GitHub fetches images server-side.
 
 ```bash
 argos media upload after.mp4 --pr 1234 --comment
+argos media feedback --pr 1234   # what the reviewer pinned on it
 ```
 
 ## Billed on the screenshot meter
 
 Uploads draw on the screenshot allowance you already have — one image is 1 screenshot, one video is 25 — so there is no second quota to watch and no new invoice line. Uploading the same file twice is free: Argos recognizes the contents and skips the transfer. Plans differ on retention and file size, not volume: Hobby keeps a file 30 days, Pro keeps it a year at up to 500 MB.
 
-Argos stores the bytes you send and never rewrites them — no transcoding, no processing queue, so a media is usable the moment the upload finishes. Team administrators get a **Media** tab listing everything the team has uploaded, with drag-and-drop upload and copy-Markdown. Agents get the `upload` skill, five new REST endpoints and the matching MCP tools, derived automatically from the API.
+Argos stores the bytes you send and never rewrites them — no transcoding, no processing queue, so a media is usable the moment the upload finishes. A **Media** tab lists everything uploaded to the projects you can see, with drag-and-drop upload and copy-Markdown. Media belongs to a project, so it inherits that project's access and moves with it on a transfer. Agents get the `argos-upload` skill, the new REST endpoints and the matching MCP tools, derived automatically from the API.
 
 👉 [Get started in the docs](https://argos-ci.com/docs/learn/media/standalone-media-upload)

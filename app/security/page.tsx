@@ -22,10 +22,7 @@ import { getMetadata } from "@/lib/metadata";
 
 import { TrustedBy } from "../common/TrustedBy";
 import { GDPRFeatures, GDPR_FEATURES } from "./gdpr-features";
-import {
-  SECURITY_HIGHLIGHTS,
-  SecurityHighlights,
-} from "./security-controls";
+import { SECURITY_HIGHLIGHTS, SecurityHighlights } from "./security-controls";
 import { SECURITY_QUESTIONS } from "./security-faq";
 
 export const metadata: Metadata = getMetadata({
@@ -157,8 +154,8 @@ export default function SecurityPage() {
               <SectionDescription>
                 Many of our customers are based in Europe or serve European
                 users. We align our operations with GDPR, from how we handle
-                data to how we design our systems. Data is stored in the US, with
-                Standard Contractual Clauses covering lawful EU transfers.
+                data to how we design our systems. Data is stored in the US,
+                with Standard Contractual Clauses covering lawful EU transfers.
               </SectionDescription>
             </SectionHeaderTexts>
             <Button variant="outline" asChild>

@@ -71,7 +71,9 @@ const mediaCode = `# An agent changed the UI and opened a PR.
 # GitHub has no API for comment attachments — this is the way in.
 argos media upload before.png after.png --pr 1234 --comment
 
-# Prints a share URL and ready-to-paste Markdown per file`;
+# The reviewer pins a comment to a spot on the screenshot.
+# Read it back, coordinates included, and fix what they pointed at.
+argos media feedback --pr 1234`;
 
 const color = "violet" as const;
 
@@ -156,7 +158,9 @@ export default function Page() {
                 pull request — GitHub has no public API for it. Upload the
                 screenshot or the screen recording to Argos instead and get back
                 a share URL with ready-to-paste Markdown, so the reviewer sees
-                the change without checking out the branch.
+                the change without checking out the branch. They can pin a
+                comment to a spot on the image, and the agent reads it back with
+                the coordinates — feedback on a pixel it cannot look at.
               </>
             }
             href="/docs/learn/media/standalone-media-upload"

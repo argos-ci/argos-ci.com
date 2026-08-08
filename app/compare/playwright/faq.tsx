@@ -11,7 +11,8 @@ export function FAQ() {
             No. Argos runs on top of Playwright. You keep your Playwright tests
             and config, and swap <strong>toHaveScreenshot()</strong> for{" "}
             <strong>argosScreenshot()</strong>. Argos adds cloud baselines, a
-            review UI, and pull request checks around the tests you already have.
+            review UI, and pull request checks around the tests you already
+            have.
           </p>
         </>
       ),

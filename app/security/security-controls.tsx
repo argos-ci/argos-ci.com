@@ -3,9 +3,9 @@ import {
   EyeOffIcon,
   KeyRoundIcon,
   LockIcon,
+  type LucideIcon,
   ScanEyeIcon,
   ShieldCheckIcon,
-  type LucideIcon,
 } from "lucide-react";
 
 export type SecurityHighlight = {
@@ -62,7 +62,7 @@ export function SecurityHighlights(props: { highlights: SecurityHighlight[] }) {
         return (
           <div
             key={highlight.title}
-            className="flex flex-col gap-3 border-b border-r p-6 max-sm:border-r-0 sm:max-lg:nth-[2n]:border-r-0 md:p-10 lg:nth-[3n]:border-r-0"
+            className="flex flex-col gap-3 border-r border-b p-6 max-sm:border-r-0 sm:max-lg:nth-[2n]:border-r-0 md:p-10 lg:nth-[3n]:border-r-0"
           >
             <div className="bg-app flex size-10 items-center justify-center rounded-lg border">
               <Icon className="size-5 text-(--violet-9)" strokeWidth={1.5} />

@@ -16,7 +16,7 @@ export function EnvironmentPromotion() {
         </Badge>
         <div className="text-low mb-1 text-xs">feat/checkout</div>
         <div className="truncate font-mono text-xs">pr-482.acme.argos.app</div>
-        <div className="text-low mt-3 text-xxs">
+        <div className="text-low text-xxs mt-3">
           A fresh URL per pull request
         </div>
       </Card>
@@ -34,7 +34,7 @@ export function EnvironmentPromotion() {
         </Badge>
         <div className="text-low mb-1 text-xs">main</div>
         <div className="truncate font-mono text-xs">storybook.acme.com</div>
-        <div className="text-low mt-3 text-xxs">
+        <div className="text-low text-xxs mt-3">
           Stable domain on every merge
         </div>
       </Card>

@@ -84,7 +84,10 @@ export function Reviewers() {
       </div>
       <ul className="divide-y">
         {REVIEWERS.map((reviewer) => (
-          <li key={reviewer.name} className="flex items-center gap-3 px-3 py-2.5">
+          <li
+            key={reviewer.name}
+            className="flex items-center gap-3 px-3 py-2.5"
+          >
             <span className="relative">
               {reviewer.agent ? (
                 <span className="grid size-7 place-items-center rounded-full border-[0.5px] bg-(--violet-3)">

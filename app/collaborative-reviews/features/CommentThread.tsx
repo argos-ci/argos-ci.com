@@ -73,7 +73,7 @@ export function CommentThread() {
       </div>
       <div className="border-t-[0.5px] px-3 py-2">
         <div className="text-low bg-subtle rounded-md border-[0.5px] px-2.5 py-1.5 text-xs">
-          Reply, or type <span className="font-mono text-default">/</span> for
+          Reply, or type <span className="text-default font-mono">/</span> for
           commands…
         </div>
       </div>

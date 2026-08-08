@@ -96,9 +96,7 @@ export default function Page() {
                 Change Detection
               </FeatureIndicator>
             </div>
-            <HeroHeading>
-              See exactly what every PR changes
-            </HeroHeading>
+            <HeroHeading>See exactly what every PR changes</HeroHeading>
             <HeroDescription>
               Catch every change automatically, pixels or any file, review it
               fast, and merge with confidence across browsers, devices, and
@@ -477,9 +475,7 @@ export default function Page() {
         </FeatureGrid>
         <FeatureGrid>
           <FeatureGridFeature
-            title={
-              <>Actionable chat notifications, right where your team is</>
-            }
+            title={<>Actionable chat notifications, right where your team is</>}
             description={
               <>
                 Use Automations to send concise Argos updates to the right Slack

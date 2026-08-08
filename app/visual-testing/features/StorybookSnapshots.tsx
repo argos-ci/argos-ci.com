@@ -10,11 +10,7 @@ import { ThemeImage } from "@/components/ThemeImage";
 import { SmallTitle } from "@/components/Typography";
 
 type SnapshotStatus =
-  | "diff"
-  | "diff-strong"
-  | "approved"
-  | "pending"
-  | "neutral";
+  "diff" | "diff-strong" | "approved" | "pending" | "neutral";
 
 const STORIES = [
   { key: "button", title: "Button", subtitle: "Primary" },

@@ -43,7 +43,7 @@ function LogoBubble(props: {
         <div className="bg-app flex size-28 items-center justify-center rounded-full border border-(--neutral-5) shadow-lg backdrop-blur transition duration-200 group-hover:-translate-y-1 group-hover:border-(--neutral-7) group-hover:shadow-xl">
           <ThemeImage src={src} alt={label} className="size-14" />
         </div>
-        <Chip className="text-xs font-semibold select-none group-hover:text-default">
+        <Chip className="group-hover:text-default text-xs font-semibold select-none">
           {label}
         </Chip>
       </Link>

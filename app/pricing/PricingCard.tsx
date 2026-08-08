@@ -32,6 +32,7 @@ import {
 } from "@/components/IntlFormat";
 import {
   ARGOS_HOBBY_SCREENSHOT_COUNT,
+  ARGOS_MEDIA_HOBBY_MAX_MB,
   ARGOS_MEDIA_HOBBY_RETENTION_DAYS,
   ARGOS_MEDIA_PRO_MAX_MB,
   ARGOS_PRO_FLAT_PRICE,
@@ -153,7 +154,10 @@ export function PricingCards() {
             <Feature icon={ImagePlayIcon}>
               Image & video sharing, public links,{" "}
               <LocalString value={ARGOS_MEDIA_HOBBY_RETENTION_DAYS} />
-              -day retention
+              -day retention, <LocalString
+                value={ARGOS_MEDIA_HOBBY_MAX_MB}
+              />{" "}
+              MB files
             </Feature>
             <Feature icon={ActivityIcon}>Flaky detection & debugging</Feature>
             <Feature icon={GitGraphIcon}>GitHub & GitLab integration</Feature>
@@ -202,7 +206,7 @@ export function PricingCards() {
             </Feature>
             <Feature icon={ShieldIcon}>Private deployment protection</Feature>
             <Feature icon={ImagePlayIcon}>
-              Team-scoped media pages, 1-year retention,{" "}
+              Project-scoped media pages, 1-year retention,{" "}
               <LocalString value={ARGOS_MEDIA_PRO_MAX_MB} /> MB files
             </Feature>
             <Feature icon={BellIcon}>

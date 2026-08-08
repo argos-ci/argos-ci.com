@@ -10,10 +10,7 @@ import { SmallTitle } from "@/components/Typography";
 
 export function FailureScreenshots() {
   return (
-    <Card
-      shadow="high"
-      className="w-64 rotate-2 overflow-hidden select-none"
-    >
+    <Card shadow="high" className="w-64 rotate-2 overflow-hidden select-none">
       <div className="flex items-center justify-between border-b-[0.5px] px-3 py-1.5">
         <SmallTitle>
           <DotIndicator variant="danger" />

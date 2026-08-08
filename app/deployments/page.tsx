@@ -61,9 +61,10 @@ export default function Page() {
             </div>
             <HeroHeading>Deploy Storybook on every pull request</HeroHeading>
             <HeroDescription>
-              Run <code className="font-mono">argos deploy</code> and get a live,
-              shareable URL for every PR. Preview what your team and your agents
-              built before you merge, with no extra infrastructure to maintain.
+              Run <code className="font-mono">argos deploy</code> and get a
+              live, shareable URL for every PR. Preview what your team and your
+              agents built before you merge, with no extra infrastructure to
+              maintain.
             </HeroDescription>
             <HeroActions>
               <Button size="large" asChild>
@@ -87,7 +88,10 @@ export default function Page() {
       <section>
         <div className="border-b px-4">
           <Container className="border-x bg-linear-to-b from-transparent to-(--neutral-2)">
-            <SectionHeader align="center" className="container-gutter max-w-2xl">
+            <SectionHeader
+              align="center"
+              className="container-gutter max-w-2xl"
+            >
               <Chip icon={RocketIcon}>Deployments</Chip>
               <SectionHeaderTexts>
                 <SectionTitle>One command, one live URL</SectionTitle>
@@ -106,7 +110,9 @@ export default function Page() {
               title={<>A preview URL on every PR</>}
               description={
                 <>
-                  <code className="font-mono">argos deploy ./storybook-static</code>{" "}
+                  <code className="font-mono">
+                    argos deploy ./storybook-static
+                  </code>{" "}
                   ships your build to a unique, immutable URL, perfect for
                   sharing a change with reviewers, designers, or an agent before
                   it merges.
@@ -120,8 +126,8 @@ export default function Page() {
               description={
                 <>
                   Pull requests ship to preview URLs; merges to your production
-                  branch promote to a stable domain. Each deployment also exposes
-                  a branch URL that always follows the latest build.
+                  branch promote to a stable domain. Each deployment also
+                  exposes a branch URL that always follows the latest build.
                 </>
               }
               href="/docs/learn/deployments"
@@ -147,8 +153,8 @@ export default function Page() {
               title="Access protection"
               description={
                 <>
-                  Keep previews private to your team, leave production public, or
-                  lock everything behind Argos login.
+                  Keep previews private to your team, leave production public,
+                  or lock everything behind Argos login.
                 </>
               }
               href="/docs/learn/deployments"

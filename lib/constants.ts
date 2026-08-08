@@ -18,6 +18,9 @@ export const ARGOS_MEDIA_VIDEO_UNITS = 25;
 export const ARGOS_MEDIA_HOBBY_MAX_MB = 50;
 export const ARGOS_MEDIA_PRO_MAX_MB = 500;
 
-/** How long an uploaded media is kept, in days, counted from the upload. */
+/**
+ * How long an uploaded media is kept, in days, counted from the upload. Pro's
+ * year is written as "1-year" wherever it appears, which reads better on a
+ * pricing card than the day count, so only Hobby's needs a constant.
+ */
 export const ARGOS_MEDIA_HOBBY_RETENTION_DAYS = 30;
-export const ARGOS_MEDIA_PRO_RETENTION_DAYS = 365;

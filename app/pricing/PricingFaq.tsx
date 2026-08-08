@@ -59,10 +59,10 @@ const questions: FAQQuestion[] = [
         is free: Argos recognizes the contents and bills it once. What the plan
         changes is retention and privacy, not volume — Hobby keeps a file{" "}
         <LocalString value={ARGOS_MEDIA_HOBBY_RETENTION_DAYS} /> days, Pro keeps
-        it a year and lets you restrict its share page to your team.
+        it a year and lets you restrict its share page to the project's members.
       </>
     ),
-    textAnswer: `On the same meter as screenshots — there is no second quota to track. One uploaded image counts as ${ARGOS_MEDIA_IMAGE_UNITS} screenshot and one uploaded video as ${ARGOS_MEDIA_VIDEO_UNITS}, since a video costs more to store and to serve. Uploading the same file twice is free: Argos recognizes the contents and bills it once. What the plan changes is retention and privacy, not volume — Hobby keeps a file ${ARGOS_MEDIA_HOBBY_RETENTION_DAYS} days, Pro keeps it a year and lets you restrict its share page to your team.`,
+    textAnswer: `On the same meter as screenshots — there is no second quota to track. One uploaded image counts as ${ARGOS_MEDIA_IMAGE_UNITS} screenshot and one uploaded video as ${ARGOS_MEDIA_VIDEO_UNITS}, since a video costs more to store and to serve. Uploading the same file twice is free: Argos recognizes the contents and bills it once. What the plan changes is retention and privacy, not volume — Hobby keeps a file ${ARGOS_MEDIA_HOBBY_RETENTION_DAYS} days, Pro keeps it a year and lets you restrict its share page to the project's members.`,
   },
   {
     name: "Can Argos be used for mobile app testing?",

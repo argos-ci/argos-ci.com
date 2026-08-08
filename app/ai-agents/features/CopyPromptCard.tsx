@@ -79,7 +79,8 @@ export function CopyPromptCard() {
           text diff
         </div>
         <div className="text-low pt-1">
-          Compare each diff against the PR intent and approve or request changes.
+          Compare each diff against the PR intent and approve or request
+          changes.
         </div>
       </div>
     </Card>

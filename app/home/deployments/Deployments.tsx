@@ -4,8 +4,8 @@ import Link from "next/link";
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
-import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
 import { SectionDescription, SectionTitle } from "@/components/Typography";
+import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
 
 import { DeployPreview } from "./DeployPreview";
 

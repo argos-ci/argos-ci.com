@@ -41,14 +41,14 @@ export function FailureScreenshotsLarge() {
               Something went wrong
             </span>
           </div>
-          <span className="bg-app text-low absolute right-2 bottom-2 flex items-center gap-1 rounded border-[0.5px] px-2 py-0.5 text-xxxs font-medium">
+          <span className="bg-app text-low text-xxxs absolute right-2 bottom-2 flex items-center gap-1 rounded border-[0.5px] px-2 py-0.5 font-medium">
             <CameraIcon className="size-3" />
             Captured on failure
           </span>
         </div>
 
         <div className="flex flex-col gap-3">
-          <div className="rounded-md bg-(--danger-2) px-3 py-2 font-mono text-xxxs leading-relaxed text-(--danger-11)">
+          <div className="text-xxxs rounded-md bg-(--danger-2) px-3 py-2 font-mono leading-relaxed text-(--danger-11)">
             {"Error: expect(getByText('Order total')).toBeVisible()"}
           </div>
           <div className="flex flex-col gap-1.5">

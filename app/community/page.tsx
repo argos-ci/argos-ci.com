@@ -20,13 +20,18 @@ import {
   FeatureGridFeatureSmall,
 } from "@/components/FeatureGrid";
 import { FullPageGrid } from "@/components/FullPageGrid";
-import { Hero, HeroActions, HeroDescription, HeroHeading } from "@/components/Hero";
+import {
+  Hero,
+  HeroActions,
+  HeroDescription,
+  HeroHeading,
+} from "@/components/Hero";
 import { QuoteBlock } from "@/components/QuoteBlock";
 import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
 import { ThemeImage } from "@/components/ThemeImage";
+import { SectionDescription, SectionTitle } from "@/components/Typography";
 import { DiscordIcon } from "@/components/icons/DiscordIcon";
 import { GitHubIcon } from "@/components/icons/GitHubIcon";
-import { SectionDescription, SectionTitle } from "@/components/Typography";
 import { getMetadata } from "@/lib/metadata";
 
 import { mui, muiQuote } from "../assets/customers/library/mui";
@@ -34,7 +39,8 @@ import { TrustedBy } from "../common/TrustedBy";
 
 export const metadata: Metadata = getMetadata({
   title: "Community",
-  absoluteTitle: "Argos Community · Open source, Discord, and the OSS ecosystem",
+  absoluteTitle:
+    "Argos Community · Open source, Discord, and the OSS ecosystem",
   description:
     "Argos is open source and built in the open. Join our Discord, contribute on GitHub, and see how Argos helps ship some of the most-used UI projects in the world, from MUI's Base UI to Mermaid.",
   pathname: "/community",
@@ -78,14 +84,18 @@ export default function Page() {
       <section className="px-4">
         <div className="border-b">
           <Container className="border-x bg-linear-to-b from-transparent to-(--neutral-2) pb-12">
-            <SectionHeader align="center" className="container-gutter max-w-2xl">
+            <SectionHeader
+              align="center"
+              className="container-gutter max-w-2xl"
+            >
               <Chip icon={HeartIcon}>Open source</Chip>
               <SectionHeaderTexts>
                 <SectionTitle>Open source, from SDK to platform</SectionTitle>
                 <SectionDescription>
                   Our SDKs and platform code are open source. Read them, learn
-                  from them, and send a PR. We build Argos the way we think tools
-                  should be built: in the open, with the people who use it.
+                  from them, and send a PR. We build Argos the way we think
+                  tools should be built: in the open, with the people who use
+                  it.
                 </SectionDescription>
               </SectionHeaderTexts>
             </SectionHeader>
@@ -198,7 +208,7 @@ function RepoIllustration() {
       <div className="flex items-center gap-2">
         <GitHubIcon className="size-5" />
         <span className="text-base font-medium">argos-ci/argos</span>
-        <Badge className="text-xs ml-auto">Public</Badge>
+        <Badge className="ml-auto text-xs">Public</Badge>
       </div>
       <p className="text-low mt-3 text-sm">
         Visual &amp; snapshot testing platform for the age of AI agents.
