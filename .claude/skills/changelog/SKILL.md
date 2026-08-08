@@ -58,6 +58,7 @@ Use the **`typefully-post`** skill: it owns the MCP connection, the draft-creati
 
 - **Source** — the finished entry. The posts summarize it and must not claim anything it does not.
 - **Structure** — the X and Bluesky thread follows the entry's shape: the opening paragraph becomes the hook, the bullets become one post each, the closing link becomes the last post.
+- **Image** — the entry's own illustration, already generated and reviewed at `public/assets/changelogs/<slug>/<slug>.jpg`. It goes on the hook post so the post and the page look like the same thing. Do not generate a second image for the same entry; a `code-card` on the post that shows commands is the one worthwhile addition.
 - **`plan_at`** — the entry's publication date at 09:00 Europe/Paris, e.g. `2026-08-10T09:00:00+02:00`. Omit it if the date is not settled.
 - **`draft_title`** — the changelog `title`, so the draft is findable next to the entry.
 - **Link** — `https://argos-ci.com/changelog/<slug>`, the same slug as the folder and the frontmatter.
