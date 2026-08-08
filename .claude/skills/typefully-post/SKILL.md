@@ -16,6 +16,14 @@ Typefully holds the Argos social accounts. Everything here goes through its **MC
 - Only set `publish_at` if the user asks you to schedule or publish in that same message. It is the one field that creates a publishing commitment.
 - Same rule for `typefully_delete_draft` and `typefully_edit_draft` on a draft you did not create in this session: ask first.
 
+**Read the draft back before you report it.** The `status` in the create response is not the final word: a draft created with `plan_at` has been observed coming back as `scheduled` from `typefully_get_draft` — armed to auto-publish — when its date landed on a queue slot. Always confirm with `typefully_get_draft`, and if `status` is `scheduled` when the user did not ask for that, disarm it:
+
+```
+typefully_edit_draft { plan_at: "<the same datetime>" }   // scheduled → planned
+```
+
+`plan_at` on a scheduled draft disarms it and keeps the date. Verify once more after disarming. Never tell the user a draft is "planned, not scheduled" on the strength of the create response alone.
+
 ## Connect the MCP server
 
 The server URL lives in the **`TYPEFULLY_MCP`** environment variable. It embeds the API key, so never print it, never paste it into a file, and never commit it.
@@ -94,6 +102,26 @@ To add an image to a draft that already exists, `typefully_edit_draft` replaces 
 ### Review before attaching
 
 Read every generated PNG back before it goes anywhere near a draft. Reject it if the concept is not legible in two seconds, if any letterform crept into a `social-image`, if a `code-card` is clipped on the right, or if it is simply not about the post.
+
+## Queue and cadence
+
+The queue schedule is a set of weekly slots; drafts sit in them. Two tools read it and one replaces it.
+
+- `typefully_get_queue_schedule` → the current rules, each `{ h, m, days: [...] }` in the social set's timezone (Europe/Paris).
+- `typefully_queue_put_queue_schedule` → **full atomic replacement**. There is no add-one-slot call, so read the rules first and send back the whole set. Needs ADMIN access.
+- `typefully_get_queue` → the slots and the drafts occupying them between two dates, max 62 days per call. Check each `status`: `scheduled` will auto-publish, `planned` will not.
+
+**Changing the rules does not move anything.** Existing drafts keep the exact datetime they already have — the new rules only govern slots that are still empty. Re-spacing an existing queue is a second, separate pass over the drafts.
+
+### Re-spacing an existing queue
+
+1. **Snapshot first.** Write every draft's `id`, `status` and `scheduled_date` to a file before touching them. There is no bulk undo, and putting 30 drafts back by hand is not a rollback.
+2. Sort by current `scheduled_date` and keep that order — the sequence is editorial, only the spacing is changing.
+3. Move each one with **`publish_at`**, not `plan_at`. Both accept a new datetime, but `plan_at` disarms an armed draft, so using it here would quietly unschedule the entire queue. Assert each response still reads `scheduled`.
+4. **Leave two kinds of draft alone**: anything due within the next few hours (a new slot earlier the same day is in the past), and anything whose date is tied to something external — a changelog going live, a launch. Reserve those days and let the sequence skip them.
+5. Verify by reading the queue back: count drafts per day and assert the maximum is what the user asked for.
+
+Dry-run the mapping and show it before writing. A list of `old → new` lines is how the user catches a date that should have been reserved.
 
 ## Post copy
 
