@@ -33,13 +33,11 @@ export function Hero() {
         <div className="relative flex w-full flex-col items-center gap-10 py-16 text-center md:pt-20 md:pb-24">
           <LastChangelog />
           <HeroComponent align="center">
-            <HeroHeading>
-              Merge what your agents build, with confidence.
-            </HeroHeading>
+            <HeroHeading>Review product changes in the age of AI.</HeroHeading>
             <HeroDescription>
-              Agents ship UI, Markdown, and JSON faster than anyone can review by
-              eye. Argos shows exactly what every PR changes, and lets your team
-              and your agents review it, so you merge with confidence.
+              Agents generate more changes than teams can review. Argos makes
+              every change obvious, then lets your team and your agents comment
+              on the diffs, request updates, or approve before merge.
             </HeroDescription>
             <HeroActions>
               <Button size="large" asChild>
@@ -59,7 +57,7 @@ export function Hero() {
           </HeroComponent>
         </div>
         <a
-          href="https://app.argos-ci.com/jsfez/snkr-shop-2/builds/98/96709653"
+          href="https://app.argos-ci.com/argos-ci/snkr-shop/builds/11"
           target="_blank"
           className={clsx(
             "group relative mx-auto block w-fit",
