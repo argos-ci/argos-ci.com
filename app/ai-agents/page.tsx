@@ -67,6 +67,12 @@ argos build snapshots <build> --needs-review
 # Submit a decision (respects project permissions)
 argos review create <build> --event approve`;
 
+const mediaCode = `# An agent changed the UI and opened a PR.
+# GitHub has no API for comment attachments — this is the way in.
+argos media upload before.png after.png --pr 1234 --comment
+
+# Prints a share URL and ready-to-paste Markdown per file`;
+
 const color = "violet" as const;
 
 export default function Page() {
@@ -141,6 +147,24 @@ export default function Page() {
             }
             href="/docs/learn/review-workflow/review-builds-with-ai-agents"
             illustration={<CopyPromptCard />}
+          />
+          <FeatureGridFeature
+            title={<>Put a screenshot in the pull request</>}
+            description={
+              <>
+                An agent working from a terminal cannot attach an image to a
+                pull request — GitHub has no public API for it. Upload the
+                screenshot or the screen recording to Argos instead and get back
+                a share URL with ready-to-paste Markdown, so the reviewer sees
+                the change without checking out the branch.
+              </>
+            }
+            href="/docs/learn/media/standalone-media-upload"
+            illustration={
+              <Terminal title="Terminal · argos media upload">
+                <CodeBlock code={mediaCode} lang="bash" className="text-xs" />
+              </Terminal>
+            }
           />
           <FeatureGridFeature
             title={<>Review straight from the CLI</>}

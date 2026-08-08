@@ -1,7 +1,12 @@
 import { FAQAccordion, FAQQuestion } from "@/components/FAQAccordion";
 import { LocalString } from "@/components/IntlFormat";
 import { Link } from "@/components/Link";
-import { ARGOS_HOBBY_SCREENSHOT_COUNT } from "@/lib/constants";
+import {
+  ARGOS_HOBBY_SCREENSHOT_COUNT,
+  ARGOS_MEDIA_HOBBY_RETENTION_DAYS,
+  ARGOS_MEDIA_IMAGE_UNITS,
+  ARGOS_MEDIA_VIDEO_UNITS,
+} from "@/lib/constants";
 
 const questions: FAQQuestion[] = [
   {
@@ -41,6 +46,23 @@ const questions: FAQQuestion[] = [
     ),
     textAnswer:
       "Yes. Argos is 100% agent-ready. Agents inspect builds, read machine-readable diffs, and submit reviews from the CLI and REST API, so they can see what changed and fix their own mistakes before you merge. There is no separate charge for agent usage.",
+  },
+  {
+    name: "How are image and video uploads billed?",
+    answer: (
+      <>
+        On the same meter as screenshots — there is no second quota to track.
+        One uploaded image counts as{" "}
+        <LocalString value={ARGOS_MEDIA_IMAGE_UNITS} /> screenshot and one
+        uploaded video as <LocalString value={ARGOS_MEDIA_VIDEO_UNITS} />, since
+        a video costs more to store and to serve. Uploading the same file twice
+        is free: Argos recognizes the contents and bills it once. What the plan
+        changes is retention and privacy, not volume — Hobby keeps a file{" "}
+        <LocalString value={ARGOS_MEDIA_HOBBY_RETENTION_DAYS} /> days, Pro keeps
+        it a year and lets you restrict its share page to your team.
+      </>
+    ),
+    textAnswer: `On the same meter as screenshots — there is no second quota to track. One uploaded image counts as ${ARGOS_MEDIA_IMAGE_UNITS} screenshot and one uploaded video as ${ARGOS_MEDIA_VIDEO_UNITS}, since a video costs more to store and to serve. Uploading the same file twice is free: Argos recognizes the contents and bills it once. What the plan changes is retention and privacy, not volume — Hobby keeps a file ${ARGOS_MEDIA_HOBBY_RETENTION_DAYS} days, Pro keeps it a year and lets you restrict its share page to your team.`,
   },
   {
     name: "Can Argos be used for mobile app testing?",
