@@ -1,6 +1,6 @@
 ---
 name: changelog
-description: Write a changelog entry for argos-ci.com — file structure, frontmatter, and the Argos editorial style (inspired by Linear and Vercel changelogs). Use when asked to write, announce, or draft a changelog entry.
+description: Write a changelog entry for argos-ci.com — file structure, frontmatter, and the Argos editorial style (inspired by Linear and Vercel changelogs). Hands the social announcement to the typefully-post skill. Use when asked to write, announce, or draft a changelog entry.
 ---
 
 # Writing an Argos changelog entry
@@ -50,6 +50,19 @@ Target length: 150–300 words. It's a changelog, not a blog post — if there's
 - **Fact-check everything.** Never invent capabilities, limits, or pricing — verify against the docs repo (`/Users/gregberge/projects/docs`) and the feature's PR. Every docs link must resolve (docs live under `https://argos-ci.com/docs/...`).
 - Em-dashes and short sentences are house style; avoid comma-spliced walls of text.
 
+## Announce it on Typefully
+
+Every entry ships with matching social drafts. Do this once the `index.mdx` is written and fact-checked — the posts are derived from it, so writing them earlier means writing them twice.
+
+Use the **`typefully-post`** skill: it owns the MCP connection, the draft-creation calls, and the rule that publishing stays a human decision. What it needs from this skill:
+
+- **Source** — the finished entry. The posts summarize it and must not claim anything it does not.
+- **Structure** — the X and Bluesky thread follows the entry's shape: the opening paragraph becomes the hook, the bullets become one post each, the closing link becomes the last post.
+- **Image** — the entry's own illustration, already generated and reviewed at `public/assets/changelogs/<slug>/<slug>.jpg`. It goes on the hook post so the post and the page look like the same thing. Do not generate a second image for the same entry; a `code-card` on the post that shows commands is the one worthwhile addition.
+- **`plan_at`** — the entry's publication date at 09:00 Europe/Paris, e.g. `2026-08-10T09:00:00+02:00`. Omit it if the date is not settled.
+- **`draft_title`** — the changelog `title`, so the draft is findable next to the entry.
+- **Link** — `https://argos-ci.com/changelog/<slug>`, the same slug as the folder and the frontmatter.
+
 ## Checklist before finishing
 
 - [ ] Folder `changelogs/YYYY-MM-DD__slug/index.mdx`; date and slug consistent between folder and frontmatter.
@@ -57,3 +70,4 @@ Target length: 150–300 words. It's a changelog, not a blog post — if there's
 - [ ] All links verified against the docs.
 - [ ] Read it aloud: opening states why it matters, bullets scan, ending tells the reader where to go next.
 - [ ] Verify it builds: `SHOW_SCHEDULED_ARTICLES=true corepack pnpm build` and check the entry appears under `.next/server/app/changelog/` (use `corepack pnpm`, not plain pnpm). Note: as of 2026-07, `/changelog` routes 500 in the dev server for all entries (pre-existing bug) — the production build is the reliable check.
+- [ ] Typefully draft created with the `typefully-post` skill, planned (never scheduled or published) on the entry's date, and its URL reported to the user.
