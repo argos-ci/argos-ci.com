@@ -1,6 +1,6 @@
 ---
 name: changelog
-description: Write a changelog entry for argos-ci.com — file structure, frontmatter, the Argos editorial style (inspired by Linear and Vercel changelogs), and the matching social drafts on Typefully. Use when asked to write, announce, or draft a changelog entry.
+description: Write a changelog entry for argos-ci.com — file structure, frontmatter, and the Argos editorial style (inspired by Linear and Vercel changelogs). Hands the social announcement to the typefully-post skill. Use when asked to write, announce, or draft a changelog entry.
 ---
 
 # Writing an Argos changelog entry
@@ -54,49 +54,13 @@ Target length: 150–300 words. It's a changelog, not a blog post — if there's
 
 Every entry ships with matching social drafts. Do this once the `index.mdx` is written and fact-checked — the posts are derived from it, so writing them earlier means writing them twice.
 
-**Always create drafts, never publish.** `typefully_create_draft` can publish immediately; do not. Leave the draft for a human to send. Only set `publish_at` if the user explicitly asks you to schedule it in that same message.
+Use the **`typefully-post`** skill: it owns the MCP connection, the draft-creation calls, and the rule that publishing stays a human decision. What it needs from this skill:
 
-### Connect the MCP server
-
-The Typefully MCP server URL lives in the **`TYPEFULLY_MCP`** environment variable — it embeds the API key, so never print it, never paste it into a file, and never commit it.
-
-1. Check whether the server is already connected:
-
-   ```bash
-   claude mcp list | grep typefully
-   ```
-
-2. If it is missing, add it by reference, so the config stores the placeholder and not the key:
-
-   ```bash
-   claude mcp add --transport http --scope local typefully '${TYPEFULLY_MCP}'
-   ```
-
-   Quote it with single quotes — the shell must not expand it. If `TYPEFULLY_MCP` is unset, stop and ask the user to set it in their shell; there is no fallback.
-
-3. A server added mid-session is not live until the session reconnects. If the `typefully_*` tools are not available after adding it, tell the user to run `/mcp` (or restart the session) and pick the announcement back up from there — do not work around it by calling the Typefully HTTP API directly.
-
-### Create the drafts
-
-1. `typefully_list_social_sets` → take the Argos social set's `social_set_id`. Every other call needs it.
-2. `typefully_create_draft` with one `requestBody.platforms` entry per platform, each `{ enabled: true, posts: [...] }`:
-   - **`x`** — a thread. Post 1 is the hook: what shipped and why it matters, no link (links suppress reach). Posts 2–4 are one capability each, in the same order as the changelog bullets. The last post carries the changelog URL.
-   - **`linkedin`** — a single post, 3–6 short paragraphs. Same substance, less clipped than X: a sentence of context, what shipped, who it helps, then the link.
-3. Set `plan_at` to the entry's publication date at 09:00 Europe/Paris (ISO 8601 with offset, e.g. `2026-08-10T09:00:00+02:00`). A planned draft is dated on the queue but inert — it never auto-publishes until someone confirms it. Omit `plan_at` entirely if the publication date is not settled.
-4. Set `draft_title` to the changelog `title`, so the draft is findable next to the entry.
-5. Report the draft URL back to the user.
-
-The changelog URL is `https://argos-ci.com/changelog/<slug>` — the same slug as the folder and the frontmatter.
-
-### Post copy
-
-Same voice as the changelog: plain, specific, confident. Not a copy-paste of it.
-
-- Lead with what a reader can now do, never with "we're excited to announce".
-- One concrete detail beats three adjectives. A command, a number, a name.
-- No hashtags. At most one emoji, and only if it earns its place.
-- X posts: keep each under 280 characters so nothing is silently truncated.
-- Never claim anything the changelog does not — the entry is the source of truth, and it was fact-checked against the docs and the PR.
+- **Source** — the finished entry. The posts summarize it and must not claim anything it does not.
+- **Structure** — the X and Bluesky thread follows the entry's shape: the opening paragraph becomes the hook, the bullets become one post each, the closing link becomes the last post.
+- **`plan_at`** — the entry's publication date at 09:00 Europe/Paris, e.g. `2026-08-10T09:00:00+02:00`. Omit it if the date is not settled.
+- **`draft_title`** — the changelog `title`, so the draft is findable next to the entry.
+- **Link** — `https://argos-ci.com/changelog/<slug>`, the same slug as the folder and the frontmatter.
 
 ## Checklist before finishing
 
@@ -105,4 +69,4 @@ Same voice as the changelog: plain, specific, confident. Not a copy-paste of it.
 - [ ] All links verified against the docs.
 - [ ] Read it aloud: opening states why it matters, bullets scan, ending tells the reader where to go next.
 - [ ] Verify it builds: `SHOW_SCHEDULED_ARTICLES=true corepack pnpm build` and check the entry appears under `.next/server/app/changelog/` (use `corepack pnpm`, not plain pnpm). Note: as of 2026-07, `/changelog` routes 500 in the dev server for all entries (pre-existing bug) — the production build is the reliable check.
-- [ ] Typefully drafts created for X and LinkedIn, planned (never scheduled or published) on the entry's date, and their URL reported to the user.
+- [ ] Typefully draft created with the `typefully-post` skill, planned (never scheduled or published) on the entry's date, and its URL reported to the user.
