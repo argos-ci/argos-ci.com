@@ -5,7 +5,29 @@ const nextConfig = {
   reactStrictMode: false,
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
   allowedDevOrigins: ["127.0.0.1"],
+  // The markdown-for-agents route reads MDX sources and curated markdown from
+  // disk at request time; make sure they ship with the serverless function.
+  outputFileTracingIncludes: {
+    "/md/[[...slug]]": [
+      "./articles/**/*.mdx",
+      "./changelogs/**/*.mdx",
+      "./app/markdown/**",
+    ],
+  },
   headers: async () => {
+    // Responses of the pages that support markdown content negotiation
+    // (see proxy.ts) vary on the Accept header.
+    const varyAccept = [
+      "/",
+      "/pricing",
+      "/privacy",
+      "/terms",
+      "/blog/:path*",
+      "/changelog/:path*",
+    ].map((source) => ({
+      source,
+      headers: [{ key: "Vary", value: "Accept" }],
+    }));
     return [
       {
         // Agent discovery (RFC 8288 + RFC 9727 §3): advertise the API catalog
@@ -23,6 +45,7 @@ const nextConfig = {
           },
         ],
       },
+      ...varyAccept,
     ];
   },
   redirects: async () => {
