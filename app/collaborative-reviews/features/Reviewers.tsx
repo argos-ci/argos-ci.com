@@ -76,15 +76,18 @@ export function Reviewers() {
   return (
     <Card
       shadow="high"
-      className="animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both w-full max-w-sm overflow-hidden"
+      className="w-full max-w-sm animate-slide-up-fade overflow-hidden animate-duration-500 fill-mode-both motion-reduce:animate-fade-in"
     >
       <div className="flex items-center justify-between border-b-[0.5px] px-3 py-2">
         <SmallTitle>Reviewers</SmallTitle>
-        <span className="text-low text-xxs">2 online</span>
+        <span className="text-xxs text-low">2 online</span>
       </div>
       <ul className="divide-y">
         {REVIEWERS.map((reviewer) => (
-          <li key={reviewer.name} className="flex items-center gap-3 px-3 py-2.5">
+          <li
+            key={reviewer.name}
+            className="flex items-center gap-3 px-3 py-2.5"
+          >
             <span className="relative">
               {reviewer.agent ? (
                 <span className="grid size-7 place-items-center rounded-full border-[0.5px] bg-(--violet-3)">
@@ -105,7 +108,7 @@ export function Reviewers() {
             </span>
             <div className="min-w-0 flex-1">
               <div className="text-sm font-medium">{reviewer.name}</div>
-              <div className="text-low text-xxs">{reviewer.time}</div>
+              <div className="text-xxs text-low">{reviewer.time}</div>
             </div>
             <VerdictBadge verdict={reviewer.verdict} />
           </li>

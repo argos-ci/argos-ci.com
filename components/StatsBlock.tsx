@@ -37,12 +37,12 @@ export function StatsBlock({ title, stats, className }: StatsBlockProps) {
             {stats.map((stat, index) => (
               <div
                 key={`${stat.value}-${index}`}
-                className="bg-app rounded-lg border px-4 py-5 shadow-xs"
+                className="rounded-lg border bg-app px-4 py-5 shadow-xs"
               >
-                <dt className="text-low text-xs font-medium tracking-wide uppercase">
+                <dt className="text-xs font-medium tracking-wide text-low uppercase">
                   {stat.label}
                 </dt>
-                <dd className="font-accent mt-3 text-2xl font-semibold tracking-tight md:text-3xl">
+                <dd className="mt-3 font-accent text-2xl font-semibold tracking-tight md:text-3xl">
                   {stat.value}
                 </dd>
               </div>

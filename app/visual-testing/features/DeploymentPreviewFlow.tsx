@@ -208,12 +208,12 @@ function FlowNode(props: {
       )}
     >
       <div className="flex items-center gap-3">
-        <span className="bg-app grid size-10 shrink-0 place-items-center rounded-lg sm:border">
+        <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-app sm:border">
           {logo}
         </span>
         <div className="min-w-0 max-sm:hidden">
           <div className="truncate text-sm font-semibold">{label}</div>
-          <div className="text-low text-xs">{detail}</div>
+          <div className="text-xs text-low">{detail}</div>
         </div>
       </div>
     </div>
@@ -222,7 +222,7 @@ function FlowNode(props: {
 
 function ArgosNode() {
   return (
-    <div className="bg-app grid size-20 place-content-center rounded-full border border-(--primary-8)">
+    <div className="grid size-20 place-content-center rounded-full border border-(--primary-8) bg-app">
       <ArgosEmblem className="size-10 text-(--primary-11)" aria-hidden />
     </div>
   );

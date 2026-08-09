@@ -36,7 +36,7 @@ export function BrowserCoverage() {
           <div className="text-sm font-semibold text-(--neutral-12)">
             Vitest run
           </div>
-          <div className="text-low text-xs">Storybook screenshots in CI</div>
+          <div className="text-xs text-low">Storybook screenshots in CI</div>
         </div>
       </div>
       <div className="space-y-2 px-4 py-3">
@@ -51,7 +51,7 @@ export function BrowserCoverage() {
 function BrowserRow(props: { brand: Brand }) {
   const { brand } = props;
   return (
-    <div className="bg-app flex items-center justify-between rounded-lg border px-3 py-2">
+    <div className="flex items-center justify-between rounded-lg border bg-app px-3 py-2">
       <div className="flex items-center gap-2">
         <ThemeImage
           src={brand.logo}
@@ -60,7 +60,7 @@ function BrowserRow(props: { brand: Brand }) {
         />
         <span className="text-sm font-semibold">{brand.name}</span>
       </div>
-      <Chip variant="success" className="text-xxs px-2 py-0.5">
+      <Chip variant="success" className="px-2 py-0.5 text-xxs">
         Screenshot saved
       </Chip>
     </div>

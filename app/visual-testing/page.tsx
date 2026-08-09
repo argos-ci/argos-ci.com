@@ -27,6 +27,9 @@ import { Button } from "@/components/Button";
 import { CallToActionSection } from "@/components/CallToActionSection";
 import { Chip } from "@/components/Chip";
 import { Container } from "@/components/Container";
+import { FeaturesCarousel } from "@/components/feature-section/FeaturesCarousel";
+import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
+import { FeaturedSDKsSection } from "@/components/featured-sdk/FeaturedSDKs";
 import {
   FeatureGrid,
   FeatureGridFeature,
@@ -42,9 +45,6 @@ import {
 import { QuoteBlock } from "@/components/QuoteBlock";
 import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
 import { SectionDescription, SectionTitle } from "@/components/Typography";
-import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
-import { FeaturesCarousel } from "@/components/feature-section/FeaturesCarousel";
-import { FeaturedSDKsSection } from "@/components/featured-sdk/FeaturedSDKs";
 import { getMetadata } from "@/lib/metadata";
 
 import { mermaidSnapshotQuote } from "../assets/customers/library/mermaid";
@@ -67,9 +67,9 @@ import { PlayFunctionScreenshot } from "./features/PlayFunctionScreenshot";
 import { ReviewHistory } from "./features/ReviewHistory";
 import { ScreenshotsStayInCI } from "./features/ScreenshotsStayInCI";
 import { SlackNotification } from "./features/SlackNotification";
-import { StoryModes } from "./features/StoryModes";
 import { StorybookCIVitest } from "./features/StorybookCIVitest";
 import { StorybookSnapshots } from "./features/StorybookSnapshots";
+import { StoryModes } from "./features/StoryModes";
 import { TestContext } from "./features/TestContext";
 
 export const metadata: Metadata = getMetadata({
@@ -96,9 +96,7 @@ export default function Page() {
                 Change Detection
               </FeatureIndicator>
             </div>
-            <HeroHeading>
-              See exactly what every PR changes
-            </HeroHeading>
+            <HeroHeading>See exactly what every PR changes</HeroHeading>
             <HeroDescription>
               Catch every change automatically, pixels or any file, review it
               fast, and merge with confidence across browsers, devices, and
@@ -128,7 +126,7 @@ export default function Page() {
           <Container className="border-x bg-linear-to-b from-transparent to-(--neutral-2) pb-12">
             <SectionHeader
               align="center"
-              className="container-gutter max-w-2xl"
+              className="max-w-2xl container-gutter"
             >
               <Chip icon={EyeIcon}>Visual Review</Chip>
               <SectionHeaderTexts>
@@ -239,7 +237,7 @@ export default function Page() {
       <QuoteBlock quote={pivotQuote} className="border-b" />
       <section className="border-b px-4">
         <Container className="border-x">
-          <SectionHeader align="center" className="container-gutter max-w-2xl">
+          <SectionHeader align="center" className="max-w-2xl container-gutter">
             <Chip icon={RouteIcon}>End-to-end Testing</Chip>
             <SectionHeaderTexts>
               <SectionTitle>
@@ -289,7 +287,7 @@ export default function Page() {
       </section>
       <section className="border-b px-4">
         <Container className="border-x bg-linear-to-b from-transparent to-(--neutral-2) pb-12">
-          <SectionHeader align="center" className="container-gutter max-w-2xl">
+          <SectionHeader align="center" className="max-w-2xl container-gutter">
             <Chip icon={FileDiffIcon}>Snapshot Testing</Chip>
             <SectionHeaderTexts>
               <SectionTitle>Not just screenshots: any file</SectionTitle>
@@ -313,7 +311,7 @@ export default function Page() {
           <Container className="border-x bg-linear-to-b from-transparent to-(--neutral-2) pb-12">
             <SectionHeader
               align="center"
-              className="container-gutter max-w-2xl"
+              className="max-w-2xl container-gutter"
             >
               <Chip icon={BlocksIcon}>Components Testing</Chip>
               <SectionHeaderTexts>
@@ -431,7 +429,7 @@ export default function Page() {
       <FeaturedSDKsSection />
       <section className="border-b px-4">
         <Container className="border-x bg-linear-to-b from-transparent to-(--neutral-2) pb-12">
-          <SectionHeader align="center" className="container-gutter max-w-2xl">
+          <SectionHeader align="center" className="max-w-2xl container-gutter">
             <Chip>
               <GitPullRequestIcon className="size-4" />
               Continuous Integration
@@ -477,9 +475,7 @@ export default function Page() {
         </FeatureGrid>
         <FeatureGrid>
           <FeatureGridFeature
-            title={
-              <>Actionable chat notifications, right where your team is</>
-            }
+            title={<>Actionable chat notifications, right where your team is</>}
             description={
               <>
                 Use Automations to send concise Argos updates to the right Slack
@@ -547,7 +543,7 @@ export default function Page() {
       </section>
       <section className="border-b px-4">
         <Container className="border-x">
-          <SectionHeader align="center" className="container-gutter max-w-2xl">
+          <SectionHeader align="center" className="max-w-2xl container-gutter">
             <SectionHeaderTexts>
               <SectionTitle>One platform, from change to merge</SectionTitle>
               <SectionDescription>

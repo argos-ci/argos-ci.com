@@ -57,7 +57,7 @@ export function PlaywrightTrace() {
       >
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <div className="bg-app flex size-12 shrink-0 items-center justify-center rounded-full border">
+            <div className="flex size-12 shrink-0 items-center justify-center rounded-full border bg-app">
               <ThemeImage
                 src={playwright.logo}
                 alt="Playwright"
@@ -66,7 +66,7 @@ export function PlaywrightTrace() {
             </div>
             <div>
               <div className="text-sm font-semibold">Playwright Trace</div>
-              <div className="text-low text-xs">
+              <div className="text-xs text-low">
                 Argos attaches the trace to every failing run.
               </div>
             </div>
@@ -106,18 +106,18 @@ export function PlaywrightTrace() {
             Trace viewer
           </SmallTitle>
           <Badge className="items-center gap-1.5">
-            <ArrowUpRightIcon className="text-low size-3" />
+            <ArrowUpRightIcon className="size-3 text-low" />
             Open in new tab
           </Badge>
         </div>
 
-        <div className="bg-app rounded-lg border-[0.5px] shadow-xs">
-          <div className="text-xxs flex items-center justify-between border-b-[0.5px] px-3 py-2 text-(--neutral-11)">
+        <div className="rounded-lg border-[0.5px] bg-app shadow-xs">
+          <div className="flex items-center justify-between border-b-[0.5px] px-3 py-2 text-xxs text-(--neutral-11)">
             <span>trace.zip · checkout.spec.ts</span>
             <span className="font-semibold text-(--primary-10)">Replay</span>
           </div>
           <div className="flex flex-col gap-3 px-3 py-4">
-            <div className="bg-app text-xxs rounded-md border px-3 py-2 text-(--neutral-11)">
+            <div className="rounded-md border bg-app px-3 py-2 text-xxs text-(--neutral-11)">
               <div className="flex items-center justify-between font-semibold text-(--neutral-12)">
                 Screenshot at failure
                 <span className="text-(--danger-10)">Failed</span>
@@ -133,7 +133,7 @@ export function PlaywrightTrace() {
               </div>
             </div>
 
-            <div className="bg-app grid gap-2 rounded-md border border-(--neutral-6) p-3">
+            <div className="grid gap-2 rounded-md border border-(--neutral-6) bg-app p-3">
               {timeline.map((item) => (
                 <TimelineRow key={item.label} {...item} />
               ))}
@@ -166,7 +166,7 @@ function TraceEvent(props: {
       />
       <div className="min-w-0 flex-1">
         <div className="truncate">{props.label}</div>
-        <div className="text-low text-xxs font-normal">{props.detail}</div>
+        <div className="text-xxs font-normal text-low">{props.detail}</div>
       </div>
       <span className="text-xxs font-semibold tracking-wide uppercase">
         {props.duration}

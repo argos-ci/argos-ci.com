@@ -1,6 +1,7 @@
+import { dirname, join } from "node:path";
+
 import fg from "fast-glob";
 import Image, { ImageProps, StaticImageData } from "next/image";
-import { dirname, join } from "node:path";
 import { z } from "zod";
 
 import {
@@ -202,7 +203,6 @@ export async function getArticleMdxSource(article: Article) {
         );
       },
       Image: (props: ImageProps) => {
-        // eslint-disable-next-line jsx-a11y/alt-text
         return <Image {...props} />;
       },
       MainImage: ({ credit }: { credit: React.ReactNode }) => {

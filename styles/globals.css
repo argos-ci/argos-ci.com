@@ -369,7 +369,7 @@
 
   html,
   body {
-    @apply bg-app text-default h-full font-sans antialiased scheme-only-light;
+    @apply h-full bg-app font-sans text-default antialiased scheme-only-light;
   }
 
   html.dark body {

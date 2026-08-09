@@ -52,7 +52,7 @@ export default async function Page() {
                           {name}
                         </h3>
                       </header>
-                      <p className="text-low mt-4 font-light">{description}</p>
+                      <p className="mt-4 font-light text-low">{description}</p>
                     </div>
                     <div className="mt-6">
                       <a

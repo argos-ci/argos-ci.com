@@ -54,7 +54,7 @@ export function AgentLoop() {
   return (
     <Card
       shadow="high"
-      className="animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both w-full max-w-md cursor-default p-4"
+      className="w-full max-w-md animate-slide-up-fade cursor-default p-4 animate-duration-500 fill-mode-both motion-reduce:animate-fade-in"
     >
       <ol className="relative flex flex-col gap-3">
         <span
@@ -73,7 +73,7 @@ export function AgentLoop() {
             </span>
             <div className="pt-0.5">
               <div className="text-sm font-medium">{step.title}</div>
-              <div className="text-low text-xs">{step.text}</div>
+              <div className="text-xs text-low">{step.text}</div>
             </div>
           </li>
         ))}

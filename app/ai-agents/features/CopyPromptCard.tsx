@@ -36,7 +36,7 @@ export function CopyPromptCard() {
   return (
     <Card
       shadow="high"
-      className="animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both w-full max-w-md overflow-hidden"
+      className="w-full max-w-md animate-slide-up-fade overflow-hidden animate-duration-500 fill-mode-both motion-reduce:animate-fade-in"
     >
       <div className="flex items-center gap-2 border-b-[0.5px] px-3 py-2">
         <ArgosEmblem className="size-4 text-(--violet-11)" />
@@ -64,7 +64,7 @@ export function CopyPromptCard() {
           )}
         </button>
       </div>
-      <div className="text-xxs space-y-1.5 p-4 font-mono leading-relaxed">
+      <div className="space-y-1.5 p-4 font-mono text-xxs leading-relaxed">
         <div className="text-low"># Review this Argos build</div>
         <div>
           <span className="text-(--violet-11)">build:</span>{" "}
@@ -78,8 +78,9 @@ export function CopyPromptCard() {
           <span className="text-(--violet-11)">changed:</span> 3 snapshots · 1
           text diff
         </div>
-        <div className="text-low pt-1">
-          Compare each diff against the PR intent and approve or request changes.
+        <div className="pt-1 text-low">
+          Compare each diff against the PR intent and approve or request
+          changes.
         </div>
       </div>
     </Card>

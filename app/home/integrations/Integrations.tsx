@@ -17,12 +17,12 @@ import slack from "./assets/slack.svg";
 
 export function Integrations() {
   return (
-    <section className="separator-b bg-subtle relative px-4">
+    <section className="separator-b relative bg-subtle px-4">
       <Container
         noGutter
         className="relative flex flex-col border-x md:h-[400px] md:flex-row md:items-center"
       >
-        <SectionHeader className="container-gutter max-w-125">
+        <SectionHeader className="max-w-125 container-gutter">
           <SectionHeaderTexts>
             <SectionTitle>Integrated with your everyday tools</SectionTitle>
             <SectionDescription>

@@ -7,7 +7,7 @@ export default function NotFound() {
     <div className="flex h-full items-center p-16">
       <div className="container mx-auto my-8 flex flex-col items-center justify-center px-5">
         <div className="max-w-lg text-center">
-          <h1 className="font-accent mb-8 text-9xl">
+          <h1 className="mb-8 font-accent text-9xl">
             <span className="sr-only">Error</span>404
           </h1>
           <p className="font-accent text-2xl md:text-3xl">

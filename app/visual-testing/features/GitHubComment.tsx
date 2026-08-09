@@ -40,7 +40,7 @@ function CommentCard() {
           <span className="truncat font-semibold">argos-ci</span>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-low font-medium">
+          <span className="font-medium text-low">
             commented on Nov 12 · edited
           </span>
         </div>
@@ -87,7 +87,7 @@ function CommentCard() {
                   <Td>
                     <BuildStatusPill status={build.status} />
                   </Td>
-                  <Td className="text-low hidden sm:table-cell">
+                  <Td className="hidden text-low sm:table-cell">
                     {build.details}
                   </Td>
                 </tr>

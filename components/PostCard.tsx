@@ -17,7 +17,7 @@ export function PostCard(props: ComponentPropsWithRef<"div">) {
 }
 
 export interface PostCardImageProps extends ImageProps {
-  extended?: Boolean;
+  extended?: boolean;
 }
 
 export function PostCardImage(props: PostCardImageProps) {

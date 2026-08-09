@@ -47,7 +47,7 @@ const LOG_LINES: Array<{
 export function StorybookCIVitest() {
   return (
     <Card className="relative" shadow="high">
-      <div className="text-xxs relative flex items-center justify-between border-b-[0.5px] px-3 py-2 font-semibold">
+      <div className="relative flex items-center justify-between border-b-[0.5px] px-3 py-2 text-xxs font-semibold">
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1.5">
             <span
@@ -72,7 +72,7 @@ export function StorybookCIVitest() {
           Running
         </Chip>
       </div>
-      <div className="text-xxs relative space-y-1.5 mask-b-from-70% p-3 font-mono leading-relaxed max-sm:h-60">
+      <div className="relative space-y-1.5 mask-b-from-70% p-3 font-mono text-xxs leading-relaxed max-sm:h-60">
         {LOG_LINES.map((line) => (
           <TerminalLine key={line.text} {...line} />
         ))}

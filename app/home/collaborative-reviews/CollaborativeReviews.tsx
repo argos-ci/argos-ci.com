@@ -3,9 +3,9 @@ import Link from "next/link";
 
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
+import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
 import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
 import { SectionDescription, SectionTitle } from "@/components/Typography";
-import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
 
 import { ReviewCanvas } from "./ReviewCanvas";
 
@@ -47,7 +47,7 @@ export function CollaborativeReviews() {
             </Link>
           </Button>
         </SectionHeader>
-        <div className="bg-subtle border-t border-b px-4 py-8 md:px-10 md:py-10">
+        <div className="border-t border-b bg-subtle px-4 py-8 md:px-10 md:py-10">
           <ReviewCanvas />
         </div>
         <ul className="grid divide-y border-b md:grid-cols-3 md:divide-x md:divide-y-0">
@@ -59,7 +59,7 @@ export function CollaborativeReviews() {
               />
               <div>
                 <h3 className="font-accent font-medium">{point.title}</h3>
-                <p className="text-low text-sm">{point.text}</p>
+                <p className="text-sm text-low">{point.text}</p>
               </div>
             </li>
           ))}

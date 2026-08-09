@@ -1,5 +1,11 @@
 export type FeatureColor =
-  "blue" | "amber" | "teal" | "violet" | "plum" | "pink" | "green";
+  | "blue"
+  | "amber"
+  | "teal"
+  | "violet"
+  | "plum"
+  | "pink"
+  | "green";
 
 export const BORDER_BG_COLORS: Record<FeatureColor, string> = {
   blue: "bg-(--blue-9)",

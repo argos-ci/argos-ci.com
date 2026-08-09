@@ -6,8 +6,8 @@ import type { ComponentType } from "react";
 import { Button } from "@/components/Button";
 import { Container, SideBorder } from "@/components/Container";
 import { Hero, HeroDescription, HeroHeading } from "@/components/Hero";
-import { StatusWidget } from "@/components/StatusWidget";
 import { DiscordIcon } from "@/components/icons/DiscordIcon";
+import { StatusWidget } from "@/components/StatusWidget";
 import { getMetadata } from "@/lib/metadata";
 
 type ContactCard = {
@@ -91,7 +91,7 @@ export default function SecurityPage() {
                   <Icon className="size-10" aria-hidden />
                   <div>
                     <h3 className="text-xl font-semibold">{card.title}</h3>
-                    <p className="text-low mt-2 text-base leading-relaxed">
+                    <p className="mt-2 text-base leading-relaxed text-low">
                       {card.description}
                     </p>
                   </div>

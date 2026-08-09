@@ -36,7 +36,11 @@ Write a spec, then render it in one pass:
 ```json
 {
   "cards": [
-    { "name": "POV1", "title": "assertion.ts", "code": "expect(button).toHaveClass('primary');" },
+    {
+      "name": "POV1",
+      "title": "assertion.ts",
+      "code": "expect(button).toHaveClass('primary');"
+    },
     { "name": "AG1", "codeFile": "snippets/setup.sh" }
   ]
 }
@@ -89,7 +93,7 @@ text, which is a safe fallback rather than a bug.
 
 ## Choosing between a code card and an illustration
 
-- **Code card** — the snippet *is* the message: a command, a config, an API shape.
+- **Code card** — the snippet _is_ the message: a command, a config, an API shape.
 - **Concept illustration** — the idea is abstract (a workflow, a tradeoff, scale).
   Use `gpt-image-2` with a no-text prompt; see the `changelog-image` skill for
   the house style, and never let the model render letterforms.

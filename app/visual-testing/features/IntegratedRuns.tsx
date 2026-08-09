@@ -15,9 +15,8 @@ import {
   SunMoonIcon,
   TagIcon,
 } from "lucide-react";
-import type { ComponentType } from "react";
-
 import Link from "next/link";
+import type { ComponentType } from "react";
 
 import { ArgosEmblem } from "@/components/ArgosEmblem";
 import { Card } from "@/components/Card";

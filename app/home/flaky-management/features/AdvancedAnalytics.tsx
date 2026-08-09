@@ -73,7 +73,7 @@ function FlakinessScoreCard(props: { className?: string }) {
     <Card className={clsx("flex flex-col", props.className)}>
       <CardHeader>
         <SmallTitle>
-          <ActivityIcon className="text-low size-3" />
+          <ActivityIcon className="size-3 text-low" />
           Flakiness score
         </SmallTitle>
         <Description>Instantely see if a test is flaky or not.</Description>
@@ -111,7 +111,7 @@ function StatsCard(props: { className?: string }) {
     <Card className={clsx("flex flex-col", props.className)}>
       <CardHeader className="text-balance">
         <SmallTitle>
-          <BarChart2Icon className="text-low size-3" />
+          <BarChart2Icon className="size-3 text-low" />
           Build metrics
         </SmallTitle>
         <Description>
@@ -133,7 +133,7 @@ function GraphCard(props: { className?: string }) {
     <Card className={clsx("flex flex-col", props.className)}>
       <CardHeader>
         <SmallTitle>
-          <TrendingUpIcon className="text-low size-3" />
+          <TrendingUpIcon className="size-3 text-low" />
           Instability over time
         </SmallTitle>
         <Description>
@@ -152,7 +152,7 @@ function FirstLastSeenCard(props: { className?: string }) {
     <Card className={clsx(props.className)}>
       <CardHeader>
         <SmallTitle>
-          <HistoryIcon className="text-low size-3" />
+          <HistoryIcon className="size-3 text-low" />
           Change history
         </SmallTitle>
         <Description>
@@ -179,7 +179,7 @@ function FirstLastSeenCard(props: { className?: string }) {
 function Metric(props: { label: string; value: string }) {
   return (
     <div className="flex flex-col gap-0.5">
-      <div className="text-low text-xxs font-medium">{props.label}</div>
+      <div className="text-xxs font-medium text-low">{props.label}</div>
       <div className="text-xl leading-6 font-semibold">{props.value}</div>
     </div>
   );
@@ -194,7 +194,7 @@ function RightInfo(props: { title: string; value: string; sub: string }) {
           {props.value}
         </div>
       </div>
-      <div className="text-low mt-1 text-xs">{props.sub}</div>
+      <div className="mt-1 text-xs text-low">{props.sub}</div>
     </div>
   );
 }

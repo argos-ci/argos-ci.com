@@ -70,19 +70,19 @@ export function PricingTable() {
         </caption>
         <thead>
           <tr className="border-b">
-            <th scope="col" className="text-default px-4 py-3 font-semibold">
+            <th scope="col" className="px-4 py-3 font-semibold text-default">
               Plan
             </th>
-            <th scope="col" className="text-default px-4 py-3 font-semibold">
+            <th scope="col" className="px-4 py-3 font-semibold text-default">
               Base price
             </th>
-            <th scope="col" className="text-default px-4 py-3 font-semibold">
+            <th scope="col" className="px-4 py-3 font-semibold text-default">
               Included screenshots
             </th>
-            <th scope="col" className="text-default px-4 py-3 font-semibold">
+            <th scope="col" className="px-4 py-3 font-semibold text-default">
               Extra screenshot
             </th>
-            <th scope="col" className="text-default px-4 py-3 font-semibold">
+            <th scope="col" className="px-4 py-3 font-semibold text-default">
               Extra Storybook screenshot
             </th>
           </tr>
@@ -92,27 +92,27 @@ export function PricingTable() {
             <tr key={row.plan} className="border-b last:border-b-0">
               <th
                 scope="row"
-                className="text-default px-4 py-3 font-medium whitespace-nowrap"
+                className="px-4 py-3 font-medium whitespace-nowrap text-default"
               >
                 {row.plan}
               </th>
-              <td className="text-low px-4 py-3 whitespace-nowrap tabular-nums">
+              <td className="px-4 py-3 whitespace-nowrap text-low tabular-nums">
                 {row.price}
               </td>
-              <td className="text-low px-4 py-3 whitespace-nowrap tabular-nums">
+              <td className="px-4 py-3 whitespace-nowrap text-low tabular-nums">
                 {row.included}
               </td>
-              <td className="text-low px-4 py-3 whitespace-nowrap tabular-nums">
+              <td className="px-4 py-3 whitespace-nowrap text-low tabular-nums">
                 {row.extraScreenshot}
               </td>
-              <td className="text-low px-4 py-3 whitespace-nowrap tabular-nums">
+              <td className="px-4 py-3 whitespace-nowrap text-low tabular-nums">
                 {row.extraStorybook}
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <p className="text-low border-t px-4 py-5 text-sm">
+      <p className="border-t px-4 py-5 text-sm text-low">
         A screenshot is any snapshot Argos stores for a build: an image, or a
         non-image file such as Markdown, JSON, or HTML. Usage is billed only on
         successful builds. GitHub SSO is an optional add-on at{" "}

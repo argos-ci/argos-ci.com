@@ -27,13 +27,13 @@ export function ScreenshotsStayInCI() {
 
 function PlaywrightNode() {
   return (
-    <Card className="animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both relative flex min-w-56 flex-col gap-3 overflow-hidden p-4 max-sm:hidden">
+    <Card className="relative flex min-w-56 animate-slide-up-fade flex-col gap-3 overflow-hidden p-4 animate-duration-500 fill-mode-both motion-reduce:animate-fade-in max-sm:hidden">
       <div
         className="absolute top-6 -left-10 h-16 w-16 rounded-full bg-(--primary-3)/35 blur-3xl"
         aria-hidden
       />
       <div className="flex items-center gap-2">
-        <div className="bg-app grid place-items-center rounded-xl border-[0.5px] border-(--neutral-6)/70 p-2 shadow-sm">
+        <div className="grid place-items-center rounded-xl border-[0.5px] border-(--neutral-6)/70 bg-app p-2 shadow-sm">
           <ThemeImage src={playwright.logo} alt="" className="size-6" />
         </div>
         <div className="flex flex-col leading-tight">
@@ -46,14 +46,14 @@ function PlaywrightNode() {
         </div>
       </div>
       <div className="rounded-xl border border-(--primary-6)/60 bg-(--primary-2)/60 p-2 shadow-inner">
-        <div className="text-xxs grid grid-cols-2 gap-2 font-semibold text-(--neutral-12)">
+        <div className="grid grid-cols-2 gap-2 text-xxs font-semibold text-(--neutral-12)">
           <MiniPill label="Test suite" />
           <MiniPill
             label="Screenshots"
             icon={<ScanIcon className="size-3" />}
           />
         </div>
-        <div className="text-xxs mt-2 flex items-center gap-2 rounded-lg border border-dashed border-(--primary-6)/70 bg-(--primary-1)/70 px-2 py-1.5 text-(--primary-11)">
+        <div className="mt-2 flex items-center gap-2 rounded-lg border border-dashed border-(--primary-6)/70 bg-(--primary-1)/70 px-2 py-1.5 text-xxs text-(--primary-11)">
           <span
             className="h-1.5 w-1.5 rounded-full bg-(--primary-9)"
             aria-hidden
@@ -68,7 +68,7 @@ function PlaywrightNode() {
 function MiniPill(props: { label: string; icon?: ReactNode }) {
   const { label, icon } = props;
   return (
-    <div className="bg-app flex items-center justify-between gap-2 rounded-lg border border-(--neutral-6)/70 px-2 py-1 shadow-[0_6px_20px_-14px_rgba(0,0,0,0.5)]">
+    <div className="flex items-center justify-between gap-2 rounded-lg border border-(--neutral-6)/70 bg-app px-2 py-1 shadow-[0_6px_20px_-14px_rgba(0,0,0,0.5)]">
       <span className="text-(--neutral-11)">{label}</span>
       {icon}
     </div>
@@ -77,9 +77,9 @@ function MiniPill(props: { label: string; icon?: ReactNode }) {
 
 function SecureArrow() {
   return (
-    <div className="animate-fade-in animate-delay-500 motion-reduce:animate-fade-in animate-duration-500 fill-mode-both relative flex items-center justify-center px-1 max-sm:hidden">
+    <div className="relative flex animate-fade-in items-center justify-center px-1 animate-delay-500 animate-duration-500 fill-mode-both motion-reduce:animate-fade-in max-sm:hidden">
       <div className="relative h-px w-24 bg-linear-to-r from-(--primary-6)/30 via-(--primary-8) to-(--primary-6)/30">
-        <div className="bg-app text-xxxs absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-1 rounded-full border border-(--primary-7) px-2 py-1 font-semibold tracking-wide text-(--primary-11) uppercase shadow-sm">
+        <div className="absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center gap-1 rounded-full border border-(--primary-7) bg-app px-2 py-1 text-xxxs font-semibold tracking-wide text-(--primary-11) uppercase shadow-sm">
           <LockIcon className="size-3" aria-hidden />
           <span>TLS</span>
         </div>
@@ -91,7 +91,7 @@ function SecureArrow() {
 
 function StorageNode() {
   return (
-    <Card className="animate-slide-up-fade animate-delay-250 motion-reduce:animate-fade-in animate-duration-500 fill-mode-both relative flex min-w-64 flex-col gap-3 overflow-hidden p-4">
+    <Card className="relative flex min-w-64 animate-slide-up-fade flex-col gap-3 overflow-hidden p-4 animate-delay-250 animate-duration-500 fill-mode-both motion-reduce:animate-fade-in">
       <div
         className="absolute -top-8 left-8 h-16 w-16 rounded-full bg-(--primary-3)/40 blur-3xl"
         aria-hidden

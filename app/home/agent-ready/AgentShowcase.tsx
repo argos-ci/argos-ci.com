@@ -221,7 +221,7 @@ export function AgentShowcase() {
               />
               <div>
                 <h3 className="font-accent font-medium">{step.title}</h3>
-                <p className="text-low text-sm">{step.text}</p>
+                <p className="text-sm text-low">{step.text}</p>
               </div>
             </button>
           );

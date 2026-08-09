@@ -14,18 +14,15 @@ import { Container } from "@/components/Container";
 import { FAQAccordion } from "@/components/FAQAccordion";
 import { FullPageGrid } from "@/components/FullPageGrid";
 import { Hero, HeroDescription, HeroHeading } from "@/components/Hero";
-import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
-import { SectionDescription, SectionTitle } from "@/components/Typography";
 import { GdprLogo } from "@/components/icons/GdprLogo";
 import { Soc2Logo } from "@/components/icons/Soc2Logo";
+import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
+import { SectionDescription, SectionTitle } from "@/components/Typography";
 import { getMetadata } from "@/lib/metadata";
 
 import { TrustedBy } from "../common/TrustedBy";
 import { GDPRFeatures, GDPR_FEATURES } from "./gdpr-features";
-import {
-  SECURITY_HIGHLIGHTS,
-  SecurityHighlights,
-} from "./security-controls";
+import { SECURITY_HIGHLIGHTS, SecurityHighlights } from "./security-controls";
 import { SECURITY_QUESTIONS } from "./security-faq";
 
 export const metadata: Metadata = getMetadata({
@@ -113,13 +110,13 @@ export default function SecurityPage() {
               <NextLink href="/trust-center">Request the report</NextLink>
             </Button>
           </SectionHeader>
-          <div className="container-gutter grid grid-cols-1 gap-8 border-t pt-8 pb-12 text-left sm:grid-cols-3">
+          <div className="grid grid-cols-1 gap-8 border-t container-gutter pt-8 pb-12 text-left sm:grid-cols-3">
             <div>
-              <div className="text-low text-sm">Framework</div>
+              <div className="text-sm text-low">Framework</div>
               <div className="mt-1 font-medium">AICPA SOC 2 Type II</div>
             </div>
             <div>
-              <div className="text-low text-sm">Auditor</div>
+              <div className="text-sm text-low">Auditor</div>
               <div className="mt-1 font-medium">
                 <a
                   href="https://prescientassurance.com"
@@ -132,7 +129,7 @@ export default function SecurityPage() {
               </div>
             </div>
             <div>
-              <div className="text-low text-sm">Continuous monitoring</div>
+              <div className="text-sm text-low">Continuous monitoring</div>
               <div className="mt-1 font-medium">
                 <a
                   href="https://vanta.com"
@@ -157,16 +154,16 @@ export default function SecurityPage() {
               <SectionDescription>
                 Many of our customers are based in Europe or serve European
                 users. We align our operations with GDPR, from how we handle
-                data to how we design our systems. Data is stored in the US, with
-                Standard Contractual Clauses covering lawful EU transfers.
+                data to how we design our systems. Data is stored in the US,
+                with Standard Contractual Clauses covering lawful EU transfers.
               </SectionDescription>
             </SectionHeaderTexts>
             <Button variant="outline" asChild>
               <NextLink href="/privacy">Read the privacy policy</NextLink>
             </Button>
           </SectionHeader>
-          <div className="container-gutter mt-2 mb-12 border-t pt-8">
-            <div className="text-low mb-4 text-sm font-medium">
+          <div className="mt-2 mb-12 border-t container-gutter pt-8">
+            <div className="mb-4 text-sm font-medium text-low">
               GDPR gives individuals the right to:
             </div>
             <ul className="grid grid-cols-1 gap-x-8 gap-y-3 text-left sm:grid-cols-2">
@@ -231,14 +228,14 @@ function ComplianceBadge(props: {
   return (
     <NextLink
       href={props.href}
-      className="group hover:bg-subtle flex flex-col items-center gap-5 p-8 text-center transition md:p-12"
+      className="group flex flex-col items-center gap-5 p-8 text-center transition hover:bg-subtle md:p-12"
     >
-      <div className="text-low group-hover:text-default flex h-16 items-center transition">
+      <div className="flex h-16 items-center text-low transition group-hover:text-default">
         {props.logo}
       </div>
       <div>
         <div className="font-medium">{props.label}</div>
-        <div className="text-low mt-0.5 text-sm">{props.caption}</div>
+        <div className="mt-0.5 text-sm text-low">{props.caption}</div>
       </div>
     </NextLink>
   );

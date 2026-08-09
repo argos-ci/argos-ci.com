@@ -7,7 +7,7 @@ import { DotIndicator } from "@/components/DotIndicator";
 
 export function GroupedDiffs() {
   return (
-    <div className="animate-fade-in-up motion-reduce:animate-fade-in animate-duration-500 fill-mode-both relative w-full max-w-4xl">
+    <div className="relative w-full max-w-4xl animate-fade-in-up animate-duration-500 fill-mode-both motion-reduce:animate-fade-in">
       <Connectors />
       <div className="relative grid items-center gap-2 sm:gap-8 md:grid-cols-2">
         <div>
@@ -62,7 +62,7 @@ export function GroupedDiffs() {
 function Connectors() {
   return (
     <svg
-      className="animate-fade-in animate-delay-100 animate-duration-400 fill-mode-both pointer-events-none absolute inset-0 hidden h-full w-full md:block"
+      className="pointer-events-none absolute inset-0 hidden h-full w-full animate-fade-in animate-delay-100 animate-duration-400 fill-mode-both md:block"
       viewBox="0 0 860 460"
       fill="none"
       aria-hidden="true"

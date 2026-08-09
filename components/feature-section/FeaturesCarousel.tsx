@@ -60,7 +60,6 @@ export function FeaturesCarousel(props: {
     if (isStopped || !inViewport) {
       return;
     }
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setStart(Date.now());
     const timeout = window.setTimeout(() => {
       const next = state.index === total - 1 ? 0 : state.index + 1;
@@ -73,7 +72,7 @@ export function FeaturesCarousel(props: {
     throw new Error(`Invalid index ${state.index}`);
   }
   return (
-    <div ref={ref} className="bg-subtle border-y">
+    <div ref={ref} className="border-y bg-subtle">
       <div className="relative h-60 overflow-hidden sm:h-110">
         <div className="relative size-full">
           <div className="size-full mask-intersect max-sm:mask-[linear-gradient(black_70%,transparent),linear-gradient(90deg,transparent,black_20%,black_80%,transparent)]">
@@ -164,7 +163,6 @@ function FeaturePanel(props: {
   useEffect(() => {
     if (isCurrent && isVisible) {
       if (!wasCurrent.current) {
-        // eslint-disable-next-line react-hooks/set-state-in-effect
         setMountKey((key) => key + 1);
       }
     }

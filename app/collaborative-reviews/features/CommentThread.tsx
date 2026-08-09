@@ -26,14 +26,14 @@ export function CommentThread() {
   return (
     <Card
       shadow="high"
-      className="animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both w-full max-w-md overflow-hidden"
+      className="w-full max-w-md animate-slide-up-fade overflow-hidden animate-duration-500 fill-mode-both motion-reduce:animate-fade-in"
     >
       <div className="flex items-center justify-between border-b-[0.5px] px-3 py-2">
         <SmallTitle>
           <MessageSquareIcon className="size-3" />
           Header.tsx · line 42
         </SmallTitle>
-        <Badge className="text-xxs gap-1 border-(--success-7) text-(--success-11)">
+        <Badge className="gap-1 border-(--success-7) text-xxs text-(--success-11)">
           <CheckCircle2Icon className="size-3" />
           Resolve
         </Badge>
@@ -44,9 +44,9 @@ export function CommentThread() {
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2">
               <span className="text-xs font-medium">Nina</span>
-              <span className="text-low text-xxs">2m ago</span>
+              <span className="text-xxs text-low">2m ago</span>
             </div>
-            <p className="text-low mt-0.5 text-xs">
+            <p className="mt-0.5 text-xs text-low">
               The logo shifted 4px right here. Intended? <br />
               <span className="text-(--primary-11)">@andrew</span> can you
               confirm?
@@ -58,21 +58,21 @@ export function CommentThread() {
           </div>
         </div>
         <div className="flex gap-2.5 pl-4">
-          <CornerDownRightIcon className="text-low mt-1 size-3 shrink-0" />
+          <CornerDownRightIcon className="mt-1 size-3 shrink-0 text-low" />
           <Avatar src={andrewAvatar} />
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2">
               <span className="text-xs font-medium">Andrew</span>
-              <span className="text-low text-xxs">just now</span>
+              <span className="text-xxs text-low">just now</span>
             </div>
-            <p className="text-low mt-0.5 text-xs">
+            <p className="mt-0.5 text-xs text-low">
               Good catch, pushing a fix now.
             </p>
           </div>
         </div>
       </div>
       <div className="border-t-[0.5px] px-3 py-2">
-        <div className="text-low bg-subtle rounded-md border-[0.5px] px-2.5 py-1.5 text-xs">
+        <div className="rounded-md border-[0.5px] bg-subtle px-2.5 py-1.5 text-xs text-low">
           Reply, or type <span className="font-mono text-default">/</span> for
           commands…
         </div>

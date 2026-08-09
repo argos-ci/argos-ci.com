@@ -28,8 +28,8 @@ export function RetryScreenshotsLeftIllustration() {
           <SDKBubble sdk={playwright} />
           <SDKBubble sdk={cypress} />
         </div>
-        <Badge className="text-xxs items-center gap-1.5">
-          <RefreshCwIcon className="text-low size-3" />
+        <Badge className="items-center gap-1.5 text-xxs">
+          <RefreshCwIcon className="size-3 text-low" />
           Retry enabled
         </Badge>
       </div>
@@ -45,7 +45,7 @@ export function RetryScreenshotsLeftIllustration() {
 
 function SDKBubble(props: { sdk: Brand }) {
   return (
-    <div className="bg-app flex size-11 items-center justify-center rounded-full border">
+    <div className="flex size-11 items-center justify-center rounded-full border bg-app">
       <ThemeImage
         src={props.sdk.logo}
         alt={props.sdk.name}
@@ -79,7 +79,7 @@ function RetryRow(props: {
       }
       <div className="min-w-0 flex-1">
         <div className="truncate">{label}</div>
-        <div className="text-low text-xxs font-normal">{note}</div>
+        <div className="text-xxs font-normal text-low">{note}</div>
       </div>
       <span
         className={clsx(

@@ -54,7 +54,7 @@ function AutomationBuilder() {
 function GhostSelect(props: { label: string }) {
   const { label } = props;
   return (
-    <div className="text-low rounded-md border border-dashed border-(--neutral-6) px-3 py-2 text-sm font-semibold">
+    <div className="rounded-md border border-dashed border-(--neutral-6) px-3 py-2 text-sm font-semibold text-low">
       {label}
     </div>
   );
@@ -63,9 +63,9 @@ function GhostSelect(props: { label: string }) {
 function ActionRow(props: { channel: string; workspace: string }) {
   const { channel, workspace } = props;
   return (
-    <div className="bg-app space-y-2 rounded-md border px-3 py-2 shadow-xs">
+    <div className="space-y-2 rounded-md border bg-app px-3 py-2 shadow-xs">
       <div className="flex items-center gap-2">
-        <div className="bg-app grid place-items-center rounded border-[0.5px] p-1.5">
+        <div className="grid place-items-center rounded border-[0.5px] bg-app p-1.5">
           <ThemeImage src={slack.logo} className="size-4" alt="" />
         </div>
         <div className="text-sm font-semibold">Send notification to Slack</div>
@@ -88,7 +88,7 @@ function BuilderRow(props: {
   const { icon: Icon, label, value, tone } = props;
 
   return (
-    <div className="bg-app flex items-center justify-between gap-3 rounded-lg border px-3 py-2 text-sm">
+    <div className="flex items-center justify-between gap-3 rounded-lg border bg-app px-3 py-2 text-sm">
       <div className="flex items-center gap-3">
         <span className="grid size-7 place-items-center rounded-full border bg-(--neutral-1) text-lg leading-none">
           <Icon className="size-4" />

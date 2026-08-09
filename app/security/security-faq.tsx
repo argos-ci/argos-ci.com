@@ -70,7 +70,7 @@ export const SECURITY_QUESTIONS: FAQQuestion[] = [
           href="https://github.com/argos-ci"
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:text-low underline"
+          className="underline hover:text-low"
         >
           github.com/argos-ci
         </a>

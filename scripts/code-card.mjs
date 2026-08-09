@@ -1,3 +1,6 @@
+import { mkdirSync, readFileSync } from "node:fs";
+import { basename, dirname, join, resolve } from "node:path";
+
 /**
  * Render a syntax-highlighted code card on the Argos brand background.
  *
@@ -10,8 +13,6 @@
  * See .claude/skills/code-card/SKILL.md
  */
 import { chromium } from "@playwright/test";
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { basename, dirname, join, resolve } from "node:path";
 
 const WIDTH = 1400;
 const HEIGHT = 880;
@@ -219,7 +220,8 @@ if (args.spec) {
     if (!code) throw new Error(`Card "${card.name}" has no code or codeFile`);
     cards.push({
       name: card.name,
-      title: card.title ?? (card.codeFile ? basename(card.codeFile) : card.name),
+      title:
+        card.title ?? (card.codeFile ? basename(card.codeFile) : card.name),
       code: code.replace(/\n+$/, ""),
       out: join(outDir, `${card.name}.png`),
     });

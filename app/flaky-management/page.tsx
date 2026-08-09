@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Button } from "@/components/Button";
 import { CallToActionSection } from "@/components/CallToActionSection";
 import { Container } from "@/components/Container";
+import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
 import { FeatureGrid, FeatureGridFeature } from "@/components/FeatureGrid";
 import { FullPageGrid } from "@/components/FullPageGrid";
 import {
@@ -16,7 +17,6 @@ import {
 import { QuoteBlock } from "@/components/QuoteBlock";
 import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
 import { SectionDescription, SectionTitle } from "@/components/Typography";
-import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
 import { getMetadata } from "@/lib/metadata";
 
 import { pivotQuote } from "../assets/customers/library/pivot";
@@ -86,7 +86,7 @@ export default function Page() {
           <Container className="border-x bg-linear-to-b from-transparent to-(--neutral-2)">
             <SectionHeader
               align="center"
-              className="container-gutter max-w-2xl"
+              className="max-w-2xl container-gutter"
             >
               <SectionHeaderTexts>
                 <SectionTitle>
@@ -150,7 +150,7 @@ export default function Page() {
           <Container className="border-x bg-linear-to-b from-transparent to-(--neutral-2)">
             <SectionHeader
               align="center"
-              className="container-gutter max-w-2xl"
+              className="max-w-2xl container-gutter"
             >
               <SectionHeaderTexts>
                 <SectionTitle>

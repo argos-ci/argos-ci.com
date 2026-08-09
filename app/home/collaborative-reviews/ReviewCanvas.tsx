@@ -18,7 +18,7 @@ export function ReviewCanvas() {
   return (
     <Card
       shadow="high"
-      className="animate-fade-in-up motion-reduce:animate-fade-in animate-duration-500 fill-mode-both mx-auto w-full max-w-4xl overflow-hidden"
+      className="mx-auto w-full max-w-4xl animate-fade-in-up overflow-hidden animate-duration-500 fill-mode-both motion-reduce:animate-fade-in"
     >
       <Toolbar />
       <div className="grid md:grid-cols-[1fr_17rem]">
@@ -35,10 +35,10 @@ function Toolbar() {
       <SmallTitle className="min-w-0">
         <GitPullRequestArrowIcon className="size-3.5 shrink-0 text-(--pink-11)" />
         <span className="truncate">checkout-summary</span>
-        <span className="text-low shrink-0">#482</span>
+        <span className="shrink-0 text-low">#482</span>
       </SmallTitle>
       <div className="flex shrink-0 items-center gap-2">
-        <Badge className="text-xxs gap-1.5 border-(--danger-7) text-(--danger-11) max-sm:hidden">
+        <Badge className="gap-1.5 border-(--danger-7) text-xxs text-(--danger-11) max-sm:hidden">
           <DotIndicator variant="danger" />
           Changes requested
         </Badge>
@@ -53,7 +53,7 @@ function Toolbar() {
 
 function Panes() {
   return (
-    <div className="bg-subtle grid grid-cols-2 gap-3 p-4 max-md:border-b-[0.5px] md:gap-4 md:border-r-[0.5px] md:p-6">
+    <div className="grid grid-cols-2 gap-3 bg-subtle p-4 max-md:border-b-[0.5px] md:gap-4 md:border-r-[0.5px] md:p-6">
       <Pane tone="baseline" />
       <Pane tone="changes" />
     </div>
@@ -90,7 +90,7 @@ function Pin() {
       aria-hidden
     >
       <span className="absolute inset-0 animate-ping rounded-full bg-(--pink-9) opacity-40" />
-      <span className="text-xxs relative grid size-5 place-items-center rounded-full bg-(--pink-9) font-semibold text-white shadow-md/20 ring-2 ring-(--neutral-1)">
+      <span className="relative grid size-5 place-items-center rounded-full bg-(--pink-9) text-xxs font-semibold text-white shadow-md/20 ring-2 ring-(--neutral-1)">
         1
       </span>
     </span>
@@ -195,9 +195,9 @@ function Activity() {
       {/* Pinned to the bottom: the rail is short next to two screenshot panes,
           and the composer is what says the thread is still open. */}
       <div className="mt-auto flex items-center gap-2 border-t-[0.5px] px-3 py-2">
-        <span className="text-subtle text-xs">Leave a reply…</span>
+        <span className="text-xs text-subtle">Leave a reply…</span>
         <span className="ml-auto grid size-5 shrink-0 place-items-center rounded-full border-[0.5px]">
-          <ArrowUpIcon className="text-low size-3" />
+          <ArrowUpIcon className="size-3 text-low" />
         </span>
       </div>
     </div>
@@ -240,16 +240,16 @@ function ActivityRow(props: { event: ActivityEvent; last: boolean }) {
         <div className="flex flex-wrap items-baseline gap-x-1.5">
           <span className="text-xs font-medium">{event.name}</span>
           <span className={clsx("text-xs", kind.text)}>{event.action}</span>
-          <span className="text-low text-xxs"> • {event.time}</span>
+          <span className="text-xxs text-low"> • {event.time}</span>
         </div>
         {event.comment ? (
-          <p className="text-low mt-1 text-xs">
+          <p className="mt-1 text-xs text-low">
             {event.pin ? <PinRef>{event.pin}</PinRef> : null}
             {event.comment}
           </p>
         ) : null}
         {event.reactions ? (
-          <div className="text-xxs mt-1.5 inline-flex items-center gap-1 rounded-lg bg-(--neutral-3) px-2 py-0.5 font-medium text-(--neutral-11)">
+          <div className="mt-1.5 inline-flex items-center gap-1 rounded-lg bg-(--neutral-3) px-2 py-0.5 text-xxs font-medium text-(--neutral-11)">
             {event.reactions}
           </div>
         ) : null}
@@ -261,7 +261,7 @@ function ActivityRow(props: { event: ActivityEvent; last: boolean }) {
 /** Ties a comment back to its pin on the screenshot, by number. */
 function PinRef(props: { children: React.ReactNode }) {
   return (
-    <span className="text-xxxs mr-1 inline-grid size-3.5 translate-y-px place-items-center rounded-full bg-(--pink-9) align-middle font-semibold text-white">
+    <span className="mr-1 inline-grid size-3.5 translate-y-px place-items-center rounded-full bg-(--pink-9) align-middle text-xxxs font-semibold text-white">
       {props.children}
     </span>
   );

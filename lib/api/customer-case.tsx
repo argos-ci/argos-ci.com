@@ -1,6 +1,7 @@
+import { dirname, join } from "node:path";
+
 import fg from "fast-glob";
 import Image, { StaticImageData } from "next/image";
-import { dirname, join } from "node:path";
 import { z } from "zod";
 
 import {
@@ -223,7 +224,7 @@ function Blockquote(props: {
           <div className="leading-tight font-medium md:text-lg">
             {props.authorName}
           </div>
-          <div className="text-low text-sm md:text-base">
+          <div className="text-sm text-low md:text-base">
             {props.authorPosition}
           </div>
         </div>

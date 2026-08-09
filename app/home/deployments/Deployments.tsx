@@ -3,8 +3,8 @@ import Link from "next/link";
 
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
-import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
 import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
+import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
 import { SectionDescription, SectionTitle } from "@/components/Typography";
 
 import { DeployPreview } from "./DeployPreview";
@@ -58,7 +58,7 @@ export function Deployments() {
                 />
                 <div>
                   <h3 className="font-accent font-medium">{point.title}</h3>
-                  <p className="text-low text-sm">{point.text}</p>
+                  <p className="text-sm text-low">{point.text}</p>
                 </div>
               </li>
             ))}

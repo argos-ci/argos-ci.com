@@ -5,7 +5,7 @@ import { Chip } from "@/components/Chip";
 
 export function IgnoreFromReviewIllustration() {
   return (
-    <div className="text-xxs relative flex w-full flex-col gap-3 p-3">
+    <div className="relative flex w-full flex-col gap-3 p-3 text-xxs">
       <Toolbar />
       <div className="flex gap-2">
         <ApplicationSVG className="rounded border-[0.5px] shadow-md/5" />

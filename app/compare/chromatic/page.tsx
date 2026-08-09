@@ -148,7 +148,7 @@ export default function Page() {
 
       <PricingSection title="Estimate your savings">
         <ComparePricingSlider competitor="chromatic" />
-        <p className="text-low mt-4 text-center text-sm">
+        <p className="mt-4 text-center text-sm text-low">
           Our estimation is based on the assumption that you have 80% Turbosnap.
         </p>
       </PricingSection>

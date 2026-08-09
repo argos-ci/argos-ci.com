@@ -2,15 +2,15 @@ import Link from "next/link";
 
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
+import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
 import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
 import { SectionDescription, SectionTitle } from "@/components/Typography";
-import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
 
 import { AgentShowcase } from "./AgentShowcase";
 
 export function AgentReady() {
   return (
-    <section className="separator-b bg-subtle relative px-4">
+    <section className="separator-b relative bg-subtle px-4">
       <Container noGutter className="border-x">
         <SectionHeader className="container-gutter">
           <SectionHeaderTexts>

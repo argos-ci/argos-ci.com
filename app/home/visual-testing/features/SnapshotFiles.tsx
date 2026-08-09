@@ -132,14 +132,14 @@ export function SnapshotFiles() {
             <file.icon className="size-3" />
             {file.filename}
           </SmallTitle>
-          <Badge className="text-low text-xxs">
+          <Badge className="text-xxs text-low">
             <DotIndicator variant="primary" />
             Snapshot
           </Badge>
         </div>
         <div
           key={file.key}
-          className="animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-300 fill-mode-both text-xxs space-y-0.5 p-3 font-mono leading-normal"
+          className="animate-slide-up-fade space-y-0.5 p-3 font-mono text-xxs leading-normal animate-duration-300 fill-mode-both motion-reduce:animate-fade-in"
         >
           {file.lines.map((line, index) => (
             <DiffRow key={index} line={line} />

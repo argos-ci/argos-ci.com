@@ -35,7 +35,7 @@ export function Tooltip(props: TooltipProps) {
       <TooltipPrimitive.Trigger delay={delayDuration} render={children} />
       <TooltipPrimitive.Portal>
         <TooltipPrimitive.Positioner side={side} sideOffset={sideOffset}>
-          <TooltipPrimitive.Popup className="bg-app text-default animate-in fade-in-0 zoom-in-95 data-[ending-style]:animate-out data-[ending-style]:fade-out-0 data-[ending-style]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 pointer-events-none z-50 overflow-hidden rounded-md border px-2 py-1 text-sm shadow-md">
+          <TooltipPrimitive.Popup className="pointer-events-none z-50 overflow-hidden rounded-md border bg-app px-2 py-1 text-sm text-default shadow-md animate-in fade-in-0 zoom-in-95 data-[ending-style]:animate-out data-[ending-style]:fade-out-0 data-[ending-style]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2">
             {content}
           </TooltipPrimitive.Popup>
         </TooltipPrimitive.Positioner>

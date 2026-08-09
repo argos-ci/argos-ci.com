@@ -60,9 +60,9 @@ function ModeRow(props: {
 }) {
   const { label, tone, options, icon: Icon } = props;
   return (
-    <div className="bg-app rounded-lg border-[0.5px] p-2.5 shadow-sm">
+    <div className="rounded-lg border-[0.5px] bg-app p-2.5 shadow-sm">
       <div className="flex items-center justify-between">
-        <div className="text-xxs flex items-center gap-2 font-semibold text-(--neutral-12)">
+        <div className="flex items-center gap-2 text-xxs font-semibold text-(--neutral-12)">
           <Icon className="size-3.5 text-(--neutral-10)" />
           <DotIndicator variant={tone} />
           {label}

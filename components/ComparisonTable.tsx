@@ -20,7 +20,7 @@ export function ThSubLink(
   return (
     <Component
       {...linkProps}
-      className="group text-low text-sm transition hover:text-(--violet-10)"
+      className="group text-sm text-low transition hover:text-(--violet-10)"
     >
       {props.children}
       <ArrowUpRightIcon className="ml-1 inline size-[1em] align-[-10%] opacity-0 transition group-hover:opacity-100" />

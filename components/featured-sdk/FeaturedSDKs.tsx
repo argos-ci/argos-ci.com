@@ -23,7 +23,7 @@ export function FeaturedSDKsSection() {
         noGutter
         className="relative flex flex-col border-x max-md:pb-12 md:flex-row"
       >
-        <SectionHeader className="container-gutter max-w-100 flex-1 md:border-r md:py-24!">
+        <SectionHeader className="max-w-100 flex-1 container-gutter md:border-r md:py-24!">
           <SectionHeaderTexts>
             <SectionTitle>Add your first snapshot in seconds</SectionTitle>
             <SectionDescription className="max-w-xl">
@@ -116,9 +116,9 @@ function SdkCard(props: {
             />
           </div>
         </div>
-        <div className="bg-app flex items-center justify-between gap-2 px-4 py-2">
-          <div className="font-accent bg-app font-medium">{sdk.name}</div>
-          <div className="font-accent flex -translate-x-2 items-center gap-1 text-sm opacity-0 transition duration-200 group-hover:translate-x-0 group-hover:opacity-100">
+        <div className="flex items-center justify-between gap-2 bg-app px-4 py-2">
+          <div className="bg-app font-accent font-medium">{sdk.name}</div>
+          <div className="flex -translate-x-2 items-center gap-1 font-accent text-sm opacity-0 transition duration-200 group-hover:translate-x-0 group-hover:opacity-100">
             Get started <ArrowRightIcon className="size-3" />
           </div>
         </div>

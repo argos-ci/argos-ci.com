@@ -16,6 +16,7 @@ import { CallToActionSection } from "@/components/CallToActionSection";
 import { Chip } from "@/components/Chip";
 import { CodeBlock } from "@/components/CodeBlock";
 import { Container } from "@/components/Container";
+import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
 import {
   FeatureGrid,
   FeatureGridFeature,
@@ -32,7 +33,6 @@ import { QuoteBlock } from "@/components/QuoteBlock";
 import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
 import { Terminal } from "@/components/Terminal";
 import { SectionDescription, SectionTitle } from "@/components/Typography";
-import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
 import { getMetadata } from "@/lib/metadata";
 
 import { gitbookAgentQuote } from "../assets/customers/library/gitbook";
@@ -107,7 +107,7 @@ export default function Page() {
       <TrustedBy />
       <section className="border-b px-4">
         <Container className="border-x bg-linear-to-b from-transparent to-(--neutral-2) pb-12">
-          <SectionHeader align="center" className="container-gutter max-w-2xl">
+          <SectionHeader align="center" className="max-w-2xl container-gutter">
             <Chip icon={BotIcon}>The confidence loop</Chip>
             <SectionHeaderTexts>
               <SectionTitle>
@@ -202,7 +202,7 @@ export default function Page() {
       </section>
       <section className="border-b px-4">
         <Container className="border-x py-12 md:py-18">
-          <SectionHeader align="center" className="container-gutter max-w-2xl">
+          <SectionHeader align="center" className="max-w-2xl container-gutter">
             <Chip icon={PlugIcon}>MCP server</Chip>
             <SectionHeaderTexts>
               <SectionTitle>

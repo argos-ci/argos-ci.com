@@ -103,10 +103,10 @@ async function LastChangelog() {
   return (
     <Link
       href="/changelog"
-      className="bg-app group mx-auto flex items-center rounded-full border text-xs font-medium shadow-xs transition hover:bg-(--neutral-3) hover:shadow-sm md:text-sm"
+      className="group mx-auto flex items-center rounded-full border bg-app text-xs font-medium shadow-xs transition hover:bg-(--neutral-3) hover:shadow-sm md:text-sm"
     >
       <span className="px-3 py-1.5">{first.homeTitle ?? first.title}</span>
-      <span className="text-low inline-flex items-center gap-1 py-1.5 pr-3 md:border-l md:px-3">
+      <span className="inline-flex items-center gap-1 py-1.5 pr-3 text-low md:border-l md:px-3">
         <span className="hidden md:inline">Read more </span>
         <ArrowUpRightIcon className="size-4 transition group-hover:translate-x-px group-hover:-translate-y-px" />
       </span>

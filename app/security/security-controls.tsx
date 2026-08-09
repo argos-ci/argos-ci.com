@@ -62,13 +62,13 @@ export function SecurityHighlights(props: { highlights: SecurityHighlight[] }) {
         return (
           <div
             key={highlight.title}
-            className="flex flex-col gap-3 border-b border-r p-6 max-sm:border-r-0 sm:max-lg:nth-[2n]:border-r-0 md:p-10 lg:nth-[3n]:border-r-0"
+            className="flex flex-col gap-3 border-r border-b p-6 max-sm:border-r-0 sm:max-lg:nth-[2n]:border-r-0 md:p-10 lg:nth-[3n]:border-r-0"
           >
-            <div className="bg-app flex size-10 items-center justify-center rounded-lg border">
+            <div className="flex size-10 items-center justify-center rounded-lg border bg-app">
               <Icon className="size-5 text-(--violet-9)" strokeWidth={1.5} />
             </div>
             <h4 className="text-lg font-medium">{highlight.title}</h4>
-            <p className="text-low text-sm leading-relaxed">
+            <p className="text-sm leading-relaxed text-low">
               {highlight.description}
             </p>
           </div>
