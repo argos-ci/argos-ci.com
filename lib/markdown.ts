@@ -1,6 +1,7 @@
-import * as matter from "gray-matter";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
+
+import * as matter from "gray-matter";
 
 import { SITE_URL } from "./agents";
 import { Categories, checkIsCategorySlug, getArticles } from "./api/blog";
