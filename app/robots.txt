@@ -1,4 +1,12 @@
+# Content Signals (https://contentsignals.org/)
+# search: build a search index and show links/snippets from it
+# ai-input: use content as input to AI (grounding, RAG, agents)
+# ai-train: use content to train or fine-tune AI models
+# Argos wants to be found and understood by humans and agents alike.
+
 User-agent: *
+
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
 
 Allow: /
 
