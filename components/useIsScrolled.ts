@@ -14,6 +14,7 @@ export function useIsScrolled() {
   });
   React.useEffect(() => {
     if (window.scrollY > 0) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- sync the initial scroll position after hydration, SSR renders unscrolled
       setScrolled(true);
     }
   }, []);

@@ -17,6 +17,5 @@ export function Zoom(props: {
     }
   }, []);
 
-  // eslint-disable-next-line react-hooks/refs
   return React.cloneElement(props.children, { ref });
 }

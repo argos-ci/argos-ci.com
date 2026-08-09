@@ -83,12 +83,14 @@ export function Cost() {
 
   React.useEffect(() => {
     if (inViewport && !hasEntered) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- latch the first viewport entry
       setHasEntered(true);
     }
   }, [inViewport, hasEntered]);
 
   React.useEffect(() => {
     if (!hasEntered) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- reset the bars synchronously before re-animating them on scenario change
     setShouldAnimateBars(false);
     const id = requestAnimationFrame(() => setShouldAnimateBars(true));
     return () => cancelAnimationFrame(id);

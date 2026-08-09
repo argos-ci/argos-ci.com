@@ -35,6 +35,7 @@ export function OpenArgosButton() {
     if (getAlwaysOpen() || isNudgeDismissed()) {
       return;
     }
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time client-only decision that needs DOM layout (offsetParent)
     setShowNudge(true);
   }, []);
 

@@ -164,7 +164,6 @@ function FeaturePanel(props: {
   useEffect(() => {
     if (isCurrent && isVisible) {
       if (!wasCurrent.current) {
-        // eslint-disable-next-line react-hooks/set-state-in-effect
         setMountKey((key) => key + 1);
       }
     }

@@ -26,6 +26,7 @@ export const ColorModeSelector = () => {
   const [visible, setVisible] = React.useState(false);
 
   React.useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- theme is unknown until hydration, reveal after mount to avoid a mismatch
     setVisible(true);
   }, []);
 

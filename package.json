@@ -45,6 +45,7 @@
   },
   "devDependencies": {
     "@argos-ci/playwright": "^7.2.0",
+    "@eslint/compat": "^2.1.0",
     "@playwright/test": "^1.61.1",
     "@radix-ui/colors": "^3.0.0",
     "@tailwindcss/postcss": "^4.3.2",
@@ -56,6 +57,7 @@
     "@types/react-dom": "^19.2.3",
     "eslint": "^10.6.0",
     "eslint-config-next": "^16.2.10",
+    "espree": "^11.2.0",
     "knip": "^6.24.0",
     "postcss": "^8.5.16",
     "prettier": "^3.9.4",
