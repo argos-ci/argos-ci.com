@@ -4,11 +4,11 @@ import { CallToActionSection } from "@/components/CallToActionSection";
 import { Container } from "@/components/Container";
 import { FullPageGrid } from "@/components/FullPageGrid";
 import { Hero, HeroDescription, HeroHeading } from "@/components/Hero";
+import { GitHubIcon } from "@/components/icons/GitHubIcon";
+import { XIcon } from "@/components/icons/XIcon";
 import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
 import { ThemeImage } from "@/components/ThemeImage";
 import { SectionDescription, SectionTitle } from "@/components/Typography";
-import { GitHubIcon } from "@/components/icons/GitHubIcon";
-import { XIcon } from "@/components/icons/XIcon";
 import { getMetadata } from "@/lib/metadata";
 
 import { gregEmployee, jeremyEmployee } from "../assets/people/library";
@@ -68,14 +68,14 @@ export default function AboutPage() {
           <div>
             <p className="my-4">
               We believe teams and agents should see exactly what changes before
-              they merge, not guess. As agents ship faster than anyone can review
-              by eye, that visibility is what keeps quality high.
+              they merge, not guess. As agents ship faster than anyone can
+              review by eye, that visibility is what keeps quality high.
             </p>
             <p className="my-4">
               Argos detects changes deterministically and explains them
               precisely, whether it is a pixel in a screenshot or a line in a
-              Markdown or JSON file. No probabilities. No heuristics. No guessing
-              whether a change matters.
+              Markdown or JSON file. No probabilities. No heuristics. No
+              guessing whether a change matters.
             </p>
             <p className="my-4">
               Instead of hiding flakiness behind tolerance thresholds or AI
@@ -86,8 +86,8 @@ export default function AboutPage() {
             <p className="my-4">
               We build tools that keep maintenance low and CI healthy over time.
               <br />
-              No silent failures. No mystery diffs. Just a clear picture of every
-              change, that teams rely on every day.
+              No silent failures. No mystery diffs. Just a clear picture of
+              every change, that teams rely on every day.
             </p>
             <p className="my-4">
               Flakiness is not noise to ignore. It is technical debt to fix.
@@ -120,17 +120,17 @@ export default function AboutPage() {
                   className="mb-4 size-28 rounded-lg"
                 />
                 <div>{person.name}</div>
-                <div className="text-low text-sm">{person.title}</div>
+                <div className="text-sm text-low">{person.title}</div>
                 <div className="mt-2 flex gap-4">
                   <a
                     href={person.github}
-                    className="text-low hover:text-default transition"
+                    className="text-low transition hover:text-default"
                   >
                     <GitHubIcon className="size-4" />
                   </a>
                   <a
                     href={person.x}
-                    className="text-low hover:text-default transition"
+                    className="text-low transition hover:text-default"
                   >
                     <XIcon className="size-4" />
                   </a>

@@ -78,7 +78,7 @@ export default function Page() {
 
 function OpenSourceSponsoring() {
   return (
-    <section className="bg-subtle border-y px-4">
+    <section className="border-y bg-subtle px-4">
       <Container className="border-x">
         <SectionHeader align="center" className="container-gutter">
           <SectionHeaderTexts>

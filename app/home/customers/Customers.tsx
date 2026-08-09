@@ -96,14 +96,14 @@ function CustomerCase(props: {
       />
       <p className="[&_strong]:font-semibold">{quote.text}</p>
       <div className="flex items-center justify-end md:justify-between">
-        <div className="text-low flex items-center gap-1 text-sm max-md:hidden">
+        <div className="flex items-center gap-1 text-sm text-low max-md:hidden">
           Read the full story
           <ArrowRightIcon className="size-4 transition duration-200 group-hover:translate-x-1" />
         </div>
         <div className="flex items-center gap-2.5 self-end text-right">
           <div>
             <div className="text-sm font-medium">{quote.author.name}</div>
-            <div className="text-low text-xs font-medium">
+            <div className="text-xs font-medium text-low">
               {quote.author.title}
             </div>
           </div>

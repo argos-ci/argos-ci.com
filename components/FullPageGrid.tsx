@@ -66,7 +66,7 @@ export function FullPageGrid(props: {
           props.height,
         )}
       >
-        <Grid className="w-max-content pointer-events-none absolute inset-[unset] inset-y-0 left-1/2 -translate-x-1/2" />
+        <Grid className="pointer-events-none absolute inset-[unset] inset-y-0 left-1/2 w-max-content -translate-x-1/2" />
       </div>
     </div>
   );

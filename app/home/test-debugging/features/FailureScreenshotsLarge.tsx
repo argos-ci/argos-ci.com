@@ -41,7 +41,7 @@ export function FailureScreenshotsLarge() {
               Something went wrong
             </span>
           </div>
-          <span className="bg-app text-low absolute right-2 bottom-2 flex items-center gap-1 rounded border-[0.5px] px-2 py-0.5 text-xxxs font-medium">
+          <span className="absolute right-2 bottom-2 flex items-center gap-1 rounded border-[0.5px] bg-app px-2 py-0.5 text-xxxs font-medium text-low">
             <CameraIcon className="size-3" />
             Captured on failure
           </span>
@@ -64,7 +64,7 @@ export function FailureScreenshotsLarge() {
               >
                 <XIcon className="size-3 shrink-0 text-(--danger-11)" />
                 <span className="font-medium">{attempt.label}</span>
-                <span className="text-low ml-auto">Failed</span>
+                <span className="ml-auto text-low">Failed</span>
               </div>
             ))}
           </div>

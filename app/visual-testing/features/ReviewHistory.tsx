@@ -80,7 +80,7 @@ function HistoryRow(props: {
         {status}
       </Chip>
 
-      <div className="text-low flex flex-wrap items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2 text-low">
         <span className="font-medium text-(--neutral-10)">{time} by</span>
         <span className="flex items-center gap-1">
           <Avatar name={name} />

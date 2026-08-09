@@ -19,7 +19,7 @@ export function QuoteBlock(props: {
           className="h-12 w-auto"
         />
         <blockquote>
-          <p className="font-accent [&_strong]:text-default max-w-3xl bg-linear-to-b from-(--neutral-11) to-(--neutral-12) bg-clip-text py-2 text-lg text-balance text-transparent sm:text-xl md:text-2xl [&_strong]:font-medium">
+          <p className="max-w-3xl bg-linear-to-b from-(--neutral-11) to-(--neutral-12) bg-clip-text py-2 font-accent text-lg text-balance text-transparent sm:text-xl md:text-2xl [&_strong]:font-medium [&_strong]:text-default">
             “{quote.text}”
           </p>
         </blockquote>
@@ -31,7 +31,7 @@ export function QuoteBlock(props: {
           />
           <div>
             <div className="mb-1 text-sm font-medium">{quote.author.name}</div>
-            <div className="text-low text-sm font-medium">
+            <div className="text-sm font-medium text-low">
               {quote.author.title}
             </div>
           </div>

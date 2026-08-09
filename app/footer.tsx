@@ -5,12 +5,12 @@ import { twc } from "react-twc";
 import { ArgosLogo } from "@/components/ArgosLogo";
 import { ColorModeSelector } from "@/components/ColorModeSelector";
 import { Container } from "@/components/Container";
-import { StatusWidget } from "@/components/StatusWidget";
 import { DiscordIcon } from "@/components/icons/DiscordIcon";
 import { GdprLogo } from "@/components/icons/GdprLogo";
 import { GitHubIcon } from "@/components/icons/GitHubIcon";
 import { Soc2Logo } from "@/components/icons/Soc2Logo";
 import { XIcon } from "@/components/icons/XIcon";
+import { StatusWidget } from "@/components/StatusWidget";
 
 const FooterSection = twc.div`my-2 flex flex-1 grow basis-36 flex-col gap-2 whitespace-nowrap`;
 const FooterSectionTitle = twc.div`mb-1 font-medium`;
@@ -23,7 +23,7 @@ function FooterLink(props: { children: React.ReactNode; href: string }) {
   return (
     <div>
       <NextLink
-        className="text-low hover:text-default no-underline transition"
+        className="text-low no-underline transition hover:text-default"
         href={props.href}
       >
         {props.children}
@@ -39,7 +39,7 @@ export const AppFooter: React.FC = () => (
         <FooterSection className="flex-1 justify-between">
           <div className="flex flex-col gap-4">
             <ArgosLogo width="128" />
-            <div className="text-low flex items-center gap-3">
+            <div className="flex items-center gap-3 text-low">
               <FooterIconNextLink href="/security#soc-2">
                 <Soc2Logo className="h-7 w-auto" />
               </FooterIconNextLink>
@@ -54,7 +54,7 @@ export const AppFooter: React.FC = () => (
             </FooterIconLink>
             <FooterIconLink
               href="https://twitter.com/argos_ci"
-              className="text-low hover:text-default transition"
+              className="text-low transition hover:text-default"
             >
               <XIcon className="size-5" />
             </FooterIconLink>
@@ -108,7 +108,7 @@ export const AppFooter: React.FC = () => (
       <div className="flex items-center justify-between gap-4">
         <Suspense
           fallback={
-            <div aria-busy className="text-low text-sm">
+            <div aria-busy className="text-sm text-low">
               Loading...
             </div>
           }

@@ -118,26 +118,26 @@ export function AriaSnapshots() {
           <SmallTitle>
             <GitBranchIcon className="size-3" />
             Baseline from main
-            <span className="text-low font-normal">5 days ago</span>
+            <span className="font-normal text-low">5 days ago</span>
           </SmallTitle>
         }
         lines={BASELINE_LINES}
         variant="left"
-        className="animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both max-sm:hidden"
+        className="animate-slide-up-fade animate-duration-500 fill-mode-both motion-reduce:animate-fade-in max-sm:hidden"
       />
       <DiffColumn
         title={
           <SmallTitle>
             <GitBranchIcon className="size-3" />
             Changes from feature-x
-            <span className="text-low font-normal max-sm:hidden">
+            <span className="font-normal text-low max-sm:hidden">
               one day ago
             </span>
           </SmallTitle>
         }
         lines={PR_LINES}
         variant="right"
-        className="animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both sm:animate-delay-250"
+        className="animate-slide-up-fade animate-duration-500 fill-mode-both motion-reduce:animate-fade-in sm:animate-delay-250"
       />
     </div>
   );
@@ -159,12 +159,12 @@ function DiffColumn(props: {
     >
       <div className="flex items-center justify-between border-b-[0.5px] px-3 py-1.5">
         {title}
-        <Badge className="text-low text-xxs">
+        <Badge className="text-xxs text-low">
           <ScanTextIcon className="size-3" aria-hidden />
           ARIA snapshot
         </Badge>
       </div>
-      <div className="text-xxs relative space-y-0.5 overflow-hidden mask-b-from-80% p-3 font-mono leading-[1.45]">
+      <div className="relative space-y-0.5 overflow-hidden mask-b-from-80% p-3 font-mono text-xxs leading-[1.45]">
         {lines.map((line) => (
           <DiffRow key={`${variant}-${line.number}-${line.text}`} line={line} />
         ))}

@@ -63,8 +63,8 @@ export function RetryScreenshots() {
               <SDKBubble sdk={playwright} />
               <SDKBubble sdk={cypress} />
             </div>
-            <Badge className="text-xxs items-center gap-1.5">
-              <RefreshCwIcon className="text-low size-3" />
+            <Badge className="items-center gap-1.5 text-xxs">
+              <RefreshCwIcon className="size-3 text-low" />
               Retry enabled
             </Badge>
           </div>
@@ -93,7 +93,7 @@ export function RetryScreenshots() {
             ))}
           </div>
 
-          <div className="text-xxs flex items-center justify-between text-(--neutral-11)">
+          <div className="flex items-center justify-between text-xxs text-(--neutral-11)">
             <span>Build #214 · Screenshots pinned</span>
             <span className="font-semibold text-(--success-10)">
               Stable after retry
@@ -107,7 +107,7 @@ export function RetryScreenshots() {
 
 function SDKBubble(props: { sdk: Brand }) {
   return (
-    <div className="bg-app flex size-11 items-center justify-center rounded-full border">
+    <div className="flex size-11 items-center justify-center rounded-full border bg-app">
       <ThemeImage
         src={props.sdk.logo}
         alt={props.sdk.name}
@@ -141,7 +141,7 @@ function RetryRow(props: {
       }
       <div className="min-w-0 flex-1">
         <div className="truncate">{label}</div>
-        <div className="text-low text-xxs font-normal">{note}</div>
+        <div className="text-xxs font-normal text-low">{note}</div>
       </div>
       <span
         className={clsx(
@@ -163,8 +163,8 @@ function ScreenshotCard(props: {
 }) {
   const { label, status, caption, footer } = props;
   return (
-    <div className="bg-app flex flex-col gap-2 rounded-lg border px-3 py-3 shadow-xs">
-      <div className="text-xxs flex items-center justify-between font-semibold text-(--neutral-12)">
+    <div className="flex flex-col gap-2 rounded-lg border bg-app px-3 py-3 shadow-xs">
+      <div className="flex items-center justify-between text-xxs font-semibold text-(--neutral-12)">
         <span>{label}</span>
         <Chip
           variant={
@@ -200,7 +200,7 @@ function ScreenshotCard(props: {
         </div>
       </div>
 
-      <div className="text-low text-xxs hidden md:block">{footer}</div>
+      <div className="hidden text-xxs text-low md:block">{footer}</div>
     </div>
   );
 }

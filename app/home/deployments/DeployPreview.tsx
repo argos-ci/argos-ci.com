@@ -27,7 +27,7 @@ const ENVS = [
 
 export function DeployPreview() {
   return (
-    <div className="bg-app animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both w-full max-w-md overflow-hidden rounded-xl border-[0.5px] shadow-md/7">
+    <div className="w-full max-w-md animate-slide-up-fade overflow-hidden rounded-xl border-[0.5px] bg-app shadow-md/7 animate-duration-500 fill-mode-both motion-reduce:animate-fade-in">
       <div className="flex items-center gap-2 border-b-[0.5px] px-3 py-2">
         <ArgosEmblem className="size-4 text-(--teal-11)" />
         <span className="text-xs font-medium">Argos Deployment</span>
@@ -42,7 +42,7 @@ export function DeployPreview() {
             key={env.key}
             className="flex items-center gap-3 rounded-lg border-[0.5px] p-2.5"
           >
-            <span className="bg-app grid size-8 shrink-0 place-items-center rounded-md border-[0.5px]">
+            <span className="grid size-8 shrink-0 place-items-center rounded-md border-[0.5px] bg-app">
               {env.icon}
             </span>
             <div className="min-w-0 flex-1">
@@ -59,7 +59,7 @@ export function DeployPreview() {
                   {env.tag}
                 </Pill>
               </div>
-              <div className="text-low truncate font-mono text-xs">
+              <div className="truncate font-mono text-xs text-low">
                 {env.url}
               </div>
             </div>
@@ -67,8 +67,8 @@ export function DeployPreview() {
         ))}
       </div>
       <div className="flex items-center gap-2 border-t-[0.5px] px-3 py-2">
-        <LockIcon className="text-low size-3" />
-        <span className="text-low text-xxs">
+        <LockIcon className="size-3 text-low" />
+        <span className="text-xxs text-low">
           Preview private to your team · Production public
         </span>
       </div>

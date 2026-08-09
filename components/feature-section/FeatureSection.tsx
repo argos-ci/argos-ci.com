@@ -5,9 +5,9 @@ import { Container } from "@/components/Container";
 
 import { SectionHeader, SectionHeaderTexts } from "../SectionHeader";
 import { SectionDescription, SectionTitle } from "../Typography";
+import { type FeatureColor, INDICATOR_BG_COLORS } from "./colors";
 import { CustomerStory } from "./CustomerStory";
 import { type Feature, FeaturesCarousel } from "./FeaturesCarousel";
-import { type FeatureColor, INDICATOR_BG_COLORS } from "./colors";
 
 export function FeatureIndicator(props: {
   color: FeatureColor;

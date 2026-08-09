@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/alt-text */
 import clsx from "clsx";
 import Image, { type ImageProps } from "next/image";
 

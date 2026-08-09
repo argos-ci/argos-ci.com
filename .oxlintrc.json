@@ -1,0 +1,33 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": [
+    "typescript",
+    "unicorn",
+    "oxc",
+    "react",
+    "nextjs",
+    "jsx-a11y",
+    "import"
+  ],
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "rules": {
+    // Allow omitting props via rest destructuring: `{ width, ...rest }`.
+    "no-unused-vars": ["warn", { "ignoreRestSiblings": true }],
+    // The jsx-a11y rules eslint-config-next enabled, kept for parity.
+    "jsx-a11y/aria-props": "warn",
+    "jsx-a11y/aria-proptypes": "warn",
+    "jsx-a11y/aria-unsupported-elements": "warn",
+    "jsx-a11y/role-has-required-aria-props": "warn",
+    "jsx-a11y/role-supports-aria-props": "warn",
+    // Not part of the previous eslint-config-next coverage; enable deliberately
+    // (with the markup fixes they require) rather than as part of the migration.
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/heading-has-content": "off",
+    "jsx-a11y/interactive-supports-focus": "off",
+    "jsx-a11y/prefer-tag-over-role": "off"
+  },
+  "ignorePatterns": [".next", "out", "build", "next-env.d.ts"]
+}

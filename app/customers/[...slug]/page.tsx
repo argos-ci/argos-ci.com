@@ -117,27 +117,27 @@ export default async function Page(props: Props) {
             <div className="relative">
               <div className="mb-4 text-sm md:mb-8">
                 <ArrowLeftIcon
-                  className="text-low mr-2 inline size-4"
+                  className="mr-2 inline size-4 text-low"
                   strokeWidth={1}
                 />
                 <NextLink
                   href="/customers"
-                  className="text-low font-normal no-underline hover:underline"
+                  className="font-normal text-low no-underline hover:underline"
                 >
                   All customers
                 </NextLink>
               </div>
-              <h1 className="font-accent mb-4 text-2xl font-bold text-balance md:text-4xl">
+              <h1 className="mb-4 font-accent text-2xl font-bold text-balance md:text-4xl">
                 {customerCase.title}
               </h1>
-              <p className="text-low text-balance md:text-lg">
+              <p className="text-balance text-low md:text-lg">
                 {customerCase.description}
               </p>
             </div>
           </Container>
         </header>
         <Container className="relative mx-auto grid grid-cols-4 gap-5 border-x pt-4 pb-16 md:pt-10 md:pb-24 lg:gap-10">
-          <div className="prose dark:prose-invert col-span-4 max-w-none md:col-span-3">
+          <div className="col-span-4 prose max-w-none md:col-span-3 dark:prose-invert">
             <div
               className="not-prose rounded-lg"
               style={{
@@ -165,7 +165,7 @@ export default async function Page(props: Props) {
             <JsonLd json={jsonLdArticle} />
             <JsonLd json={jsonLdBreadcrumbs} />
           </div>
-          <div className="divide-base sticky top-20 col-span-1 hidden flex-col divide-y self-start md:flex">
+          <div className="sticky top-20 col-span-1 hidden flex-col divide-y divide-base self-start md:flex">
             <div className="flex items-center gap-4 py-5">
               <ThemeImage
                 src={customerCase.customer.logo.emblem}
@@ -175,7 +175,7 @@ export default async function Page(props: Props) {
               />
               <div>
                 <div className="font-medium">{customerCase.customer.name}</div>
-                <div className="text-low text-sm">
+                <div className="text-sm text-low">
                   <a
                     href={customerCase.customer.url}
                     target="_blank"
@@ -215,7 +215,7 @@ function SideItem(props: {
   return (
     <div className="flex flex-col space-y-2 py-5">
       <p className="font-medium">{props.title}</p>
-      <p className="text-low text-sm">{props.children}</p>
+      <p className="text-sm text-low">{props.children}</p>
     </div>
   );
 }

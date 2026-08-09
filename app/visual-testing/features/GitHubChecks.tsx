@@ -88,7 +88,7 @@ function CheckRow(props: {
           <span className="truncate">{title}</span>
           {required ? <Chip className="text-[0.6rem]">Required</Chip> : null}
         </div>
-        <div className="text-low mt-0.5 text-xs">{description}</div>
+        <div className="mt-0.5 text-xs text-low">{description}</div>
       </div>
       <CheckStatusIcon status={status} />
     </div>

@@ -11,7 +11,13 @@
  *
  * Requires ARGOS_OPENAI_API_KEY. See .claude/skills/social-image/SKILL.md
  */
-import { mkdirSync, existsSync, writeFileSync, readFileSync, statSync } from "node:fs";
+import {
+  mkdirSync,
+  existsSync,
+  writeFileSync,
+  readFileSync,
+  statSync,
+} from "node:fs";
 import { dirname, join, resolve } from "node:path";
 
 /**

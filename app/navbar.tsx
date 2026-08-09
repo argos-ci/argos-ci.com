@@ -23,10 +23,10 @@ import * as React from "react";
 
 import { ArgosLogo } from "@/components/ArgosLogo";
 import { Button } from "@/components/Button";
+import { type FeatureColor } from "@/components/feature-section/colors";
 import { Navbar } from "@/components/Navbar";
 import { OpenArgosButton } from "@/components/OpenArgosButton";
 import { ThemeImage, type ThemeImageProps } from "@/components/ThemeImage";
-import { type FeatureColor } from "@/components/feature-section/colors";
 
 import { cypress, playwright, storybook, wdio } from "./assets/brands/library";
 import { trackSignupClick } from "./google-ads";
@@ -365,7 +365,7 @@ function LinkCard(props: {
     <Link
       href={href}
       closeOnClick
-      className="hover:bg-ui group xs:p-3 flex items-center gap-3 rounded-md p-2 text-sm text-inherit no-underline"
+      className="group xs:p-3 flex items-center gap-3 rounded-md p-2 text-sm text-inherit no-underline hover:bg-ui"
     >
       <div
         className={clsx(
@@ -405,7 +405,7 @@ function LinkCard(props: {
       <div className="flex min-h-9.5 flex-col justify-center gap-0.5">
         <h3 className="leading-5 font-medium">{title}</h3>
         {description && (
-          <p className="text-low text-xs leading-4">{description}</p>
+          <p className="text-xs leading-4 text-low">{description}</p>
         )}
       </div>
     </Link>

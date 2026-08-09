@@ -39,14 +39,14 @@ function DiffPreview(props: { variant: PreviewVariant }) {
 
   return (
     <div className="relative space-y-2">
-      <div className="text-xxs flex items-center justify-between font-semibold text-(--neutral-12)">
+      <div className="flex items-center justify-between text-xxs font-semibold text-(--neutral-12)">
         <span className="flex items-center gap-2">
           <DotIndicator variant={tone} />
           {variant === "changes" ? "Changes" : "Baseline"}
         </span>
       </div>
 
-      <div className="bg-app relative overflow-hidden">
+      <div className="relative overflow-hidden bg-app">
         <div>
           <ApplicationSVG
             className="size-full"
@@ -77,7 +77,7 @@ function ZoomLens(props: { tone: "neutral" | "danger" }) {
         <div className="absolute inset-[6px] rounded-[14px] border border-dashed border-(--neutral-7)/70 bg-linear-to-br from-white/6 to-transparent" />
       </div>
 
-      <div className="bg-app text-xxxs absolute top-3 right-3 flex items-center gap-2 rounded-full border border-(--neutral-6)/70 px-2 py-[3px] font-semibold shadow-xs">
+      <div className="absolute top-3 right-3 flex items-center gap-2 rounded-full border border-(--neutral-6)/70 bg-app px-2 py-[3px] text-xxxs font-semibold shadow-xs">
         <FocusIcon className="size-3" />
         Synced zoom
       </div>
@@ -87,7 +87,7 @@ function ZoomLens(props: { tone: "neutral" | "danger" }) {
 
 function HighlightRibbon() {
   return (
-    <div className="text-xxxs pointer-events-none absolute right-3 bottom-3 flex items-center gap-2 rounded-full border border-(--danger-7)/70 bg-(--danger-2)/80 px-2 py-[3px] font-semibold text-(--danger-11) shadow-xs">
+    <div className="pointer-events-none absolute right-3 bottom-3 flex items-center gap-2 rounded-full border border-(--danger-7)/70 bg-(--danger-2)/80 px-2 py-[3px] text-xxxs font-semibold text-(--danger-11) shadow-xs">
       <ScanSearchIcon className="size-3" />
       Highlighter on
     </div>

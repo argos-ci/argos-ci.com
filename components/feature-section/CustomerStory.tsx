@@ -71,7 +71,7 @@ export function CustomerStory(props: {
                 <div className="text-sm font-medium">
                   {story.quote.author.name}
                 </div>
-                <div className="text-low text-xs font-medium">
+                <div className="text-xs font-medium text-low">
                   {story.quote.author.title}
                 </div>
               </div>

@@ -43,7 +43,7 @@ export function CircleProgress(props: {
         />
       </svg>
       <div className="absolute text-center">
-        <div className="text-low text-xxxs">{label}</div>
+        <div className="text-xxxs text-low">{label}</div>
         <div className="text-2xl leading-7 font-semibold">{progress}</div>
       </div>
     </div>

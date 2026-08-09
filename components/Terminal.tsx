@@ -16,7 +16,7 @@ export function Terminal(props: {
       )}
     >
       <div className="flex items-center justify-between border-b-[0.5px] px-3 py-2">
-        <div className="text-low flex items-center gap-2 text-xs font-medium">
+        <div className="flex items-center gap-2 text-xs font-medium text-low">
           <TerminalIcon className="size-3.5" />
           {title}
         </div>

@@ -40,7 +40,7 @@ function LogoBubble(props: {
         className="group flex cursor-pointer flex-col items-center gap-3"
         aria-label={`${label} quickstart`}
       >
-        <div className="bg-app flex size-28 items-center justify-center rounded-full border border-(--neutral-5) shadow-lg backdrop-blur transition duration-200 group-hover:-translate-y-1 group-hover:border-(--neutral-7) group-hover:shadow-xl">
+        <div className="flex size-28 items-center justify-center rounded-full border border-(--neutral-5) bg-app shadow-lg backdrop-blur transition duration-200 group-hover:-translate-y-1 group-hover:border-(--neutral-7) group-hover:shadow-xl">
           <ThemeImage src={src} alt={label} className="size-14" />
         </div>
         <Chip className="text-xs font-semibold select-none group-hover:text-default">

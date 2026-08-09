@@ -31,7 +31,7 @@ export function PlayFunctionScreenshot() {
         </span>
         Form.story.tsx
       </div>
-      <div className="text-xxs mask-b-from-80% font-mono">
+      <div className="mask-b-from-80% font-mono text-xxs">
         <CodeBlock
           className="[&_.highlighted]:bg-(--primary-3)/60 [&_pre]:p-2"
           lang="tsx"

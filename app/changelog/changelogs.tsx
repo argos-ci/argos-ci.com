@@ -48,15 +48,15 @@ export function Changelogs(props: {
             return (
               <article
                 key={changelog.slug}
-                className="container-gutter grid items-start gap-4 border-b pb-8 max-md:pt-8 sm:grid-cols-[minmax(0,25%)_minmax(0,36rem)]"
+                className="grid items-start gap-4 border-b container-gutter pb-8 max-md:pt-8 sm:grid-cols-[minmax(0,25%)_minmax(0,36rem)]"
                 style={{ contain: "none" }}
               >
-                <div className="text-low text-sm sm:sticky sm:top-15 sm:pt-10">
+                <div className="text-sm text-low sm:sticky sm:top-15 sm:pt-10">
                   {props.single && (
                     <div className="mb-4">
                       <NextLink
                         href="/changelog"
-                        className="hover:text-default font-semibold"
+                        className="font-semibold hover:text-default"
                       >
                         ← All posts
                       </NextLink>
@@ -66,7 +66,7 @@ export function Changelogs(props: {
                     {dateFormatter.format(new Date(changelog.date))}
                   </time>
                 </div>
-                <div className="prose dark:prose-invert prose-h2:mt-4 prose-h2:font-accent sm:prose-h2:mt-8 min-w-0">
+                <div className="prose min-w-0 dark:prose-invert prose-h2:mt-4 prose-h2:font-accent sm:prose-h2:mt-8">
                   <header>
                     <NextLink
                       href={`/changelog/${changelog.slug}`}

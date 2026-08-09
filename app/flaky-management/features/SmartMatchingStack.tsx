@@ -53,7 +53,7 @@ function BuildCard(props: {
         elevation === 1 && "translate-y-2",
       )}
     >
-      <div className="text-xxs flex items-center justify-between gap-2 font-semibold text-(--neutral-12)">
+      <div className="flex items-center justify-between gap-2 text-xxs font-semibold text-(--neutral-12)">
         <span className="truncate">{screenshot}</span>
         <Chip
           icon={Icon}
@@ -78,7 +78,7 @@ function BuildCard(props: {
 
 function MiniDiffStack() {
   return (
-    <div className="bg-app space-y-1 rounded-lg border p-2">
+    <div className="space-y-1 rounded-lg border bg-app p-2">
       <DiffRow emphasis="high" />
       <DiffRow emphasis="med" />
     </div>

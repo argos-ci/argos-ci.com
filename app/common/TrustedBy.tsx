@@ -44,7 +44,7 @@ export function TrustedBy() {
                   className="max-md:nth-[n+7]:hidden max-sm:nth-[n+5]:hidden dark:brightness-0 dark:invert"
                 />
                 {customer.storyUrl ? (
-                  <div className="bg-primary-ui absolute -bottom-2.5 left-1/2 -translate-x-1/2 rounded-lg px-1 text-[0.55rem] font-medium whitespace-nowrap text-(--primary-11) uppercase md:-bottom-1.5">
+                  <div className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 rounded-lg bg-primary-ui px-1 text-[0.55rem] font-medium whitespace-nowrap text-(--primary-11) uppercase md:-bottom-1.5">
                     Case study
                   </div>
                 ) : null}

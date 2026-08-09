@@ -130,7 +130,7 @@ function LogoCell(props: { company: CustomerCompany }) {
   return (
     <Link
       {...cellHref(company)}
-      className="bg-app flex items-center justify-center p-8 transition duration-200 hover:bg-(--neutral-3)"
+      className="flex items-center justify-center bg-app p-8 transition duration-200 hover:bg-(--neutral-3)"
     >
       <ThemeImage
         src={company.logo["140x48"]}
@@ -146,7 +146,7 @@ function QuoteCell(props: { quote: CustomerQuote }) {
   return (
     <Link
       {...cellHref(quote.company)}
-      className="bg-app group col-span-2 flex flex-col gap-6 p-6 transition duration-200 hover:bg-(--neutral-3) md:p-8"
+      className="group col-span-2 flex flex-col gap-6 bg-app p-6 transition duration-200 hover:bg-(--neutral-3) md:p-8"
     >
       <ThemeImage
         src={quote.company.logo.adjusted}
@@ -163,7 +163,7 @@ function QuoteCell(props: { quote: CustomerQuote }) {
           />
           <div>
             <div className="text-sm font-medium">{quote.author.name}</div>
-            <div className="text-low text-xs font-medium">
+            <div className="text-xs font-medium text-low">
               {quote.author.title}
             </div>
           </div>

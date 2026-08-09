@@ -3,6 +3,6 @@ import { ComponentProps } from "react";
 
 export function Link(props: ComponentProps<typeof NextLink>) {
   return (
-    <NextLink className="text-default hover:text-low underline" {...props} />
+    <NextLink className="text-default underline hover:text-low" {...props} />
   );
 }

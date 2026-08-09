@@ -53,7 +53,7 @@ export function DiffsReview() {
 
 function Header() {
   return (
-    <div className="text-xxs flex flex-wrap items-center gap-3 border-b-[0.5px] px-4 py-3">
+    <div className="flex flex-wrap items-center gap-3 border-b-[0.5px] px-4 py-3 text-xxs">
       <Badge>
         <DotIndicator variant="primary" />
         Build 98
@@ -76,7 +76,7 @@ function Header() {
 function Sidebar() {
   return (
     <div className="flex flex-col gap-3 border-r-[0.5px] py-3">
-      <div className="text-xxs flex items-center justify-between border-b-[0.5px] px-3 pb-3 font-semibold text-(--neutral-12) max-sm:hidden">
+      <div className="flex items-center justify-between border-b-[0.5px] px-3 pb-3 text-xxs font-semibold text-(--neutral-12) max-sm:hidden">
         <span className="flex items-center gap-2">
           <DotIndicator variant="primary" />
           Screenshots
@@ -111,7 +111,7 @@ function SidebarGroup(props: {
   const { title, count, tone, items } = props;
   return (
     <div className="space-y-2">
-      <div className="text-xxs flex items-center justify-between font-semibold text-(--neutral-11)">
+      <div className="flex items-center justify-between text-xxs font-semibold text-(--neutral-11)">
         <span className="flex items-center gap-2">
           <DotIndicator variant={tone === "danger" ? "danger" : "neutral"} />
           {title}
@@ -161,11 +161,11 @@ function SidebarRow(props: {
             />
           ) : null}
         </div>
-        <div className="text-low text-xxs truncate">{meta}</div>
+        <div className="truncate text-xxs text-low">{meta}</div>
       </div>
       <Chip
         variant={tone === "danger" ? "danger" : "neutral"}
-        className="text-xxxs px-2 py-[2px]"
+        className="px-2 py-[2px] text-xxxs"
       >
         {tone === "danger" ? "Update" : "Clean"}
       </Chip>
@@ -187,27 +187,27 @@ function Workspace() {
 
 function Toolbar() {
   return (
-    <div className="bg-app text-xxs flex flex-wrap items-center gap-2 rounded-xl border px-3 py-2">
+    <div className="flex flex-wrap items-center gap-2 rounded-xl border bg-app px-3 py-2 text-xxs">
       <div className="flex items-center gap-2 font-semibold text-(--neutral-12)">
         <DotIndicator variant="primary" />
         added-to-cart.png
       </div>
-      <Chip variant="primary" className="text-xxxs px-2 py-[2px]">
+      <Chip variant="primary" className="px-2 py-[2px] text-xxxs">
         Review changes
       </Chip>
-      <Chip variant="neutral" className="text-xxxs px-2 py-[2px]">
+      <Chip variant="neutral" className="px-2 py-[2px] text-xxxs">
         Smart zoom
       </Chip>
       <Chip
         variant="danger"
-        className="text-xxxs flex items-center gap-1 px-2 py-[2px]"
+        className="flex items-center gap-1 px-2 py-[2px] text-xxxs"
       >
         <EyeIcon className="size-3" />
         Highlights
       </Chip>
       <Chip
         variant="pending"
-        className="text-xxxs flex items-center gap-1 px-2 py-[2px]"
+        className="flex items-center gap-1 px-2 py-[2px] text-xxxs"
       >
         <Wand2Icon className="size-3" />
         Masks
@@ -219,7 +219,7 @@ function Toolbar() {
 function DiffPanel(props: { label: string; variant: SneakerVariant }) {
   const { label, variant } = props;
   return (
-    <div className="bg-app relative flex flex-col gap-3 overflow-hidden rounded-lg border p-3">
+    <div className="relative flex flex-col gap-3 overflow-hidden rounded-lg border bg-app p-3">
       <SmallTitle>{label}</SmallTitle>
 
       <div className="relative">
@@ -268,7 +268,7 @@ function AvatarStack() {
 
 function KeyboardHints() {
   return (
-    <div className="bg-app text-low text-xxxs hidden items-center gap-2 rounded-md border-[0.5px] px-2 py-1 font-medium md:flex">
+    <div className="hidden items-center gap-2 rounded-md border-[0.5px] bg-app px-2 py-1 text-xxxs font-medium text-low md:flex">
       <Kbd>↓</Kbd>
       <Kbd>↑</Kbd>
       <span className="text-low">navigate</span>
@@ -282,7 +282,7 @@ function KeyboardHints() {
 function Kbd(props: { children: ReactNode }) {
   const { children } = props;
   return (
-    <kbd className="bg-app tetx-ow text-xxs inline-flex min-w-6 items-center justify-center rounded border-[0.5px] border-b-2 px-1.5 font-mono font-bold">
+    <kbd className="tetx-ow inline-flex min-w-6 items-center justify-center rounded border-[0.5px] border-b-2 bg-app px-1.5 font-mono text-xxs font-bold">
       {children}
     </kbd>
   );

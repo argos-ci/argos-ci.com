@@ -14,7 +14,7 @@ enum ColorMode {
 function ColorModeButton(props: React.ComponentPropsWithRef<"button">) {
   return (
     <button
-      className="hover:bg-hover aria-pressed:bg-active grid size-6 place-items-center rounded-full transition"
+      className="grid size-6 place-items-center rounded-full transition hover:bg-hover aria-pressed:bg-active"
       type="button"
       {...props}
     />
@@ -26,7 +26,6 @@ export const ColorModeSelector = () => {
   const [visible, setVisible] = React.useState(false);
 
   React.useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- theme is unknown until hydration, reveal after mount to avoid a mismatch
     setVisible(true);
   }, []);
 

@@ -34,26 +34,24 @@ async function getChangelogFromPath(
     return null;
   }
   const YYYY_MM_DD = frontmatter.date.split("T")[0];
-  const [source] = await Promise.all([
-    getDocMdxSource(filepath, {
-      components: {
-        img: ({ src, height, width, alt }) => {
-          return (
-            <Zoom>
-              <Image
-                className="rounded-md"
-                src={src as string}
-                height={height as number}
-                width={width as number}
-                alt={alt as string}
-                sizes="(max-width: 576px) 100vw, 576px"
-              />
-            </Zoom>
-          );
-        },
+  const source = await getDocMdxSource(filepath, {
+    components: {
+      img: ({ src, height, width, alt }) => {
+        return (
+          <Zoom>
+            <Image
+              className="rounded-md"
+              src={src as string}
+              height={height as number}
+              width={width as number}
+              alt={alt as string}
+              sizes="(max-width: 576px) 100vw, 576px"
+            />
+          </Zoom>
+        );
       },
-    }),
-  ]);
+    },
+  });
   return {
     filepath,
     homeTitle: frontmatter.homeTitle,

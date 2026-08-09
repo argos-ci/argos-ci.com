@@ -83,14 +83,12 @@ export function Cost() {
 
   React.useEffect(() => {
     if (inViewport && !hasEntered) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- latch the first viewport entry
       setHasEntered(true);
     }
   }, [inViewport, hasEntered]);
 
   React.useEffect(() => {
     if (!hasEntered) return;
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- reset the bars synchronously before re-animating them on scenario change
     setShouldAnimateBars(false);
     const id = requestAnimationFrame(() => setShouldAnimateBars(true));
     return () => cancelAnimationFrame(id);
@@ -112,7 +110,7 @@ export function Cost() {
   }));
 
   return (
-    <section className="separator-b bg-subtle relative px-4">
+    <section className="separator-b relative bg-subtle px-4">
       <Container
         noGutter
         className="relative flex flex-col border-x pb-12 md:pb-18"
@@ -126,8 +124,8 @@ export function Cost() {
             </SectionDescription>
           </SectionHeaderTexts>
         </SectionHeader>
-        <div className="bg-app flex flex-col border-y shadow-xs md:flex-row-reverse">
-          <div className="container-gutter flex flex-col items-start justify-center gap-6 py-6 max-md:border-b md:basis-1/2 md:gap-8 md:border-l md:py-8 lg:basis-2/5">
+        <div className="flex flex-col border-y bg-app shadow-xs md:flex-row-reverse">
+          <div className="flex flex-col items-start justify-center gap-6 container-gutter py-6 max-md:border-b md:basis-1/2 md:gap-8 md:border-l md:py-8 lg:basis-2/5">
             <CostFeature
               href="/docs/learn/platform-fundamentals/how-argos-detects-visual-differences"
               icon={ScanIcon}
@@ -154,7 +152,7 @@ export function Cost() {
                   <div className="relative w-full">
                     <select
                       id="cost-scenario"
-                      className="bg-app text-xxxs w-full appearance-none rounded-md border px-3 py-2 font-medium shadow-xs transition outline-none focus-visible:border-(--primary-8) focus-visible:ring-2 focus-visible:ring-(--primary-5) lg:text-sm"
+                      className="w-full appearance-none rounded-md border bg-app px-3 py-2 text-xxxs font-medium shadow-xs transition outline-none focus-visible:border-(--primary-8) focus-visible:ring-2 focus-visible:ring-(--primary-5) lg:text-sm"
                       value={selectedScenarioId}
                       onChange={(event) =>
                         setSelectedScenarioId(
@@ -169,7 +167,7 @@ export function Cost() {
                         </option>
                       ))}
                     </select>
-                    <ChevronDownIcon className="text-low pointer-events-none absolute top-1/2 right-3 size-4 -translate-y-1/2" />
+                    <ChevronDownIcon className="pointer-events-none absolute top-1/2 right-3 size-4 -translate-y-1/2 text-low" />
                   </div>
                 </div>
                 <div ref={barRef} className="flex flex-col gap-6">
@@ -238,7 +236,7 @@ function CostLine(props: {
     <div className="flex flex-col gap-x-6 gap-y-1 lg:flex-row lg:items-center">
       <div className="flex w-24 flex-col">
         <div className="font-medium">{name}</div>
-        {subtitle && <div className="text-low text-xs">{subtitle}</div>}
+        {subtitle && <div className="text-xs text-low">{subtitle}</div>}
       </div>
       <div className="relative h-10 flex-1 overflow-hidden rounded-lg bg-(--neutral-5)">
         <div
@@ -268,10 +266,10 @@ function CostFeature(props: {
   return (
     <div>
       <h3 className="font-accent text-lg font-medium">
-        <Icon className="text-low mr-2 inline-block size-4 shrink-0 align-[-8%]" />
+        <Icon className="mr-2 inline-block size-4 shrink-0 align-[-8%] text-low" />
         {title}
       </h3>
-      <p className="text-low text-sm">{description}</p>
+      <p className="text-sm text-low">{description}</p>
       <Link
         href={href}
         className="group mt-2 inline-block text-sm font-medium text-(--primary-11)"

@@ -14,9 +14,9 @@ import { SmallTitle } from "@/components/Typography";
 export function Stabilization() {
   return (
     <div className="relative flex w-full max-w-4xl items-center justify-center gap-2 p-5 md:gap-10">
-      <Funnel className="animate-fade-in animate-duration-500 animate-delay-200 fill-mode-both absolute left-1/2 z-0 hidden size-75 -translate-x-1/2 md:flex" />
+      <Funnel className="absolute left-1/2 z-0 hidden size-75 -translate-x-1/2 animate-fade-in animate-delay-200 animate-duration-500 fill-mode-both md:flex" />
 
-      <Card className="animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both relative flex flex-1 flex-col gap-3 p-3">
+      <Card className="relative flex flex-1 animate-slide-up-fade flex-col gap-3 p-3 animate-duration-500 fill-mode-both motion-reduce:animate-fade-in">
         <Header>
           <SmallTitle>
             <ContainedIcon variant="danger" icon={AlertTriangleIcon} />
@@ -31,7 +31,7 @@ export function Stabilization() {
         <ApplicationSVG noise={1} withChanges />
       </Card>
 
-      <Card className="animate-zoom-in motion-reduce:animate-fade-in animate-delay-100 animate-duration-500 fill-mode-both relative hidden p-5 md:block">
+      <Card className="relative hidden animate-zoom-in p-5 animate-delay-100 animate-duration-500 fill-mode-both motion-reduce:animate-fade-in md:block">
         <div
           className="pointer-events-none absolute inset-0 grid place-items-center"
           aria-hidden="true"
@@ -44,12 +44,12 @@ export function Stabilization() {
         >
           <StabilizationChipIcon />
         </div>
-        <div className="bg-app text-xxxs pointer-events-none absolute -bottom-12 left-1/2 -translate-1/2 rounded border-[0.5px] px-2 py-1 font-mono whitespace-nowrap text-(--primary-9) uppercase">
+        <div className="pointer-events-none absolute -bottom-12 left-1/2 -translate-1/2 rounded border-[0.5px] bg-app px-2 py-1 font-mono text-xxxs whitespace-nowrap text-(--primary-9) uppercase">
           Stabilization engine
         </div>
       </Card>
 
-      <Card className="animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both relative flex flex-1 flex-col gap-3 p-3">
+      <Card className="relative flex flex-1 animate-slide-up-fade flex-col gap-3 p-3 animate-duration-500 fill-mode-both motion-reduce:animate-fade-in">
         <Header>
           <SmallTitle>
             <ContainedIcon variant="success" icon={CheckIcon} />

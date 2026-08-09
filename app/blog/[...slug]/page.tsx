@@ -103,7 +103,7 @@ async function Siblings({ slug }: { slug: string }) {
   return (
     <div className="border-t px-4">
       <Container noGutter className="border-x pt-4 md:pt-8">
-        <h3 className="container-gutter text-default font-accent mb-8 text-2xl font-semibold">
+        <h3 className="mb-8 container-gutter font-accent text-2xl font-semibold text-default">
           Read also
         </h3>
         <div className="grid grid-cols-3" data-visual-test="transparent">
@@ -211,7 +211,7 @@ export default async function Page(props: Props) {
           <Container className="border-x">
             <Container
               tight
-              className="prose prose-h2:font-accent prose-h3:font-accent dark:prose-invert py-8 md:py-16"
+              className="prose py-8 md:py-16 dark:prose-invert prose-h2:font-accent prose-h3:font-accent"
             >
               {source}
             </Container>

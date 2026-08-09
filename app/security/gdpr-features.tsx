@@ -29,7 +29,7 @@ export const GDPR_FEATURES: GdprFeature[] = [
 
 export const GDPRFeatures = ({ features }: { features: GdprFeature[] }) => {
   return (
-    <div className="container-gutter grid grid-cols-1 justify-center gap-12 text-left md:grid-cols-3">
+    <div className="grid grid-cols-1 justify-center gap-12 container-gutter text-left md:grid-cols-3">
       {features.map((feature) => {
         const Icon = feature.icon;
         return (

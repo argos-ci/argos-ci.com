@@ -110,7 +110,7 @@ function StoryCard(props: {
           : "bg-(--neutral-1)",
       )}
     >
-      <div className="text-xxs flex items-center gap-2 font-semibold text-(--neutral-11)">
+      <div className="flex items-center gap-2 text-xxs font-semibold text-(--neutral-11)">
         <div className="grid size-7 place-items-center rounded-md border shadow-xs">
           <ThemeImage
             alt=""
@@ -125,7 +125,7 @@ function StoryCard(props: {
       <div className="mt-2 text-sm font-semibold text-(--neutral-12)">
         {title}
       </div>
-      <div className="text-low text-xs">{subtitle}</div>
+      <div className="text-xs text-low">{subtitle}</div>
     </Card>
   );
 }
@@ -168,7 +168,7 @@ function SnapshotTile(props: {
               />
               {title}
             </div>
-            <div className="text-low text-xs">{subtitle}</div>
+            <div className="text-xs text-low">{subtitle}</div>
             <div className="mt-2">
               <StatusBadge status={status} />
             </div>

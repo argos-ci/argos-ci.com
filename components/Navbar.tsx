@@ -38,7 +38,7 @@ export function Navbar(props: NavbarProps) {
             />
           </Dialog.Viewport>
         </Dialog.Portal>
-        <div className="max-w-max-content container mx-auto flex items-center justify-between gap-14 px-3 md:justify-start md:px-7">
+        <div className="container mx-auto flex max-w-max-content items-center justify-between gap-14 px-3 md:justify-start md:px-7">
           <div className="flex-1">{primary}</div>
           <div className="hidden md:flex md:items-center">{secondary}</div>
           <div className="hidden md:flex md:items-center md:gap-2">

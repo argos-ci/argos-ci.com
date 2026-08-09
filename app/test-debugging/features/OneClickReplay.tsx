@@ -18,7 +18,7 @@ export function OneClickReplayIllustration() {
         aria-hidden
       />
       <Card className="relative z-10 w-full max-w-md">
-        <div className="text-xxs flex items-center justify-between border-b-[0.5px] px-3 py-2 font-semibold text-(--neutral-11)">
+        <div className="flex items-center justify-between border-b-[0.5px] px-3 py-2 text-xxs font-semibold text-(--neutral-11)">
           <span className="flex items-center gap-2">
             <DotIndicator variant="primary" />
             trace.zip · checkout.spec.ts
@@ -27,8 +27,8 @@ export function OneClickReplayIllustration() {
         </div>
 
         <div className="space-y-3 p-3">
-          <div className="bg-subtle rounded-lg border border-(--neutral-6) px-3 py-2 shadow-xs">
-            <div className="text-xxs flex items-center justify-between font-semibold text-(--neutral-12)">
+          <div className="rounded-lg border border-(--neutral-6) bg-subtle px-3 py-2 shadow-xs">
+            <div className="flex items-center justify-between text-xxs font-semibold text-(--neutral-12)">
               Replay failure
               <span className="text-(--danger-10)">Failed</span>
             </div>
@@ -42,7 +42,7 @@ export function OneClickReplayIllustration() {
             </div>
           </div>
 
-          <div className="bg-subtle grid gap-1.5 rounded-lg border border-(--neutral-6) p-3">
+          <div className="grid gap-1.5 rounded-lg border border-(--neutral-6) bg-subtle p-3">
             {timeline.map((item) => (
               <TimelineRow key={item.label} {...item} />
             ))}

@@ -75,17 +75,17 @@ export function AgentTerminal(props: {
   const { prompt, conversations, activeKey } = props;
 
   return (
-    <div className="bg-app animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both w-full max-w-md overflow-hidden rounded-xl border-[0.5px] shadow-md/7 dark:border-(--neutral-7)">
+    <div className="w-full max-w-md animate-slide-up-fade overflow-hidden rounded-xl border-[0.5px] bg-app shadow-md/7 animate-duration-500 fill-mode-both motion-reduce:animate-fade-in dark:border-(--neutral-7)">
       {/* The agent is named once, here, instead of on every turn it takes. */}
       <div className="flex items-center gap-2 border-b-[0.5px] px-3 py-2">
         <ClaudeMark className="size-3.5 shrink-0" />
-        <span className="text-low text-xs font-medium">Claude Code</span>
+        <span className="text-xs font-medium text-low">Claude Code</span>
       </div>
 
       {/* The filled band is what marks the turn as yours — the device the real
           session uses, and the reason no name is needed. Monospaced, since this
           is the one line that was actually typed. */}
-      <div className="text-xxs mt-2 flex gap-2 bg-(--neutral-3) px-4 py-1.5 font-mono">
+      <div className="mt-2 flex gap-2 bg-(--neutral-3) px-4 py-1.5 font-mono text-xxs">
         <span aria-hidden className="shrink-0 text-(--violet-11)">
           ›
         </span>
@@ -126,7 +126,7 @@ export function AgentTerminal(props: {
           left: in a finished exchange the cursor sits at the input, not in the
           middle of something the agent already said. */}
       <div className="flex items-center gap-2 border-t-[0.5px] px-4 py-2.5">
-        <span aria-hidden className="text-xxs font-mono text-(--violet-11)">
+        <span aria-hidden className="font-mono text-xxs text-(--violet-11)">
           ›
         </span>
         <span
@@ -149,7 +149,7 @@ function Line(props: { line: TerminalLine }) {
     return (
       <div className="flex gap-2 px-4">
         <span aria-hidden className="size-1.5 shrink-0" />
-        <span className="text-low text-xxs flex items-center gap-1.5 font-mono">
+        <span className="flex items-center gap-1.5 font-mono text-xxs text-low">
           {/* Drawn rather than typed. `⎿` is a box-drawing character, so its
               shape depends on whichever font resolves it — the same reason the
               answer bullet is a span and not a glyph. */}
@@ -172,7 +172,7 @@ function Line(props: { line: TerminalLine }) {
         aria-hidden
         className="mt-1.5 size-1.5 shrink-0 rounded-full bg-(--violet-9)"
       />
-      <p className="text-default text-xs leading-relaxed">{line.text}</p>
+      <p className="text-xs leading-relaxed text-default">{line.text}</p>
     </div>
   );
 }

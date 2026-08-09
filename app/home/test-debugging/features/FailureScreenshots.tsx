@@ -10,16 +10,13 @@ import { SmallTitle } from "@/components/Typography";
 
 export function FailureScreenshots() {
   return (
-    <Card
-      shadow="high"
-      className="w-64 rotate-2 overflow-hidden select-none"
-    >
+    <Card shadow="high" className="w-64 rotate-2 overflow-hidden select-none">
       <div className="flex items-center justify-between border-b-[0.5px] px-3 py-1.5">
         <SmallTitle>
           <DotIndicator variant="danger" />
           <span className="font-mono">checkout.spec.ts</span>
         </SmallTitle>
-        <Badge className="text-xxs gap-1 border-(--danger-7) text-(--danger-11)">
+        <Badge className="gap-1 border-(--danger-7) text-xxs text-(--danger-11)">
           <XIcon className="size-3" />
           Failed
         </Badge>
@@ -34,7 +31,7 @@ export function FailureScreenshots() {
               Something went wrong
             </span>
           </div>
-          <span className="bg-app text-low absolute right-1.5 bottom-1.5 flex items-center gap-1 rounded border-[0.5px] px-1.5 py-0.5 text-[0.5rem] font-medium">
+          <span className="absolute right-1.5 bottom-1.5 flex items-center gap-1 rounded border-[0.5px] bg-app px-1.5 py-0.5 text-[0.5rem] font-medium text-low">
             <CameraIcon className="size-2.5" />
             Captured on failure
           </span>
@@ -44,7 +41,7 @@ export function FailureScreenshots() {
         </div>
       </div>
 
-      <div className="text-xxs flex items-center justify-between border-t-[0.5px] px-3 py-1.5 text-(--neutral-11)">
+      <div className="flex items-center justify-between border-t-[0.5px] px-3 py-1.5 text-xxs text-(--neutral-11)">
         <span>Build #214</span>
         <span className="text-low">Attempt 1 of 3</span>
       </div>

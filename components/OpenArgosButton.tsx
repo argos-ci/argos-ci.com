@@ -35,7 +35,6 @@ export function OpenArgosButton() {
     if (getAlwaysOpen() || isNudgeDismissed()) {
       return;
     }
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time client-only decision that needs DOM layout (offsetParent)
     setShowNudge(true);
   }, []);
 
@@ -90,7 +89,7 @@ export function OpenArgosButton() {
             type="button"
             onClick={handleDismiss}
             aria-label="Dismiss"
-            className="text-low hover:text-default absolute top-3 right-3 transition"
+            className="absolute top-3 right-3 text-low transition hover:text-default"
           >
             <XIcon className="size-4" />
           </button>

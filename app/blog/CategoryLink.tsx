@@ -11,7 +11,7 @@ export function CategoryLink(props: {
 
   return (
     <NextLink
-      className="hover:bg-ui inline-flex shrink-0 items-center gap-1 rounded-md px-4 py-1.5 text-sm font-medium no-underline transition aria-[current=page]:bg-(--neutral-12) aria-[current=page]:text-(--neutral-1) md:text-base"
+      className="inline-flex shrink-0 items-center gap-1 rounded-md px-4 py-1.5 text-sm font-medium no-underline transition hover:bg-ui aria-[current=page]:bg-(--neutral-12) aria-[current=page]:text-(--neutral-1) md:text-base"
       href={href}
       aria-current={pathname === href ? "page" : undefined}
     >

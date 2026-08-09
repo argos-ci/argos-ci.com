@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 
 import { CallToActionSection } from "@/components/CallToActionSection";
-import { RedirectIfCookie } from "@/components/RedirectIfCookie";
 import { FeaturedSDKsSection } from "@/components/featured-sdk/FeaturedSDKs";
+import { RedirectIfCookie } from "@/components/RedirectIfCookie";
 import { defaultDescription, defaultTitle, getMetadata } from "@/lib/metadata";
 
 import { TrustedBy } from "./common/TrustedBy";

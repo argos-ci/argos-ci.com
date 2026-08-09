@@ -127,7 +127,7 @@ function TimelineStep(props: (typeof STEPS)[number]) {
         <div
           className={clsx("absolute inset-y-0 left-0 w-1", toneClass.stripe)}
         />
-        <div className="text-low flex flex-wrap items-center gap-2 px-4 pt-3 text-xs">
+        <div className="flex flex-wrap items-center gap-2 px-4 pt-3 text-xs text-low">
           <StatusPill tone={tone}>{badge}</StatusPill>
           <span className="text-low">{meta}</span>
         </div>
@@ -136,9 +136,9 @@ function TimelineStep(props: (typeof STEPS)[number]) {
             {highlight ? <DotIndicator variant="primary" /> : null}
             <span>{title}</span>
           </div>
-          <p className="text-low mt-1 text-sm leading-relaxed">{description}</p>
+          <p className="mt-1 text-sm leading-relaxed text-low">{description}</p>
           {tone === "danger" ? (
-            <div className="text-xxs mt-3 grid gap-1 font-semibold text-(--neutral-12)">
+            <div className="mt-3 grid gap-1 text-xxs font-semibold text-(--neutral-12)">
               <MiniStat label="15 snapshots changed" />
               <MiniStat label="2 added views" />
             </div>

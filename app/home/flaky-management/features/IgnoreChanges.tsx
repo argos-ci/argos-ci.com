@@ -52,7 +52,7 @@ export function IgnoreChanges() {
         )}
       >
         <IgnoreAction />
-        <div className="bg-app shadow-xxs pointer-events-none absolute -bottom-5 left-1/2 flex -translate-x-1/2 items-center gap-1 rounded-full border px-2 py-1 text-xs whitespace-nowrap text-(--neutral-12)">
+        <div className="shadow-xxs pointer-events-none absolute -bottom-5 left-1/2 flex -translate-x-1/2 items-center gap-1 rounded-full border bg-app px-2 py-1 text-xs whitespace-nowrap text-(--neutral-12)">
           <MousePointerClickIcon
             className="size-4 text-(--primary-9)"
             aria-hidden="true"

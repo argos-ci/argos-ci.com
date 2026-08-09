@@ -44,7 +44,7 @@ export function FeatureGridFeature(props: {
       </div>
       <div className="sm:px-4">
         <h3 className="mb-1 font-semibold">{title}</h3>
-        <p className="text-low font-[450]">{description}</p>
+        <p className="font-[450] text-low">{description}</p>
         <Button className="mt-4" variant="outline" asChild>
           <Link href={href}>{cta}</Link>
         </Button>
@@ -66,7 +66,7 @@ export function FeatureGridFeatureSmall(props: {
       <Icon className="size-4 text-(--primary-10)" />
       <div>
         <h3 className="mb-1 font-semibold">{title}</h3>
-        <p className="text-low font-[450]">{description}</p>
+        <p className="font-[450] text-low">{description}</p>
         <Button className="mt-4" variant="outline" asChild>
           <Link href={href}>{cta}</Link>
         </Button>

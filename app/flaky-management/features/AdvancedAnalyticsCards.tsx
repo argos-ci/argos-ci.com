@@ -28,7 +28,7 @@ export function AdvancedAnalyticsCardsIllustration() {
         shadow="high"
       >
         <SmallTitle>
-          <BarChart2Icon className="text-low size-3" />
+          <BarChart2Icon className="size-3 text-low" />
           Build metrics
         </SmallTitle>
         <div className="grid grid-cols-2 gap-2 text-sm">

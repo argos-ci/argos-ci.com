@@ -88,10 +88,10 @@ function Price(props: {
     <div className="flex flex-col gap-1 pt-6">
       <Paragraph>{fixedPrice ? null : "Starting at"}</Paragraph>
       <div className="flex items-baseline">
-        <span className="text-default text-3xl font-semibold tracking-tight">
+        <span className="text-3xl font-semibold tracking-tight text-default">
           <LocalDollar value={price} />
         </span>
-        {recurring && <span className="text-low ml-1 text-lg">/mo</span>}
+        {recurring && <span className="ml-1 text-lg text-low">/mo</span>}
       </div>
       <Paragraph>
         {fixedPrice ? "forever" : "Billed monthly based on usage"}
@@ -125,7 +125,7 @@ export function PricingCards() {
   return (
     <Container
       noGutter
-      className="max-md:container-gutter grid grid-cols-1 justify-center md:grid-cols-3"
+      className="grid grid-cols-1 justify-center max-md:container-gutter md:grid-cols-3"
     >
       <PricingCard>
         <PricingCardBody>
@@ -218,7 +218,7 @@ export function PricingCards() {
         <PricingCardBody>
           <Title>Enterprise</Title>
           <Description>Tailored solutions with premium features.</Description>
-          <div className="text-default my-6 flex items-baseline pt-2 text-3xl font-semibold md:mt-12">
+          <div className="my-6 flex items-baseline pt-2 text-3xl font-semibold text-default md:mt-12">
             Custom
           </div>
           <CTA href="mailto:contact@argos-ci.com" variant="outline">

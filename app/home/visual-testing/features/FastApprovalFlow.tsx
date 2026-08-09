@@ -18,7 +18,7 @@ export function FastApprovalFlow() {
 
 function CardStack() {
   return (
-    <div className="animate-fade-in-up motion-reduce:animate-fade-in animate-duration-500 fill-mode-both flex items-center justify-center">
+    <div className="flex animate-fade-in-up items-center justify-center animate-duration-500 fill-mode-both motion-reduce:animate-fade-in">
       <div className="relative w-[75%]">
         <div className="absolute inset-0 translate-y-6 scale-[0.97] -rotate-3">
           <SwipeCard tone="idle" />
@@ -28,12 +28,12 @@ function CardStack() {
           <SwipeCard tone="idle" />
         </div>
 
-        <div className="animate-nudge-right relative z-10">
+        <div className="relative z-10 animate-nudge-right">
           <SwipeCard tone="active" />
 
           {/* Approved glow, synced with the swipe + thumbs-up */}
           <div
-            className="animate-green-pulse pointer-events-none absolute inset-0 z-20 rounded-xl ring-2 ring-(--success-9)"
+            className="pointer-events-none absolute inset-0 z-20 animate-green-pulse rounded-xl ring-2 ring-(--success-9)"
             aria-hidden="true"
           />
         </div>
@@ -95,7 +95,7 @@ function ViewportLabel(props: { tone: "baseline" | "changes" }) {
 
 function ActionRow() {
   return (
-    <div className="animate-fade-in animate-delay-150 motion-reduce:animate-fade-in animate-duration-500 fill-mode-both flex items-center justify-center">
+    <div className="flex animate-fade-in items-center justify-center animate-delay-150 animate-duration-500 fill-mode-both motion-reduce:animate-fade-in">
       <div className="flex items-center gap-8">
         <ActionButton variant="down" icon={ThumbsDownIcon} kbd="N" />
         <ActionButton variant="up" icon={ThumbsUpIcon} kbd="Y" />
@@ -113,7 +113,7 @@ function ActionButton(props: {
   return (
     <div className="relative">
       {variant === "up" ? (
-        <div className="animate-green-pulse absolute inset-0 rounded-full bg-(--success-9) md:size-14" />
+        <div className="absolute inset-0 animate-green-pulse rounded-full bg-(--success-9) md:size-14" />
       ) : null}
       <div
         className={clsx(
