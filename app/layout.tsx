@@ -9,6 +9,7 @@ import { Organization } from "schema-dts";
 
 import { JsonLd } from "@/components/JsonLd";
 import { TooltipProvider } from "@/components/Tooltip";
+import { WebMcp } from "@/components/WebMcp";
 import { defaultDescription, defaultTitle } from "@/lib/metadata";
 import "@/styles/globals.css";
 import "@/styles/highlight-js-github-dark.min.css";
@@ -106,6 +107,7 @@ export default function RootLayout({
       </head>
       <body>
         <JsonLd json={jsonLdOrganization} />
+        <WebMcp />
         <ClientProviders>
           <TooltipProvider>
             <div id="content">
