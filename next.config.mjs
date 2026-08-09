@@ -5,6 +5,26 @@ const nextConfig = {
   reactStrictMode: false,
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
   allowedDevOrigins: ["127.0.0.1"],
+  headers: async () => {
+    return [
+      {
+        // Agent discovery (RFC 8288 + RFC 9727 §3): advertise the API catalog
+        // and the machine-readable descriptions of the site from the homepage.
+        source: "/",
+        headers: [
+          {
+            key: "Link",
+            value: [
+              '</.well-known/api-catalog>; rel="api-catalog"',
+              '<https://api.argos-ci.com/v2/openapi.yaml>; rel="service-desc"; type="application/yaml"',
+              '<https://argos-ci.com/docs/api-reference>; rel="service-doc"',
+              '</llms.txt>; rel="describedby"; type="text/markdown"',
+            ].join(", "),
+          },
+        ],
+      },
+    ];
+  },
   redirects: async () => {
     return [
       {
