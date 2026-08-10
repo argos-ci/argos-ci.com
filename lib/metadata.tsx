@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 
+import { getMarkdownPath } from "./markdown-paths";
 import { type OgImageParams, getOgImageUrl } from "./og-image";
 
 export const defaultTitle = "Argos · Product quality for the age of AI agents";
@@ -21,11 +22,17 @@ export function getMetadata(
     title,
     subtitle: subtitle ?? description,
   };
+  const markdownPath = getMarkdownPath(pathname);
   const config: Metadata = {
     title: absoluteTitle ? { absolute: absoluteTitle } : title || defaultTitle,
     description,
     alternates: {
       canonical: url,
+      // Point agents at the markdown representation of the page. The same
+      // document is what `Accept: text/markdown` returns from this URL.
+      ...(markdownPath
+        ? { types: { "text/markdown": `https://argos-ci.com${markdownPath}` } }
+        : {}),
     },
     openGraph: {
       title: absoluteTitle ?? `${title} · Argos`,
