@@ -1,7 +1,9 @@
 import createMDX from "@next/mdx";
+import type { NextConfig } from "next";
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+import { MARKDOWN_ROUTES } from "./lib/markdown-pages";
+
+const nextConfig: NextConfig = {
   reactStrictMode: false,
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
   allowedDevOrigins: ["127.0.0.1"],
@@ -15,20 +17,13 @@ const nextConfig = {
     ],
   },
   headers: async () => {
-    const markdownAlternate = (path) =>
+    const markdownAlternate = (path: string) =>
       `<${path}>; rel="alternate"; type="text/markdown"`;
     // Pages that support markdown content negotiation (see proxy.ts): their
     // response varies on Accept, and advertises the markdown representation.
     // A `Link` header set from the proxy would replace these rather than add
     // to them, so both live here.
-    const markdownPages = [
-      { source: "/", markdown: "/md" },
-      { source: "/pricing", markdown: "/md/pricing" },
-      { source: "/privacy", markdown: "/md/privacy" },
-      { source: "/terms", markdown: "/md/terms" },
-      { source: "/blog/:path*", markdown: "/md/blog/:path*" },
-      { source: "/changelog/:path*", markdown: "/md/changelog/:path*" },
-    ].map(({ source, markdown }) => ({
+    const markdownPages = MARKDOWN_ROUTES.map(({ source, markdown }) => ({
       source,
       headers: [
         { key: "Vary", value: "Accept" },

@@ -6,6 +6,7 @@ import {
   getChangelogEntryBySlug,
   getChangelogFiles,
 } from "@/lib/api/changelog";
+import { getAlternates } from "@/lib/metadata";
 
 import { Changelogs } from "../changelogs";
 
@@ -41,9 +42,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
       absolute: title,
     },
     description: changelog.description,
-    alternates: {
-      canonical: url,
-    },
+    alternates: getAlternates(new URL(url).pathname),
     openGraph: {
       title,
       description: changelog.description,

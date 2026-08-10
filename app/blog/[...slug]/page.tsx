@@ -24,6 +24,7 @@ import {
   getArticleMdxSource,
   getArticles,
 } from "@/lib/api/blog";
+import { getAlternates } from "@/lib/metadata";
 
 type Params = { slug: string[] };
 type Props = { params: Promise<Params> };
@@ -55,9 +56,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
       absolute: article.title,
     },
     description: article.description,
-    alternates: {
-      canonical: url,
-    },
+    alternates: getAlternates(new URL(url).pathname),
     openGraph: {
       title: article.title,
       description: article.description,
