@@ -20,6 +20,7 @@ import {
   GITHUB_SSO_PRICE,
   SAML_SSO_PRICE,
 } from "./constants";
+import { findMarkdownPage, type MarkdownPagePath } from "./markdown-pages";
 
 /**
  * Markdown representations of the site's pages, served when a request prefers
@@ -200,40 +201,41 @@ Full details and FAQ: ${SITE_URL}/pricing
 }
 
 /**
+ * How each markdown page renders itself, from the path segments below it.
+ * Typed by `MarkdownPagePath`, so adding a page to `MARKDOWN_PAGES` doesn't
+ * compile until it has a resolver here.
+ */
+const resolvers: Record<
+  MarkdownPagePath,
+  (rest: string[]) => Promise<string | null> | string | null
+> = {
+  "/": () => readCuratedPage("home.md"),
+  "/pricing": (rest) => (rest.length === 0 ? getPricingMarkdown() : null),
+  "/privacy": (rest) =>
+    rest.length === 0 ? getLegalMarkdown("privacy") : null,
+  "/terms": (rest) => (rest.length === 0 ? getLegalMarkdown("terms") : null),
+  "/blog": (rest) => {
+    if (rest.length === 0 || rest[0] === "page") {
+      return getBlogIndexMarkdown();
+    }
+    if (rest[0] === "category" && rest[1]) {
+      return getBlogIndexMarkdown(rest[1]);
+    }
+    return getArticleMarkdown(rest.join("/"));
+  },
+  "/changelog": (rest) => {
+    if (rest.length === 0 || rest[0] === "page") {
+      return getChangelogIndexMarkdown();
+    }
+    return getChangelogMarkdown(rest.join("/"));
+  },
+};
+
+/**
  * Resolve the markdown representation of a site pathname (without the leading
  * slash). Returns null when the page has no markdown representation.
  */
 export async function getPageMarkdown(path: string): Promise<string | null> {
-  const segments = path.split("/").filter(Boolean);
-  const [first, ...rest] = segments;
-
-  if (segments.length === 0) {
-    return readCuratedPage("home.md");
-  }
-
-  switch (first) {
-    case "pricing":
-      return rest.length === 0 ? getPricingMarkdown() : null;
-    case "privacy":
-      return rest.length === 0 ? getLegalMarkdown("privacy") : null;
-    case "terms":
-      return rest.length === 0 ? getLegalMarkdown("terms") : null;
-    case "blog": {
-      if (rest.length === 0 || rest[0] === "page") {
-        return getBlogIndexMarkdown();
-      }
-      if (rest[0] === "category" && rest[1]) {
-        return getBlogIndexMarkdown(rest[1]);
-      }
-      return getArticleMarkdown(rest.join("/"));
-    }
-    case "changelog": {
-      if (rest.length === 0 || rest[0] === "page") {
-        return getChangelogIndexMarkdown();
-      }
-      return getChangelogMarkdown(rest.join("/"));
-    }
-    default:
-      return null;
-  }
+  const page = findMarkdownPage(`/${path}`);
+  return page ? resolvers[page.path](page.rest) : null;
 }

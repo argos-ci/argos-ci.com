@@ -1,11 +1,28 @@
 import { Metadata } from "next";
 
+import { getMarkdownPath } from "./markdown-pages";
 import { type OgImageParams, getOgImageUrl } from "./og-image";
 
 export const defaultTitle = "Argos · Product quality for the age of AI agents";
 
 export const defaultDescription =
   "Argos keeps product quality high while your team and your agents ship faster. See every change a PR makes, whether pixels, Markdown, or JSON, review it with confidence, and deploy every PR. Visual & snapshot testing for Playwright and Storybook.";
+
+/**
+ * The `alternates` of a page: its canonical URL, plus the markdown
+ * representation when it has one, so agents reading the HTML can find it
+ * without knowing to send `Accept: text/markdown`. Pages that build their
+ * metadata by hand use this too — every page should advertise it the same way.
+ */
+export function getAlternates(pathname: string): Metadata["alternates"] {
+  const markdownPath = getMarkdownPath(pathname);
+  return {
+    canonical: `https://argos-ci.com${pathname}`,
+    ...(markdownPath
+      ? { types: { "text/markdown": `https://argos-ci.com${markdownPath}` } }
+      : {}),
+  };
+}
 
 export function getMetadata(
   props: {
@@ -24,9 +41,7 @@ export function getMetadata(
   const config: Metadata = {
     title: absoluteTitle ? { absolute: absoluteTitle } : title || defaultTitle,
     description,
-    alternates: {
-      canonical: url,
-    },
+    alternates: getAlternates(pathname),
     openGraph: {
       title: absoluteTitle ?? `${title} · Argos`,
       description,
