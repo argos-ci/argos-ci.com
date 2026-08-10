@@ -179,6 +179,7 @@ For personal projects and experiments.
 
 - Up to ${ARGOS_HOBBY_SCREENSHOT_COUNT.toLocaleString("en-US")} screenshots per month
 - Visual and snapshot testing, GitHub/GitLab integration, community support
+- Media sharing (${SITE_URL}/media-sharing): public share pages, 30-day retention, 50 MB per file
 
 ## Pro — $${ARGOS_PRO_FLAT_PRICE}/month
 
@@ -187,7 +188,12 @@ For teams. 14-day free trial.
 - Includes ${ARGOS_PRO_FLAT_SCREENSHOT_COUNT.toLocaleString("en-US")} screenshots per month
 - Extra screenshots: $${ARGOS_SCREENSHOT_PRICE} each ($${ARGOS_STORYBOOK_SCREENSHOT_PRICE} for Storybook screenshots)
 - Unlimited team members and projects, Slack notifications, priority support
+- Media sharing: team-scoped or public share pages, 1-year retention, 500 MB per file
 - Add-ons: GitHub Single Sign-On ($${GITHUB_SSO_PRICE}/month), SAML SSO ($${SAML_SSO_PRICE}/month)
+
+Media uploads draw on the screenshot allowance rather than a separate quota:
+an uploaded image counts as 1 screenshot, an uploaded video as 25, and
+re-uploading identical bytes is free.
 
 ## Enterprise — custom
 
@@ -210,6 +216,8 @@ const resolvers: Record<
   (rest: string[]) => Promise<string | null> | string | null
 > = {
   "/": () => readCuratedPage("home.md"),
+  "/media-sharing": (rest) =>
+    rest.length === 0 ? readCuratedPage("media-sharing.md") : null,
   "/pricing": (rest) => (rest.length === 0 ? getPricingMarkdown() : null),
   "/privacy": (rest) =>
     rest.length === 0 ? getLegalMarkdown("privacy") : null,

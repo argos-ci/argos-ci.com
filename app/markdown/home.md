@@ -19,7 +19,12 @@ obvious, then lets your team and your agents comment, approve, and ship.
   sync. Keep your team on the same page.
 - **Agent-ready** — Your agents check their own work: through the
   [Argos MCP server](https://argos-ci.com/docs/agents/mcp-server), agents read
-  what their change did, fix what they broke, and only bring you what's left.
+  what their change did, fix what they broke, show their work, and only bring
+  you what's left.
+- **Media sharing** — Upload a standalone screenshot or screen recording from
+  the CLI, SDK, API, or MCP and get a share link with ready-to-paste Markdown.
+  Media staged on a branch lands on the pull request automatically, so agents
+  can show their work ([media sharing](https://argos-ci.com/media-sharing)).
 - **Deploy Storybook on every PR** — Argos hosts your Storybook builds so every
   pull request has a browsable component preview.
 - **Flaky test management** — Argos detects unstable changes, lets you ignore

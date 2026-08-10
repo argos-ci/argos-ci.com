@@ -32,6 +32,7 @@ const COMMANDS = new Set([
 
 const SUBCOMMANDS = new Set([
   "upload",
+  "media",
   "build",
   "review",
   "comment",

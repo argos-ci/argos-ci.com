@@ -6,6 +6,7 @@ const FOOTER_LINKS = {
   deployments: "Deployments",
   "collaborative-reviews": "Collaborative Reviews",
   "ai-agents": "For AI Agents",
+  "media-sharing": "Media Sharing",
   "flaky-management": "Flaky Management",
   "test-debugging": "Test Debugging",
   pricing: "Pricing",

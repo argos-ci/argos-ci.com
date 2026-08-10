@@ -115,9 +115,10 @@ export function PricingTable() {
       <p className="border-t px-4 py-5 text-sm text-low">
         A screenshot is any snapshot Argos stores for a build: an image, or a
         non-image file such as Markdown, JSON, or HTML. Usage is billed only on
-        successful builds. GitHub SSO is an optional add-on at{" "}
-        {usd(GITHUB_SSO_PRICE)} / mo, and SAML SSO at {usd(SAML_SSO_PRICE)} /
-        mo.
+        successful builds. Standalone media uploads draw on the same allowance:
+        an uploaded image counts as 1 screenshot, an uploaded video as 25.
+        GitHub SSO is an optional add-on at {usd(GITHUB_SSO_PRICE)} / mo, and
+        SAML SSO at {usd(SAML_SSO_PRICE)} / mo.
       </p>
     </div>
   );

@@ -22,12 +22,15 @@ const questions: FAQQuestion[] = [
     answer: (
       <>
         No. Beyond images, Argos does snapshot testing for any file: Markdown,
-        JSON, HTML, and more. Every capture, image or not, counts as one
-        screenshot for billing.
+        JSON, HTML, and more — every capture, image or not, counts as one
+        screenshot for billing. Argos also stores standalone{" "}
+        <Link href="/media-sharing">media uploads</Link> (screenshots and
+        recordings shared by link, outside any build): an uploaded image counts
+        as 1 screenshot, an uploaded video as 25.
       </>
     ),
     textAnswer:
-      "No. Beyond images, Argos does snapshot testing for any file: Markdown, JSON, HTML, and more. Every capture, image or not, counts as one screenshot for billing.",
+      "No. Beyond images, Argos does snapshot testing for any file: Markdown, JSON, HTML, and more — every capture, image or not, counts as one screenshot for billing. Argos also stores standalone media uploads (screenshots and recordings shared by link, outside any build): an uploaded image counts as 1 screenshot, an uploaded video as 25.",
   },
   {
     name: "Can AI agents use Argos?",
@@ -36,11 +39,13 @@ const questions: FAQQuestion[] = [
         Yes. Argos is 100% agent-ready. Agents inspect builds, read
         machine-readable diffs, and submit reviews from the CLI and REST API, so
         they can see what changed and fix their own mistakes before you merge.
-        There is no separate charge for agent usage.
+        With <Link href="/media-sharing">media sharing</Link>, they also attach
+        screenshots and recordings to pull requests. There is no separate charge
+        for agent usage.
       </>
     ),
     textAnswer:
-      "Yes. Argos is 100% agent-ready. Agents inspect builds, read machine-readable diffs, and submit reviews from the CLI and REST API, so they can see what changed and fix their own mistakes before you merge. There is no separate charge for agent usage.",
+      "Yes. Argos is 100% agent-ready. Agents inspect builds, read machine-readable diffs, and submit reviews from the CLI and REST API, so they can see what changed and fix their own mistakes before you merge. With media sharing, they also attach screenshots and recordings to pull requests. There is no separate charge for agent usage.",
   },
   {
     name: "Can Argos be used for mobile app testing?",

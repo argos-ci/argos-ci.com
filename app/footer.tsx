@@ -72,6 +72,7 @@ export const AppFooter: React.FC = () => (
               Collaborative Reviews
             </FooterLink>
             <FooterLink href="/ai-agents">For AI Agents</FooterLink>
+            <FooterLink href="/media-sharing">Media Sharing</FooterLink>
             <FooterLink href="/flaky-management">Flaky Management</FooterLink>
             <FooterLink href="/test-debugging">Test Debugging</FooterLink>
           </FooterSection>
