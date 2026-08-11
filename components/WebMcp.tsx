@@ -78,6 +78,7 @@ const tools: WebMcpTool[] = [
       const lines = [
         `Hobby: free, up to ${ARGOS_HOBBY_SCREENSHOT_COUNT.toLocaleString("en-US")} screenshots/month.`,
         `Pro: $${ARGOS_PRO_FLAT_PRICE}/month flat, includes ${ARGOS_PRO_FLAT_SCREENSHOT_COUNT.toLocaleString("en-US")} screenshots, then $${ARGOS_SCREENSHOT_PRICE} per extra screenshot ($${ARGOS_STORYBOOK_SCREENSHOT_PRICE} for Storybook screenshots).`,
+        `Media uploads (https://argos-ci.com/media-sharing) share the screenshot allowance: an image counts as 1 screenshot, a video as 25.`,
         `Enterprise: custom volume, SLA, and SSO — https://argos-ci.com/contact/sale.`,
       ];
       const count = args.screenshotsPerMonth;

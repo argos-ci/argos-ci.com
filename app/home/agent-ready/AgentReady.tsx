@@ -24,12 +24,12 @@ export function AgentReady() {
                 every neighbouring title is a verb-led benefit. */}
             <SectionTitle>Your agents check their own work</SectionTitle>
             {/* One line, to sit at the same weight as the one-line description
-                above it, and ordered so it announces the three rows. The long
+                above it, and ordered so it announces the four rows. The long
                 version led on CLI and MCP — the transport, which the terminal
                 to the right already shows. */}
             <SectionDescription className="max-w-2xl">
-              They read what their change did, fix what they broke, and only
-              bring you what’s left.
+              They read what their change did, fix what they broke, show their
+              work, and only bring you what’s left.
             </SectionDescription>
           </SectionHeaderTexts>
           <Button variant="outline" asChild>

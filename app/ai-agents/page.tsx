@@ -2,6 +2,7 @@ import clsx from "clsx";
 import {
   BotIcon,
   FileJson2Icon,
+  ImageUpIcon,
   KeyRoundIcon,
   PlugIcon,
   TerminalIcon,
@@ -38,6 +39,7 @@ import { getMetadata } from "@/lib/metadata";
 import { gitbookAgentQuote } from "../assets/customers/library/gitbook";
 import { TrustedBy } from "../common/TrustedBy";
 import { trackDemoClick, trackSignupClick } from "../google-ads";
+import { MediaFlow } from "../media-sharing/features/MediaFlow";
 import { AgentLoop } from "./features/AgentLoop";
 import { CopyPromptCard } from "./features/CopyPromptCard";
 
@@ -224,6 +226,30 @@ export default function Page() {
           <div className="mt-8 flex justify-center">
             <Button variant="outline" asChild>
               <Link href="/docs/agents/mcp-server">Set up the MCP server</Link>
+            </Button>
+          </div>
+        </Container>
+      </section>
+      <section className="border-b px-4">
+        <Container className="border-x py-12 md:py-18">
+          <SectionHeader align="center" className="max-w-2xl container-gutter">
+            <Chip icon={ImageUpIcon}>Media sharing</Chip>
+            <SectionHeaderTexts>
+              <SectionTitle>Agents show their work</SectionTitle>
+              <SectionDescription>
+                GitHub has no API for attaching an image to a pull request. With
+                Argos, an agent uploads a screenshot or a screen recording from
+                the terminal, stages it on its branch, and Argos posts it on the
+                PR the moment it opens — proof of the change, beside the diff.
+              </SectionDescription>
+            </SectionHeaderTexts>
+          </SectionHeader>
+          <div className="mt-10 flex justify-center">
+            <MediaFlow />
+          </div>
+          <div className="mt-8 flex justify-center">
+            <Button variant="outline" asChild>
+              <Link href="/media-sharing">Explore Media Sharing</Link>
             </Button>
           </div>
         </Container>

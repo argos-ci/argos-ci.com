@@ -36,6 +36,7 @@ export const config = {
   // fails if the two drift apart.
   matcher: [
     "/",
+    "/media-sharing",
     "/pricing",
     "/privacy",
     "/terms",

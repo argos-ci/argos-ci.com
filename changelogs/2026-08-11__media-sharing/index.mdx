@@ -1,0 +1,26 @@
+---
+title: Media sharing
+homeTitle: Put screenshots and recordings on any pull request, straight from the terminal
+description: Upload standalone images and videos from the CLI, SDK, API, or MCP, get a share link with ready-to-paste Markdown, and let Argos post them on the pull request automatically.
+slug: media-sharing
+date: 2026-08-11
+image: /assets/changelogs/media-sharing/media-sharing.jpg
+---
+
+![A screenshot travelling from a terminal to a pull request comment](/assets/changelogs/media-sharing/media-sharing.jpg)
+
+GitHub has no public API for comment attachments, so an agent — or a CI job — has no way to put a screenshot in the pull request it just opened. **Media sharing** fixes that: upload an image or a video on its own, no build required, and get a stable share link with Markdown ready to paste.
+
+- **Staged on a branch, published by Argos** — upload with `--branch` while the work happens. When a pull request opens for that branch, Argos publishes everything staged there and posts a single managed comment.
+- **Re-upload, same link** — a media is an identity and every upload is a version of it. The share URL never changes, and the version a reviewer commented on survives in the history.
+- **Before/after pairs** — name two files `-before` and `-after` and they share one comment row, and a share page comparing both sides with synced pan and zoom.
+- **Feedback agents can act on** — reviewers pin comments to a point on the image; an agent reads the coordinates back with `argos media comment list`, fixes, replies, and resolves.
+- **On the meter you already have** — an image counts as 1 screenshot, a video as 25. Retention follows your plan: 30 days on Hobby, 1 year on Pro.
+
+It works from the CLI, the Node.js SDK, the REST API, and the MCP server — and the `argos-upload` skill teaches your coding agent when and how to use it.
+
+```bash
+npx argos media upload checkout-before.png checkout-after.png --branch feat/checkout
+```
+
+Learn more in the [media sharing documentation](https://argos-ci.com/docs/learn/media), or read why we think agents should [show their work](https://argos-ci.com/blog/agents-show-their-work) on the blog.

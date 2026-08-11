@@ -28,6 +28,7 @@ type MarkdownPage = {
 
 export const MARKDOWN_PAGES = [
   { path: "/", section: false },
+  { path: "/media-sharing", section: false },
   { path: "/pricing", section: false },
   { path: "/privacy", section: false },
   { path: "/terms", section: false },

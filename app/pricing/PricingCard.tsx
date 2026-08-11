@@ -10,6 +10,7 @@ import {
   HeartHandshakeIcon,
   ImagePlusIcon,
   ImagesIcon,
+  ImageUpIcon,
   LockKeyholeIcon,
   type LucideIcon,
   RocketIcon,
@@ -147,6 +148,9 @@ export function PricingCards() {
             </Feature>
             <Feature icon={RocketIcon}>Storybook & static deployments</Feature>
             <Feature icon={BotIcon}>Agent-ready CLI & REST API</Feature>
+            <Feature icon={ImageUpIcon}>
+              Media sharing: public links, 30-day retention
+            </Feature>
             <Feature icon={ActivityIcon}>Flaky detection & debugging</Feature>
             <Feature icon={GitGraphIcon}>GitHub & GitLab integration</Feature>
             <Feature icon={HandFistIcon}>Community support</Feature>
@@ -191,6 +195,9 @@ export function PricingCards() {
             </Feature>
             <Feature icon={HeartHandshakeIcon}>
               Team collaboration & reviews
+            </Feature>
+            <Feature icon={ImageUpIcon}>
+              Media sharing: team-scoped links, 1-year retention
             </Feature>
             <Feature icon={ShieldIcon}>Private deployment protection</Feature>
             <Feature icon={BellIcon}>

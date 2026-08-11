@@ -25,6 +25,7 @@ Pages on argos-ci.com are also available as markdown: send \`Accept: text/markdo
 ## Agent surfaces
 
 - [MCP server](https://argos-ci.com/docs/agents/mcp-server): official remote MCP server at https://mcp.argos-ci.com (Streamable HTTP, OAuth or personal access token)
+- [Media sharing](https://argos-ci.com/media-sharing): upload screenshots and recordings from the CLI/SDK/API/MCP, get a share link + Markdown, and let Argos post them on the pull request
 - [MCP server card](https://argos-ci.com/.well-known/mcp/server-card.json): machine-readable server description
 - [API catalog](https://argos-ci.com/.well-known/api-catalog): RFC 9727 linkset of Argos APIs
 - [auth.md](https://argos-ci.com/auth.md): how agents register and authenticate
@@ -34,6 +35,7 @@ Pages on argos-ci.com are also available as markdown: send \`Accept: text/markdo
 
 - [Homepage](https://argos-ci.com/): product overview
 - [Visual testing](https://argos-ci.com/visual-testing): screenshot testing with Playwright
+- [Media sharing](https://argos-ci.com/media-sharing): standalone image and video upload with share links, ready-to-paste Markdown, and automatic pull request comments
 - [Test debugging](https://argos-ci.com/test-debugging): debug CI failures with screenshots and traces
 - [Flaky test management](https://argos-ci.com/flaky-management): detect and mute flaky changes
 - [Pricing](https://argos-ci.com/pricing): Hobby (free) and Pro plans
