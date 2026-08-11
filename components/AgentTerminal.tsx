@@ -122,9 +122,11 @@ export function AgentTerminal(props: {
               aria-hidden={!isActive}
               // Applying the fade class as a step becomes active is what
               // replays it — the node is only ever given the class on the
-              // transition into view.
+              // transition into view. `min-w-0`, or the grid track sizes
+              // itself to the longest tool line and the whole cell slides out
+              // of the card instead of that one line truncating.
               className={clsx(
-                "col-start-1 row-start-1 space-y-2.5 pt-3 pb-6",
+                "col-start-1 row-start-1 min-w-0 space-y-2.5 pt-3 pb-6",
                 isActive
                   ? "animate-fade-in animate-duration-300 fill-mode-both"
                   : "invisible",
@@ -161,11 +163,13 @@ function Line(props: { line: TerminalLine }) {
     // Dimmed, and hung off the same edge as the prose: the agent reaching for
     // Argos, subordinate to the turn above it rather than a command the reader
     // is invited to run. The empty first cell matches the bullet's box, so the
-    // indent stays right without a magic number.
+    // indent stays right without a magic number. A command longer than the
+    // panel truncates rather than wraps — the real client does the same, and a
+    // command broken across lines stops reading as one call.
     return (
       <div className="flex gap-2 px-4">
         <span aria-hidden className="size-1.5 shrink-0" />
-        <span className="flex items-center gap-1.5 font-mono text-xxs text-low">
+        <span className="flex min-w-0 items-center gap-1.5 font-mono text-xxs text-low">
           {/* Drawn rather than typed. `⎿` is a box-drawing character, so its
               shape depends on whichever font resolves it — the same reason the
               answer bullet is a span and not a glyph. */}
@@ -173,7 +177,7 @@ function Line(props: { line: TerminalLine }) {
             aria-hidden
             className="mb-0.5 size-1.5 shrink-0 rounded-bl-[1px] border-b border-l border-(--neutral-8)"
           />
-          <span>{line.text}</span>
+          <span className="truncate">{line.text}</span>
         </span>
       </div>
     );

@@ -31,6 +31,7 @@ import {
   HeroDescription,
   HeroHeading,
 } from "@/components/Hero";
+import { Link as TextLink } from "@/components/Link";
 import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
 import { Terminal } from "@/components/Terminal";
 import { SectionDescription, SectionTitle } from "@/components/Typography";
@@ -44,6 +45,7 @@ import { MediaFlow } from "./features/MediaFlow";
 import { MediaUploadTerminal } from "./features/MediaUploadTerminal";
 import { PinnedFeedback } from "./features/PinnedFeedback";
 import { VersionStack } from "./features/VersionStack";
+import { LIVE_EXAMPLE_PR_URL, LIVE_EXAMPLE_SHARE_URL } from "./live-example";
 
 export const metadata: Metadata = getMetadata({
   title: "Media Sharing",
@@ -57,6 +59,13 @@ const skillCode = `# Install the Argos skills for your coding agent
 npx skills add https://argos-ci.com`;
 
 const color = "plum" as const;
+
+// Every feature card points at the same live artifact on purpose: one real
+// thing to open, seen from four angles.
+const liveExample = {
+  href: LIVE_EXAMPLE_SHARE_URL,
+  label: "See it live",
+};
 
 export default function Page() {
   return (
@@ -113,6 +122,25 @@ export default function Page() {
           <div className="flex justify-center">
             <MediaFlow />
           </div>
+          <p className="mt-8 container-gutter text-center text-sm text-low">
+            This example is live —{" "}
+            <TextLink
+              href={LIVE_EXAMPLE_PR_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              see the pull request on GitHub
+            </TextLink>{" "}
+            or{" "}
+            <TextLink
+              href={LIVE_EXAMPLE_SHARE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              open the share link
+            </TextLink>
+            .
+          </p>
         </Container>
       </section>
       <section className="px-4">
@@ -130,6 +158,7 @@ export default function Page() {
             }
             href="/docs/learn/media/standalone-media-upload"
             illustration={<MediaUploadTerminal />}
+            example={liveExample}
           />
           <FeatureGridFeature
             title={<>Before and after, one link</>}
@@ -143,6 +172,7 @@ export default function Page() {
             }
             href="/docs/learn/media/standalone-media-upload#before-and-after-pairs"
             illustration={<BeforeAfterPair />}
+            example={liveExample}
           />
           <FeatureGridFeature
             title={<>Feedback pinned to the pixel</>}
@@ -156,6 +186,7 @@ export default function Page() {
             }
             href="/docs/learn/media/standalone-media-upload#reading-the-feedback-left-on-a-media"
             illustration={<PinnedFeedback />}
+            example={liveExample}
           />
           <FeatureGridFeature
             title={<>Re-upload freely, the link never changes</>}
@@ -169,6 +200,7 @@ export default function Page() {
             }
             href="/docs/learn/media/standalone-media-upload#versions-re-upload-same-link"
             illustration={<VersionStack />}
+            example={liveExample}
           />
         </FeatureGrid>
         <Container

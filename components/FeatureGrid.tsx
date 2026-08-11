@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import type { LucideIcon } from "lucide-react";
+import { ArrowUpRightIcon, type LucideIcon } from "lucide-react";
 
 import { Button } from "./Button";
 import { Container } from "./Container";
@@ -32,8 +32,22 @@ export function FeatureGridFeature(props: {
   href: string;
   illustration: React.ReactNode;
   cta?: React.ReactNode;
+  /**
+   * A live artifact demonstrating the feature — a real share page, pull
+   * request, or build the illustration stylizes. Rendered as a second action
+   * beside the docs link, opening in a new tab so the reader keeps their
+   * place on the page.
+   */
+  example?: { href: string; label: React.ReactNode };
 }) {
-  const { title, description, href, illustration, cta = "Learn more" } = props;
+  const {
+    title,
+    description,
+    href,
+    illustration,
+    cta = "Learn more",
+    example,
+  } = props;
   return (
     <div className="relative flex flex-col gap-10 px-4 py-6 sm:px-6 sm:py-14">
       <div
@@ -45,9 +59,23 @@ export function FeatureGridFeature(props: {
       <div className="sm:px-4">
         <h3 className="mb-1 font-semibold">{title}</h3>
         <p className="font-[450] text-low">{description}</p>
-        <Button className="mt-4" variant="outline" asChild>
-          <Link href={href}>{cta}</Link>
-        </Button>
+        <div className="mt-4 flex flex-wrap items-center gap-2">
+          <Button variant="outline" asChild>
+            <Link href={href}>{cta}</Link>
+          </Button>
+          {example ? (
+            <Button variant="outline" asChild>
+              <Link
+                href={example.href}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <ArrowUpRightIcon />
+                {example.label}
+              </Link>
+            </Button>
+          ) : null}
+        </div>
       </div>
     </div>
   );
