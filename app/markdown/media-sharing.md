@@ -42,9 +42,9 @@ nobody intended, media shows the result someone did intend.
   screenshot typically travels at a tenth of the size); `--no-compress` opts
   out. Argos never rewrites the stored file server-side, so a media is usable
   the moment the upload finishes.
-- A **video** embeds as its poster frame wrapped in a link to the share page,
-  the only form GitHub renders. The poster is derived from the video itself and
-  available immediately.
+- A **video** embeds as a thumbnail linked to the share page, the only form
+  GitHub renders. The thumbnail is a poster frame derived from the video itself
+  and available immediately.
 
 ## Quickstart
 
