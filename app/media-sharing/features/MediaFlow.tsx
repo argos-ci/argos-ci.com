@@ -1,23 +1,28 @@
 import clsx from "clsx";
-import { GitPullRequestIcon, PlayIcon, TerminalIcon } from "lucide-react";
+import { GitPullRequestIcon } from "lucide-react";
 import type { ComponentPropsWithoutRef } from "react";
 
+import { AgentTerminal, Ref } from "@/components/AgentTerminal";
 import { ArgosEmblem } from "@/components/ArgosEmblem";
 import { Badge } from "@/components/Badge";
 import { Card } from "@/components/Card";
 import { Chip } from "@/components/Chip";
-import { DotIndicator } from "@/components/DotIndicator";
 import { SmallTitle } from "@/components/Typography";
 
 /**
- * The whole story in one glance: an upload staged on a branch on the left, the
- * managed pull request comment on the right, and the event that connects them
- * — the pull request opening — sitting on the line between the two.
+ * The whole story in one glance: an agent uploading from the branch it is
+ * working on, the pull request that receives the media, and the event that
+ * connects them — the pull request opening — sitting on the line between them.
  *
  * The line matters more than either card. Staging and publishing are not two
  * features to compare; they are one flow with a wait in the middle, and the
- * badge on the line is the actor: Argos publishes, not the user. Nothing on
+ * badge on the line is the actor: Argos publishes, not the agent. Nothing on
  * the right card is something the uploader did.
+ *
+ * The left card is a Claude Code session rather than a shell prompt, because
+ * the page claims an agent does this and nobody hand-types `argos media
+ * upload`. What the command prints belongs to the CLI card further down, which
+ * shows the real output format — this panel only has to be a credible session.
  */
 export function MediaFlow() {
   return (
@@ -42,146 +47,141 @@ export function MediaFlow() {
         </Badge>
       </div>
 
-      <TerminalCard className="order-first w-full max-w-sm md:flex-1" />
+      <AgentSession className="relative z-10 order-first w-full max-w-sm md:flex-1" />
       <PullRequestCard className="w-full max-w-sm md:flex-1" />
     </div>
   );
 }
 
-function TerminalCard(props: { className?: string }) {
+/**
+ * One turn, ending on the thing the section is about: the branch has no pull
+ * request yet, and the screenshot is already shareable. The tool line names the
+ * call and not its result, so the Argos CLI is visibly doing the work without
+ * the panel turning into a transcript.
+ *
+ * It stops before the payoff on purpose. That the media reaches the pull
+ * request is drawn twice already — the badge on the line and the card it points
+ * at — and a panel that narrates what the illustration around it shows is the
+ * same thing told three times.
+ */
+function AgentSession(props: { className?: string }) {
   return (
-    <Card
-      shadow="high"
+    <AgentTerminal
+      prompt="Redesign the checkout page"
+      activeKey="upload"
+      conversations={[
+        {
+          key: "upload",
+          lines: [
+            {
+              kind: "assistant",
+              text: "Done. Uploading a screenshot of the new checkout.",
+            },
+            {
+              kind: "tool",
+              text: "argos media upload checkout.png --branch feat/checkout",
+            },
+            {
+              kind: "assistant",
+              text: (
+                <>
+                  No pull request yet, so it&apos;s staged on the branch:{" "}
+                  <Ref>app.argos-ci.com/m/kQ8vN2pX</Ref>
+                </>
+              ),
+            },
+          ],
+        },
+      ]}
       className={clsx(
-        "relative z-10 overflow-hidden",
         "animate-fade-in-up animate-duration-500 fill-mode-both motion-reduce:animate-fade-in",
         props.className,
       )}
-    >
-      <div className="flex items-center gap-2 border-b-[0.5px] px-3 py-2">
-        <TerminalIcon className="size-3 text-low" />
-        <SmallTitle>Terminal</SmallTitle>
-        <Badge className="ml-auto font-mono text-xxs">feat/checkout</Badge>
-      </div>
-      <div className="space-y-1.5 p-3 font-mono text-xxs">
-        <div className="flex gap-1.5">
-          <span aria-hidden className="shrink-0 text-(--plum-11)">
-            $
-          </span>
-          {/* `--branch` must not break between its own hyphens — a flag split
-              across lines reads as a typo. */}
-          <span className="text-default">
-            argos media upload *.png demo.mp4{" "}
-            <span className="whitespace-nowrap">--branch feat/checkout</span>
-          </span>
-        </div>
-        <div className="text-low">3 media uploaded</div>
-        <div className="truncate text-low">
-          URL:{" "}
-          <span className="text-(--plum-11)">
-            https://app.argos-ci.com/m/kQ8vN2pX…
-          </span>
-        </div>
-      </div>
-      <div className="flex items-center gap-2 border-t-[0.5px] px-3 py-2">
-        <Chip variant="pending" className="text-xxs">
-          <DotIndicator variant="warning" />
-          Staged on branch
-        </Chip>
-        <span className="text-xxs text-low">shareable from the start</span>
-      </div>
-    </Card>
+    />
   );
 }
 
 /**
- * The managed comment, compressed: Argos' avatar tile, the fixed title, and
- * one row per media — the before/after pair shares a row, exactly as the real
- * comment groups them.
+ * The pull request, not just the comment. Without a PR header the panel reads
+ * as an Argos screen, and the one thing this illustration has to prove is that
+ * the media landed on GitHub — so the card is the pull request, and Argos'
+ * comment sits inside it.
+ *
+ * The screenshot is rendered rather than listed, because the payoff is that a
+ * reviewer *sees* the picture, not that a file was uploaded. One plain image,
+ * and nothing beside it: a before/after pair reads as a baseline diff, which
+ * is what the copy above says this is not, and an unrendered video row teaches
+ * the opposite of the rendered screenshot it sits under. Both have their own
+ * card further down the page.
  */
 function PullRequestCard(props: { className?: string }) {
   return (
     <Card
       shadow="high"
       className={clsx(
-        "relative z-10 overflow-hidden",
+        // A column all the way down, so the screenshot takes whatever height
+        // the agent session on the other side asks for. Growing the picture is
+        // the right way to spend that space: seeing it is the whole point.
+        "relative z-10 flex flex-col overflow-hidden",
         "animate-fade-in-right animate-delay-250 animate-duration-500 fill-mode-both motion-reduce:animate-fade-in",
         props.className,
       )}
     >
-      <div className="flex items-center gap-2 border-b-[0.5px] px-3 py-2 text-xs">
-        <div className="grid size-5 place-items-center rounded border bg-(--plum-2)">
-          <ArgosEmblem className="size-2.5 w-auto" aria-hidden />
-        </div>
-        <span className="font-semibold">argos-ci</span>
-        <span className="font-medium text-low">commented just now</span>
-        <Chip variant="success" className="ml-auto text-xxs max-sm:hidden">
-          Published
+      <div className="flex items-center gap-2 border-b-[0.5px] px-3 py-2">
+        <Chip variant="success" className="gap-1 text-xxs">
+          <GitPullRequestIcon className="size-2.5" />
+          Open
         </Chip>
+        <SmallTitle className="min-w-0 truncate">Checkout redesign</SmallTitle>
+        <span className="ml-auto shrink-0 font-mono text-xxs text-low">
+          #482
+        </span>
       </div>
-      <div className="space-y-2 p-3">
-        <p className="text-xs font-semibold">Media uploaded by Argos</p>
-        <div className="overflow-hidden rounded border">
-          <MediaRow
-            name="checkout.png"
-            note="before / after"
-            preview={
-              <span className="flex gap-0.5">
-                <PreviewTile />
-                <PreviewTile changed />
-              </span>
-            }
-          />
-          <MediaRow
-            name="demo.mp4"
-            note="video"
-            preview={
-              <PreviewTile>
-                <PlayIcon
-                  aria-hidden
-                  className="size-2.5 fill-current text-(--neutral-12)/70"
-                />
-              </PreviewTile>
-            }
-          />
+      <div className="flex flex-1 flex-col gap-2 p-3">
+        <div className="flex items-center gap-2 text-xs">
+          <div className="grid size-5 shrink-0 place-items-center rounded border bg-(--plum-2)">
+            <ArgosEmblem className="size-2.5 w-auto" aria-hidden />
+          </div>
+          <span className="font-semibold">argos-ci</span>
+          <Chip className="text-xxs">bot</Chip>
+          <span className="truncate font-medium text-low">commented</span>
+        </div>
+        <div className="flex flex-1 flex-col overflow-hidden rounded border">
+          <ScreenshotPreview />
+          <div className="flex items-center gap-2 border-t-[0.5px] bg-app px-2.5 py-1.5">
+            <span className="min-w-0 truncate font-mono text-xxs">
+              checkout.png
+            </span>
+          </div>
         </div>
       </div>
     </Card>
   );
 }
 
-function MediaRow(props: {
-  name: string;
-  note: string;
-  preview: React.ReactNode;
-}) {
-  return (
-    <div className="flex items-center gap-2.5 bg-app px-2.5 py-2 not-last:border-b">
-      {props.preview}
-      <span className="min-w-0 truncate font-mono text-xxs">{props.name}</span>
-      <span className="ml-auto shrink-0 text-xxs text-low">{props.note}</span>
-    </div>
-  );
-}
-
 /**
- * A stand-in thumbnail: the gradient reads as "an image" at 20px where a real
- * screenshot would read as noise. The changed variant shifts hue, so the
- * before/after pair visibly differs.
+ * A stand-in for the rendered screenshot. A flat gradient reads as a color
+ * swatch; the skeleton is what makes it read as a captured interface — and it
+ * is the page the agent just said it built, a single column with the summary
+ * on top, so the picture and the conversation agree.
+ *
+ * The summary block is the one that grows, so the capture fills whatever
+ * height the session on the other side asks for without opening a gap in the
+ * middle. Marks are drawn in the foreground color at low opacity to hold up in
+ * both themes; only the submit button is a solid brand color.
  */
-function PreviewTile(props: { changed?: boolean; children?: React.ReactNode }) {
+function ScreenshotPreview() {
   return (
-    <span
+    <div
       aria-hidden
-      className={clsx(
-        "grid size-5 shrink-0 place-items-center rounded-sm border-[0.5px]",
-        props.changed
-          ? "bg-linear-to-br from-(--plum-4) to-(--plum-6)"
-          : "bg-linear-to-br from-(--neutral-3) to-(--plum-4)",
-      )}
+      className="flex min-h-24 flex-1 flex-col gap-1.5 bg-linear-to-br from-(--neutral-2) to-(--plum-3) p-2.5"
     >
-      {props.children}
-    </span>
+      <span className="h-1.5 w-1/3 rounded-full bg-(--neutral-12)/25" />
+      <span className="min-h-5 flex-1 rounded-xs bg-(--neutral-12)/10" />
+      <span className="h-2 w-full rounded-xs bg-(--neutral-12)/10" />
+      <span className="h-2 w-full rounded-xs bg-(--neutral-12)/10" />
+      <span className="h-2.5 w-2/5 rounded-xs bg-(--plum-9)" />
+    </div>
   );
 }
 
