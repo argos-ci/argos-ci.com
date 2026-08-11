@@ -121,57 +121,58 @@ export default function Page() {
       <section className="px-4">
         <FeatureGrid>
           <FeatureGridFeature
-            title={<>One command, a link and Markdown</>}
+            title={<>Your agent acts on feedback it can&apos;t see</>}
             description={
               <>
-                The CLI registers, uploads, and finalizes in one go, then prints
-                a stable share URL and the exact Markdown to paste. For a video,
-                that Markdown is a poster frame wrapped in a link, the only form
-                GitHub renders. PNG and JPEG are compressed to WebP before
-                upload, so a 252 KB screenshot travels at a tenth of the size.
-              </>
-            }
-            href="/docs/learn/media/standalone-media-upload"
-            illustration={<MediaUploadTerminal />}
-          />
-          <FeatureGridFeature
-            title={<>Before and after, one link</>}
-            description={
-              <>
-                Name two files <code>-before</code> and <code>-after</code> and
-                they share one identity: a single row in the pull request
-                comment, and a share page that compares both sides with synced
-                pan and zoom. The reviewer sees the change, not two tabs.
-              </>
-            }
-            href="/docs/learn/media/standalone-media-upload#before-and-after-pairs"
-            illustration={<BeforeAfterPair />}
-          />
-          <FeatureGridFeature
-            title={<>Feedback pinned to the pixel</>}
-            description={
-              <>
-                Reviewers pin comments to a point on the image. A pin stores
-                normalized coordinates and the exact version it was written on,
-                so an agent that cannot see the picture can still read the spot,
-                fix it, and resolve the thread, all from the CLI.
+                A reviewer pins a comment to a spot on the screenshot. Your
+                agent reads that spot from the CLI, fixes what it points at, and
+                resolves the thread, without ever looking at the picture. Every
+                pin remembers the version it was written on, so it still means
+                the right place after a re-upload.
               </>
             }
             href="/docs/learn/media/standalone-media-upload#reading-the-feedback-left-on-a-media"
             illustration={<PinnedFeedback />}
           />
           <FeatureGridFeature
-            title={<>Re-upload freely, the link never changes</>}
+            title={<>Fix it, re-run, the pull request updates itself</>}
             description={
               <>
-                A media is an identity; every upload is a version of it.
-                Re-uploading <code>checkout.png</code> updates the Markdown
-                already pasted in the pull request, keeps the version a reviewer
-                commented on underneath, and identical bytes cost nothing.
+                Upload <code>checkout.png</code> again and the Markdown already
+                sitting in the pull request shows the new image. Nothing to
+                edit, no second link to post. The version a reviewer commented
+                on stays underneath, and re-uploading identical bytes costs
+                nothing.
               </>
             }
             href="/docs/learn/media/standalone-media-upload#versions-re-upload-same-link"
             illustration={<VersionStack />}
+          />
+          <FeatureGridFeature
+            title={<>The reviewer sees the change, not two tabs</>}
+            description={
+              <>
+                Name two files <code>-before</code> and <code>-after</code> and
+                Argos treats them as one: a single row in the pull request
+                comment, and a share page that puts both sides next to each
+                other with synced pan and zoom.
+              </>
+            }
+            href="/docs/learn/media/standalone-media-upload#before-and-after-pairs"
+            illustration={<BeforeAfterPair />}
+          />
+          <FeatureGridFeature
+            title={<>One command, and the exact line to paste</>}
+            description={
+              <>
+                Point the CLI at a file and it prints a stable share URL and the
+                Markdown that embeds it, ready to drop into a pull request, an
+                issue or a chat message. PNG and JPEG become WebP on the way up,
+                so a 252 KB screenshot travels at a tenth of the size.
+              </>
+            }
+            href="/docs/learn/media/standalone-media-upload"
+            illustration={<MediaUploadTerminal />}
           />
         </FeatureGrid>
         <Container
