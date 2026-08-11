@@ -49,7 +49,7 @@ export const metadata: Metadata = getMetadata({
   title: "Media Sharing",
   absoluteTitle: "Media Sharing · Let your agents show their work",
   description:
-    "Upload a screenshot or a screen recording from the CLI, SDK, API, or MCP and get a share link with ready-to-paste Markdown. Stage media on a branch and Argos posts it to the pull request automatically — so AI agents can finally show their work.",
+    "Upload a screenshot or a screen recording from the CLI, SDK, API, or MCP and get a share link with ready-to-paste Markdown. Stage media on a branch and Argos posts it to the pull request automatically, so AI agents can finally show their work.",
   pathname: "/media-sharing",
 });
 
@@ -73,7 +73,7 @@ export default function Page() {
               GitHub has no API for attaching an image to a pull request, so
               anything working from a terminal ships blind. Argos turns a
               screenshot or a screen recording into a share link with
-              ready-to-paste Markdown — and puts it on the pull request for you.
+              ready-to-paste Markdown, and puts it on the pull request for you.
             </HeroDescription>
             <HeroActions>
               <Button size="large" asChild>
@@ -104,11 +104,11 @@ export default function Page() {
               </SectionTitle>
               <SectionDescription>
                 <strong>Media sharing</strong> is standalone image and video
-                upload for Argos: no build, no test run — a file with a stable
-                share URL and Markdown ready to paste. Stage media on a branch
-                while the work happens; the moment a pull request opens for that
-                branch, Argos publishes everything staged there and posts a
-                single managed comment.
+                upload for Argos: no build, no test run, just a file with a
+                stable share URL and Markdown ready to paste. Stage media on a
+                branch while the work happens; the moment a pull request opens
+                for that branch, Argos publishes everything staged there and
+                posts a single managed comment.
               </SectionDescription>
             </SectionHeaderTexts>
           </SectionHeader>
@@ -124,10 +124,10 @@ export default function Page() {
             description={
               <>
                 The CLI registers, uploads, and finalizes in one go, then prints
-                a stable share URL and the exact Markdown to paste — for a
-                video, a poster frame wrapped in a link, the only form GitHub
-                renders. PNG and JPEG are compressed to WebP before upload, so a
-                252 KB screenshot travels at a tenth of the size.
+                a stable share URL and the exact Markdown to paste. For a video,
+                that Markdown is a poster frame wrapped in a link, the only form
+                GitHub renders. PNG and JPEG are compressed to WebP before
+                upload, so a 252 KB screenshot travels at a tenth of the size.
               </>
             }
             href="/docs/learn/media/standalone-media-upload"
@@ -153,14 +153,14 @@ export default function Page() {
                 Reviewers pin comments to a point on the image. A pin stores
                 normalized coordinates and the exact version it was written on,
                 so an agent that cannot see the picture can still read the spot,
-                fix it, and resolve the thread — all from the CLI.
+                fix it, and resolve the thread, all from the CLI.
               </>
             }
             href="/docs/learn/media/standalone-media-upload#reading-the-feedback-left-on-a-media"
             illustration={<PinnedFeedback />}
           />
           <FeatureGridFeature
-            title={<>Re-upload freely — the link never changes</>}
+            title={<>Re-upload freely, the link never changes</>}
             description={
               <>
                 A media is an identity; every upload is a version of it.
@@ -182,7 +182,7 @@ export default function Page() {
             description={
               <>
                 MP4, WebM, and MOV up to 500 MB. The embed is a poster frame
-                linked to the share page — derived from the video itself,
+                linked to the share page, derived from the video itself and
                 available instantly.
               </>
             }
@@ -194,8 +194,8 @@ export default function Page() {
             description={
               <>
                 CLI, Node.js SDK, REST API, and MCP tools under the{" "}
-                <code>media:read</code> and <code>media:write</code> scopes —
-                the same flow everywhere.
+                <code>media:read</code> and <code>media:write</code> scopes. The
+                same flow everywhere.
               </>
             }
             href="/docs/learn/media/standalone-media-upload#from-an-ai-agent"
@@ -225,7 +225,7 @@ export default function Page() {
                 The <strong>argos-upload</strong> skill teaches any coding agent
                 when a screenshot beats a paragraph, how to stage media on the
                 branch it is working on, and how to paste an embed that actually
-                renders. One command installs it — for Claude Code, Cursor, and
+                renders. One command installs it for Claude Code, Cursor, and
                 any skill-compatible agent.
               </SectionDescription>
             </SectionHeaderTexts>
@@ -262,7 +262,7 @@ export default function Page() {
             description={
               <>
                 Agents read machine-readable diffs, review builds, and fix their
-                own regressions — media is how they show the result.
+                own regressions. Media is how they show the result.
               </>
             }
             href="/ai-agents"
@@ -272,8 +272,8 @@ export default function Page() {
             title="Collaborative reviews"
             description={
               <>
-                Pinned threads, mentions, reactions, and resolution — media
-                comments use the same review grammar as builds.
+                Media comments use the same review grammar as builds: pinned
+                threads, mentions, reactions, and resolution.
               </>
             }
             href="/collaborative-reviews"
