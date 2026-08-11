@@ -13,7 +13,6 @@ import { PricingSlider } from "../common/PricingSlider";
 import { TrustedBy } from "../common/TrustedBy";
 import { PricingCards } from "./PricingCard";
 import { FAQ } from "./PricingFaq";
-import { PricingTable } from "./PricingTable";
 
 export const metadata: Metadata = getMetadata({
   title: "Pricing",
@@ -46,21 +45,6 @@ export default function Page() {
             How much does it cost?
           </SectionTitle>
           <PricingSlider />
-        </Container>
-      </section>
-
-      <section className="border-b px-4">
-        <Container className="border-x py-12 md:py-18">
-          <SectionTitle className="mb-4 text-center">
-            Pricing details
-          </SectionTitle>
-          <SectionDescription className="mx-auto mb-10 max-w-2xl text-center text-balance">
-            Explicit per-plan and per-screenshot rates, readable by humans and
-            AI agents alike.
-          </SectionDescription>
-          <div className="mx-auto max-w-3xl border-y md:rounded-lg md:border">
-            <PricingTable />
-          </div>
         </Container>
       </section>
 
