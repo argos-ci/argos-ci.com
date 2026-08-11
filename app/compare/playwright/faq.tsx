@@ -1,3 +1,4 @@
+import { Code } from "@/components/Code";
 import { FAQAccordion, FAQQuestion } from "@/components/FAQAccordion";
 import { Link } from "@/components/Link";
 
@@ -50,8 +51,8 @@ export function FAQ() {
       answer: (
         <>
           <p>
-            Yes. Native snapshots are platform-specific (<code>-darwin</code> vs{" "}
-            <code>-linux</code>), so teams run them only in Docker or CI to stay
+            Yes. Native snapshots are platform-specific (<Code>-darwin</Code> vs{" "}
+            <Code>-linux</Code>), so teams run them only in Docker or CI to stay
             consistent. Argos renders and compares in the cloud the same way
             every run, so you are not fighting environment mismatches.
           </p>

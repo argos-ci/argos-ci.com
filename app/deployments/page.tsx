@@ -13,6 +13,7 @@ import Link from "next/link";
 import { Button } from "@/components/Button";
 import { CallToActionSection } from "@/components/CallToActionSection";
 import { Chip } from "@/components/Chip";
+import { Code } from "@/components/Code";
 import { Container } from "@/components/Container";
 import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
 import {
@@ -61,10 +62,9 @@ export default function Page() {
             </div>
             <HeroHeading>Deploy Storybook on every pull request</HeroHeading>
             <HeroDescription>
-              Run <code className="font-mono">argos deploy</code> and get a
-              live, shareable URL for every PR. Preview what your team and your
-              agents built before you merge, with no extra infrastructure to
-              maintain.
+              Run <Code>argos deploy</Code> and get a live, shareable URL for
+              every PR. Preview what your team and your agents built before you
+              merge, with no extra infrastructure to maintain.
             </HeroDescription>
             <HeroActions>
               <Button size="large" asChild>
@@ -110,12 +110,9 @@ export default function Page() {
               title={<>A preview URL on every PR</>}
               description={
                 <>
-                  <code className="font-mono">
-                    argos deploy ./storybook-static
-                  </code>{" "}
-                  ships your build to a unique, immutable URL, perfect for
-                  sharing a change with reviewers, designers, or an agent before
-                  it merges.
+                  <Code>argos deploy ./storybook-static</Code> ships your build
+                  to a unique, immutable URL, perfect for sharing a change with
+                  reviewers, designers, or an agent before it merges.
                 </>
               }
               href="/docs/learn/deployments"
