@@ -175,37 +175,20 @@ export default function Page() {
           className="relative grid grid-cols-1 border-x border-b max-md:divide-y md:grid-cols-3 md:divide-x"
         >
           <FeatureGridFeatureSmall
-            title="Videos that render on GitHub"
-            description={
-              <>
-                MP4, WebM, and MOV up to 500 MB. The embed is a poster frame
-                linked to the share page, derived from the video itself and
-                available instantly.
-              </>
-            }
+            title="Videos work too"
+            description="Record a demo video and the pull request shows a thumbnail that opens the recording. MP4, WebM, and MOV, up to 500 MB."
             href="/docs/learn/media/standalone-media-upload#embedding-the-result"
             icon={FilmIcon}
           />
           <FeatureGridFeatureSmall
-            title="Every surface an agent has"
-            description={
-              <>
-                CLI, Node.js SDK, REST API, and MCP tools under the{" "}
-                <code>media:read</code> and <code>media:write</code> scopes. The
-                same flow everywhere.
-              </>
-            }
+            title="Works with any agent"
+            description="CLI, Node.js SDK, REST API, and MCP. Whatever your agent already uses, uploading is a single call."
             href="/docs/learn/media/standalone-media-upload#from-an-ai-agent"
             icon={BotIcon}
           />
           <FeatureGridFeatureSmall
-            title="Private by default, safe to paste"
-            description={
-              <>
-                Team-scoped share pages on Pro, unguessable URLs, no indexing,
-                and plan-based retention: 30 days on Hobby, 1 year on Pro.
-              </>
-            }
+            title="Private by default"
+            description="Links are unguessable and never indexed by search engines. On Pro, only your team can open them. Kept 30 days on Hobby, 1 year on Pro."
             href="/docs/learn/media/share-links-retention-and-limits"
             icon={LockIcon}
           />
