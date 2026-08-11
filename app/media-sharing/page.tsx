@@ -47,9 +47,9 @@ import { VersionStack } from "./features/VersionStack";
 
 export const metadata: Metadata = getMetadata({
   title: "Media Sharing",
-  absoluteTitle: "Media Sharing · Let your agents show their work",
+  absoluteTitle: "Media Sharing · See what your agents built",
   description:
-    "Upload a screenshot or a screen recording from the CLI, SDK, API, or MCP and get a share link with ready-to-paste Markdown. Stage media on a branch and Argos posts it to the pull request automatically, so AI agents can finally show their work.",
+    "Upload a screenshot or a screen recording from the CLI, SDK, API, or MCP and get a share link with ready-to-paste Markdown. Stage media on a branch and Argos posts it to the pull request automatically, so you see what your agents built instead of reading about it.",
   pathname: "/media-sharing",
 });
 
@@ -68,12 +68,13 @@ export default function Page() {
             <div className={clsx("rounded-full border px-3 py-1.5")}>
               <FeatureIndicator color={color}>Media Sharing</FeatureIndicator>
             </div>
-            <HeroHeading>Let your agents show their work</HeroHeading>
+            <HeroHeading>
+              Your agents can&apos;t show you what they built. Now they can.
+            </HeroHeading>
             <HeroDescription>
-              GitHub has no API for attaching an image to a pull request, so
-              anything working from a terminal ships blind. Argos turns a
-              screenshot or a screen recording into a share link with
-              ready-to-paste Markdown, and puts it on the pull request for you.
+              GitHub has no API for attaching an image to a pull request. Argos
+              gives your agents one command, and the screenshot or recording is
+              there the moment the PR opens.
             </HeroDescription>
             <HeroActions>
               <Button size="large" asChild>

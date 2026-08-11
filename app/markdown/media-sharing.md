@@ -1,4 +1,4 @@
-# Media Sharing: let your agents show their work
+# Media Sharing: see what your agents built
 
 > Upload a standalone screenshot or screen recording to Argos from the CLI, SDK, REST API, or MCP and get a share link with ready-to-paste Markdown. Media staged on a branch lands on the pull request automatically, in a single managed comment.
 
