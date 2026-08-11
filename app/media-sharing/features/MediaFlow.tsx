@@ -58,6 +58,11 @@ export function MediaFlow() {
  * request yet, and the screenshot is already shareable. The tool line names the
  * call and not its result, so the Argos CLI is visibly doing the work without
  * the panel turning into a transcript.
+ *
+ * It stops before the payoff on purpose. That the media reaches the pull
+ * request is drawn twice already — the badge on the line and the card it points
+ * at — and a panel that narrates what the illustration around it shows is the
+ * same thing told three times.
  */
 function AgentSession(props: { className?: string }) {
   return (
@@ -70,7 +75,7 @@ function AgentSession(props: { className?: string }) {
           lines: [
             {
               kind: "assistant",
-              text: "Done. The new checkout is a single column with the summary on top.",
+              text: "Done. Uploading a screenshot of the new checkout.",
             },
             {
               kind: "tool",
@@ -80,9 +85,8 @@ function AgentSession(props: { className?: string }) {
               kind: "assistant",
               text: (
                 <>
-                  Screenshot here: <Ref>app.argos-ci.com/m/kQ8vN2pX</Ref>. No
-                  pull request yet, so it is staged on the branch and will be
-                  posted there when you open one.
+                  No pull request yet, so it&apos;s staged on the branch:{" "}
+                  <Ref>app.argos-ci.com/m/kQ8vN2pX</Ref>
                 </>
               ),
             },
