@@ -22,7 +22,7 @@ A live example, public and real:
 https://github.com/argos-ci/snkr-shop/pull/5 is a pull request whose branch
 had two before/after pairs staged; Argos posted them in the single managed
 comment when the pull request opened.
-https://app.argos-ci.com/m/k2qshjz9b2486gcpij9n is the share page for one of
+https://app.argos-ci.com/m/mp21qmkhpekfx1v4ot7r is the share page for one of
 them, opening on the before/after compare view.
 
 ## How it works

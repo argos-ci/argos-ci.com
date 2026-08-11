@@ -105,7 +105,7 @@ function AgentSession(props: { className?: string }) {
                     rel="noopener noreferrer"
                     className="text-(--violet-11) underline decoration-(--violet-8) underline-offset-2 hover:decoration-(--violet-11)"
                   >
-                    app.argos-ci.com/m/k2qshjz9b2…
+                    app.argos-ci.com/m/mp21qmkhpe…
                   </a>
                 </>
               ),

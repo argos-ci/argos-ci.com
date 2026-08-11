@@ -9,7 +9,7 @@
  * the MediaFlow card renders its "Open" state.
  */
 export const LIVE_EXAMPLE_SHARE_URL =
-  "https://app.argos-ci.com/m/k2qshjz9b2486gcpij9n";
+  "https://app.argos-ci.com/m/mp21qmkhpekfx1v4ot7r";
 
 export const LIVE_EXAMPLE_PR_URL =
   "https://github.com/argos-ci/snkr-shop/pull/5";

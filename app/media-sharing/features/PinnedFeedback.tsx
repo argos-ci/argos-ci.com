@@ -19,11 +19,11 @@ import { Storefront } from "./Storefront";
  * because "0.62, 0.34" is the whole trick: a spot a blind process can act on.
  *
  * The image is the live example's sneaker grid, so the story stays in one
- * universe across the page. The pin and the thread are the one staged
- * element: the demo media has no open feedback, which is why this card's
- * live link is the share page, not proof of this exact thread. The CLI line
- * keeps the docs' numeric media id — the share slug in the page URL is not
- * what `media comment list` takes.
+ * universe across the page — and the demo media really does carry pinned,
+ * resolved feedback in its activity log. This exact thread (Nina's, open) is
+ * still staged, which is why the card's live link is the share page rather
+ * than proof of this thread. The CLI line keeps the docs' numeric media id —
+ * the share slug in the page URL is not what `media comment list` takes.
  */
 export function PinnedFeedback() {
   return (
