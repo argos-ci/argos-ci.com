@@ -1,3 +1,4 @@
+import { Code } from "@/components/Code";
 import { FAQQuestion } from "@/components/FAQAccordion";
 import { Link } from "@/components/Link";
 
@@ -10,7 +11,7 @@ export const MEDIA_SHARING_QUESTIONS: FAQQuestion[] = [
           GitHub has no public API for comment attachments. Dragging an image
           into a pull request needs a signed-in browser session, which an agent
           or a CI job doesn&apos;t have. With Argos,{" "}
-          <code>argos media upload --branch</code> stages the file from the
+          <Code>argos media upload --branch</Code> stages the file from the
           terminal, and when a pull request opens for that branch, Argos posts
           it there in a managed comment, automatically.
         </p>
@@ -97,8 +98,8 @@ export const MEDIA_SHARING_QUESTIONS: FAQQuestion[] = [
         <p>
           A reviewer pins a comment to a point on the image, and the pin is
           stored as normalized coordinates with the exact version it was written
-          on. The agent runs <code>argos media list --branch</code> to find its
-          uploads, <code>argos media comment list</code> to read the open
+          on. The agent runs <Code>argos media list --branch</Code> to find its
+          uploads, <Code>argos media comment list</Code> to read the open
           threads, then replies and resolves each one from the same CLI. Even a
           process that cannot see pixels can act on the feedback.
         </p>

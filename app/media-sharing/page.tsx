@@ -14,6 +14,7 @@ import { Badge } from "@/components/Badge";
 import { Button } from "@/components/Button";
 import { CallToActionSection } from "@/components/CallToActionSection";
 import { Chip } from "@/components/Chip";
+import { Code } from "@/components/Code";
 import { CodeBlock } from "@/components/CodeBlock";
 import { Container } from "@/components/Container";
 import { FAQAccordion } from "@/components/FAQAccordion";
@@ -134,7 +135,7 @@ export default function Page() {
             title={<>Before and after, one link</>}
             description={
               <>
-                Name two files <code>-before</code> and <code>-after</code> and
+                Name two files <Code>-before</Code> and <Code>-after</Code> and
                 they share one identity: a single row in the pull request
                 comment, and a share page that compares both sides with synced
                 pan and zoom. The reviewer sees the change, not two tabs.
@@ -161,7 +162,7 @@ export default function Page() {
             description={
               <>
                 A media is an identity; every upload is a version of it.
-                Re-uploading <code>checkout.png</code> updates the Markdown
+                Re-uploading <Code>checkout.png</Code> updates the Markdown
                 already pasted in the pull request, keeps the version a reviewer
                 commented on underneath, and identical bytes cost nothing.
               </>

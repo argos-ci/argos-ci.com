@@ -14,6 +14,7 @@ import Link from "next/link";
 import { Button } from "@/components/Button";
 import { CallToActionSection } from "@/components/CallToActionSection";
 import { Chip } from "@/components/Chip";
+import { Code } from "@/components/Code";
 import { Container } from "@/components/Container";
 import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
 import {
@@ -187,9 +188,9 @@ export default function Page() {
             title="Markdown & slash commands"
             description={
               <>
-                Comments are written in Markdown with{" "}
-                <code className="font-mono">/</code> slash commands and
-                @mentions. Drafts persist locally so you never lose a thought.
+                Comments are written in Markdown with <Code>/</Code> slash
+                commands and @mentions. Drafts persist locally so you never lose
+                a thought.
               </>
             }
             href="/docs/learn/review-workflow/review-a-build"

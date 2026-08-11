@@ -1,3 +1,4 @@
+import { Code } from "@/components/Code";
 import { FAQAccordion, FAQQuestion } from "@/components/FAQAccordion";
 import { Link } from "@/components/Link";
 
@@ -9,7 +10,7 @@ export function FAQ() {
         <>
           <p>
             <strong>BackstopJS</strong> is a self-hosted tool: you describe
-            scenarios in <code>backstop.json</code>, capture baselines to a
+            scenarios in <Code>backstop.json</Code>, capture baselines to a
             local folder, and diff them on your machine or CI.
           </p>
           <p>
@@ -30,7 +31,7 @@ export function FAQ() {
           <p>
             You translate them into a small Playwright test: scenario URLs and
             selectors become <strong>argosScreenshot()</strong> calls, and{" "}
-            <code>viewports</code> become responsive viewports. The{" "}
+            <Code>viewports</Code> become responsive viewports. The{" "}
             <Link href="/docs/learn/how-to-guides/migrate-to-argos/from-backstopjs">
               migration guide
             </Link>{" "}
@@ -46,8 +47,8 @@ export function FAQ() {
       answer: (
         <p>
           In the cloud. BackstopJS stores baselines in a local{" "}
-          <code>bitmaps_reference/</code> folder and approves with{" "}
-          <code>backstop approve</code> on one machine. Argos stores baselines
+          <Code>bitmaps_reference/</Code> folder and approves with{" "}
+          <Code>backstop approve</Code> on one machine. Argos stores baselines
           from your Git history and lets your whole team review and approve
           changes on the pull request, with full history.
         </p>
