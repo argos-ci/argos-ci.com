@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import type { ReactNode } from "react";
 
-import { ClaudeMark } from "./ClaudeMark";
+import { ClaudeMark } from "@/components/ClaudeMark";
 
 /**
  * The verdict in a turn, when there is one. Weight rather than color: violet
@@ -71,11 +71,27 @@ export function AgentTerminal(props: {
    */
   conversations: { key: string; lines: TerminalLine[] }[];
   activeKey: string;
+  /**
+   * Sizing and entrance, left to the caller — the panel owns how it looks, not
+   * how big it is. The homepage centres it at a fixed width; the media sharing
+   * flow stretches it to the height of the pull request card beside it. Passing
+   * this replaces the default rather than adding to it, since every part of it
+   * is something a caller may need to contradict.
+   */
+  className?: string;
 }) {
-  const { prompt, conversations, activeKey } = props;
+  const { prompt, conversations, activeKey, className } = props;
 
   return (
-    <div className="w-full max-w-md animate-slide-up-fade overflow-hidden rounded-xl border-[0.5px] bg-app shadow-md/7 animate-duration-500 fill-mode-both motion-reduce:animate-fade-in dark:border-(--neutral-7)">
+    <div
+      className={clsx(
+        // A column, so a caller that stretches the panel grows the conversation
+        // and leaves the caret sitting on the bottom edge.
+        "flex flex-col overflow-hidden rounded-xl border-[0.5px] bg-app shadow-md/7 dark:border-(--neutral-7)",
+        className ??
+          "w-full max-w-md animate-slide-up-fade animate-duration-500 fill-mode-both motion-reduce:animate-fade-in",
+      )}
+    >
       {/* The agent is named once, here, instead of on every turn it takes. */}
       <div className="flex items-center gap-2 border-b-[0.5px] px-3 py-2">
         <ClaudeMark className="size-3.5 shrink-0" />
@@ -97,7 +113,7 @@ export function AgentTerminal(props: {
           and `visibility: hidden` keeps them out of the accessibility tree.
           No horizontal padding: each line pads itself, so a full-bleed row
           stays possible. */}
-      <div className="grid">
+      <div className="grid flex-1">
         {conversations.map((conversation) => {
           const isActive = conversation.key === activeKey;
           return (

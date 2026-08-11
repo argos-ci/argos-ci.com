@@ -9,14 +9,13 @@ import {
 } from "lucide-react";
 import { useEffect, useId, useRef, useState } from "react";
 
-import { useInViewport } from "@/components/useInViewport";
-
 import {
   AgentTerminal,
   Ref,
   type TerminalLine,
   Verdict,
-} from "./AgentTerminal";
+} from "@/components/AgentTerminal";
+import { useInViewport } from "@/components/useInViewport";
 
 type Step = {
   key: string;
