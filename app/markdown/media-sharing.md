@@ -6,7 +6,8 @@ Canonical: https://argos-ci.com/media-sharing
 Documentation: https://argos-ci.com/docs/learn/media
 
 **Media sharing** is standalone image and video upload for Argos: no build, no
-test run, just a file with a stable share URL and Markdown ready to paste. It
+test run, no baseline, just a file with a stable share URL and Markdown ready
+to paste. It
 exists because GitHub has no public API for comment attachments: dragging an
 image into a pull request needs a signed-in browser session, which an agent or
 a CI job does not have. Media sharing is how a process working from a terminal

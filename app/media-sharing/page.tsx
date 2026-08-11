@@ -2,7 +2,6 @@ import clsx from "clsx";
 import {
   BotIcon,
   FilmIcon,
-  ImageUpIcon,
   LockIcon,
   MessagesSquareIcon,
   SparklesIcon,
@@ -98,18 +97,15 @@ export default function Page() {
       <section className="border-b px-4">
         <Container className="border-x bg-linear-to-b from-transparent to-(--neutral-2) pb-12">
           <SectionHeader align="center" className="max-w-2xl container-gutter">
-            <Chip icon={ImageUpIcon}>From terminal to pull request</Chip>
             <SectionHeaderTexts>
-              <SectionTitle>
-                Upload while you work. It lands when the PR opens.
-              </SectionTitle>
+              <SectionTitle>Upload before the pull request exists</SectionTitle>
               <SectionDescription>
                 <strong>Media sharing</strong> is standalone image and video
-                upload for Argos: no build, no test run, just a file with a
-                stable share URL and Markdown ready to paste. Stage media on a
-                branch while the work happens; the moment a pull request opens
-                for that branch, Argos publishes everything staged there and
-                posts a single managed comment.
+                upload: no build, no test run, no baseline, just a file with a
+                stable share URL and Markdown ready to paste. Stage it on the
+                branch you&apos;re working on, and Argos posts it when the pull
+                request opens, in one comment it keeps up to date instead of a
+                new one each time.
               </SectionDescription>
             </SectionHeaderTexts>
           </SectionHeader>
