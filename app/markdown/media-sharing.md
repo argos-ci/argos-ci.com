@@ -18,6 +18,13 @@ a build. It complements
 [visual testing](https://argos-ci.com/visual-testing): builds catch the changes
 nobody intended, media shows the result someone did intend.
 
+A live example, public and real:
+https://github.com/argos-ci/snkr-shop/pull/5 is a pull request whose branch
+had two before/after pairs staged; Argos posted them in the single managed
+comment when the pull request opened.
+https://app.argos-ci.com/m/mp21qmkhpekfx1v4ot7r is the share page for one of
+them, opening on the before/after compare view.
+
 ## How it works
 
 - A **media** is an identity (what the picture is of), and every upload is a
