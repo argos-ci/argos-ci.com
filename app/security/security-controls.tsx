@@ -31,7 +31,7 @@ export const SECURITY_HIGHLIGHTS: SecurityHighlight[] = [
     icon: DatabaseIcon,
     title: "Screenshots on secure S3",
     description:
-      "Stored on AWS S3 in the US, encrypted at rest and in transit with modern protocols.",
+      "Stored on AWS S3 in the US and replicated to the EU, encrypted at rest and in transit with modern protocols.",
   },
   {
     icon: ShieldCheckIcon,

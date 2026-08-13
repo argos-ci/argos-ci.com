@@ -30,6 +30,7 @@ export const MARKDOWN_PAGES = [
   { path: "/", section: false },
   { path: "/media-sharing", section: false },
   { path: "/pricing", section: false },
+  { path: "/dpa", section: false },
   { path: "/privacy", section: false },
   { path: "/terms", section: false },
   { path: "/blog", section: true },

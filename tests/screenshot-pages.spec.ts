@@ -16,6 +16,7 @@ const FOOTER_LINKS = {
   contact: "Contact",
   privacy: "Privacy",
   terms: "Terms",
+  dpa: "DPA",
   "percy-vs-argos": "Percy",
   "applitools-vs-argos": "Applitools",
   "chromatic-vs-argos": "Chromatic",

@@ -154,8 +154,9 @@ export default function SecurityPage() {
               <SectionDescription>
                 Many of our customers are based in Europe or serve European
                 users. We align our operations with GDPR, from how we handle
-                data to how we design our systems. Data is stored in the US,
-                with Standard Contractual Clauses covering lawful EU transfers.
+                data to how we design our systems. Data is stored in the US and
+                replicated to the EU, with Standard Contractual Clauses covering
+                lawful transfers.
               </SectionDescription>
             </SectionHeaderTexts>
             <Button variant="outline" asChild>
