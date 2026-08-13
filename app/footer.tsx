@@ -94,6 +94,7 @@ export const AppFooter: React.FC = () => (
             <FooterLink href="/contact">Contact</FooterLink>
             <FooterLink href="/privacy">Privacy</FooterLink>
             <FooterLink href="/terms">Terms</FooterLink>
+            <FooterLink href="/dpa">DPA</FooterLink>
           </FooterSection>
 
           <FooterSection>

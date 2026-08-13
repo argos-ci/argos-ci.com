@@ -38,6 +38,7 @@ export const config = {
     "/",
     "/media-sharing",
     "/pricing",
+    "/dpa",
     "/privacy",
     "/terms",
     "/blog/:path*",

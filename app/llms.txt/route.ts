@@ -49,6 +49,7 @@ Pages on argos-ci.com are also available as markdown: send \`Accept: text/markdo
 
 - [About](https://argos-ci.com/about)
 - [Security](https://argos-ci.com/security): SOC 2, GDPR
+- [Data Processing Agreement](https://argos-ci.com/dpa): GDPR Article 28 terms, subprocessors, international transfers, audit rights
 - [Status](https://argos.openstatus.dev): uptime and incidents
 `;
 

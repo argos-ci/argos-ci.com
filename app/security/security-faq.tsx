@@ -42,12 +42,13 @@ export const SECURITY_QUESTIONS: FAQQuestion[] = [
     name: "Where are screenshots stored?",
     answer: (
       <p>
-        Screenshots are securely stored on AWS S3 in the United States. All data
-        is encrypted at rest and in transit using modern encryption protocols.
+        Screenshots are securely stored on AWS S3 in the United States and
+        replicated to the European Union. All data is encrypted at rest and in
+        transit using modern encryption protocols.
       </p>
     ),
     textAnswer:
-      "Screenshots are securely stored on AWS S3 in the United States. All data is encrypted at rest and in transit using modern encryption protocols.",
+      "Screenshots are securely stored on AWS S3 in the United States and replicated to the European Union. All data is encrypted at rest and in transit using modern encryption protocols.",
   },
   {
     name: "Can Argos access my builds?",

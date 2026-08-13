@@ -68,9 +68,17 @@ async function readCuratedPage(name: string): Promise<string> {
   return readFile(filepath, "utf-8");
 }
 
-async function getLegalMarkdown(page: "privacy" | "terms"): Promise<string> {
+const LEGAL_TITLES = {
+  dpa: "Data Processing Agreement",
+  privacy: "Privacy policy",
+  terms: "Terms of service",
+} as const;
+
+async function getLegalMarkdown(
+  page: keyof typeof LEGAL_TITLES,
+): Promise<string> {
   const source = await readCuratedPage(`${page}.mdx`);
-  const title = page === "privacy" ? "Privacy policy" : "Terms of service";
+  const title = LEGAL_TITLES[page];
   return [
     docHeader({ title, canonical: `${SITE_URL}/${page}` }),
     mdxToMarkdown(source),
@@ -219,6 +227,7 @@ const resolvers: Record<
   "/media-sharing": (rest) =>
     rest.length === 0 ? readCuratedPage("media-sharing.md") : null,
   "/pricing": (rest) => (rest.length === 0 ? getPricingMarkdown() : null),
+  "/dpa": (rest) => (rest.length === 0 ? getLegalMarkdown("dpa") : null),
   "/privacy": (rest) =>
     rest.length === 0 ? getLegalMarkdown("privacy") : null,
   "/terms": (rest) => (rest.length === 0 ? getLegalMarkdown("terms") : null),
