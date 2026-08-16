@@ -1,0 +1,25 @@
+---
+title: Flows
+homeTitle: Review your screenshots as the journey they belong to
+description: Argos groups the screenshots a test captures into the user journey it walks — checkout, signup, onboarding — and reviews them in that order, derived from your test structure with nothing to configure.
+slug: flows
+date: 2026-09-01
+image: /assets/changelogs/flows/flows.jpg
+---
+
+![Flows in Argos](/assets/changelogs/flows/flows.jpg)
+
+A screenshot list is alphabetical. A checkout is not. Reviewing a five-step purchase has meant reading `cart`, `confirmation`, `payment`, `review`, `shipping` in that order and reassembling the journey in your head. **Flows** put it back together: Argos groups the screenshots a test captures into the path they walk, and reviews them in that order.
+
+- **Derived from your tests** — the test's title path is the flow, and the screenshots it takes are the steps. Storybook groups by component instead, one step per story. Nothing to install, no option to set.
+- **A view per journey** — the new **Flows** tab lists your product's journeys as they look on your latest reference build. Open one to walk it top to bottom, with a filmstrip that keeps every step in sight while you scroll.
+- **One step, every variant** — viewport, browser, color scheme, and story mode collapse into a single step. Switch an axis to walk the whole journey as a mobile user, or in dark mode.
+- **In the order your test walked it** — the Argos SDKs now record where each screenshot falls within its test, so a journey reads cart, shipping, payment, confirmation instead of alphabetically.
+
+## Context while you review
+
+A build that captured a journey is now reviewed as one. Inside each section of the screenshot list, the screenshots of a flow are ordered by journey rather than alphabetically — you review the cart before the confirmation. The flow name and your position in it sit above the screenshot name, and a toolbar toggle unfolds the whole journey as a strip of thumbnails under the screenshot, marking the steps that need attention.
+
+`⇧` `←` and `⇧` `→` move between the steps of the flow, leaving `←` and `→` to switch between the baseline and the changes as they always have.
+
+Learn more in the [flows documentation](https://argos-ci.com/docs/learn/review-workflow/flows).
