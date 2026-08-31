@@ -1,0 +1,26 @@
+---
+title: Custom domains
+homeTitle: Serve production deployments from a domain you own
+description: Point your own domain at your production deployments with a single DNS record — Argos issues and installs the TLS certificate automatically, then uses the domain in the links it posts back to GitHub.
+slug: custom-domains
+date: 2026-09-01
+image: /assets/changelogs/custom-domains/custom-domains.jpg
+---
+
+![Several domains resolving to one production deployment served over HTTPS](/assets/changelogs/custom-domains/custom-domains.jpg)
+
+A generated deployment URL is fine for a reviewer and awkward for everyone else. Sending a designer your Storybook, or support a docs preview, meant handing them an `argos-ci.live` hostname nobody recognises. **Custom domains** put production deployments on a domain you own.
+
+- **One DNS record** — point a `CNAME` at `cname.argos-ci.live`. That record is both the routing and the proof you own the domain, so there is no TXT record to add and nothing to verify by hand.
+- **Certificates handled** — Argos requests and installs the TLS certificate as soon as the domain resolves. Nothing to upload, nothing to renew.
+- **Always the current production deployment** — the domain follows production the way the internal one does. Preview deployments keep their own per-deployment and branch URLs.
+- **The link GitHub shows** — once a domain is live, the commit status and the pull request comment point at it instead of the generated URL.
+- **A status worth reading** — each domain says whether it is waiting on DNS, issuing a certificate, or live, and shows the exact record to create until it resolves.
+
+```
+docs.example.com.  CNAME  cname.argos-ci.live.
+```
+
+Root domains are the one wrinkle: most DNS providers refuse a `CNAME` on an apex, so use an `ALIAS` or `ANAME` record pointing at the same value, or point a subdomain at Argos instead.
+
+Add a domain from **Settings → Deployments → Domains**. Custom domains are included in paid plans. Learn more in the [URLs and domains documentation](https://argos-ci.com/docs/learn/deployments/urls-and-domains).
