@@ -5,6 +5,7 @@ import {
   BotIcon,
   GaugeIcon,
   GitGraphIcon,
+  GlobeIcon,
   HandFistIcon,
   HeadsetIcon,
   HeartHandshakeIcon,
@@ -200,6 +201,7 @@ export function PricingCards() {
               Media sharing: team-scoped links, 1-year retention
             </Feature>
             <Feature icon={ShieldIcon}>Private deployment protection</Feature>
+            <Feature icon={GlobeIcon}>Custom domains for deployments</Feature>
             <Feature icon={BellIcon}>
               Slack & Microsoft Teams notifications
             </Feature>

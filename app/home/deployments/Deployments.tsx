@@ -18,7 +18,7 @@ const POINTS = [
   {
     icon: GlobeIcon,
     title: "Preview and production, built in",
-    text: "PRs ship to immutable preview URLs; merges promote to a stable production domain, all reported in the PR comment.",
+    text: "PRs ship to immutable preview URLs; merges promote to a production domain — or a custom domain you own — reported in the PR comment.",
   },
   {
     icon: ShieldCheckIcon,

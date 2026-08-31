@@ -44,7 +44,7 @@ export const metadata: Metadata = getMetadata({
   absoluteTitle:
     "Argos Deployments · Deploy Storybook & static builds on every PR",
   description:
-    "Deploy Storybook, Vite, Next.js exports, or any static build to Argos on every pull request. Live preview URLs, a production domain, and access protection, with no extra infra.",
+    "Deploy Storybook, Vite, Next.js exports, or any static build to Argos on every pull request. Live preview URLs, custom domains, and access protection, with no extra infra.",
   pathname: "/deployments",
 });
 
@@ -123,8 +123,9 @@ export default function Page() {
               description={
                 <>
                   Pull requests ship to preview URLs; merges to your production
-                  branch promote to a stable domain. Each deployment also
-                  exposes a branch URL that always follows the latest build.
+                  branch promote to a stable domain — or a custom domain you
+                  own. Each deployment also exposes a branch URL that always
+                  follows the latest build.
                 </>
               }
               href="/docs/learn/deployments"
@@ -183,7 +184,7 @@ export default function Page() {
             description={
               <>
                 Immutable deployment URLs, branch URLs that follow the latest
-                build, and a project-wide production domain.
+                build, and a production domain — or your own custom domain.
               </>
             }
             href="/docs/learn/deployments"
