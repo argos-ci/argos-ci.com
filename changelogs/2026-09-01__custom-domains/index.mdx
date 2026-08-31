@@ -18,7 +18,7 @@ A generated deployment URL is fine for a reviewer and awkward for everyone else.
 - **A status worth reading** — each domain says whether it is waiting on DNS, issuing a certificate, or live, and shows the exact record to create until it resolves.
 
 ```
-docs.example.com.  CNAME  cname.argos-ci.live.
+storybook.acme.com.  CNAME  cname.argos-ci.live.
 ```
 
 Root domains are the one wrinkle: most DNS providers refuse a `CNAME` on an apex, so use an `ALIAS` or `ANAME` record pointing at the same value, or point a subdomain at Argos instead.
