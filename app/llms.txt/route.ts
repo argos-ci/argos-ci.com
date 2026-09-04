@@ -30,6 +30,7 @@ Pages on argos-ci.com are also available as markdown: send \`Accept: text/markdo
 - [API catalog](https://argos-ci.com/.well-known/api-catalog): RFC 9727 linkset of Argos APIs
 - [auth.md](https://argos-ci.com/auth.md): how agents register and authenticate
 - [OAuth protected resource metadata](https://argos-ci.com/.well-known/oauth-protected-resource): RFC 9728
+- WebMCP: every page registers read-only tools for browser agents on \`document.modelContext\` — search_docs, get_docs_page, get_quickstart, get_page, get_pricing, estimate_monthly_cost, compare_with, get_security_compliance, get_latest_changelog, get_service_status, get_mcp_connection_info
 
 ## Product
 
@@ -39,6 +40,14 @@ Pages on argos-ci.com are also available as markdown: send \`Accept: text/markdo
 - [Test debugging](https://argos-ci.com/test-debugging): debug CI failures with screenshots and traces
 - [Flaky test management](https://argos-ci.com/flaky-management): detect and mute flaky changes
 - [Pricing](https://argos-ci.com/pricing): Hobby (free) and Pro plans
+
+## Compare
+
+- [Argos vs Applitools](https://argos-ci.com/compare/applitools)
+- [Argos vs Percy](https://argos-ci.com/compare/percy)
+- [Argos vs Chromatic](https://argos-ci.com/compare/chromatic)
+- [Argos vs BackstopJS](https://argos-ci.com/compare/backstopjs)
+- [Argos vs Playwright screenshots](https://argos-ci.com/compare/playwright): Playwright's built-in toHaveScreenshot() vs Argos
 
 ## News
 

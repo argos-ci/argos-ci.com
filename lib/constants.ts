@@ -5,3 +5,7 @@ export const ARGOS_SCREENSHOT_PRICE = 0.004;
 export const ARGOS_STORYBOOK_SCREENSHOT_PRICE = 0.0015;
 export const GITHUB_SSO_PRICE = 50;
 export const SAML_SSO_PRICE = 200;
+
+/** Media uploads draw on the screenshot allowance at these rates. */
+export const ARGOS_MEDIA_IMAGE_SCREENSHOT_COUNT = 1;
+export const ARGOS_MEDIA_VIDEO_SCREENSHOT_COUNT = 25;

@@ -3,7 +3,7 @@ import { LocalString } from "@/components/IntlFormat";
 import { Link } from "@/components/Link";
 import { ARGOS_HOBBY_SCREENSHOT_COUNT } from "@/lib/constants";
 
-const questions: FAQQuestion[] = [
+export const PRICING_QUESTIONS: FAQQuestion[] = [
   {
     name: "Which Argos plan is right for me?",
     answer: (
@@ -124,5 +124,5 @@ const questions: FAQQuestion[] = [
 ];
 
 export function FAQ() {
-  return <FAQAccordion questions={questions} />;
+  return <FAQAccordion questions={PRICING_QUESTIONS} />;
 }
