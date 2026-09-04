@@ -20,7 +20,7 @@
  */
 
 type MarkdownPage = {
-  /** Path of the HTML page. */
+  /** Path of the HTML page, possibly nested as in `/compare/percy`. */
   path: string;
   /** Whether descendants are included too, as in `/blog/:slug`. */
   section: boolean;
@@ -30,6 +30,12 @@ export const MARKDOWN_PAGES = [
   { path: "/", section: false },
   { path: "/media-sharing", section: false },
   { path: "/pricing", section: false },
+  { path: "/security", section: false },
+  { path: "/compare/applitools", section: false },
+  { path: "/compare/backstopjs", section: false },
+  { path: "/compare/chromatic", section: false },
+  { path: "/compare/percy", section: false },
+  { path: "/compare/playwright", section: false },
   { path: "/dpa", section: false },
   { path: "/privacy", section: false },
   { path: "/terms", section: false },
@@ -55,25 +61,32 @@ export const MARKDOWN_ROUTES = MARKDOWN_PAGES.map(({ path, section }) => ({
   markdown: section ? `${toMarkdownPath(path)}/:path*` : toMarkdownPath(path),
 }));
 
+function toSegments(path: string): string[] {
+  return path.split("/").filter(Boolean);
+}
+
 /**
  * The markdown page a pathname belongs to, with the path segments below it —
- * `/blog/foo/bar` resolves to the `/blog` page with `["foo", "bar"]`.
+ * `/blog/foo/bar` resolves to the `/blog` page with `["foo", "bar"]`. A page
+ * that is not a section only matches its own path.
  */
 export function findMarkdownPage(
   pathname: string,
 ): { path: MarkdownPagePath; rest: string[] } | null {
-  const segments = pathname.split("/").filter(Boolean);
-  const page = MARKDOWN_PAGES.find(({ path, section }) =>
-    path === "/"
-      ? segments.length === 0
-      : segments[0] === path.slice(1) && (section || segments.length === 1),
-  );
+  const segments = toSegments(pathname);
+  const page = MARKDOWN_PAGES.find(({ path, section }) => {
+    const pageSegments = toSegments(path);
+    const isUnderPage = pageSegments.every(
+      (segment, index) => segments[index] === segment,
+    );
+    return isUnderPage && (section || segments.length === pageSegments.length);
+  });
   if (!page) {
     return null;
   }
   return {
     path: page.path,
-    rest: page.path === "/" ? [] : segments.slice(1),
+    rest: segments.slice(toSegments(page.path).length),
   };
 }
 

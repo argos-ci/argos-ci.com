@@ -2,72 +2,73 @@ import { Code } from "@/components/Code";
 import { FAQAccordion, FAQQuestion } from "@/components/FAQAccordion";
 import { Link } from "@/components/Link";
 
+export const BACKSTOPJS_QUESTIONS: FAQQuestion[] = [
+  {
+    name: "What is the difference between BackstopJS and Argos?",
+    answer: (
+      <>
+        <p>
+          <strong>BackstopJS</strong> is a self-hosted tool: you describe
+          scenarios in <Code>backstop.json</Code>, capture baselines to a local
+          folder, and diff them on your machine or CI.
+        </p>
+        <p>
+          <strong>Argos</strong> keeps the same idea, visit a page, screenshot
+          it, diff it, but selects baselines from your Git history in the cloud,
+          runs the comparison consistently across machines, and turns every
+          change into a reviewable pull request check.
+        </p>
+      </>
+    ),
+    textAnswer:
+      "BackstopJS is a self-hosted tool: you describe scenarios in backstop.json, capture baselines to a local folder, and diff them on your machine or CI. Argos keeps the same idea but selects baselines from your Git history in the cloud, runs the comparison consistently across machines, and turns every change into a reviewable pull request check.",
+  },
+  {
+    name: "Do I have to rewrite my backstop.json scenarios?",
+    answer: (
+      <>
+        <p>
+          You translate them into a small Playwright test: scenario URLs and
+          selectors become <strong>argosScreenshot()</strong> calls, and{" "}
+          <Code>viewports</Code> become responsive viewports. The{" "}
+          <Link href="/docs/learn/how-to-guides/migrate-to-argos/from-backstopjs">
+            migration guide
+          </Link>{" "}
+          maps every BackstopJS concept to its Argos equivalent.
+        </p>
+      </>
+    ),
+    textAnswer:
+      "You translate them into a small Playwright test: scenario URLs and selectors become argosScreenshot() calls, and viewports become responsive viewports. The migration guide maps every BackstopJS concept to its Argos equivalent.",
+  },
+  {
+    name: "Where do baselines and approvals live?",
+    answer: (
+      <p>
+        In the cloud. BackstopJS stores baselines in a local{" "}
+        <Code>bitmaps_reference/</Code> folder and approves with{" "}
+        <Code>backstop approve</Code> on one machine. Argos stores baselines
+        from your Git history and lets your whole team review and approve
+        changes on the pull request, with full history.
+      </p>
+    ),
+    textAnswer:
+      "In the cloud. BackstopJS stores baselines in a local bitmaps_reference/ folder and approves with backstop approve on one machine. Argos stores baselines from your Git history and lets your whole team review and approve changes on the pull request, with full history.",
+  },
+  {
+    name: "Is Argos also open source?",
+    answer: (
+      <p>
+        Yes. Like BackstopJS, Argos is open source. The difference is you no
+        longer maintain the infrastructure: browsers, parallelization, storage,
+        and pull request integration are handled for you.
+      </p>
+    ),
+    textAnswer:
+      "Yes. Like BackstopJS, Argos is open source. The difference is you no longer maintain the infrastructure: browsers, parallelization, storage, and pull request integration are handled for you.",
+  },
+];
+
 export function FAQ() {
-  const questions: FAQQuestion[] = [
-    {
-      name: "What is the difference between BackstopJS and Argos?",
-      answer: (
-        <>
-          <p>
-            <strong>BackstopJS</strong> is a self-hosted tool: you describe
-            scenarios in <Code>backstop.json</Code>, capture baselines to a
-            local folder, and diff them on your machine or CI.
-          </p>
-          <p>
-            <strong>Argos</strong> keeps the same idea, visit a page, screenshot
-            it, diff it, but selects baselines from your Git history in the
-            cloud, runs the comparison consistently across machines, and turns
-            every change into a reviewable pull request check.
-          </p>
-        </>
-      ),
-      textAnswer:
-        "BackstopJS is a self-hosted tool: you describe scenarios in backstop.json, capture baselines to a local folder, and diff them on your machine or CI. Argos keeps the same idea but selects baselines from your Git history in the cloud, runs the comparison consistently across machines, and turns every change into a reviewable pull request check.",
-    },
-    {
-      name: "Do I have to rewrite my backstop.json scenarios?",
-      answer: (
-        <>
-          <p>
-            You translate them into a small Playwright test: scenario URLs and
-            selectors become <strong>argosScreenshot()</strong> calls, and{" "}
-            <Code>viewports</Code> become responsive viewports. The{" "}
-            <Link href="/docs/learn/how-to-guides/migrate-to-argos/from-backstopjs">
-              migration guide
-            </Link>{" "}
-            maps every BackstopJS concept to its Argos equivalent.
-          </p>
-        </>
-      ),
-      textAnswer:
-        "You translate them into a small Playwright test: scenario URLs and selectors become argosScreenshot() calls, and viewports become responsive viewports. The migration guide maps every BackstopJS concept to its Argos equivalent.",
-    },
-    {
-      name: "Where do baselines and approvals live?",
-      answer: (
-        <p>
-          In the cloud. BackstopJS stores baselines in a local{" "}
-          <Code>bitmaps_reference/</Code> folder and approves with{" "}
-          <Code>backstop approve</Code> on one machine. Argos stores baselines
-          from your Git history and lets your whole team review and approve
-          changes on the pull request, with full history.
-        </p>
-      ),
-      textAnswer:
-        "In the cloud. BackstopJS stores baselines in a local bitmaps_reference/ folder and approves with backstop approve on one machine. Argos stores baselines from your Git history and lets your whole team review and approve changes on the pull request, with full history.",
-    },
-    {
-      name: "Is Argos also open source?",
-      answer: (
-        <p>
-          Yes. Like BackstopJS, Argos is open source. The difference is you no
-          longer maintain the infrastructure: browsers, parallelization,
-          storage, and pull request integration are handled for you.
-        </p>
-      ),
-      textAnswer:
-        "Yes. Like BackstopJS, Argos is open source. The difference is you no longer maintain the infrastructure: browsers, parallelization, storage, and pull request integration are handled for you.",
-    },
-  ];
-  return <FAQAccordion questions={questions} />;
+  return <FAQAccordion questions={BACKSTOPJS_QUESTIONS} />;
 }

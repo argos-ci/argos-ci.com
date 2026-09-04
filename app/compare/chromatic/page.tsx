@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 
 import { ComparePricingSlider } from "@/app/common/PricingSlider";
-import { Th, ThMain, ThSub, ThSubLink, Tr } from "@/components/ComparisonTable";
 import { getMetadata } from "@/lib/metadata";
 
 import {
@@ -12,10 +11,11 @@ import {
   TableSection,
   TrySection,
 } from "../common";
-import { ComparisonTable, Feature, Features } from "../comparison-table";
+import { ComparisonTable } from "../comparison-table";
 import chromaticEmblem from "./chromatic-emblem.svg";
 import chromaticLogoDark from "./chromatic-logo-dark.svg";
 import chromaticLogo from "./chromatic-logo.svg";
+import { comparison } from "./comparison";
 import { FAQ } from "./faq";
 
 export const metadata: Metadata = getMetadata({
@@ -26,131 +26,35 @@ export const metadata: Metadata = getMetadata({
   pathname: "/compare/chromatic",
 });
 
-const features: Features = {
-  pricing: {
-    argos: "$100/mo",
-    competitor: "$179/mo",
-  },
-  snapshotTesting: {
-    argos: "✔️",
-    competitor: "❌",
-  },
-  deployments: {
-    argos: "✔️",
-    competitor: "Storybook only",
-  },
-  collaborativeReviews: {
-    argos: "✔️",
-    competitor: "✔️",
-  },
-  agentReady: {
-    argos: "✔️",
-    competitor: "❌",
-  },
-  playwrightDebugging: {
-    argos: "✔️",
-    competitor: "❌",
-  },
-  playwrightTestRetries: {
-    argos: "✔️",
-    competitor: "❌",
-  },
-  githubSso: {
-    argos: "✔️",
-    competitor: "❌",
-  },
-  openSource: {
-    argos: "✔️",
-    competitor: "❌",
-  },
-  beautifulAndIntuitiveUi: {
-    argos: "✔️",
-    competitor: "✔️",
-  },
-  bestScreenshotQuality: {
-    argos: "✔️",
-    competitor: "❌",
-  },
-  githubActionsPartialReRuns: {
-    argos: "✔️",
-    competitor: "❌",
-  },
-  githubLight: {
-    argos: "✔️",
-    competitor: "❌",
-  },
-  monitoringMode: {
-    argos: "✔️",
-    competitor: "✔️",
-  },
-  sensitivityThresholdPerScreenshot: {
-    argos: "✔️",
-    competitor: "❌",
-  },
-  spendManamgement: {
-    argos: "✔️",
-    competitor: "❌",
-  },
-};
-
 const emblemProps = {
   emblemSrc: chromaticEmblem,
-  emblemAlt: "Chromatic",
+  emblemAlt: comparison.fullName,
 };
 
 export default function Page() {
   return (
     <>
       <HeroSection
-        title="Chromatic vs Argos"
-        description="Learn how Argos compares to Chromatic and why Argos is the best alternative for visual testing."
-        migrationHref="/docs/learn/how-to-guides/migrate-to-argos/from-chromatic"
+        title={comparison.title}
+        description={comparison.description}
+        migrationHref={comparison.migrationHref}
         {...emblemProps}
       />
       <TableSection>
         <ComparisonTable
+          comparison={comparison}
           logoSrc={chromaticLogo}
           logoSrcDark={chromaticLogoDark}
-          title="Chromatic"
-          features={features}
-          additionals={
-            <>
-              <Tr>
-                <Th>
-                  <ThMain>Screenshot in Play function</ThMain>
-                  <ThSubLink href="/docs/sdks-reference/storybook#interactions-using-the-play-function">
-                    Take screenshots during the test
-                  </ThSubLink>
-                </Th>
-                <Feature
-                  feature={{
-                    argos: "✔️",
-                    competitor: "❌",
-                  }}
-                />
-              </Tr>
-              <Tr>
-                <Th>
-                  <ThMain>No time-limit for Play function</ThMain>
-                  <ThSub>Take screenshots of long-running tests</ThSub>
-                </Th>
-                <Feature
-                  feature={{
-                    argos: "✔️",
-                    competitor: "❌",
-                  }}
-                />
-              </Tr>
-            </>
-          }
         />
       </TableSection>
 
       <PricingSection title="Estimate your savings">
         <ComparePricingSlider competitor="chromatic" />
-        <p className="mt-4 text-center text-sm text-low">
-          Our estimation is based on the assumption that you have 80% Turbosnap.
-        </p>
+        {comparison.pricingNote ? (
+          <p className="mt-4 text-center text-sm text-low">
+            {comparison.pricingNote}
+          </p>
+        ) : null}
       </PricingSection>
 
       <KeyFeaturesSection />

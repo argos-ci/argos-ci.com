@@ -25,6 +25,14 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const title = defaultTitle;
 const description = defaultDescription;
 
+/**
+ * WebMCP (components/WebMcp.tsx) is behind a Chrome origin trial until it
+ * ships: without the token registered for argos-ci.com at
+ * developer.chrome.com/origintrials, `document.modelContext` is undefined for
+ * visitors and the tools never register. Set it in the Vercel environment.
+ */
+const webMcpOriginTrialToken = process.env.WEBMCP_ORIGIN_TRIAL_TOKEN;
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://argos-ci.com"),
   title: {
@@ -105,6 +113,9 @@ export default function RootLayout({
         />
         <PlausibleProvider src="https://plausible.io/js/pa-MUtv2DPAT8fCOLi_QqcGL.js" />
         <GoogleAdsScripts />
+        {webMcpOriginTrialToken ? (
+          <meta httpEquiv="origin-trial" content={webMcpOriginTrialToken} />
+        ) : null}
       </head>
       <body>
         <JsonLd json={jsonLdOrganization} />

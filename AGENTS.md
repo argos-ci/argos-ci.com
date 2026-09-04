@@ -28,13 +28,15 @@ Most user-facing copy exists twice — once as HTML/JSX, once as markdown served
 to agents and LLMs. **Whenever you change page copy, update the markdown twin
 in the same commit.** The twins:
 
-| HTML surface                                         | Markdown twin                                              |
-| ---------------------------------------------------- | ---------------------------------------------------------- |
-| Homepage (`app/homepage.tsx`, `app/home/**`)         | `app/markdown/home.md` (curated by hand)                   |
-| `/pricing` (`app/pricing/**`)                        | `getPricingMarkdown()` in `lib/markdown.ts` (hand-written) |
-| Feature pages with a variant (e.g. `/media-sharing`) | `app/markdown/<slug>.md` (curated by hand)                 |
-| Blog & changelog                                     | derived automatically from their MDX — nothing to do       |
-| Site overview for agents                             | `app/llms.txt/route.ts` (curated link map)                 |
+| HTML surface                                         | Markdown twin                                                                                                                             |
+| ---------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| Homepage (`app/homepage.tsx`, `app/home/**`)         | `app/markdown/home.md` (curated by hand)                                                                                                  |
+| `/pricing` (`app/pricing/**`)                        | `getPricingMarkdown()` in `lib/markdown.ts` (hand-written)                                                                                |
+| Feature pages with a variant (e.g. `/media-sharing`) | `app/markdown/<slug>.md` (curated by hand)                                                                                                |
+| Blog & changelog                                     | derived automatically from their MDX — nothing to do                                                                                      |
+| `/compare/*` (`app/compare/*/page.tsx`)              | derived from `app/compare/*/comparison.ts` + `faq.tsx` by `getCompareMarkdown()` in `lib/markdown.ts` — keep hero copy in the data module |
+| `/security` (`app/security/page.tsx`)                | `getSecurityMarkdown()` in `lib/markdown.ts`: prose hand-written, lists from the page's data modules                                      |
+| Site overview for agents                             | `app/llms.txt/route.ts` (curated link map)                                                                                                |
 
 Two more lockstep spots:
 
@@ -56,6 +58,19 @@ consumers must agree; the file's doc comment explains them. Adding a page:
 
 Verify with `curl -H "Accept: text/markdown" http://localhost:3100/<path>` and
 `curl http://localhost:3100/md/<path>`.
+
+## WebMCP tools for browser agents
+
+`components/WebMcp.tsx` registers the read-only tools defined in
+`lib/webmcp-tools.ts` on `document.modelContext` (falling back to the
+deprecated `navigator.modelContext`). Tools fetch the markdown twins or the
+docs' `.md` pages, so a new tool usually only needs a twin to read.
+`tests/webmcp.spec.ts` stubs the API and asserts the tool list — update
+`EXPECTED_TOOLS` when adding one. Chrome exposes the API only behind
+`chrome://flags/#enable-webmcp-testing` or an origin trial token: set
+`WEBMCP_ORIGIN_TRIAL_TOKEN` (rendered as a meta tag by `app/layout.tsx`) from
+the registration at developer.chrome.com/origintrials. Inspect registrations in
+DevTools → Application → WebMCP.
 
 ## Adding a page
 

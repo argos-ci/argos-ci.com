@@ -6,13 +6,14 @@ import * as React from "react";
 import { LocalDollar, LocalString } from "@/components/IntlFormat";
 import { Slider } from "@/components/Slider";
 import {
-  ARGOS_PRO_FLAT_PRICE,
-  ARGOS_PRO_FLAT_SCREENSHOT_COUNT,
-  ARGOS_SCREENSHOT_PRICE,
-  ARGOS_STORYBOOK_SCREENSHOT_PRICE,
-} from "@/lib/constants";
+  COMPETITORS,
+  CUSTOM_PLAN_SCREENSHOT_COUNT,
+  type CompetitorSlug,
+  getArgosProPricing,
+  getCompetitorPrice,
+} from "@/lib/pricing";
 
-const MAX_SCREENSHOTS = 1_000_000;
+const MAX_SCREENSHOTS = CUSTOM_PLAN_SCREENSHOT_COUNT;
 const STEP = 10_000;
 
 function formatCount(props: { max: number; count: number; short?: boolean }) {
@@ -42,44 +43,6 @@ function formatCount(props: { max: number; count: number; short?: boolean }) {
   return <LocalString value={count} />;
 }
 
-function computeAdditionalScreenshots(screenshots: {
-  neutral: number;
-  storybook: number;
-  included: number;
-}) {
-  const storybookOverhead = Math.max(
-    Math.min(screenshots.storybook, screenshots.included - screenshots.neutral),
-    0,
-  );
-  return {
-    neutral: Math.max(
-      0,
-      screenshots.neutral + storybookOverhead - screenshots.included,
-    ),
-    storybook: screenshots.storybook - storybookOverhead,
-  };
-}
-
-function getPrice(props: {
-  screenshotCount: number;
-  storybookScreenshotCount: number;
-  screenshotPrice: number;
-  storybookScreenshotPrice: number;
-  flatPrice: number;
-  flatScreenshotCount: number;
-}) {
-  const extraScreenshotsCount = computeAdditionalScreenshots({
-    neutral: props.screenshotCount,
-    storybook: props.storybookScreenshotCount,
-    included: props.flatScreenshotCount,
-  });
-  return Math.floor(
-    extraScreenshotsCount.neutral * props.screenshotPrice +
-      extraScreenshotsCount.storybook * props.storybookScreenshotPrice +
-      props.flatPrice,
-  );
-}
-
 function formatPrice(price: number, isMax: boolean) {
   return (
     <>
@@ -93,6 +56,7 @@ export function PricingSlider() {
   const [screenshots, setScreenshots] = React.useState(0);
   const [storybookScreenshots, setStorybookScreenshots] = React.useState(0);
   const isMaxScreenshots = screenshots >= MAX_SCREENSHOTS;
+  const { price } = getArgosProPricing({ screenshots, storybookScreenshots });
 
   return (
     <div className="flex flex-col items-center gap-4">
@@ -126,17 +90,7 @@ export function PricingSlider() {
         </strong>{" "}
         per month it will cost{" "}
         <strong className="font-medium">
-          {formatPrice(
-            getPrice({
-              flatPrice: ARGOS_PRO_FLAT_PRICE,
-              flatScreenshotCount: ARGOS_PRO_FLAT_SCREENSHOT_COUNT,
-              screenshotPrice: ARGOS_SCREENSHOT_PRICE,
-              screenshotCount: screenshots,
-              storybookScreenshotPrice: ARGOS_STORYBOOK_SCREENSHOT_PRICE,
-              storybookScreenshotCount: storybookScreenshots,
-            }),
-            isMaxScreenshots,
-          )}
+          {formatPrice(price, isMaxScreenshots)}
         </strong>
         .
       </div>
@@ -186,68 +140,15 @@ function ScreenshotSlider(props: {
   );
 }
 
-const TURBO_SNAP_RATIO = 1 / 5;
-
-const COMPETITORS = {
-  percy: {
-    name: "Percy Browserstack",
-    screenshotPrice: 0.048,
-    storybookScreenshotPrice: 0.048,
-    steps: [
-      {
-        screenshots: 25_000,
-        price: 599,
-      },
-    ],
-  },
-  chromatic: {
-    name: "Chromatic",
-    screenshotPrice: 0.008,
-    storybookScreenshotPrice: 0.008 * 0.2 + 0.008 * TURBO_SNAP_RATIO * 0.8, // 80% Turbosnap
-    steps: [
-      {
-        screenshots: 35_000,
-        price: 179,
-      },
-      {
-        screenshots: 85_000,
-        price: 399,
-      },
-    ],
-  },
-};
-
-export function ComparePricingSlider(props: {
-  competitor: keyof typeof COMPETITORS;
-}) {
+export function ComparePricingSlider(props: { competitor: CompetitorSlug }) {
   const [screenshots, setScreenshots] = React.useState(0);
   const [storybookScreenshots, setStorybookScreenshots] = React.useState(0);
   const isMaxScreenshots = screenshots >= MAX_SCREENSHOTS;
 
-  const argosPrice = getPrice({
-    flatPrice: ARGOS_PRO_FLAT_PRICE,
-    flatScreenshotCount: ARGOS_PRO_FLAT_SCREENSHOT_COUNT,
-    screenshotPrice: ARGOS_SCREENSHOT_PRICE,
-    screenshotCount: screenshots,
-    storybookScreenshotPrice: ARGOS_STORYBOOK_SCREENSHOT_PRICE,
-    storybookScreenshotCount: storybookScreenshots,
-  });
-
+  const usage = { screenshots, storybookScreenshots };
+  const argosPrice = getArgosProPricing(usage).price;
   const competitor = COMPETITORS[props.competitor];
-
-  const competitorPrices = competitor.steps.map((step) =>
-    getPrice({
-      flatPrice: step.price,
-      flatScreenshotCount: step.screenshots,
-      screenshotPrice: competitor.screenshotPrice,
-      screenshotCount: screenshots,
-      storybookScreenshotPrice: competitor.storybookScreenshotPrice,
-      storybookScreenshotCount: storybookScreenshots,
-    }),
-  );
-
-  // Pick the lowest price
-  const competitorPrice = Math.min(...competitorPrices);
+  const competitorPrice = getCompetitorPrice(props.competitor, usage);
 
   return (
     <div className="flex w-full flex-col items-center gap-4">

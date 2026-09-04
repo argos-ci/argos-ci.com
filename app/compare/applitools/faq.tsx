@@ -1,7 +1,7 @@
 import { FAQAccordion, FAQQuestion } from "@/components/FAQAccordion";
 import { Link } from "@/components/Link";
 
-const questions: FAQQuestion[] = [
+export const APPLITOOLS_QUESTIONS: FAQQuestion[] = [
   {
     name: "Can I start using Applitools by myself?",
     answer: (
@@ -123,5 +123,5 @@ const questions: FAQQuestion[] = [
 ];
 
 export function FAQ() {
-  return <FAQAccordion questions={questions} />;
+  return <FAQAccordion questions={APPLITOOLS_QUESTIONS} />;
 }

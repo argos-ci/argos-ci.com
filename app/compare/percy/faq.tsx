@@ -1,7 +1,7 @@
 import { FAQAccordion, FAQQuestion } from "@/components/FAQAccordion";
 import { Link } from "@/components/Link";
 
-const questions: FAQQuestion[] = [
+export const PERCY_QUESTIONS: FAQQuestion[] = [
   {
     name: "How do Percy and Argos address flaky tests?",
     answer: (
@@ -113,5 +113,5 @@ const questions: FAQQuestion[] = [
 ];
 
 export function FAQ() {
-  return <FAQAccordion questions={questions} />;
+  return <FAQAccordion questions={PERCY_QUESTIONS} />;
 }

@@ -21,7 +21,7 @@ import { SectionDescription, SectionTitle } from "@/components/Typography";
 import { getMetadata } from "@/lib/metadata";
 
 import { TrustedBy } from "../common/TrustedBy";
-import { GDPRFeatures, GDPR_FEATURES } from "./gdpr-features";
+import { GDPRFeatures, GDPR_FEATURES, GDPR_RIGHTS } from "./gdpr-features";
 import { SECURITY_HIGHLIGHTS, SecurityHighlights } from "./security-controls";
 import { SECURITY_QUESTIONS } from "./security-faq";
 
@@ -31,15 +31,6 @@ export const metadata: Metadata = getMetadata({
     "Argos is SOC 2 Type II compliant, GDPR compliant, and fully open source. Encrypted tokens, screenshots on secure S3, and security you can audit line by line.",
   pathname: "/security",
 });
-
-const GDPR_RIGHTS = [
-  "Know how their data is used",
-  "Access and correct their data",
-  "Delete their data",
-  "Limit or object to processing",
-  "Data portability",
-  "Protection from solely automated decisions",
-];
 
 export default function SecurityPage() {
   return (

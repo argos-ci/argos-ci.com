@@ -6,6 +6,16 @@ export type GdprFeature = {
   description: string;
 };
 
+/** The rights the GDPR section lists; the markdown twin lists them too. */
+export const GDPR_RIGHTS = [
+  "Know how their data is used",
+  "Access and correct their data",
+  "Delete their data",
+  "Limit or object to processing",
+  "Data portability",
+  "Protection from solely automated decisions",
+];
+
 export const GDPR_FEATURES: GdprFeature[] = [
   {
     title: "Data Encryption",
