@@ -1,27 +1,34 @@
 import clsx from "clsx";
-import { BellOffIcon, EyeOffIcon } from "lucide-react";
+import { BotIcon, EyeOffIcon, FingerprintIcon } from "lucide-react";
 
 import { Card } from "@/components/Card";
 import { Chip } from "@/components/Chip";
+
+const FINGERPRINT = "a91c…4e07";
 
 const builds = [
   {
     screenshot: "cart-page.png",
     build: "#1842 · main",
-    status: "Ignored",
+    by: null,
     variant: "warning" as const,
     icon: EyeOffIcon,
   },
   {
     screenshot: "cart-page.png",
     build: "#1843 · main",
-    status: "Silenced",
+    by: "Auto",
     variant: "primary" as const,
-    icon: BellOffIcon,
+    icon: BotIcon,
   },
 ];
 
-export function SmartMatchingStackIllustration() {
+/**
+ * The same change on two consecutive builds: ignored by hand on the first,
+ * recognized by its fingerprint and ignored automatically on the next. What
+ * Argos stores is the test plus the fingerprint, never the screenshot.
+ */
+export function FingerprintStack() {
   return (
     <div className="relative mx-auto w-full">
       {builds.map((build, index) => (
@@ -34,12 +41,12 @@ export function SmartMatchingStackIllustration() {
 function BuildCard(props: {
   screenshot: string;
   build: string;
-  status: string;
+  by: string | null;
   variant: "warning" | "primary";
   icon: typeof EyeOffIcon;
   elevation: number;
 }) {
-  const { screenshot, build, status, variant, icon: Icon, elevation } = props;
+  const { screenshot, build, by, variant, icon: Icon, elevation } = props;
   return (
     <Card
       shadow="high"
@@ -57,20 +64,22 @@ function BuildCard(props: {
         <span className="truncate">{screenshot}</span>
         <Chip
           icon={Icon}
-          variant={variant === "warning" ? "warning" : "primary"}
+          variant={variant}
           className="text-[0.65rem] leading-tight"
         >
-          {status}
-          {variant === "primary" && (
-            <span className="text-(--neutral-11)"> · auto</span>
-          )}
+          Ignored
+          {by ? <span className="text-(--neutral-11)"> · {by}</span> : null}
         </Chip>
       </div>
 
       <MiniDiffStack />
 
-      <div className="text-xxs font-medium text-(--neutral-11)">
-        Build {build}
+      <div className="flex items-center justify-between gap-2 text-xxs font-medium text-(--neutral-11)">
+        <span>Build {build}</span>
+        <span className="inline-flex items-center gap-1 font-mono">
+          <FingerprintIcon className="size-3" />
+          {FINGERPRINT}
+        </span>
       </div>
     </Card>
   );

@@ -1,8 +1,8 @@
 "use client";
 
 import clsx from "clsx";
-import { AlertTriangleIcon, CheckIcon } from "lucide-react";
-import type { ComponentPropsWithRef, ComponentPropsWithoutRef } from "react";
+import { AlertTriangleIcon, CheckIcon, type LucideIcon } from "lucide-react";
+import type { ComponentPropsWithoutRef } from "react";
 
 import { ApplicationSVG } from "@/components/ApplicationSVG";
 import { Badge } from "@/components/Badge";
@@ -11,70 +11,143 @@ import { ContainedIcon } from "@/components/ContainedIcon";
 import { DotIndicator } from "@/components/DotIndicator";
 import { SmallTitle } from "@/components/Typography";
 
-export function Stabilization() {
+/**
+ * What the SDK's capture defaults do to a screenshot: the same page captured
+ * raw, full of rendering noise, and captured deterministically, with only the
+ * real change left.
+ *
+ * `compact` fits the illustration in a feature-grid cell: tighter gaps, a
+ * smaller engine that only appears from `lg`, and stacked card headers.
+ */
+export function Stabilization(props: { compact?: boolean }) {
+  const { compact = false } = props;
   return (
-    <div className="relative flex w-full max-w-4xl items-center justify-center gap-2 p-5 md:gap-10">
-      <Funnel className="absolute left-1/2 z-0 hidden size-75 -translate-x-1/2 animate-fade-in animate-delay-200 animate-duration-500 fill-mode-both md:flex" />
+    <div
+      className={clsx(
+        "relative flex w-full max-w-4xl items-center justify-center",
+        compact ? "gap-2 p-4" : "gap-2 p-5 md:gap-10",
+      )}
+    >
+      <Funnel
+        className={clsx(
+          "absolute left-1/2 z-0 size-75 -translate-x-1/2 animate-fade-in animate-delay-200 animate-duration-500 fill-mode-both",
+          compact ? "hidden lg:flex" : "hidden md:flex",
+        )}
+      />
 
-      <Card className="relative flex flex-1 animate-slide-up-fade flex-col gap-3 p-3 animate-duration-500 fill-mode-both motion-reduce:animate-fade-in">
-        <Header>
-          <SmallTitle>
-            <ContainedIcon variant="danger" icon={AlertTriangleIcon} />
-            No stabilization
-          </SmallTitle>
-          <Badge className="border-(--danger-6) text-(--danger-11)">
-            <DotIndicator variant="danger" className="animate-pulse" />
-            34 diffs
-          </Badge>
-        </Header>
-
+      <CaptureCard
+        compact={compact}
+        icon={AlertTriangleIcon}
+        variant="danger"
+        title="Raw capture"
+        count="34 diffs"
+        pulse
+      >
         <ApplicationSVG noise={1} withChanges />
-      </Card>
+      </CaptureCard>
 
-      <Card className="relative hidden animate-zoom-in p-5 animate-delay-100 animate-duration-500 fill-mode-both motion-reduce:animate-fade-in md:block">
-        <div
-          className="pointer-events-none absolute inset-0 grid place-items-center"
-          aria-hidden="true"
-        >
-          <div className="size-24 animate-pulse rounded-full bg-(--primary-9)/15 blur-xl" />
-        </div>
-        <div
-          className="relative flex size-24 items-center justify-center rounded-full border border-(--primary-6) bg-[radial-gradient(circle_at_30%_30%,rgba(124,92,255,0.25),rgba(124,92,255,0.02)_60%)] shadow-[0_0_0_10px_rgba(124,92,255,0.08)]"
-          aria-hidden="true"
-        >
-          <StabilizationChipIcon />
-        </div>
-        <div className="pointer-events-none absolute -bottom-12 left-1/2 -translate-1/2 rounded border-[0.5px] bg-app px-2 py-1 font-mono text-xxxs whitespace-nowrap text-(--primary-9) uppercase">
-          Stabilization engine
-        </div>
-      </Card>
+      <Engine
+        compact={compact}
+        className={compact ? "hidden lg:block" : "hidden md:block"}
+      />
 
-      <Card className="relative flex flex-1 animate-slide-up-fade flex-col gap-3 p-3 animate-duration-500 fill-mode-both motion-reduce:animate-fade-in">
-        <Header>
-          <SmallTitle>
-            <ContainedIcon variant="success" icon={CheckIcon} />
-            Stabilized
-          </SmallTitle>
-          <Badge className="border-(--success-6) text-(--success-11)">
-            <DotIndicator variant="success" />2 diffs
-          </Badge>
-        </Header>
-
+      <CaptureCard
+        compact={compact}
+        icon={CheckIcon}
+        variant="success"
+        title="Deterministic capture"
+        count="2 diffs"
+      >
         <ApplicationSVG withChanges="success" />
-      </Card>
+      </CaptureCard>
     </div>
   );
 }
 
-function Header(props: ComponentPropsWithRef<"div">) {
+function CaptureCard(props: {
+  compact: boolean;
+  icon: LucideIcon;
+  variant: "danger" | "success";
+  title: string;
+  count: string;
+  pulse?: boolean;
+  children: React.ReactNode;
+}) {
+  const { compact, icon, variant, title, count, pulse, children } = props;
   return (
-    <div
-      {...props}
+    <Card className="relative flex flex-1 animate-slide-up-fade flex-col gap-3 p-3 animate-duration-500 fill-mode-both motion-reduce:animate-fade-in">
+      <div
+        className={clsx(
+          "flex gap-2",
+          compact
+            ? "flex-col items-start"
+            : "flex-col items-center justify-between md:flex-row",
+        )}
+      >
+        <SmallTitle className={clsx(compact && "lg:whitespace-nowrap")}>
+          <ContainedIcon variant={variant} icon={icon} />
+          {title}
+        </SmallTitle>
+        <Badge
+          className={clsx(
+            "whitespace-nowrap",
+            {
+              danger: "border-(--danger-6) text-(--danger-11)",
+              success: "border-(--success-6) text-(--success-11)",
+            }[variant],
+          )}
+        >
+          <DotIndicator
+            variant={variant}
+            className={clsx(pulse && "animate-pulse")}
+          />
+          {count}
+        </Badge>
+      </div>
+      {children}
+    </Card>
+  );
+}
+
+function Engine(props: { compact: boolean; className?: string }) {
+  const { compact, className } = props;
+  return (
+    <Card
       className={clsx(
-        "flex flex-col items-center justify-between gap-2 md:flex-row",
-        props.className,
+        "relative animate-zoom-in animate-delay-100 animate-duration-500 fill-mode-both motion-reduce:animate-fade-in",
+        compact ? "p-1.5" : "p-5",
+        className,
       )}
-    />
+    >
+      <div
+        className="pointer-events-none absolute inset-0 grid place-items-center"
+        aria-hidden="true"
+      >
+        <div
+          className={clsx(
+            "animate-pulse rounded-full bg-(--primary-9)/15 blur-xl",
+            compact ? "size-16" : "size-24",
+          )}
+        />
+      </div>
+      <div
+        className={clsx(
+          "relative flex items-center justify-center rounded-full border border-(--primary-6) bg-[radial-gradient(circle_at_30%_30%,rgba(124,92,255,0.25),rgba(124,92,255,0.02)_60%)] shadow-[0_0_0_10px_rgba(124,92,255,0.08)]",
+          compact ? "size-16" : "size-24",
+        )}
+        aria-hidden="true"
+      >
+        <StabilizationChipIcon size={compact ? "small" : "default"} />
+      </div>
+      <div
+        className={clsx(
+          "pointer-events-none absolute left-1/2 -translate-1/2 rounded border-[0.5px] bg-app px-2 py-1 font-mono text-xxxs whitespace-nowrap text-(--primary-9) uppercase",
+          compact ? "-bottom-9" : "-bottom-12",
+        )}
+      >
+        Argos SDK
+      </div>
+    </Card>
   );
 }
 
@@ -106,6 +179,7 @@ function StabilizationChipIcon(
      * If omitted, uses a nice default.
      */
     matrix?: number[];
+    size?: "default" | "small";
   },
 ) {
   const matrix = props.matrix ?? DEFAULT_MATRIX;
@@ -158,18 +232,23 @@ function StabilizationChipIcon(
     itemSize: matrixConfig.size,
   });
 
-  const { matrix: _matrix, className, ...divProps } = props;
+  const { matrix: _matrix, size = "default", className, ...divProps } = props;
 
   return (
     <div
       {...divProps}
       className={clsx(
-        "bg-(--neutral-9)/05 relative grid h-16 w-16 place-items-center rounded-2xl border border-(--neutral-9)/10",
+        "bg-(--neutral-9)/05 relative grid place-items-center rounded-2xl border border-(--neutral-9)/10",
+        size === "small" ? "size-11 rounded-xl" : "size-16",
         className,
       )}
       aria-hidden="true"
     >
-      <svg viewBox="0 0 56 56" className="h-14 w-14" fill="none">
+      <svg
+        viewBox="0 0 56 56"
+        className={size === "small" ? "size-10" : "size-14"}
+        fill="none"
+      >
         {/* Pins top */}
         {pinPositions.map((x) => (
           <rect

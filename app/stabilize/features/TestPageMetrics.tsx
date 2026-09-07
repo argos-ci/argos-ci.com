@@ -4,13 +4,19 @@ import clsx from "clsx";
 import {
   ActivityIcon,
   BarChart2Icon,
+  CalendarIcon,
+  ChevronDownIcon,
   HistoryIcon,
   TrendingUpIcon,
+  WavesIcon,
 } from "lucide-react";
 import type { ComponentPropsWithRef } from "react";
 
+import { Badge } from "@/components/Badge";
 import { Card } from "@/components/Card";
+import { Chip } from "@/components/Chip";
 import { CircleProgress } from "@/components/CircleProgress";
+import { DotIndicator } from "@/components/DotIndicator";
 import { SmallTitle } from "@/components/Typography";
 
 const chartData = [
@@ -32,39 +38,72 @@ function clamp(value: number, min: number, max: number) {
   return Math.max(min, Math.min(max, value));
 }
 
-export function AdvancedAnalytics(props: { className?: string }) {
+/**
+ * The top of a test page as Argos renders it: the test and its status, the
+ * period every number is computed over, then the flakiness score, the
+ * instability chart, the first and last change, and the period's metrics.
+ */
+export function TestPageMetrics(props: { className?: string }) {
   return (
     <section
-      className={clsx("max-w-4xl", props.className)}
-      aria-label="Flakiness widgets"
+      className={clsx("w-full max-w-4xl p-4 md:p-0", props.className)}
+      aria-label="Test page metrics"
     >
-      <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-3 md:p-0">
+      <PeriodBar className="mb-4 animate-slide-up-fade animate-duration-500 fill-mode-both motion-reduce:animate-fade-in" />
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <FlakinessScoreCard
           className={clsx(
-            "col-span-1 hidden sm:flex",
-            "animate-slide-up-fade motion-reduce:animate-fade-in animate-duration-500 fill-mode-both",
+            "hidden sm:col-span-1 sm:flex",
+            "animate-slide-up-fade animate-delay-100 motion-reduce:animate-fade-in animate-duration-500 fill-mode-both",
           )}
         />
         <GraphCard
           className={clsx(
-            "col-span-2",
-            "animate-slide-up-fade animate-delay-100 motion-reduce:animate-fade-in animate-duration-500 fill-mode-both",
+            "sm:col-span-2",
+            "animate-slide-up-fade animate-delay-200 motion-reduce:animate-fade-in animate-duration-500 fill-mode-both",
           )}
         />
         <FirstLastSeenCard
           className={clsx(
-            "col-span-2 hidden sm:block",
-            "animate-slide-up-fade animate-delay-200 motion-reduce:animate-fade-in animate-duration-500 fill-mode-both",
+            "hidden sm:col-span-2 sm:block",
+            "animate-slide-up-fade animate-delay-300 motion-reduce:animate-fade-in animate-duration-500 fill-mode-both",
           )}
         />
         <StatsCard
           className={clsx(
-            "col-span-1 hidden sm:block",
-            "animate-slide-up-fade animate-delay-300 motion-reduce:animate-fade-in animate-duration-500 fill-mode-both",
+            "hidden sm:col-span-1 sm:block",
+            "animate-slide-up-fade animate-delay-500 motion-reduce:animate-fade-in animate-duration-500 fill-mode-both",
           )}
         />
       </div>
     </section>
+  );
+}
+
+function PeriodBar(props: { className?: string }) {
+  return (
+    <div
+      className={clsx(
+        "flex items-center justify-between gap-3",
+        props.className,
+      )}
+    >
+      <div className="flex min-w-0 items-center gap-2">
+        <SmallTitle className="min-w-0">
+          <WavesIcon className="size-3 shrink-0 text-(--danger-10)" />
+          <span className="truncate">checkout.spec.ts › cart total</span>
+        </SmallTitle>
+        <Badge className="gap-1 max-sm:hidden">
+          <DotIndicator variant="success" />
+          Ongoing
+        </Badge>
+      </div>
+      <Chip icon={CalendarIcon} className="shrink-0 text-xs">
+        <span className="max-sm:hidden">Last 7 days</span>
+        <span className="sm:hidden">7 days</span>
+        <ChevronDownIcon className="size-3" />
+      </Chip>
+    </div>
   );
 }
 
@@ -76,7 +115,10 @@ function FlakinessScoreCard(props: { className?: string }) {
           <ActivityIcon className="size-3 text-low" />
           Flakiness score
         </SmallTitle>
-        <Description>Instantely see if a test is flaky or not.</Description>
+        <Description>
+          Instantly see if a test is flaky. Derived from stability and
+          consistency, higher is worse.
+        </Description>
       </CardHeader>
       <CircleProgress
         stroke="var(--danger-10)"
@@ -112,10 +154,10 @@ function StatsCard(props: { className?: string }) {
       <CardHeader className="text-balance">
         <SmallTitle>
           <BarChart2Icon className="size-3 text-low" />
-          Build metrics
+          Metrics
         </SmallTitle>
         <Description>
-          Aggregated stability metrics across all builds.
+          Builds, changes, stability and consistency over the period.
         </Description>
       </CardHeader>
       <div className="grid grid-cols-2 gap-x-6 gap-y-2 px-5 py-3">
@@ -137,7 +179,8 @@ function GraphCard(props: { className?: string }) {
           Instability over time
         </SmallTitle>
         <Description>
-          Tracks when and how often this snapshot becomes unstable.
+          When and how often this test changed, so an old flake reads
+          differently from a new one.
         </Description>
       </CardHeader>
       <div className="flex flex-1 items-center justify-center p-3">
@@ -156,18 +199,19 @@ function FirstLastSeenCard(props: { className?: string }) {
           Change history
         </SmallTitle>
         <Description>
-          When this snapshot first appeared and when it last changed.
+          The builds where this test first and last changed, whatever the
+          period.
         </Description>
       </CardHeader>
       <div className="grid gap-2 p-3">
         <RightInfo
-          title="First seen"
+          title="First change"
           value="4 months ago"
           sub="In build #2838"
         />
         <div className="h-px bg-(--neutral-6)" />
         <RightInfo
-          title="Last seen"
+          title="Last change"
           value="6 minutes ago"
           sub="In build #11136"
         />

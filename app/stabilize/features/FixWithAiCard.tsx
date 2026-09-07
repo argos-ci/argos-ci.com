@@ -1,21 +1,31 @@
 "use client";
 
 import clsx from "clsx";
-import { CheckIcon, ClipboardIcon } from "lucide-react";
+import { CheckIcon, ClipboardIcon, SparklesIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
-import { ArgosEmblem } from "@/components/ArgosEmblem";
+import { Badge } from "@/components/Badge";
 import { Card } from "@/components/Card";
 import { SmallTitle } from "@/components/Typography";
 
-const PROMPT = `# Review this Argos build
-build: argos-ci.com/…/builds/1234
-pr: feat/checkout · "Add wallet payments"
-changed: 3 snapshots · 1 text diff
+/**
+ * What the test page's "Fix with AI" card hands to a coding agent: the test,
+ * the flakiness Argos measured, the two commands that pull the recurring
+ * changes and their screenshots, and what to do with them.
+ */
+const PROMPT = `# Fix the flaky test "cart total" in checkout.spec.ts
+flakiness: 73/100 · 12 recurring changes in 28 builds (7 days)
 
-Compare each diff against the PR intent and approve or request changes.`;
+Pull the evidence before editing anything:
+  argos test get tst_4k7p2 --json
+  argos test changes tst_4k7p2 --json
 
-export function CopyPromptCard() {
+Find the non-determinism and fix the root cause.
+If a change cannot be made deterministic, ignore it instead.`;
+
+const AGENTS = ["Claude Code", "Codex", "Cursor", "any agent"];
+
+export function FixWithAiCard() {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
@@ -39,8 +49,8 @@ export function CopyPromptCard() {
       className="w-full max-w-md animate-slide-up-fade overflow-hidden animate-duration-500 fill-mode-both motion-reduce:animate-fade-in"
     >
       <div className="flex items-center gap-2 border-b-[0.5px] px-3 py-2">
-        <ArgosEmblem className="size-4 text-(--violet-11)" />
-        <SmallTitle>Build #1234 · snkr-shop</SmallTitle>
+        <SparklesIcon className="size-4 text-(--violet-11)" />
+        <SmallTitle>Fix with AI</SmallTitle>
         <button
           type="button"
           onClick={handleCopy}
@@ -54,7 +64,7 @@ export function CopyPromptCard() {
           {copied ? (
             <>
               <CheckIcon className="size-3" />
-              Copied!
+              Copied
             </>
           ) : (
             <>
@@ -64,24 +74,27 @@ export function CopyPromptCard() {
           )}
         </button>
       </div>
-      <div className="space-y-1.5 p-4 font-mono text-xxs leading-relaxed">
-        <div className="text-low"># Review this Argos build</div>
-        <div>
-          <span className="text-(--violet-11)">build:</span>{" "}
-          argos-ci.com/…/builds/1234
+      <div className="space-y-1.5 p-4 font-mono text-xxs leading-relaxed break-words">
+        <div className="text-low">
+          # Fix the flaky test “cart total” in checkout.spec.ts
         </div>
         <div>
-          <span className="text-(--violet-11)">pr:</span> feat/checkout · “Add
-          wallet payments”
+          <span className="text-(--violet-11)">flakiness:</span> 73/100 · 12
+          recurring changes in 28 builds
         </div>
-        <div>
-          <span className="text-(--violet-11)">changed:</span> 3 snapshots · 1
-          text diff
-        </div>
+        <div className="pt-1 text-low">Pull the evidence before editing:</div>
+        <div className="pl-3">argos test get tst_4k7p2 --json</div>
+        <div className="pl-3">argos test changes tst_4k7p2 --json</div>
         <div className="pt-1 text-low">
-          Compare each diff against the PR intent and approve or request
-          changes.
+          Find the non-determinism and fix the root cause. If a change cannot be
+          made deterministic, ignore it instead.
         </div>
+      </div>
+      <div className="flex flex-wrap items-center gap-1.5 border-t-[0.5px] px-3 py-2 text-xxs text-low max-sm:hidden">
+        Paste into
+        {AGENTS.map((agent) => (
+          <Badge key={agent}>{agent}</Badge>
+        ))}
       </div>
     </Card>
   );

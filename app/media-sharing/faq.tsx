@@ -31,9 +31,9 @@ export const MEDIA_SHARING_QUESTIONS: FAQQuestion[] = [
         <p>
           No. A media upload is compared to no baseline and gates no build. It
           is a file with a stable link. It complements{" "}
-          <Link href="/visual-testing">visual testing</Link>: builds catch the
-          changes nobody intended, media shows the result someone did intend,
-          and both land on the same pull request.
+          <Link href="/diff">visual testing</Link>: builds catch the changes
+          nobody intended, media shows the result someone did intend, and both
+          land on the same pull request.
         </p>
       </>
     ),

@@ -3,7 +3,7 @@
 import clsx from "clsx";
 import { ChevronRightIcon } from "lucide-react";
 import Link from "next/link";
-import { cloneElement, useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { useInViewport } from "@/components/useInViewport";
 
@@ -11,7 +11,8 @@ import { BORDER_BG_COLORS, type FeatureColor, TEXT_COLORS } from "./colors";
 
 export type Feature = {
   key: string;
-  icon: React.ReactElement<{ className?: string; strokeWidth: number }>;
+  /** An icon element, e.g. `<ScanEyeIcon />`; sized by the carousel. */
+  icon: React.ReactElement;
   title: string;
   text: string;
   main: React.ReactNode;
@@ -119,10 +120,13 @@ export function FeaturesCarousel(props: {
               {isCurrent && !isStopped && (
                 <Progress color={color} start={start} />
               )}
-              {cloneElement(feature.icon, {
-                className: "size-5",
-                strokeWidth: 1.5,
-              })}
+              {/* Rendered as a child, not cloned: the icon element is created
+                  by a server component, and React Flight may hand it to this
+                  client component as a lazy reference, which `cloneElement`
+                  would turn into an element with an undefined type. */}
+              <span aria-hidden className="[&>svg]:size-5 [&>svg]:stroke-[1.5]">
+                {feature.icon}
+              </span>
               <div className="mt-2 mb-3 font-medium">{feature.title}</div>
               <p className="text-low">{feature.text}</p>
               <Link

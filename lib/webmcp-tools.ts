@@ -272,7 +272,7 @@ export const WEBMCP_TOOLS: WebMcpTool[] = [
   {
     name: "get_argos_overview",
     description:
-      "What Argos is (visual and snapshot testing for Playwright, Storybook and other frameworks; media sharing; deployments), with a map of every page, doc, API and agent surface. Start here.",
+      "What Argos is — four steps for every pull request: Deploy (free preview URLs for Storybook and static sites), Diff (screenshots and any text file, not just pixels), Review (humans and agents approve what changed) and Stabilize (flaky-test history and debugging) — with a map of every page, doc, API and agent surface. Start here.",
     inputSchema: NO_ARGS_SCHEMA,
     annotations: READ_ONLY,
     execute: async (_input, options) =>

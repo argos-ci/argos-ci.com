@@ -36,6 +36,11 @@ export const config = {
   // fails if the two drift apart.
   matcher: [
     "/",
+    "/deploy",
+    "/diff",
+    "/review",
+    "/stabilize",
+    "/ai-agents",
     "/media-sharing",
     "/pricing",
     "/security",

@@ -110,35 +110,46 @@ const PR_LINES: DiffLine[] = [
   { number: 189, text: '    - superscript: "15"', kind: "added" },
 ];
 
+/**
+ * Baseline and changes of an ARIA snapshot side by side. The illustration is
+ * sized by its container, not the viewport (the `@container` wrapper is what
+ * the `@md:` and `@3xl:` variants below measure): it sits in a wide carousel on
+ * the homepage and in a feature-grid cell on the Diff page, so the baseline
+ * column and the longer labels only appear when there is room for them.
+ */
 export function AriaSnapshots() {
   return (
-    <div className="grid h-full items-start gap-4 p-3 md:grid-cols-2 md:gap-5 md:p-5">
-      <DiffColumn
-        title={
-          <SmallTitle>
-            <GitBranchIcon className="size-3" />
-            Baseline from main
-            <span className="font-normal text-low">5 days ago</span>
-          </SmallTitle>
-        }
-        lines={BASELINE_LINES}
-        variant="left"
-        className="animate-slide-up-fade animate-duration-500 fill-mode-both motion-reduce:animate-fade-in max-sm:hidden"
-      />
-      <DiffColumn
-        title={
-          <SmallTitle>
-            <GitBranchIcon className="size-3" />
-            Changes from feature-x
-            <span className="font-normal text-low max-sm:hidden">
-              one day ago
-            </span>
-          </SmallTitle>
-        }
-        lines={PR_LINES}
-        variant="right"
-        className="animate-slide-up-fade animate-duration-500 fill-mode-both motion-reduce:animate-fade-in sm:animate-delay-250"
-      />
+    <div className="@container h-full w-full">
+      <div className="grid h-full items-start gap-4 p-3 @md:grid-cols-2 @md:gap-5 @md:p-5">
+        <DiffColumn
+          title={
+            <SmallTitle className="whitespace-nowrap">
+              <GitBranchIcon className="size-3 shrink-0" />
+              Baseline from main
+              <span className="hidden font-normal text-low @3xl:inline">
+                5 days ago
+              </span>
+            </SmallTitle>
+          }
+          lines={BASELINE_LINES}
+          variant="left"
+          className="hidden animate-slide-up-fade animate-duration-500 fill-mode-both motion-reduce:animate-fade-in @md:flex"
+        />
+        <DiffColumn
+          title={
+            <SmallTitle className="whitespace-nowrap">
+              <GitBranchIcon className="size-3 shrink-0" />
+              Changes from feature-x
+              <span className="hidden font-normal text-low @3xl:inline">
+                one day ago
+              </span>
+            </SmallTitle>
+          }
+          lines={PR_LINES}
+          variant="right"
+          className="animate-slide-up-fade animate-duration-500 fill-mode-both motion-reduce:animate-fade-in @md:animate-delay-250"
+        />
+      </div>
     </div>
   );
 }
@@ -153,15 +164,15 @@ function DiffColumn(props: {
   return (
     <Card
       className={clsx(
-        "relative m-auto flex h-full max-h-80 max-w-100 flex-col overflow-hidden",
+        "relative m-auto flex h-full max-h-80 w-full max-w-100 min-w-0 flex-col overflow-hidden",
         className,
       )}
     >
-      <div className="flex items-center justify-between border-b-[0.5px] px-3 py-1.5">
+      <div className="flex items-center justify-between gap-2 border-b-[0.5px] px-3 py-1.5">
         {title}
-        <Badge className="text-xxs text-low">
+        <Badge className="shrink-0 text-xxs whitespace-nowrap text-low">
           <ScanTextIcon className="size-3" aria-hidden />
-          ARIA snapshot
+          <span className="hidden @3xl:inline">ARIA snapshot</span>
         </Badge>
       </div>
       <div className="relative space-y-0.5 overflow-hidden mask-b-from-80% p-3 font-mono text-xxs leading-[1.45]">
@@ -196,14 +207,12 @@ function DiffRow(props: { line: DiffLine }) {
       <div className="flex flex-1 items-center gap-2">
         <DotIndicator
           variant={
-            line.kind
-              ? {
-                  added: "primary" as const,
-                  removed: "danger" as const,
-                  changed: "warning" as const,
-                  context: "neutral" as const,
-                }[line.kind]
-              : "neutral"
+            {
+              added: "primary" as const,
+              removed: "danger" as const,
+              changed: "warning" as const,
+              context: "neutral" as const,
+            }[line.kind]
           }
         />
         <span className="whitespace-pre">{line.text}</span>

@@ -28,6 +28,11 @@ type MarkdownPage = {
 
 export const MARKDOWN_PAGES = [
   { path: "/", section: false },
+  { path: "/deploy", section: false },
+  { path: "/diff", section: false },
+  { path: "/review", section: false },
+  { path: "/stabilize", section: false },
+  { path: "/ai-agents", section: false },
   { path: "/media-sharing", section: false },
   { path: "/pricing", section: false },
   { path: "/security", section: false },

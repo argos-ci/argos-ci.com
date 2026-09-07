@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { EyeIcon, ThumbsUpIcon, Wand2Icon } from "lucide-react";
+import { Columns2Icon, EyeIcon, LayersIcon, ThumbsUpIcon } from "lucide-react";
 import type { ReactNode } from "react";
 
 import { github } from "@/app/assets/brands/library";
@@ -75,7 +75,7 @@ function Header() {
 
 function Sidebar() {
   return (
-    <div className="flex flex-col gap-3 border-r-[0.5px] py-3">
+    <div className="flex flex-col gap-3 border-r-[0.5px] py-3 max-sm:hidden">
       <div className="flex items-center justify-between border-b-[0.5px] px-3 pb-3 text-xxs font-semibold text-(--neutral-12) max-sm:hidden">
         <span className="flex items-center gap-2">
           <DotIndicator variant="primary" />
@@ -167,7 +167,7 @@ function SidebarRow(props: {
         variant={tone === "danger" ? "danger" : "neutral"}
         className="px-2 py-[2px] text-xxxs"
       >
-        {tone === "danger" ? "Update" : "Clean"}
+        {tone === "danger" ? "Changed" : "Same"}
       </Chip>
     </div>
   );
@@ -192,25 +192,29 @@ function Toolbar() {
         <DotIndicator variant="primary" />
         added-to-cart.png
       </div>
-      <Chip variant="primary" className="px-2 py-[2px] text-xxxs">
-        Review changes
+      <Chip
+        variant="primary"
+        className="flex items-center gap-1 px-2 py-[2px] text-xxxs"
+      >
+        <Columns2Icon className="size-3" />
+        Split view
       </Chip>
-      <Chip variant="neutral" className="px-2 py-[2px] text-xxxs">
-        Smart zoom
+      <Chip
+        variant="pending"
+        className="flex items-center gap-1 px-2 py-[2px] text-xxxs"
+      >
+        <LayersIcon className="size-3" />
+        Overlay
       </Chip>
       <Chip
         variant="danger"
         className="flex items-center gap-1 px-2 py-[2px] text-xxxs"
       >
         <EyeIcon className="size-3" />
-        Highlights
+        Highlight
       </Chip>
-      <Chip
-        variant="pending"
-        className="flex items-center gap-1 px-2 py-[2px] text-xxxs"
-      >
-        <Wand2Icon className="size-3" />
-        Masks
+      <Chip variant="neutral" className="px-2 py-[2px] text-xxxs">
+        Synced zoom
       </Chip>
     </div>
   );
@@ -220,7 +224,9 @@ function DiffPanel(props: { label: string; variant: SneakerVariant }) {
   const { label, variant } = props;
   return (
     <div className="relative flex flex-col gap-3 overflow-hidden rounded-lg border bg-app p-3">
-      <SmallTitle>{label}</SmallTitle>
+      <SmallTitle className="min-w-0">
+        <span className="truncate">{label}</span>
+      </SmallTitle>
 
       <div className="relative">
         <div className="relative overflow-hidden rounded-xl border">
@@ -282,7 +288,7 @@ function KeyboardHints() {
 function Kbd(props: { children: ReactNode }) {
   const { children } = props;
   return (
-    <kbd className="tetx-ow inline-flex min-w-6 items-center justify-center rounded border-[0.5px] border-b-2 bg-app px-1.5 font-mono text-xxs font-bold">
+    <kbd className="inline-flex min-w-6 items-center justify-center rounded border-[0.5px] border-b-2 bg-app px-1.5 font-mono text-xxs font-bold">
       {children}
     </kbd>
   );

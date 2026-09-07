@@ -23,6 +23,9 @@ function Toolbar() {
     <div className="flex justify-center gap-1 text-sm">
       <Chip icon={FlagOffIcon} variant="primary">
         Ignore
+        <kbd className="rounded-sm border-[0.5px] border-(--primary-7) px-1 font-mono text-[0.7em] leading-4">
+          I
+        </kbd>
       </Chip>
       <Chip icon={ThumbsUpIcon} variant="success" />
       <Chip icon={ThumbsDownIcon} variant="danger" />

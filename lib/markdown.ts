@@ -3,6 +3,7 @@ import { join } from "node:path";
 
 import * as matter from "gray-matter";
 
+import { AI_AGENTS_QUESTIONS } from "@/app/ai-agents/faq";
 import { COMPARISONS } from "@/app/compare/comparisons";
 import {
   ADDITIONAL_FEATURES_AFTER,
@@ -10,11 +11,15 @@ import {
   type Comparison,
   FEATURE_DEFINITIONS,
 } from "@/app/compare/features";
+import { DEPLOY_QUESTIONS } from "@/app/deploy/faq";
+import { DIFF_QUESTIONS } from "@/app/diff/faq";
 import { MEDIA_SHARING_QUESTIONS } from "@/app/media-sharing/faq";
 import { PRICING_QUESTIONS } from "@/app/pricing/PricingFaq";
+import { REVIEW_QUESTIONS } from "@/app/review/faq";
 import { GDPR_FEATURES, GDPR_RIGHTS } from "@/app/security/gdpr-features";
 import { SECURITY_HIGHLIGHTS } from "@/app/security/security-controls";
 import { SECURITY_QUESTIONS } from "@/app/security/security-faq";
+import { STABILIZE_QUESTIONS } from "@/app/stabilize/faq";
 import type { FAQQuestion } from "@/components/FAQAccordion";
 
 import { SITE_URL } from "./agents";
@@ -470,6 +475,26 @@ const resolvers: Record<
   (rest: string[]) => Promise<string | null> | string | null
 > = {
   "/": () => readCuratedPage("home.md"),
+  "/deploy": (rest) =>
+    rest.length === 0
+      ? getCuratedPageMarkdown("deploy.md", DEPLOY_QUESTIONS)
+      : null,
+  "/diff": (rest) =>
+    rest.length === 0
+      ? getCuratedPageMarkdown("diff.md", DIFF_QUESTIONS)
+      : null,
+  "/review": (rest) =>
+    rest.length === 0
+      ? getCuratedPageMarkdown("review.md", REVIEW_QUESTIONS)
+      : null,
+  "/stabilize": (rest) =>
+    rest.length === 0
+      ? getCuratedPageMarkdown("stabilize.md", STABILIZE_QUESTIONS)
+      : null,
+  "/ai-agents": (rest) =>
+    rest.length === 0
+      ? getCuratedPageMarkdown("ai-agents.md", AI_AGENTS_QUESTIONS)
+      : null,
   "/media-sharing": (rest) =>
     rest.length === 0
       ? getCuratedPageMarkdown("media-sharing.md", MEDIA_SHARING_QUESTIONS)

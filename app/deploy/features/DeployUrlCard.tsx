@@ -1,6 +1,6 @@
 "use client";
 
-import { CopyIcon, ExternalLinkIcon } from "lucide-react";
+import { CopyIcon, ExternalLinkIcon, GitBranchIcon } from "lucide-react";
 
 import { storybook } from "@/app/assets/brands/library";
 import { ArgosEmblem } from "@/components/ArgosEmblem";
@@ -10,6 +10,10 @@ import { DotIndicator } from "@/components/DotIndicator";
 import { ThemeImage } from "@/components/ThemeImage";
 import { SmallTitle } from "@/components/Typography";
 
+/**
+ * The deployment URL a pull request gets: `<project>-<random>-<account>` under
+ * `argos-ci.live`, the shape documented in docs/learn/deployments/urls-and-domains.
+ */
 export function DeployUrlCard() {
   return (
     <Card
@@ -33,18 +37,21 @@ export function DeployUrlCard() {
             <div className="mb-0.5 text-xxs text-low uppercase">
               Preview · pull/482
             </div>
-            <div className="flex items-center gap-1.5 font-mono text-sm">
-              <span className="truncate text-(--teal-11)">
-                pr-482.acme.argos.app
+            <div className="flex items-center gap-1.5 font-mono text-xs">
+              <span className="break-words text-(--teal-11)">
+                storybook-gdhgxamjo-acme.argos-ci.live
               </span>
               <ExternalLinkIcon className="size-3.5 shrink-0 text-low" />
             </div>
           </div>
-          <CopyIcon className="size-4 shrink-0 text-low" />
+          <CopyIcon className="size-4 shrink-0 text-low max-sm:hidden" />
         </div>
-        <div className="flex items-center justify-between px-1 text-xs text-low">
-          <span>Immutable deployment URL</span>
-          <span className="font-mono">dpl_9f3a…</span>
+        <div className="flex items-center justify-between gap-3 px-1 text-xs text-low">
+          <span>Immutable URL, always this build</span>
+          <span className="flex items-center gap-1 font-mono text-xxs">
+            <GitBranchIcon className="size-3" />
+            feat/checkout
+          </span>
         </div>
       </div>
     </Card>

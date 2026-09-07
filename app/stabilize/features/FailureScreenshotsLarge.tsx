@@ -9,10 +9,11 @@ import { Card } from "@/components/Card";
 import { DotIndicator } from "@/components/DotIndicator";
 import { SmallTitle } from "@/components/Typography";
 
+/** One Playwright test run with `retries: 2`: three attempts, three screenshots. */
 const ATTEMPTS = [
-  { label: "Attempt 1", state: "failed" as const },
-  { label: "Attempt 2", state: "failed" as const },
-  { label: "Attempt 3", state: "failed" as const },
+  { label: "Attempt 1", retry: 0 },
+  { label: "Attempt 2", retry: 1 },
+  { label: "Attempt 3", retry: 2 },
 ];
 
 export function FailureScreenshotsLarge() {
@@ -32,9 +33,9 @@ export function FailureScreenshotsLarge() {
         </Badge>
       </div>
 
-      <div className="grid gap-4 p-4 sm:grid-cols-[1.4fr_1fr]">
-        <div className="relative flex items-center justify-center overflow-hidden rounded-lg border-[0.5px] bg-(--neutral-2) py-3">
-          <ApplicationSVG withChanges className="h-28 w-auto" />
+      <div className="grid gap-3 p-3 sm:grid-cols-[1.4fr_1fr] sm:gap-4 sm:p-4">
+        <div className="relative flex items-center justify-center overflow-hidden rounded-lg border-[0.5px] bg-(--neutral-2) py-2 sm:py-3">
+          <ApplicationSVG withChanges className="h-20 w-auto sm:h-28" />
           <div className="absolute inset-x-0 top-2 flex justify-center">
             <span className="flex items-center gap-1.5 rounded-md bg-(--danger-9) px-2.5 py-1 text-xs font-semibold text-white shadow-sm">
               <AlertTriangleIcon className="size-3" />
@@ -48,7 +49,7 @@ export function FailureScreenshotsLarge() {
         </div>
 
         <div className="flex flex-col gap-3">
-          <div className="rounded-md bg-(--danger-2) px-3 py-2 font-mono text-xxxs leading-relaxed text-(--danger-11)">
+          <div className="hidden rounded-md bg-(--danger-2) px-3 py-2 font-mono text-xxxs leading-relaxed text-(--danger-11) sm:block">
             {"Error: expect(getByText('Order total')).toBeVisible()"}
           </div>
           <div className="flex flex-col gap-1.5">
@@ -64,14 +65,16 @@ export function FailureScreenshotsLarge() {
               >
                 <XIcon className="size-3 shrink-0 text-(--danger-11)" />
                 <span className="font-medium">{attempt.label}</span>
-                <span className="ml-auto text-low">Failed</span>
+                <span className="ml-auto font-mono text-xxxs text-low">
+                  retry: {attempt.retry}
+                </span>
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      <div className="flex items-center justify-between border-t-[0.5px] px-4 py-2.5 text-xs text-(--neutral-11)">
+      <div className="hidden items-center justify-between border-t-[0.5px] px-4 py-2.5 text-xs text-(--neutral-11) sm:flex">
         <span>Build #214</span>
         <span className="text-low">Failed after 3 attempts</span>
       </div>

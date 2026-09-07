@@ -28,20 +28,21 @@ Most user-facing copy exists twice — once as HTML/JSX, once as markdown served
 to agents and LLMs. **Whenever you change page copy, update the markdown twin
 in the same commit.** The twins:
 
-| HTML surface                                         | Markdown twin                                                                                                                             |
-| ---------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| Homepage (`app/homepage.tsx`, `app/home/**`)         | `app/markdown/home.md` (curated by hand)                                                                                                  |
-| `/pricing` (`app/pricing/**`)                        | `getPricingMarkdown()` in `lib/markdown.ts` (hand-written)                                                                                |
-| Feature pages with a variant (e.g. `/media-sharing`) | `app/markdown/<slug>.md` (curated by hand)                                                                                                |
-| Blog & changelog                                     | derived automatically from their MDX — nothing to do                                                                                      |
-| `/compare/*` (`app/compare/*/page.tsx`)              | derived from `app/compare/*/comparison.ts` + `faq.tsx` by `getCompareMarkdown()` in `lib/markdown.ts` — keep hero copy in the data module |
-| `/security` (`app/security/page.tsx`)                | `getSecurityMarkdown()` in `lib/markdown.ts`: prose hand-written, lists from the page's data modules                                      |
-| Site overview for agents                             | `app/llms.txt/route.ts` (curated link map)                                                                                                |
+| HTML surface                                                                                  | Markdown twin                                                                                                                             |
+| --------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| Homepage (`app/homepage.tsx`, `app/home/**`)                                                  | `app/markdown/home.md` (curated by hand)                                                                                                  |
+| `/pricing` (`app/pricing/**`)                                                                 | `getPricingMarkdown()` in `lib/markdown.ts` (hand-written)                                                                                |
+| Pillar pages `/deploy`, `/diff`, `/review`, `/stabilize`, plus `/ai-agents`, `/media-sharing` | `app/markdown/<slug>.md` (curated by hand, no FAQ inside) + the page's `faq.tsx` questions, appended by `getCuratedPageMarkdown()`        |
+| Blog & changelog                                                                              | derived automatically from their MDX — nothing to do                                                                                      |
+| `/compare/*` (`app/compare/*/page.tsx`)                                                       | derived from `app/compare/*/comparison.ts` + `faq.tsx` by `getCompareMarkdown()` in `lib/markdown.ts` — keep hero copy in the data module |
+| `/security` (`app/security/page.tsx`)                                                         | `getSecurityMarkdown()` in `lib/markdown.ts`: prose hand-written, lists from the page's data modules                                      |
+| Site overview for agents                                                                      | `app/llms.txt/route.ts` (curated link map)                                                                                                |
 
 Two more lockstep spots:
 
-- `app/pricing/PricingFaq.tsx` and every FAQ file store each answer twice —
-  `answer` (JSX) and `textAnswer` (string, feeds FAQPage JSON-LD). Edit both.
+- `app/pricing/PricingFaq.tsx` and every `faq.tsx` store each answer twice —
+  `answer` (JSX) and `textAnswer` (string, feeds FAQPage JSON-LD and the
+  markdown twin). Edit both.
 - Pricing numbers come from `lib/constants.ts`; never hardcode them in copy.
 
 ### Which pages have a markdown variant
@@ -54,7 +55,9 @@ consumers must agree; the file's doc comment explains them. Adding a page:
 3. Add the path to the `matcher` literal in `proxy.ts` — hand-maintained;
    `tests/markdown-pages.spec.ts` fails if it drifts.
 4. If the resolver reads a curated file, put it in `app/markdown/`
-   (already shipped via `outputFileTracingIncludes`).
+   (already shipped via `outputFileTracingIncludes`). Pages with a FAQ use
+   `getCuratedPageMarkdown(file, QUESTIONS)` so the FAQ is rendered from the
+   same array as the page.
 
 Verify with `curl -H "Accept: text/markdown" http://localhost:3100/<path>` and
 `curl http://localhost:3100/md/<path>`.
@@ -72,25 +75,49 @@ docs' `.md` pages, so a new tool usually only needs a twin to read.
 the registration at developer.chrome.com/origintrials. Inspect registrations in
 DevTools → Application → WebMCP.
 
+## The four pillars
+
+The product is told as one flow, in this order: **Deploy → Diff → Review →
+Stabilize** (`/deploy`, `/diff`, `/review`, `/stabilize`). `lib/pillars.ts` is
+the registry (slug, href, name, one-liners, color) read by the navbar, the
+footer, the homepage, `PillarLinks` and `llms.txt`; icons are in
+`components/pillar-icons.ts`. Claimed colors: deploy=teal, diff=blue,
+review=pink, stabilize=amber, `/ai-agents`=violet (agents everywhere),
+`/media-sharing`=plum.
+
+Every pillar page follows the same skeleton, built from shared blocks:
+`PillarHero` → `TrustedBy` → feature sections → `AgentSection` (the
+"For AI agents" block, anchored `#agents`) → `QuoteBlock` → `FAQSection` →
+`PillarLinks` → `CallToActionSection`. `/ai-agents` is a lean hub (no
+`TrustedBy`, no `PillarLinks`) that deep-links into each pillar's `#agents`.
+The homepage has one `FeatureSection` per pillar (`app/home/<pillar>/`), which
+imports illustrations from the pillar's `features/` folder.
+
+Old routes (`/visual-testing`, `/deployments`, `/collaborative-reviews`,
+`/flaky-management`, `/test-debugging`, `/playwright`) redirect permanently in
+`next.config.ts`; never reuse them.
+
 ## Adding a page
 
 Registration points, all required unless noted:
 
 1. `app/<slug>/page.tsx` (+ `app/<slug>/features/*.tsx` illustrations).
    Metadata via `getMetadata({ …, pathname })` from `lib/metadata.tsx`.
-2. `app/navbar.tsx` — a `LinkCard` in the right dropdown column.
+2. `app/navbar.tsx` — a `LinkCard` in the right dropdown column (pillars
+   render from `lib/pillars.ts`; other pages are hand-listed).
 3. `app/footer.tsx` — a `FooterLink` (Product column for feature pages).
 4. `tests/screenshot-pages.spec.ts` — add to `FOOTER_LINKS`; the key is the
    route, the value must equal the footer link's visible label (the test
-   navigates by clicking it).
+   navigates by clicking it, and `getByRole` matches substrings — no two
+   footer labels may contain each other).
 5. `public/main-sitemap.xml` — hand-add the `<url>` entry.
 6. `app/llms.txt/route.ts` — add a bullet so agents can discover the page.
 7. `app/markdown/home.md` — mention it if the homepage copy does.
-8. Cross-link it from sibling feature pages' closing 3-up grids.
-9. Feature pages own a `FeatureColor` (`components/feature-section/colors.tsx`);
-   pick one not already claimed by a neighboring page.
-10. Markdown variant — see the section above. Feature pages aimed at agents
-    should have one.
+8. Cross-link it: pillar pages close on `PillarLinks`; other pages hand-roll
+   a 3-up grid of `FeatureGridFeatureSmall`.
+9. Pages own a `FeatureColor` (`components/feature-section/colors.tsx`);
+   pick one not already claimed (see the list above).
+10. Markdown variant — see the section above. Product pages should have one.
 
 ## Content: blog, changelog, social
 
@@ -118,7 +145,7 @@ render as plain text until they exist (`createMdxAnchor` in
 
 ## Design conventions
 
-- Copy an existing feature page (`app/deployments/page.tsx` is the cleanest)
+- Copy an existing pillar page (`app/deploy/page.tsx` is the cleanest)
   rather than inventing a new layout. Shared blocks live in `components/`.
 - Illustrations are hand-built React components in the page's `features/`
   folder — `Card` + `Badge`/`Chip` + Radix step tokens (`text-(--violet-11)`,

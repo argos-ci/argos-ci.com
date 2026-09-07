@@ -113,9 +113,9 @@ export function SnapshotFiles() {
               aria-pressed={isActive}
               className={clsx(
                 "text-xxxs inline-flex items-center gap-1.5 rounded-lg border-[0.5px] px-2 py-1 font-medium transition",
-                "cursor-pointer hover:border-(--plum-7) hover:text-(--plum-11)",
+                "cursor-pointer hover:border-(--blue-7) hover:text-(--blue-11)",
                 isActive
-                  ? "border-(--plum-7) bg-(--plum-2) text-(--plum-11)"
+                  ? "border-(--blue-7) bg-(--blue-2) text-(--blue-11)"
                   : "bg-app text-low",
               )}
             >

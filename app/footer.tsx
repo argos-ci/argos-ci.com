@@ -11,6 +11,7 @@ import { GitHubIcon } from "@/components/icons/GitHubIcon";
 import { Soc2Logo } from "@/components/icons/Soc2Logo";
 import { XIcon } from "@/components/icons/XIcon";
 import { StatusWidget } from "@/components/StatusWidget";
+import { PILLARS } from "@/lib/pillars";
 
 const FooterSection = twc.div`my-2 flex flex-1 grow basis-36 flex-col gap-2 whitespace-nowrap`;
 const FooterSectionTitle = twc.div`mb-1 font-medium`;
@@ -66,15 +67,13 @@ export const AppFooter: React.FC = () => (
         <div className="grid grid-cols-2 gap-x-8 gap-y-2 md:grid-cols-4">
           <FooterSection>
             <FooterSectionTitle>Product</FooterSectionTitle>
-            <FooterLink href="/visual-testing">Change Detection</FooterLink>
-            <FooterLink href="/deployments">Deployments</FooterLink>
-            <FooterLink href="/collaborative-reviews">
-              Collaborative Reviews
-            </FooterLink>
+            {PILLARS.map((pillar) => (
+              <FooterLink key={pillar.slug} href={pillar.href}>
+                {pillar.name}
+              </FooterLink>
+            ))}
             <FooterLink href="/ai-agents">For AI Agents</FooterLink>
             <FooterLink href="/media-sharing">Media Sharing</FooterLink>
-            <FooterLink href="/flaky-management">Flaky Management</FooterLink>
-            <FooterLink href="/test-debugging">Test Debugging</FooterLink>
           </FooterSection>
 
           <FooterSection>

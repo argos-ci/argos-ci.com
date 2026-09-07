@@ -2,13 +2,12 @@ import { argosScreenshot } from "@argos-ci/playwright";
 import { Page, test } from "@playwright/test";
 
 const FOOTER_LINKS = {
-  "visual-testing": "Change Detection",
-  deployments: "Deployments",
-  "collaborative-reviews": "Collaborative Reviews",
+  deploy: "Deploy",
+  diff: "Diff",
+  review: "Review",
+  stabilize: "Stabilize",
   "ai-agents": "For AI Agents",
   "media-sharing": "Media Sharing",
-  "flaky-management": "Flaky Management",
-  "test-debugging": "Test Debugging",
   pricing: "Pricing",
   "oss-friends": "OSS Friends",
   about: "About",

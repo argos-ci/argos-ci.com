@@ -15,7 +15,7 @@ puts a screenshot or a demo recording in front of a reviewer.
 
 It is not visual testing: nothing is compared to a baseline and nothing gates
 a build. It complements
-[visual testing](https://argos-ci.com/visual-testing): builds catch the changes
+[visual testing](https://argos-ci.com/diff): builds catch the changes
 nobody intended, media shows the result someone did intend.
 
 A live example, public and real:

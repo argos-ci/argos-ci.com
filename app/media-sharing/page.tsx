@@ -282,25 +282,25 @@ export default function Page() {
             icon={BotIcon}
           />
           <FeatureGridFeatureSmall
-            title="Collaborative reviews"
+            title="Review"
             description={
               <>
                 Media comments use the same review grammar as builds: pinned
                 threads, mentions, reactions, and resolution.
               </>
             }
-            href="/collaborative-reviews"
+            href="/review"
             icon={MessagesSquareIcon}
           />
           <FeatureGridFeatureSmall
-            title="Change detection"
+            title="Diff"
             description={
               <>
-                Visual testing flags the changes nobody intended; media shows
-                the one you did. Both land on the same pull request.
+                Diffs flag the changes nobody intended; media shows the one you
+                did. Both land on the same pull request.
               </>
             }
-            href="/visual-testing"
+            href="/diff"
             icon={WorkflowIcon}
           />
         </Container>
