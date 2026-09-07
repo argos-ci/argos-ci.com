@@ -67,7 +67,7 @@ export function PlaywrightTrace() {
             <div>
               <div className="text-sm font-semibold">Playwright Trace</div>
               <div className="text-xs text-low">
-                Argos attaches the trace to every failing run.
+                The trace of a failing test, uploaded with the build.
               </div>
             </div>
           </div>

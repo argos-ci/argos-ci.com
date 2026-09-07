@@ -50,7 +50,7 @@ export function FlakyIndicator() {
             <CheckIcon className="size-4 text-(--success-10)" />
             Stable
           </div>
-          <p>This test has been 100% stable over the last 7 days.</p>
+          <p>No changes in 28 auto-approved builds over the last 7 days.</p>
         </Card>
         <Chip icon={CheckIcon} variant="success">
           Stable

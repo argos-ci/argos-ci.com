@@ -10,7 +10,7 @@ const ENVS = [
   {
     key: "preview",
     label: "Preview",
-    url: "pr-482.storybook.argos.app",
+    url: "storybook-feat-checkout-acme.argos-ci.live",
     tag: "feat/checkout",
     tone: "teal" as const,
     icon: <ThemeImage src={storybook.logo} alt="" className="size-5" />,

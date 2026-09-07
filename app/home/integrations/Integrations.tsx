@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 import { Grid } from "@/components/Grid";
+import { DiscordIcon } from "@/components/icons/DiscordIcon";
 import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
 import { ThemeImage, type ThemeImageProps } from "@/components/ThemeImage";
 import { Tooltip } from "@/components/Tooltip";
@@ -26,8 +27,9 @@ export function Integrations() {
           <SectionHeaderTexts>
             <SectionTitle>Integrated with your everyday tools</SectionTitle>
             <SectionDescription>
-              First class integrations with GitHub, GitLab, Slack, and Microsoft
-              Teams so your reviews happen where your team collaborates.
+              First class integrations with GitHub, GitLab, Slack, Microsoft
+              Teams, and Discord so your reviews happen where your team
+              collaborates.
             </SectionDescription>
           </SectionHeaderTexts>
           <Button variant="outline" asChild>
@@ -52,22 +54,32 @@ export function Integrations() {
             href="/docs/learn/integrations/github-integration"
           />
           <IntegrationButton
-            className="[--x:3] [--y:4] md:[--x:6] md:[--y:4]"
+            className="[--x:2] [--y:4] md:[--x:6] md:[--y:4]"
             image={slack}
             title="Slack"
             href="/docs/learn/integrations/slack-integration"
           />
           <IntegrationButton
-            className="[--x:5] [--y:1] md:[--x:10] md:[--y:2]"
+            className="[--x:4] [--y:1] md:[--x:10] md:[--y:2]"
             image={gitlab}
             title="GitLab"
             href="/docs/learn/integrations/gitlab-integration"
           />
           <IntegrationButton
-            className="[--x:7] [--y:4] md:[--x:6] md:[--y:1]"
+            className="[--x:6] [--y:4] md:[--x:6] md:[--y:1]"
             image={msteams}
             title="Microsoft Teams"
             href="/docs/learn/integrations/microsoft-teams-integration"
+          />
+          <IntegrationButton
+            className="[--x:7] [--y:1] md:[--x:10] md:[--y:5]"
+            icon={
+              <span className="flex size-full items-center justify-center text-[#5865F2]">
+                <DiscordIcon className="size-[55%]" />
+              </span>
+            }
+            title="Discord"
+            href="/docs/learn/integrations/discord-integration"
           />
         </div>
       </Container>
@@ -75,13 +87,17 @@ export function Integrations() {
   );
 }
 
-function IntegrationButton(props: {
-  image: ThemeImageProps["src"];
-  title: string;
-  className: string;
-  href: string;
-}) {
-  const { image, href, title, className } = props;
+function IntegrationButton(
+  props: {
+    title: string;
+    className: string;
+    href: string;
+  } & (
+    | { image: ThemeImageProps["src"]; icon?: never }
+    | { icon: React.ReactNode; image?: never }
+  ),
+) {
+  const { href, title, className } = props;
   return (
     <Tooltip
       content={<span className="text-xs">Explore {title} integration</span>}
@@ -97,7 +113,11 @@ function IntegrationButton(props: {
         )}
         href={href}
       >
-        <ThemeImage src={image} alt={title} className="size-full" />
+        {"image" in props && props.image ? (
+          <ThemeImage src={props.image} alt={title} className="size-full" />
+        ) : (
+          props.icon
+        )}
       </a>
     </Tooltip>
   );

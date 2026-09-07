@@ -6,10 +6,15 @@ import { RedirectIfCookie } from "@/components/RedirectIfCookie";
 import { defaultDescription, defaultTitle, getMetadata } from "@/lib/metadata";
 
 import { TrustedBy } from "./common/TrustedBy";
+import { Agents } from "./home/agents/Agents";
 import { Cost } from "./home/cost/Cost";
 import { Customers } from "./home/customers/Customers";
+import { Deploy } from "./home/deploy/Deploy";
+import { Diff } from "./home/diff/Diff";
 import { Hero } from "./home/hero/Hero";
 import { Integrations } from "./home/integrations/Integrations";
+import { Review } from "./home/review/Review";
+import { Stabilize } from "./home/stabilize/Stabilize";
 
 export const metadata: Metadata = getMetadata({
   title: "Argos",
@@ -25,9 +30,15 @@ export default function Page() {
       <RedirectIfCookie />
       <Hero />
       <TrustedBy />
+      {/* The four pillars, in the order a pull request goes through them. */}
+      <Deploy />
+      <Diff />
+      <Review />
+      <Stabilize />
+      <Agents />
       <Integrations />
-      <Cost />
       <FeaturedSDKsSection />
+      <Cost />
       <Customers />
       <CallToActionSection />
     </>

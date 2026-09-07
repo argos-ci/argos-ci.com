@@ -18,7 +18,10 @@ export function ReviewCanvas() {
   return (
     <Card
       shadow="high"
-      className="mx-auto w-full max-w-4xl animate-fade-in-up overflow-hidden animate-duration-500 fill-mode-both motion-reduce:animate-fade-in"
+      // On phones the carousel panel is 240px tall and fades out at the
+      // bottom: the card sits at the top so the toolbar and the rail — the
+      // story — are what shows, and the panes step aside (see Panes).
+      className="mx-auto w-full max-w-4xl animate-fade-in-up overflow-hidden animate-duration-500 fill-mode-both motion-reduce:animate-fade-in max-sm:mt-3 max-sm:self-start"
     >
       <Toolbar />
       <div className="grid md:grid-cols-[1fr_17rem]">
@@ -38,9 +41,9 @@ function Toolbar() {
         <span className="shrink-0 text-low">#482</span>
       </SmallTitle>
       <div className="flex shrink-0 items-center gap-2">
-        <Badge className="gap-1.5 border-(--danger-7) text-xxs text-(--danger-11) max-sm:hidden">
-          <DotIndicator variant="danger" />
-          Changes requested
+        <Badge className="gap-1.5 border-(--success-7) text-xxs text-(--success-11) max-sm:hidden">
+          <DotIndicator variant="success" />
+          Approved
         </Badge>
         <div className="flex -space-x-1.5">
           <Avatar src={andrewAvatar} />
@@ -53,7 +56,7 @@ function Toolbar() {
 
 function Panes() {
   return (
-    <div className="grid grid-cols-2 gap-3 bg-subtle p-4 max-md:border-b-[0.5px] md:gap-4 md:border-r-[0.5px] md:p-6">
+    <div className="grid grid-cols-2 gap-3 bg-subtle p-4 max-md:border-b-[0.5px] max-sm:hidden md:gap-4 md:border-r-[0.5px] md:p-6">
       <Pane tone="baseline" />
       <Pane tone="changes" />
     </div>
@@ -109,7 +112,7 @@ const EVENT_KINDS = {
     icon: <CheckIcon className="size-2.5 text-white" strokeWidth={3.5} />,
     text: "text-(--success-11)",
   },
-  changes: {
+  rejected: {
     chip: "bg-(--danger-9)",
     icon: <XIcon className="size-2.5 text-white" strokeWidth={3.5} />,
     text: "text-(--danger-11)",
@@ -130,15 +133,14 @@ type ActivityEvent = {
 };
 
 /**
- * An approval that a later verdict does not erase, then a handoff.
+ * The review rule, told as a thread: one rejection blocks, and only the
+ * rejecting reviewer's next review lifts it.
  *
- * Andrew signs off, Nina catches what he missed and requests changes, and
- * Andrew hands the thread to his agent. Both decisions stay on the rail — that
- * is the section's second point, and a last-click-wins model could not show it.
- *
- * The reply is written as the `@mention` the product actually accepts rather
- * than as the `Handle with AI` menu item: the mention is what a reviewer types,
- * so it reads without having to draw a menu that is closed in real life.
+ * Andrew approves, Nina catches what he missed and rejects with a comment
+ * pinned to the spot, Andrew replies and pushes a fix, and Nina approves the
+ * new build. Every verdict stays on the rail — a last-click-wins model could
+ * not show that Andrew's approval never went away, and the badge in the
+ * toolbar reads Approved only because Nina's latest review is one.
  */
 const ACTIVITY: ActivityEvent[] = [
   {
@@ -146,20 +148,21 @@ const ACTIVITY: ActivityEvent[] = [
     avatar: andrewAvatar,
     kind: "approved",
     action: "approved",
-    time: "5m ago",
+    time: "12m ago",
   },
   {
     name: "Nina",
     avatar: ninaAvatar,
-    kind: "changes",
-    action: "requested changes",
-    time: "2m ago",
+    kind: "rejected",
+    action: "rejected",
+    time: "8m ago",
     comment: (
       <>
         <span className="text-(--violet-11)">@Andrew</span> Price tag is hidden
         on mobile
       </>
     ),
+    pin: 1,
     reactions: "👍 1",
   },
   {
@@ -167,13 +170,16 @@ const ACTIVITY: ActivityEvent[] = [
     avatar: andrewAvatar,
     kind: "comment",
     action: "replied",
+    time: "5m ago",
+    comment: "Good catch, fixing now.",
+  },
+  {
+    name: "Nina",
+    avatar: ninaAvatar,
+    kind: "approved",
+    action: "approved",
     time: "just now",
-    comment: (
-      <>
-        Good catch — <span className="text-(--violet-11)">@Claude</span> handle
-        this comment
-      </>
-    ),
+    comment: "Fixed in 3f2a1c, looks right.",
   },
 ];
 

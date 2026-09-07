@@ -8,28 +8,29 @@ import { SectionDescription, SectionTitle } from "@/components/Typography";
 
 import { AgentShowcase } from "./AgentShowcase";
 
-export function AgentReady() {
+export function Agents() {
   return (
     <section className="separator-b relative bg-subtle px-4">
       <Container noGutter className="border-x">
         <SectionHeader className="container-gutter">
           <SectionHeaderTexts>
-            {/* A product area, like "Change Detection" and "Collaborative
-                Reviews" above — and the destination of the CTA below. "Built
-                for the AI age" named an era instead, and broke the run. */}
-            <FeatureIndicator color="violet">AI Agents</FeatureIndicator>
-            {/* The claim the section above cannot make. Collaborative Reviews
-                already told the reader that agents pick up a thread, so
-                "100% agent-ready" arrived as old news, and as a spec where
-                every neighbouring title is a verb-led benefit. */}
-            <SectionTitle>Your agents check their own work</SectionTitle>
-            {/* One line, to sit at the same weight as the one-line description
-                above it, and ordered so it announces the four rows. The long
-                version led on CLI and MCP — the transport, which the terminal
-                to the right already shows. */}
+            {/* The same eyebrow as the "For AI agents" section on every pillar
+                page and the hub's hero pill: agents are one thread through the
+                four pillars above, not a fifth pillar, and the label says so. */}
+            <FeatureIndicator color="violet">For AI agents</FeatureIndicator>
+            {/* The four sections above each sold one pillar to a team; this
+                one says the same flow is open to an agent. "From deploy to
+                review" names the span the showcase covers, with Stabilize in
+                the description rather than the title: it is the one step the
+                showcase does not stage. */}
+            <SectionTitle>Built for agents, from deploy to review</SectionTitle>
+            {/* One sentence per row of the showcase, in its order, then the
+                Stabilize clause the showcase leaves out. */}
             <SectionDescription className="max-w-2xl">
-              They read what their change did, fix what they broke, show their
-              work, and only bring you what’s left.
+              They deploy the preview, read what their change did, fix what they
+              broke, show their work, and bring you only what’s left. When a
+              test flakes, they read its history and ignore the recurring
+              change.
             </SectionDescription>
           </SectionHeaderTexts>
           <Button variant="outline" asChild>

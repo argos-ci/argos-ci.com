@@ -15,15 +15,35 @@ import {
   type TerminalLine,
   Verdict,
 } from "@/components/AgentTerminal";
+import type { FeatureColor } from "@/components/feature-section/colors";
+import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
 import { useInViewport } from "@/components/useInViewport";
+import { getPillar, type PillarSlug } from "@/lib/pillars";
+
+/**
+ * The part of Argos a step exercises, shown as the same coloured indicator the
+ * pillar sections above open with. Tagging the rows is what ties this section
+ * to the four before it: the reader has just been told what Deploy, Diff,
+ * Review and Stabilize are, and here sees an agent working each one.
+ */
+type Tag = { color: FeatureColor; label: string };
 
 type Step = {
   key: string;
   icon: typeof BracesIcon;
   title: string;
   text: string;
+  tags: Tag[];
   lines: TerminalLine[];
 };
+
+function pillarTag(slug: PillarSlug): Tag {
+  const pillar = getPillar(slug);
+  return { color: pillar.color, label: pillar.name };
+}
+
+/** Media sharing is not a pillar; it keeps its own colour, as on its page. */
+const MEDIA_TAG: Tag = { color: "plum", label: "Media sharing" };
 
 /**
  * One instruction, four stages of the agent working on its own.
@@ -42,6 +62,12 @@ type Step = {
  * never its result, and no two rows repeat the same one — a step that re-ran
  * the previous step's command read as an agent that had forgotten it. The
  * second row has none at all, which is not an omission: see the note on it.
+ *
+ * Each row is tagged with the pillar it exercises — Diff, Diff, Deploy with
+ * media sharing, Review — so the section reads as the four pillars above,
+ * worked by an agent. Stabilize gets its clause in the section description
+ * instead: this story has no flaky test in it, and staging one would have
+ * added a fifth row to a loop that is complete at four.
  *
  * MCP stays out of the illustration. It is real, and the first row's body says
  * so, but staging a flow around it would put the weight on the transport the
@@ -62,6 +88,7 @@ const STEPS: Step[] = [
     icon: BracesIcon,
     title: "Agents see what you see",
     text: "Every diff in the Argos UI is also structured data, from the CLI and over MCP. No dashboard, no screenshots pasted into a prompt.",
+    tags: [pillarTag("diff")],
     lines: [
       {
         kind: "assistant",
@@ -90,6 +117,7 @@ const STEPS: Step[] = [
     icon: RefreshCwIcon,
     title: "Agents fix what they broke",
     text: "When Argos surfaces a change nobody asked for, the agent has what it needs to correct it and push again.",
+    tags: [pillarTag("diff")],
     // The only row with no `tool` line, and deliberately so: this is where the
     // agent works on the code, not on Argos. The previous row already pulled
     // the diffs, so any Argos call here would either repeat it — reading as an
@@ -124,24 +152,30 @@ const STEPS: Step[] = [
     key: "show",
     icon: ImageUpIcon,
     title: "Agents show their work",
-    text: "A screen recording, uploaded from the terminal, lands on the PR as an Argos comment. The reviewer sees the feature work without checking out the branch.",
-    // Slotted into the CI wait the previous row opened: recording a demo is
-    // what an agent can do while the pipeline runs, and it keeps this row from
-    // claiming a verification the next row owns. The upload targets the PR the
-    // first row already named — nothing new to track.
+    text: "A preview deployment and a screen recording, both from the terminal, land on the PR. The reviewer sees the feature work without checking out the branch.",
+    tags: [pillarTag("deploy"), MEDIA_TAG],
+    // Slotted into the CI wait the previous row opened: deploying the
+    // Storybook and recording a demo are what an agent can do while the
+    // pipeline runs, and it keeps this row from claiming a verification the
+    // next row owns. Both land on the PR the first row already named — nothing
+    // new to track. The deploy is the one row where two tool lines are right:
+    // the preview and the recording are two proofs, and each is its own call.
     lines: [
       {
         kind: "assistant",
-        text: "While CI runs: recorded the promo flow for the reviewer.",
+        text: "While CI runs: deployed the Storybook and recorded the promo flow for the reviewer.",
       },
+      { kind: "tool", text: "argos deploy ./storybook-static" },
       { kind: "tool", text: "argos media upload promo-flow.mp4 --pr 359" },
       {
         kind: "assistant",
-        // Argos posting the comment — not the agent pasting a link — is the
-        // claim: attaching a media to a PR and showing it there are one act.
+        // Argos posting on the PR — not the agent pasting links — is the
+        // claim: deploying a preview or attaching a media and showing it
+        // there are one act.
         text: (
           <>
-            The demo is on <Ref>#359</Ref> — Argos posted it as a comment.
+            The preview URL and the demo are on <Ref>#359</Ref> — Argos posted
+            both.
           </>
         ),
       },
@@ -152,6 +186,7 @@ const STEPS: Step[] = [
     icon: InboxIcon,
     title: "You only review what’s left",
     text: "The regressions an agent catches never reach you. What lands in your queue is the change that actually needs a human — with the proof beside it.",
+    tags: [pillarTag("review")],
     lines: [
       { kind: "tool", text: "argos build snapshots 518" },
       {
@@ -292,6 +327,13 @@ export function AgentShowcase() {
                 strokeWidth={1.5}
               />
               <div>
+                <div className="mb-1.5 flex flex-wrap gap-x-3 gap-y-1">
+                  {step.tags.map((tag) => (
+                    <FeatureIndicator key={tag.label} color={tag.color}>
+                      {tag.label}
+                    </FeatureIndicator>
+                  ))}
+                </div>
                 <h3 className="font-accent font-medium">{step.title}</h3>
                 <p className="text-sm text-low">{step.text}</p>
               </div>
