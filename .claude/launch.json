@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "dev",
+      "runtimeExecutable": "corepack",
+      "runtimeArgs": ["pnpm", "dev", "--port", "3100"],
+      "port": 3100
+    }
+  ]
+}
