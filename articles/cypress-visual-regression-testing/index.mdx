@@ -123,7 +123,7 @@ Three things make this fundamentally different from the plugin workflow:
 
 - **Screenshots are captured locally, in your real Cypress browser.** Argos does not re-render your pages in a remote cloud browser. What your test sees is exactly what gets diffed, so there is no second rendering environment to keep in sync. Before capture, `cy.argosScreenshot` waits for fonts and images to load, network to go idle, and hides carets and scrollbars, which eliminates most flakiness at the source.
 - **Baselines come from Git history, automatically.** Argos picks the correct baseline build by looking at your branch's merge base. No baseline PNGs in the repo, no base/regression mode switching, no "regenerate baselines" chore.
-- **Review happens on the pull request.** Each PR gets a status check; visual changes appear in a [collaborative review UI](/collaborative-reviews) with side-by-side and overlay diffs, threads, and one-click approval. Approving a change on `main` makes it the new baseline for everyone. You can even let [AI agents review builds](/ai-agents) through the CLI and API.
+- **Review happens on the pull request.** Each PR gets a status check; visual changes appear in a [collaborative review UI](/review) with side-by-side and overlay diffs, threads, and one-click approval. Approving a change on `main` makes it the new baseline for everyone. You can even let [AI agents review builds](/ai-agents) through the CLI and API.
 
 Pricing is deliberately simple: **free up to 5,000 screenshots/month**, then a flat **$100/month Pro plan with 35,000 screenshots included** and unlimited parallelization ([pricing details](/pricing)). Argos is also open source, so the SDK and platform code are on [GitHub](https://github.com/argos-ci).
 

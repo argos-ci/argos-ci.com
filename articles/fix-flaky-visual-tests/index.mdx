@@ -151,7 +151,7 @@ await argosScreenshot(page, "dashboard-chart", {
 
 **Flaky test detection.** Argos surfaces flaky test signals in the UI, so a screenshot that keeps changing without related code changes gets flagged instead of silently eroding trust.
 
-**Retries shown separately.** Playwright test retries are displayed separately in the Argos UI, so a test that passed on retry is visible as such rather than hiding intermittent failures. Combined with the [Playwright trace viewer integration](/test-debugging), you can open the trace of the flaky run and see exactly what the page was doing at capture time.
+**Retries shown separately.** Playwright test retries are displayed separately in the Argos UI, so a test that passed on retry is visible as such rather than hiding intermittent failures. Combined with the [Playwright trace viewer integration](/stabilize#debug), you can open the trace of the flaky run and see exactly what the page was doing at capture time.
 
 Because Argos captures screenshots **locally in the real browser your tests already run**, there is no cloud re-rendering step to introduce a second source of nondeterminism: what you saw in your test is exactly what gets diffed.
 

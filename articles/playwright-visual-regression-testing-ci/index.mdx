@@ -187,15 +187,15 @@ test("homepage", async ({ page }) => {
 
 What changes compared to the native workflow:
 
-| Concern                 | Native `toHaveScreenshot`           | Playwright + Argos                                                |
-| ----------------------- | ----------------------------------- | ----------------------------------------------------------------- |
-| Baseline storage        | PNGs committed to git               | Cloud, zero repo weight                                           |
-| Baseline selection      | Manual `--update-snapshots`         | Automatic from Git history                                        |
-| Updating after a change | Docker run or CI commit loop        | Approve diffs in the PR check                                     |
-| Reviewing diffs         | Raw PNGs in the git diff            | Side-by-side review UI with overlays                              |
-| Cross-platform          | Baselines break across OSes         | Diffed server-side, capture anywhere                              |
-| Failure debugging       | HTML report artifact                | [Trace viewer and failure screenshots](/test-debugging) in the UI |
-| Cost                    | Free (plus CI time and repo weight) | Free up to 5,000 screenshots/month, then [$100/mo flat](/pricing) |
+| Concern                 | Native `toHaveScreenshot`           | Playwright + Argos                                                 |
+| ----------------------- | ----------------------------------- | ------------------------------------------------------------------ |
+| Baseline storage        | PNGs committed to git               | Cloud, zero repo weight                                            |
+| Baseline selection      | Manual `--update-snapshots`         | Automatic from Git history                                         |
+| Updating after a change | Docker run or CI commit loop        | Approve diffs in the PR check                                      |
+| Reviewing diffs         | Raw PNGs in the git diff            | Side-by-side review UI with overlays                               |
+| Cross-platform          | Baselines break across OSes         | Diffed server-side, capture anywhere                               |
+| Failure debugging       | HTML report artifact                | [Trace viewer and failure screenshots](/stabilize#debug) in the UI |
+| Cost                    | Free (plus CI time and repo weight) | Free up to 5,000 screenshots/month, then [$100/mo flat](/pricing)  |
 
 The baseline model is the biggest shift: Argos picks the reference build automatically from your Git history (usually the latest approved build on your base branch), so there is no `--update-snapshots` step at all. When a shared component changes 60 screenshots, you review them in a dedicated UI and approve the build; the next merge becomes the new baseline. Because Argos also ingests Playwright traces, a failing or flaky test shows its full trace and failure screenshot right next to the visual diff.
 

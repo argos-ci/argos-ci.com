@@ -36,7 +36,7 @@ Pricing as of July 2026; Percy's own paid tier is $599/mo for context.
 
 ## 1. Argos: the closest workflow match to Percy
 
-[Argos](/visual-testing) is an open source visual testing platform built by frontend developers, and it maps almost one-to-one onto the Percy workflow you already have: capture screenshots in CI, get a status check on your PR, review and approve diffs in a web UI. Used by MUI (Material UI) and other well-known open source projects.
+[Argos](/diff) is an open source visual testing platform built by frontend developers, and it maps almost one-to-one onto the Percy workflow you already have: capture screenshots in CI, get a status check on your PR, review and approve diffs in a web UI. Used by MUI (Material UI) and other well-known open source projects.
 
 The differences from Percy are the point:
 
@@ -44,7 +44,7 @@ The differences from Percy are the point:
 - **$100/month flat.** The Pro plan includes 35,000 screenshots, then $0.004 per extra screenshot ($0.0015 for Storybook screenshots). The free Hobby tier covers 5,000 screenshots/month, the same volume as Percy's free tier. See [pricing](/pricing). You can also set a budget limit to cap spending.
 - **Unlimited parallelization included.** No extra fee for parallel CI workers.
 - **Snapshot testing for any file.** Argos diffs Markdown, JSON, HTML, and more, not just images. Useful for testing generated output beyond the UI.
-- **[Deployments and PR previews](/deployments)** for Storybook or any static build, and [collaborative reviews](/collaborative-reviews) with threads, reactions, and real-time presence.
+- **[Deployments and PR previews](/deploy)** for Storybook or any static build, and [collaborative reviews](/review) with threads, reactions, and real-time presence.
 - **[Agent-ready CLI and API](/ai-agents).** Coding agents can inspect and approve builds via structured JSON output (`argos build get <ref> --json`, `argos review create <ref> --event approve`).
 - **Automatic baselines from Git history.** No manual baseline management per branch in a dashboard.
 
