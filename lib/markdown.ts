@@ -10,6 +10,7 @@ import {
   type Comparison,
   FEATURE_DEFINITIONS,
 } from "@/app/compare/features";
+import { MEDIA_SHARING_QUESTIONS } from "@/app/media-sharing/faq";
 import { PRICING_QUESTIONS } from "@/app/pricing/PricingFaq";
 import { GDPR_FEATURES, GDPR_RIGHTS } from "@/app/security/gdpr-features";
 import { SECURITY_HIGHLIGHTS } from "@/app/security/security-controls";
@@ -94,6 +95,19 @@ async function readCuratedPage(name: string): Promise<string> {
   return readFile(filepath, "utf-8");
 }
 
+/**
+ * A hand-curated page from `app/markdown/`, followed by the page's FAQ. The
+ * curated file must not contain the FAQ itself: the questions are rendered
+ * from the same array the page's `FAQAccordion` uses, so they can't drift.
+ */
+async function getCuratedPageMarkdown(
+  name: string,
+  questions: FAQQuestion[],
+): Promise<string> {
+  const page = await readCuratedPage(name);
+  return [page.trimEnd(), "", faqMarkdown(questions)].join("\n");
+}
+
 function formatCount(value: number): string {
   return value.toLocaleString("en-US");
 }
@@ -108,7 +122,10 @@ function absoluteUrl(href: string): string {
  */
 function htmlToMarkdown(html: string): string {
   return html
-    .replace(/<a\s+href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/g, "[$2]($1)")
+    .replace(
+      /<a\s+href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/g,
+      (_match, href: string, text: string) => `[${text}](${absoluteUrl(href)})`,
+    )
     .replace(/<[^>]+>/g, "");
 }
 
@@ -454,7 +471,9 @@ const resolvers: Record<
 > = {
   "/": () => readCuratedPage("home.md"),
   "/media-sharing": (rest) =>
-    rest.length === 0 ? readCuratedPage("media-sharing.md") : null,
+    rest.length === 0
+      ? getCuratedPageMarkdown("media-sharing.md", MEDIA_SHARING_QUESTIONS)
+      : null,
   "/pricing": (rest) => (rest.length === 0 ? getPricingMarkdown() : null),
   "/security": (rest) => (rest.length === 0 ? getSecurityMarkdown() : null),
   "/compare/applitools": (rest) =>

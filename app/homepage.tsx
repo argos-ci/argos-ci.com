@@ -6,20 +6,14 @@ import { RedirectIfCookie } from "@/components/RedirectIfCookie";
 import { defaultDescription, defaultTitle, getMetadata } from "@/lib/metadata";
 
 import { TrustedBy } from "./common/TrustedBy";
-import { AgentReady } from "./home/agent-ready/AgentReady";
-import { CollaborativeReviews } from "./home/collaborative-reviews/CollaborativeReviews";
 import { Cost } from "./home/cost/Cost";
 import { Customers } from "./home/customers/Customers";
-import { Deployments } from "./home/deployments/Deployments";
-import { FlakyManagement } from "./home/flaky-management/FlakyManagement";
 import { Hero } from "./home/hero/Hero";
 import { Integrations } from "./home/integrations/Integrations";
-import { TestDebugging } from "./home/test-debugging/TestDebugging";
-import { VisualTesting } from "./home/visual-testing/VisualTesting";
 
 export const metadata: Metadata = getMetadata({
   title: "Argos",
-  subtitle: "Product quality for the age of AI agents",
+  subtitle: "Deploy, diff, review, stabilize — every pull request",
   absoluteTitle: defaultTitle,
   description: defaultDescription,
   pathname: "/",
@@ -31,13 +25,7 @@ export default function Page() {
       <RedirectIfCookie />
       <Hero />
       <TrustedBy />
-      <VisualTesting />
-      <CollaborativeReviews />
-      <AgentReady />
-      <Deployments />
       <Integrations />
-      <FlakyManagement />
-      <TestDebugging />
       <Cost />
       <FeaturedSDKsSection />
       <Customers />
