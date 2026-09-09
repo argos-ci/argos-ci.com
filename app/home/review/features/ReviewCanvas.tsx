@@ -18,10 +18,9 @@ export function ReviewCanvas() {
   return (
     <Card
       shadow="high"
-      // On phones the carousel panel is 240px tall and fades out at the
-      // bottom: the card sits at the top so the toolbar and the rail (the
-      // story) are what shows, and the panes step aside (see Panes).
-      className="mx-auto w-full max-w-4xl animate-fade-in-up overflow-hidden animate-duration-500 fill-mode-both motion-reduce:animate-fade-in max-sm:mt-3 max-sm:self-start"
+      // On phones the panes step aside (see Panes) and the card is only the
+      // toolbar and the rail: the story, at a width that fits the screen.
+      className="mx-auto w-full max-w-4xl animate-fade-in-up overflow-hidden animate-duration-500 fill-mode-both motion-reduce:animate-fade-in"
     >
       <Toolbar />
       <div className="grid md:grid-cols-[1fr_17rem]">

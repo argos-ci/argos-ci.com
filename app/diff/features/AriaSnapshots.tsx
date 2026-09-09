@@ -204,7 +204,7 @@ function DiffRow(props: { line: DiffLine }) {
       <span className="w-8 shrink-0 text-right text-(--neutral-9)">
         {line.number}
       </span>
-      <div className="flex flex-1 items-center gap-2">
+      <div className="flex min-w-0 flex-1 items-center gap-2">
         <DotIndicator
           variant={
             {
@@ -215,7 +215,9 @@ function DiffRow(props: { line: DiffLine }) {
             }[line.kind]
           }
         />
-        <span className="whitespace-pre">{line.text}</span>
+        <span className="min-w-0 overflow-hidden text-ellipsis whitespace-pre">
+          {line.text}
+        </span>
       </div>
     </div>
   );

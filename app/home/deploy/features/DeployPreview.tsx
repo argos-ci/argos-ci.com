@@ -59,7 +59,7 @@ export function DeployPreview() {
                   {env.tag}
                 </Pill>
               </div>
-              <div className="truncate font-mono text-xs text-low">
+              <div className="font-mono text-xs text-low max-sm:break-words sm:truncate">
                 {env.url}
               </div>
             </div>

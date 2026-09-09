@@ -21,7 +21,9 @@ export function IgnoreChanges() {
     <div className="relative flex w-full max-w-4xl items-center gap-10 p-5">
       <Line
         className={clsx(
-          "absolute left-1/2 z-0 size-75 -translate-x-1/2",
+          // On phones the middle card is hidden, so the line only spans the
+          // two remaining cards instead of peeking out past them.
+          "absolute left-1/2 z-0 size-75 -translate-x-1/2 max-sm:w-[calc(100%-2.5rem)]",
           "animate-fade-in animate-delay-300 motion-reduce:animate-fade-in animate-duration-500 fill-mode-both",
         )}
       />
