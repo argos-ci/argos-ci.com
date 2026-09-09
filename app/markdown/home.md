@@ -1,6 +1,6 @@
 # Argos: nothing ships unseen
 
-> Visual testing for teams and AI agents. Argos makes visual changes obvious, so you can spot regressions, request fixes, and merge with confidence. It does four things for every pull request: a diff of everything that changed (pixels or any file), one place for humans and agents to approve it, the per-test history to kill flakes, and a free preview URL for your Storybook or static site. Everything is reachable from the CLI, the MCP server and the REST API, so AI agents use it end to end.
+> Visual testing for teams and AI agents. Argos makes visual changes obvious, so you can spot regressions, request fixes, and merge with confidence. Everything is reachable from the CLI, the MCP server and the REST API, so AI agents use it end to end.
 
 Canonical: https://argos-ci.com/
 Machine-readable map: https://argos-ci.com/llms.txt

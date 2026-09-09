@@ -13,7 +13,6 @@ import { Deploy } from "./home/deploy/Deploy";
 import { Diff } from "./home/diff/Diff";
 import { Hero } from "./home/hero/Hero";
 import { Integrations } from "./home/integrations/Integrations";
-import { Pillars } from "./home/pillars/Pillars";
 import { Review } from "./home/review/Review";
 import { Stabilize } from "./home/stabilize/Stabilize";
 
@@ -31,8 +30,6 @@ export default function Page() {
       <RedirectIfCookie />
       <Hero />
       <TrustedBy />
-      {/* The four pillars, in the order visitors come for them (see lib/pillars.ts). */}
-      <Pillars />
       <Diff />
       <Review />
       <Stabilize />
