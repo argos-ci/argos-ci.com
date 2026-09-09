@@ -19,7 +19,7 @@ import { Stabilize } from "./home/stabilize/Stabilize";
 
 export const metadata: Metadata = getMetadata({
   title: "Argos",
-  subtitle: "Catch every visual change before it ships",
+  subtitle: "Nothing ships unseen",
   absoluteTitle: defaultTitle,
   description: defaultDescription,
   pathname: "/",

@@ -33,14 +33,11 @@ export function Hero() {
         <div className="relative flex w-full flex-col items-center gap-10 py-16 text-center md:pt-20 md:pb-24">
           <LastChangelog />
           <HeroComponent align="center">
-            <HeroHeading>
-              Catch every visual change before it ships.
-            </HeroHeading>
+            <HeroHeading>Nothing ships unseen.</HeroHeading>
             <HeroDescription>
-              Argos is visual and snapshot testing for Playwright, Storybook and
-              Vitest. It deploys a preview of every pull request, diffs
-              screenshots and any other file, gives your team and your agents
-              one place to approve, and kills flaky tests.
+              Visual testing for teams and AI agents. Argos makes visual changes
+              obvious, so you can spot regressions, request fixes, and merge
+              with confidence.
             </HeroDescription>
             <HeroActions>
               <Button size="large" asChild>
