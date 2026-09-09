@@ -1,10 +1,5 @@
 import clsx from "clsx";
-import {
-  ArrowRightIcon,
-  CheckIcon,
-  type LucideIcon,
-  TerminalIcon,
-} from "lucide-react";
+import { CheckIcon, type LucideIcon, TerminalIcon } from "lucide-react";
 import Link from "next/link";
 import { Fragment } from "react";
 
@@ -14,24 +9,15 @@ import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
 import { PILLARS, type PillarSlug } from "@/lib/pillars";
 
 /**
- * The four pillars as four cards in the order a pull request goes through
- * them, each carrying one artifact that looks like the product: a preview
- * URL, a file list with its diff, a verdict, a flakiness curve. Each card
- * links to its pillar page.
+ * The four pillars as four cards, each carrying one artifact that looks like
+ * the product: a file list with its diff, a verdict, a flakiness curve, a
+ * preview URL. Each card links to its pillar page.
  */
 export function PillarFlow() {
   return (
-    <div className="relative mx-auto flex w-full max-w-5xl flex-col gap-2 md:flex-row md:items-stretch">
+    <div className="relative mx-auto flex w-full max-w-5xl flex-col gap-3 md:flex-row md:items-stretch">
       {PILLARS.map((pillar, index) => (
         <Fragment key={pillar.slug}>
-          {index > 0 ? (
-            <div
-              aria-hidden
-              className="flex items-center justify-center text-(--neutral-8)"
-            >
-              <ArrowRightIcon className="size-4 max-md:rotate-90" />
-            </div>
-          ) : null}
           <Link
             href={pillar.href}
             className={clsx("group min-w-0 flex-1 no-underline")}

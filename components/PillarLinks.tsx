@@ -8,9 +8,8 @@ import { SectionHeader, SectionHeaderTexts } from "./SectionHeader";
 import { SectionDescription, SectionTitle } from "./Typography";
 
 /**
- * The block a pillar page closes on: the three other pillars, in the order a
- * pull request goes through them, so every page points at the rest of the
- * flow the same way.
+ * The block a pillar page closes on: the three other pillars, in the site's
+ * list order, so every page points at the rest of the platform the same way.
  */
 export function PillarLinks(props: {
   /** The current page's pillar, left out of the grid. */

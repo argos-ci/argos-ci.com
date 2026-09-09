@@ -5,8 +5,8 @@
 Canonical: https://argos-ci.com/ai-agents
 Documentation: https://argos-ci.com/docs/agents
 
-Argos follows a pull request through four steps (deploy, diff, review,
-stabilize), and an agent can take each of them with the same tools a human
+Argos does four things for a pull request (diff, review, stabilize,
+deploy), and an agent can take each of them with the same tools a human
 uses: the `@argos-ci/cli` npm package, the remote MCP server at
 https://mcp.argos-ci.com, and the REST API at https://api.argos-ci.com/v2.
 Argos itself does not use AI to decide anything: comparisons are deterministic
@@ -18,10 +18,6 @@ evidence.
 Each pillar page has a "For AI agents" section with the full set of commands.
 The first command an agent reaches for on each:
 
-- **Deploy** (https://argos-ci.com/deploy#agents): Free preview URLs for your
-  Storybook or static site on every PR. The agent ships its own preview with
-  the command your CI runs, and the URL lands on the pull request:
-  `argos deploy ./storybook-static`
 - **Diff** (https://argos-ci.com/diff#agents): Any file, not just pixels:
   screenshots, Markdown, JSON, and more. The agent reads every diff as data
   (status, score, diff mask, baseline and current file):
@@ -34,6 +30,10 @@ The first command an agent reaches for on each:
   debug failures with full per-test history. The agent reads a test's
   flakiness and its recurring changes, then fixes the cause or ignores the
   change: `argos test changes <testId> --json`
+- **Deploy** (https://argos-ci.com/deploy#agents): Free preview URLs for your
+  Storybook or static site on every PR. The agent ships its own preview with
+  the command your CI runs, and the URL lands on the pull request:
+  `argos deploy ./storybook-static`
 
 ## MCP server
 
@@ -146,13 +146,13 @@ curl https://argos-ci.com/llms.txt
 
 ## Related
 
-- Deploy (https://argos-ci.com/deploy): Free preview URLs for your Storybook
-  or static site on every PR.
 - Diff (https://argos-ci.com/diff): Any file, not just pixels: screenshots,
   Markdown, JSON, and more.
 - Review (https://argos-ci.com/review): One place for humans and agents to
   approve what changed.
 - Stabilize (https://argos-ci.com/stabilize): Kill flakes and debug failures
   with full per-test history.
+- Deploy (https://argos-ci.com/deploy): Free preview URLs for your Storybook
+  or static site on every PR.
 - Media sharing (https://argos-ci.com/media-sharing): screenshots and
   recordings uploaded from the CLI and posted on the pull request.

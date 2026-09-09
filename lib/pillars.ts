@@ -1,8 +1,11 @@
 import type { FeatureColor } from "@/components/feature-section/colors";
 
 /**
- * The four pillars of Argos, in the order a pull request goes through them:
- * Deploy → Diff → Review → Stabilize.
+ * The four pillars of Argos, in the order the site lists them: Diff, Review,
+ * Stabilize, Deploy. That is the order visitors come for them (most arrive
+ * looking for visual testing; Deploy is the newest and the least searched),
+ * not the order a pull request goes through them, which the pillar pages
+ * tell as deploy, diff, review, stabilize.
  *
  * Data only (no React, no icons), so the client navbar, the footer, the
  * homepage, `PillarLinks` and the static `llms.txt` route can all read the
@@ -22,15 +25,6 @@ export type Pillar = {
 };
 
 export const PILLARS = [
-  {
-    slug: "deploy",
-    href: "/deploy",
-    name: "Deploy",
-    description:
-      "Free preview URLs for your Storybook or static site on every PR.",
-    short: "Storybook & static builds on every PR",
-    color: "teal",
-  },
   {
     slug: "diff",
     href: "/diff",
@@ -55,6 +49,15 @@ export const PILLARS = [
     description: "Kill flakes and debug failures with full per-test history.",
     short: "Flaky detection, traces, retries",
     color: "amber",
+  },
+  {
+    slug: "deploy",
+    href: "/deploy",
+    name: "Deploy",
+    description:
+      "Free preview URLs for your Storybook or static site on every PR.",
+    short: "Storybook & static builds on every PR",
+    color: "teal",
   },
 ] as const satisfies readonly Pillar[];
 

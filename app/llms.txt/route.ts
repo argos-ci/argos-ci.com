@@ -19,7 +19,7 @@ const webMcpToolNames = WEBMCP_TOOLS.map((tool) => tool.name).join(", ");
  */
 const llmsTxt = `# Argos
 
-> Argos follows every pull request through four steps. Deploy: free preview URLs for your Storybook or static site on every PR. Diff: deterministic diffs of any file, not just pixels: screenshots, Markdown, JSON, YAML, HTML, ARIA snapshots. Review: one place for humans and agents to approve what changed, with the verdict on the PR. Stabilize: kill flakes and debug failures with full per-test history. Everything is reachable from the CLI, the MCP server and the REST API, so AI agents use it end to end.
+> Argos does four things for every pull request. Diff: deterministic diffs of any file, not just pixels: screenshots, Markdown, JSON, YAML, HTML, ARIA snapshots. Review: one place for humans and agents to approve what changed, with the verdict on the PR. Stabilize: kill flakes and debug failures with full per-test history. Deploy: free preview URLs for your Storybook or static site on every PR. Everything is reachable from the CLI, the MCP server and the REST API, so AI agents use it end to end.
 
 Pages on argos-ci.com are also available as markdown: send \`Accept: text/markdown\` and the response is \`Content-Type: text/markdown\` (HTML stays the default), or read \`/md/<path>\` directly.
 

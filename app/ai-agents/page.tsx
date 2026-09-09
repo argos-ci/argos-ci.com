@@ -83,10 +83,10 @@ export default function Page() {
               <SectionHeaderTexts>
                 <SectionTitle>One agent, four jobs</SectionTitle>
                 <SectionDescription>
-                  Argos follows a pull request through four steps, and an agent
-                  can take each of them. Every pillar page has a section for
-                  agents with the full set of commands; these are the four it
-                  reaches for first.
+                  Argos does four things for a pull request, and an agent can
+                  take each of them. Every pillar page has a section for agents
+                  with the full set of commands; these are the four it reaches
+                  for first.
                 </SectionDescription>
               </SectionHeaderTexts>
             </SectionHeader>

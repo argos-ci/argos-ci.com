@@ -31,12 +31,12 @@ export default function Page() {
       <RedirectIfCookie />
       <Hero />
       <TrustedBy />
-      {/* The four pillars, in the order a pull request goes through them. */}
+      {/* The four pillars, in the order visitors come for them (see lib/pillars.ts). */}
       <Pillars />
-      <Deploy />
       <Diff />
       <Review />
       <Stabilize />
+      <Deploy />
       <Agents />
       <Integrations />
       <FeaturedSDKsSection />

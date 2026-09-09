@@ -5,9 +5,9 @@ import { Container } from "@/components/Container";
 import { PillarFlow } from "./PillarFlow";
 
 /**
- * The table of contents for the homepage: the four pillars as four cards in
- * the order a pull request goes through them. It sits under the customer
- * logos rather than in the hero, so the hero can show the product itself.
+ * The table of contents for the homepage: the four pillars as four cards, in
+ * the order the sections below follow. It sits under the customer logos
+ * rather than in the hero, so the hero can show the product itself.
  */
 export function Pillars() {
   return (
@@ -15,7 +15,7 @@ export function Pillars() {
       <Container className="border-x">
         <div className="flex flex-col items-center gap-6 px-4 py-12 md:px-8 md:py-16">
           <p className="text-xs font-medium tracking-wide text-low uppercase">
-            Four steps for every pull request
+            What Argos does for every pull request
           </p>
           <PillarFlow />
           <a

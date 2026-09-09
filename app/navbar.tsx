@@ -97,9 +97,8 @@ function SecondaryNavbar() {
               <Section>
                 <SectionTitle>Platform</SectionTitle>
                 <SectionList>
-                  {/* The four pillars, in the order a pull request goes
-                      through them: deploy it, diff it, review it, stabilize
-                      the tests behind it. */}
+                  {/* The four pillars, in the order visitors come for them
+                      (see lib/pillars.ts). */}
                   {PILLARS.map((pillar) => (
                     <li key={pillar.slug}>
                       <LinkCard

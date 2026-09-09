@@ -77,8 +77,10 @@ DevTools → Application → WebMCP.
 
 ## The four pillars
 
-The product is told as one flow, in this order: **Deploy → Diff → Review →
-Stabilize** (`/deploy`, `/diff`, `/review`, `/stabilize`). `lib/pillars.ts` is
+Lists (navbar, footer, homepage, `llms.txt`) order the pillars by what
+visitors come for: **Diff, Review, Stabilize, Deploy** (`/diff`, `/review`,
+`/stabilize`, `/deploy`). The pillar pages still tell the pull-request flow in
+its own order (deploy, diff, review, stabilize). `lib/pillars.ts` is
 the registry (slug, href, name, one-liners, color) read by the navbar, the
 footer, the homepage, `PillarLinks` and `llms.txt`; icons are in
 `components/pillar-icons.ts`. Claimed colors: deploy=teal, diff=blue,
