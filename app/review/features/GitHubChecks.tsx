@@ -11,8 +11,8 @@ type Provider = "argos" | "github";
 
 /**
  * The status contexts Argos really posts, as GitHub lists them: the summary
- * check that combines the two named builds — the one to require in branch
- * protection — then each build, then the team's own CI. Only the summary is
+ * check that combines the two named builds (the one to require in branch
+ * protection), then each build, then the team's own CI. Only the summary is
  * marked required: that is the point of it, one requirement that survives
  * adding or renaming builds.
  */
@@ -44,7 +44,7 @@ const CHECKS: Array<{
   {
     key: "storybook",
     title: "argos/storybook",
-    description: "348 snapshots — Everything's good!",
+    description: "Everything's good!",
     status: "success",
     provider: "argos",
   },

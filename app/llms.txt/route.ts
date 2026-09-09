@@ -19,7 +19,7 @@ const webMcpToolNames = WEBMCP_TOOLS.map((tool) => tool.name).join(", ");
  */
 const llmsTxt = `# Argos
 
-> Argos follows every pull request through four steps. Deploy: free preview URLs for your Storybook or static site on every PR. Diff: deterministic diffs of any file, not just pixels — screenshots, Markdown, JSON, YAML, HTML, ARIA snapshots. Review: one place for humans and agents to approve what changed, with the verdict on the PR. Stabilize: kill flakes and debug failures with full per-test history. Everything is reachable from the CLI, the MCP server and the REST API, so AI agents use it end to end.
+> Argos follows every pull request through four steps. Deploy: free preview URLs for your Storybook or static site on every PR. Diff: deterministic diffs of any file, not just pixels: screenshots, Markdown, JSON, YAML, HTML, ARIA snapshots. Review: one place for humans and agents to approve what changed, with the verdict on the PR. Stabilize: kill flakes and debug failures with full per-test history. Everything is reachable from the CLI, the MCP server and the REST API, so AI agents use it end to end.
 
 Pages on argos-ci.com are also available as markdown: send \`Accept: text/markdown\` and the response is \`Content-Type: text/markdown\` (HTML stays the default), or read \`/md/<path>\` directly.
 
@@ -49,7 +49,7 @@ ${pillarBullets}
 - [API catalog](https://argos-ci.com/.well-known/api-catalog): RFC 9727 linkset of Argos APIs
 - [auth.md](https://argos-ci.com/auth.md): how agents register and authenticate
 - [OAuth protected resource metadata](https://argos-ci.com/.well-known/oauth-protected-resource): RFC 9728
-- WebMCP: every page registers read-only tools for browser agents on \`document.modelContext\` — ${webMcpToolNames}
+- WebMCP: every page registers read-only tools for browser agents on \`document.modelContext\`: ${webMcpToolNames}
 
 ## Compare
 

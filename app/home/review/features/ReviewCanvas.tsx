@@ -19,8 +19,8 @@ export function ReviewCanvas() {
     <Card
       shadow="high"
       // On phones the carousel panel is 240px tall and fades out at the
-      // bottom: the card sits at the top so the toolbar and the rail — the
-      // story — are what shows, and the panes step aside (see Panes).
+      // bottom: the card sits at the top so the toolbar and the rail (the
+      // story) are what shows, and the panes step aside (see Panes).
       className="mx-auto w-full max-w-4xl animate-fade-in-up overflow-hidden animate-duration-500 fill-mode-both motion-reduce:animate-fade-in max-sm:mt-3 max-sm:self-start"
     >
       <Toolbar />
@@ -138,7 +138,7 @@ type ActivityEvent = {
  *
  * Andrew approves, Nina catches what he missed and rejects with a comment
  * pinned to the spot, Andrew replies and pushes a fix, and Nina approves the
- * new build. Every verdict stays on the rail — a last-click-wins model could
+ * new build. Every verdict stays on the rail: a last-click-wins model could
  * not show that Andrew's approval never went away, and the badge in the
  * toolbar reads Approved only because Nina's latest review is one.
  */

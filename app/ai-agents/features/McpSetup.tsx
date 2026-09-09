@@ -30,8 +30,8 @@ const CLIENTS = [
 
 /**
  * The two ways in: the JSON block for clients that read an `mcp.json`, and
- * the one-line command for the CLIs. There is nothing to install — the server
- * is remote and speaks streamable HTTP — so each client only needs the URL and
+ * the one-line command for the CLIs. There is nothing to install (the server
+ * is remote and speaks streamable HTTP), so each client only needs the URL and
  * an OAuth sign-in.
  */
 export function McpSetup() {

@@ -49,9 +49,9 @@ const MEDIA_TAG: Tag = { color: "plum", label: "Media sharing" };
  * One instruction, four stages of the agent working on its own.
  *
  * The reader asks for a feature and never mentions Argos, a build, or a
- * review. Everything the agent does with Argos after that — pulling the diffs,
+ * review. Everything the agent does with Argos after that (pulling the diffs,
  * catching its own regression, putting a demo in front of the reviewer,
- * deciding the PR is ready — is its own initiative. That is the section title
+ * deciding the PR is ready) is its own initiative. That is the section title
  * argued by the content rather than asserted by it, and it is why the prompt
  * is identical on all four rows: moving between them, the ask holds still and
  * only the work advances.
@@ -59,12 +59,12 @@ const MEDIA_TAG: Tag = { color: "plum", label: "Media sharing" };
  * There is deliberately no command output anywhere. What convinces here is the
  * agent saying what it found and what it is about to do; a count of diffs and a
  * score only ever proved that a command exists. Every `tool` line names a call,
- * never its result, and no two rows repeat the same one — a step that re-ran
+ * never its result, and no two rows repeat the same one: a step that re-ran
  * the previous step's command read as an agent that had forgotten it. The
  * second row has none at all, which is not an omission: see the note on it.
  *
- * Each row is tagged with the pillar it exercises — Diff, Diff, Deploy with
- * media sharing, Review — so the section reads as the four pillars above,
+ * Each row is tagged with the pillar it exercises (Diff, Diff, Deploy with
+ * media sharing, Review), so the section reads as the four pillars above,
  * worked by an agent. Stabilize gets its clause in the section description
  * instead: this story has no flaky test in it, and staging one would have
  * added a fifth row to a loop that is complete at four.
@@ -74,8 +74,8 @@ const MEDIA_TAG: Tag = { color: "plum", label: "Media sharing" };
  * fewest readers use, instead of the one they already reach for.
  *
  * Two snapshots, not three: one the reader asked for and one the agent broke.
- * That is the smallest set the story needs — the intentional change is what
- * survives to the review queue, the regression is what the agent clears — and
+ * That is the smallest set the story needs: the intentional change is what
+ * survives to the review queue, the regression is what the agent clears, and
  * every extra one had to be tracked across all four rows for no added meaning.
  * The demo is one media for the same reason: a single recording of the feature
  * working is the claim "show their work" needs, and a gallery is not.
@@ -120,15 +120,15 @@ const STEPS: Step[] = [
     tags: [pillarTag("diff")],
     // The only row with no `tool` line, and deliberately so: this is where the
     // agent works on the code, not on Argos. The previous row already pulled
-    // the diffs, so any Argos call here would either repeat it — reading as an
-    // agent that had forgotten — or invent a second one to fill a slot the step
+    // the diffs, so any Argos call here would either repeat it (reading as an
+    // agent that had forgotten) or invent a second one to fill a slot the step
     // does not need.
     lines: [
       {
         kind: "assistant",
         // The attribution is the row. Without "the flex change I made", the
-        // agent merely finds a regression — which is what Change Detection does
-        // two sections above — instead of owning one, which is what the title
+        // agent merely finds a regression (which is what Change Detection does
+        // two sections above) instead of owning one, which is what the title
         // claims.
         text: (
           <>
@@ -157,7 +157,7 @@ const STEPS: Step[] = [
     // Slotted into the CI wait the previous row opened: deploying the
     // Storybook and recording a demo are what an agent can do while the
     // pipeline runs, and it keeps this row from claiming a verification the
-    // next row owns. Both land on the PR the first row already named — nothing
+    // next row owns. Both land on the PR the first row already named: nothing
     // new to track. The deploy is the one row where two tool lines are right:
     // the preview and the recording are two proofs, and each is its own call.
     lines: [
@@ -169,12 +169,12 @@ const STEPS: Step[] = [
       { kind: "tool", text: "argos media upload promo-flow.mp4 --pr 359" },
       {
         kind: "assistant",
-        // Argos posting on the PR — not the agent pasting links — is the
+        // Argos posting on the PR, not the agent pasting links, is the
         // claim: deploying a preview or attaching a media and showing it
         // there are one act.
         text: (
           <>
-            The preview URL and the demo are on <Ref>#359</Ref> — Argos posted
+            The preview URL and the demo are on <Ref>#359</Ref>. Argos posted
             both.
           </>
         ),
@@ -185,13 +185,13 @@ const STEPS: Step[] = [
     key: "queue",
     icon: InboxIcon,
     title: "You only review what’s left",
-    text: "The regressions an agent catches never reach you. What lands in your queue is the change that actually needs a human — with the proof beside it.",
+    text: "The regressions an agent catches never reach you. What lands in your queue is the change that actually needs a human, with the proof beside it.",
     tags: [pillarTag("review")],
     lines: [
       { kind: "tool", text: "argos build snapshots 518" },
       {
         kind: "assistant",
-        text: "The regression is gone — on the latest build, the price tag is back on baseline.",
+        text: "The regression is gone: on the latest build, the price tag is back on baseline.",
       },
       {
         kind: "assistant",
@@ -202,8 +202,8 @@ const STEPS: Step[] = [
         text: (
           <>
             PR <Ref>#359</Ref> is ready. The promo field is the only change
-            detected — the demo shows it working. It’s waiting for your approval
-            in Argos.
+            detected, and the demo shows it working. It’s waiting for your
+            approval in Argos.
           </>
         ),
       },
@@ -218,7 +218,7 @@ const DURATION = 6000;
  * The points drive the terminal instead of sitting beside it.
  *
  * As a static list opposite a fixed panel, nothing said which row the panel was
- * illustrating — the reader had to assume it stood for all of them, which made
+ * illustrating, so the reader had to assume it stood for all of them, which made
  * it decoration. Selecting a row and watching the terminal answer is what turns
  * the two columns into one demonstration.
  *
@@ -229,7 +229,7 @@ const DURATION = 6000;
  *
  * It advances on its own, like the feature carousels above it: a reader who
  * only scrolls still gets the whole story. The rail on the active row is the
- * countdown. Any deliberate selection — click or arrow key — hands control
+ * countdown. Any deliberate selection (click or arrow key) hands control
  * over for good; auto-advance yanking the tab away from someone mid-read is
  * worse than never advancing again.
  */

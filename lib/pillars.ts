@@ -4,7 +4,7 @@ import type { FeatureColor } from "@/components/feature-section/colors";
  * The four pillars of Argos, in the order a pull request goes through them:
  * Deploy → Diff → Review → Stabilize.
  *
- * Data only — no React, no icons — so the client navbar, the footer, the
+ * Data only (no React, no icons), so the client navbar, the footer, the
  * homepage, `PillarLinks` and the static `llms.txt` route can all read the
  * same list. Icons live in `components/pillar-icons.ts`.
  */

@@ -19,7 +19,7 @@ const BUILDS: Array<{
   details: string;
 }> = [
   { name: "playwright", status: "approved", details: "4 changed, 3 ignored" },
-  { name: "storybook", status: "clean", details: "—" },
+  { name: "storybook", status: "clean", details: "-" },
 ];
 
 export function GitHubComment() {

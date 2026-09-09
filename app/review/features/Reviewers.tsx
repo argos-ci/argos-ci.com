@@ -21,8 +21,8 @@ type Reviewer = {
 
 /**
  * Three reviewers, three states, one rule. Andrew's rejection came in through
- * the CLI — an agent ran it with his personal access token, so Argos attributes
- * it to him, not to a bot — and it is enough to block the build whatever Nina
+ * the CLI (an agent ran it with his personal access token, so Argos attributes
+ * it to him, not to a bot), and it is enough to block the build whatever Nina
  * decided. Sam was requested and hasn't weighed in yet.
  */
 const REVIEWERS: Reviewer[] = [

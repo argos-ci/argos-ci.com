@@ -130,10 +130,10 @@ screenshots. See https://argos-ci.com/pricing
 
 ## Related
 
-- Diff: https://argos-ci.com/diff — any file, not just pixels: screenshots,
+- Diff (https://argos-ci.com/diff): any file, not just pixels: screenshots,
   Markdown, JSON, and more.
-- Review: https://argos-ci.com/review — one place for humans and agents to
+- Review (https://argos-ci.com/review): one place for humans and agents to
   approve what changed.
-- Stabilize: https://argos-ci.com/stabilize — kill flakes and debug failures
+- Stabilize (https://argos-ci.com/stabilize): kill flakes and debug failures
   with full per-test history.
 - Argos for AI agents: https://argos-ci.com/ai-agents

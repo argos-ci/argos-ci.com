@@ -84,8 +84,8 @@ const nextConfig: NextConfig = {
         permanent: false,
       },
       // The 2026 information-architecture rework: the old feature pages
-      // became the four pillars. Destinations are final — 308s are cached by
-      // browsers — and never chain (/playwright goes straight to /diff).
+      // became the four pillars. Destinations are final (308s are cached by
+      // browsers) and never chain (/playwright goes straight to /diff).
       {
         source: "/playwright",
         destination: "/diff",

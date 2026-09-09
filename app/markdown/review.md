@@ -32,8 +32,8 @@ with the changes a build detected.
 ## Every reviewer's verdict counts
 
 - Request one or more project members as reviewers. Each reviewer's verdict is
-  tracked individually — **Approved**, **Rejected**, **Commented**,
-  **Pending**, or **Dismissed** — and a new review never overwrites someone
+  tracked individually (**Approved**, **Rejected**, **Commented**,
+  **Pending**, or **Dismissed**), and a new review never overwrites someone
   else's.
 - Only each reviewer's latest review counts, dismissed reviews are ignored, and
   two rules decide the build: **one rejection blocks** (the build is rejected
@@ -78,7 +78,7 @@ with the changes a build detected.
   review. A build with an active rejection can never be a baseline.
 - Automations: **when** a build event happens (Build Completed, Build
   Reviewed), **if** conditions match (build conclusion, type, mode, name,
-  branch — combined with AND, each negatable), **then** post in a Slack,
+  branch, combined with AND, each negatable), **then** post in a Slack,
   Microsoft Teams, or Discord channel. Rules are per project. Argos has no
   user-configurable outgoing webhooks.
 
@@ -111,7 +111,7 @@ argos review create <build> --event approve \
 argos comment list <build> --json
 ```
 
-- **Skills**: `argos-pr-review` runs the whole workflow — find the build from
+- **Skills**: `argos-pr-review` runs the whole workflow: find the build from
   the pull request, inspect the snapshots that need review, summarize the
   changes, approve or request changes. Prompt: `Use $argos-pr-review to review
 this pull request with its Argos build.` The `argos-cli` skill covers the
@@ -135,11 +135,11 @@ list|add|remove`, `argos comment list|create|resolve|react …`. Read-only
 
 ## Related
 
-- Deploy — free preview URLs for your Storybook or static site on every PR:
+- Deploy: free preview URLs for your Storybook or static site on every PR:
   https://argos-ci.com/deploy
-- Diff — any file, not just pixels: screenshots, Markdown, JSON, and more:
+- Diff: any file, not just pixels: screenshots, Markdown, JSON, and more:
   https://argos-ci.com/diff
-- Stabilize — kill flakes and debug failures with full per-test history:
+- Stabilize: kill flakes and debug failures with full per-test history:
   https://argos-ci.com/stabilize
 - Argos for AI agents: https://argos-ci.com/ai-agents
 - Media sharing: https://argos-ci.com/media-sharing

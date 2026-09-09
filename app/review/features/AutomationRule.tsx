@@ -8,7 +8,7 @@ import { ThemeImage, type ThemeImageProps } from "@/components/ThemeImage";
 import { SmallTitle } from "@/components/Typography";
 
 /**
- * One automation as the docs describe it — when, if, then — with the real
+ * One automation as the docs describe it (when, if, then) with the real
  * labels from the Automations tab: the "Build Completed" event, a build
  * conclusion condition, and the two channel actions most teams pair.
  */

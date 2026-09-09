@@ -13,7 +13,7 @@ type ReviewerName = "andrew" | "nina";
 /**
  * Newest first, and consistent with how Argos decides a build: only each
  * reviewer's latest review counts, and one rejection blocks. Nina rejected,
- * Andrew approved, then Nina came back and approved — so the build is
+ * Andrew approved, then Nina came back and approved, so the build is
  * approved, and the rejection stays in the record without deciding anything.
  */
 const REVIEWS: Array<{

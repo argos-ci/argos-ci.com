@@ -33,14 +33,14 @@ in the same commit.** The twins:
 | Homepage (`app/homepage.tsx`, `app/home/**`)                                                  | `app/markdown/home.md` (curated by hand)                                                                                                  |
 | `/pricing` (`app/pricing/**`)                                                                 | `getPricingMarkdown()` in `lib/markdown.ts` (hand-written)                                                                                |
 | Pillar pages `/deploy`, `/diff`, `/review`, `/stabilize`, plus `/ai-agents`, `/media-sharing` | `app/markdown/<slug>.md` (curated by hand, no FAQ inside) + the page's `faq.tsx` questions, appended by `getCuratedPageMarkdown()`        |
-| Blog & changelog                                                                              | derived automatically from their MDX — nothing to do                                                                                      |
-| `/compare/*` (`app/compare/*/page.tsx`)                                                       | derived from `app/compare/*/comparison.ts` + `faq.tsx` by `getCompareMarkdown()` in `lib/markdown.ts` — keep hero copy in the data module |
+| Blog & changelog                                                                              | derived automatically from their MDX, nothing to do                                                                                       |
+| `/compare/*` (`app/compare/*/page.tsx`)                                                       | derived from `app/compare/*/comparison.ts` + `faq.tsx` by `getCompareMarkdown()` in `lib/markdown.ts`, keep hero copy in the data module  |
 | `/security` (`app/security/page.tsx`)                                                         | `getSecurityMarkdown()` in `lib/markdown.ts`: prose hand-written, lists from the page's data modules                                      |
 | Site overview for agents                                                                      | `app/llms.txt/route.ts` (curated link map)                                                                                                |
 
 Two more lockstep spots:
 
-- `app/pricing/PricingFaq.tsx` and every `faq.tsx` store each answer twice —
+- `app/pricing/PricingFaq.tsx` and every `faq.tsx` store each answer twice:
   `answer` (JSX) and `textAnswer` (string, feeds FAQPage JSON-LD and the
   markdown twin). Edit both.
 - Pricing numbers come from `lib/constants.ts`; never hardcode them in copy.
@@ -103,21 +103,21 @@ Registration points, all required unless noted:
 
 1. `app/<slug>/page.tsx` (+ `app/<slug>/features/*.tsx` illustrations).
    Metadata via `getMetadata({ …, pathname })` from `lib/metadata.tsx`.
-2. `app/navbar.tsx` — a `LinkCard` in the right dropdown column (pillars
+2. `app/navbar.tsx`: a `LinkCard` in the right dropdown column (pillars
    render from `lib/pillars.ts`; other pages are hand-listed).
-3. `app/footer.tsx` — a `FooterLink` (Product column for feature pages).
-4. `tests/screenshot-pages.spec.ts` — add to `FOOTER_LINKS`; the key is the
+3. `app/footer.tsx`: a `FooterLink` (Product column for feature pages).
+4. `tests/screenshot-pages.spec.ts`: add to `FOOTER_LINKS`; the key is the
    route, the value must equal the footer link's visible label (the test
-   navigates by clicking it, and `getByRole` matches substrings — no two
+   navigates by clicking it, and `getByRole` matches substrings, so no two
    footer labels may contain each other).
-5. `public/main-sitemap.xml` — hand-add the `<url>` entry.
-6. `app/llms.txt/route.ts` — add a bullet so agents can discover the page.
-7. `app/markdown/home.md` — mention it if the homepage copy does.
+5. `public/main-sitemap.xml`: hand-add the `<url>` entry.
+6. `app/llms.txt/route.ts`: add a bullet so agents can discover the page.
+7. `app/markdown/home.md`: mention it if the homepage copy does.
 8. Cross-link it: pillar pages close on `PillarLinks`; other pages hand-roll
    a 3-up grid of `FeatureGridFeatureSmall`.
 9. Pages own a `FeatureColor` (`components/feature-section/colors.tsx`);
    pick one not already claimed (see the list above).
-10. Markdown variant — see the section above. Product pages should have one.
+10. Markdown variant: see the section above. Product pages should have one.
 
 ## Content: blog, changelog, social
 

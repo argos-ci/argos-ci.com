@@ -28,7 +28,7 @@ failed attempt so the fix, by a person or an agent, starts from facts.
   change** link to the builds where the test first and last changed.
 - A **change** is one exact visual difference, not one occurrence of it.
   Argos groups every diff that looks the same, so the list reads
-  **Recurring — N×**, **One-off** or **Ignored**, ordered by how often each
+  **Recurring N×**, **One-off** or **Ignored**, ordered by how often each
   came back, with its occurrences out of the build count and when it was first
   and last seen.
 - The **Tests dashboard** ranks a project's tests by flakiness score, flakiest
@@ -136,9 +136,9 @@ argos test comment create <testId> --project acme/app --body "Flaky since the ca
 
 ## Related
 
-- Deploy — free preview URLs for your Storybook or static site on every PR: https://argos-ci.com/deploy
-- Diff — any file, not just pixels: screenshots, Markdown, JSON, and more: https://argos-ci.com/diff
-- Review — one place for humans and agents to approve what changed: https://argos-ci.com/review
+- Deploy: free preview URLs for your Storybook or static site on every PR: https://argos-ci.com/deploy
+- Diff: any file, not just pixels: screenshots, Markdown, JSON, and more: https://argos-ci.com/diff
+- Review: one place for humans and agents to approve what changed: https://argos-ci.com/review
 - Argos for AI agents: https://argos-ci.com/ai-agents
 
 ## Learn more

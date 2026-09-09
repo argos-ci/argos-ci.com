@@ -123,7 +123,7 @@ export default function Page() {
             <MediaFlow />
           </div>
           <p className="mt-8 container-gutter text-center text-sm text-low">
-            This example is live —{" "}
+            This example is live:{" "}
             <TextLink
               href={LIVE_EXAMPLE_PR_URL}
               target="_blank"

@@ -5,8 +5,8 @@
 Canonical: https://argos-ci.com/ai-agents
 Documentation: https://argos-ci.com/docs/agents
 
-Argos follows a pull request through four steps — deploy, diff, review,
-stabilize — and an agent can take each of them with the same tools a human
+Argos follows a pull request through four steps (deploy, diff, review,
+stabilize), and an agent can take each of them with the same tools a human
 uses: the `@argos-ci/cli` npm package, the remote MCP server at
 https://mcp.argos-ci.com, and the REST API at https://api.argos-ci.com/v2.
 Argos itself does not use AI to decide anything: comparisons are deterministic
@@ -18,27 +18,27 @@ evidence.
 Each pillar page has a "For AI agents" section with the full set of commands.
 The first command an agent reaches for on each:
 
-- **Deploy** (https://argos-ci.com/deploy#agents) — Free preview URLs for your
+- **Deploy** (https://argos-ci.com/deploy#agents): Free preview URLs for your
   Storybook or static site on every PR. The agent ships its own preview with
   the command your CI runs, and the URL lands on the pull request:
   `argos deploy ./storybook-static`
-- **Diff** (https://argos-ci.com/diff#agents) — Any file, not just pixels:
+- **Diff** (https://argos-ci.com/diff#agents): Any file, not just pixels:
   screenshots, Markdown, JSON, and more. The agent reads every diff as data
   (status, score, diff mask, baseline and current file):
   `argos build snapshots <build> --json`
-- **Review** (https://argos-ci.com/review#agents) — One place for humans and
+- **Review** (https://argos-ci.com/review#agents): One place for humans and
   agents to approve what changed. The agent approves, rejects or comments,
   attributed to the person whose token it runs with:
   `argos review create <build> --event approve`
-- **Stabilize** (https://argos-ci.com/stabilize#agents) — Kill flakes and
+- **Stabilize** (https://argos-ci.com/stabilize#agents): Kill flakes and
   debug failures with full per-test history. The agent reads a test's
   flakiness and its recurring changes, then fixes the cause or ignores the
   change: `argos test changes <testId> --json`
 
 ## MCP server
 
-- Official remote MCP server: https://mcp.argos-ci.com — streamable HTTP
-  transport, nothing to install or run locally.
+- Official remote MCP server: https://mcp.argos-ci.com (streamable HTTP
+  transport, nothing to install or run locally).
 - Setup: `claude mcp add --transport http argos https://mcp.argos-ci.com`
   (Claude Code), `codex mcp add argos --url https://mcp.argos-ci.com` (Codex
   CLI), or add `{ "mcpServers": { "argos": { "url": "https://mcp.argos-ci.com" } } }`
@@ -76,7 +76,7 @@ The first command an agent reaches for on each:
   `Use $argos-pr-review to review this pull request with its Argos build.`
 - `argos-cli`: the CLI's commands, flags, authentication rules and output
   formats, flakiness commands included.
-- `argos-pr-review`: a complete pull-request review — find the Argos build,
+- `argos-pr-review`: a complete pull-request review: find the Argos build,
   inspect the snapshots that need review, summarize what changed, compare it
   with the pull request intent, then approve or request changes.
 - `argos-upload`: when and how to share a screenshot or a screen recording by
@@ -85,9 +85,9 @@ The first command an agent reaches for on each:
 - Tokens: uploads, deployments and read-only commands (`build get`,
   `build snapshots`, `test list`, `test get`, `test changes`, `change list`,
   `project get`, `project deployments`, `media list`) work with a project
-  token. Anything attributed to a user — submitting or dismissing a review,
+  token. Anything attributed to a user (submitting or dismissing a review,
   requesting reviewers, posting comments, ignoring a change, configuring a
-  project, administering a team — needs a personal access token; `argos login`
+  project, administering a team) needs a personal access token; `argos login`
   stores one locally.
 - Guides: https://argos-ci.com/docs/agents/agent-skills ·
   https://argos-ci.com/docs/learn/review-workflow/review-builds-with-ai-agents ·
@@ -96,7 +96,7 @@ The first command an agent reaches for on each:
 
 ## REST API and discovery
 
-- REST API base URL: https://api.argos-ci.com/v2 — bearer token in the
+- REST API base URL: https://api.argos-ci.com/v2, bearer token in the
   `Authorization` header; a project token reads, a personal access token acts
   as a user. Reference: https://argos-ci.com/docs/api-reference
 - OpenAPI 3.1 description: https://api.argos-ci.com/v2/openapi.yaml
@@ -146,13 +146,13 @@ curl https://argos-ci.com/llms.txt
 
 ## Related
 
-- Deploy: https://argos-ci.com/deploy — Free preview URLs for your Storybook
+- Deploy (https://argos-ci.com/deploy): Free preview URLs for your Storybook
   or static site on every PR.
-- Diff: https://argos-ci.com/diff — Any file, not just pixels: screenshots,
+- Diff (https://argos-ci.com/diff): Any file, not just pixels: screenshots,
   Markdown, JSON, and more.
-- Review: https://argos-ci.com/review — One place for humans and agents to
+- Review (https://argos-ci.com/review): One place for humans and agents to
   approve what changed.
-- Stabilize: https://argos-ci.com/stabilize — Kill flakes and debug failures
+- Stabilize (https://argos-ci.com/stabilize): Kill flakes and debug failures
   with full per-test history.
-- Media sharing: https://argos-ci.com/media-sharing — screenshots and
+- Media sharing (https://argos-ci.com/media-sharing): screenshots and
   recordings uploaded from the CLI and posted on the pull request.
