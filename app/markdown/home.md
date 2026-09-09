@@ -1,6 +1,6 @@
-# Argos — Deploy, diff, review, stabilize: every pull request
+# Argos: catch every visual change before it ships
 
-> Argos follows every pull request through four steps: a free preview URL for your Storybook or static site, a diff of everything that changed (pixels or any file), one place for humans and agents to approve it, and the per-test history to kill flakes. Everything is reachable from the CLI, the MCP server and the REST API, so AI agents use it end to end.
+> Argos is visual and snapshot testing for Playwright, Storybook and Vitest. It follows every pull request through four steps: a free preview URL for your Storybook or static site, a diff of everything that changed (pixels or any file), one place for humans and agents to approve it, and the per-test history to kill flakes. Everything is reachable from the CLI, the MCP server and the REST API, so AI agents use it end to end.
 
 Canonical: https://argos-ci.com/
 Machine-readable map: https://argos-ci.com/llms.txt
@@ -11,7 +11,7 @@ the tests behind it trustworthy.
 
 ## What Argos does
 
-### 1. Deploy — free preview URLs for your Storybook or static site on every PR
+### 1. Deploy: free preview URLs for your Storybook or static site on every PR
 
 - `argos deploy ./storybook-static` uploads any static build (Storybook, Vite,
   Next.js export, plain HTML) to an immutable preview URL. Each branch also
@@ -25,7 +25,7 @@ the tests behind it trustworthy.
   quota.
 - Learn more: https://argos-ci.com/deploy
 
-### 2. Diff — any file, not just pixels
+### 2. Diff: any file, not just pixels
 
 - Deterministic pixel diffing with the open-source odiff engine (not AI), with
   capture defaults that wait for fonts and images, hide carets and scrollbars
@@ -37,7 +37,7 @@ the tests behind it trustworthy.
   or the CLI for any screenshot folder. Baselines come from your Git history.
 - Learn more: https://argos-ci.com/diff
 
-### 3. Review — one place for humans and agents to approve what changed
+### 3. Review: one place for humans and agents to approve what changed
 
 - Side-by-side or overlay views, keyboard shortcuts (`Y`/`N` to accept or
   reject), comments pinned to the exact pixel or text line, threads with
@@ -50,7 +50,7 @@ the tests behind it trustworthy.
   comment kept current; Automations post to Slack, Microsoft Teams or Discord.
 - Learn more: https://argos-ci.com/review
 
-### 4. Stabilize — kill flakes and debug failures with full per-test history
+### 4. Stabilize: kill flakes and debug failures with full per-test history
 
 - A flakiness score (0–100) and a flaky badge for every test, computed from
   your auto-approved builds, with the history of each recurring change and

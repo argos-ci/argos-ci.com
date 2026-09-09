@@ -14,10 +14,10 @@ import { FeatureIndicator } from "@/components/feature-section/FeatureSection";
 import { PILLARS, type PillarSlug } from "@/lib/pillars";
 
 /**
- * The hero's visual: the four pillars as four cards in the order a pull
- * request goes through them, each carrying one artifact that looks like the
- * product — a preview URL, a file list with its diff, a verdict, a flakiness
- * curve. It names the same four things the headline does.
+ * The four pillars as four cards in the order a pull request goes through
+ * them, each carrying one artifact that looks like the product: a preview
+ * URL, a file list with its diff, a verdict, a flakiness curve. Each card
+ * links to its pillar page.
  */
 export function PillarFlow() {
   return (
@@ -34,16 +34,7 @@ export function PillarFlow() {
           ) : null}
           <Link
             href={pillar.href}
-            className={clsx(
-              "group min-w-0 flex-1 no-underline",
-              "animate-slide-up-fade animate-duration-500 fill-mode-both motion-reduce:animate-fade-in",
-              [
-                "animate-delay-150",
-                "animate-delay-300",
-                "animate-delay-500",
-                "animate-delay-700",
-              ][index],
-            )}
+            className={clsx("group min-w-0 flex-1 no-underline")}
           >
             <Card
               shadow="high"

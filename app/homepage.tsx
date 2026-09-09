@@ -13,12 +13,13 @@ import { Deploy } from "./home/deploy/Deploy";
 import { Diff } from "./home/diff/Diff";
 import { Hero } from "./home/hero/Hero";
 import { Integrations } from "./home/integrations/Integrations";
+import { Pillars } from "./home/pillars/Pillars";
 import { Review } from "./home/review/Review";
 import { Stabilize } from "./home/stabilize/Stabilize";
 
 export const metadata: Metadata = getMetadata({
   title: "Argos",
-  subtitle: "Deploy, diff, review, stabilize — every pull request",
+  subtitle: "Catch every visual change before it ships",
   absoluteTitle: defaultTitle,
   description: defaultDescription,
   pathname: "/",
@@ -31,6 +32,7 @@ export default function Page() {
       <Hero />
       <TrustedBy />
       {/* The four pillars, in the order a pull request goes through them. */}
+      <Pillars />
       <Deploy />
       <Diff />
       <Review />

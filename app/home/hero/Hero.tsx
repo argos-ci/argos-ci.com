@@ -1,6 +1,8 @@
-import { ArrowUpRightIcon } from "lucide-react";
+import clsx from "clsx";
+import { ArrowUpRightIcon, PlayCircleIcon } from "lucide-react";
 import Link from "next/link";
 
+import { app } from "@/app/assets/product/library";
 import { trackDemoClick } from "@/app/google-ads";
 import { trackSignupClick } from "@/app/google-ads";
 import { Button } from "@/components/Button";
@@ -12,10 +14,10 @@ import {
   HeroDescription,
   HeroHeading,
 } from "@/components/Hero";
+import { ThemeImage } from "@/components/ThemeImage";
 import { getPaginatedChangelogs } from "@/lib/api/changelog";
 
 import gradients from "./assets/gradients.svg";
-import { PillarFlow } from "./PillarFlow";
 
 export function Hero() {
   return (
@@ -28,16 +30,17 @@ export function Hero() {
           }}
         />
         <FullPageGrid radial height="h-125" />
-        <div className="relative flex w-full flex-col items-center gap-10 py-16 text-center md:pt-20 md:pb-16">
+        <div className="relative flex w-full flex-col items-center gap-10 py-16 text-center md:pt-20 md:pb-24">
           <LastChangelog />
           <HeroComponent align="center">
             <HeroHeading>
-              Deploy, diff, review, stabilize — every pull request.
+              Catch every visual change before it ships.
             </HeroHeading>
             <HeroDescription>
-              Argos gives your team and your agents a live preview of every PR,
-              a diff of everything that changed — pixels or any file — one place
-              to approve it, and the per-test history to kill flakes.
+              Argos is visual and snapshot testing for Playwright, Storybook and
+              Vitest. It deploys a preview of every pull request, diffs
+              screenshots and any other file, gives your team and your agents
+              one place to approve, and kills flaky tests.
             </HeroDescription>
             <HeroActions>
               <Button size="large" asChild>
@@ -56,18 +59,39 @@ export function Hero() {
             </HeroActions>
           </HeroComponent>
         </div>
-        <div className="relative flex flex-col items-center gap-6 pb-16 md:pb-20">
-          <PillarFlow />
-          <a
-            href="https://app.argos-ci.com/argos-ci/snkr-shop/builds/11"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group inline-flex items-center gap-1 text-sm font-medium text-low transition hover:text-default"
+        <a
+          href="https://app.argos-ci.com/argos-ci/snkr-shop/builds/11"
+          target="_blank"
+          className={clsx(
+            "group relative mx-auto block w-fit",
+            "transition duration-300 ease-in-out hover:-translate-y-1 hover:scale-103",
+          )}
+        >
+          <div
+            className={clsx(
+              "relative overflow-hidden border border-(--primary-6) bg-(--primary-3) mask-[linear-gradient(black_70%,transparent)] p-1 max-md:rounded-lg md:rounded-t-3xl md:p-2.5",
+            )}
           >
-            See it on a real pull request
-            <ArrowUpRightIcon className="size-4 transition group-hover:translate-x-px group-hover:-translate-y-px" />
-          </a>
-        </div>
+            <div className="absolute inset-0 bg-(--neutral-a6) opacity-0 transition duration-300 ease-in-out hover:opacity-100 dark:bg-[rgba(0,0,0,0.3)]" />
+            <ThemeImage
+              src={app}
+              alt=""
+              aria-hidden
+              className="w-full max-w-220 rounded md:rounded-t-[0.875rem]"
+            />
+          </div>
+          <div
+            className={clsx(
+              "font-accent bg-app pointer-events-none absolute bottom-4 left-1/2 order-(--primary-6) flex -translate-x-1/2 items-center gap-1 rounded-lg border px-2 py-1 text-sm font-medium text-(--primary-11)",
+              "transition ease-in-out",
+              "scale-75 opacity-0",
+              "group-hover:-translate-y-10 group-hover:scale-100 group-hover:opacity-100",
+            )}
+          >
+            <PlayCircleIcon className="size-4" />
+            View demo build
+          </div>
+        </a>
       </Container>
     </section>
   );
