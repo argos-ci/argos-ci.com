@@ -24,9 +24,10 @@ export function Agents() {
                 and "agent-ready" arrived as old news once Review had already
                 said agents pick up a thread. */}
             <SectionTitle>Your agents check their own work</SectionTitle>
-            {/* One verb per row of the showcase, in its order. Deploy happens
-                inside "show their work", and Stabilize is not staged, so
-                neither gets a clause of its own. */}
+            {/* "Read what their change did" is the premise of the first row;
+                the three verbs after it are one per row, in order. Deploy
+                happens inside "show their work", and Stabilize is not staged,
+                so neither gets a clause of its own. */}
             <SectionDescription className="max-w-2xl">
               They read what their change did, fix what they broke, show their
               work, and only bring you what’s left.
