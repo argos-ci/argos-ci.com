@@ -84,7 +84,10 @@ export function PlaywrightTrace() {
           </Badge>
         </div>
 
-        <div className="hidden space-y-2 md:block">
+        {/* Phones: the steps are the story once the viewer is gone. Between
+            sm and md the viewer sits beside the card, and the steps would
+            make it twice as tall. */}
+        <div className="hidden space-y-2 max-sm:block md:block">
           {events.map((event) => (
             <TraceEvent key={event.label} {...event} />
           ))}
