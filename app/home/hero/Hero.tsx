@@ -35,8 +35,9 @@ export function Hero() {
           <HeroComponent align="center">
             <HeroHeading>Review the product, not just the code.</HeroHeading>
             <HeroDescription>
-              Review UI changes in your pull requests. Built for teams and AI
-              coding agents.
+              Agents generate more changes than teams can review. Argos makes
+              every change obvious, then lets your team and your agents comment
+              on the diffs, request updates, or approve before merge.
             </HeroDescription>
             <HeroActions>
               <Button size="large" asChild>

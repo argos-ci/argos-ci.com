@@ -1,13 +1,9 @@
 # Argos: review the product, not just the code
 
-> Review UI changes in your pull requests. Built for teams and AI coding agents. Everything is reachable from the CLI, the MCP server and the REST API, so AI agents use it end to end.
+> Agents generate more changes than teams can review. Argos makes every change obvious, then lets your team and your agents comment on the diffs, request updates, or approve before merge. Everything is reachable from the CLI, the MCP server and the REST API, so AI agents use it end to end.
 
 Canonical: https://argos-ci.com/
 Machine-readable map: https://argos-ci.com/llms.txt
-
-Agents generate more changes than teams can review. Argos makes every change
-obvious, gives your team and your agents one place to approve it, and keeps
-the tests behind it trustworthy.
 
 ## What Argos does
 
