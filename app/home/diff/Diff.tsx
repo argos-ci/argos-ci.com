@@ -14,7 +14,7 @@ export function Diff() {
       color="blue"
       featureName="Diff"
       title="See exactly what changed"
-      description={`Deterministic diffs for screenshots; text diffs for Markdown, JSON, YAML, HTML and ARIA snapshots.\nEvery diff is structured data your agents read from the CLI or MCP.`}
+      description={`Catch and compare every change, from pixels to any file.\nStay focused on real differences and skip the noise.`}
       features={[
         {
           key: "real-changes",

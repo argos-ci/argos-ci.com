@@ -41,7 +41,7 @@ export function Deploy() {
       color="teal"
       featureName="Deploy"
       title="A live preview for every pull request"
-      description={`Run argos deploy on any static build: an immutable URL, a branch URL, and production on an Argos domain or your own.\nYour agents deploy their own previews with one command.`}
+      description={`Deploy your Storybook or any static build with one command.\nShare it with reviewers, then ship the same build to production.`}
       story={{
         quote: muiDeploymentsQuote,
         href: "/customers/mui",

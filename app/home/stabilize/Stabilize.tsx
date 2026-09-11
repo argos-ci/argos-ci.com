@@ -41,7 +41,7 @@ export function Stabilize() {
       color="amber"
       featureName="Stabilize"
       title="Kill flakes and debug failures"
-      description={`Flakiness scores and change history for every test, and an ignore that never hides a new regression.\nTraces and failure screenshots for every attempt, ready for you or your agent.`}
+      description={`Detect, manage and fix flaky tests.\nTrack instability across builds and automatically silence noise.`}
       story={{
         quote: permitIoQuote,
       }}

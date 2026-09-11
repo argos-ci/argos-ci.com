@@ -45,7 +45,7 @@ export function Review() {
       color="pink"
       featureName="Review"
       title="Approve what changed, together"
-      description={`Side-by-side diffs, pinned comments, one verdict per reviewer.\nHumans and agents review in the same thread, and the result lands on the PR.`}
+      description={`Compare side by side, pin comments to the exact pixel, and cast your verdict.\nHumans and agents review in the same thread, and the result lands on the PR.`}
       story={{
         quote: gitbookAgentQuote,
         href: "/customers/gitbook",

@@ -19,18 +19,17 @@ export function Agents() {
                 four pillars above, not a fifth pillar, and the label says so. */}
             <FeatureIndicator color="violet">For AI agents</FeatureIndicator>
             {/* The four sections above each sold one pillar to a team; this
-                one says the same flow is open to an agent. "From deploy to
-                review" names the span the showcase covers, with Stabilize in
-                the description rather than the title: it is the one step the
-                showcase does not stage. */}
-            <SectionTitle>Built for agents, from deploy to review</SectionTitle>
-            {/* One sentence per row of the showcase, in its order, then the
-                Stabilize clause the showcase leaves out. */}
+                one says the same flow is open to an agent. A verb-led benefit,
+                like every title above it: "Built for agents" read as a spec,
+                and "agent-ready" arrived as old news once Review had already
+                said agents pick up a thread. */}
+            <SectionTitle>Your agents check their own work</SectionTitle>
+            {/* One verb per row of the showcase, in its order. Deploy happens
+                inside "show their work", and Stabilize is not staged, so
+                neither gets a clause of its own. */}
             <SectionDescription className="max-w-2xl">
-              They deploy the preview, read what their change did, fix what they
-              broke, show their work, and bring you only what’s left. When a
-              test flakes, they read its history and ignore the recurring
-              change.
+              They read what their change did, fix what they broke, show their
+              work, and only bring you what’s left.
             </SectionDescription>
           </SectionHeaderTexts>
           <Button variant="outline" asChild>
