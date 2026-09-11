@@ -35,9 +35,9 @@ export function Hero() {
           <HeroComponent align="center">
             <HeroHeading>Review the product, not just the code.</HeroHeading>
             <HeroDescription>
-              Agents generate more changes than teams can review. Argos makes
-              every change obvious, then lets your team and your agents comment
-              on the diffs, request updates, or approve before merge.
+              Visual testing for teams and AI agents. Argos makes visual changes
+              obvious, so you spot regressions, request fixes, and merge with
+              confidence.
             </HeroDescription>
             <HeroActions>
               <Button size="large" asChild>
