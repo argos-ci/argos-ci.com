@@ -33,11 +33,10 @@ export function Hero() {
         <div className="relative flex w-full flex-col items-center gap-10 py-16 text-center md:pt-20 md:pb-24">
           <LastChangelog />
           <HeroComponent align="center">
-            <HeroHeading>Nothing ships unseen.</HeroHeading>
+            <HeroHeading>Review the product, not just the code.</HeroHeading>
             <HeroDescription>
-              Visual testing for teams and AI agents. Argos makes visual changes
-              obvious, so you can spot regressions, request fixes, and merge
-              with confidence.
+              Review UI changes in your pull requests. Built for teams and AI
+              coding agents.
             </HeroDescription>
             <HeroActions>
               <Button size="large" asChild>

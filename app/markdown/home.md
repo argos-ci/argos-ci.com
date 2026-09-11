@@ -1,6 +1,6 @@
-# Argos: nothing ships unseen
+# Argos: review the product, not just the code
 
-> Visual testing for teams and AI agents. Argos makes visual changes obvious, so you can spot regressions, request fixes, and merge with confidence. Everything is reachable from the CLI, the MCP server and the REST API, so AI agents use it end to end.
+> Review UI changes in your pull requests. Built for teams and AI coding agents. Everything is reachable from the CLI, the MCP server and the REST API, so AI agents use it end to end.
 
 Canonical: https://argos-ci.com/
 Machine-readable map: https://argos-ci.com/llms.txt
