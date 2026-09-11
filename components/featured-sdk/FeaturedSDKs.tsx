@@ -7,7 +7,6 @@ import {
   playwright,
   storybook,
   vitest,
-  wdio,
 } from "@/app/assets/brands/library";
 import type { Brand } from "@/app/assets/brands/types";
 import { Button } from "@/components/Button";
@@ -28,9 +27,9 @@ export function FeaturedSDKsSection() {
           <SectionHeaderTexts>
             <SectionTitle>Add your first snapshot in seconds</SectionTitle>
             <SectionDescription className="max-w-xl">
-              Argos plugs into Playwright, Storybook, Cypress, Vitest,
-              WebdriverIO, the CLI, or any framework, so you can start catching
-              changes without changing your stack.
+              Argos plugs into Playwright, Storybook, Cypress, Vitest, the CLI,
+              or any framework, so you can start catching changes without
+              changing your stack.
             </SectionDescription>
           </SectionHeaderTexts>
           <Button variant="outline" asChild>
@@ -61,12 +60,6 @@ export function FeaturedSDKsSection() {
             sdk={vitest}
             borderColor="text-(--yellow-6)"
             bgColor="bg-(--yellow-1)"
-          />
-          <SdkCard
-            href="/docs/quickstart/webdriverio-quickstart"
-            sdk={wdio}
-            borderColor="text-(--orange-6)"
-            bgColor="bg-(--orange-1)"
           />
         </ul>
       </Container>

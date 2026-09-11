@@ -75,10 +75,9 @@ Machine-readable map: https://argos-ci.com/llms.txt
 ## Integrations and SDKs
 
 GitHub, GitLab, Slack, Microsoft Teams and Discord. SDKs for Playwright,
-Storybook, Cypress, Vitest, WebdriverIO and Puppeteer, plus a CLI for any
-framework. Trusted by teams like Meta, ClickHouse, GitBook, Attio, Qonto,
-Doctolib, Le Monde, Redis, MUI and Mermaid
-([customers](https://argos-ci.com/customers)).
+Storybook, Cypress, Vitest and Puppeteer, plus a CLI for any framework.
+Trusted by teams like Meta, ClickHouse, GitBook, Attio, Qonto, Doctolib,
+Le Monde, Redis, MUI and Mermaid ([customers](https://argos-ci.com/customers)).
 
 ## Pricing
 
