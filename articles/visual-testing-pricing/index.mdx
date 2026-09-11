@@ -18,7 +18,7 @@ Every vendor's pricing page shows a monthly price next to a snapshot allowance. 
 
 Every platform bills on the same unit: a captured image (or snapshot) that gets stored and diffed. But each vendor defines that unit differently, and the definition changes your bill more than the list price does.
 
-- **Argos**: one screenshot = one file uploaded and stored for a build. That includes images from Playwright, Cypress, or Storybook, and also non-image files like Markdown, JSON, or HTML, since [Argos diffs any file](/visual-testing), not just pixels. Capture happens locally in your own test browser, so you decide exactly how many screenshots exist. ([argos-ci.com/pricing](https://argos-ci.com/pricing), as of July 2026)
+- **Argos**: one screenshot = one file uploaded and stored for a build. That includes images from Playwright, Cypress, or Storybook, and also non-image files like Markdown, JSON, or HTML, since [Argos diffs any file](/diff), not just pixels. Capture happens locally in your own test browser, so you decide exactly how many screenshots exist. ([argos-ci.com/pricing](https://argos-ci.com/pricing), as of July 2026)
 - **Chromatic**: one snapshot = one test capture, per browser, per viewport. Chromatic's [billing docs](https://www.chromatic.com/docs/billing/) state it plainly: "testing multiple viewports and browsers are also considered snapshots," and give the example of 2 tests × 10 builds × 2 browsers × 2 viewports = 80 snapshots. Accessibility checks add one more snapshot per test.
 - **Percy**: your test uploads DOM, CSS, and assets, and Percy re-renders them in its cloud across every width and browser you configure in `.percy.yml`. Each rendered combination is a snapshot. The multiplication happens server-side, after your test finishes.
 - **Applitools**: bills in "Test Units," an abstraction that maps to monthly active tests or pages depending on the product. There is no public conversion rate to compare against.
@@ -39,7 +39,7 @@ Each factor deserves a hard look:
 2. **Viewports.** Testing mobile + desktop doubles everything. Three breakpoints triples it.
 3. **Browsers.** On Chromatic and Percy, each browser multiplies the count again. On Argos, you only pay for extra browsers if you actually run your tests in them (extra Playwright projects, for example).
 4. **Builds per month.** Every push to an open PR triggers a build. An active team easily runs 20–40 visual builds per month per project. Force-pushes and CI re-runs count too.
-5. **Retries.** Flaky tests that retry can re-capture screenshots. Argos shows [Playwright retries separately](/test-debugging) so they don't pollute your review, and [stabilizing your screenshots](/blog/fix-flaky-visual-tests) keeps retry volume down on any platform.
+5. **Retries.** Flaky tests that retry can re-capture screenshots. Argos shows [Playwright retries separately](/stabilize#debug) so they don't pollute your review, and [stabilizing your screenshots](/blog/fix-flaky-visual-tests) keeps retry volume down on any platform.
 
 Caps and overage matter just as much. When you exceed your allowance, Chromatic charges $0.008 per extra snapshot and Argos charges $0.004 per extra screenshot ($0.0015 for Storybook screenshots). Both let you keep shipping. Argos additionally lets you set a budget limit so a runaway CI loop can't surprise you at the end of the month.
 

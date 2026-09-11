@@ -61,19 +61,19 @@ export const FEATURE_DEFINITIONS: FeatureDefinition[] = [
     key: "snapshotTesting",
     title: "Snapshot testing for any file",
     description: "Diff Markdown, JSON, HTML and more, not just images",
-    href: "/visual-testing",
+    href: "/diff",
   },
   {
     key: "deployments",
     title: "Deployments & PR previews",
     description: "Host Storybook or any static build on a live URL",
-    href: "/deployments",
+    href: "/deploy",
   },
   {
     key: "collaborativeReviews",
     title: "Collaborative reviews",
     description: "Pinned comments, threads, reactions, real-time presence",
-    href: "/collaborative-reviews",
+    href: "/review",
   },
   {
     key: "agentReady",
@@ -85,7 +85,7 @@ export const FEATURE_DEFINITIONS: FeatureDefinition[] = [
     key: "playwrightDebugging",
     title: "Playwright debugging",
     description: "Playwright trace viewer and failure screenshots",
-    href: "/test-debugging",
+    href: "/stabilize#debug",
   },
   {
     key: "playwrightTestRetries",

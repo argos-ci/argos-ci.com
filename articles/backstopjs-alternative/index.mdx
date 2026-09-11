@@ -58,20 +58,20 @@ If two or more of those stopped being true this year, you have outgrown it.
 
 ## The upgrade path: keep open source, add the review workflow
 
-[Argos](/visual-testing) is the natural next step because it does not ask you to give up the things that made you pick BackstopJS. The SDKs and platform code are open source ([github.com/argos-ci](https://github.com/argos-ci)), and screenshots are captured **locally, in the real browser your tests already run**, then uploaded for diffing and review. There is no cloud re-rendering step.
+[Argos](/diff) is the natural next step because it does not ask you to give up the things that made you pick BackstopJS. The SDKs and platform code are open source ([github.com/argos-ci](https://github.com/argos-ci)), and screenshots are captured **locally, in the real browser your tests already run**, then uploaded for diffing and review. There is no cloud re-rendering step.
 
 What changes is everything downstream of the capture:
 
-|                 | Argos                                                                        | BackstopJS                          |
-| --------------- | ---------------------------------------------------------------------------- | ----------------------------------- |
-| Price           | Free up to 5k screenshots/mo, then [$100/mo flat](/pricing)                  | Free                                |
-| Open source     | ✔️                                                                           | ✔️                                  |
-| Baselines       | Automatic, from Git history                                                  | PNGs committed to your repo         |
-| Review          | [Collaborative web UI](/collaborative-reviews): comments, threads, approvals | `backstop approve` on one machine   |
-| PR integration  | GitHub/GitLab statuses and comments built in                                 | DIY from an HTML report             |
-| Flake handling  | SDK waits for fonts, images, network idle; per-screenshot thresholds         | Manual `delay` and threshold tuning |
-| Maintenance     | Actively developed                                                           | Last release Sept 2024              |
-| Parallelization | Unlimited, included                                                          | You manage it                       |
+|                 | Argos                                                                | BackstopJS                          |
+| --------------- | -------------------------------------------------------------------- | ----------------------------------- |
+| Price           | Free up to 5k screenshots/mo, then [$100/mo flat](/pricing)          | Free                                |
+| Open source     | ✔️                                                                   | ✔️                                  |
+| Baselines       | Automatic, from Git history                                          | PNGs committed to your repo         |
+| Review          | [Collaborative web UI](/review): comments, threads, approvals        | `backstop approve` on one machine   |
+| PR integration  | GitHub/GitLab statuses and comments built in                         | DIY from an HTML report             |
+| Flake handling  | SDK waits for fonts, images, network idle; per-screenshot thresholds | Manual `delay` and threshold tuning |
+| Maintenance     | Actively developed                                                   | Last release Sept 2024              |
+| Parallelization | Unlimited, included                                                  | You manage it                       |
 
 Baselines from Git history deserve a callout because it removes the single most annoying part of BackstopJS at scale: Argos looks at your branch's merge base and picks the approved screenshots from that commit as the baseline. No reference folder, no baseline drift between branches, no "regenerate references" PR noise. The [stabilization built into the SDKs](/blog/screenshot-stabilization) replaces most of the `delay` tuning, and each screenshot can still get its own sensitivity threshold when needed.
 
@@ -129,7 +129,7 @@ You immediately get Git-history baselines, the review UI, and PR statuses on top
 
 ## Verdict
 
-BackstopJS earned its reputation and still deserves it for solo, offline, or zero-budget use. But in 2026 it is a maintenance-mode tool with a single-machine review model, and teams feel that every week in baseline churn and manual flake tuning. Argos keeps the parts worth keeping, open source and local capture, and replaces the parts that do not scale with Git-history baselines, PR statuses, and a [collaborative review workflow](/collaborative-reviews). With a free tier of 5,000 screenshots per month, trying the migration costs you an afternoon, not a budget line.
+BackstopJS earned its reputation and still deserves it for solo, offline, or zero-budget use. But in 2026 it is a maintenance-mode tool with a single-machine review model, and teams feel that every week in baseline churn and manual flake tuning. Argos keeps the parts worth keeping, open source and local capture, and replaces the parts that do not scale with Git-history baselines, PR statuses, and a [collaborative review workflow](/review). With a free tier of 5,000 screenshots per month, trying the migration costs you an afternoon, not a budget line.
 
 ## FAQ
 

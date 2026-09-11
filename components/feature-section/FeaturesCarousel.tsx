@@ -3,7 +3,7 @@
 import clsx from "clsx";
 import { ChevronRightIcon } from "lucide-react";
 import Link from "next/link";
-import { cloneElement, useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { useInViewport } from "@/components/useInViewport";
 
@@ -11,7 +11,8 @@ import { BORDER_BG_COLORS, type FeatureColor, TEXT_COLORS } from "./colors";
 
 export type Feature = {
   key: string;
-  icon: React.ReactElement<{ className?: string; strokeWidth: number }>;
+  /** An icon element, e.g. `<ScanEyeIcon />`; sized by the carousel. */
+  icon: React.ReactElement;
   title: string;
   text: string;
   main: React.ReactNode;
@@ -73,9 +74,12 @@ export function FeaturesCarousel(props: {
   }
   return (
     <div ref={ref} className="border-y bg-subtle">
-      <div className="relative h-60 overflow-hidden sm:h-110">
-        <div className="relative size-full">
-          <div className="size-full mask-intersect max-sm:mask-[linear-gradient(black_70%,transparent),linear-gradient(90deg,transparent,black_20%,black_80%,transparent)]">
+      {/* Desktop: a fixed-height band, panels absolutely stacked. Mobile: the
+          panels share one grid cell, so the band is as tall as the tallest
+          illustration and none of them is cropped. */}
+      <div className="relative overflow-hidden max-sm:grid max-sm:grid-cols-[minmax(0,1fr)] sm:h-110">
+        <div className="relative max-sm:col-start-1 max-sm:row-start-1 max-sm:grid max-sm:min-w-0 max-sm:grid-cols-[minmax(0,1fr)] sm:size-full">
+          <div className="max-sm:col-start-1 max-sm:row-start-1 max-sm:grid max-sm:min-w-0 max-sm:grid-cols-[minmax(0,1fr)] sm:size-full">
             {features.map((feature, index) => {
               return (
                 <FeaturePanel
@@ -119,10 +123,13 @@ export function FeaturesCarousel(props: {
               {isCurrent && !isStopped && (
                 <Progress color={color} start={start} />
               )}
-              {cloneElement(feature.icon, {
-                className: "size-5",
-                strokeWidth: 1.5,
-              })}
+              {/* Rendered as a child, not cloned: the icon element is created
+                  by a server component, and React Flight may hand it to this
+                  client component as a lazy reference, which `cloneElement`
+                  would turn into an element with an undefined type. */}
+              <span aria-hidden className="[&>svg]:size-5 [&>svg]:stroke-[1.5]">
+                {feature.icon}
+              </span>
               <div className="mt-2 mb-3 font-medium">{feature.title}</div>
               <p className="text-low">{feature.text}</p>
               <Link
@@ -178,13 +185,13 @@ function FeaturePanel(props: {
           "--direction": direction,
         } as React.CSSProperties
       }
-      className="absolute inset-0 flex items-center justify-center transition-[opacity,translate] duration-300 data-[current=false]:pointer-events-none data-[current=false]:translate-x-[calc(var(--direction)*50%)] data-[current=false]:opacity-0"
+      className="flex items-center justify-center transition-[opacity,translate] duration-300 data-[current=false]:pointer-events-none data-[current=false]:translate-x-[calc(var(--direction)*50%)] data-[current=false]:opacity-0 max-sm:col-start-1 max-sm:row-start-1 max-sm:min-w-0 max-sm:px-4 max-sm:py-6 sm:absolute sm:inset-0"
     >
       <div
         key={mountKey}
         role="presentation"
         className={clsx(
-          "absolute inset-0 flex cursor-default items-center justify-center select-none",
+          "flex min-w-0 cursor-default items-center justify-center select-none max-sm:w-full sm:absolute sm:inset-0",
           mountKey >= 1 ? null : "opacity-0",
         )}
       >

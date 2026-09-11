@@ -123,7 +123,7 @@ export default function Page() {
             <MediaFlow />
           </div>
           <p className="mt-8 container-gutter text-center text-sm text-low">
-            This example is live —{" "}
+            This example is live:{" "}
             <TextLink
               href={LIVE_EXAMPLE_PR_URL}
               target="_blank"
@@ -282,25 +282,25 @@ export default function Page() {
             icon={BotIcon}
           />
           <FeatureGridFeatureSmall
-            title="Collaborative reviews"
+            title="Review"
             description={
               <>
                 Media comments use the same review grammar as builds: pinned
                 threads, mentions, reactions, and resolution.
               </>
             }
-            href="/collaborative-reviews"
+            href="/review"
             icon={MessagesSquareIcon}
           />
           <FeatureGridFeatureSmall
-            title="Change detection"
+            title="Diff"
             description={
               <>
-                Visual testing flags the changes nobody intended; media shows
-                the one you did. Both land on the same pull request.
+                Diffs flag the changes nobody intended; media shows the one you
+                did. Both land on the same pull request.
               </>
             }
-            href="/visual-testing"
+            href="/diff"
             icon={WorkflowIcon}
           />
         </Container>

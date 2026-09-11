@@ -22,7 +22,7 @@ Three terms get used interchangeably, and they shouldn't be:
 - **Visual regression testing** is the goal: prevent unintended visual changes from shipping. Screenshot testing is the most common way to do it, but the term describes the outcome, not the mechanism.
 - **Snapshot testing** is the broadest term: serialize _any_ output — a Jest DOM tree, a JSON payload, an HTML fragment — and diff it against a stored reference. Jest snapshot tests are snapshot testing without any pixels involved.
 
-In practice, the boundaries blur. [Argos](/visual-testing) started as a screenshot testing platform but diffs **any file**: upload Markdown, JSON, or HTML snapshots alongside your screenshots and review text diffs and image diffs in the same build. That's snapshot testing and screenshot testing under one review workflow, which matters once your team tests LLM outputs, generated configs, or API responses next to UI states.
+In practice, the boundaries blur. [Argos](/diff) started as a screenshot testing platform but diffs **any file**: upload Markdown, JSON, or HTML snapshots alongside your screenshots and review text diffs and image diffs in the same build. That's snapshot testing and screenshot testing under one review workflow, which matters once your team tests LLM outputs, generated configs, or API responses next to UI states.
 
 For this guide, "screenshot testing" means image-based comparison. Everything below applies to visual regression testing too.
 
@@ -90,7 +90,7 @@ The standard pattern, on any CI provider:
 1. Run your test suite (Playwright, Cypress, Storybook) as usual; the Argos SDK collects screenshots during the run.
 2. The SDK uploads them at the end of the run — parallel shards are supported and [unlimited parallelization is included](/pricing), so you don't restructure your pipeline.
 3. Argos compares against the baseline build and posts a **commit status** on the PR: green if nothing changed, pending if diffs need review.
-4. Reviewers approve or reject diffs in the Argos UI (with [comments and threads](/collaborative-reviews) for anything ambiguous). Approval flips the status to green and unblocks the merge.
+4. Reviewers approve or reject diffs in the Argos UI (with [comments and threads](/review) for anything ambiguous). Approval flips the status to green and unblocks the merge.
 
 That's the whole contract: visual changes block the merge until a human approves them, exactly like a code review. On GitHub, Argos supports OIDC authentication and partial re-runs of GitHub Actions jobs; GitLab is supported too. Setup is one SDK install plus a token — the [getting started guide](/docs/quickstart) covers each framework.
 

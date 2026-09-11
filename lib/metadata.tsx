@@ -3,10 +3,10 @@ import { Metadata } from "next";
 import { getMarkdownPath } from "./markdown-pages";
 import { type OgImageParams, getOgImageUrl } from "./og-image";
 
-export const defaultTitle = "Argos · Product quality for the age of AI agents";
+export const defaultTitle = "Argos · Visual testing for every pull request";
 
 export const defaultDescription =
-  "Argos keeps product quality high while your team and your agents ship faster. See every change a PR makes, whether pixels, Markdown, or JSON, review it with confidence, and deploy every PR. Visual & snapshot testing for Playwright and Storybook.";
+  "Visual and snapshot testing for Playwright, Storybook and Vitest. Argos deploys a preview of every pull request, diffs screenshots and any other file, gives humans and AI agents one place to approve what changed, and kills flaky tests.";
 
 /**
  * The `alternates` of a page: its canonical URL, plus the markdown

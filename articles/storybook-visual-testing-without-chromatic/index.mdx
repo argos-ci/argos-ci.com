@@ -35,7 +35,7 @@ On pricing, the comparison is direct (as of July 2026):
 | Paid entry                  | $100/month flat, 35,000 screenshots included             | $179/month                                     |
 | Extra Storybook screenshots | $0.0015 each                                             | Snapshot billing grows with viewports/browsers |
 | Capture model               | Local, in your CI browser                                | Chromatic's cloud infrastructure               |
-| Deployments / PR previews   | [Any static build](/deployments) (Storybook, docs, apps) | Storybook only                                 |
+| Deployments / PR previews   | [Any static build](/deploy) (Storybook, docs, apps)      | Storybook only                                 |
 | Parallelization             | Unlimited, included                                      | —                                              |
 | Open source                 | Yes ([github.com/argos-ci](https://github.com/argos-ci)) | No                                             |
 
@@ -105,7 +105,7 @@ Every story is captured automatically when the tests run. In CI, two commands do
     ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }}
 ```
 
-That `argos deploy` step is worth pausing on: Argos hosts your built Storybook on a unique preview URL for every pull request, so reviewers browse the actual components, not just diffs. Chromatic offers this for Storybook only; Argos [deployments](/deployments) host any static build, so the same feature covers your docs site or a static app build. Under the hood, the Argos SDK also waits for fonts, images, and network idle before each capture, which kills most flakiness at the source ([more on stabilization](/blog/screenshot-stabilization)).
+That `argos deploy` step is worth pausing on: Argos hosts your built Storybook on a unique preview URL for every pull request, so reviewers browse the actual components, not just diffs. Chromatic offers this for Storybook only; Argos [deployments](/deploy) host any static build, so the same feature covers your docs site or a static app build. Under the hood, the Argos SDK also waits for fonts, images, and network idle before each capture, which kills most flakiness at the source ([more on stabilization](/blog/screenshot-stabilization)).
 
 If you're on the Storybook test-runner rather than Vitest, the setup is just as supported: see our [Storybook + GitHub Actions guide](/blog/storybook-github-actions). And if you're migrating an existing Chromatic project, the [Chromatic migration guide](/docs/learn/how-to-guides/migrate-to-argos/from-chromatic) walks through it step by step.
 

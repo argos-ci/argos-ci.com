@@ -173,7 +173,7 @@ jobs:
 
 `ARGOS_TOKEN` is your project token from **Settings → General → Token**. On GitHub Actions you can also use [OIDC](/docs/learn/integrations/github-oidc-authentication) or [tokenless authentication](/docs/learn/integrations/github-tokenless-authentication) and skip the secret entirely.
 
-Push a pull request and you're done: Argos picks the baseline from your Git history, computes stabilized diffs, and posts a check on the PR. Your team reviews changes in the Argos UI — with [comments, threads, and multiple reviewers](/collaborative-reviews) — and approves or rejects with a click. Run your reference branch once first so there's a baseline to compare against.
+Push a pull request and you're done: Argos picks the baseline from your Git history, computes stabilized diffs, and posts a check on the PR. Your team reviews changes in the Argos UI — with [comments, threads, and multiple reviewers](/review) — and approves or rejects with a click. Run your reference branch once first so there's a baseline to compare against.
 
 ## How it compares to `toMatchScreenshot`
 
@@ -183,7 +183,7 @@ Vitest's built-in assertion is a great fit for a solo project with a handful of 
 | -------------------- | ----------------------------------- | -------------------------------------------------------------------------- |
 | Baselines            | PNGs committed to Git               | Auto-selected from Git history, stored in Argos                            |
 | Cross-OS consistency | Manual (Docker or CI-only updates)  | Baselines always come from CI                                              |
-| Review workflow      | None (files on disk)                | PR checks, visual diff UI, [collaborative reviews](/collaborative-reviews) |
+| Review workflow      | None (files on disk)                | PR checks, visual diff UI, [collaborative reviews](/review)                |
 | Approving a change   | Re-run with `--update`, commit PNGs | Click "Approve" on the pull request                                        |
 | Beyond screenshots   | —                                   | Snapshot any value: JSON, HTML, Markdown, YAML…                            |
 | Cost                 | Free                                | Free up to 5,000 screenshots/month, then [$100/mo flat Pro plan](/pricing) |

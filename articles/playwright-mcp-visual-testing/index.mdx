@@ -69,7 +69,7 @@ None of this is a flaw in Playwright MCP. It was built for live browsing, and it
 
 The complement is [visual testing](/blog/what-is-visual-testing) in CI: capture screenshots of every critical state in your test suite, on every pull request, and diff them pixel by pixel against baselines from your main branch. Same pages, same viewports, every time, regardless of what the agent thought to check.
 
-With [Argos](/visual-testing), this fits the agent workflow without extra infrastructure:
+With [Argos](/diff), this fits the agent workflow without extra infrastructure:
 
 - Screenshots are captured **locally, in the real browser your Playwright tests already run**, then uploaded for diffing. What your test rendered is exactly what gets diffed, with no cloud re-rendering step.
 - Baselines are selected automatically from Git history. No manual baseline management per branch.

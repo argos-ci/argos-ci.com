@@ -119,7 +119,7 @@ None of this is a knock on Vitest. `toMatchScreenshot` is well designed for its 
 
 ## Scaling Vitest visual testing with Argos
 
-[Argos](/visual-testing) flips the model: screenshots are still captured locally, in the real browser your Vitest tests already run, but they are uploaded to Argos instead of committed to Git. Argos picks the baseline automatically from your Git history, computes stabilized diffs, and posts the result on your pull request where [your team reviews and approves changes](/collaborative-reviews) with a click. No PNGs in the repo, no `--update` round-trips, no OS mismatch between your laptop and CI because baselines always come from CI builds.
+[Argos](/diff) flips the model: screenshots are still captured locally, in the real browser your Vitest tests already run, but they are uploaded to Argos instead of committed to Git. Argos picks the baseline automatically from your Git history, computes stabilized diffs, and posts the result on your pull request where [your team reviews and approves changes](/review) with a click. No PNGs in the repo, no `--update` round-trips, no OS mismatch between your laptop and CI because baselines always come from CI builds.
 
 There are two ways to plug Argos into a Vitest setup, depending on whether you use Storybook.
 
@@ -203,7 +203,7 @@ Here is the honest comparison. Local `toMatchScreenshot` is free, has zero exter
 | Baselines            | PNGs committed to Git               | Auto-selected from Git history, stored in Argos                            |
 | Cross-OS consistency | Manual (Docker or CI-only updates)  | Baselines always from CI                                                   |
 | Review workflow      | None (files on disk)                | PR checks, visual diff UI, one-click approval                              |
-| Team collaboration   | Merge conflicts on images           | [Threads, comments, review states](/collaborative-reviews)                 |
+| Team collaboration   | Merge conflicts on images           | [Threads, comments, review states](/review)                                |
 | Approving a change   | Re-run with `--update`, commit PNGs | Click "Approve" in the PR                                                  |
 | Cost                 | Free                                | Free up to 5,000 screenshots/month, then [$100/mo flat Pro plan](/pricing) |
 

@@ -83,9 +83,37 @@ const nextConfig: NextConfig = {
         destination: "/changelog/2025-07-20-ignore-changes",
         permanent: false,
       },
+      // The 2026 information-architecture rework: the old feature pages
+      // became the four pillars. Destinations are final (308s are cached by
+      // browsers) and never chain (/playwright goes straight to /diff).
       {
         source: "/playwright",
-        destination: "/visual-testing",
+        destination: "/diff",
+        permanent: true,
+      },
+      {
+        source: "/visual-testing",
+        destination: "/diff",
+        permanent: true,
+      },
+      {
+        source: "/deployments",
+        destination: "/deploy",
+        permanent: true,
+      },
+      {
+        source: "/collaborative-reviews",
+        destination: "/review",
+        permanent: true,
+      },
+      {
+        source: "/flaky-management",
+        destination: "/stabilize",
+        permanent: true,
+      },
+      {
+        source: "/test-debugging",
+        destination: "/stabilize#debug",
         permanent: true,
       },
       {

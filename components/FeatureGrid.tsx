@@ -86,12 +86,21 @@ export function FeatureGridFeatureSmall(props: {
   description: React.ReactNode;
   href: string;
   icon: LucideIcon;
+  /** Tint for the icon; defaults to the primary colour. */
+  iconClassName?: string;
   cta?: React.ReactNode;
 }) {
-  const { title, description, href, icon: Icon, cta = "Learn more" } = props;
+  const {
+    title,
+    description,
+    href,
+    icon: Icon,
+    iconClassName = "text-(--primary-10)",
+    cta = "Learn more",
+  } = props;
   return (
     <div className="flex flex-col items-start gap-2 p-8 text-left text-sm lg:px-9 lg:py-10">
-      <Icon className="size-4 text-(--primary-10)" />
+      <Icon className={clsx("size-4", iconClassName)} />
       <div>
         <h3 className="mb-1 font-semibold">{title}</h3>
         <p className="font-[450] text-low">{description}</p>

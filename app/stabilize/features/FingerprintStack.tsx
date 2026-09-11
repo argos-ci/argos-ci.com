@@ -1,0 +1,111 @@
+import clsx from "clsx";
+import { BotIcon, EyeOffIcon, FingerprintIcon } from "lucide-react";
+
+import { Card } from "@/components/Card";
+import { Chip } from "@/components/Chip";
+
+const FINGERPRINT = "a91c…4e07";
+
+const builds = [
+  {
+    screenshot: "cart-page.png",
+    build: "#1842 · main",
+    by: null,
+    variant: "warning" as const,
+    icon: EyeOffIcon,
+  },
+  {
+    screenshot: "cart-page.png",
+    build: "#1843 · main",
+    by: "Auto",
+    variant: "primary" as const,
+    icon: BotIcon,
+  },
+];
+
+/**
+ * The same change on two consecutive builds: ignored by hand on the first,
+ * recognized by its fingerprint and ignored automatically on the next. What
+ * Argos stores is the test plus the fingerprint, never the screenshot.
+ */
+export function FingerprintStack() {
+  return (
+    <div className="relative mx-auto w-full">
+      {builds.map((build, index) => (
+        <BuildCard key={build.build} elevation={index} {...build} />
+      ))}
+    </div>
+  );
+}
+
+function BuildCard(props: {
+  screenshot: string;
+  build: string;
+  by: string | null;
+  variant: "warning" | "primary";
+  icon: typeof EyeOffIcon;
+  elevation: number;
+}) {
+  const { screenshot, build, by, variant, icon: Icon, elevation } = props;
+  return (
+    <Card
+      shadow="high"
+      className={clsx(
+        "relative flex flex-col gap-2 border px-3 py-3",
+        {
+          warning: "border-(--amber-6) bg-(--amber-2)",
+          primary: "border-(--primary-6) bg-(--primary-2)",
+        }[variant],
+        elevation === 0 && "scale-95",
+        elevation === 1 && "translate-y-2",
+      )}
+    >
+      <div className="flex items-center justify-between gap-2 text-xxs font-semibold text-(--neutral-12)">
+        <span className="truncate">{screenshot}</span>
+        <Chip
+          icon={Icon}
+          variant={variant}
+          className="text-[0.65rem] leading-tight"
+        >
+          Ignored
+          {by ? <span className="text-(--neutral-11)"> · {by}</span> : null}
+        </Chip>
+      </div>
+
+      <MiniDiffStack />
+
+      <div className="flex items-center justify-between gap-2 text-xxs font-medium text-(--neutral-11)">
+        <span>Build {build}</span>
+        <span className="inline-flex items-center gap-1 font-mono">
+          <FingerprintIcon className="size-3" />
+          {FINGERPRINT}
+        </span>
+      </div>
+    </Card>
+  );
+}
+
+function MiniDiffStack() {
+  return (
+    <div className="space-y-1 rounded-lg border bg-app p-2">
+      <DiffRow emphasis="high" />
+      <DiffRow emphasis="med" />
+    </div>
+  );
+}
+
+function DiffRow(props: { emphasis: "high" | "med" | "low" }) {
+  const diffTone = {
+    high: "bg-(--primary-9)/16 border-(--primary-9)/30",
+    med: "bg-(--primary-9)/12 border-(--primary-9)/24",
+    low: "bg-(--primary-9)/10 border-(--primary-9)/20",
+  }[props.emphasis];
+
+  return (
+    <div className="flex items-center gap-2 rounded border-[0.5px] px-2 py-1.5">
+      <div className="h-2 w-8 shrink-0 rounded border-[0.5px] bg-(--neutral-4)/60" />
+      <div className="h-2 w-[62%] rounded bg-(--neutral-4)" />
+      <div className={clsx("h-2 w-12 shrink-0 rounded border", diffTone)} />
+    </div>
+  );
+}

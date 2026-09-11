@@ -4,20 +4,17 @@ import clsx from "clsx";
 import {
   BookIcon,
   BotIcon,
-  BugPlayIcon,
   ChevronDownIcon,
-  EyeIcon,
   FeatherIcon,
   ImageUpIcon,
   LogsIcon,
   type LucideIcon,
   MailIcon,
   MessageCircleIcon,
-  MessagesSquareIcon,
-  RocketIcon,
+  PlugIcon,
   ShieldCheckIcon,
+  SparklesIcon,
   UsersIcon,
-  WavesIcon,
 } from "lucide-react";
 import NextLink from "next/link";
 import * as React from "react";
@@ -27,9 +24,17 @@ import { Button } from "@/components/Button";
 import { type FeatureColor } from "@/components/feature-section/colors";
 import { Navbar } from "@/components/Navbar";
 import { OpenArgosButton } from "@/components/OpenArgosButton";
+import { PILLAR_ICONS } from "@/components/pillar-icons";
 import { ThemeImage, type ThemeImageProps } from "@/components/ThemeImage";
+import { PILLARS } from "@/lib/pillars";
 
-import { cypress, playwright, storybook, wdio } from "./assets/brands/library";
+import {
+  cypress,
+  playwright,
+  storybook,
+  vitest,
+  wdio,
+} from "./assets/brands/library";
 import { trackSignupClick } from "./google-ads";
 
 export const AppNavbar: React.FC = () => {
@@ -90,42 +95,49 @@ function SecondaryNavbar() {
           <NavigationMenu.Content className={contentClassName}>
             <div className="flex max-md:flex-col md:divide-x">
               <Section>
-                <SectionTitle>Features</SectionTitle>
+                <SectionTitle>Platform</SectionTitle>
+                <SectionList>
+                  {/* The four pillars, in the order visitors come for them
+                      (see lib/pillars.ts). */}
+                  {PILLARS.map((pillar) => (
+                    <li key={pillar.slug}>
+                      <LinkCard
+                        href={pillar.href}
+                        icon={PILLAR_ICONS[pillar.slug]}
+                        color={pillar.color}
+                        title={pillar.name}
+                        description={pillar.short}
+                      />
+                    </li>
+                  ))}
+                </SectionList>
+              </Section>
+              <Section>
+                <SectionTitle>For AI agents</SectionTitle>
                 <SectionList>
                   <li>
                     <LinkCard
-                      href="/visual-testing"
-                      icon={EyeIcon}
-                      color="blue"
-                      title="Change Detection"
-                      description="See every change: pixels or any file"
+                      href="/ai-agents"
+                      icon={BotIcon}
+                      color="violet"
+                      title="For AI Agents"
+                      description="MCP server, CLI, skills, and REST API"
                     />
                   </li>
                   <li>
                     <LinkCard
-                      href="/deployments"
-                      icon={RocketIcon}
-                      color="teal"
-                      title="Deployments"
-                      description="Preview Storybook on every PR"
+                      href="/docs/agents/mcp-server"
+                      icon={PlugIcon}
+                      title="MCP server"
+                      description="Claude Code, Cursor, Copilot, Codex"
                     />
                   </li>
                   <li>
                     <LinkCard
-                      href="/flaky-management"
-                      icon={WavesIcon}
-                      color="amber"
-                      title="Flaky Management"
-                      description="Keep your CI signal clean"
-                    />
-                  </li>
-                  <li>
-                    <LinkCard
-                      href="/test-debugging"
-                      icon={BugPlayIcon}
-                      color="teal"
-                      title="Test Debugging"
-                      description="See why E2E tests fail"
+                      href="/docs/agents/agent-skills"
+                      icon={SparklesIcon}
+                      title="Agent skills"
+                      description="Teach your agent the Argos CLI"
                     />
                   </li>
                   <li>
@@ -135,29 +147,6 @@ function SecondaryNavbar() {
                       color="plum"
                       title="Media Sharing"
                       description="Screenshots & recordings on PRs"
-                    />
-                  </li>
-                </SectionList>
-              </Section>
-              <Section>
-                <SectionTitle>Use cases</SectionTitle>
-                <SectionList>
-                  <li>
-                    <LinkCard
-                      href="/ai-agents"
-                      icon={BotIcon}
-                      color="violet"
-                      title="For AI Agents"
-                      description="100% agent-ready CLI & API"
-                    />
-                  </li>
-                  <li>
-                    <LinkCard
-                      href="/collaborative-reviews"
-                      icon={MessagesSquareIcon}
-                      color="blue"
-                      title="Collaborative Reviews"
-                      description="Review together, in real time"
                     />
                   </li>
                 </SectionList>
@@ -184,6 +173,13 @@ function SecondaryNavbar() {
                       href="/docs/quickstart/cypress-quickstart"
                       icon={{ src: cypress.logo }}
                       title="Cypress"
+                    />
+                  </li>
+                  <li>
+                    <LinkCard
+                      href="/docs/quickstart/vitest-quickstart"
+                      icon={{ src: vitest.logo }}
+                      title="Vitest"
                     />
                   </li>
                   <li>
@@ -329,8 +325,7 @@ function SectionTitle(props: {
 }
 
 function SectionList(props: { children: React.ReactNode }) {
-  const { children } = props;
-  return <ul className="flex flex-col gap-1">{children}</ul>;
+  return <ul className="flex flex-col gap-1">{props.children}</ul>;
 }
 
 function Link(props: NavigationMenu.Link.Props & { href: string }) {
