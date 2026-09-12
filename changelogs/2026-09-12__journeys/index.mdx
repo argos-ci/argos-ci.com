@@ -1,0 +1,20 @@
+---
+title: Journeys
+homeTitle: Review a change against the journey it happened in
+description: The build review unfolds the journey a screenshot belongs to as a strip of steps, so you see where a change sits in the checkout, the signup or the onboarding your test walked.
+slug: journeys
+date: 2026-09-12
+image: /assets/changelogs/journeys/journeys.jpg
+---
+
+![The steps of a journey as a strip of thumbnails above a screenshot comparison](/assets/changelogs/journeys/journeys.jpg)
+
+A test walks a checkout and screenshots every screen on the way. The review showed each of them on its own: nothing said which journey a change belonged to, or where in it the change sat. **Journeys** put the path back together. The **Journey** button in the build toolbar unfolds the journey of the screenshot you are reviewing as a strip of steps.
+
+- **Nothing to configure**: a journey is the test that took the screenshot, each screen it captured is a step, and both come from metadata the SDKs already send.
+- **Every step, not only the ones that changed**: the screens that stayed identical are in the strip too, and the ones that need review carry a dot.
+- **`⇧` `←` and `⇧` `→`**: walk the steps from the keyboard, keeping the browser and the viewport you are on.
+
+Steps follow the order your test captured them in, which the latest Playwright, Cypress and Vitest SDKs record.
+
+Learn more in [Review a build](https://argos-ci.com/docs/learn/review-workflow/review-a-build#follow-a-journey-step-by-step).
