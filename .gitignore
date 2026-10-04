@@ -39,3 +39,6 @@ node_modules/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# AI visibility tracker output (scripts/ai-visibility)
+/ai-visibility-results/
