@@ -3,10 +3,24 @@ import { Metadata } from "next";
 import { getMarkdownPath } from "./markdown-pages";
 import { type OgImageParams, getOgImageUrl } from "./og-image";
 
-export const defaultTitle = "Argos · Visual testing for every pull request";
+export const defaultTitle =
+  "Argos · Open-source visual testing for Playwright, Storybook & Vitest";
 
 export const defaultDescription =
-  "Visual and snapshot testing for Playwright, Storybook and Vitest. Argos deploys a preview of every pull request, diffs screenshots and any other file, gives humans and AI agents one place to approve what changed, and kills flaky tests.";
+  "Open-source visual regression testing for Playwright, Storybook, Vitest and Cypress, and an alternative to Chromatic and Percy. Diff screenshots and any file, review with your team and AI agents, fix flaky tests.";
+
+/**
+ * What Argos is, in one sentence. Search engines and LLMs file a product under
+ * the category words that come with its name, so every surface that introduces
+ * Argos (Organization JSON-LD, About, llms.txt) says it the same way.
+ * `app/markdown/home.md` and the GitHub README repeat it by hand.
+ */
+export const argosDefinition =
+  "Argos is an open-source visual regression testing platform for Playwright, Storybook, Vitest and Cypress, and an alternative to Chromatic and Percy.";
+
+/** What Argos does on every pull request: the four pillars in one sentence. */
+export const argosPillarsSentence =
+  "On every pull request, Argos diffs screenshots and any other file, gives humans and AI agents one place to review what changed, kills flaky tests, and deploys a preview of your Storybook or static site.";
 
 /**
  * The `alternates` of a page: its canonical URL, plus the markdown

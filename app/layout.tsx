@@ -10,7 +10,12 @@ import { Organization } from "schema-dts";
 import { JsonLd } from "@/components/JsonLd";
 import { TooltipProvider } from "@/components/Tooltip";
 import { WebMcp } from "@/components/WebMcp";
-import { defaultDescription, defaultTitle } from "@/lib/metadata";
+import {
+  argosDefinition,
+  argosPillarsSentence,
+  defaultDescription,
+  defaultTitle,
+} from "@/lib/metadata";
 
 import "@/styles/globals.css";
 import "@/styles/highlight-js-github-dark.min.css";
@@ -48,7 +53,7 @@ const jsonLdOrganization: Organization = {
   logo: "https://argos-ci.com/logo.png",
   name: "Argos",
   legalName: "Argos by Smooth Code",
-  description: defaultDescription,
+  description: `${argosDefinition} ${argosPillarsSentence}`,
   email: "contact@argos-ci.com",
   contactPoint: { "@type": "ContactPoint", email: "contact@argos-ci.com" },
   address: {

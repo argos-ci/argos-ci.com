@@ -54,7 +54,7 @@ import { TestPageMetrics } from "./features/TestPageMetrics";
 export const metadata: Metadata = getMetadata({
   title: "Argos Stabilize",
   absoluteTitle:
-    "Argos Stabilize · Kill flakes and debug failures with full per-test history",
+    "Argos Stabilize · Fix flaky Playwright tests with full per-test history",
   subtitle: "Kill flakes and debug failures with full per-test history.",
   description:
     "Flakiness scores and change history per test, one-click ignore, Playwright traces and failure screenshots for every retry. Fix flaky tests, with or without AI.",

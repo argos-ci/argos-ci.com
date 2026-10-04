@@ -1,13 +1,13 @@
-# Argos: review the product, not just the code
+# Argos: open-source visual testing for Playwright, Storybook and Vitest
 
-> Visual testing for teams and AI agents. Argos makes visual changes obvious, so you spot regressions, request fixes, and merge with confidence. Everything is reachable from the CLI, the MCP server and the REST API, so AI agents use it end to end.
+> Argos is an open-source visual regression testing platform for Playwright, Storybook, Vitest and Cypress, and an alternative to Chromatic and Percy. It makes visual changes obvious to your team and your AI agents, so you spot regressions, request fixes, and merge with confidence. Everything is reachable from the CLI, the MCP server and the REST API, so AI agents use it end to end.
 
 Canonical: https://argos-ci.com/
 Machine-readable map: https://argos-ci.com/llms.txt
 
 ## What Argos does
 
-### 1. Diff: any file, not just pixels
+### 1. Diff: visual regression testing, pixels or any file
 
 - Deterministic pixel diffing with the open-source odiff engine (not AI), with
   capture defaults that wait for fonts and images, hide carets and scrollbars

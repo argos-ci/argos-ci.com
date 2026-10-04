@@ -60,10 +60,10 @@ const pillar = getPillar("diff");
 export const metadata: Metadata = getMetadata({
   title: "Argos Diff",
   absoluteTitle:
-    "Argos Diff · Visual and snapshot diffs for any file, not just pixels",
+    "Argos Diff · Visual regression testing for screenshots and any file",
   subtitle: pillar.description,
   description:
-    "Deterministic pixel diffs for screenshots, text diffs for Markdown, JSON, YAML, HTML and ARIA snapshots. Playwright, Storybook, Vitest, Cypress or the CLI.",
+    "Open-source visual regression testing for Playwright, Storybook, Vitest and Cypress: deterministic pixel diffs for screenshots, text diffs for Markdown, JSON, YAML, HTML and ARIA snapshots.",
   pathname: pillar.href,
 });
 
@@ -84,10 +84,11 @@ export default function Page() {
         title="Every change, diffed. Pixels or any file."
         description={
           <>
-            Deterministic pixel diffs for screenshots. Text diffs for Markdown,
-            JSON, YAML, HTML and ARIA snapshots. Every snapshot is compared to
-            the baseline Argos picks from your Git history, and every diff is
-            structured data your agents can read.
+            Visual regression testing for Playwright, Storybook, Vitest and
+            Cypress: deterministic pixel diffs for screenshots, text diffs for
+            Markdown, JSON, YAML, HTML and ARIA snapshots. Every snapshot is
+            compared to the baseline Argos picks from your Git history, and
+            every diff is structured data your agents can read.
           </>
         }
       />

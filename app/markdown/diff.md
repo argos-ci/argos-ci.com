@@ -1,6 +1,6 @@
 # Argos Diff: every change, diffed. Pixels or any file.
 
-> Deterministic pixel diffs for screenshots and text diffs for Markdown, JSON, YAML, HTML and ARIA snapshots, each compared to the baseline Argos picks from your Git history. Works with Playwright, Vitest, Storybook, Cypress, WebdriverIO and Puppeteer, or with any tool through the CLI. Every diff is structured data an agent can read.
+> Open-source visual regression testing: deterministic pixel diffs for screenshots and text diffs for Markdown, JSON, YAML, HTML and ARIA snapshots, each compared to the baseline Argos picks from your Git history. Works with Playwright, Vitest, Storybook, Cypress, WebdriverIO and Puppeteer, or with any tool through the CLI. Every diff is structured data an agent can read.
 
 Canonical: https://argos-ci.com/diff
 Documentation: https://argos-ci.com/docs/learn/platform-fundamentals/how-argos-detects-visual-differences
