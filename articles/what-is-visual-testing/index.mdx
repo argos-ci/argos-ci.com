@@ -4,8 +4,13 @@ description: "A clear guide to visual testing: what it is, why it matters, and b
 category: guides
 author: greg
 date: 2024-09-14
+updatedAt: 2026-10-05
 image: ./main.jpg
 imageAlt: "Abstract illustration of a lens examining a grid of screenshots with one highlighted difference"
+related:
+  - screenshot-testing-guide
+  - best-visual-regression-testing-tools
+  - fix-flaky-visual-tests
 ---
 
 In software development, ensuring a smooth and visually consistent user interface (UI) is crucial. This is where **visual testing** comes into play. Visual testing involves examining the UI of an application to detect visual discrepancies, unexpected changes, or layout issues that may negatively impact the user experience.
@@ -80,7 +85,7 @@ Several tools are available to facilitate visual testing:
 1. **Define Clear Baselines**: Establish a solid baseline to ensure that future comparisons are meaningful.
 2. **Integrate into CI/CD**: Automate visual testing as part of the CI/CD pipeline to catch visual issues as early as possible.
 3. **Regularly Review Changes**: Regularly review flagged changes to ensure that intended updates are accurately reflected.
-4. **Use AI-Powered Tools**: To reduce noise and false positives, use tools that leverage AI to focus on significant visual changes.
+4. **Stabilize before you compare**: Most false positives come from the capture, not the diff: fonts still loading, animations, carets, dates. Wait for the page to settle and mask what changes on every run, so a deterministic comparison only flags real changes. See [how to fix flaky visual tests](/blog/fix-flaky-visual-tests).
 
 ## Conclusion
 

@@ -7,6 +7,10 @@ date: 2026-09-01
 updatedAt: 2026-10-05
 image: ./main.jpg
 imageAlt: "Abstract illustration of cramped local baselines fanning out into a shared review panel"
+related:
+  - argos-vitest-sdk
+  - storybook-visual-testing-without-chromatic
+  - screenshot-testing-guide
 ---
 
 Vitest now supports visual testing natively: in [browser mode](https://vitest.dev/guide/browser/), the `toMatchScreenshot` assertion captures an element or the test page and compares it pixel by pixel against a baseline image committed to your repo. It works like Playwright's `toHaveScreenshot`, and it hits the same wall at team scale: committed baselines, OS rendering differences, and no review workflow. This guide covers the official setup, its limits, and how to scale it with Argos.

@@ -95,15 +95,26 @@ function seededRandom(seed: string) {
   };
 }
 
-async function Siblings({ slug }: { slug: string }) {
+async function Siblings(props: { slug: string; related?: string[] }) {
+  const { slug, related = [] } = props;
   const articles = await getArticles();
+  // Topical neighbours first (frontmatter `related`), skipping unpublished
+  // ones, then a stable random fill so every article still links three.
+  const curated = related.flatMap((relatedSlug) => {
+    const match = articles.find((article) => article.slug === relatedSlug);
+    return match ? [match] : [];
+  });
   const rand = seededRandom(slug);
-  const sideArticles = articles
-    .filter((article) => article.slug !== slug)
+  const fill = articles
+    .filter(
+      (article) =>
+        article.slug !== slug &&
+        !curated.some((item) => item.slug === article.slug),
+    )
     .map((value) => ({ value, sort: rand() }))
     .sort((a, b) => a.sort - b.sort)
-    .map(({ value }) => value)
-    .slice(0, 3);
+    .map(({ value }) => value);
+  const sideArticles = [...curated, ...fill].slice(0, 3);
   return (
     <div className="border-t px-4">
       <Container noGutter className="border-x pt-4 md:pt-8">
@@ -257,7 +268,7 @@ export default async function Page(props: Props) {
         <JsonLd json={jsonLd} />
         <JsonLd json={jsonLdBreadcrumbs} />
       </article>
-      <Siblings slug={article.slug} />
+      <Siblings slug={article.slug} related={article.related} />
       <CallToActionSection />
     </>
   );

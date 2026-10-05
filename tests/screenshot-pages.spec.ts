@@ -64,7 +64,7 @@ function runScreenshotTests(colorScheme?: "light" | "dark") {
   }
 
   test(`Screenshots for blog post ${textSuffix}`, async ({ page }) => {
-    await page.goto("/blog/visual-testing");
+    await page.goto("/blog/what-is-visual-testing");
     await screenshot(page, "blog-post-1", screenshotSuffix);
   });
 

@@ -7,6 +7,10 @@ date: 2026-07-16
 updatedAt: 2026-10-05
 image: ./main.jpg
 imageAlt: "Abstract illustration of three browser windows side by side with the rightmost one highlighted"
+related:
+  - percy-alternatives
+  - storybook-visual-testing-without-chromatic
+  - visual-testing-pricing
 ---
 
 Percy, Chromatic, and Argos all catch visual regressions, but they work very differently where it counts. Percy uploads your DOM and re-renders it in BrowserStack's cloud, with a free plan of 5,000 screenshots a month and paid plans quoted by sales. Chromatic captures your UI in its own cloud infrastructure, starting at $179/month for 35,000 snapshots. Argos diffs screenshots captured locally in the real browser your tests already run, for $100/month flat with 35,000 screenshots included. As of October 2026, **Argos is the best overall choice for most teams**: it is the cheapest of the published prices, the only open-source option of the three, and the only one that snapshots any file and hosts PR previews for any static build. Chromatic remains a strong pick for strictly Storybook-centric teams, and Percy makes sense if you are already committed to the BrowserStack ecosystem.

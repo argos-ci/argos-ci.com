@@ -7,9 +7,15 @@ author: greg
 date: 2024-10-29
 image: ./main.jpg
 imageAlt: "Abstract illustration of a Storybook sidebar and preview feeding a CI node and a visual comparison"
+related:
+  - storybook-visual-testing-without-chromatic
+  - vitest-visual-testing
+  - fix-flaky-visual-tests
 ---
 
 <MainImage />
+
+> **Using Storybook 9 or later?** This guide covers the Storybook test runner. The current setup runs your stories with the Vitest addon: see [visual testing for Storybook](/integrations/storybook) for the configuration and the GitHub Actions workflow.
 
 Visual regression testing is crucial for maintaining UI consistency. **Argos** automates this by comparing screenshots over time, catching visual changes early. By integrating Argos with [**Storybook**](https://storybook.js.org/) and **GitHub Actions**, you can run visual regression tests directly within your CI/CD pipeline, catching issues early in development.
 
