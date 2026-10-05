@@ -1,136 +1,43 @@
 import { FAQAccordion, FAQQuestion } from "@/components/FAQAccordion";
-import { Link } from "@/components/Link";
+import { faq } from "@/components/InlineMarkdown";
+import {
+  ARGOS_PRO_FLAT_PRICE,
+  ARGOS_PRO_FLAT_SCREENSHOT_COUNT,
+  ARGOS_SCREENSHOT_PRICE,
+  ARGOS_STORYBOOK_SCREENSHOT_PRICE,
+} from "@/lib/constants";
+
+const included = ARGOS_PRO_FLAT_SCREENSHOT_COUNT.toLocaleString("en-US");
 
 export const CHROMATIC_QUESTIONS: FAQQuestion[] = [
-  {
-    name: "What is the difference between a snapshot and a screenshot?",
-    answer: (
-      <>
-        <p>
-          <strong>Chromatic</strong> uses snapshots generated from Storybook
-          stories and renders them in cloud browsers. This method ensures
-          consistency but can sometimes result in minor variations, especially
-          with dynamic content.
-        </p>
-        <p>
-          <strong>Argos</strong> works by comparing screenshots sent by the
-          user. If a difference is detected, you can easily update your test to
-          avoid false positives.
-        </p>
-      </>
-    ),
-    textAnswer:
-      "Chromatic uses snapshots generated from Storybook stories and renders them in cloud browsers. This method ensures consistency but can sometimes result in minor variations, especially with dynamic content. Argos works by comparing screenshots sent by the user. If a difference is detected, you can easily update your test to avoid false positives.",
-  },
-  {
-    name: "Are Chromatic tests flaky?",
-    answer: (
-      <>
-        <p>
-          Flaky tests are a significant issue in visual testing, and each
-          product has its own way of addressing this problem.
-        </p>
-        <p>
-          <strong>Chromatic</strong> uses a combination of techniques to
-          minimize flakiness, including automatic retries and advanced
-          algorithms to detect and ignore minor variations.
-        </p>
-        <p>
-          <strong>Argos</strong> uses an algorithm that waits for page
-          stabilization before taking a screenshot. This algorithm is
-          open-source and embedded in every Argos integration.
-        </p>
-      </>
-    ),
-    textAnswer:
-      "Flaky tests are a significant issue in visual testing, and each product has its own way of addressing this problem. Chromatic uses a combination of techniques to minimize flakiness, including automatic retries and advanced algorithms to detect and ignore minor variations. Argos uses an algorithm that waits for page stabilization before taking a screenshot. This algorithm is open-source and embedded in every Argos integration.",
-  },
-  {
-    name: "How do Chromatic and Argos manage baselines?",
-    answer: (
-      <p>
-        Both <strong>Chromatic</strong> and <strong>Argos</strong> allow you to
-        manage baselines relative to git pull requests for feature development
-        or to plan comparison workflows, recommended for QA / SDET involved in
-        testing.
-      </p>
-    ),
-    textAnswer:
-      "Both Chromatic and Argos allow you to manage baselines relative to git pull requests for feature development or to plan comparison workflows, recommended for QA / SDET involved in testing.",
-  },
-  {
-    name: "Can I parallelize uploads?",
-    answer: (
-      <>
-        <p>
-          <strong>Chromatic</strong> supports parallelized tests by default, but
-          additional configurations may be needed for optimized performance.
-        </p>
-        <p>
-          <strong>Argos</strong> also supports parallel uploads, and it’s
-          included in the standard pricing.
-        </p>
-      </>
-    ),
-    textAnswer:
-      "Chromatic supports parallelized tests by default, but additional configurations may be needed for optimized performance. Argos also supports parallel uploads, and it's included in the standard pricing.",
-  },
-  {
-    name: "Are Chromatic and Argos compatible with my CI?",
-    answer: (
-      <p>
-        Both <strong>Chromatic</strong> and <strong>Argos</strong> are
-        compatible with most CI systems on the market.
-      </p>
-    ),
-    textAnswer:
-      "Both Chromatic and Argos are compatible with most CI systems on the market.",
-  },
-  {
-    name: "Can I control team members' access?",
-    answer: (
-      <p>
-        Both <strong>Chromatic</strong> and <strong>Argos</strong> allow you to
-        control team members’ access and permissions for each project.
-      </p>
-    ),
-    textAnswer:
-      "Both Chromatic and Argos allow you to control team members' access and permissions for each project.",
-  },
-  {
-    name: "Why is Chromatic pricing higher than Argos?",
-    answer: (
-      <>
-        <p>
-          <strong>Chromatic</strong> provides extensive integration with
-          Storybook, Playwright, and Cypress, and offers features like
-          TurboSnap, responsive viewport testing, and broad browser coverage,
-          which can contribute to higher operational costs.
-        </p>
-        <p>
-          <strong>Argos</strong> offers{" "}
-          <Link href="/pricing">transparent and affordable pricing</Link>,
-          designed to be accessible for projects of all sizes. Custom pricing
-          options are available for specific features or dedicated support
-          requests.
-        </p>
-      </>
-    ),
-    textAnswer:
-      "Chromatic provides extensive integration with Storybook, Playwright, and Cypress, and offers features like TurboSnap, responsive viewport testing, and broad browser coverage, which can contribute to higher operational costs. Argos offers transparent and affordable pricing, designed to be accessible for projects of all sizes. Custom pricing options are available for specific features or dedicated support requests.",
-  },
-  {
-    name: "What makes Argos community-driven?",
-    answer: (
-      <p>
-        <strong>Argos</strong> was founded by passionate developers. We actively
-        engage with our users to discuss feature requests and understand their
-        usage, ensuring our product roadmap aligns with real-world needs.
-      </p>
-    ),
-    textAnswer:
-      "Argos was founded by passionate developers. We actively engage with our users to discuss feature requests and understand their usage, ensuring our product roadmap aligns with real-world needs.",
-  },
+  faq(
+    "Is Argos a good Chromatic alternative for Storybook?",
+    "Yes. Argos captures every story through the Storybook Vitest addon (Storybook 9 and later) or the test runner (Storybook 8), compares each one with its baseline from your Git history, and puts the review on the pull request. It also deploys the built Storybook to a preview URL on every pull request. See [visual testing for Storybook](/integrations/storybook).",
+  ),
+  faq(
+    "What's the difference between a Chromatic snapshot and an Argos screenshot?",
+    "Where it's taken and how it's billed. Chromatic renders your stories in its cloud browsers, and every story, browser and viewport combination is a billed snapshot. Argos takes the screenshot in your CI browser during the test run and bills each uploaded file, with Storybook screenshots at a lower rate.",
+  ),
+  faq(
+    "How do Chromatic and Argos prices compare?",
+    `As of October 2026, Chromatic Starter is $179/month for 35,000 snapshots and Pro $399/month for 85,000, then $0.008 per snapshot; TurboSnap bills an unchanged story at a fifth of a snapshot. Argos Pro is $${ARGOS_PRO_FLAT_PRICE}/month for ${included} screenshots, then $${ARGOS_SCREENSHOT_PRICE} per screenshot, or $${ARGOS_STORYBOOK_SCREENSHOT_PRICE} per Storybook screenshot. Both have a free plan with 5,000 a month; Argos's is for personal projects.`,
+  ),
+  faq(
+    "Does Argos support story modes and play functions?",
+    "Yes. Story modes capture each story in several themes or viewports, from the globals your stories already use, and `argosScreenshot(ctx, name)` captures extra states inside a play function, as many as you need. Chromatic takes one snapshot when the play function ends.",
+  ),
+  faq(
+    "Can Argos replace Chromatic for Playwright and Cypress tests?",
+    "Yes. Chromatic archives the DOM from your Playwright or Cypress tests and renders it in its cloud. Argos takes the screenshot inside the test with `argosScreenshot()`, so the diff shows what your test displayed. See [Playwright](/integrations/playwright) and [Cypress](/integrations/cypress).",
+  ),
+  faq(
+    "Can I set a diff threshold per story?",
+    "On both. Chromatic has `diffThreshold` per story, component or project. Argos has a `threshold` from 0 to 1 (default 0.5) per screenshot, and per upload with the CLI.",
+  ),
+  faq(
+    "How do I migrate from Chromatic to Argos?",
+    "Install the Argos Storybook SDK, add its Vitest plugin next to `storybookTest()`, and replace the Chromatic step in CI with a Vitest run and, if you want previews, `argos deploy`. The [migration guide](/docs/learn/how-to-guides/migrate-to-argos/from-chromatic) maps each Chromatic concept to Argos.",
+  ),
 ];
 
 export function FAQ() {

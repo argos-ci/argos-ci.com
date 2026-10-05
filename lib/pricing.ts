@@ -106,6 +106,19 @@ export const COMPETITORS = {
       { screenshots: 85_000, price: 399 },
     ],
   },
+  happo: {
+    name: "Happo",
+    subtitle: "One browser",
+    source: "https://happo.io/pricing",
+    checkedAt: "2026-10-05",
+    screenshotPrice: 0.006,
+    storybookScreenshotPrice: 0.006,
+    steps: [
+      { screenshots: 50_000, price: 149 },
+      { screenshots: 150_000, price: 399 },
+      { screenshots: 300_000, price: 749 },
+    ],
+  },
 } satisfies Record<
   string,
   {

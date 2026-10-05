@@ -19,8 +19,15 @@ const FOOTER_LINKS = {
   "percy-vs-argos": "Percy",
   "applitools-vs-argos": "Applitools",
   "chromatic-vs-argos": "Chromatic",
-  "playwright-vs-argos": "Playwright",
+  "playwright-vs-argos": "Playwright snapshots",
   "backstopjs-vs-argos": "BackstopJS",
+  "lost-pixel-vs-argos": "Lost Pixel",
+  "happo-vs-argos": "Happo",
+  "integrations-playwright": "Playwright",
+  "integrations-storybook": "Storybook",
+  "integrations-vitest": "Vitest",
+  "integrations-cypress": "Cypress",
+  integrations: "All integrations",
 };
 
 async function screenshot(page: Page, name: string, suffix = "") {
@@ -44,7 +51,7 @@ function runScreenshotTests(colorScheme?: "light" | "dark") {
       await page.goto("/");
       const link = page
         .getByRole("contentinfo")
-        .getByRole("link", { name: linkLabel })
+        .getByRole("link", { name: linkLabel, exact: true })
         .last();
       const href = await link.evaluate((el) => el.getAttribute("href"));
       if (!href) {
@@ -57,7 +64,7 @@ function runScreenshotTests(colorScheme?: "light" | "dark") {
   }
 
   test(`Screenshots for blog post ${textSuffix}`, async ({ page }) => {
-    await page.goto("/blog/visual-testing");
+    await page.goto("/blog/what-is-visual-testing");
     await screenshot(page, "blog-post-1", screenshotSuffix);
   });
 

@@ -70,6 +70,11 @@ const FrontmatterSchema = z.object({
   image: z.string(),
   imageAlt: z.string(),
   category: categorySlugSchema,
+  /**
+   * Slugs of the articles to suggest under this one, most relevant first.
+   * The rest of the three slots is filled at random.
+   */
+  related: z.array(z.string()).optional(),
 });
 
 export type Frontmatter = z.infer<typeof FrontmatterSchema>;

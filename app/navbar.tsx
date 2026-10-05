@@ -156,28 +156,28 @@ function SecondaryNavbar() {
                 <SectionList>
                   <li>
                     <LinkCard
-                      href="/docs/quickstart/playwright-quickstart"
+                      href="/integrations/playwright"
                       icon={{ src: playwright.logo }}
                       title="Playwright"
                     />
                   </li>
                   <li>
                     <LinkCard
-                      href="/docs/quickstart/storybook-quickstart"
+                      href="/integrations/storybook"
                       icon={{ src: storybook.logo }}
                       title="Storybook"
                     />
                   </li>
                   <li>
                     <LinkCard
-                      href="/docs/quickstart/cypress-quickstart"
+                      href="/integrations/cypress"
                       icon={{ src: cypress.logo }}
                       title="Cypress"
                     />
                   </li>
                   <li>
                     <LinkCard
-                      href="/docs/quickstart/vitest-quickstart"
+                      href="/integrations/vitest"
                       icon={{ src: vitest.logo }}
                       title="Vitest"
                     />

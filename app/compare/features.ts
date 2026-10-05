@@ -10,6 +10,8 @@ export const COMPARE_SLUGS = [
   "chromatic",
   "backstopjs",
   "playwright",
+  "lost-pixel",
+  "happo",
 ] as const;
 
 export type CompareSlug = (typeof COMPARE_SLUGS)[number];
@@ -35,9 +37,7 @@ export type Features = {
   githubLight: FeatureRow;
   sensitivityThresholdPerScreenshot: FeatureRow;
   githubActionsPartialReRuns: FeatureRow;
-  bestScreenshotQuality: FeatureRow;
   monitoringMode: FeatureRow;
-  beautifulAndIntuitiveUi: FeatureRow;
 };
 
 type FeatureDefinition = {
@@ -132,21 +132,10 @@ export const FEATURE_DEFINITIONS: FeatureDefinition[] = [
     href: "/changelog/2024-06-17-partial-re-runs-github-actions",
   },
   {
-    key: "bestScreenshotQuality",
-    title: "High screenshot quality",
-    description: "Don’t miss any detail with enhanced quality",
-    href: "/changelog/2024-06-13-enhanced-screenshot-quality",
-  },
-  {
     key: "monitoringMode",
     title: "Monitoring mode",
     description: "Run periodic checks on your website",
     href: "/changelog/2024-05-28-monitoring-mode",
-  },
-  {
-    key: "beautifulAndIntuitiveUi",
-    title: "Beautiful and intuitive UI",
-    description: "Designed to be effective",
   },
 ];
 
@@ -169,9 +158,25 @@ export type Comparison = {
   title: string;
   /** Hero description. */
   description: string;
-  migrationHref: string;
-  features: Features;
+  /** The docs migration guide, when there is one. */
+  migrationHref?: string;
+  /** Rows we can't state for a competitor are left out, not guessed. */
+  features: Partial<Features>;
   additionalFeatures?: AdditionalFeature[];
   /** Caveat shown under the pricing estimate. */
   pricingNote?: string;
+  /**
+   * The verdict, one reason per item, in inline markdown: who should pick
+   * Argos, and who is better served by the competitor. A comparison that
+   * never says when the other tool wins reads as an ad, to people and to
+   * the assistants that quote it.
+   */
+  chooseArgos: string[];
+  chooseCompetitor: string[];
+  /** Heading over `chooseCompetitor`; defaults to "Choose <name> if". */
+  chooseCompetitorTitle?: string;
+  /** Where the competitor facts on the page come from. */
+  sources: { label: string; href: string }[];
+  /** When those facts were last checked (YYYY-MM-DD). */
+  checkedAt: string;
 };

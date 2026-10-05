@@ -6,7 +6,7 @@ export const comparison: Comparison = {
   fullName: "Playwright",
   title: "Playwright screenshots vs Argos",
   description:
-    "Keep your Playwright tests, drop the committed PNG baselines. Argos moves toHaveScreenshot() to cloud baselines you review on the pull request.",
+    "Choose Argos when visual tests run in a team: baselines from your Git history, comparisons made in CI only and a review on the pull request. Stay with toHaveScreenshot() on a solo project where committing PNGs and regenerating them in Docker is fine.",
   migrationHref:
     "/docs/learn/how-to-guides/migrate-to-argos/from-playwright-native-screenshots",
   features: {
@@ -18,8 +18,6 @@ export const comparison: Comparison = {
     playwrightTestRetries: { argos: "✔️", competitor: "Local only" },
     githubSso: { argos: "✔️", competitor: "❌" },
     openSource: { argos: "✔️", competitor: "✔️" },
-    beautifulAndIntuitiveUi: { argos: "✔️", competitor: "❌" },
-    bestScreenshotQuality: { argos: "✔️", competitor: "❌" },
     githubActionsPartialReRuns: { argos: "✔️", competitor: "❌" },
     githubLight: { argos: "✔️", competitor: "❌" },
     monitoringMode: { argos: "✔️", competitor: "❌" },
@@ -51,4 +49,23 @@ export const comparison: Comparison = {
       competitor: "❌",
     },
   ],
+  chooseArgos: [
+    "Several people update baselines, and PNG merge conflicts slow you down.",
+    "Screenshots differ between macOS and Linux CI, and you regenerate baselines in Docker.",
+    "You want designers or product people to review changes on the pull request.",
+    "You want Playwright traces, retries and flaky test detection next to the review.",
+  ],
+  chooseCompetitorTitle: "Stay with toHaveScreenshot() if",
+  chooseCompetitor: [
+    "You work alone or on a small project, and committed PNGs aren't a problem.",
+    "Everything has to run offline, with no external service.",
+    "You already generate baselines in a pinned Docker image and review them in Git.",
+  ],
+  sources: [
+    {
+      label: "Playwright visual comparisons",
+      href: "https://playwright.dev/docs/test-snapshots",
+    },
+  ],
+  checkedAt: "2026-10-05",
 };

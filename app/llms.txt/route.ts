@@ -1,4 +1,5 @@
 import { markdownHeaders } from "@/lib/agents";
+import { getArticleBySlug } from "@/lib/api/blog";
 import { argosDefinition } from "@/lib/metadata";
 import { PILLARS } from "@/lib/pillars";
 import { WEBMCP_TOOLS } from "@/lib/webmcp-tools";
@@ -18,7 +19,46 @@ const webMcpToolNames = WEBMCP_TOOLS.map((tool) => tool.name).join(", ");
  * GitBook); this one covers the whole site and points to the machine-readable
  * surfaces.
  */
-const llmsTxt = `# Argos
+/**
+ * The guides agents should start from, most general first. Titles come from
+ * the articles themselves, so a retitled post never drifts here.
+ */
+const GUIDE_SLUGS = [
+  "what-is-visual-testing",
+  "best-visual-regression-testing-tools",
+  "screenshot-testing-guide",
+  "playwright-visual-regression-testing-ci",
+  "storybook-visual-testing-without-chromatic",
+  "vitest-visual-testing",
+  "cypress-visual-regression-testing",
+  "fix-flaky-visual-tests",
+  "visual-testing-pricing",
+  "percy-alternatives",
+  "lost-pixel-alternatives",
+  "applitools-alternatives",
+  "visual-testing-ai-coding-agents",
+];
+
+async function getGuidesSection() {
+  const articles = await Promise.all(
+    GUIDE_SLUGS.map((slug) => getArticleBySlug(slug)),
+  );
+  const lines = articles.flatMap((article) =>
+    article
+      ? [`- [${article.title}](https://argos-ci.com/blog/${article.slug})`]
+      : [],
+  );
+  return [
+    "## Guides",
+    "",
+    ...lines,
+    "- [Blog](https://argos-ci.com/blog): every guide and engineering post",
+    "",
+    "",
+  ].join("\n");
+}
+
+const getLlmsTxt = (guidesSection: string) => `# Argos
 
 > ${argosDefinition} It does four things for every pull request. Diff: visual regression testing with deterministic diffs of screenshots and any other file: Markdown, JSON, YAML, HTML, ARIA snapshots. Review: one place for humans and agents to approve what changed, with the verdict on the PR. Stabilize: kill flakes and debug failures with full per-test history. Deploy: free preview URLs for your Storybook or static site on every PR. Everything is reachable from the CLI, the MCP server and the REST API, so AI agents use it end to end.
 
@@ -31,6 +71,14 @@ ${pillarBullets}
 - [For AI agents](https://argos-ci.com/ai-agents): MCP server, CLI, agent skills, REST API, and how agents use each pillar
 - [Media sharing](https://argos-ci.com/media-sharing): standalone image and video upload with share links, ready-to-paste Markdown, and automatic pull request comments
 - [Pricing](https://argos-ci.com/pricing): Hobby (free) and Pro plans
+
+## Integrations
+
+- [Integrations](https://argos-ci.com/integrations): every framework Argos supports
+- [Visual testing for Playwright](https://argos-ci.com/integrations/playwright): \`@argos-ci/playwright\`, \`argosScreenshot()\` and the reporter, vs \`toHaveScreenshot()\`
+- [Visual testing for Storybook](https://argos-ci.com/integrations/storybook): every story captured with the Vitest addon, plus Storybook deployments, vs Chromatic
+- [Visual testing for Vitest](https://argos-ci.com/integrations/vitest): \`argosScreenshot()\` in browser mode and \`argosSnapshot()\` for any value, vs \`toMatchScreenshot()\`
+- [Visual testing for Cypress](https://argos-ci.com/integrations/cypress): \`cy.argosScreenshot()\`, vs image snapshot plugins
 
 ## Documentation
 
@@ -59,11 +107,12 @@ ${pillarBullets}
 - [Argos vs Percy](https://argos-ci.com/compare/percy)
 - [Argos vs Chromatic](https://argos-ci.com/compare/chromatic)
 - [Argos vs BackstopJS](https://argos-ci.com/compare/backstopjs)
+- [Argos vs Lost Pixel](https://argos-ci.com/compare/lost-pixel): Lost Pixel is being sunset (team joined Figma, April 2026); how to move to Argos
+- [Argos vs Happo](https://argos-ci.com/compare/happo)
 - [Argos vs Playwright screenshots](https://argos-ci.com/compare/playwright): Playwright's built-in toHaveScreenshot() vs Argos
 
-## News
+${guidesSection}## News
 
-- [Blog](https://argos-ci.com/blog): guides and engineering posts
 - [Changelog](https://argos-ci.com/changelog): product updates
 
 ## Company
@@ -76,6 +125,7 @@ ${pillarBullets}
 - [Status](https://argos.openstatus.dev): uptime and incidents
 `;
 
-export function GET() {
+export async function GET() {
+  const llmsTxt = getLlmsTxt(await getGuidesSection());
   return new Response(llmsTxt, { headers: markdownHeaders(llmsTxt) });
 }

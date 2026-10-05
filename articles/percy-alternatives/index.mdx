@@ -7,6 +7,10 @@ date: 2026-07-28
 updatedAt: 2026-10-05
 image: ./main.jpg
 imageAlt: "Abstract illustration of screenshots fanning out from a central node to five alternative destinations"
+related:
+  - percy-vs-chromatic-vs-argos
+  - visual-testing-pricing
+  - best-visual-regression-testing-tools
 ---
 
 The best Percy alternatives in 2026 are **Argos** ($100/mo flat, open source, captures in your real test browser), **Chromatic** (deepest Storybook integration), **Applitools** (enterprise Visual AI), **BackstopJS** (free, self-hosted), and **Playwright's built-in `toHaveScreenshot`**. For most teams, Argos is the closest workflow match to Percy: PR-based review, CI-driven captures, and a one-file migration, with prices you can read on the pricing page.
@@ -20,7 +24,7 @@ Percy was the tool that made visual testing mainstream. Then [BrowserStack acqui
 - **Price you can't read.** As of October 2026, BrowserStack no longer displays Percy plans on its [public pricing page](https://www.browserstack.com/pricing?product=percy). The [billing docs](https://www.browserstack.com/docs/percy/overview/plans-and-billing) describe a free plan with 5,000 screenshots a month and paid plans with a fixed number of screenshots, but no prices, so expect a sales conversation.
 - **Cloud DOM re-rendering flakiness.** Percy doesn't diff the pixels your test rendered. It uploads your page's DOM, CSS, and assets, then **re-renders the snapshot in Percy's cloud** across the widths and browsers configured in `.percy.yml`. That architecture has a real upside (true cross-browser rendering without running those browsers yourself), but it also means what you review is not exactly what your test saw. Complex JavaScript, lazy-loaded content, and third-party embeds can render differently in Percy's environment, producing diffs that are hard to reproduce and debug locally.
 
-To be fair, Percy is still shipping: it released an AI "Visual Review Agent" in October 2025, and the BrowserStack MCP server exposes Percy tools to agents. But if the pricing or the re-render model no longer fits, here are the alternatives worth evaluating.
+Percy is still shipping: it released an AI "Visual Review Agent" in October 2025, and the BrowserStack MCP server exposes Percy tools to agents. But if the pricing or the re-render model no longer fits, here are the alternatives worth evaluating.
 
 ## Percy alternatives compared (October 2026)
 

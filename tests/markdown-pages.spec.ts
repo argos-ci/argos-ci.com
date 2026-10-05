@@ -15,7 +15,7 @@ import { MARKDOWN_PAGES, MARKDOWN_ROUTES } from "@/lib/markdown-pages";
 
 /** A path under each entry, so sections are exercised through their matcher. */
 const SAMPLE_PATHS: Record<string, string> = {
-  "/blog": "/blog/visual-testing",
+  "/blog": "/blog/what-is-visual-testing",
   "/changelog": "/changelog/2026-07-20-mcp-server",
 };
 

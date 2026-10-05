@@ -1,11 +1,15 @@
 ---
-title: "Playwright MCP and Visual Testing: Give Your Agent Eyes"
+title: "Playwright MCP and Visual Testing: Let Your Agent Check Its UI"
 description: "Playwright MCP lets coding agents drive a real browser while they code. Pair it with visual testing in CI to verify every PR. How the two fit together."
 category: guides
 author: jeremy
 date: 2026-08-27
 image: ./main.jpg
 imageAlt: "Abstract illustration of an agent's lens driving a browser whose screenshots drop into a comparison frame"
+related:
+  - visual-testing-ai-coding-agents
+  - review-builds-ai-agents
+  - playwright-visual-regression-testing-ci
 ---
 
 Playwright MCP gives a coding agent eyes on your UI **while it writes code**: the agent drives a real browser, reads the page's accessibility tree, and takes screenshots to check its own work. Visual testing in CI gives your team eyes on the UI **when the code is reviewed**: deterministic screenshot diffs on every pull request. They solve different halves of the same problem, and if you let agents touch your frontend, you want both.
@@ -51,7 +55,7 @@ Playwright MCP closes that loop during development. A typical agent session look
 4. It takes a `browser_take_screenshot` to visually check spacing, colors, and layout.
 5. It checks `browser_console_messages` for errors, fixes what it finds, and iterates.
 
-This is a genuine step change in agent-assisted frontend work. The agent catches its own broken layouts before you ever see the diff. We covered the broader pattern in [visual testing for AI coding agents](/blog/visual-testing-ai-coding-agents).
+This is a step change in agent-assisted frontend work. The agent catches its own broken layouts before you ever see the diff. We covered the broader pattern in [visual testing for AI coding agents](/blog/visual-testing-ai-coding-agents).
 
 ## The limit: Playwright MCP verifies a moment, not a pull request
 

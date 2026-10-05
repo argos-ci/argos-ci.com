@@ -6,10 +6,11 @@ import { getMetadata } from "@/lib/metadata";
 import {
   FAQSection,
   HeroSection,
-  KeyFeaturesSection,
   PricingSection,
+  SourcesNote,
   TableSection,
   TrySection,
+  VerdictSection,
 } from "../common";
 import { ComparisonTable } from "../comparison-table";
 import { comparison } from "./comparison";
@@ -44,12 +45,15 @@ export default function Page() {
         {...emblemProps}
       />
 
+      <VerdictSection comparison={comparison} />
+
       <TableSection>
         <ComparisonTable
           comparison={comparison}
           logoSrc={percyLogo}
           logoSrcDark={percyLogoDark}
         />
+        <SourcesNote comparison={comparison} />
       </TableSection>
 
       <PricingSection title="Argos Pricing">
@@ -60,8 +64,6 @@ export default function Page() {
           </p>
         ) : null}
       </PricingSection>
-
-      <KeyFeaturesSection />
 
       <FAQSection>
         <FAQ />

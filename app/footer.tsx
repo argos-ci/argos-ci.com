@@ -68,7 +68,7 @@ export const AppFooter: React.FC = () => (
             </FooterIconLink>
           </div>
         </FooterSection>
-        <div className="grid grid-cols-2 gap-x-8 gap-y-2 md:grid-cols-4">
+        <div className="grid grid-cols-2 gap-x-8 gap-y-2 md:grid-cols-3 lg:grid-cols-5">
           <FooterSection>
             <FooterSectionTitle>Product</FooterSectionTitle>
             {PILLARS.map((pillar) => (
@@ -78,6 +78,15 @@ export const AppFooter: React.FC = () => (
             ))}
             <FooterLink href="/ai-agents">For AI Agents</FooterLink>
             <FooterLink href="/media-sharing">Media Sharing</FooterLink>
+          </FooterSection>
+
+          <FooterSection>
+            <FooterSectionTitle>Integrations</FooterSectionTitle>
+            <FooterLink href="/integrations/playwright">Playwright</FooterLink>
+            <FooterLink href="/integrations/storybook">Storybook</FooterLink>
+            <FooterLink href="/integrations/vitest">Vitest</FooterLink>
+            <FooterLink href="/integrations/cypress">Cypress</FooterLink>
+            <FooterLink href="/integrations">All integrations</FooterLink>
           </FooterSection>
 
           <FooterSection>
@@ -105,8 +114,12 @@ export const AppFooter: React.FC = () => (
             <FooterLink href="/compare/percy">Percy</FooterLink>
             <FooterLink href="/compare/applitools">Applitools</FooterLink>
             <FooterLink href="/compare/chromatic">Chromatic</FooterLink>
-            <FooterLink href="/compare/playwright">Playwright</FooterLink>
+            <FooterLink href="/compare/playwright">
+              Playwright snapshots
+            </FooterLink>
             <FooterLink href="/compare/backstopjs">BackstopJS</FooterLink>
+            <FooterLink href="/compare/lost-pixel">Lost Pixel</FooterLink>
+            <FooterLink href="/compare/happo">Happo</FooterLink>
           </FooterSection>
         </div>
       </div>

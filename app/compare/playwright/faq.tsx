@@ -51,8 +51,9 @@ export const PLAYWRIGHT_QUESTIONS: FAQQuestion[] = [
         <p>
           Yes. Native snapshots are platform-specific (<Code>-darwin</Code> vs{" "}
           <Code>-linux</Code>), so teams run them only in Docker or CI to stay
-          consistent. Argos renders and compares in the cloud the same way every
-          run, so you are not fighting environment mismatches.
+          consistent. With Argos, screenshots taken in CI are compared with
+          baselines also taken in CI, so a laptop never produces a baseline and
+          there is one set of images, not one per platform.
         </p>
         <p>
           Read the{" "}
@@ -64,7 +65,7 @@ export const PLAYWRIGHT_QUESTIONS: FAQQuestion[] = [
       </>
     ),
     textAnswer:
-      "Yes. Native snapshots are platform-specific (-darwin vs -linux), so teams run them only in Docker or CI to stay consistent. Argos renders and compares in the cloud the same way every run, so you are not fighting environment mismatches.",
+      "Yes. Native snapshots are platform-specific (-darwin vs -linux), so teams run them only in Docker or CI to stay consistent. With Argos, screenshots taken in CI are compared with baselines also taken in CI, so a laptop never produces a baseline and there is one set of images, not one per platform.",
   },
 ];
 

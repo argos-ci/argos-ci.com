@@ -28,15 +28,16 @@ Most user-facing copy exists twice — once as HTML/JSX, once as markdown served
 to agents and LLMs. **Whenever you change page copy, update the markdown twin
 in the same commit.** The twins:
 
-| HTML surface                                                                                  | Markdown twin                                                                                                                            |
-| --------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| Homepage (`app/homepage.tsx`, `app/home/**`)                                                  | `app/markdown/home.md` (curated by hand)                                                                                                 |
-| `/pricing` (`app/pricing/**`)                                                                 | `getPricingMarkdown()` in `lib/markdown.ts` (hand-written)                                                                               |
-| Pillar pages `/deploy`, `/diff`, `/review`, `/stabilize`, plus `/ai-agents`, `/media-sharing` | `app/markdown/<slug>.md` (curated by hand, no FAQ inside) + the page's `faq.tsx` questions, appended by `getCuratedPageMarkdown()`       |
-| Blog & changelog                                                                              | derived automatically from their MDX, nothing to do                                                                                      |
-| `/compare/*` (`app/compare/*/page.tsx`)                                                       | derived from `app/compare/*/comparison.ts` + `faq.tsx` by `getCompareMarkdown()` in `lib/markdown.ts`, keep hero copy in the data module |
-| `/security` (`app/security/page.tsx`)                                                         | `getSecurityMarkdown()` in `lib/markdown.ts`: prose hand-written, lists from the page's data modules                                     |
-| Site overview for agents                                                                      | `app/llms.txt/route.ts` (curated link map)                                                                                               |
+| HTML surface                                                                                  | Markdown twin                                                                                                                                                        |
+| --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Homepage (`app/homepage.tsx`, `app/home/**`)                                                  | `app/markdown/home.md` (curated by hand)                                                                                                                             |
+| `/pricing` (`app/pricing/**`)                                                                 | `getPricingMarkdown()` in `lib/markdown.ts` (hand-written)                                                                                                           |
+| Pillar pages `/deploy`, `/diff`, `/review`, `/stabilize`, plus `/ai-agents`, `/media-sharing` | `app/markdown/<slug>.md` (curated by hand, no FAQ inside) + the page's `faq.tsx` questions, appended by `getCuratedPageMarkdown()`                                   |
+| Blog & changelog                                                                              | derived automatically from their MDX, nothing to do                                                                                                                  |
+| `/compare/*` (`app/compare/*/page.tsx`)                                                       | derived from `app/compare/*/comparison.ts` + `faq.tsx` by `getCompareMarkdown()` in `lib/markdown.ts`, keep hero copy in the data module                             |
+| `/integrations/*` (`app/integrations/**`)                                                     | derived from `app/integrations/data/*.tsx` by `getIntegrationMarkdown()` in `lib/markdown.ts`: setup steps, the comparison table and the FAQ live in the data module |
+| `/security` (`app/security/page.tsx`)                                                         | `getSecurityMarkdown()` in `lib/markdown.ts`: prose hand-written, lists from the page's data modules                                                                 |
+| Site overview for agents                                                                      | `app/llms.txt/route.ts` (curated link map)                                                                                                                           |
 
 Two more lockstep spots:
 
@@ -85,7 +86,7 @@ the registry (slug, href, name, one-liners, color) read by the navbar, the
 footer, the homepage, `PillarLinks` and `llms.txt`; icons are in
 `components/pillar-icons.ts`. Claimed colors: deploy=teal, diff=blue,
 review=pink, stabilize=amber, `/ai-agents`=violet (agents everywhere),
-`/media-sharing`=plum.
+`/media-sharing`=plum, `/integrations/*`=green.
 
 Every pillar page follows the same skeleton, built from shared blocks:
 `PillarHero` → `TrustedBy` → feature sections → `AgentSection` (the
@@ -110,8 +111,8 @@ Registration points, all required unless noted:
 3. `app/footer.tsx`: a `FooterLink` (Product column for feature pages).
 4. `tests/screenshot-pages.spec.ts`: add to `FOOTER_LINKS`; the key is the
    route, the value must equal the footer link's visible label (the test
-   navigates by clicking it, and `getByRole` matches substrings, so no two
-   footer labels may contain each other).
+   navigates by clicking it with an exact name match, so footer labels must
+   be unique).
 5. `public/main-sitemap.xml`: hand-add the `<url>` entry.
 6. `app/llms.txt/route.ts`: add a bullet so agents can discover the page.
 7. `app/markdown/home.md`: mention it if the homepage copy does.
@@ -147,6 +148,34 @@ changelog work against the production build.
 Cross-linking scheduled content is safe: links to not-yet-published pages
 render as plain text until they exist (`createMdxAnchor` in
 `lib/api/common.tsx`).
+
+## Writing for search and AI assistants
+
+ChatGPT, Claude, Perplexity and Google's AI answers decide whether to cite a
+page from its visible text, and they cross-check vendors. What earns citations
+here:
+
+- **Say what Argos is, in category words.** "Open-source visual regression
+  testing for Playwright, Storybook, Vitest and Cypress" (`argosDefinition` in
+  `lib/metadata.tsx`). Put the answer in the title and the first sentences
+  after the H1; ChatGPT's index keeps roughly 200 characters from there.
+- **Head terms get pages, not posts.** Framework queries land on
+  `/integrations/*`, "X alternative" and "Argos vs X" on `/compare/*`. Improve
+  those before writing a new article.
+- **Source every competitor fact** with its URL and the date checked
+  (`sources`/`checkedAt` in compare and integration data, `lib/pricing.ts` for
+  prices). A price only our own site states is a price an assistant can't
+  trust. If a vendor stops publishing a number, remove it.
+- **Say when the other tool wins.** Every comparison has a "Choose X if" list.
+  No new self-ranked "best X" or "alternatives" posts; Google's spam policies
+  now cover manipulating AI answers. Keep the existing ones accurate instead.
+- **Keep facts in visible HTML.** Nothing only in JSON-LD, FAQ answers
+  rendered closed but present (`components/FAQAccordion.tsx`), icons with text
+  alternatives.
+- **Refresh, then date it.** Re-check an article's facts every quarter and set
+  `updatedAt`; never bump the date without re-checking.
+- **Voice.** Plain and specific. No em dashes, and none of the tics that read
+  as generated ("honest", "genuinely", "let's be honest", "no fluff").
 
 ## Design conventions
 

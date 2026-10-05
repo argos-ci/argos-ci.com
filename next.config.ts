@@ -96,6 +96,17 @@ const nextConfig: NextConfig = {
         destination: "/diff",
         permanent: true,
       },
+      // Blog posts folded into a newer, more complete article on the same topic.
+      {
+        source: "/blog/visual-testing",
+        destination: "/blog/what-is-visual-testing",
+        permanent: true,
+      },
+      {
+        source: "/blog/playwright",
+        destination: "/blog/playwright-visual-regression-testing-ci",
+        permanent: true,
+      },
       {
         source: "/deployments",
         destination: "/deploy",

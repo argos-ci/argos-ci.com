@@ -7,6 +7,11 @@
 <url><loc>https://argos-ci.com/stabilize</loc></url>
 <url><loc>https://argos-ci.com/ai-agents</loc></url>
 <url><loc>https://argos-ci.com/media-sharing</loc></url>
+<url><loc>https://argos-ci.com/integrations</loc></url>
+<url><loc>https://argos-ci.com/integrations/playwright</loc></url>
+<url><loc>https://argos-ci.com/integrations/storybook</loc></url>
+<url><loc>https://argos-ci.com/integrations/vitest</loc></url>
+<url><loc>https://argos-ci.com/integrations/cypress</loc></url>
 <url><loc>https://argos-ci.com/pricing</loc></url>
 <url><loc>https://argos-ci.com/customers</loc></url>
 <url><loc>https://argos-ci.com/compare/percy</loc></url>
@@ -14,6 +19,8 @@
 <url><loc>https://argos-ci.com/compare/chromatic</loc></url>
 <url><loc>https://argos-ci.com/compare/playwright</loc></url>
 <url><loc>https://argos-ci.com/compare/backstopjs</loc></url>
+<url><loc>https://argos-ci.com/compare/lost-pixel</loc></url>
+<url><loc>https://argos-ci.com/compare/happo</loc></url>
 <url><loc>https://argos-ci.com/changelog</loc></url>
 <url><loc>https://argos-ci.com/about</loc></url>
 <url><loc>https://argos-ci.com/community</loc></url>

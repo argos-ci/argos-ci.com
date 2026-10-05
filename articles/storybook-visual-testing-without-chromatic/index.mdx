@@ -7,15 +7,19 @@ date: 2026-07-30
 updatedAt: 2026-10-05
 image: ./main.jpg
 imageAlt: "Abstract illustration of a Storybook component grid branching into three alternative testing paths"
+related:
+  - percy-vs-chromatic-vs-argos
+  - vitest-visual-testing
+  - storybook-github-actions
 ---
 
-You can run Storybook visual testing without Chromatic in two solid ways: the [Argos Storybook addon](/compare/chromatic), which captures every story during your Vitest or test-runner run and bills Storybook screenshots at $0.0015 each (free up to 5,000/month for personal projects), or a DIY setup with the Storybook test-runner and Playwright's `toHaveScreenshot`, which is free but leaves baseline management and CI rendering issues on your plate. As of October 2026, Chromatic's paid plans start at $179/month, and that price gap is the main reason teams look at alternatives.
+You can run Storybook visual testing without Chromatic in two solid ways: the [Argos Storybook addon](/integrations/storybook), which captures every story during your Vitest or test-runner run and bills Storybook screenshots at $0.0015 each (free up to 5,000/month for personal projects), or a DIY setup with the Storybook test-runner and Playwright's `toHaveScreenshot`, which is free but leaves baseline management and CI rendering issues on your plate. As of October 2026, Chromatic's paid plans start at $179/month, and that price gap is the main reason teams look at alternatives.
 
 <MainImage />
 
 ## Why Chromatic is the default, and why that's fair
 
-Let's be honest about this upfront: Chromatic is made by the Storybook maintainers. It has the deepest Storybook integration on the market, a polished review UI, and it keeps shipping: accessibility testing in 2025, "SteadySnap" anti-flake rendering in September 2025, Storybook MCP servers in March 2026, Vitest and React Native previews in May 2026, and Chromatic for Vitest generally available since September 2026. If you write stories, Chromatic is the path of least resistance, and there is nothing wrong with defaulting to it.
+Chromatic is made by the Storybook maintainers. It has the deepest Storybook integration on the market, a polished review UI, and it keeps shipping: accessibility testing in 2025, "SteadySnap" anti-flake rendering in September 2025, Storybook MCP servers in March 2026, Vitest and React Native previews in May 2026, and Chromatic for Vitest generally available since September 2026. If you write stories, Chromatic is the path of least resistance, and there is nothing wrong with defaulting to it.
 
 So why do teams search for a way out? Two reasons come up constantly:
 
@@ -132,7 +136,7 @@ for (const story of stories) {
 }
 ```
 
-It works, it's free, and for a small project with one or two developers it can be enough. But be honest with yourself about the ongoing cost:
+It works, it's free, and for a small project with one or two developers it can be enough. But count the ongoing cost:
 
 - **Baselines live in your Git repo.** Hundreds of PNGs bloat the repository, and every intentional UI change means regenerating and committing them.
 - **Rendering is platform-dependent.** Screenshots taken on macOS won't match Linux CI pixel-for-pixel. In practice you must generate baselines in CI (usually via Docker), which makes local iteration painful.

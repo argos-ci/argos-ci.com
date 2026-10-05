@@ -5,9 +5,10 @@ import { getMetadata } from "@/lib/metadata";
 import {
   FAQSection,
   HeroSection,
-  KeyFeaturesSection,
+  SourcesNote,
   TableSection,
   TrySection,
+  VerdictSection,
 } from "../common";
 import { ComparisonTable } from "../comparison-table";
 import { comparison } from "./comparison";
@@ -40,15 +41,16 @@ export default function Page() {
         {...emblemProps}
       />
 
+      <VerdictSection comparison={comparison} />
+
       <TableSection>
         <ComparisonTable
           comparison={comparison}
           logoSrc={playwrightLogo}
           logoSrcDark={playwrightLogoDark}
         />
+        <SourcesNote comparison={comparison} />
       </TableSection>
-
-      <KeyFeaturesSection />
 
       <FAQSection>
         <FAQ />

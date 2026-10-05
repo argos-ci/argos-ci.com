@@ -6,6 +6,10 @@ author: greg
 date: 2026-08-18
 image: ./main.jpg
 imageAlt: "Abstract illustration of a CI pipeline ending in a pixel-by-pixel screenshot comparison"
+related:
+  - playwright-visual-testing-limits
+  - fix-flaky-visual-tests
+  - speed-up-playwright
 ---
 
 Playwright ships visual regression testing out of the box: `expect(page).toHaveScreenshot()` captures a screenshot, compares it pixel by pixel against a baseline image committed to your repo, and fails the test if they differ. To make it reliable in CI, you need one thing above all: screenshots must always be generated on the same OS and browser version, which in practice means running Playwright in Docker and updating baselines from CI, not from your laptop. This guide covers the full setup, the workflows that keep it sane, and what to do when git-committed baselines stop scaling.
@@ -203,7 +207,7 @@ If you already have a suite full of `toHaveScreenshot` calls, the [migration gui
 
 ## Conclusion
 
-Playwright's built-in visual regression testing is genuinely good at the capture-and-compare part, and with Docker plus a disciplined `--update-snapshots` workflow it runs fine in CI. Adopt it as-is for small suites. When baselines multiply, contributors trip over platform-suffixed PNGs, and PR reviews turn into scrolling through raw image diffs, keep Playwright and swap the backend: `argosScreenshot` uploads from the same browser and CI you already have, and Git-history baselines plus a real review UI replace the parts that don't scale.
+Playwright's built-in visual regression testing is good at the capture-and-compare part, and with Docker plus a disciplined `--update-snapshots` workflow it runs fine in CI. Adopt it as-is for small suites. When baselines multiply, contributors trip over platform-suffixed PNGs, and PR reviews turn into scrolling through raw image diffs, keep Playwright and swap the backend: `argosScreenshot` uploads from the same browser and CI you already have, and Git-history baselines plus a real review UI replace the parts that don't scale.
 
 ## FAQ
 

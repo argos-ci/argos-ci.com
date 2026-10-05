@@ -6,10 +6,11 @@ import { getMetadata } from "@/lib/metadata";
 import {
   FAQSection,
   HeroSection,
-  KeyFeaturesSection,
   PricingSection,
+  SourcesNote,
   TableSection,
   TrySection,
+  VerdictSection,
 } from "../common";
 import { ComparisonTable } from "../comparison-table";
 import chromaticEmblem from "./chromatic-emblem.svg";
@@ -40,12 +41,15 @@ export default function Page() {
         migrationHref={comparison.migrationHref}
         {...emblemProps}
       />
+
+      <VerdictSection comparison={comparison} />
       <TableSection>
         <ComparisonTable
           comparison={comparison}
           logoSrc={chromaticLogo}
           logoSrcDark={chromaticLogoDark}
         />
+        <SourcesNote comparison={comparison} />
       </TableSection>
 
       <PricingSection title="Estimate your savings">
@@ -56,8 +60,6 @@ export default function Page() {
           </p>
         ) : null}
       </PricingSection>
-
-      <KeyFeaturesSection />
 
       <FAQSection>
         <FAQ />

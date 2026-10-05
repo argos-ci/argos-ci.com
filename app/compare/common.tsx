@@ -1,39 +1,42 @@
 import clsx from "clsx";
-import {
-  ArrowRight,
-  ArrowRightIcon,
-  BlocksIcon,
-  BookOpenTextIcon,
-  LockKeyholeIcon,
-  MessageSquareTextIcon,
-  PencilRulerIcon,
-  Users2Icon,
-} from "lucide-react";
+import { ArrowRight, ArrowRightIcon, CheckIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 import { ArgosEmblem } from "@/components/ArgosEmblem";
 import { CallToActionSection } from "@/components/CallToActionSection";
 import { Container } from "@/components/Container";
-import {
-  Feature,
-  FeatureGrid,
-  FeatureHeading,
-  FeatureIcon,
-  FeatureText,
-} from "@/components/Feature";
 import { FullPageGrid } from "@/components/FullPageGrid";
 import { Hero, HeroDescription, HeroHeading } from "@/components/Hero";
-import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
-import { SectionDescription, SectionTitle } from "@/components/Typography";
+import { InlineMarkdown } from "@/components/InlineMarkdown";
+import { SectionTitle } from "@/components/Typography";
+import { formatCheckedAt } from "@/lib/pricing";
+
+import type { Comparison } from "./features";
 
 type EmblemProps = {
-  emblemSrc: string;
+  /** Without a logo file, the emblem shows the name's initials. */
+  emblemSrc?: string;
   emblemSrcDark?: string;
   emblemAlt: string;
 };
 
 function Emblem(props: EmblemProps) {
+  if (!props.emblemSrc) {
+    return (
+      <div
+        role="img"
+        aria-label={props.emblemAlt}
+        className="flex aspect-square size-full items-center justify-center rounded-full bg-(--neutral-3) font-accent text-xl font-medium text-low"
+      >
+        {props.emblemAlt
+          .split(/\s+/)
+          .map((word) => word[0])
+          .join("")
+          .slice(0, 2)}
+      </div>
+    );
+  }
   return (
     <>
       <Image
@@ -118,70 +121,81 @@ export function TrySection(props: EmblemProps) {
   );
 }
 
-export function KeyFeaturesSection() {
+export function VerdictSection(props: { comparison: Comparison }) {
+  const { comparison } = props;
   return (
     <section className="border-b px-4">
-      <Container noGutter className="border-x">
-        <SectionHeader className="container-gutter">
-          <SectionHeaderTexts>
-            <SectionTitle>Why teams choose Argos</SectionTitle>
-            <SectionDescription>
-              More features, lower price, higher quality. Argos catches every
-              change, whether pixels or any file, deploys every PR, and is 100%
-              agent-ready, with a great UI and support from people who actually
-              build frontend tools.
-            </SectionDescription>
-          </SectionHeaderTexts>
-        </SectionHeader>
-        <FeatureGrid className="-mb-px border-t">
-          <Feature>
-            <FeatureIcon icon={PencilRulerIcon} />
-            <FeatureHeading>Well-crafted UI</FeatureHeading>
-            <FeatureText>
-              Crafted to satisfy exigent developers. Inspired by Figma, Linear,
-              and Stripe.
-            </FeatureText>
-          </Feature>
-          <Feature>
-            <FeatureIcon icon={Users2Icon} />
-            <FeatureHeading>Community driven</FeatureHeading>
-            <FeatureText>
-              We are close to our users, that the roadmap is driven by their
-              feedback.
-            </FeatureText>
-          </Feature>
-          <Feature>
-            <FeatureIcon icon={BookOpenTextIcon} />
-            <FeatureHeading>Open source</FeatureHeading>
-            <FeatureText>
-              Argos is open source, you can contribute to the project on GitHub.
-            </FeatureText>
-          </Feature>
-          <Feature>
-            <FeatureIcon icon={BlocksIcon} />
-            <FeatureHeading>Integrate with your stack</FeatureHeading>
-            <FeatureText>
-              Argos integrate with your testing tool to capture stable
-              screenshots.
-            </FeatureText>
-          </Feature>
-          <Feature>
-            <FeatureIcon icon={LockKeyholeIcon} />
-            <FeatureHeading>Fine-grain access control</FeatureHeading>
-            <FeatureText>
-              Control team members access and permissions for each project.
-            </FeatureText>
-          </Feature>
-          <Feature>
-            <FeatureIcon icon={MessageSquareTextIcon} />
-            <FeatureHeading>Dedicated support</FeatureHeading>
-            <FeatureText>
-              Get help from experimented developers to improve your tests.
-            </FeatureText>
-          </Feature>
-        </FeatureGrid>
+      <Container
+        noGutter
+        className="grid grid-cols-1 border-x max-md:divide-y md:grid-cols-2 md:divide-x"
+      >
+        <VerdictColumn
+          title="Choose Argos if"
+          items={comparison.chooseArgos}
+          highlight
+        />
+        <VerdictColumn
+          title={
+            comparison.chooseCompetitorTitle ?? `Choose ${comparison.name} if`
+          }
+          items={comparison.chooseCompetitor}
+        />
       </Container>
     </section>
+  );
+}
+
+function VerdictColumn(props: {
+  title: string;
+  items: string[];
+  highlight?: boolean;
+}) {
+  return (
+    <div className="container-gutter py-10 md:py-12">
+      <h2
+        className={clsx(
+          "font-accent text-xl font-medium",
+          props.highlight && "text-(--primary-11)",
+        )}
+      >
+        {props.title}
+      </h2>
+      <ul className="mt-4 flex flex-col gap-3">
+        {props.items.map((item) => (
+          <li key={item} className="flex gap-2 text-low">
+            <CheckIcon
+              aria-hidden
+              className={clsx(
+                "mt-1 size-4 shrink-0",
+                props.highlight ? "text-(--primary-10)" : "text-low",
+              )}
+            />
+            <span>
+              <InlineMarkdown>{item}</InlineMarkdown>
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+/** Where the competitor facts come from, under the table. */
+export function SourcesNote(props: { comparison: Comparison }) {
+  const { comparison } = props;
+  return (
+    <p className="mt-6 text-xs text-low">
+      Sources for {comparison.name}:{" "}
+      {comparison.sources.map((source, index) => (
+        <span key={source.href}>
+          {index > 0 ? ", " : null}
+          <a href={source.href} className="underline-offset-2 hover:underline">
+            {source.label}
+          </a>
+        </span>
+      ))}
+      . Checked {formatCheckedAt(comparison.checkedAt)}.
+    </p>
   );
 }
 
