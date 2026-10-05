@@ -43,7 +43,7 @@ export const DIFF_QUESTIONS: FAQQuestion[] = [
           . Supported content types are plain text, JSON, YAML, XML, HTML,
           Markdown, CSS and JavaScript; each file is matched to its baseline by
           name and diffed as text. The Playwright SDK also captures{" "}
-          <Link href="/docs/sdks-reference/playwright#aria-snapshots">
+          <Link href="/docs/reference/playwright#aria-snapshots">
             ARIA snapshots
           </Link>{" "}
           of the accessibility tree, and the Vitest SDK snapshots any
@@ -53,7 +53,7 @@ export const DIFF_QUESTIONS: FAQQuestion[] = [
       </>
     ),
     textAnswer:
-      'Text files, uploaded with the CLI: `argos upload -f "**/*.{txt,json,yaml,yml,xml,html,md,css,js}" ./snapshots`. Supported content types are plain text, JSON, YAML, XML, HTML, Markdown, CSS and JavaScript; each file is matched to its baseline by name and diffed as text. The Playwright SDK also captures <a href="/docs/sdks-reference/playwright#aria-snapshots">ARIA snapshots</a> of the accessibility tree, and the Vitest SDK snapshots any serializable value with `argosSnapshot`. Every snapshot in a build counts as one screenshot toward your plan.',
+      'Text files, uploaded with the CLI: `argos upload -f "**/*.{txt,json,yaml,yml,xml,html,md,css,js}" ./snapshots`. Supported content types are plain text, JSON, YAML, XML, HTML, Markdown, CSS and JavaScript; each file is matched to its baseline by name and diffed as text. The Playwright SDK also captures <a href="/docs/reference/playwright#aria-snapshots">ARIA snapshots</a> of the accessibility tree, and the Vitest SDK snapshots any serializable value with `argosSnapshot`. Every snapshot in a build counts as one screenshot toward your plan.',
   },
   {
     name: "What is a snapshot compared against?",

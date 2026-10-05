@@ -122,7 +122,7 @@ this pull request with its Argos build.` The `argos-cli` skill covers the
 list|add|remove`, `argos comment list|create|resolve|react …`. Read-only
   commands (`build get`, `build snapshots --needs-review`) accept a project
   token; everything attributed to a user needs a personal access token or
-  `argos login`. https://argos-ci.com/docs/sdks-reference/argos-command-line-interface-cli#reviewing-and-commenting
+  `argos login`. https://argos-ci.com/docs/reference/argos-command-line-interface-cli#reviewing-and-commenting
 - **MCP**: https://mcp.argos-ci.com exposes every review and comment operation
   as a tool. Scopes: `projects:read` to inspect builds, `reviews:write` for
   reviews and review requests, `comments:write` for comments. Project tokens

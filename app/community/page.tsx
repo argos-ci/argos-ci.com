@@ -142,7 +142,7 @@ export default function Page() {
                 without a budget.
               </>
             }
-            href="/docs/learn/billing-and-subscription/subscription/open-source"
+            href="/docs/learn/billing-and-subscription/open-source"
             cta="See the program"
             icon={HeartIcon}
           />

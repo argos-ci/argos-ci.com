@@ -30,7 +30,7 @@ export const comparison: Comparison = {
     {
       title: "Screenshot in Play function",
       description: "Take screenshots during the test",
-      href: "/docs/sdks-reference/storybook#interactions-using-the-play-function",
+      href: "/docs/reference/storybook#interactions-using-the-play-function",
       argos: "✔️",
       competitor: "❌",
     },

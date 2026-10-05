@@ -139,7 +139,7 @@ export function Cost() {
               description="Set monthly spend limits and get notified before you exceed your threshold."
             />
             <CostFeature
-              href="/docs/learn/billing-and-subscription/subscription/pricing-plans"
+              href="/docs/learn/billing-and-subscription/pricing-plans"
               icon={TrendingDownIcon}
               title="Cheaper at every volume"
               description="From small teams to millions of snapshots, Argos stays below competitors."

@@ -92,7 +92,7 @@ The first command an agent reaches for on each:
 - Guides: https://argos-ci.com/docs/agents/agent-skills ·
   https://argos-ci.com/docs/learn/review-workflow/review-builds-with-ai-agents ·
   https://argos-ci.com/docs/learn/reliability-and-flakiness/fix-flaky-tests-with-ai-agents ·
-  https://argos-ci.com/docs/sdks-reference/argos-command-line-interface-cli
+  https://argos-ci.com/docs/reference/argos-command-line-interface-cli
 
 ## REST API and discovery
 

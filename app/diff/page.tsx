@@ -125,7 +125,7 @@ export default function Page() {
                   place. Same page, same pixels, in every run.
                 </>
               }
-              href="/docs/sdks-reference/playwright#api-overview"
+              href="/docs/reference/playwright#api-overview"
               illustration={<Stabilization compact />}
             />
             <FeatureGridFeature
@@ -161,7 +161,7 @@ export default function Page() {
                   <Code>--threshold</Code>.
                 </>
               }
-              href="/docs/sdks-reference/playwright#api-overview"
+              href="/docs/reference/playwright#api-overview"
               icon={SlidersHorizontalIcon}
             />
             <FeatureGridFeatureSmall
@@ -240,7 +240,7 @@ export default function Page() {
                   text diff even when the pixels don&apos;t move.
                 </>
               }
-              href="/docs/sdks-reference/playwright#aria-snapshots"
+              href="/docs/reference/playwright#aria-snapshots"
               illustration={<AriaSnapshots />}
             />
           </FeatureGrid>
@@ -257,7 +257,7 @@ export default function Page() {
                   across builds. No browser needed.
                 </>
               }
-              href="/docs/sdks-reference/vitest#capturing-snapshots"
+              href="/docs/reference/vitest#capturing-snapshots"
               icon={FlaskConicalIcon}
             />
             <FeatureGridFeatureSmall
@@ -280,7 +280,7 @@ export default function Page() {
                   plan, image or not, and each is limited to 50 MB.
                 </>
               }
-              href="/docs/sdks-reference/argos-command-line-interface-cli#snapshot-size-limit"
+              href="/docs/reference/argos-command-line-interface-cli#snapshot-size-limit"
               icon={ScaleIcon}
             />
           </Container>
@@ -336,7 +336,7 @@ export default function Page() {
                     <StorybookCIVitest />
                   </div>
                 ),
-                href: "/docs/sdks-reference/storybook",
+                href: "/docs/reference/storybook",
               },
             ]}
           />
@@ -354,7 +354,7 @@ export default function Page() {
                 to capture a form before and after it is filled.
               </>
             }
-            href="/docs/sdks-reference/storybook#interactions-using-the-play-function"
+            href="/docs/reference/storybook#interactions-using-the-play-function"
             icon={MousePointerClickIcon}
           />
           <FeatureGridFeatureSmall
@@ -366,7 +366,7 @@ export default function Page() {
                 to capture the whole page.
               </>
             }
-            href="/docs/sdks-reference/storybook#fit-to-content-vs-page"
+            href="/docs/reference/storybook#fit-to-content-vs-page"
             icon={CropIcon}
           />
           <FeatureGridFeatureSmall
@@ -430,7 +430,7 @@ export default function Page() {
                   agent knows what they are looking at.
                 </>
               }
-              href="/docs/sdks-reference/screenshot-metadata"
+              href="/docs/reference/screenshot-metadata"
               illustration={<TestContext />}
             />
           </FeatureGrid>
@@ -493,7 +493,7 @@ export default function Page() {
         }
         code={AGENT_CODE}
         badge="argos-cli"
-        docsHref="/docs/sdks-reference/argos-command-line-interface-cli#inspecting-builds-and-tests"
+        docsHref="/docs/reference/argos-command-line-interface-cli#inspecting-builds-and-tests"
         docsLabel="CLI reference"
         cards={[
           {
@@ -507,7 +507,7 @@ export default function Page() {
                 awaiting a decision.
               </>
             ),
-            href: "/docs/sdks-reference/argos-command-line-interface-cli#project-tokens-and-personal-access-tokens",
+            href: "/docs/reference/argos-command-line-interface-cli#project-tokens-and-personal-access-tokens",
           },
           {
             icon: PlugIcon,

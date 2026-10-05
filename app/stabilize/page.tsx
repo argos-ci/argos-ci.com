@@ -331,7 +331,7 @@ export default function Page() {
                   so you or your agent start where the failure happened.
                 </>
               }
-              href="/docs/sdks-reference/playwright#setup-tests-debugging"
+              href="/docs/reference/playwright#setup-tests-debugging"
               illustration={<OneClickReplayIllustration />}
             />
             <FeatureGridFeature
@@ -362,7 +362,7 @@ export default function Page() {
                   screenshots, so debugging and visual testing share one build.
                 </>
               }
-              href="/docs/sdks-reference/playwright#setup-tests-debugging"
+              href="/docs/reference/playwright#setup-tests-debugging"
               icon={Settings2Icon}
             />
             <FeatureGridFeatureSmall
@@ -375,7 +375,7 @@ export default function Page() {
                   are a Playwright feature.
                 </>
               }
-              href="/docs/sdks-reference/cypress"
+              href="/docs/reference/cypress"
               icon={FlaskConicalIcon}
             />
             <FeatureGridFeatureSmall
@@ -387,7 +387,7 @@ export default function Page() {
                   they reach your main branch.
                 </>
               }
-              href="/docs/sdks-reference/playwright#debug-flaky-tests"
+              href="/docs/reference/playwright#debug-flaky-tests"
               icon={RepeatIcon}
             />
           </Container>
@@ -473,7 +473,7 @@ export default function Page() {
                   leave its findings where the team reads them.
                 </>
               }
-              href="/docs/sdks-reference/argos-command-line-interface-cli#reviewing-and-commenting"
+              href="/docs/reference/argos-command-line-interface-cli#reviewing-and-commenting"
               icon={TerminalIcon}
             />
             <FeatureGridFeatureSmall

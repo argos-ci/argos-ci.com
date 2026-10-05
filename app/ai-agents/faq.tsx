@@ -68,7 +68,7 @@ export const AI_AGENTS_QUESTIONS: FAQQuestion[] = [
         <p>
           The MCP server takes OAuth or a personal access token and does not
           accept project tokens. See{" "}
-          <Link href="/docs/sdks-reference/argos-command-line-interface-cli#project-tokens-and-personal-access-tokens">
+          <Link href="/docs/reference/argos-command-line-interface-cli#project-tokens-and-personal-access-tokens">
             project tokens and personal access tokens
           </Link>
           .
@@ -76,7 +76,7 @@ export const AI_AGENTS_QUESTIONS: FAQQuestion[] = [
       </>
     ),
     textAnswer:
-      'Uploads, deployments, and read-only commands such as build get, build snapshots, test list, test get, and test changes work with a project token, the one your CI already has. Anything attributed to a user, such as submitting a review, requesting reviewers, posting a comment, ignoring a change, or configuring a project, needs a personal access token, because the action is checked against that user\'s permissions. Locally, argos login stores one for you. The MCP server takes OAuth or a personal access token and does not accept project tokens. See <a href="/docs/sdks-reference/argos-command-line-interface-cli#project-tokens-and-personal-access-tokens">project tokens and personal access tokens</a>.',
+      'Uploads, deployments, and read-only commands such as build get, build snapshots, test list, test get, and test changes work with a project token, the one your CI already has. Anything attributed to a user, such as submitting a review, requesting reviewers, posting a comment, ignoring a change, or configuring a project, needs a personal access token, because the action is checked against that user\'s permissions. Locally, argos login stores one for you. The MCP server takes OAuth or a personal access token and does not accept project tokens. See <a href="/docs/reference/argos-command-line-interface-cli#project-tokens-and-personal-access-tokens">project tokens and personal access tokens</a>.',
   },
   {
     name: "Does Argos use AI to decide whether a change is acceptable?",

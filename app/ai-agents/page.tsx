@@ -243,7 +243,7 @@ export default function Page() {
                   can&apos;t fix.
                 </>
               }
-              href="/docs/sdks-reference/argos-command-line-interface-cli"
+              href="/docs/reference/argos-command-line-interface-cli"
               icon={TerminalIcon}
             />
             <FeatureGridFeatureSmall
