@@ -1,6 +1,6 @@
 # Argos Diff: every change, diffed. Pixels or any file.
 
-> Deterministic pixel diffs for screenshots and text diffs for Markdown, JSON, YAML, HTML and ARIA snapshots, each compared to the baseline Argos picks from your Git history. Works with Playwright, Vitest, Storybook, Cypress, WebdriverIO and Puppeteer, or with any tool through the CLI. Every diff is structured data an agent can read.
+> Open-source visual regression testing: deterministic pixel diffs for screenshots and text diffs for Markdown, JSON, YAML, HTML and ARIA snapshots, each compared to the baseline Argos picks from your Git history. Works with Playwright, Vitest, Storybook, Cypress, WebdriverIO and Puppeteer, or with any tool through the CLI. Every diff is structured data an agent can read.
 
 Canonical: https://argos-ci.com/diff
 Documentation: https://argos-ci.com/docs/learn/platform-fundamentals/how-argos-detects-visual-differences
@@ -44,7 +44,7 @@ https://app.argos-ci.com/argos-ci/snkr-shop/builds/11
 
 Documentation:
 https://argos-ci.com/docs/learn/platform-fundamentals/how-argos-detects-visual-differences,
-https://argos-ci.com/docs/sdks-reference/playwright,
+https://argos-ci.com/docs/reference/playwright,
 https://argos-ci.com/docs/learn/reliability-and-flakiness/flaky-tests/argos-helpers
 
 ## Any file: not just screenshots
@@ -81,8 +81,8 @@ https://argos-ci.com/docs/learn/reliability-and-flakiness/flaky-tests/argos-help
 
 Documentation:
 https://argos-ci.com/docs/learn/how-to-guides/visual-coverage/compare-non-image-files,
-https://argos-ci.com/docs/sdks-reference/playwright#aria-snapshots,
-https://argos-ci.com/docs/sdks-reference/vitest
+https://argos-ci.com/docs/reference/playwright#aria-snapshots,
+https://argos-ci.com/docs/reference/vitest
 
 ## Storybook: every story, every mode, in your CI
 
@@ -108,7 +108,7 @@ https://argos-ci.com/docs/sdks-reference/vitest
 
 Documentation: https://argos-ci.com/docs/quickstart/storybook-quickstart,
 https://argos-ci.com/docs/learn/how-to-guides/visual-coverage/storybook-story-modes,
-https://argos-ci.com/docs/sdks-reference/storybook
+https://argos-ci.com/docs/reference/storybook
 
 ## Any framework, any CI: your tests, your CI, one baseline
 
@@ -141,7 +141,7 @@ https://argos-ci.com/docs/sdks-reference/storybook
   [Argos Review](https://argos-ci.com/review).
 
 Documentation: https://argos-ci.com/docs/quickstart,
-https://argos-ci.com/docs/sdks-reference/screenshot-metadata,
+https://argos-ci.com/docs/reference/screenshot-metadata,
 https://argos-ci.com/docs/learn/platform-fundamentals/baseline-build,
 https://argos-ci.com/docs/learn/how-to-guides/ci-pipelines/parallel-testing-sharding
 
@@ -176,7 +176,7 @@ argos build snapshots <build> --needs-review --json
   https://argos-ci.com/docs/api-reference
 
 Documentation:
-https://argos-ci.com/docs/sdks-reference/argos-command-line-interface-cli,
+https://argos-ci.com/docs/reference/argos-command-line-interface-cli,
 https://argos-ci.com/docs/agents/mcp-server,
 https://argos-ci.com/docs/agents/agent-skills,
 https://argos-ci.com/ai-agents

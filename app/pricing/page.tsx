@@ -4,10 +4,12 @@ import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 import { FullPageGrid } from "@/components/FullPageGrid";
 import { Hero, HeroDescription, HeroHeading } from "@/components/Hero";
+import { JsonLd } from "@/components/JsonLd";
 import { Link } from "@/components/Link";
 import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
 import { SectionDescription, SectionTitle } from "@/components/Typography";
 import { getMetadata } from "@/lib/metadata";
+import { softwareApplicationJsonLd } from "@/lib/structured-data";
 
 import { PricingSlider } from "../common/PricingSlider";
 import { TrustedBy } from "../common/TrustedBy";
@@ -16,8 +18,9 @@ import { FAQ } from "./PricingFaq";
 
 export const metadata: Metadata = getMetadata({
   title: "Pricing",
+  absoluteTitle: "Argos Pricing · Open-source visual testing, free to start",
   description:
-    "Simple, usage-based pricing with explicit per-screenshot rates. Free to start, no credit card. Scale usage, not seats.",
+    "Argos visual testing pricing: a free Hobby plan, then simple usage-based pricing with explicit per-screenshot rates. No credit card to start. Scale usage, not seats.",
   pathname: "/pricing",
 });
 
@@ -56,6 +59,7 @@ export default function Page() {
           <FAQ />
         </Container>
       </section>
+      <JsonLd json={softwareApplicationJsonLd} />
     </>
   );
 }
@@ -72,7 +76,7 @@ function OpenSourceSponsoring() {
             </SectionDescription>
           </SectionHeaderTexts>
           <Button variant="outline" asChild>
-            <Link href="/docs/learn/billing-and-subscription/subscription/open-source">
+            <Link href="/docs/learn/billing-and-subscription/open-source">
               Apply to sponsoring program
             </Link>
           </Button>

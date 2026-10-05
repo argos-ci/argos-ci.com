@@ -17,8 +17,9 @@ import { comparison } from "./comparison";
 import { FAQ } from "./faq";
 
 export const metadata: Metadata = getMetadata({
-  title: "Argos, the alternative to BackstopJS",
-  absoluteTitle: "Argos, the alternative to BackstopJS",
+  title: "Argos vs BackstopJS",
+  absoluteTitle:
+    "Argos vs BackstopJS · Visual regression testing without committed baselines",
   description:
     "Move from self-hosted BackstopJS to Argos: cloud baselines from your Git history, consistent comparisons across machines, and reviews on the pull request.",
   pathname: "/compare/backstopjs",

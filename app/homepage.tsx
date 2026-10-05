@@ -2,8 +2,13 @@ import { Metadata } from "next";
 
 import { CallToActionSection } from "@/components/CallToActionSection";
 import { FeaturedSDKsSection } from "@/components/featured-sdk/FeaturedSDKs";
+import { JsonLd } from "@/components/JsonLd";
 import { RedirectIfCookie } from "@/components/RedirectIfCookie";
 import { defaultDescription, defaultTitle, getMetadata } from "@/lib/metadata";
+import {
+  softwareApplicationJsonLd,
+  websiteJsonLd,
+} from "@/lib/structured-data";
 
 import { TrustedBy } from "./common/TrustedBy";
 import { Agents } from "./home/agents/Agents";
@@ -40,6 +45,8 @@ export default function Page() {
       <Cost />
       <Customers />
       <CallToActionSection />
+      <JsonLd json={websiteJsonLd} />
+      <JsonLd json={softwareApplicationJsonLd} />
     </>
   );
 }

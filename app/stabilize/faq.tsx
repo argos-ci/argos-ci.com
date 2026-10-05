@@ -95,7 +95,7 @@ export const STABILIZE_QUESTIONS: FAQQuestion[] = [
         </p>
         <p>
           Traces are a Playwright feature. The{" "}
-          <Link href="/docs/sdks-reference/cypress">Cypress SDK</Link> gives you
+          <Link href="/docs/reference/cypress">Cypress SDK</Link> gives you
           visibility on test failures alongside its stabilization.
         </p>
       </>

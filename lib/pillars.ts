@@ -30,8 +30,8 @@ export const PILLARS = [
     href: "/diff",
     name: "Diff",
     description:
-      "Any file, not just pixels: screenshots, Markdown, JSON, and more.",
-    short: "Every change, pixels or any file",
+      "Visual regression testing for screenshots, and diffs for any file: Markdown, JSON, and more.",
+    short: "Visual testing, pixels or any file",
     color: "blue",
   },
   {

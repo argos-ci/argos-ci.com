@@ -1,4 +1,5 @@
 import { markdownHeaders } from "@/lib/agents";
+import { argosDefinition } from "@/lib/metadata";
 import { PILLARS } from "@/lib/pillars";
 import { WEBMCP_TOOLS } from "@/lib/webmcp-tools";
 
@@ -19,7 +20,7 @@ const webMcpToolNames = WEBMCP_TOOLS.map((tool) => tool.name).join(", ");
  */
 const llmsTxt = `# Argos
 
-> Argos does four things for every pull request. Diff: deterministic diffs of any file, not just pixels: screenshots, Markdown, JSON, YAML, HTML, ARIA snapshots. Review: one place for humans and agents to approve what changed, with the verdict on the PR. Stabilize: kill flakes and debug failures with full per-test history. Deploy: free preview URLs for your Storybook or static site on every PR. Everything is reachable from the CLI, the MCP server and the REST API, so AI agents use it end to end.
+> ${argosDefinition} It does four things for every pull request. Diff: visual regression testing with deterministic diffs of screenshots and any other file: Markdown, JSON, YAML, HTML, ARIA snapshots. Review: one place for humans and agents to approve what changed, with the verdict on the PR. Stabilize: kill flakes and debug failures with full per-test history. Deploy: free preview URLs for your Storybook or static site on every PR. Everything is reachable from the CLI, the MCP server and the REST API, so AI agents use it end to end.
 
 Pages on argos-ci.com are also available as markdown: send \`Accept: text/markdown\` and the response is \`Content-Type: text/markdown\` (HTML stays the default), or read \`/md/<path>\` directly.
 
@@ -38,6 +39,7 @@ ${pillarBullets}
 - [API reference](https://argos-ci.com/docs/api-reference): the Argos REST API at https://api.argos-ci.com/v2
 - [OpenAPI description](https://api.argos-ci.com/v2/openapi.yaml): machine-readable API spec
 - [Agents](https://argos-ci.com/docs/agents): MCP server, CLI, and agent skills
+- [Docs MCP server](https://argos-ci.com/docs/~gitbook/mcp): search and read the documentation from any MCP client
 
 ## Agent surfaces
 

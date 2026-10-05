@@ -4,6 +4,7 @@ description: "AI visual testing means two different things: AI-powered diffing a
 category: guides
 author: jeremy
 date: 2026-08-20
+updatedAt: 2026-10-05
 image: ./main.jpg
 imageAlt: "Abstract illustration split in two: a deterministic pixel grid diff on one side, an AI agent inspecting a screenshot on the other"
 ---
@@ -14,7 +15,7 @@ imageAlt: "Abstract illustration split in two: a deterministic pixel grid diff o
 
 ## Why every visual testing tool suddenly has "AI"
 
-Between 2025 and 2026, the whole category rebranded. Applitools has marketed its comparison engine as [Visual AI](https://applitools.com) for years. Percy (BrowserStack) shipped an AI "Visual Review Agent" in October 2025, plus MCP server integration. Chromatic released Storybook MCP servers in March 2026. Argos shipped an [agent-ready CLI and API](/ai-agents) with open-source agent skills.
+Between 2025 and 2026, the whole category rebranded. Applitools has marketed its comparison engine as [Visual AI](https://applitools.com) for years. Percy (BrowserStack) shipped an AI "Visual Review Agent" in October 2025, and the BrowserStack MCP server exposes Percy tools to agents. Applitools published an Eyes MCP server in March 2026, and Chromatic released Storybook MCP servers the same month. Argos shipped an [agent-ready CLI and API](/ai-agents) with open-source agent skills.
 
 These are not the same feature. Some of that AI runs _inside_ the comparison, changing what counts as a difference. Some of it runs _on top of_ the comparison, changing who reviews the differences. Conflating the two is how teams end up surprised by what their tool silently ignored.
 
@@ -24,7 +25,7 @@ These are not the same feature. Some of that AI runs _inside_ the comparison, ch
 
 This is the Applitools pitch, and it is a real technology. Instead of comparing screenshots pixel by pixel, a computer-vision model classifies differences: anti-aliasing artifacts, sub-pixel font rendering shifts, and cursor blinks get ignored; layout moves and content changes get flagged. The promise is fewer false positives without you tuning anything.
 
-The trade-off is that the comparison becomes a black box. When the model says "no meaningful change," you cannot inspect a rule or a threshold to understand why. When it misclassifies, a real one-pixel regression dismissed as noise, or noise flagged as a regression, you cannot reproduce or debug the decision. You retrain your trust in a vendor's model instead of your own eyes. And it is priced accordingly: Applitools sits at a reported $399/month entry point, with typical enterprise contracts in the $10K-30K+/year range. See our full [Argos vs Applitools comparison](/compare/applitools).
+The trade-off is that the comparison becomes a black box. When the model says "no meaningful change," you cannot inspect a rule or a threshold to understand why. When it misclassifies, a real one-pixel regression dismissed as noise, or noise flagged as a regression, you cannot reproduce or debug the decision. You retrain your trust in a vendor's model instead of your own eyes. And it is priced accordingly: Applitools Starter is $667/month, paid annually, and the larger plans are quoted by sales. See our full [Argos vs Applitools comparison](/compare/applitools).
 
 ### 2. AI-assisted review: the agent reasons about deterministic diffs
 
@@ -74,14 +75,14 @@ But that is a workaround for uncontrolled capture, not a superior architecture. 
 
 As of September 2026:
 
-| Tool                              | What "AI" means there                                               | Comparison engine                                        | Entry pricing                            |
-| --------------------------------- | ------------------------------------------------------------------- | -------------------------------------------------------- | ---------------------------------------- |
-| [Argos](/pricing)                 | Agents review deterministic diffs via CLI/API, open-source skills   | Deterministic, pixel-accurate, per-screenshot thresholds | Free 5k/mo, then $100/mo flat            |
-| [Chromatic](/compare/chromatic)   | Storybook MCP servers (Mar 2026)                                    | Deterministic (their cloud, SteadySnap anti-flake)       | From $179/mo                             |
-| [Applitools](/compare/applitools) | Visual AI comparison engine ignores noise, flags "meaningful" diffs | AI-powered (black box)                                   | Reported $399/mo, $10K-30K+/yr contracts |
-| [Percy](/compare/percy)           | Visual Review Agent (Oct 2025), MCP integration                     | Deterministic, on cloud-re-rendered DOM snapshots        | From $599/mo                             |
+| Tool                              | What "AI" means there                                               | Comparison engine                                          | Entry pricing                 |
+| --------------------------------- | ------------------------------------------------------------------- | ---------------------------------------------------------- | ----------------------------- |
+| [Argos](/pricing)                 | Agents review deterministic diffs via CLI/API, open-source skills   | Deterministic, pixel-accurate, per-screenshot thresholds   | Free 5k/mo, then $100/mo flat |
+| [Chromatic](/compare/chromatic)   | Storybook MCP servers (Mar 2026)                                    | Deterministic (their cloud, SteadySnap anti-flake)         | From $179/mo                  |
+| [Applitools](/compare/applitools) | Visual AI comparison engine ignores noise, flags "meaningful" diffs | AI-powered (black box)                                     | From $667/mo, billed annually |
+| [Percy](/compare/percy)           | Visual Review Agent (Oct 2025), MCP tools via BrowserStack          | Pixel comparison with AI noise reduction, on cloud renders | Paid plans not published      |
 
-Two things stand out. First, most of the market's "AI" is actually review-layer AI on top of deterministic comparison; only Applitools puts the model inside the diff itself. Second, the AI label has no correlation with price: Argos gives you the agent-review layer, deterministic diffs, and unlimited parallelization at $100/month flat, and it is [open source](https://github.com/argos-ci).
+Two things stand out. First, most of the market's "AI" is review-layer AI on top of pixel comparison; Applitools goes furthest in putting a model inside the diff itself, and Percy markets AI noise reduction in its engine. Second, the AI label has no correlation with price: Argos gives you the agent-review layer, deterministic diffs, and unlimited parallelization at $100/month flat, and it is [open source](https://github.com/argos-ci).
 
 ## What should you actually look for in an AI visual testing tool?
 

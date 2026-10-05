@@ -9,7 +9,11 @@ import { XIcon } from "@/components/icons/XIcon";
 import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
 import { ThemeImage } from "@/components/ThemeImage";
 import { SectionDescription, SectionTitle } from "@/components/Typography";
-import { getMetadata } from "@/lib/metadata";
+import {
+  argosDefinition,
+  argosPillarsSentence,
+  getMetadata,
+} from "@/lib/metadata";
 
 import { gregEmployee, jeremyEmployee } from "../assets/people/library";
 import { app } from "../assets/product/library";
@@ -17,9 +21,9 @@ import { TrustedBy } from "../common/TrustedBy";
 
 export const metadata: Metadata = getMetadata({
   title: "About",
-  absoluteTitle: "About Argos | Our Mission and Approach to Product Quality",
+  absoluteTitle: "About Argos · The open-source visual testing platform",
   description:
-    "Discover the story behind Argos, our mission, and how we help engineering teams keep product quality high, and merge with confidence, in the age of AI agents.",
+    "Argos is an open-source visual regression testing platform, built in Paris since 2016. Meet the team and the principles behind it: deterministic diffs, stable baselines, reviews for humans and AI agents.",
   pathname: "/about",
 });
 
@@ -48,9 +52,7 @@ export default function AboutPage() {
         <Container className="border-x py-14 text-center md:py-16">
           <SectionTitle className="mb-8">What is Argos?</SectionTitle>
           <p className="my-4 text-xl font-medium text-balance">
-            Argos is the platform that keeps product quality high in the age of
-            AI agents. It shows your team and your agents exactly what every
-            change does, so you can merge with confidence.
+            {argosDefinition} {argosPillarsSentence}
           </p>
           <ThemeImage
             src={app}
@@ -103,8 +105,9 @@ export default function AboutPage() {
                 Built for teams that care about quality
               </SectionTitle>
               <SectionDescription>
-                Argos is built by a small team of engineers who ship fast and
-                still care deeply about correctness.
+                Argos started as an open-source project in 2016 and is built in
+                Paris by a small team of engineers who ship fast and still care
+                deeply about correctness.
               </SectionDescription>
             </SectionHeaderTexts>
           </SectionHeader>

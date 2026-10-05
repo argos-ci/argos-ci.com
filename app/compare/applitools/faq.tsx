@@ -1,5 +1,10 @@
 import { FAQAccordion, FAQQuestion } from "@/components/FAQAccordion";
 import { Link } from "@/components/Link";
+import {
+  ARGOS_HOBBY_SCREENSHOT_COUNT,
+  ARGOS_PRO_FLAT_PRICE,
+  ARGOS_PRO_FLAT_SCREENSHOT_COUNT,
+} from "@/lib/constants";
 
 export const APPLITOOLS_QUESTIONS: FAQQuestion[] = [
   {
@@ -51,9 +56,10 @@ export const APPLITOOLS_QUESTIONS: FAQQuestion[] = [
     answer: (
       <>
         <p>
-          <strong>Applitools</strong> provides SDKs for several test frameworks
-          to enable its use. Screenshots are captured remotely, that’s why a SDK
-          is needed.
+          <strong>Applitools</strong> provides SDKs for several test frameworks.
+          They either upload screenshots taken locally (the Classic runner) or
+          send DOM snapshots that Applitools renders in its cloud (the Ultrafast
+          Grid).
         </p>
         <p>
           <strong>Argos</strong> also provides very advanced integration like
@@ -64,7 +70,7 @@ export const APPLITOOLS_QUESTIONS: FAQQuestion[] = [
       </>
     ),
     textAnswer:
-      "Applitools provides SDKs for several test frameworks to enable its use. Screenshots are captured remotely, that's why a SDK is needed. Argos also provides very advanced integration like the one for Playwright and Cypress. It also relies on a bash command to upload screenshots. As long as you can capture screenshots of your website, you can use Argos.",
+      "Applitools provides SDKs for several test frameworks. They either upload screenshots taken locally (the Classic runner) or send DOM snapshots that Applitools renders in its cloud (the Ultrafast Grid). Argos also provides very advanced integration like the one for Playwright and Cypress. It also relies on a bash command to upload screenshots. As long as you can capture screenshots of your website, you can use Argos.",
   },
   {
     name: "Are Applitools and Argos compatible with my CI?",
@@ -89,24 +95,26 @@ export const APPLITOOLS_QUESTIONS: FAQQuestion[] = [
       "Both Applitools and Argos allow you to control team members' access and permissions for each project.",
   },
   {
-    name: "Why isn't Applitools pricing public?",
+    name: "How much does Applitools cost compared to Argos?",
     answer: (
       <>
         <p>
-          <strong>Applitools</strong> doesn’t disclose their pricing publicly,
-          but it’s known to be one of the more expensive options on the market.
-          You will need to speak with a salesperson to get a price offer.
+          <strong>Applitools</strong> publishes one price: Starter at $667 a
+          month, paid annually, for 100,000 component checkpoints or 1,000 page
+          checkpoints. Professional and Enterprise plans are quoted by sales.
         </p>
         <p>
-          <strong>Argos</strong> offers{" "}
-          <Link href="/pricing">transparent and affordable pricing</Link>.
-          Custom pricing can be arranged for specific features or dedicated
-          support requests.
+          <strong>Argos</strong> publishes{" "}
+          <Link href="/pricing">all of its prices</Link>: a free Hobby plan for
+          personal projects with{" "}
+          {ARGOS_HOBBY_SCREENSHOT_COUNT.toLocaleString("en-US")} screenshots a
+          month, and Pro at ${ARGOS_PRO_FLAT_PRICE}/month flat with{" "}
+          {ARGOS_PRO_FLAT_SCREENSHOT_COUNT.toLocaleString("en-US")} screenshots
+          included. Custom plans are available for large volumes.
         </p>
       </>
     ),
-    textAnswer:
-      "Applitools doesn't disclose their pricing publicly, but it's known to be one of the more expensive options on the market. You will need to speak with a salesperson to get a price offer. Argos offers transparent and affordable pricing. Custom pricing can be arranged for specific features or dedicated support requests.",
+    textAnswer: `Applitools publishes one price: Starter at $667 a month, paid annually, for 100,000 component checkpoints or 1,000 page checkpoints. Professional and Enterprise plans are quoted by sales. Argos publishes all of its prices: a free Hobby plan for personal projects with ${ARGOS_HOBBY_SCREENSHOT_COUNT.toLocaleString("en-US")} screenshots a month, and Pro at $${ARGOS_PRO_FLAT_PRICE}/month flat with ${ARGOS_PRO_FLAT_SCREENSHOT_COUNT.toLocaleString("en-US")} screenshots included. Custom plans are available for large volumes.`,
   },
   {
     name: "What makes Argos community-driven?",

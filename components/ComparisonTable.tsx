@@ -43,21 +43,23 @@ export function THead(props: {
       <Tr>
         <Th />
         <Th className="w-[40%] pb-6">
-          <ArgosLogo className="mx-auto h-6 md:h-8" />
+          <ArgosLogo aria-hidden className="mx-auto h-6 md:h-8" />
+          <span className="sr-only">Argos</span>
         </Th>
         <Th className="w-[40%] pb-6">
           <Image
             src={props.logoSrc}
-            alt={props.title}
+            alt=""
             className={clsx("h-6 md:h-8", props.logoSrcDark && "dark:hidden")}
           />
           {props.logoSrcDark && (
             <Image
               src={props.logoSrcDark}
-              alt={props.title}
+              alt=""
               className="hidden h-6 md:h-8 dark:block"
             />
           )}
+          <span className="sr-only">{props.title}</span>
         </Th>
       </Tr>
     </thead>

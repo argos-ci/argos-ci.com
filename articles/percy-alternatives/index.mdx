@@ -1,38 +1,38 @@
 ---
 title: "Percy Alternatives in 2026: 5 Tools Compared + Migration Guide"
-description: "Looking for Percy alternatives after the BrowserStack acquisition? Compare Argos, Chromatic, Applitools, and more, plus a step-by-step migration guide."
+description: "Looking for Percy alternatives? Compare Argos, Chromatic, Applitools, and more on pricing and capture model, plus a step-by-step migration guide."
 category: guides
 author: greg
 date: 2026-07-28
+updatedAt: 2026-10-05
 image: ./main.jpg
 imageAlt: "Abstract illustration of screenshots fanning out from a central node to five alternative destinations"
 ---
 
-The best Percy alternatives in 2026 are **Argos** ($100/mo flat, open source, captures in your real test browser), **Chromatic** (deepest Storybook integration), **Applitools** (enterprise Visual AI), **BackstopJS** (free, self-hosted), and **Playwright's built-in `toHaveScreenshot`**. For most teams, Argos is the closest workflow match to Percy: PR-based review, CI-driven captures, and a one-file migration, at a fraction of Percy's $599/mo entry tier.
+The best Percy alternatives in 2026 are **Argos** ($100/mo flat, open source, captures in your real test browser), **Chromatic** (deepest Storybook integration), **Applitools** (enterprise Visual AI), **BackstopJS** (free, self-hosted), and **Playwright's built-in `toHaveScreenshot`**. For most teams, Argos is the closest workflow match to Percy: PR-based review, CI-driven captures, and a one-file migration, with prices you can read on the pricing page.
 
 <MainImage />
 
 ## Why are teams looking for Percy alternatives?
 
-Percy was the tool that made visual testing mainstream. Then [BrowserStack acquired it](https://www.browserstack.com/percy), and the search volume for "percy alternatives" tells the rest of the story. The recurring complaints:
+Percy was the tool that made visual testing mainstream. Then [BrowserStack acquired it](https://www.browserstack.com/press/browserstack-acquires-percy-visual-testing) in 2020, and the search volume for "percy alternatives" tells the rest of the story. The recurring complaints:
 
-- **Price.** Percy's known paid tier sits at **$599/month** (see our [Argos vs Percy comparison](/compare/percy)), and as of July 2026 BrowserStack no longer displays Percy plans on its [public pricing page](https://www.browserstack.com/pricing?product=percy), so expect a sales conversation. Third parties have reported significant post-acquisition price increases and tighter snapshot caps. For a small team, that entry price is brutal.
-- **Parallel uploads cost extra.** Running your test suite across parallel CI workers, which is how everyone runs Playwright in 2026, requires paid parallels on Percy. Alternatives like Argos include unlimited parallelization in every plan.
+- **Price you can't read.** As of October 2026, BrowserStack no longer displays Percy plans on its [public pricing page](https://www.browserstack.com/pricing?product=percy). The [billing docs](https://www.browserstack.com/docs/percy/overview/plans-and-billing) describe a free plan with 5,000 screenshots a month and paid plans with a fixed number of screenshots, but no prices, so expect a sales conversation.
 - **Cloud DOM re-rendering flakiness.** Percy doesn't diff the pixels your test rendered. It uploads your page's DOM, CSS, and assets, then **re-renders the snapshot in Percy's cloud** across the widths and browsers configured in `.percy.yml`. That architecture has a real upside (true cross-browser rendering without running those browsers yourself), but it also means what you review is not exactly what your test saw. Complex JavaScript, lazy-loaded content, and third-party embeds can render differently in Percy's environment, producing diffs that are hard to reproduce and debug locally.
 
-To be fair, Percy is still shipping: it released an AI "Visual Review Agent" in October 2025 and MCP server integration. But if the pricing or the re-render model no longer fits, here are the alternatives worth evaluating.
+To be fair, Percy is still shipping: it released an AI "Visual Review Agent" in October 2025, and the BrowserStack MCP server exposes Percy tools to agents. But if the pricing or the re-render model no longer fits, here are the alternatives worth evaluating.
 
-## Percy alternatives compared (July 2026)
+## Percy alternatives compared (October 2026)
 
-| Tool                                     | Entry paid price                            | Free tier            | Capture model                    | Review workflow                    |
-| ---------------------------------------- | ------------------------------------------- | -------------------- | -------------------------------- | ---------------------------------- |
-| [Argos](/compare/percy)                  | $100/mo flat (35k screenshots)              | 5,000 screenshots/mo | Local, in your real test browser | PR-based, CI-driven, collaborative |
-| [Chromatic](/compare/chromatic)          | $179/mo                                     | Yes                  | Chromatic's cloud infrastructure | PR-based, Storybook-centric        |
-| [Applitools](/compare/applitools)        | ~$399/mo reported, contracts often $10K+/yr | Trial                | Cloud rendering grid             | Enterprise dashboard               |
-| [BackstopJS](/compare/backstopjs)        | Free (self-hosted)                          | N/A                  | Local Puppeteer/Playwright       | HTML reports, no team UI           |
-| [Playwright native](/compare/playwright) | Free (built-in)                             | N/A                  | Local, baselines in git          | None (git diffs)                   |
+| Tool                                     | Entry paid price                   | Free tier            | Capture model                    | Review workflow                    |
+| ---------------------------------------- | ---------------------------------- | -------------------- | -------------------------------- | ---------------------------------- |
+| [Argos](/compare/percy)                  | $100/mo flat (35k screenshots)     | 5,000 screenshots/mo | Local, in your real test browser | PR-based, CI-driven, collaborative |
+| [Chromatic](/compare/chromatic)          | $179/mo                            | 5,000 snapshots/mo   | Chromatic's cloud infrastructure | PR-based, Storybook-centric        |
+| [Applitools](/compare/applitools)        | $667/mo (Starter, billed annually) | None listed          | Ultrafast Grid or local capture  | Enterprise dashboard               |
+| [BackstopJS](/compare/backstopjs)        | Free (self-hosted)                 | N/A                  | Local Puppeteer/Playwright       | HTML reports, no team UI           |
+| [Playwright native](/compare/playwright) | Free (built-in)                    | N/A                  | Local, baselines in git          | None (git diffs)                   |
 
-Pricing as of July 2026; Percy's own paid tier is $599/mo for context.
+Pricing checked in October 2026. Percy's free plan includes 5,000 screenshots a month; its paid prices aren't published.
 
 ## 1. Argos: the closest workflow match to Percy
 
@@ -41,7 +41,7 @@ Pricing as of July 2026; Percy's own paid tier is $599/mo for context.
 The differences from Percy are the point:
 
 - **Local capture, no cloud re-render.** `argosScreenshot(page, "name")` captures in the same Playwright or Cypress browser your tests already run. What you see in your test is exactly what gets diffed. No second rendering environment to keep in sync, no cloud-render flakiness class of bugs. Argos SDKs also [stabilize screenshots](/blog/screenshot-stabilization) before capture: waiting for fonts, images, and network idle, hiding carets and scrollbars.
-- **$100/month flat.** The Pro plan includes 35,000 screenshots, then $0.004 per extra screenshot ($0.0015 for Storybook screenshots). The free Hobby tier covers 5,000 screenshots/month, the same volume as Percy's free tier. See [pricing](/pricing). You can also set a budget limit to cap spending.
+- **$100/month flat.** The Pro plan includes 35,000 screenshots, then $0.004 per extra screenshot ($0.0015 for Storybook screenshots). The free Hobby plan covers 5,000 screenshots/month for personal projects, the same volume as Percy's free tier; teams need Pro. See [pricing](/pricing). You can also set a budget limit to cap spending.
 - **Unlimited parallelization included.** No extra fee for parallel CI workers.
 - **Snapshot testing for any file.** Argos diffs Markdown, JSON, HTML, and more, not just images. Useful for testing generated output beyond the UI.
 - **[Deployments and PR previews](/deploy)** for Storybook or any static build, and [collaborative reviews](/review) with threads, reactions, and real-time presence.
@@ -60,7 +60,7 @@ Trade-offs relative to Percy migrators: Chromatic captures in its own cloud infr
 
 [Applitools](/compare/applitools) pioneered "Visual AI": diffing that ignores anti-aliasing and pixel noise to surface only meaningful changes. For large enterprises with big cross-browser matrices, compliance requirements, and budget to match, it's a serious platform.
 
-The catch is that budget. Entry pricing is reported around $399/mo, and real-world contracts commonly land in the $10K–30K+/year range. If you left Percy because of the $599/mo tier, Applitools is a move in the wrong direction. For most product teams, per-screenshot sensitivity thresholds (which Argos supports) solve the flaky-diff problem at a fraction of the cost.
+The catch is that budget. Starter is $667/month, paid annually, and the larger plans are quoted by sales. If you left Percy over price, Applitools is a move in the wrong direction. For most product teams, per-screenshot sensitivity thresholds (which Argos supports) solve the flaky-diff problem at a fraction of the cost.
 
 ## 4. BackstopJS: free and self-hosted
 
@@ -133,11 +133,11 @@ Your first CI run on the main branch establishes baselines automatically from Gi
 
 ### Why is Percy so expensive now?
 
-Percy's paid plans start at $599/month as of July 2026, following its acquisition by BrowserStack. Third parties have reported post-acquisition price increases and snapshot caps, and parallel CI uploads cost extra. That pricing works for enterprises already on BrowserStack contracts; it's a poor fit for small and mid-size product teams.
+As of October 2026, BrowserStack doesn't publish Percy's paid prices: the free plan includes 5,000 screenshots a month, and paid plans are quoted by sales. That model works for enterprises already on BrowserStack contracts; it's a poor fit for small and mid-size teams that want to know the price before they talk to anyone.
 
 ### What is the cheapest Percy alternative with a real review workflow?
 
-Argos: free for 5,000 screenshots/month, then $100/month flat with 35,000 screenshots included and unlimited parallelization. BackstopJS and Playwright's `toHaveScreenshot` are free, but neither includes a team review UI or PR-based approval workflow, so you pay in engineering time instead.
+Argos: free for personal projects up to 5,000 screenshots/month; teams pay $100/month flat with 35,000 screenshots included and unlimited parallelization. BackstopJS and Playwright's `toHaveScreenshot` are free, but neither includes a team review UI or PR-based approval workflow, so you pay in engineering time instead.
 
 ### Does migrating from Percy to Argos require rewriting my tests?
 
@@ -149,4 +149,4 @@ Percy re-renders snapshots across browsers and widths in its cloud from one test
 
 ## Verdict
 
-If Percy's $599/month tier, paid parallels, or cloud re-render flakiness pushed you here: pick **Argos** if you want the same PR-based, CI-driven workflow with local capture, open source code, and a $100/month flat price. Pick **Chromatic** if your team lives in Storybook and the $179/mo entry fits. Pick **Applitools** if you're an enterprise with the budget for Visual AI. Pick **BackstopJS** or **Playwright native** if you're solo and free matters more than a review workflow. Compare the details on [Argos vs Percy](/compare/percy), or start with the [getting started guide](/docs/quickstart).
+If Percy's unpublished pricing or cloud re-render flakiness pushed you here: pick **Argos** if you want the same PR-based, CI-driven workflow with local capture, open source code, and a $100/month flat price. Pick **Chromatic** if your team lives in Storybook and the $179/mo entry fits. Pick **Applitools** if you're an enterprise with the budget for Visual AI. Pick **BackstopJS** or **Playwright native** if you're solo and free matters more than a review workflow. Compare the details on [Argos vs Percy](/compare/percy), or start with the [getting started guide](/docs/quickstart).

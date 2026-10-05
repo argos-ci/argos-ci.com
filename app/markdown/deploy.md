@@ -126,7 +126,7 @@ screenshots. See https://argos-ci.com/pricing
 - [Use deployments in CI](https://argos-ci.com/docs/learn/deployments/use-deployments-in-ci)
 - [Lifecycle and retention](https://argos-ci.com/docs/learn/deployments/retention)
 - [GitHub Actions authentication](https://argos-ci.com/docs/learn/integrations/github-actions-authentication)
-- [CLI reference](https://argos-ci.com/docs/sdks-reference/argos-command-line-interface-cli)
+- [CLI reference](https://argos-ci.com/docs/reference/argos-command-line-interface-cli)
 
 ## Related
 

@@ -19,10 +19,10 @@ import { comparison } from "./comparison";
 import { FAQ } from "./faq";
 
 export const metadata: Metadata = getMetadata({
-  title: "Argos, the alternative to Applitools",
-  absoluteTitle: "Argos, the alternative to Applitools",
+  title: "Argos vs Applitools",
+  absoluteTitle: "Argos vs Applitools · An open-source Applitools alternative",
   description:
-    "Learn how Argos compares to Applitools and why Argos is the best alternative for visual testing.",
+    "Argos vs Applitools for visual testing: pricing, deterministic pixel diffs vs Visual AI, Playwright and Storybook support, and reviews. Argos is an open-source alternative to Applitools.",
   pathname: "/compare/applitools",
 });
 
@@ -51,6 +51,11 @@ export default function Page() {
 
       <PricingSection title="Argos Pricing">
         <PricingSlider />
+        {comparison.pricingNote ? (
+          <p className="mt-4 text-center text-sm text-low">
+            {comparison.pricingNote}
+          </p>
+        ) : null}
       </PricingSection>
 
       <KeyFeaturesSection />

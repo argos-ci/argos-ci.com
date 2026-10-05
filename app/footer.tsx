@@ -40,6 +40,10 @@ export const AppFooter: React.FC = () => (
         <FooterSection className="flex-1 justify-between">
           <div className="flex flex-col gap-4">
             <ArgosLogo width="128" />
+            <p className="max-w-60 text-sm whitespace-normal text-low">
+              Open-source visual regression testing for Playwright, Storybook,
+              Vitest and Cypress.
+            </p>
             <div className="flex items-center gap-3 text-low">
               <FooterIconNextLink href="/security#soc-2">
                 <Soc2Logo className="h-7 w-auto" />

@@ -70,6 +70,8 @@ function docHeader(props: {
   description?: string;
   canonical: string;
   date?: string;
+  /** Set when the content was revised (and its facts re-checked). */
+  updatedAt?: string | null;
 }): string {
   const lines = [`# ${props.title}`, ""];
   if (props.description) {
@@ -77,6 +79,9 @@ function docHeader(props: {
   }
   if (props.date) {
     lines.push(`Published: ${props.date.split("T")[0]}`);
+  }
+  if (props.updatedAt && props.updatedAt !== props.date) {
+    lines.push(`Updated: ${props.updatedAt.split("T")[0]}`);
   }
   lines.push(`Canonical: ${props.canonical}`, "");
   return lines.join("\n");
@@ -177,6 +182,7 @@ async function getArticleMarkdown(slug: string): Promise<string | null> {
       description: article.description,
       canonical: `${SITE_URL}/blog/${article.slug}`,
       date: article.date,
+      updatedAt: article.updatedAt,
     }),
     `Author: ${article.author.name} · Category: ${article.category.title}`,
     "",
@@ -331,7 +337,21 @@ function isCompetitorSlug(slug: string): slug is CompetitorSlug {
  */
 function getComparePricingMarkdown(comparison: Comparison): string | null {
   if (!isCompetitorSlug(comparison.slug)) {
-    return null;
+    // No published per-screenshot prices to estimate against (Percy,
+    // Applitools): state Argos's prices and the sourced note about theirs.
+    if (!comparison.pricingNote) {
+      return null;
+    }
+    return [
+      "## Pricing",
+      "",
+      `Argos Pro is $${ARGOS_PRO_FLAT_PRICE}/month including ${formatCount(ARGOS_PRO_FLAT_SCREENSHOT_COUNT)} screenshots, then $${ARGOS_SCREENSHOT_PRICE} per extra screenshot ($${ARGOS_STORYBOOK_SCREENSHOT_PRICE} for Storybook screenshots).`,
+      "",
+      comparison.pricingNote,
+      "",
+      `Argos pricing in full: ${SITE_URL}/pricing`,
+      "",
+    ].join("\n");
   }
   const slug = comparison.slug;
   const competitor = COMPETITORS[slug];

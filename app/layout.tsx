@@ -5,12 +5,12 @@ import { GeistSans } from "geist/font/sans";
 import { Metadata } from "next";
 import PlausibleProvider from "next-plausible";
 import { Inter } from "next/font/google";
-import { Organization } from "schema-dts";
 
 import { JsonLd } from "@/components/JsonLd";
 import { TooltipProvider } from "@/components/Tooltip";
 import { WebMcp } from "@/components/WebMcp";
 import { defaultDescription, defaultTitle } from "@/lib/metadata";
+import { organizationJsonLd } from "@/lib/structured-data";
 
 import "@/styles/globals.css";
 import "@/styles/highlight-js-github-dark.min.css";
@@ -40,44 +40,6 @@ export const metadata: Metadata = {
     default: title,
   },
   description,
-};
-
-const jsonLdOrganization: Organization = {
-  "@type": "Organization",
-  url: "https://argos-ci.com",
-  logo: "https://argos-ci.com/logo.png",
-  name: "Argos",
-  legalName: "Argos by Smooth Code",
-  description: defaultDescription,
-  email: "contact@argos-ci.com",
-  contactPoint: { "@type": "ContactPoint", email: "contact@argos-ci.com" },
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: "30 boulevard Sebastopol",
-    addressLocality: "Paris",
-    addressCountry: "FR",
-    addressRegion: "FR",
-    postalCode: "75004",
-  },
-  foundingDate: "2016-12-15",
-  founder: {
-    "@type": "Person",
-    name: "Greg Bergé",
-    familyName: "Bergé",
-    givenName: "Greg",
-    jobTitle: "CEO",
-    url: "https://gregberge.com",
-  },
-  numberOfEmployees: {
-    "@type": "QuantitativeValue",
-    minValue: 0,
-    maxValue: 10,
-  },
-  sameAs: [
-    "https://github.com/argos-ci/argos",
-    "https://x.com/argos-ci",
-    "https://www.linkedin.com/company/argos-testing",
-  ],
 };
 
 export default function RootLayout({
@@ -118,7 +80,7 @@ export default function RootLayout({
         ) : null}
       </head>
       <body>
-        <JsonLd json={jsonLdOrganization} />
+        <JsonLd json={organizationJsonLd} />
         <WebMcp />
         <ClientProviders>
           <TooltipProvider>

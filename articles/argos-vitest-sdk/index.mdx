@@ -27,7 +27,7 @@ That built-in assertion is well designed, but it inherits the limits of the loca
 - **Binary files pollute your Git history.** Every intentional UI change means regenerating PNGs, committing them, and resolving merge conflicts on images.
 - **There is no review workflow.** A failed assertion leaves images on disk. Whoever runs `vitest --update` _is_ the review.
 
-Until now, plugging Argos into Vitest meant going through the [Storybook SDK](/docs/sdks-reference/storybook) or uploading a folder of screenshots with the CLI. Vitest deserved first-class support. Now it has it: your tests stay exactly where they are, screenshots are captured locally in the browser your tests already run in, and Argos handles baselines, diffing, and review.
+Until now, plugging Argos into Vitest meant going through the [Storybook SDK](/docs/reference/storybook) or uploading a folder of screenshots with the CLI. Vitest deserved first-class support. Now it has it: your tests stay exactly where they are, screenshots are captured locally in the browser your tests already run in, and Argos handles baselines, diffing, and review.
 
 ## Step 1: Install the SDK
 
@@ -171,7 +171,7 @@ jobs:
           ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }}
 ```
 
-`ARGOS_TOKEN` is your project token from **Settings → General → Token**. On GitHub Actions you can also use [OIDC](/docs/learn/integrations/github-oidc-authentication) or [tokenless authentication](/docs/learn/integrations/github-tokenless-authentication) and skip the secret entirely.
+`ARGOS_TOKEN` is your project token from **Settings → General → Token**. On GitHub Actions you can also use [OIDC](/docs/learn/integrations/github-actions-authentication) or [tokenless authentication](/docs/learn/integrations/github-actions-authentication) and skip the secret entirely.
 
 Push a pull request and you're done: Argos picks the baseline from your Git history, computes stabilized diffs, and posts a check on the PR. Your team reviews changes in the Argos UI — with [comments, threads, and multiple reviewers](/review) — and approves or rejects with a click. Run your reference branch once first so there's a baseline to compare against.
 
@@ -194,7 +194,7 @@ Unlike tools that re-render your components in a remote cloud browser, Argos cap
 
 ## Using Storybook?
 
-The [Argos Storybook SDK](/docs/sdks-reference/storybook) builds on this same Vitest integration. If your stories run through the Storybook Vitest addon, follow the [Storybook Quickstart](/docs/quickstart/storybook-quickstart) instead — you'll get every story captured automatically, plus `argosScreenshot` inside `play` functions.
+The [Argos Storybook SDK](/docs/reference/storybook) builds on this same Vitest integration. If your stories run through the Storybook Vitest addon, follow the [Storybook Quickstart](/docs/quickstart/storybook-quickstart) instead — you'll get every story captured automatically, plus `argosScreenshot` inside `play` functions.
 
 ## FAQ
 
@@ -212,7 +212,7 @@ Yes. `argosScreenshot` is a plain function call, so you can capture at any point
 
 ### Does it work with the Storybook Vitest addon?
 
-Yes — through the [Storybook SDK](/docs/sdks-reference/storybook), which builds on this same integration and captures every tested story automatically.
+Yes — through the [Storybook SDK](/docs/reference/storybook), which builds on this same integration and captures every tested story automatically.
 
 ### How much does it cost?
 
@@ -223,5 +223,5 @@ Argos is free up to 5,000 screenshots per month. The Pro plan is a flat [$100/mo
 Vitest made browser-based component testing fast and pleasant. The Argos Vitest SDK makes it visually safe — screenshots and snapshots, reviewed by your whole team (and [your AI agents](/blog/review-builds-ai-agents)) right on the pull request. Install `@argos-ci/vitest`, push a pull request, and see your first visual diff in minutes.
 
 - [Vitest Quickstart](/docs/quickstart/vitest-quickstart)
-- [Vitest SDK reference](/docs/sdks-reference/vitest)
+- [Vitest SDK reference](/docs/reference/vitest)
 - [@argos-ci/vitest on GitHub](https://github.com/argos-ci/argos-javascript/tree/main/packages/vitest)

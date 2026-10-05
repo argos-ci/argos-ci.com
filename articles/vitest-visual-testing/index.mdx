@@ -4,6 +4,7 @@ description: "Set up visual regression testing in Vitest browser mode with toMat
 category: guides
 author: greg
 date: 2026-09-01
+updatedAt: 2026-10-05
 image: ./main.jpg
 imageAlt: "Abstract illustration of cramped local baselines fanning out into a shared review panel"
 ---
@@ -125,7 +126,7 @@ There are two ways to plug Argos into a Vitest setup, depending on whether you u
 
 ### Any Vitest setup: the Argos Vitest SDK
 
-Argos ships a [dedicated Vitest SDK](/blog/argos-vitest-sdk), [`@argos-ci/vitest`](/docs/sdks-reference/vitest). Add the plugin to your Vitest config:
+Argos ships a [dedicated Vitest SDK](/blog/argos-vitest-sdk), [`@argos-ci/vitest`](/docs/reference/vitest). Add the plugin to your Vitest config:
 
 ```ts
 // vitest.config.ts
@@ -160,7 +161,7 @@ The SDK also provides `argosSnapshot` to diff **any value** — API responses, J
 
 ### If you use Storybook: the Vitest addon
 
-Argos ships first-class support for Storybook's Vitest-powered testing through [`@argos-ci/storybook`](/docs/sdks-reference/storybook). Add the plugin to your Vitest config:
+Argos ships first-class support for Storybook's Vitest-powered testing through [`@argos-ci/storybook`](/docs/reference/storybook). Add the plugin to your Vitest config:
 
 ```ts
 // vitest.config.ts
@@ -190,7 +191,7 @@ export const FilledForm: Story = {
 };
 ```
 
-If you are weighing this against Chromatic's cloud rendering, see [Storybook visual testing without Chromatic](/blog/storybook-visual-testing-without-chromatic).
+If you are weighing this against Chromatic's cloud rendering (Chromatic for Vitest has been generally available since September 2026), see [Storybook visual testing without Chromatic](/blog/storybook-visual-testing-without-chromatic).
 
 Either way, set `ARGOS_TOKEN` as a CI secret and Argos handles the rest: baseline selection from Git history, diffing, and the PR status check.
 
@@ -225,7 +226,7 @@ Run `vitest --update` to regenerate reference screenshots, then commit the new i
 
 ### Is there a dedicated Argos SDK for Vitest?
 
-Yes. [`@argos-ci/vitest`](/docs/sdks-reference/vitest) captures screenshots in Vitest browser tests with `argosScreenshot`, snapshots any value with `argosSnapshot` (browser or Node tests, no browser required), and uploads everything to Argos at the end of the run via a Vitest plugin. Read the [announcement](/blog/argos-vitest-sdk) or the [Vitest Quickstart](/docs/quickstart/vitest-quickstart).
+Yes. [`@argos-ci/vitest`](/docs/reference/vitest) captures screenshots in Vitest browser tests with `argosScreenshot`, snapshots any value with `argosSnapshot` (browser or Node tests, no browser required), and uploads everything to Argos at the end of the run via a Vitest plugin. Read the [announcement](/blog/argos-vitest-sdk) or the [Vitest Quickstart](/docs/quickstart/vitest-quickstart).
 
 ### Do I need Storybook to use Argos with Vitest?
 

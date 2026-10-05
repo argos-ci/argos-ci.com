@@ -28,15 +28,15 @@ Most user-facing copy exists twice — once as HTML/JSX, once as markdown served
 to agents and LLMs. **Whenever you change page copy, update the markdown twin
 in the same commit.** The twins:
 
-| HTML surface                                                                                  | Markdown twin                                                                                                                             |
-| --------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| Homepage (`app/homepage.tsx`, `app/home/**`)                                                  | `app/markdown/home.md` (curated by hand)                                                                                                  |
-| `/pricing` (`app/pricing/**`)                                                                 | `getPricingMarkdown()` in `lib/markdown.ts` (hand-written)                                                                                |
-| Pillar pages `/deploy`, `/diff`, `/review`, `/stabilize`, plus `/ai-agents`, `/media-sharing` | `app/markdown/<slug>.md` (curated by hand, no FAQ inside) + the page's `faq.tsx` questions, appended by `getCuratedPageMarkdown()`        |
-| Blog & changelog                                                                              | derived automatically from their MDX, nothing to do                                                                                       |
-| `/compare/*` (`app/compare/*/page.tsx`)                                                       | derived from `app/compare/*/comparison.ts` + `faq.tsx` by `getCompareMarkdown()` in `lib/markdown.ts`, keep hero copy in the data module  |
-| `/security` (`app/security/page.tsx`)                                                         | `getSecurityMarkdown()` in `lib/markdown.ts`: prose hand-written, lists from the page's data modules                                      |
-| Site overview for agents                                                                      | `app/llms.txt/route.ts` (curated link map)                                                                                                |
+| HTML surface                                                                                  | Markdown twin                                                                                                                            |
+| --------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Homepage (`app/homepage.tsx`, `app/home/**`)                                                  | `app/markdown/home.md` (curated by hand)                                                                                                 |
+| `/pricing` (`app/pricing/**`)                                                                 | `getPricingMarkdown()` in `lib/markdown.ts` (hand-written)                                                                               |
+| Pillar pages `/deploy`, `/diff`, `/review`, `/stabilize`, plus `/ai-agents`, `/media-sharing` | `app/markdown/<slug>.md` (curated by hand, no FAQ inside) + the page's `faq.tsx` questions, appended by `getCuratedPageMarkdown()`       |
+| Blog & changelog                                                                              | derived automatically from their MDX, nothing to do                                                                                      |
+| `/compare/*` (`app/compare/*/page.tsx`)                                                       | derived from `app/compare/*/comparison.ts` + `faq.tsx` by `getCompareMarkdown()` in `lib/markdown.ts`, keep hero copy in the data module |
+| `/security` (`app/security/page.tsx`)                                                         | `getSecurityMarkdown()` in `lib/markdown.ts`: prose hand-written, lists from the page's data modules                                     |
+| Site overview for agents                                                                      | `app/llms.txt/route.ts` (curated link map)                                                                                               |
 
 Two more lockstep spots:
 
@@ -129,7 +129,10 @@ Authoring conventions live in skills — follow them, don't improvise:
   and the Typefully hand-off. Images via `.claude/skills/changelog-image/`.
 - Blog frontmatter is validated by `FrontmatterSchema` in `lib/api/blog.tsx`
   (`author: greg|jeremy`, `category: company|guides|engineering`, `image:
-./main.jpg` + `imageAlt`). Hero images: `.claude/skills/social-image/`
+./main.jpg` + `imageAlt`). When you revise an article's facts, set `updatedAt:
+YYYY-MM-DD`: it shows as "Updated" on the page and feeds the markdown twin,
+  the sitemap and the JSON-LD `dateModified`. Only bump it after re-checking
+  the facts; a fake fresh date is worse than an old one. Hero images: `.claude/skills/social-image/`
   (2048×1024 JPEG, committed next to `index.mdx`).
 - Social posts: `.claude/skills/typefully-post/` (drafts only — publishing is
   a human decision). Code screenshots: `.claude/skills/code-card/`.

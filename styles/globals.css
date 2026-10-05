@@ -250,8 +250,6 @@
 
   --animate-fade: fade 4s ease infinite;
   --animate-slide: slide 10s linear infinite;
-  --animate-accordion-down: accordion-down 0.2s ease-out;
-  --animate-accordion-up: accordion-up 0.2s ease-out;
   --animate-float: float 4s ease-in-out infinite;
 
   @keyframes fade {
@@ -278,24 +276,6 @@
     100% {
       filter: drop-shadow(0 5px 15px 0px rgba(0, 0, 0, 0.6));
       transform: translate3d(0, 0, 0);
-    }
-  }
-
-  @keyframes accordion-down {
-    from {
-      height: 0;
-    }
-    to {
-      height: var(--radix-accordion-content-height);
-    }
-  }
-
-  @keyframes accordion-up {
-    from {
-      height: var(--radix-accordion-content-height);
-    }
-    to {
-      height: 0;
     }
   }
 
@@ -395,6 +375,30 @@
     /* display: none; <- Crashes Chrome on hover */
     -webkit-appearance: none;
     margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+  }
+
+  /*
+    FAQ answers are native <details> so they ship in the HTML (see
+    components/FAQAccordion.tsx). Animate the open/close where the browser
+    supports ::details-content; elsewhere it simply opens.
+  */
+  details {
+    interpolate-size: allow-keywords;
+  }
+  details::details-content {
+    block-size: 0;
+    overflow-y: clip;
+    transition:
+      content-visibility 0.2s allow-discrete,
+      block-size 0.2s ease-out;
+  }
+  details[open]::details-content {
+    block-size: auto;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    details::details-content {
+      transition: none;
+    }
   }
 
   input[type="number"] {

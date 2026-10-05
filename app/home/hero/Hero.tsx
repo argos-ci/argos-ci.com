@@ -35,9 +35,10 @@ export function Hero() {
           <HeroComponent align="center">
             <HeroHeading>Review the product, not just the code.</HeroHeading>
             <HeroDescription>
-              Visual testing for teams and AI agents. Argos makes visual changes
-              obvious, so you spot regressions, request fixes, and merge with
-              confidence.
+              Open-source visual regression testing for Playwright, Storybook
+              and Vitest. Argos makes visual changes obvious to your team and
+              your AI agents, so you spot regressions, request fixes, and merge
+              with confidence.
             </HeroDescription>
             <HeroActions>
               <Button size="large" asChild>

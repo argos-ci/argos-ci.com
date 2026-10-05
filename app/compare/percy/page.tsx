@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import { ComparePricingSlider } from "@/app/common/PricingSlider";
+import { PricingSlider } from "@/app/common/PricingSlider";
 import { getMetadata } from "@/lib/metadata";
 
 import {
@@ -20,10 +20,11 @@ import percyLogoDark from "./percy-logo-dark.svg";
 import percyLogo from "./percy-logo.svg";
 
 export const metadata: Metadata = getMetadata({
-  title: "Argos, the alternative to Percy",
-  absoluteTitle: "Argos, the alternative to Percy Browserstack",
+  title: "Argos vs Percy",
+  absoluteTitle:
+    "Argos vs Percy (BrowserStack) · An open-source Percy alternative",
   description:
-    "Learn how Argos compares to Percy and why Argos is the best alternative for visual testing.",
+    "Argos vs Percy by BrowserStack for visual testing: pricing, capture model, Playwright and Storybook support, and reviews. Argos is an open-source alternative to Percy.",
   pathname: "/compare/percy",
 });
 
@@ -51,8 +52,13 @@ export default function Page() {
         />
       </TableSection>
 
-      <PricingSection title="Estimate your savings">
-        <ComparePricingSlider competitor="percy" />
+      <PricingSection title="Argos Pricing">
+        <PricingSlider />
+        {comparison.pricingNote ? (
+          <p className="mt-4 text-center text-sm text-low">
+            {comparison.pricingNote}
+          </p>
+        ) : null}
       </PricingSection>
 
       <KeyFeaturesSection />

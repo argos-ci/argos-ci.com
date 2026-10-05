@@ -58,7 +58,7 @@ export const metadata: Metadata = getMetadata({
   pathname: pillar.href,
 });
 
-/** Every command is real: docs/sdks-reference/argos-command-line-interface-cli. */
+/** Every command is real: docs/reference/argos-command-line-interface-cli. */
 const AGENT_COMMANDS = `npm i --save-dev @argos-ci/cli
 argos deploy ./storybook-static
 argos deploy ./storybook-static --prod
@@ -376,7 +376,7 @@ export default function Page() {
         }
         code={AGENT_COMMANDS}
         badge="argos-cli"
-        docsHref="/docs/sdks-reference/argos-command-line-interface-cli#deploying-a-static-build"
+        docsHref="/docs/reference/argos-command-line-interface-cli#deploying-a-static-build"
         docsLabel="CLI reference"
         cards={[
           {
@@ -389,7 +389,7 @@ export default function Page() {
                 what shipped, most recent first.
               </>
             ),
-            href: "/docs/sdks-reference/argos-command-line-interface-cli#configuring-a-project",
+            href: "/docs/reference/argos-command-line-interface-cli#configuring-a-project",
           },
           {
             icon: PlugIcon,

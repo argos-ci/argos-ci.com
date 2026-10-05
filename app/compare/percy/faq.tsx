@@ -1,5 +1,10 @@
 import { FAQAccordion, FAQQuestion } from "@/components/FAQAccordion";
 import { Link } from "@/components/Link";
+import {
+  ARGOS_HOBBY_SCREENSHOT_COUNT,
+  ARGOS_PRO_FLAT_PRICE,
+  ARGOS_PRO_FLAT_SCREENSHOT_COUNT,
+} from "@/lib/constants";
 
 export const PERCY_QUESTIONS: FAQQuestion[] = [
   {
@@ -43,7 +48,7 @@ export const PERCY_QUESTIONS: FAQQuestion[] = [
     answer: (
       <>
         <p>
-          <strong>Percy</strong>: Yes, but it requires an additional fee.
+          <strong>Percy</strong>: Yes, by grouping parallel jobs into one build.
         </p>
         <p>
           <strong>Argos</strong>: Yes, and it’s included in the standard
@@ -52,7 +57,7 @@ export const PERCY_QUESTIONS: FAQQuestion[] = [
       </>
     ),
     textAnswer:
-      "Percy: Yes, but it requires an additional fee. Argos: Yes, and it's included in the standard pricing.",
+      "Percy: Yes, by grouping parallel jobs into one build. Argos: Yes, and it's included in the standard pricing.",
   },
   {
     name: "Are Percy and Argos compatible with my CI?",
@@ -77,26 +82,28 @@ export const PERCY_QUESTIONS: FAQQuestion[] = [
       "Both Percy and Argos allow you to control team members' access and permissions for each project.",
   },
   {
-    name: "Why is Percy pricing higher than Argos?",
+    name: "How much does Percy cost compared to Argos?",
     answer: (
       <>
         <p>
-          <strong>Percy</strong>, as part of BrowserStack, includes additional
-          services in its pricing. It also captures screenshots remotely on real
-          devices and browsers, which ensures high accuracy but incurs higher
-          operational costs.
+          <strong>Percy</strong> has a free plan with 5,000 screenshots a month.
+          BrowserStack no longer publishes its paid prices: paid plans are
+          quoted by sales. Percy renders each snapshot in BrowserStack&apos;s
+          cloud for every browser and width you configure, and each combination
+          counts as a screenshot.
         </p>
         <p>
-          <strong>Argos</strong> offers{" "}
-          <Link href="/pricing">transparent and affordable pricing</Link>,
-          designed to be accessible for projects of all sizes. Custom pricing
-          options are available for specific features or dedicated support
-          requests.
+          <strong>Argos</strong> publishes{" "}
+          <Link href="/pricing">its prices</Link>: a free Hobby plan for
+          personal projects with{" "}
+          {ARGOS_HOBBY_SCREENSHOT_COUNT.toLocaleString("en-US")} screenshots a
+          month, and Pro at ${ARGOS_PRO_FLAT_PRICE}/month flat with{" "}
+          {ARGOS_PRO_FLAT_SCREENSHOT_COUNT.toLocaleString("en-US")} screenshots
+          included.
         </p>
       </>
     ),
-    textAnswer:
-      "Percy, as part of BrowserStack, includes additional services in its pricing. It also captures screenshots remotely on real devices and browsers, which ensures high accuracy but incurs higher operational costs. Argos offers transparent and affordable pricing, designed to be accessible for projects of all sizes. Custom pricing options are available for specific features or dedicated support requests.",
+    textAnswer: `Percy has a free plan with 5,000 screenshots a month. BrowserStack no longer publishes its paid prices: paid plans are quoted by sales. Percy renders each snapshot in BrowserStack's cloud for every browser and width you configure, and each combination counts as a screenshot. Argos publishes its prices: a free Hobby plan for personal projects with ${ARGOS_HOBBY_SCREENSHOT_COUNT.toLocaleString("en-US")} screenshots a month, and Pro at $${ARGOS_PRO_FLAT_PRICE}/month flat with ${ARGOS_PRO_FLAT_SCREENSHOT_COUNT.toLocaleString("en-US")} screenshots included.`,
   },
   {
     name: "What makes Argos community-driven?",
