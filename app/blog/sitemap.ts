@@ -30,7 +30,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...categoryPages.flat(),
     ...articles.map((article) => ({
       url: `${BASE_URL}/blog/${article.slug}`,
-      lastModified: article.date,
+      lastModified: article.updatedAt ?? article.date,
     })),
   ];
 }

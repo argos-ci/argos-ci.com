@@ -70,6 +70,8 @@ function docHeader(props: {
   description?: string;
   canonical: string;
   date?: string;
+  /** Set when the content was revised (and its facts re-checked). */
+  updatedAt?: string | null;
 }): string {
   const lines = [`# ${props.title}`, ""];
   if (props.description) {
@@ -77,6 +79,9 @@ function docHeader(props: {
   }
   if (props.date) {
     lines.push(`Published: ${props.date.split("T")[0]}`);
+  }
+  if (props.updatedAt && props.updatedAt !== props.date) {
+    lines.push(`Updated: ${props.updatedAt.split("T")[0]}`);
   }
   lines.push(`Canonical: ${props.canonical}`, "");
   return lines.join("\n");
@@ -177,6 +182,7 @@ async function getArticleMarkdown(slug: string): Promise<string | null> {
       description: article.description,
       canonical: `${SITE_URL}/blog/${article.slug}`,
       date: article.date,
+      updatedAt: article.updatedAt,
     }),
     `Author: ${article.author.name} · Category: ${article.category.title}`,
     "",

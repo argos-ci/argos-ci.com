@@ -227,9 +227,19 @@ export default async function Page(props: Props) {
                     <span className="text-low">{article.author.title}</span>
                   </div>
                 </address>
-                <time dateTime={article.date} className="text-low">
-                  {dateFormatter.format(new Date(article.date))}
-                </time>
+                <div className="text-low">
+                  <time dateTime={article.date}>
+                    {dateFormatter.format(new Date(article.date))}
+                  </time>
+                  {article.updatedAt && article.updatedAt !== article.date ? (
+                    <>
+                      {" · Updated "}
+                      <time dateTime={article.updatedAt}>
+                        {dateFormatter.format(new Date(article.updatedAt))}
+                      </time>
+                    </>
+                  ) : null}
+                </div>
               </div>
             </Hero>
           </Container>
