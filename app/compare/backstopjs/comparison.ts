@@ -43,7 +43,7 @@ export const comparison: Comparison = {
     },
     {
       title: "Managed infrastructure",
-      description: "Browsers, storage, and parallelization handled",
+      description: "Storage, comparison and parallel builds handled",
       argos: "✔️",
       competitor: "❌",
     },

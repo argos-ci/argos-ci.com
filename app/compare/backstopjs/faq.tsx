@@ -1,5 +1,6 @@
 import { Code } from "@/components/Code";
 import { FAQAccordion, FAQQuestion } from "@/components/FAQAccordion";
+import { faq } from "@/components/InlineMarkdown";
 import { Link } from "@/components/Link";
 
 export const BACKSTOPJS_QUESTIONS: FAQQuestion[] = [
@@ -59,14 +60,18 @@ export const BACKSTOPJS_QUESTIONS: FAQQuestion[] = [
     name: "Is Argos also open source?",
     answer: (
       <p>
-        Yes. Like BackstopJS, Argos is open source. The difference is you no
-        longer maintain the infrastructure: browsers, parallelization, storage,
-        and pull request integration are handled for you.
+        Yes, under the MIT license. The difference is what you maintain: your
+        tests still take the screenshots in CI, and Argos handles storage,
+        comparison, parallel builds and the pull request integration.
       </p>
     ),
     textAnswer:
-      "Yes. Like BackstopJS, Argos is open source. The difference is you no longer maintain the infrastructure: browsers, parallelization, storage, and pull request integration are handled for you.",
+      "Yes, under the MIT license. The difference is what you maintain: your tests still take the screenshots in CI, and Argos handles storage, comparison, parallel builds and the pull request integration.",
   },
+  faq(
+    "Is BackstopJS still maintained?",
+    "Its last release, 6.3.25, came out in September 2024. It still works for what it does, but if your stack moves to newer Playwright or Node versions, you are the one keeping it running.",
+  ),
 ];
 
 export function FAQ() {
