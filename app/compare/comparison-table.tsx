@@ -20,13 +20,24 @@ import {
   type FeatureRow,
 } from "./features";
 
+/**
+ * The icons are `aria-hidden`, so each one carries its meaning as text too:
+ * screen readers and crawlers that read the HTML as text (most AI fetchers)
+ * otherwise see a row with no answer in either column.
+ */
 function FeatureTd(props: { value: string }) {
   return (
     <Td>
       {props.value === "✔️" ? (
-        <Check />
+        <>
+          <Check />
+          <span className="sr-only">Yes</span>
+        </>
       ) : props.value === "❌" ? (
-        <X />
+        <>
+          <X />
+          <span className="sr-only">No</span>
+        </>
       ) : (
         props.value
       )}
