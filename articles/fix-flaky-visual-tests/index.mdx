@@ -18,7 +18,7 @@ A flaky visual test is a test whose screenshot changes between runs even though 
 
 ## What is a flaky visual test?
 
-In visual testing, flakiness almost never means "the diff algorithm is wrong." The screenshot genuinely differs from the baseline. The problem is that the difference comes from unstable rendering conditions, not from your code. That distinction matters because it tells you where to fix it: **make the page deterministic before capture**, and only then tune tolerance on the comparison side.
+In visual testing, flakiness almost never means "the diff algorithm is wrong." The screenshot really does differ from the baseline. The problem is that the difference comes from unstable rendering conditions, not from your code. That distinction matters because it tells you where to fix it: **make the page deterministic before capture**, and only then tune tolerance on the comparison side.
 
 Flaky visual tests are expensive in a specific way. Each false positive trains reviewers to click "approve" without looking, which is how real regressions slip through. Fixing flakiness is not about comfort, it's about keeping the signal trustworthy.
 

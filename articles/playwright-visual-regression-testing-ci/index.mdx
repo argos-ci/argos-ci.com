@@ -207,7 +207,7 @@ If you already have a suite full of `toHaveScreenshot` calls, the [migration gui
 
 ## Conclusion
 
-Playwright's built-in visual regression testing is genuinely good at the capture-and-compare part, and with Docker plus a disciplined `--update-snapshots` workflow it runs fine in CI. Adopt it as-is for small suites. When baselines multiply, contributors trip over platform-suffixed PNGs, and PR reviews turn into scrolling through raw image diffs, keep Playwright and swap the backend: `argosScreenshot` uploads from the same browser and CI you already have, and Git-history baselines plus a real review UI replace the parts that don't scale.
+Playwright's built-in visual regression testing is good at the capture-and-compare part, and with Docker plus a disciplined `--update-snapshots` workflow it runs fine in CI. Adopt it as-is for small suites. When baselines multiply, contributors trip over platform-suffixed PNGs, and PR reviews turn into scrolling through raw image diffs, keep Playwright and swap the backend: `argosScreenshot` uploads from the same browser and CI you already have, and Git-history baselines plus a real review UI replace the parts that don't scale.
 
 ## FAQ
 

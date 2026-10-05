@@ -79,7 +79,7 @@ At the same 35,000-capture volume, Argos costs $100 and Chromatic $179, with Chr
 
 ## When should you pick each tool?
 
-An honest recommendation depends on your setup.
+The right pick depends on your setup.
 
 ### Pick Percy if you live in the BrowserStack ecosystem
 
@@ -89,7 +89,7 @@ If your organization already pays for BrowserStack and you specifically want clo
 
 Chromatic is excellent for teams whose entire UI development workflow lives in Storybook. It is made by the Storybook maintainers, the review UI is polished, and recent additions like accessibility testing, Storybook MCP servers (March 2026), a React Native preview (May 2026) and Chromatic for Vitest (generally available since September 2026) keep it moving. The limits appear when you step outside Storybook: deployments are Storybook-only, and E2E visual coverage is not its center of gravity. If you love Storybook but not the bill, read [Storybook visual testing without Chromatic](/blog/storybook-visual-testing-without-chromatic) or the [Argos vs Chromatic comparison](/compare/chromatic).
 
-### Pick Argos for everything else (and honestly, most Storybook teams too)
+### Pick Argos for everything else, including most Storybook teams
 
 Argos covers both worlds: E2E screenshots from Playwright, Cypress, Puppeteer, or WebdriverIO, plus a dedicated Storybook addon (including Vitest addon support), plus a CLI that uploads screenshots from any framework. It is the pragmatic default for teams that want visual coverage across their whole app, not just their component library.
 

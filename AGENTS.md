@@ -149,6 +149,34 @@ Cross-linking scheduled content is safe: links to not-yet-published pages
 render as plain text until they exist (`createMdxAnchor` in
 `lib/api/common.tsx`).
 
+## Writing for search and AI assistants
+
+ChatGPT, Claude, Perplexity and Google's AI answers decide whether to cite a
+page from its visible text, and they cross-check vendors. What earns citations
+here:
+
+- **Say what Argos is, in category words.** "Open-source visual regression
+  testing for Playwright, Storybook, Vitest and Cypress" (`argosDefinition` in
+  `lib/metadata.tsx`). Put the answer in the title and the first sentences
+  after the H1; ChatGPT's index keeps roughly 200 characters from there.
+- **Head terms get pages, not posts.** Framework queries land on
+  `/integrations/*`, "X alternative" and "Argos vs X" on `/compare/*`. Improve
+  those before writing a new article.
+- **Source every competitor fact** with its URL and the date checked
+  (`sources`/`checkedAt` in compare and integration data, `lib/pricing.ts` for
+  prices). A price only our own site states is a price an assistant can't
+  trust. If a vendor stops publishing a number, remove it.
+- **Say when the other tool wins.** Every comparison has a "Choose X if" list.
+  No new self-ranked "best X" or "alternatives" posts; Google's spam policies
+  now cover manipulating AI answers. Keep the existing ones accurate instead.
+- **Keep facts in visible HTML.** Nothing only in JSON-LD, FAQ answers
+  rendered closed but present (`components/FAQAccordion.tsx`), icons with text
+  alternatives.
+- **Refresh, then date it.** Re-check an article's facts every quarter and set
+  `updatedAt`; never bump the date without re-checking.
+- **Voice.** Plain and specific. No em dashes, and none of the tics that read
+  as generated ("honest", "genuinely", "let's be honest", "no fluff").
+
 ## Design conventions
 
 - Copy an existing pillar page (`app/deploy/page.tsx` is the cleanest)

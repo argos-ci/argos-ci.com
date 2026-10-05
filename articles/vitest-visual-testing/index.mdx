@@ -114,7 +114,7 @@ With the Playwright provider, Vitest also disables CSS animations automatically 
 
 Vitest's model is the same as Playwright's `toHaveScreenshot`: local baselines committed to Git. That model is great for a solo developer and gets painful in a team, for reasons that have nothing to do with Vitest itself. We wrote about this pattern in detail for Playwright in [Why Playwright visual testing doesn't scale](/blog/playwright-visual-testing-limits); everything there applies here.
 
-**Baselines are OS-specific.** Remember `hero-section-chromium-darwin.png`? Fonts render differently on macOS, Linux, and Windows, so a baseline generated on your MacBook fails in your Linux CI. The Vitest docs are refreshingly honest about this, calling font rendering "the big one" and recommending you run tests in "the same environment everywhere," suggesting Docker containers or cloud services. In practice that means either every developer regenerates baselines inside Docker, or only CI is allowed to update them, and both workflows add friction.
+**Baselines are OS-specific.** Remember `hero-section-chromium-darwin.png`? Fonts render differently on macOS, Linux, and Windows, so a baseline generated on your MacBook fails in your Linux CI. The Vitest docs say so plainly, calling font rendering "the big one" and recommending you run tests in "the same environment everywhere," suggesting Docker containers or cloud services. In practice that means either every developer regenerates baselines inside Docker, or only CI is allowed to update them, and both workflows add friction.
 
 **Baselines live in your repo.** Every intentional UI change means regenerating PNGs, committing them, and polluting your diffs with binary files. Two branches touching the same component means merge conflicts on images.
 
@@ -201,7 +201,7 @@ Either way, set `ARGOS_TOKEN` as a CI secret and Argos handles the rest: baselin
 
 ## Local Vitest VRT vs. a cloud review workflow
 
-Here is the honest comparison. Local `toMatchScreenshot` is free, has zero external dependencies, and is perfect for a solo project or a handful of stable snapshots. A cloud review workflow costs money and adds a service, but removes baselines from Git, makes diffs reviewable by the whole team, and keeps rendering consistent because comparisons always happen against CI-captured baselines.
+Here is the comparison. Local `toMatchScreenshot` is free, has zero external dependencies, and is perfect for a solo project or a handful of stable snapshots. A cloud review workflow costs money and adds a service, but removes baselines from Git, makes diffs reviewable by the whole team, and keeps rendering consistent because comparisons always happen against CI-captured baselines.
 
 |                      | Vitest `toMatchScreenshot` (local)  | Vitest + Argos                                                             |
 | -------------------- | ----------------------------------- | -------------------------------------------------------------------------- |
