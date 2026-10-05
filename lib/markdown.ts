@@ -494,6 +494,16 @@ function getCompareMarkdown(slug: CompareSlug): string {
     }),
     `Migration guide: ${SITE_URL}${comparison.migrationHref}`,
     "",
+    "## Verdict",
+    "",
+    "Choose Argos if:",
+    "",
+    ...comparison.chooseArgos.map((item) => `- ${absolutizeLinks(item)}`),
+    "",
+    `${comparison.chooseCompetitorTitle ?? `Choose ${comparison.name} if`}:`,
+    "",
+    ...comparison.chooseCompetitor.map((item) => `- ${absolutizeLinks(item)}`),
+    "",
     "## Feature comparison",
     "",
     `| Feature | Argos | ${comparison.name} |`,
@@ -519,7 +529,11 @@ function getCompareMarkdown(slug: CompareSlug): string {
       }
     }
   }
-  lines.push("");
+  lines.push(
+    "",
+    `Sources for ${comparison.name}: ${comparison.sources.map((source) => `[${source.label}](${source.href})`).join(", ")} (checked ${comparison.checkedAt}).`,
+    "",
+  );
   const pricing = getComparePricingMarkdown(comparison);
   if (pricing) {
     lines.push(pricing);

@@ -6,10 +6,11 @@ import { getMetadata } from "@/lib/metadata";
 import {
   FAQSection,
   HeroSection,
-  KeyFeaturesSection,
   PricingSection,
+  SourcesNote,
   TableSection,
   TrySection,
+  VerdictSection,
 } from "../common";
 import { ComparisonTable } from "../comparison-table";
 import applitoolsEmblem from "./applitools-emblem.svg";
@@ -41,12 +42,15 @@ export default function Page() {
         {...emblemProps}
       />
 
+      <VerdictSection comparison={comparison} />
+
       <TableSection>
         <ComparisonTable
           comparison={comparison}
           logoSrc={applitoolsLogo}
           logoSrcDark={applitoolsLogoDark}
         />
+        <SourcesNote comparison={comparison} />
       </TableSection>
 
       <PricingSection title="Argos Pricing">
@@ -57,8 +61,6 @@ export default function Page() {
           </p>
         ) : null}
       </PricingSection>
-
-      <KeyFeaturesSection />
 
       <FAQSection>
         <FAQ />

@@ -14,6 +14,7 @@ import {
   FeatureGridFeature,
   FeatureGridFeatureSmall,
 } from "@/components/FeatureGrid";
+import { InlineMarkdown } from "@/components/InlineMarkdown";
 import { JsonLd } from "@/components/JsonLd";
 import { PillarHero } from "@/components/PillarHero";
 import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
@@ -22,7 +23,6 @@ import { SectionDescription, SectionTitle } from "@/components/Typography";
 import { formatCheckedAt } from "@/lib/pricing";
 import { absoluteUrl } from "@/lib/structured-data";
 
-import { InlineMarkdown } from "./inline-markdown";
 import type { Integration } from "./types";
 
 /**

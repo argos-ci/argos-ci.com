@@ -6,12 +6,12 @@ import { CallToActionSection } from "@/components/CallToActionSection";
 import { Container } from "@/components/Container";
 import { FullPageGrid } from "@/components/FullPageGrid";
 import { Hero, HeroDescription, HeroHeading } from "@/components/Hero";
+import { InlineMarkdown } from "@/components/InlineMarkdown";
 import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
 import { ThemeImage } from "@/components/ThemeImage";
 import { SectionDescription, SectionTitle } from "@/components/Typography";
 import { getMetadata } from "@/lib/metadata";
 
-import { InlineMarkdown } from "./inline-markdown";
 import { INTEGRATIONS, OTHER_SDKS } from "./integrations";
 
 export const metadata: Metadata = getMetadata({

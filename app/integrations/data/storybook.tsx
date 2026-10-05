@@ -9,6 +9,7 @@ import {
 import { storybook } from "@/app/assets/brands/library";
 import { StorybookSnapshots } from "@/app/diff/features/StorybookSnapshots";
 import { StoryModes } from "@/app/diff/features/StoryModes";
+import { faq } from "@/components/InlineMarkdown";
 import {
   ARGOS_HOBBY_SCREENSHOT_COUNT,
   ARGOS_PRO_FLAT_PRICE,
@@ -16,7 +17,6 @@ import {
   ARGOS_STORYBOOK_SCREENSHOT_PRICE,
 } from "@/lib/constants";
 
-import { faq } from "../inline-markdown";
 import type { Integration } from "../types";
 
 const hobby = ARGOS_HOBBY_SCREENSHOT_COUNT.toLocaleString("en-US");

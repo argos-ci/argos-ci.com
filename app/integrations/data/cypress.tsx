@@ -10,6 +10,7 @@ import {
 import { cypress } from "@/app/assets/brands/library";
 import { Stabilization } from "@/app/diff/features/Stabilization";
 import { GitHubChecks } from "@/app/review/features/GitHubChecks";
+import { faq } from "@/components/InlineMarkdown";
 import {
   ARGOS_HOBBY_SCREENSHOT_COUNT,
   ARGOS_PRO_FLAT_PRICE,
@@ -17,7 +18,6 @@ import {
   ARGOS_SCREENSHOT_PRICE,
 } from "@/lib/constants";
 
-import { faq } from "../inline-markdown";
 import type { Integration } from "../types";
 
 const hobby = ARGOS_HOBBY_SCREENSHOT_COUNT.toLocaleString("en-US");
