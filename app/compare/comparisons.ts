@@ -7,6 +7,8 @@ import { BACKSTOPJS_QUESTIONS } from "./backstopjs/faq";
 import { comparison as chromatic } from "./chromatic/comparison";
 import { CHROMATIC_QUESTIONS } from "./chromatic/faq";
 import type { CompareSlug, Comparison } from "./features";
+import { comparison as happo } from "./happo/comparison";
+import { HAPPO_QUESTIONS } from "./happo/faq";
 import { comparison as lostPixel } from "./lost-pixel/comparison";
 import { LOST_PIXEL_QUESTIONS } from "./lost-pixel/faq";
 import { comparison as percy } from "./percy/comparison";
@@ -22,6 +24,7 @@ export const COMPARISONS: Record<
   applitools: { comparison: applitools, questions: APPLITOOLS_QUESTIONS },
   backstopjs: { comparison: backstopjs, questions: BACKSTOPJS_QUESTIONS },
   chromatic: { comparison: chromatic, questions: CHROMATIC_QUESTIONS },
+  happo: { comparison: happo, questions: HAPPO_QUESTIONS },
   "lost-pixel": { comparison: lostPixel, questions: LOST_PIXEL_QUESTIONS },
   percy: { comparison: percy, questions: PERCY_QUESTIONS },
   playwright: { comparison: playwright, questions: PLAYWRIGHT_QUESTIONS },

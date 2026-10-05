@@ -492,8 +492,9 @@ function getCompareMarkdown(slug: CompareSlug): string {
       description: comparison.description,
       canonical: `${SITE_URL}/compare/${slug}`,
     }),
-    `Migration guide: ${SITE_URL}${comparison.migrationHref}`,
-    "",
+    ...(comparison.migrationHref
+      ? [`Migration guide: ${SITE_URL}${comparison.migrationHref}`, ""]
+      : []),
     "## Verdict",
     "",
     "Choose Argos if:",
@@ -644,6 +645,8 @@ const resolvers: Record<
     rest.length === 0 ? getCompareMarkdown("backstopjs") : null,
   "/compare/chromatic": (rest) =>
     rest.length === 0 ? getCompareMarkdown("chromatic") : null,
+  "/compare/happo": (rest) =>
+    rest.length === 0 ? getCompareMarkdown("happo") : null,
   "/compare/lost-pixel": (rest) =>
     rest.length === 0 ? getCompareMarkdown("lost-pixel") : null,
   "/compare/percy": (rest) =>

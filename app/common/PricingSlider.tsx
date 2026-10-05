@@ -149,6 +149,8 @@ export function ComparePricingSlider(props: { competitor: CompetitorSlug }) {
   const argosPrice = getArgosProPricing(usage).price;
   const competitor = COMPETITORS[props.competitor];
   const competitorPrice = getCompetitorPrice(props.competitor, usage);
+  // Negative at some volumes (Happo's 50,000-snapshot tier): say so.
+  const savings = competitorPrice - argosPrice;
 
   return (
     <div className="flex w-full flex-col items-center gap-4">
@@ -175,11 +177,25 @@ export function ComparePricingSlider(props: { competitor: CompetitorSlug }) {
           </div>
         </div>
         <div className="mt-4 text-balance">
-          Save{" "}
-          <strong className="font-semibold">
-            {formatPrice(competitorPrice - argosPrice, isMaxScreenshots)}
-          </strong>{" "}
-          per month with Argos
+          {savings > 0 ? (
+            <>
+              Save{" "}
+              <strong className="font-semibold">
+                {formatPrice(savings, isMaxScreenshots)}
+              </strong>{" "}
+              per month with Argos
+            </>
+          ) : savings === 0 ? (
+            "Same price at this volume"
+          ) : (
+            <>
+              {competitor.name} costs{" "}
+              <strong className="font-semibold">
+                {formatPrice(-savings, isMaxScreenshots)}
+              </strong>{" "}
+              less per month at this volume
+            </>
+          )}
         </div>
       </div>
     </div>

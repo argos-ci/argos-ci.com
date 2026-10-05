@@ -119,6 +119,7 @@ export const AppFooter: React.FC = () => (
             </FooterLink>
             <FooterLink href="/compare/backstopjs">BackstopJS</FooterLink>
             <FooterLink href="/compare/lost-pixel">Lost Pixel</FooterLink>
+            <FooterLink href="/compare/happo">Happo</FooterLink>
           </FooterSection>
         </div>
       </div>

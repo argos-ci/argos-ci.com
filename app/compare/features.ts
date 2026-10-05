@@ -11,6 +11,7 @@ export const COMPARE_SLUGS = [
   "backstopjs",
   "playwright",
   "lost-pixel",
+  "happo",
 ] as const;
 
 export type CompareSlug = (typeof COMPARE_SLUGS)[number];
@@ -157,7 +158,8 @@ export type Comparison = {
   title: string;
   /** Hero description. */
   description: string;
-  migrationHref: string;
+  /** The docs migration guide, when there is one. */
+  migrationHref?: string;
   /** Rows we can't state for a competitor are left out, not guessed. */
   features: Partial<Features>;
   additionalFeatures?: AdditionalFeature[];

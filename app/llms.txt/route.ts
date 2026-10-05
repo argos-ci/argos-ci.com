@@ -68,6 +68,7 @@ ${pillarBullets}
 - [Argos vs Chromatic](https://argos-ci.com/compare/chromatic)
 - [Argos vs BackstopJS](https://argos-ci.com/compare/backstopjs)
 - [Argos vs Lost Pixel](https://argos-ci.com/compare/lost-pixel): Lost Pixel is being sunset (team joined Figma, April 2026); how to move to Argos
+- [Argos vs Happo](https://argos-ci.com/compare/happo)
 - [Argos vs Playwright screenshots](https://argos-ci.com/compare/playwright): Playwright's built-in toHaveScreenshot() vs Argos
 
 ## News
