@@ -17,6 +17,10 @@ Machine-readable map: https://argos-ci.com/llms.txt
   from Playwright, diffed line by line.
 - SDKs for Playwright, Storybook, Vitest, Cypress, Puppeteer and WebdriverIO,
   or the CLI for any screenshot folder. Baselines come from your Git history.
+  Setup per framework: https://argos-ci.com/integrations/playwright,
+  https://argos-ci.com/integrations/storybook,
+  https://argos-ci.com/integrations/vitest,
+  https://argos-ci.com/integrations/cypress
 - Learn more: https://argos-ci.com/diff
 
 ### 2. Review: one place for humans and agents to approve what changed

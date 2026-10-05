@@ -13,6 +13,11 @@ import {
 } from "@/app/compare/features";
 import { DEPLOY_QUESTIONS } from "@/app/deploy/faq";
 import { DIFF_QUESTIONS } from "@/app/diff/faq";
+import { INTEGRATIONS, OTHER_SDKS } from "@/app/integrations/integrations";
+import {
+  type IntegrationSlug,
+  isIntegrationSlug,
+} from "@/app/integrations/types";
 import { MEDIA_SHARING_QUESTIONS } from "@/app/media-sharing/faq";
 import { PRICING_QUESTIONS } from "@/app/pricing/PricingFaq";
 import { REVIEW_QUESTIONS } from "@/app/review/faq";
@@ -381,6 +386,104 @@ function getComparePricingMarkdown(comparison: Comparison): string | null {
   return lines.join("\n");
 }
 
+/** Integration copy links to site paths; the twin needs absolute URLs. */
+function absolutizeLinks(text: string): string {
+  return text.replace(/\]\((\/[^)\s]*)\)/g, `](${SITE_URL}$1)`);
+}
+
+function tableCell(text: string): string {
+  return absolutizeLinks(text).replace(/\|/g, "\\|");
+}
+
+/**
+ * The markdown twin of an integration page, from the same data module as the
+ * HTML (`app/integrations/data/*`), so setup code and answers can't drift.
+ */
+function getIntegrationMarkdown(slug: IntegrationSlug): string {
+  const integration = INTEGRATIONS[slug];
+  const name = integration.brand.name;
+  const { alternative } = integration;
+  const lines = [
+    docHeader({
+      title: integration.title,
+      description: absolutizeLinks(integration.summary),
+      canonical: `${SITE_URL}/integrations/${slug}`,
+    }),
+    `Quickstart: ${absoluteUrl(integration.quickstartHref)}`,
+    `SDK reference: ${absoluteUrl(integration.referenceHref)}`,
+    "",
+    `## Set up Argos with ${name}`,
+    "",
+  ];
+  integration.steps.forEach((step, index) => {
+    lines.push(
+      `### ${index + 1}. ${step.title}`,
+      "",
+      absolutizeLinks(step.description),
+      "",
+      ...(step.filename === "Terminal" ? [] : [`\`${step.filename}\`:`, ""]),
+      `\`\`\`${step.lang}`,
+      step.code,
+      "```",
+      "",
+    );
+  });
+  lines.push(
+    `## ${alternative.title}`,
+    "",
+    absolutizeLinks(alternative.description),
+    "",
+    `| | ${alternative.name} | Argos |`,
+    "| --- | --- | --- |",
+    ...alternative.rows.map(
+      (row) =>
+        `| ${tableCell(row.topic)} | ${tableCell(row.alternative)} | ${tableCell(row.argos)} |`,
+    ),
+    "",
+    `Sources: ${alternative.sources.map((source) => `[${source.label}](${source.href})`).join(", ")} (checked ${alternative.checkedAt}).`,
+    "",
+    `## Why ${name} teams use Argos`,
+    "",
+    ...[...integration.features, ...integration.smallFeatures].map(
+      (feature) =>
+        `- **${feature.title}**: ${absolutizeLinks(feature.description)} (${absoluteUrl(feature.href)})`,
+    ),
+    "",
+    faqMarkdown(integration.questions),
+    "## Keep reading",
+    "",
+    ...integration.readNext.map(
+      (item) =>
+        `- [${item.title}](${absoluteUrl(item.href)}): ${item.description}`,
+    ),
+    "",
+  );
+  return lines.join("\n");
+}
+
+function getIntegrationsIndexMarkdown(): string {
+  return [
+    docHeader({
+      title: "Argos integrations",
+      description:
+        "Argos adds visual regression testing to the tests you already run: Playwright, Storybook, Vitest and Cypress through open-source SDKs, and any other framework through the CLI.",
+      canonical: `${SITE_URL}/integrations`,
+    }),
+    ...Object.values(INTEGRATIONS).flatMap((integration) => [
+      `## [${integration.title}](${SITE_URL}/integrations/${integration.slug})`,
+      "",
+      absolutizeLinks(integration.summary),
+      "",
+    ]),
+    "## Other frameworks",
+    "",
+    ...OTHER_SDKS.map(
+      (sdk) => `- [${sdk.name}](${absoluteUrl(sdk.href)}): ${sdk.description}`,
+    ),
+    "",
+  ].join("\n");
+}
+
 function getCompareMarkdown(slug: CompareSlug): string {
   const { comparison, questions } = COMPARISONS[slug];
   const lines = [
@@ -531,6 +634,14 @@ const resolvers: Record<
     rest.length === 0 ? getCompareMarkdown("percy") : null,
   "/compare/playwright": (rest) =>
     rest.length === 0 ? getCompareMarkdown("playwright") : null,
+  "/integrations": (rest) => {
+    if (rest.length === 0) {
+      return getIntegrationsIndexMarkdown();
+    }
+    return rest.length === 1 && isIntegrationSlug(rest[0])
+      ? getIntegrationMarkdown(rest[0])
+      : null;
+  },
   "/dpa": (rest) => (rest.length === 0 ? getLegalMarkdown("dpa") : null),
   "/privacy": (rest) =>
     rest.length === 0 ? getLegalMarkdown("privacy") : null,

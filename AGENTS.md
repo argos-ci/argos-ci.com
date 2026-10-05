@@ -28,15 +28,16 @@ Most user-facing copy exists twice — once as HTML/JSX, once as markdown served
 to agents and LLMs. **Whenever you change page copy, update the markdown twin
 in the same commit.** The twins:
 
-| HTML surface                                                                                  | Markdown twin                                                                                                                            |
-| --------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| Homepage (`app/homepage.tsx`, `app/home/**`)                                                  | `app/markdown/home.md` (curated by hand)                                                                                                 |
-| `/pricing` (`app/pricing/**`)                                                                 | `getPricingMarkdown()` in `lib/markdown.ts` (hand-written)                                                                               |
-| Pillar pages `/deploy`, `/diff`, `/review`, `/stabilize`, plus `/ai-agents`, `/media-sharing` | `app/markdown/<slug>.md` (curated by hand, no FAQ inside) + the page's `faq.tsx` questions, appended by `getCuratedPageMarkdown()`       |
-| Blog & changelog                                                                              | derived automatically from their MDX, nothing to do                                                                                      |
-| `/compare/*` (`app/compare/*/page.tsx`)                                                       | derived from `app/compare/*/comparison.ts` + `faq.tsx` by `getCompareMarkdown()` in `lib/markdown.ts`, keep hero copy in the data module |
-| `/security` (`app/security/page.tsx`)                                                         | `getSecurityMarkdown()` in `lib/markdown.ts`: prose hand-written, lists from the page's data modules                                     |
-| Site overview for agents                                                                      | `app/llms.txt/route.ts` (curated link map)                                                                                               |
+| HTML surface                                                                                  | Markdown twin                                                                                                                                                        |
+| --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Homepage (`app/homepage.tsx`, `app/home/**`)                                                  | `app/markdown/home.md` (curated by hand)                                                                                                                             |
+| `/pricing` (`app/pricing/**`)                                                                 | `getPricingMarkdown()` in `lib/markdown.ts` (hand-written)                                                                                                           |
+| Pillar pages `/deploy`, `/diff`, `/review`, `/stabilize`, plus `/ai-agents`, `/media-sharing` | `app/markdown/<slug>.md` (curated by hand, no FAQ inside) + the page's `faq.tsx` questions, appended by `getCuratedPageMarkdown()`                                   |
+| Blog & changelog                                                                              | derived automatically from their MDX, nothing to do                                                                                                                  |
+| `/compare/*` (`app/compare/*/page.tsx`)                                                       | derived from `app/compare/*/comparison.ts` + `faq.tsx` by `getCompareMarkdown()` in `lib/markdown.ts`, keep hero copy in the data module                             |
+| `/integrations/*` (`app/integrations/**`)                                                     | derived from `app/integrations/data/*.tsx` by `getIntegrationMarkdown()` in `lib/markdown.ts`: setup steps, the comparison table and the FAQ live in the data module |
+| `/security` (`app/security/page.tsx`)                                                         | `getSecurityMarkdown()` in `lib/markdown.ts`: prose hand-written, lists from the page's data modules                                                                 |
+| Site overview for agents                                                                      | `app/llms.txt/route.ts` (curated link map)                                                                                                                           |
 
 Two more lockstep spots:
 
@@ -85,7 +86,7 @@ the registry (slug, href, name, one-liners, color) read by the navbar, the
 footer, the homepage, `PillarLinks` and `llms.txt`; icons are in
 `components/pillar-icons.ts`. Claimed colors: deploy=teal, diff=blue,
 review=pink, stabilize=amber, `/ai-agents`=violet (agents everywhere),
-`/media-sharing`=plum.
+`/media-sharing`=plum, `/integrations/*`=green.
 
 Every pillar page follows the same skeleton, built from shared blocks:
 `PillarHero` → `TrustedBy` → feature sections → `AgentSection` (the
@@ -110,8 +111,8 @@ Registration points, all required unless noted:
 3. `app/footer.tsx`: a `FooterLink` (Product column for feature pages).
 4. `tests/screenshot-pages.spec.ts`: add to `FOOTER_LINKS`; the key is the
    route, the value must equal the footer link's visible label (the test
-   navigates by clicking it, and `getByRole` matches substrings, so no two
-   footer labels may contain each other).
+   navigates by clicking it with an exact name match, so footer labels must
+   be unique).
 5. `public/main-sitemap.xml`: hand-add the `<url>` entry.
 6. `app/llms.txt/route.ts`: add a bullet so agents can discover the page.
 7. `app/markdown/home.md`: mention it if the homepage copy does.

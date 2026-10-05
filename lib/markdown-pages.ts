@@ -41,6 +41,7 @@ export const MARKDOWN_PAGES = [
   { path: "/compare/chromatic", section: false },
   { path: "/compare/percy", section: false },
   { path: "/compare/playwright", section: false },
+  { path: "/integrations", section: true },
   { path: "/dpa", section: false },
   { path: "/privacy", section: false },
   { path: "/terms", section: false },

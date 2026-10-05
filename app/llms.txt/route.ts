@@ -32,6 +32,14 @@ ${pillarBullets}
 - [Media sharing](https://argos-ci.com/media-sharing): standalone image and video upload with share links, ready-to-paste Markdown, and automatic pull request comments
 - [Pricing](https://argos-ci.com/pricing): Hobby (free) and Pro plans
 
+## Integrations
+
+- [Integrations](https://argos-ci.com/integrations): every framework Argos supports
+- [Visual testing for Playwright](https://argos-ci.com/integrations/playwright): \`@argos-ci/playwright\`, \`argosScreenshot()\` and the reporter, vs \`toHaveScreenshot()\`
+- [Visual testing for Storybook](https://argos-ci.com/integrations/storybook): every story captured with the Vitest addon, plus Storybook deployments, vs Chromatic
+- [Visual testing for Vitest](https://argos-ci.com/integrations/vitest): \`argosScreenshot()\` in browser mode and \`argosSnapshot()\` for any value, vs \`toMatchScreenshot()\`
+- [Visual testing for Cypress](https://argos-ci.com/integrations/cypress): \`cy.argosScreenshot()\`, vs image snapshot plugins
+
 ## Documentation
 
 - [Documentation](https://argos-ci.com/docs): guides, SDK references, and concepts

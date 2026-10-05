@@ -49,6 +49,7 @@ export const config = {
     "/compare/chromatic",
     "/compare/percy",
     "/compare/playwright",
+    "/integrations/:path*",
     "/dpa",
     "/privacy",
     "/terms",

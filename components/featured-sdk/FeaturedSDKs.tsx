@@ -16,6 +16,34 @@ import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
 import { ThemeImage } from "@/components/ThemeImage";
 import { SectionDescription, SectionTitle } from "@/components/Typography";
 
+/** The SDKs with a page of their own, in the order the site lists them. */
+const FEATURED_SDKS = [
+  {
+    href: "/integrations/playwright",
+    sdk: playwright,
+    borderColor: "text-(--red-6)",
+    bgColor: "bg-(--red-1)",
+  },
+  {
+    href: "/integrations/storybook",
+    sdk: storybook,
+    borderColor: "text-(--plum-6)",
+    bgColor: "bg-(--plum-1)",
+  },
+  {
+    href: "/integrations/vitest",
+    sdk: vitest,
+    borderColor: "text-(--yellow-6)",
+    bgColor: "bg-(--yellow-1)",
+  },
+  {
+    href: "/integrations/cypress",
+    sdk: cypress,
+    borderColor: "text-(--green-6)",
+    bgColor: "bg-(--green-1)",
+  },
+];
+
 export function FeaturedSDKsSection() {
   return (
     <section className="separator-b relative px-4">
@@ -33,34 +61,13 @@ export function FeaturedSDKsSection() {
             </SectionDescription>
           </SectionHeaderTexts>
           <Button variant="outline" asChild>
-            <Link href="/docs/quickstart">Explore all SDKs</Link>
+            <Link href="/integrations">Explore all integrations</Link>
           </Button>
         </SectionHeader>
         <ul className="flex flex-1 flex-col gap-8 md:flex-row md:flex-wrap md:items-start md:justify-center md:px-8 md:py-24">
-          <SdkCard
-            href="/docs/quickstart/playwright-quickstart"
-            sdk={playwright}
-            borderColor="text-(--red-6)"
-            bgColor="bg-(--red-1)"
-          />
-          <SdkCard
-            href="/docs/quickstart/storybook-quickstart"
-            sdk={storybook}
-            borderColor="text-(--plum-6)"
-            bgColor="bg-(--plum-1)"
-          />
-          <SdkCard
-            href="/docs/quickstart/cypress-quickstart"
-            sdk={cypress}
-            borderColor="text-(--green-6)"
-            bgColor="bg-(--green-1)"
-          />
-          <SdkCard
-            href="/docs/quickstart/vitest-quickstart"
-            sdk={vitest}
-            borderColor="text-(--yellow-6)"
-            bgColor="bg-(--yellow-1)"
-          />
+          {FEATURED_SDKS.map((item) => (
+            <SdkCard key={item.href} {...item} />
+          ))}
         </ul>
       </Container>
     </section>
