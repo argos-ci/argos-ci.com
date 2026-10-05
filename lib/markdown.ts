@@ -331,7 +331,21 @@ function isCompetitorSlug(slug: string): slug is CompetitorSlug {
  */
 function getComparePricingMarkdown(comparison: Comparison): string | null {
   if (!isCompetitorSlug(comparison.slug)) {
-    return null;
+    // No published per-screenshot prices to estimate against (Percy,
+    // Applitools): state Argos's prices and the sourced note about theirs.
+    if (!comparison.pricingNote) {
+      return null;
+    }
+    return [
+      "## Pricing",
+      "",
+      `Argos Pro is $${ARGOS_PRO_FLAT_PRICE}/month including ${formatCount(ARGOS_PRO_FLAT_SCREENSHOT_COUNT)} screenshots, then $${ARGOS_SCREENSHOT_PRICE} per extra screenshot ($${ARGOS_STORYBOOK_SCREENSHOT_PRICE} for Storybook screenshots).`,
+      "",
+      comparison.pricingNote,
+      "",
+      `Argos pricing in full: ${SITE_URL}/pricing`,
+      "",
+    ].join("\n");
   }
   const slug = comparison.slug;
   const competitor = COMPETITORS[slug];

@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import { ComparePricingSlider } from "@/app/common/PricingSlider";
+import { PricingSlider } from "@/app/common/PricingSlider";
 import { getMetadata } from "@/lib/metadata";
 
 import {
@@ -52,8 +52,13 @@ export default function Page() {
         />
       </TableSection>
 
-      <PricingSection title="Estimate your savings">
-        <ComparePricingSlider competitor="percy" />
+      <PricingSection title="Argos Pricing">
+        <PricingSlider />
+        {comparison.pricingNote ? (
+          <p className="mt-4 text-center text-sm text-low">
+            {comparison.pricingNote}
+          </p>
+        ) : null}
       </PricingSection>
 
       <KeyFeaturesSection />

@@ -1,14 +1,15 @@
 ---
 title: "Applitools Alternatives in 2026: Pricing & 4 Tools Compared"
-description: "Applitools hides its pricing and contracts often run $10K–30K+/yr. Compare the best Applitools alternatives in 2026: Argos, Chromatic, Percy, and more."
+description: "Applitools starts at $667/month, billed annually. Compare the best Applitools alternatives in 2026: Argos, Chromatic, Percy, and more."
 category: guides
 author: greg
 date: 2026-07-07
+updatedAt: 2026-10-05
 image: ./main.jpg
 imageAlt: "Abstract illustration of five tool cards with measurement brackets beneath them, the longest bracket under the dimmed leftmost card"
 ---
 
-The best Applitools alternatives in 2026 are **Argos** (open source, $100/mo flat, free 5,000 screenshots/month), **Chromatic** (deepest Storybook integration, $179/mo), **Percy** (cloud cross-browser re-rendering, $599/mo), and free open-source options like **BackstopJS** and **Playwright's `toHaveScreenshot`**. For most product teams, Argos delivers what they actually wanted from Applitools, reliable visual diffs on every PR, without the sales call, the one-year contract, or the black-box AI.
+The best Applitools alternatives in 2026 are **Argos** (open source, $100/mo flat, free 5,000 screenshots/month), **Chromatic** (deepest Storybook integration, $179/mo), **Percy** (cloud cross-browser re-rendering, paid plans quoted by sales), and free open-source options like **BackstopJS** and **Playwright's `toHaveScreenshot`**. For most product teams, Argos delivers what they actually wanted from Applitools, reliable visual diffs on every PR, without an annual commitment or the black-box AI.
 
 <MainImage />
 
@@ -16,11 +17,11 @@ The best Applitools alternatives in 2026 are **Argos** (open source, $100/mo fla
 
 Applitools pioneered modern visual testing and its "Visual AI" is genuinely powerful. But three things push teams to look elsewhere.
 
-### 1. You can't see the price
+### 1. The entry price is high, and it's annual
 
-As of July 2026, [applitools.com/pricing](https://applitools.com/pricing/) shows **no dollar amounts at all**. There are three tiers: a Starter plan capped at 50 "Test Units" with a free trial, and Public Cloud and Dedicated Cloud plans that both say "Custom — contact us." The FAQ on that page confirms that Test Units are the primary pricing variable and that **contracts are for one year**.
+As of October 2026, [applitools.com/pricing](https://applitools.com/pricing/) lists one price: **Starter at $667/month, paid annually** ($8,004 a year), for 100,000 component checkpoints or 1,000 page checkpoints. Professional and Enterprise are quoted by sales, starting at 150 and 350 active pages.
 
-What teams report from actual sales conversations: entry pricing around **$399/month**, with real-world contracts commonly landing in the **$10K–30K+ per year** range. If you're a five-person frontend team that wants visual coverage on your Playwright suite, you're being asked to commit to enterprise procurement before you know what a screenshot costs.
+If you're a five-person frontend team that wants visual coverage on your Playwright suite, that's an $8,000 commitment before the first screenshot, and anything beyond Starter is enterprise procurement.
 
 ### 2. Visual AI is a black box
 
@@ -34,18 +35,18 @@ The alternative approach: solve the noise **at capture time**, then diff determi
 
 Applitools' product and messaging increasingly target large enterprises and an "agentic SDLC" narrative. That's a reasonable strategy, but it moves the product further from the everyday dev-team loop of "run tests in CI, review diffs on the PR, merge." If that loop is what you need, you're paying for a platform built around something else.
 
-## Applitools alternatives compared (July 2026)
+## Applitools alternatives compared (October 2026)
 
-| Tool                                     | Entry paid price                                         | Free tier             | Diffing model                                        | Capture model                    |
-| ---------------------------------------- | -------------------------------------------------------- | --------------------- | ---------------------------------------------------- | -------------------------------- |
-| [Argos](/compare/applitools)             | $100/mo flat (35k screenshots)                           | 5,000 screenshots/mo  | Deterministic pixel diff + per-screenshot thresholds | Local, in your real test browser |
-| [Chromatic](/compare/chromatic)          | $179/mo                                                  | Yes                   | Pixel diff with anti-flake rendering                 | Chromatic's cloud infrastructure |
-| [Percy](/compare/percy)                  | $599/mo (plans no longer public)                         | Yes                   | Pixel diff                                           | Cloud DOM re-render              |
-| Applitools                               | Not published; ~$399/mo reported, $10K–30K+/yr contracts | Trial (50 Test Units) | Visual AI (black box)                                | Cloud rendering grid             |
-| [BackstopJS](/compare/backstopjs)        | Free (self-hosted)                                       | N/A                   | Pixel diff, manual tuning                            | Local Puppeteer/Playwright       |
-| [Playwright native](/compare/playwright) | Free (built-in)                                          | N/A                   | Pixel diff, baselines in git                         | Local, platform-dependent        |
+| Tool                                     | Entry paid price                   | Free tier            | Diffing model                                        | Capture model                    |
+| ---------------------------------------- | ---------------------------------- | -------------------- | ---------------------------------------------------- | -------------------------------- |
+| [Argos](/compare/applitools)             | $100/mo flat (35k screenshots)     | 5,000 screenshots/mo | Deterministic pixel diff + per-screenshot thresholds | Local, in your real test browser |
+| [Chromatic](/compare/chromatic)          | $179/mo                            | 5,000 snapshots/mo   | Pixel diff with anti-flake rendering                 | Chromatic's cloud infrastructure |
+| [Percy](/compare/percy)                  | Not published (contact sales)      | 5,000 screenshots/mo | Pixel diff with AI noise reduction                   | Cloud DOM re-render              |
+| Applitools                               | $667/mo (Starter, billed annually) | None listed          | Visual AI (black box)                                | Ultrafast Grid or local capture  |
+| [BackstopJS](/compare/backstopjs)        | Free (self-hosted)                 | N/A                  | Pixel diff, manual tuning                            | Local Puppeteer/Playwright       |
+| [Playwright native](/compare/playwright) | Free (built-in)                    | N/A                  | Pixel diff, baselines in git                         | Local, platform-dependent        |
 
-Pricing as of July 2026. Applitools contract figures are third-party reported since no public prices exist.
+Pricing checked on each vendor's pricing page or billing docs in October 2026.
 
 ## 1. Argos: transparent diffs at a flat $100/month
 
@@ -53,7 +54,7 @@ Pricing as of July 2026. Applitools contract figures are third-party reported si
 
 Where it answers the three Applitools complaints directly:
 
-- **Public, flat pricing.** Free Hobby tier with 5,000 screenshots/month. Pro is **$100/month flat** with 35,000 screenshots included, then $0.004 per extra screenshot ($0.0015 for Storybook screenshots). Unlimited parallelization included, no per-seat fees, and you can set a budget limit to cap spending. It's all on the [pricing page](/pricing), no sales call required.
+- **Public, flat pricing.** Free Hobby plan with 5,000 screenshots/month for personal projects. Pro is **$100/month flat** with 35,000 screenshots included, then $0.004 per extra screenshot ($0.0015 for Storybook screenshots). Unlimited parallelization included, no per-seat fees, and you can set a budget limit to cap spending. It's all on the [pricing page](/pricing), no sales call required.
 - **Deterministic diffs you can debug.** Argos does pixel diffing with a **per-screenshot sensitivity threshold** (0 to 1, default 0.5; higher means less sensitive). Combined with SDK-level stabilization, this solves the same noise problem Visual AI addresses, transparently. When a diff fires, you can see exactly why, and reproduce it.
 - **Local capture in your real test browser.** `argosScreenshot(page, "name")` captures in the same Playwright or Cypress browser your tests already run. No cloud rendering grid, no second environment to keep in sync: what your test rendered is what gets diffed.
 - **Agent-ready by design.** The [CLI and REST API](/ai-agents) output structured JSON (`argos build get <ref> --json`, `argos review create <ref> --event approve`), so coding agents can inspect and review builds without screen-scraping a dashboard.
@@ -71,7 +72,7 @@ Compared to Applitools, pricing is public and sane: entry at $179/mo. The trade-
 
 [Percy](/compare/percy) (acquired by BrowserStack) uploads your page's DOM and assets and re-renders snapshots in its cloud across configured widths and browsers. If Applitools' Ultrafast Grid was the feature you cared about, Percy is the closest architectural match.
 
-But it inherits similar problems: the known paid tier is **$599/month**, BrowserStack no longer displays Percy plans on its public pricing page, and parallel CI uploads cost extra. The cloud re-render also means what you review is not exactly what your test rendered, which produces its own class of hard-to-reproduce diffs.
+But it inherits a similar problem: BrowserStack no longer publishes paid Percy prices, so a paid plan still means a sales conversation. The cloud re-render also means what you review is not exactly what your test rendered, which produces its own class of hard-to-reproduce diffs.
 
 ## 4. Open source and DIY: BackstopJS and Playwright
 
@@ -131,17 +132,17 @@ Swap `APPLITOOLS_API_KEY` for `ARGOS_TOKEN` in CI (on GitHub Actions, OIDC lets 
 
 ## When should you stay on Applitools?
 
-Honestly: if you're a large enterprise testing across a huge browser and device matrix, the Ultrafast Grid's ability to render one capture across many environments is hard to replicate, and Visual AI's noise handling shines at that scale. If you have compliance requirements, a dedicated-cloud deployment need, and a budget where $10K–30K/year is a rounding error, Applitools remains a serious platform. The alternatives above are for the much larger group of teams paying enterprise prices for a PR-review workflow they could get for $0–100/month.
+If you're a large enterprise testing across a huge browser and device matrix, the Ultrafast Grid's ability to render one capture across many environments is hard to replicate, and Visual AI's noise handling shines at that scale. If you have compliance requirements, a dedicated-cloud deployment need, and a budget where an annual contract is a rounding error, Applitools remains a serious platform. The alternatives above are for the much larger group of teams paying enterprise prices for a PR-review workflow they could get for $100/month.
 
 ## FAQ
 
 ### How much does Applitools cost?
 
-Applitools does not publish prices. As of July 2026, its pricing page lists a Starter trial plan (50 Test Units) and two "Custom — contact us" cloud plans, with subscription price based on Test Units and one-year contracts. Reported entry pricing is around $399/month, and real-world contracts commonly run $10K–30K+ per year.
+As of October 2026, Applitools' Starter plan is $667/month, paid annually ($8,004 a year), for 100,000 component checkpoints or 1,000 page checkpoints, with unlimited users. Professional and Enterprise plans are quoted by sales and start at 150 and 350 active pages.
 
 ### Is there a free alternative to Applitools?
 
-Yes. Argos has a free Hobby tier with 5,000 screenshots per month including the full PR review workflow, and it's open source. BackstopJS and Playwright's `toHaveScreenshot` are entirely free but self-managed: no team review UI, and baselines live in your git repo.
+Yes, for personal projects: Argos's free Hobby plan includes 5,000 screenshots per month, and Argos is open source. Teams need the Pro plan ($100/month flat). BackstopJS and Playwright's `toHaveScreenshot` are entirely free but self-managed: no team review UI, and baselines live in your git repo.
 
 ### Do I need Visual AI to avoid flaky visual tests?
 

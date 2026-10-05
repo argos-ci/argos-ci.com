@@ -4,6 +4,7 @@ description: "Set up visual regression testing in Vitest browser mode with toMat
 category: guides
 author: greg
 date: 2026-09-01
+updatedAt: 2026-10-05
 image: ./main.jpg
 imageAlt: "Abstract illustration of cramped local baselines fanning out into a shared review panel"
 ---
@@ -190,7 +191,7 @@ export const FilledForm: Story = {
 };
 ```
 
-If you are weighing this against Chromatic's cloud rendering, see [Storybook visual testing without Chromatic](/blog/storybook-visual-testing-without-chromatic).
+If you are weighing this against Chromatic's cloud rendering (Chromatic for Vitest has been generally available since September 2026), see [Storybook visual testing without Chromatic](/blog/storybook-visual-testing-without-chromatic).
 
 Either way, set `ARGOS_TOKEN` as a CI secret and Argos handles the rest: baseline selection from Git history, diffing, and the PR status check.
 

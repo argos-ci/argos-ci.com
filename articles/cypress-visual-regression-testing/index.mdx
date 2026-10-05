@@ -4,6 +4,7 @@ description: "How to do visual regression testing in Cypress in 2026: local diff
 category: guides
 author: jeremy
 date: 2026-08-06
+updatedAt: 2026-10-05
 image: ./main.jpg
 imageAlt: "Abstract illustration of two overlapping browser windows with highlighted pixel differences along their seam"
 ---
@@ -135,7 +136,7 @@ All three appear on the Cypress docs page as commercial integrations. Here is ho
 | --------------------------------------- | ------------------------------------- | ------------------------------------------ | ----------------------------- |
 | Capture model                           | Locally, in your real Cypress browser | DOM uploaded, re-rendered in Percy's cloud | Rendered in Chromatic's cloud |
 | Baseline management                     | Automatic from Git history            | Managed in dashboard                       | Managed in dashboard          |
-| Entry paid plan                         | $100/mo flat (35k screenshots)        | $599/mo                                    | $179/mo                       |
+| Entry paid plan                         | $100/mo flat (35k screenshots)        | Not published                              | $179/mo                       |
 | Free tier                               | 5,000 screenshots/mo                  | —                                          | —                             |
 | Parallel test runs                      | Unlimited, included                   | Costs extra                                | Included                      |
 | Open source                             | Yes                                   | No                                         | No                            |
@@ -170,7 +171,7 @@ Most flakiness comes from capturing before the page settles: fonts loading, imag
 
 ### How much does Cypress visual testing with Argos cost?
 
-Argos is free up to 5,000 screenshots per month on the Hobby plan. The Pro plan is a flat $100/month with 35,000 screenshots included and $0.004 per extra screenshot, with unlimited parallelization at no extra cost, as of 2026. Compare that with Percy at $599/month and Chromatic at $179/month on their entry paid tiers.
+Argos is free up to 5,000 screenshots per month on the Hobby plan, for personal projects. The Pro plan is a flat $100/month with 35,000 screenshots included and $0.004 per extra screenshot, with unlimited parallelization at no extra cost, as of 2026. Compare that with Chromatic at $179/month on its entry paid tier; Percy doesn't publish its paid prices.
 
 ### Do I need to commit screenshot baselines to Git with Argos?
 

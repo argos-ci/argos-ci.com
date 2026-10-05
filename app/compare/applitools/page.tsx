@@ -51,6 +51,11 @@ export default function Page() {
 
       <PricingSection title="Argos Pricing">
         <PricingSlider />
+        {comparison.pricingNote ? (
+          <p className="mt-4 text-center text-sm text-low">
+            {comparison.pricingNote}
+          </p>
+        ) : null}
       </PricingSection>
 
       <KeyFeaturesSection />

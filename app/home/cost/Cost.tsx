@@ -19,14 +19,13 @@ import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
 import { SectionDescription, SectionTitle } from "@/components/Typography";
 import { useInViewport } from "@/components/useInViewport";
 import {
-  ARGOS_PRO_FLAT_PRICE,
-  ARGOS_PRO_FLAT_SCREENSHOT_COUNT,
-  ARGOS_SCREENSHOT_PRICE,
-  ARGOS_STORYBOOK_SCREENSHOT_PRICE,
-} from "@/lib/constants";
+  COMPETITORS,
+  formatCheckedAt,
+  getArgosProPricing,
+  getCompetitorPrice,
+} from "@/lib/pricing";
 
 const DEFAULT_SCENARIO_ID = "playwright-100k-storybook-100k";
-const TURBO_SNAP_RATIO = 1 / 5;
 
 const SCENARIOS = [
   {
@@ -54,25 +53,6 @@ const SCENARIOS = [
     storybookScreenshots: 0,
   },
 ] as const;
-
-const COMPETITORS = {
-  chromatic: {
-    name: "Chromatic",
-    subtitle: "80% Turbosnap",
-    screenshotPrice: 0.008,
-    storybookScreenshotPrice: 0.008 * 0.2 + 0.008 * TURBO_SNAP_RATIO * 0.8,
-    steps: [
-      { screenshots: 35_000, price: 179 },
-      { screenshots: 85_000, price: 399 },
-    ],
-  },
-  percy: {
-    name: "Percy",
-    screenshotPrice: 0.048,
-    storybookScreenshotPrice: 0.048,
-    steps: [{ screenshots: 25_000, price: 599 }],
-  },
-};
 
 export function Cost() {
   const [selectedScenarioId, setSelectedScenarioId] =
@@ -142,7 +122,7 @@ export function Cost() {
               href="/docs/learn/billing-and-subscription/pricing-plans"
               icon={TrendingDownIcon}
               title="Cheaper at every volume"
-              description="From small teams to millions of snapshots, Argos stays below competitors."
+              description="From small teams to millions of snapshots, Argos stays below Chromatic’s published plans."
             />
           </div>
           <div className="flex flex-col md:basis-1/2 lg:basis-3/5">
@@ -183,6 +163,17 @@ export function Cost() {
                     />
                   ))}
                 </div>
+                <p className="text-xs text-low">
+                  Chromatic prices from{" "}
+                  <a
+                    href={COMPETITORS.chromatic.source}
+                    className="underline-offset-2 hover:underline"
+                  >
+                    chromatic.com/pricing
+                  </a>
+                  , checked {formatCheckedAt(COMPETITORS.chromatic.checkedAt)}.
+                  Percy no longer publishes its paid prices.
+                </p>
               </div>
             </div>
             <div className="flex flex-col items-center justify-end gap-4 border-t p-6 md:flex-row">
@@ -281,83 +272,14 @@ function CostFeature(props: {
   );
 }
 
-function computeAdditionalScreenshots(screenshots: {
-  neutral: number;
-  storybook: number;
-  included: number;
-}) {
-  const storybookOverhead = Math.max(
-    Math.min(screenshots.storybook, screenshots.included - screenshots.neutral),
-    0,
-  );
-  return {
-    neutral: Math.max(
-      0,
-      screenshots.neutral + storybookOverhead - screenshots.included,
-    ),
-    storybook: screenshots.storybook - storybookOverhead,
-  };
-}
-
-function getPrice(props: {
-  screenshotCount: number;
-  storybookScreenshotCount: number;
-  screenshotPrice: number;
-  storybookScreenshotPrice: number;
-  flatPrice: number;
-  flatScreenshotCount: number;
-}) {
-  const extraScreenshotsCount = computeAdditionalScreenshots({
-    neutral: props.screenshotCount,
-    storybook: props.storybookScreenshotCount,
-    included: props.flatScreenshotCount,
-  });
-  return Math.floor(
-    extraScreenshotsCount.neutral * props.screenshotPrice +
-      extraScreenshotsCount.storybook * props.storybookScreenshotPrice +
-      props.flatPrice,
-  );
-}
-
-function getCompetitorPrice(
-  competitorKey: keyof typeof COMPETITORS,
-  scenario: { screenshots: number; storybookScreenshots: number },
-) {
-  const competitor = COMPETITORS[competitorKey];
-  const competitorPrices = competitor.steps.map((step) =>
-    getPrice({
-      flatPrice: step.price,
-      flatScreenshotCount: step.screenshots,
-      screenshotPrice: competitor.screenshotPrice,
-      screenshotCount: scenario.screenshots,
-      storybookScreenshotPrice: competitor.storybookScreenshotPrice,
-      storybookScreenshotCount: scenario.storybookScreenshots,
-    }),
-  );
-
-  return Math.min(...competitorPrices);
-}
-
-function getScenarioPrices(scenario: {
+function getScenarioPrices(usage: {
   screenshots: number;
   storybookScreenshots: number;
 }) {
-  const argosPrice = getPrice({
-    flatPrice: ARGOS_PRO_FLAT_PRICE,
-    flatScreenshotCount: ARGOS_PRO_FLAT_SCREENSHOT_COUNT,
-    screenshotPrice: ARGOS_SCREENSHOT_PRICE,
-    screenshotCount: scenario.screenshots,
-    storybookScreenshotPrice: ARGOS_STORYBOOK_SCREENSHOT_PRICE,
-    storybookScreenshotCount: scenario.storybookScreenshots,
-  });
-
-  const chromaticPrice = getCompetitorPrice("chromatic", scenario);
-  const percyPrice = getCompetitorPrice("percy", scenario);
-
   return [
     {
       name: "Argos",
-      price: argosPrice,
+      price: getArgosProPricing(usage).price,
       color: clsx(
         "bg-linear-to-l from-(--primary-9) to-(--primary-11)",
         "shadow-[0_20px_40px_-24px_rgba(80,63,205,0.35)]",
@@ -366,13 +288,8 @@ function getScenarioPrices(scenario: {
     {
       name: COMPETITORS.chromatic.name,
       subtitle: COMPETITORS.chromatic.subtitle,
-      price: chromaticPrice,
+      price: getCompetitorPrice("chromatic", usage),
       color: clsx("bg-linear-to-l from-(--red-9) to-(--red-11)"),
-    },
-    {
-      name: COMPETITORS.percy.name,
-      price: percyPrice,
-      color: clsx("bg-linear-to-l from-(--plum-9) to-(--plum-11)"),
     },
   ];
 }

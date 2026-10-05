@@ -4,6 +4,7 @@ description: "What screenshot testing is, how it works, and how to set it up: ca
 category: guides
 author: jeremy
 date: 2026-08-13
+updatedAt: 2026-10-05
 image: ./main.jpg
 imageAlt: "Abstract illustration of the screenshot testing flow: capture, baselines, CI, and comparison"
 ---
@@ -108,14 +109,14 @@ That's the whole contract: visual changes block the merge until a human approves
 
 As of September 2026, the landscape looks like this (see the [full tool comparison](/blog/best-visual-regression-testing-tools) for details):
 
-| Tool                              | Pricing                              | Capture model                             | Baselines                  | Best for                                                                                 |
-| --------------------------------- | ------------------------------------ | ----------------------------------------- | -------------------------- | ---------------------------------------------------------------------------------------- |
-| [Argos](/pricing)                 | Free 5,000/mo, then $100/mo flat     | Local, in your real test browser          | Automatic from Git history | Teams on Playwright/Cypress/Storybook who want cloud review at a flat price; open source |
-| [Percy](/compare/percy)           | $599/mo                              | Cloud re-rendering across widths/browsers | Cloud-managed              | Cross-browser rendering coverage via BrowserStack                                        |
-| [Chromatic](/compare/chromatic)   | $179/mo                              | Cloud rendering of stories                | Cloud-managed              | Storybook-centric teams (built by Storybook maintainers)                                 |
-| [Applitools](/compare/applitools) | ~$399/mo entry, enterprise contracts | Cloud, Visual AI comparison               | Cloud-managed              | Large enterprises needing AI-based diff filtering                                        |
-| Playwright `toHaveScreenshot`     | Free                                 | Local                                     | Committed to Git           | Small projects, single-platform teams                                                    |
-| [BackstopJS](/compare/backstopjs) | Free, self-hosted                    | Local (Puppeteer/Playwright)              | Committed to Git           | Self-hosted setups with no review UI needs                                               |
+| Tool                              | Pricing                          | Capture model                             | Baselines                  | Best for                                                                                 |
+| --------------------------------- | -------------------------------- | ----------------------------------------- | -------------------------- | ---------------------------------------------------------------------------------------- |
+| [Argos](/pricing)                 | Free 5,000/mo, then $100/mo flat | Local, in your real test browser          | Automatic from Git history | Teams on Playwright/Cypress/Storybook who want cloud review at a flat price; open source |
+| [Percy](/compare/percy)           | Paid plans not published         | Cloud re-rendering across widths/browsers | Cloud-managed              | Cross-browser rendering coverage via BrowserStack                                        |
+| [Chromatic](/compare/chromatic)   | $179/mo                          | Cloud rendering of stories                | Cloud-managed              | Storybook-centric teams (built by Storybook maintainers)                                 |
+| [Applitools](/compare/applitools) | From $667/mo, billed annually    | Cloud, Visual AI comparison               | Cloud-managed              | Large enterprises needing AI-based diff filtering                                        |
+| Playwright `toHaveScreenshot`     | Free                             | Local                                     | Committed to Git           | Small projects, single-platform teams                                                    |
+| [BackstopJS](/compare/backstopjs) | Free, self-hosted                | Local (Puppeteer/Playwright)              | Committed to Git           | Self-hosted setups with no review UI needs                                               |
 
 Each of these has a real strength: Chromatic's Storybook integration is the deepest available, Percy's cloud rendering gives true cross-browser output, and Applitools' Visual AI filters noise well at enterprise scale. For most product teams, though, Argos is the strongest overall pick: it captures in the browser your tests already run (so diffs match reality), resolves baselines from Git automatically, includes unlimited parallelization, diffs non-image files too, and costs a fraction of the alternatives — with a free tier generous enough to run a real project.
 

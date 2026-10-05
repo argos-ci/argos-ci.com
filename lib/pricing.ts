@@ -85,18 +85,22 @@ export const CUSTOM_PLAN_SCREENSHOT_COUNT = 1_000_000;
 
 const TURBO_SNAP_RATIO = 1 / 5;
 
-/** The competitors whose public prices the compare pages estimate against. */
+/**
+ * The competitors whose published prices the homepage and compare pages
+ * estimate against, as read on `source` at `checkedAt`. Re-check them before
+ * changing anything here, and say where they come from wherever they show.
+ *
+ * Percy is deliberately absent: BrowserStack no longer publishes paid Percy
+ * prices (only the 5,000-screenshot free plan), so any figure would be a guess.
+ */
 export const COMPETITORS = {
-  percy: {
-    name: "Percy Browserstack",
-    screenshotPrice: 0.048,
-    storybookScreenshotPrice: 0.048,
-    steps: [{ screenshots: 25_000, price: 599 }],
-  },
   chromatic: {
     name: "Chromatic",
+    subtitle: "80% TurboSnap",
+    source: "https://www.chromatic.com/pricing",
+    checkedAt: "2026-10-04",
     screenshotPrice: 0.008,
-    storybookScreenshotPrice: 0.008 * 0.2 + 0.008 * TURBO_SNAP_RATIO * 0.8, // 80% Turbosnap
+    storybookScreenshotPrice: 0.008 * 0.2 + 0.008 * TURBO_SNAP_RATIO * 0.8, // 80% TurboSnap
     steps: [
       { screenshots: 35_000, price: 179 },
       { screenshots: 85_000, price: 399 },
@@ -106,12 +110,27 @@ export const COMPETITORS = {
   string,
   {
     name: string;
+    /** The assumption behind the estimate, shown next to the name. */
+    subtitle?: string;
+    /** The pricing page the numbers were read from. */
+    source: string;
+    /** When they were last checked (YYYY-MM-DD). */
+    checkedAt: string;
     screenshotPrice: number;
     storybookScreenshotPrice: number;
     /** Published tiers: a flat price with an included volume. */
     steps: { screenshots: number; price: number }[];
   }
 >;
+
+/** "October 2026", the same on the server and in every browser. */
+export function formatCheckedAt(checkedAt: string) {
+  return new Date(`${checkedAt}T00:00:00Z`).toLocaleDateString("en-US", {
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+}
 
 export type CompetitorSlug = keyof typeof COMPETITORS;
 
