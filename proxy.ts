@@ -47,6 +47,7 @@ export const config = {
     "/compare/applitools",
     "/compare/backstopjs",
     "/compare/chromatic",
+    "/compare/lost-pixel",
     "/compare/percy",
     "/compare/playwright",
     "/integrations/:path*",

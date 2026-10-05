@@ -21,6 +21,7 @@ const FOOTER_LINKS = {
   "chromatic-vs-argos": "Chromatic",
   "playwright-vs-argos": "Playwright snapshots",
   "backstopjs-vs-argos": "BackstopJS",
+  "lost-pixel-vs-argos": "Lost Pixel",
   "integrations-playwright": "Playwright",
   "integrations-storybook": "Storybook",
   "integrations-vitest": "Vitest",

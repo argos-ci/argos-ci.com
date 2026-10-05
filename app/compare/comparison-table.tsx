@@ -75,7 +75,7 @@ function FeatureTr(props: {
 
 export function ComparisonTable(props: {
   comparison: Comparison;
-  logoSrc: string;
+  logoSrc?: string;
   logoSrcDark?: string;
 }) {
   const { comparison } = props;

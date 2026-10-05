@@ -35,7 +35,8 @@ export const X = twc(CircleXIcon)`inline-block text-low`;
 
 export function THead(props: {
   title: string;
-  logoSrc: string;
+  /** Without a logo file, the column shows the name as text. */
+  logoSrc?: string;
   logoSrcDark?: string;
 }) {
   return (
@@ -47,19 +48,30 @@ export function THead(props: {
           <span className="sr-only">Argos</span>
         </Th>
         <Th className="w-[40%] pb-6">
-          <Image
-            src={props.logoSrc}
-            alt=""
-            className={clsx("h-6 md:h-8", props.logoSrcDark && "dark:hidden")}
-          />
-          {props.logoSrcDark && (
-            <Image
-              src={props.logoSrcDark}
-              alt=""
-              className="hidden h-6 md:h-8 dark:block"
-            />
+          {props.logoSrc ? (
+            <>
+              <Image
+                src={props.logoSrc}
+                alt=""
+                className={clsx(
+                  "h-6 md:h-8",
+                  props.logoSrcDark && "dark:hidden",
+                )}
+              />
+              {props.logoSrcDark && (
+                <Image
+                  src={props.logoSrcDark}
+                  alt=""
+                  className="hidden h-6 md:h-8 dark:block"
+                />
+              )}
+              <span className="sr-only">{props.title}</span>
+            </>
+          ) : (
+            <span className="font-accent text-lg font-medium md:text-xl">
+              {props.title}
+            </span>
           )}
-          <span className="sr-only">{props.title}</span>
         </Th>
       </Tr>
     </thead>

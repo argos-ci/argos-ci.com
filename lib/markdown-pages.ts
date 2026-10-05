@@ -39,6 +39,7 @@ export const MARKDOWN_PAGES = [
   { path: "/compare/applitools", section: false },
   { path: "/compare/backstopjs", section: false },
   { path: "/compare/chromatic", section: false },
+  { path: "/compare/lost-pixel", section: false },
   { path: "/compare/percy", section: false },
   { path: "/compare/playwright", section: false },
   { path: "/integrations", section: true },

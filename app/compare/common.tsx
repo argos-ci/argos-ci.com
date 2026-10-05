@@ -15,12 +15,28 @@ import { formatCheckedAt } from "@/lib/pricing";
 import type { Comparison } from "./features";
 
 type EmblemProps = {
-  emblemSrc: string;
+  /** Without a logo file, the emblem shows the name's initials. */
+  emblemSrc?: string;
   emblemSrcDark?: string;
   emblemAlt: string;
 };
 
 function Emblem(props: EmblemProps) {
+  if (!props.emblemSrc) {
+    return (
+      <div
+        role="img"
+        aria-label={props.emblemAlt}
+        className="flex aspect-square size-full items-center justify-center rounded-full bg-(--neutral-3) font-accent text-xl font-medium text-low"
+      >
+        {props.emblemAlt
+          .split(/\s+/)
+          .map((word) => word[0])
+          .join("")
+          .slice(0, 2)}
+      </div>
+    );
+  }
   return (
     <>
       <Image

@@ -118,6 +118,7 @@ export const AppFooter: React.FC = () => (
               Playwright snapshots
             </FooterLink>
             <FooterLink href="/compare/backstopjs">BackstopJS</FooterLink>
+            <FooterLink href="/compare/lost-pixel">Lost Pixel</FooterLink>
           </FooterSection>
         </div>
       </div>

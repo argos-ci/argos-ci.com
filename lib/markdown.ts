@@ -644,6 +644,8 @@ const resolvers: Record<
     rest.length === 0 ? getCompareMarkdown("backstopjs") : null,
   "/compare/chromatic": (rest) =>
     rest.length === 0 ? getCompareMarkdown("chromatic") : null,
+  "/compare/lost-pixel": (rest) =>
+    rest.length === 0 ? getCompareMarkdown("lost-pixel") : null,
   "/compare/percy": (rest) =>
     rest.length === 0 ? getCompareMarkdown("percy") : null,
   "/compare/playwright": (rest) =>
