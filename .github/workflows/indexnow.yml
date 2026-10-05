@@ -1,0 +1,33 @@
+name: IndexNow
+permissions: {}
+
+# Tells Bing (which feeds Copilot), Yandex, Naver, Seznam and Yep about new
+# and updated pages through IndexNow, instead of waiting for their next
+# crawl. Runs after "Publish scheduled articles" (07:30 UTC) has redeployed,
+# and submits the sitemap URLs whose <lastmod> changed in the last two days.
+# Run it by hand with "all" after site-wide changes (titles, copy).
+#
+# No secret needed: the IndexNow key is public and served from
+# public/<key>.txt. See scripts/indexnow.mjs.
+
+on:
+  schedule:
+    - cron: "15 8 * * *"
+  workflow_dispatch:
+    inputs:
+      all:
+        description: Submit every URL in the sitemaps, not only recent ones
+        type: boolean
+        default: false
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v6
+
+      - name: Submit URLs to IndexNow
+        run: node scripts/indexnow.mjs ${{ inputs.all && '--all' || '' }}
