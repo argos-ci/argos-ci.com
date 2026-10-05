@@ -4,10 +4,12 @@ import { Button } from "@/components/Button";
 import { Container } from "@/components/Container";
 import { FullPageGrid } from "@/components/FullPageGrid";
 import { Hero, HeroDescription, HeroHeading } from "@/components/Hero";
+import { JsonLd } from "@/components/JsonLd";
 import { Link } from "@/components/Link";
 import { SectionHeader, SectionHeaderTexts } from "@/components/SectionHeader";
 import { SectionDescription, SectionTitle } from "@/components/Typography";
 import { getMetadata } from "@/lib/metadata";
+import { softwareApplicationJsonLd } from "@/lib/structured-data";
 
 import { PricingSlider } from "../common/PricingSlider";
 import { TrustedBy } from "../common/TrustedBy";
@@ -57,6 +59,7 @@ export default function Page() {
           <FAQ />
         </Container>
       </section>
+      <JsonLd json={softwareApplicationJsonLd} />
     </>
   );
 }

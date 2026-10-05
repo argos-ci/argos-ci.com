@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { NewsArticle } from "schema-dts";
+import { BlogPosting, BreadcrumbList } from "schema-dts";
 
 import { CallToActionSection } from "@/components/CallToActionSection";
 import { Container } from "@/components/Container";
@@ -25,6 +25,11 @@ import {
   getArticles,
 } from "@/lib/api/blog";
 import { getAlternates } from "@/lib/metadata";
+import {
+  absoluteUrl,
+  getPersonJsonLd,
+  organizationRef,
+} from "@/lib/structured-data";
 
 type Params = { slug: string[] };
 type Props = { params: Promise<Params> };
@@ -154,19 +159,42 @@ export default async function Page(props: Props) {
     notFound();
   }
   const source = await getArticleMdxSource(article);
-  const jsonLd: NewsArticle = {
-    "@type": "NewsArticle",
+  const url = absoluteUrl(`/blog/${article.slug}`);
+  const jsonLd: BlogPosting = {
+    "@type": "BlogPosting",
+    "@id": `${url}#article`,
     headline: article.title,
-    image: [article.image.src],
+    description: article.description,
+    url,
+    mainEntityOfPage: url,
+    image: [absoluteUrl(article.image.src)],
     datePublished: article.date,
     dateModified: article.updatedAt ?? article.date,
-    author: [
+    articleSection: article.category.title,
+    inLanguage: "en",
+    author: [getPersonJsonLd(article.author)],
+    publisher: organizationRef,
+  };
+  const jsonLdBreadcrumbs: BreadcrumbList = {
+    "@type": "BreadcrumbList",
+    itemListElement: [
       {
-        "@type": "Person",
-        name: article.author.name,
-        jobTitle: article.author.title,
-        image: article.author.avatar.src,
-        sameAs: [article.author.github, article.author.x],
+        "@type": "ListItem",
+        position: 1,
+        name: "Blog",
+        item: absoluteUrl("/blog"),
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: article.category.title,
+        item: absoluteUrl(`/blog/category/${article.category.slug}`),
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: article.title,
+        item: url,
       },
     ],
   };
@@ -217,6 +245,7 @@ export default async function Page(props: Props) {
           </Container>
         </div>
         <JsonLd json={jsonLd} />
+        <JsonLd json={jsonLdBreadcrumbs} />
       </article>
       <Siblings slug={article.slug} />
       <CallToActionSection />
