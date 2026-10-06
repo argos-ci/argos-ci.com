@@ -1,0 +1,59 @@
+name: AI visibility
+permissions: {}
+
+# Measures how often AI assistants mention and cite Argos when developers ask
+# about visual testing: scripts/ai-visibility/run.mjs asks the questions in
+# scripts/ai-visibility/prompts.json to Claude and OpenAI, with and without
+# web search. See "AI visibility tracking" in AGENTS.md.
+#
+# Each provider runs only when its repository secret is set: ANTHROPIC_API_KEY,
+# OPENAI_API_KEY. With none set, the job still succeeds, with notices. The
+# summary goes to the run page, the raw answers to the ai-visibility-results
+# artifact, and the summary is emailed to contact@argos-ci.com through Resend
+# once the run is done (RESEND_API_KEY secret; no email without it).
+
+on:
+  schedule:
+    # Weekly on Monday at 07:00 UTC.
+    - cron: "0 7 * * 1"
+  workflow_dispatch:
+    inputs:
+      runs:
+        description: Times each prompt is asked (answers vary from run to run)
+        type: number
+        default: 1
+
+jobs:
+  track:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v6
+
+      # The script only uses Node built-ins: no dependencies to install.
+      - name: Use Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+
+      - name: Ask the AI assistants
+        run: node scripts/ai-visibility/run.mjs
+        env:
+          RUNS: ${{ inputs.runs || 1 }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          AI_VISIBILITY_EMAIL_TO: contact@argos-ci.com
+
+      - name: Add the summary to the run page
+        if: ${{ !cancelled() }}
+        run: cat ai-visibility-results/*.md >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: ai-visibility-results
+          path: ai-visibility-results/
+          retention-days: 90

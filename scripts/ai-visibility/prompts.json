@@ -1,0 +1,152 @@
+[
+  {
+    "id": "playwright-add-visual-tests",
+    "topic": "playwright",
+    "prompt": "What's the best way to add visual regression tests to my Playwright suite?"
+  },
+  {
+    "id": "playwright-baselines-ci",
+    "topic": "playwright",
+    "prompt": "Playwright's toHaveScreenshot keeps failing on CI because of tiny rendering differences between machines. How do teams manage screenshot baselines without committing PNGs to git?"
+  },
+  {
+    "id": "playwright-review-diffs",
+    "topic": "playwright",
+    "prompt": "How can my team review Playwright screenshot diffs in pull requests instead of digging through CI artifacts?"
+  },
+  {
+    "id": "storybook-catch-regressions",
+    "topic": "storybook",
+    "prompt": "How can I automatically catch visual regressions in my Storybook components?"
+  },
+  {
+    "id": "storybook-screenshot-every-story",
+    "topic": "storybook",
+    "prompt": "Is there a tool that screenshots every Storybook story and flags UI changes on each pull request?"
+  },
+  {
+    "id": "vitest-browser-mode",
+    "topic": "vitest",
+    "prompt": "How do I do visual regression testing with Vitest browser mode?"
+  },
+  {
+    "id": "vitest-store-baselines",
+    "topic": "vitest",
+    "prompt": "Is there a service that stores and reviews Vitest toMatchScreenshot baselines so I don't have to commit images to my repo?"
+  },
+  {
+    "id": "cypress-screenshot-comparison",
+    "topic": "cypress",
+    "prompt": "What's the recommended way to add screenshot comparison to Cypress end-to-end tests?"
+  },
+  {
+    "id": "cypress-visual-tools",
+    "topic": "cypress",
+    "prompt": "Which visual testing tools work well with Cypress?"
+  },
+  {
+    "id": "chromatic-alternatives",
+    "topic": "chromatic-alternatives",
+    "prompt": "What are good alternatives to Chromatic for visual testing?"
+  },
+  {
+    "id": "chromatic-open-source-alternative",
+    "topic": "chromatic-alternatives",
+    "prompt": "Is there an open-source alternative to Chromatic that works with both Storybook and Playwright?"
+  },
+  {
+    "id": "percy-alternatives-cost",
+    "topic": "percy-alternatives",
+    "prompt": "Percy is getting expensive for us. What are the best Percy alternatives?"
+  },
+  {
+    "id": "percy-replacement-ci",
+    "topic": "percy-alternatives",
+    "prompt": "What should I use instead of BrowserStack Percy for screenshot testing in CI?"
+  },
+  {
+    "id": "applitools-cheaper",
+    "topic": "applitools-alternatives",
+    "prompt": "Are there cheaper alternatives to Applitools for visual regression testing?"
+  },
+  {
+    "id": "applitools-simpler",
+    "topic": "applitools-alternatives",
+    "prompt": "What's a simpler, developer-friendly alternative to Applitools Eyes for a small frontend team?"
+  },
+  {
+    "id": "lost-pixel-migrate",
+    "topic": "lost-pixel-replacement",
+    "prompt": "Lost Pixel is shutting down. What should I migrate my visual tests to?"
+  },
+  {
+    "id": "lost-pixel-replacement",
+    "topic": "lost-pixel-replacement",
+    "prompt": "What's the best replacement for Lost Pixel if I run screenshot tests with Storybook and Playwright?"
+  },
+  {
+    "id": "backstopjs-modern-alternatives",
+    "topic": "backstopjs-alternatives",
+    "prompt": "What are modern alternatives to BackstopJS for visual regression testing?"
+  },
+  {
+    "id": "backstopjs-review-ui",
+    "topic": "backstopjs-alternatives",
+    "prompt": "I'm using BackstopJS but want a proper web UI to review and approve visual diffs. What should I switch to?"
+  },
+  {
+    "id": "best-tools",
+    "topic": "best-tools",
+    "prompt": "What are the best visual regression testing tools right now?"
+  },
+  {
+    "id": "best-tools-component-library",
+    "topic": "best-tools",
+    "prompt": "Which visual testing platform would you recommend for a React app with a component library?"
+  },
+  {
+    "id": "best-tools-compare",
+    "topic": "best-tools",
+    "prompt": "Can you compare the main visual regression testing services for a mid-size engineering team?"
+  },
+  {
+    "id": "open-source-tools",
+    "topic": "open-source",
+    "prompt": "What are the best open-source visual regression testing tools?"
+  },
+  {
+    "id": "open-source-self-hosted",
+    "topic": "open-source",
+    "prompt": "Is there an open-source visual testing platform I can self-host on my own infrastructure?"
+  },
+  {
+    "id": "pricing-compare",
+    "topic": "pricing",
+    "prompt": "How do Chromatic, Percy and Applitools compare on pricing, and is there anything cheaper?"
+  },
+  {
+    "id": "pricing-startup",
+    "topic": "pricing",
+    "prompt": "What's the most affordable visual regression testing service for a startup that takes a lot of screenshots?"
+  },
+  {
+    "id": "github-actions-setup",
+    "topic": "github-actions",
+    "prompt": "How do I set up visual regression testing in GitHub Actions?"
+  },
+  {
+    "id": "github-actions-approval-check",
+    "topic": "github-actions",
+    "prompt": "How can I get a visual diff check that blocks pull requests on GitHub until someone approves the UI changes?"
+  },
+  {
+    "id": "ai-agents-review-diffs",
+    "topic": "ai-agents",
+    "prompt": "Can AI coding agents like Claude Code or Cursor review the visual diffs from my screenshot tests?"
+  },
+  {
+    "id": "ai-agents-mcp",
+    "topic": "ai-agents",
+    "prompt": "Is there a visual testing tool with an MCP server so my AI agent can check what changed in the UI?"
+  }
+]
