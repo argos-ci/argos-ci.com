@@ -11,9 +11,9 @@
  *   node scripts/ai-visibility/run.mjs --provider anthropic --mode search --limit 5
  *   RUNS=3 node scripts/ai-visibility/run.mjs --out-dir /tmp/ai-visibility
  *
- * Keys: ANTHROPIC_API_KEY, OPENAI_API_KEY, PERPLEXITY_API_KEY. A provider
- * without its key is skipped with a notice. ANTHROPIC_MODEL, OPENAI_MODEL and
- * PERPLEXITY_MODEL override the default models (see providers.mjs).
+ * Keys: ANTHROPIC_API_KEY, OPENAI_API_KEY. A provider without its key is
+ * skipped with a notice. ANTHROPIC_MODEL and OPENAI_MODEL override the
+ * default models (see providers.mjs).
  *
  * Writes <out-dir>/<timestamp>.json (every answer, with its mentions and
  * links) and <out-dir>/<timestamp>.md (the summary, also printed to stdout).
@@ -170,7 +170,7 @@ if (queue.length) {
 } else {
   annotate(
     "notice",
-    "No AI provider key is set, so nothing was measured. Set ANTHROPIC_API_KEY, OPENAI_API_KEY or PERPLEXITY_API_KEY.",
+    "No AI provider key is set, so nothing was measured. Set ANTHROPIC_API_KEY or OPENAI_API_KEY.",
   );
 }
 

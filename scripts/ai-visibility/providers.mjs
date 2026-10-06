@@ -12,10 +12,6 @@
  *   https://platform.claude.com/docs/en/agents-and-tools/tool-use/web-search-tool
  * - OpenAI Responses API with the web_search tool:
  *   https://developers.openai.com/api/docs/guides/tools-web-search
- * - Perplexity Agent API with the web_search tool. Sonar chat completions
- *   support ended on 2026-09-27; Sonar lives on as the `perplexity/sonar`
- *   model of the Agent API:
- *   https://docs.perplexity.ai/docs/agent-api/tools/web-search
  */
 import { setTimeout as sleep } from "node:timers/promises";
 
@@ -218,87 +214,6 @@ async function askOpenAI({ prompt, mode, model, key }) {
   };
 }
 
-/* Perplexity --------------------------------------------------------------- */
-
-function perplexityRequest(prompt, mode, model) {
-  return {
-    url: "https://api.perplexity.ai/v1/agent",
-    body: {
-      model,
-      input: prompt,
-      ...(mode === "search" && {
-        tools: [{ type: "web_search" }],
-        // A direct model request has no system prompt. Ask for what
-        // Perplexity's own presets do: search first, cite with [n] markers
-        // that point at search result ids.
-        instructions:
-          "Search the web before answering. Cite your sources inline using bracketed markers, one source per bracket, like [1][2].",
-      }),
-    },
-  };
-}
-
-/** `claim[3]`, or `claim[web:3]` in the preset style. */
-const CITATION_MARKER = /\[(?:web:)?(\d+)\]/g;
-/** Code spans and blocks, where `items[3]` is an index, not a citation. */
-const CODE = /```[\s\S]*?```|`[^`\n]*`/g;
-
-async function askPerplexity({ prompt, mode, model, key }) {
-  const { url, body } = perplexityRequest(prompt, mode, model);
-  const response = await postJson(
-    url,
-    { authorization: `Bearer ${key}` },
-    body,
-  );
-  if (response.error) {
-    throw new Error(response.error.message ?? JSON.stringify(response.error));
-  }
-
-  const texts = [];
-  const citations = [];
-  const sources = [];
-  const resultUrls = new Map();
-  let searchItems = 0;
-  for (const item of response.output ?? []) {
-    if (item.type === "search_results") {
-      searchItems += 1;
-      for (const result of item.results ?? []) {
-        if (!result.url) continue;
-        sources.push(result.url);
-        resultUrls.set(result.id, result.url);
-      }
-    } else if (item.type === "message") {
-      for (const part of item.content ?? []) {
-        if (part.type !== "output_text") continue;
-        texts.push(part.text);
-        for (const annotation of part.annotations ?? []) {
-          if (annotation.url) citations.push(annotation.url);
-        }
-      }
-    }
-  }
-  const text = texts.join("\n\n");
-  for (const [, id] of text.replace(CODE, "").matchAll(CITATION_MARKER)) {
-    const url = resultUrls.get(Number(id));
-    if (url) citations.push(url);
-  }
-
-  const usage = response.usage ?? {};
-  return {
-    model: response.model ?? model,
-    text,
-    citations,
-    sources,
-    searches: usage.tool_calls_details?.search_web?.invocation ?? searchItems,
-    stop: response.status,
-    usage: {
-      inputTokens: usage.input_tokens ?? 0,
-      outputTokens: usage.output_tokens ?? 0,
-      costUsd: usage.cost?.total_cost,
-    },
-  };
-}
-
 /**
  * In report order. Override a default model with its `modelEnv` variable.
  * gpt-6.1-sol is OpenAI's near-flagship model at a fifth of gpt-6-astra's
@@ -322,14 +237,5 @@ export const PROVIDERS = [
     defaultModel: "gpt-6.1-sol",
     request: openaiRequest,
     ask: askOpenAI,
-  },
-  {
-    id: "perplexity",
-    label: "Perplexity",
-    keyEnv: "PERPLEXITY_API_KEY",
-    modelEnv: "PERPLEXITY_MODEL",
-    defaultModel: "perplexity/sonar",
-    request: perplexityRequest,
-    ask: askPerplexity,
   },
 ];

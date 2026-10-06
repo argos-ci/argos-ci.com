@@ -65,7 +65,7 @@ export function renderSummary({
   if (!results.length) {
     lines.push(
       "",
-      "No assistant was asked anything. Set `ANTHROPIC_API_KEY`, `OPENAI_API_KEY` or `PERPLEXITY_API_KEY` to measure.",
+      "No assistant was asked anything. Set `ANTHROPIC_API_KEY` or `OPENAI_API_KEY` to measure.",
     );
     return `${lines.join("\n")}\n`;
   }
@@ -240,7 +240,6 @@ export function renderSummary({
         ["Web searches", "right"],
         ["Input tokens", "right"],
         ["Output tokens", "right"],
-        ["Reported cost", "right"],
       ],
       groups.map(({ provider, mode, records, answers: groupAnswers }) => {
         const sum = (pick) =>
@@ -248,10 +247,6 @@ export function renderSummary({
             (total, answer) => total + (pick(answer) ?? 0),
             0,
           );
-        const costs = groupAnswers
-          .map((answer) => answer.usage.costUsd)
-          .filter((cost) => typeof cost === "number");
-        const cost = costs.reduce((total, value) => total + value, 0);
         return [
           provider.label,
           mode,
@@ -260,7 +255,6 @@ export function renderSummary({
           int(sum((answer) => answer.searches)),
           int(sum((answer) => answer.usage.inputTokens)),
           int(sum((answer) => answer.usage.outputTokens)),
-          !costs.length ? "–" : cost < 0.01 ? "< $0.01" : `$${cost.toFixed(2)}`,
         ];
       }),
     ),

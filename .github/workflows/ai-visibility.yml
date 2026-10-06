@@ -3,12 +3,12 @@ permissions: {}
 
 # Measures how often AI assistants mention and cite Argos when developers ask
 # about visual testing: scripts/ai-visibility/run.mjs asks the questions in
-# scripts/ai-visibility/prompts.json to Claude, OpenAI and Perplexity, with and
-# without web search. See "AI visibility tracking" in AGENTS.md.
+# scripts/ai-visibility/prompts.json to Claude and OpenAI, with and without
+# web search. See "AI visibility tracking" in AGENTS.md.
 #
 # Each provider runs only when its repository secret is set: ANTHROPIC_API_KEY,
-# OPENAI_API_KEY, PERPLEXITY_API_KEY. With none set, the job still succeeds,
-# with notices. The summary goes to the run page and the raw answers to the
+# OPENAI_API_KEY. With none set, the job still succeeds, with notices. The
+# summary goes to the run page and the raw answers to the
 # ai-visibility-results artifact.
 
 on:
@@ -43,7 +43,6 @@ jobs:
           RUNS: ${{ inputs.runs || 1 }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          PERPLEXITY_API_KEY: ${{ secrets.PERPLEXITY_API_KEY }}
 
       - name: Add the summary to the run page
         if: ${{ !cancelled() }}
