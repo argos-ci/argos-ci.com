@@ -8,8 +8,9 @@ permissions: {}
 #
 # Each provider runs only when its repository secret is set: ANTHROPIC_API_KEY,
 # OPENAI_API_KEY. With none set, the job still succeeds, with notices. The
-# summary goes to the run page and the raw answers to the
-# ai-visibility-results artifact.
+# summary goes to the run page, the raw answers to the ai-visibility-results
+# artifact, and the summary is emailed to contact@argos-ci.com through Resend
+# once the run is done (RESEND_API_KEY secret; no email without it).
 
 on:
   schedule:
@@ -43,6 +44,8 @@ jobs:
           RUNS: ${{ inputs.runs || 1 }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          AI_VISIBILITY_EMAIL_TO: contact@argos-ci.com
 
       - name: Add the summary to the run page
         if: ${{ !cancelled() }}

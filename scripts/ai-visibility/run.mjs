@@ -17,12 +17,15 @@
  *
  * Writes <out-dir>/<timestamp>.json (every answer, with its mentions and
  * links) and <out-dir>/<timestamp>.md (the summary, also printed to stdout).
+ * With RESEND_API_KEY and AI_VISIBILITY_EMAIL_TO set, the summary is then
+ * emailed (see email.mjs).
  */
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { parseArgs } from "node:util";
 
 import { analyze } from "./analyze.mjs";
+import { getEmailConfig, sendReportEmail } from "./email.mjs";
 import { MODES, PROVIDERS } from "./providers.mjs";
 import { renderSummary } from "./report.mjs";
 
@@ -142,6 +145,12 @@ if (args["dry-run"]) {
     }
     console.log("");
   }
+  const email = getEmailConfig();
+  console.log(
+    email
+      ? `Email: the summary would be sent to ${email.to.join(", ")} from ${email.from}.\n`
+      : "Email: not sent (set RESEND_API_KEY and AI_VISIBILITY_EMAIL_TO).\n",
+  );
   console.log("Planned requests:");
   for (const job of jobs) {
     console.log(
@@ -277,6 +286,52 @@ const summary = renderSummary({
 });
 writeFileSync(join(outDir, `${stamp}.md`), summary);
 console.log(summary);
+
+const email = getEmailConfig();
+if (!email) {
+  if (process.env.RESEND_API_KEY || process.env.AI_VISIBILITY_EMAIL_TO) {
+    annotate(
+      "warning",
+      "Not emailing the report: set both RESEND_API_KEY and AI_VISIBILITY_EMAIL_TO.",
+    );
+  }
+} else if (!results.length) {
+  annotate("notice", "Nothing was measured, so the report isn't emailed.");
+} else {
+  const answered = results.filter((result) => result.ok);
+  const mentioned = answered.filter((result) => result.argosMentioned).length;
+  const date = startedAt.slice(0, 10);
+  const subject = answered.length
+    ? `AI visibility ${date}: Argos in ${Math.round((mentioned / answered.length) * 100)}% of answers`
+    : `AI visibility ${date}: every request failed`;
+  const { GITHUB_SERVER_URL, GITHUB_REPOSITORY, GITHUB_RUN_ID } = process.env;
+  const runUrl =
+    inActions && GITHUB_RUN_ID
+      ? `${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}`
+      : undefined;
+  try {
+    const id = await sendReportEmail({
+      config: email,
+      subject,
+      // The local results path means nothing in an inbox; the run link does.
+      markdown: renderSummary({
+        startedAt,
+        runs,
+        promptCount: prompts.length,
+        results,
+        skipped,
+      }),
+      runUrl,
+      idempotencyKey:
+        GITHUB_RUN_ID &&
+        `ai-visibility-${GITHUB_RUN_ID}-${process.env.GITHUB_RUN_ATTEMPT ?? 1}`,
+    });
+    console.error(`Emailed the report to ${email.to.join(", ")} (${id}).`);
+  } catch (error) {
+    annotate("error", `Couldn't email the report: ${error.message}`);
+    process.exitCode = 1;
+  }
+}
 
 for (const { provider } of plan) {
   const records = results.filter((result) => result.provider === provider.id);

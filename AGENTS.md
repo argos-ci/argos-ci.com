@@ -208,12 +208,16 @@ RUNS=3 node scripts/ai-visibility/run.mjs --provider anthropic --mode search --l
 Keys: `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`; a provider without one is
 skipped with a notice. `.github/workflows/ai-visibility.yml` runs Mondays at
 07:00 UTC with the same names as repository secrets, posts the summary on the
-run page and uploads the raw JSON as an artifact (locally both land in
-`ai-visibility-results/`, gitignored). Answers vary from run to run: compare
-mention rates across prompts and weeks, not single answers, and keep
-`prompts.json` stable so weeks stay comparable. Rank is Argos's position among
-the tracked tools by first mention; "cited" URLs are linked from the answer,
-"retrieved" ones only came back in its web search results.
+run page, uploads the raw JSON as an artifact (locally both land in
+`ai-visibility-results/`, gitignored) and emails the summary to
+contact@argos-ci.com. `email.mjs` sends it through Resend only when
+`RESEND_API_KEY` and `AI_VISIBILITY_EMAIL_TO` are both set, so a local run
+never emails anyone; the sender is `AI_VISIBILITY_EMAIL_FROM`, by default
+`Argos <contact@argos-ci.com>` like the app's emails. Answers vary from run
+to run: compare mention rates across prompts and weeks, not single answers,
+and keep `prompts.json` stable so weeks stay comparable. Rank is Argos's
+position among the tracked tools by first mention; "cited" URLs are linked
+from the answer, "retrieved" ones only came back in its web search results.
 
 ## Facts and fact-checking
 
