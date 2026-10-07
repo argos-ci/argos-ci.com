@@ -1,0 +1,372 @@
+---
+title: "How to Prove a Refactor or Upgrade Didn't Change Your UI"
+description: "Screenshot every page in your sitemap on both versions, compare at zero tolerance, then review each diff. A tested Playwright script, plus the Argos setup."
+category: guides
+author: jeremy
+date: 2026-11-26
+image: ./main.jpg
+imageAlt: "Abstract illustration of two identical page silhouettes side by side with a precise measurement bracket showing zero difference"
+related:
+  - fix-flaky-visual-tests
+  - run-argos-on-vercel-preview
+  - screenshot-testing-guide
+---
+
+To prove a refactor or dependency upgrade didn't change your UI, take full-page screenshots of a fixed list of URLs on the current version and on the candidate, compare them at zero tolerance, and review every pixel that differs. This is visual regression testing without a test suite: a Playwright script that reads your `sitemap.xml` does the capture, and Playwright's `toHaveScreenshot` or a service like Argos does the comparison. Compare the current version with itself first. When we ran this against argos-ci.com with Playwright's default settings, 3 of 10 pages could not even produce a stable screenshot until we froze JavaScript timers and paused SVG animations.
+
+<MainImage />
+
+## What does it take to prove the UI didn't change?
+
+A clean comparison proves something only if noise can't hide a change and no part of the page is skipped. Four rules get you there:
+
+1. **One URL list for both versions.** Generate it once, commit it, and capture exactly those pages before and after.
+2. **One rendering environment.** Same browser build, fonts and viewport for both runs, so a difference comes from the code, not the machine. In CI, use one container image.
+3. **Zero tolerance, then review.** Report every changed pixel and let a person decide whether each change is a regression or expected.
+4. **Test the net before you trust it.** Compare the current version with itself, which must come out clean, then plant a small change, which must fail.
+
+You don't need an existing test suite. The URL list is the test.
+
+## How do you turn sitemap.xml into a list of pages?
+
+Many sites already list their public URLs in `sitemap.xml`. This script reads it, follows sitemap index files, and keeps a few pages per template, because 300 posts rendered by one template add capture time, not coverage:
+
+```js
+// scripts/collect-urls.mjs
+// Usage: node scripts/collect-urls.mjs <sitemap-url> [--per-template 2] [--exclude regex]
+import { writeFile } from "node:fs/promises";
+import { parseArgs } from "node:util";
+
+const { values, positionals } = parseArgs({
+  allowPositionals: true,
+  options: {
+    "per-template": { type: "string", default: "Infinity" },
+    exclude: { type: "string" },
+  },
+});
+
+async function readSitemap(url) {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`${url} returned HTTP ${res.status}`);
+  const xml = await res.text();
+  const locs = [...xml.matchAll(/<loc>\s*([^<]+?)\s*<\/loc>/g)].map((m) =>
+    m[1].replaceAll("&amp;", "&"),
+  );
+  // A sitemap index points to other sitemaps: read them recursively.
+  if (xml.includes("<sitemapindex")) {
+    return (await Promise.all(locs.map(readSitemap))).flat();
+  }
+  return locs;
+}
+
+const exclude = values.exclude ? new RegExp(values.exclude) : null;
+const locs = await readSitemap(positionals[0]);
+const paths = [...new Set(locs.map((loc) => new URL(loc).pathname))]
+  .filter((path) => !exclude?.test(path))
+  .sort();
+
+// Pages with the same first segment and depth usually share a template
+// (/blog/a, /blog/b): keep only a few of each.
+const counts = new Map();
+const pages = [];
+for (const path of paths) {
+  const segments = path.split("/").filter(Boolean);
+  const template = `${segments[0] ?? ""}:${segments.length}`;
+  const count = counts.get(template) ?? 0;
+  if (count >= Number(values["per-template"])) continue;
+  counts.set(template, count + 1);
+  pages.push({ name: segments.join("-") || "home", path });
+}
+
+await writeFile("urls.json", JSON.stringify(pages, null, 2) + "\n");
+console.log(`${paths.length} URLs, ${pages.length} kept in urls.json`);
+```
+
+On argos-ci.com (checked October 6, 2026), `sitemap.xml` is an index of five sitemaps, and the docs entry is itself another index. The script found 251 URLs, and `--per-template 1` kept 33. Review the output, add the pages a sitemap never lists (signed-in screens, error pages, a filled cart), and commit `urls.json`.
+
+## How do you capture and compare every page with Playwright?
+
+The config pins the viewport and sets the comparison to zero tolerance:
+
+```ts
+// playwright.config.ts
+import { defineConfig } from "@playwright/test";
+
+export default defineConfig({
+  testDir: "tests",
+  fullyParallel: true,
+  reporter: [["list"], ["html", { open: "never" }]],
+  use: {
+    baseURL: process.env.BASE_URL,
+    viewport: { width: 1280, height: 720 },
+    deviceScaleFactor: 1,
+  },
+  expect: {
+    // Full-page captures of long pages need more than the 5s default.
+    timeout: 30_000,
+    toHaveScreenshot: {
+      // Zero tolerance: any changed pixel fails the comparison.
+      threshold: 0,
+      maxDiffPixels: 0,
+    },
+  },
+});
+```
+
+The test loads each URL, settles the page (the next section explains why) and takes a full-page screenshot:
+
+```ts
+// tests/pages.spec.ts
+import { readFileSync } from "node:fs";
+import { expect, test, type Page } from "@playwright/test";
+
+const pages: { name: string; path: string }[] = JSON.parse(
+  readFileSync("urls.json", "utf8"),
+);
+
+// Live content that can change between two runs (here: a status badge).
+const MASKS = ['a[href*="openstatus"]'];
+
+async function settle(page: Page) {
+  // Scroll once through the page: lazy images and IntersectionObserver
+  // content only render when they enter the viewport.
+  const height = await page.evaluate(() => document.body.scrollHeight);
+  for (let y = 0; y < height; y += 500) {
+    await page.evaluate((top) => window.scrollTo(0, top), y);
+    await page.waitForTimeout(250);
+  }
+  await page.evaluate(() => window.scrollTo(0, 0));
+  // animations: "disabled" stops CSS and Web Animations, not SVG <animate>.
+  await page.evaluate(() => {
+    for (const el of document.querySelectorAll('[repeatCount="indefinite"]')) {
+      let svg = (el as SVGElement).ownerSVGElement;
+      while (svg) {
+        svg.pauseAnimations();
+        svg.setCurrentTime(0);
+        svg = svg.ownerSVGElement;
+      }
+    }
+  });
+}
+
+test.beforeEach(async ({ page }) => {
+  // Freeze Date, timers and requestAnimationFrame before the page loads:
+  // carousels and progress bars driven by JavaScript stay on their first frame.
+  await page.clock.install({ time: new Date("2026-01-01T00:00:00Z") });
+  await page.clock.pauseAt(new Date("2026-01-01T00:00:01Z"));
+});
+
+for (const { name, path } of pages) {
+  test(name, async ({ page }) => {
+    await page.goto(path, { waitUntil: "networkidle" });
+    await settle(page);
+    await expect(page).toHaveScreenshot(`${name}.png`, {
+      fullPage: true,
+      mask: MASKS.map((selector) => page.locator(selector)),
+    });
+  });
+}
+```
+
+Run it against the current version, then against the candidate:
+
+```bash
+node scripts/collect-urls.mjs https://www.example.com/sitemap.xml --per-template 2
+BASE_URL=https://www.example.com npx playwright test --update-snapshots=all
+BASE_URL=https://staging.example.com npx playwright test --update-snapshots=none
+npx playwright show-report
+```
+
+Use `--update-snapshots=none` on the candidate run. Without the flag, Playwright 1.63 runs in `missing` mode ([CLI reference](https://playwright.dev/docs/test-cli)): a page without a baseline fails once, but its candidate screenshot is saved as the baseline, so a re-run passes without comparing anything. The report shows the expected, actual and diff images of each failure. We ran everything here with Playwright 1.63.0 ([released September 4, 2026](https://github.com/microsoft/playwright/releases/tag/v1.63.0)) and its Chromium 153 build on an arm64 Mac.
+
+## Why does the same page produce two different screenshots?
+
+Run the comparison against the current version twice before comparing two versions. This A/A run measures your noise floor, and it must report zero differences. Ours didn't: with a plain `goto` and `toHaveScreenshot`, 3 of 10 argos-ci.com pages failed before any comparison, because Playwright never got two identical consecutive screenshots (2 of 10 still failed with a 30-second timeout). Diffing consecutive captures and looking at the baselines turned up five causes:
+
+| What moved                    | Why Playwright didn't freeze it                                                                  | Fix in `settle()` or the test                          |
+| ----------------------------- | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------ |
+| Carousel progress bars        | Driven by `requestAnimationFrame`; `animations: "disabled"` covers CSS and Web Animations only   | `page.clock.install()` and `pauseAt()` before `goto()` |
+| Looping illustrations         | SVG `<animate>` elements run on their SVG's own clock                                            | `pauseAnimations()` on the parent `<svg>`              |
+| Empty carousel band           | Slides render when an IntersectionObserver sees them, which a full-page capture never triggers   | Scroll through the page first                          |
+| Footer status badge           | Live data, fetched after load                                                                    | `mask`                                                 |
+| Code blocks on the docs pages | Highlighted lazily as they scroll into view; at 100 ms per scroll step, some blocks were skipped | 250 ms per scroll step                                 |
+
+With all five fixes, comparing the 10 pages 5 times each gave 50 identical results at zero tolerance. Two lessons. An A/A run can't see what is missing from both captures: the empty carousel band was "stable" in every naive run, so open each baseline once and look at it. And if a page renders nothing under a paused clock, pause it after `goto()` instead, the order the [Playwright clock API docs](https://playwright.dev/docs/api/class-clock#clock-pause-at) recommend. Fonts, dates and live API data are covered in [how to fix flaky visual tests](/blog/fix-flaky-visual-tests).
+
+## What tolerance should a refactor comparison use?
+
+Zero, once the A/A run is clean. To see what a looser setting hides, we injected two changes into the 10 production pages with Playwright's `stylePath` option, plus a color change on a one-button test page, and compared them with clean baselines:
+
+| Planted change                                                     | `threshold: 0` and `maxDiffPixels: 0`               | Playwright defaults (`threshold: 0.2`) |
+| ------------------------------------------------------------------ | --------------------------------------------------- | -------------------------------------- |
+| Every `h2` moved down 1px                                          | 10 of 10 pages fail                                 | 10 of 10 pages fail                    |
+| Secondary text color token from #646464 to #6f6f6f                 | 9 of 10 pages fail (the 10th doesn't use the token) | 0 of 10 pages fail                     |
+| Button background from #4f46e5 to #7c3aed, on a separate test page | Fails                                               | Passes                                 |
+
+Layout shifts are easy to catch; color changes are not. Playwright's `threshold` is a per-pixel color distance in YIQ space, and `maxDiffPixels` only counts the pixels beyond it, so `maxDiffPixels: 0` alone is not an exact comparison ([playwright#42959](https://github.com/microsoft/playwright/issues/42959), docs clarified in September 2026). Its pixelmatch comparator flags a pixel only when the YIQ distance exceeds 35,215 × threshold²: the indigo to violet pair scores 319, under the 1,409 allowed at 0.2 (it also passed at 0.1 and failed at 0.05), and the gray token change scores 61. On `/pricing`, that token change altered 72,867 pixels by at most 11 levels per channel. At `threshold: 0`, Playwright counted 36,676 of them, because pixelmatch [skips pixels it classifies as anti-aliasing](https://github.com/microsoft/playwright/blob/1b025d7e20a026371cd5f98ba0cdce48892737c8/packages/utils/third_party/pixelmatch.js#L26), which still fails the test. If one page can't be stabilized, relax the tolerance for that screenshot only; the [threshold guide](/blog/playwright-screenshot-threshold) compares the options.
+
+## How do you compare two versions with Argos?
+
+[Argos](/integrations/playwright), an open-source visual regression testing platform, keeps the same Playwright test and moves storage, comparison and review out of your repository. Add its reporter and swap the assertion for `argosScreenshot`:
+
+```ts
+// playwright.config.ts
+import { createArgosReporterOptions } from "@argos-ci/playwright/reporter";
+import { defineConfig } from "@playwright/test";
+
+export default defineConfig({
+  testDir: "tests",
+  fullyParallel: true,
+  reporter: [
+    [process.env.CI ? "dot" : "list"],
+    [
+      "@argos-ci/playwright/reporter",
+      createArgosReporterOptions({
+        uploadToArgos: !!process.env.CI,
+        buildName: "pages",
+        threshold: 0,
+      }),
+    ],
+  ],
+  // Without BASE_URL, start a production build of the current checkout.
+  webServer: process.env.BASE_URL
+    ? undefined
+    : { command: "npm run build && npm start", url: "http://localhost:3000" },
+  use: {
+    baseURL: process.env.BASE_URL ?? "http://localhost:3000",
+    viewport: { width: 1280, height: 720 },
+    launchOptions: {
+      args: ["--disable-lcd-text", "--font-render-hinting=none"],
+    },
+  },
+});
+```
+
+```ts
+// tests/pages.spec.ts (changes only)
+import { argosScreenshot } from "@argos-ci/playwright";
+
+// In settle(), drop the SVG step. In the test, replace the assertion with:
+await argosScreenshot(page, name, {
+  mask: MASKS.map((selector) => page.locator(selector)),
+});
+```
+
+`argosScreenshot` waits for fonts, images and `aria-busy` loaders ([SDK reference](/docs/reference/playwright)) and [pauses looping SVG animations](https://github.com/argos-ci/argos-javascript/blob/4f0edc08d8549534dd3a682bbe034ebcb604bddf/packages/browser/src/global/stabilization/plugins/pauseSvgAnimations.ts). It doesn't freeze JavaScript timers or trigger scroll-based rendering: without the clock, the homepage and `/diff` still differed between two local runs. With the clock and the scroll pass, four runs of all 10 pages were pixel-identical (`@argos-ci/playwright` 7.7.1). `threshold: 0` is the strictest setting; the default, 0.5, is tuned to absorb rendering noise.
+
+Which two versions get compared depends on how you run it:
+
+- **Branch against main (the default).** On a pull request, Argos compares with the build at the merge base on your base branch ([baseline build](/docs/learn/platform-fundamentals/baseline-build)), so run the suite on `main` too. Point `BASE_URL` at a [preview deployment](/blog/run-argos-on-vercel-preview) if you have one.
+- **Any branch or commit.** Set `ARGOS_REFERENCE_BRANCH` or `ARGOS_REFERENCE_COMMIT` (a full 40-character SHA) on the candidate run to pin the baseline, for example a `bootstrap-5` branch against `release/4.x`. The reference needs an eligible build with the same build name and mode.
+- **No Git change at all.** For content, configuration or infrastructure changes, use [monitoring mode](/docs/learn/platform-fundamentals/build-modes), which ignores Git history and compares with the latest approved monitoring build.
+
+Each build posts an `argos/pages` status check. Argos doesn't render your pages (screenshots come from your own browser run) and doesn't decide what's acceptable: someone [reviews each change](/review).
+
+## How do you gate Renovate and Dependabot updates on the visual check?
+
+Run the URL suite on every pull request and on pushes to `main`, then require the Argos status in branch protection (`argos/pages` here; see the [status names](/docs/learn/integrations/github-integration#commit-status-names)). A build with unreviewed changes blocks the pull request until someone approves it in Argos, and auto-merge waits for it.
+
+For Renovate, add an automerge rule to `renovate.json`:
+
+```json
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchCurrentVersion": "!/^0/",
+      "automerge": true
+    }
+  ]
+}
+```
+
+By default, [Renovate only automerges](https://docs.renovatebot.com/configuration-options/#ignoretests) when every status check has passed. But it hands the merge to GitHub's native auto-merge, which waits only for _required_ checks, and the [platformAutomerge docs](https://docs.renovatebot.com/configuration-options/#platformautomerge) warn that GitHub might merge failing pull requests when nothing is required. Requiring `argos/pages` closes that gap.
+
+As of October 2026, `dependabot.yml` has no automerge option ([options reference](https://docs.github.com/en/code-security/reference/supply-chain-security/dependabot-options-reference)). GitHub's [documented pattern](https://docs.github.com/en/code-security/dependabot/working-with-dependabot/automating-dependabot-with-github-actions#enabling-automerge-on-a-pull-request) is a workflow that enables auto-merge, so GitHub merges once the required checks pass:
+
+```yaml
+# .github/workflows/dependabot-auto-merge.yml
+name: Dependabot auto-merge
+on: pull_request
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  auto-merge:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.user.login == 'dependabot[bot]'
+    steps:
+      - id: metadata
+        uses: dependabot/fetch-metadata@v3
+      - if: steps.metadata.outputs.update-type != 'version-update:semver-major'
+        run: gh pr merge --auto --merge "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
+
+Turn on "Allow auto-merge" in the repository settings. Workflows triggered by Dependabot [only receive Dependabot secrets](https://docs.github.com/en/code-security/reference/supply-chain-security/troubleshoot-dependabot/dependabot-on-actions#accessing-secrets), so add `ARGOS_TOKEN` there too, or the visual job can't upload.
+
+## How do you catch visual changes from CMS or plugin updates?
+
+A CMS or plugin update often has no commit to compare. Run the same suite against production on a schedule, in monitoring mode:
+
+```yaml
+# .github/workflows/visual-monitoring.yml
+name: Visual monitoring
+on:
+  schedule:
+    - cron: "0 6 * * 1-5"
+  workflow_dispatch:
+
+jobs:
+  production:
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.63.0-noble
+      options: --user 1001
+    steps:
+      - uses: actions/checkout@v6
+      - run: npm ci
+      - run: npx playwright test
+        env:
+          BASE_URL: https://www.example.com
+          ARGOS_MODE: monitoring
+          ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }}
+```
+
+Approve the first build to make it the reference. Each later run compares with the latest approved monitoring build, and a detected change always waits for a review, so you can also trigger it by hand right after a plugin update. [Slack notifications](/docs/learn/integrations/slack-integration) tell the team when something moved.
+
+## When is a screenshot comparison the wrong tool?
+
+- **The HTML should be byte-identical.** If you swapped a template engine or moved markup into components without touching CSS, diff the rendered HTML: it's exact, cheap, free of rendering noise, and it catches what screenshots can't see, like `aria-*` attributes and link targets. Argos reviews such files through [`argos upload --files`](/docs/learn/how-to-guides/visual-coverage/compare-non-image-files), and Playwright [ARIA snapshots](https://playwright.dev/docs/aria-snapshots) cover accessibility structure.
+- **You need the proof once.** The Playwright script above is enough for a one-off migration. A service earns its place when the comparison runs on every pull request and several people review the results.
+- **You'd rather configure than code.** BackstopJS is built around this workflow: `referenceUrl` captures the reference from another environment, then `backstop reference` and `backstop test` compare ([README](https://github.com/garris/BackstopJS/blob/a11d3657788bbffebd7a2b2eb5212006696afbff/README.md#comparing-different-endpoints-eg-comparing-staging-and-production); latest npm release 6.3.25, September 2024, checked October 2026). See [Argos vs BackstopJS](/compare/backstopjs).
+
+None of these check behavior, so keep your functional tests.
+
+## FAQ
+
+### How do I visually compare production and staging?
+
+Capture the URL list against production with `--update-snapshots=all`, then against staging with `--update-snapshots=none`, on the same machine or container. Data differences (prices, counters, user content) show up too, so point both at the same content or mask data-driven areas. With Argos, run both in monitoring mode under one build name and approve the production build first.
+
+### Can visual tests run on Dependabot pull requests?
+
+Yes. Dependabot pull requests trigger `pull_request` workflows, but those runs get a read-only `GITHUB_TOKEN` and only Dependabot secrets, so store your visual testing token (for Argos, `ARGOS_TOKEN`) as a Dependabot secret. Make the visual check required so auto-merge waits for it.
+
+### What tolerance should a refactor comparison use?
+
+Zero: `threshold: 0` and `maxDiffPixels: 0` in Playwright, `threshold: 0` in Argos, after an A/A run of the current version comes out clean. In our test, Playwright's default `threshold` of 0.2 let a text color change from #646464 to #6f6f6f pass on all 10 pages. Loosen it only for individual screenshots you can't stabilize.
+
+### How many pages should I capture?
+
+Every template, not every URL: one to three pages per template, plus your highest-traffic pages and the states a sitemap doesn't list. On argos-ci.com, grouping sitemap URLs by first path segment and depth reduced 251 URLs to 33 templates. If the change touches CSS, capture a mobile viewport too, since responsive breakpoints are part of what a CSS migration can break.
+
+### Do I need existing tests to do this?
+
+No. The sitemap script and the spec above know nothing about your app, and the URL list is the whole test. Pages behind a login need a signed-in session, which Playwright loads with [`storageState`](https://playwright.dev/docs/auth).

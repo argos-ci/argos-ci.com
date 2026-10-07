@@ -1,0 +1,269 @@
+---
+title: "Visual Testing Light, Dark and High Contrast Themes"
+description: "Test light, dark and high contrast themes with Playwright projects, forced colors emulation, Storybook modes and Vitest, plus the bugs our screenshots caught."
+category: guides
+author: jeremy
+date: 2026-12-29
+image: ./main.jpg
+imageAlt: "Abstract illustration of one interface panel split into light, dark and high contrast versions side by side"
+related:
+  - storybook-screenshot-every-story
+  - aria-snapshots-vs-screenshots
+  - fix-flaky-visual-tests
+---
+
+To visually test light, dark and high contrast themes, capture each screen once per theme and compare every capture with a baseline taken in the same theme. In Playwright, that is one project per theme: `colorScheme: "dark"` emulates the `prefers-color-scheme` media query, and `forcedColors: "active"` emulates Windows High Contrast mode, a standalone test option since Playwright 1.63. In Storybook, Argos story modes or Storybook globals render every story in each theme. We ran one settings page through light, dark, forced colors and increased contrast with Playwright 1.63.0, and the dark and forced colors runs each caught bugs that the light baseline never shows.
+
+<MainImage />
+
+## How do you test dark mode in Playwright?
+
+Add one project per color scheme. Playwright emulates `prefers-color-scheme` for the whole browser context with the [`colorScheme`](https://playwright.dev/docs/api/class-testoptions#test-options-color-scheme) option, which defaults to `"light"`:
+
+```ts
+// playwright.config.ts (excerpt)
+import { defineConfig } from "@playwright/test";
+
+export default defineConfig({
+  use: { baseURL: "http://localhost:4173" },
+  projects: [
+    { name: "light", use: { colorScheme: "light" } },
+    { name: "dark", use: { colorScheme: "dark" } },
+    // Standalone test options since Playwright 1.63:
+    { name: "forced-colors", use: { forcedColors: "active" } },
+    { name: "more-contrast", use: { contrast: "more" } },
+  ],
+});
+```
+
+```ts
+// tests/settings.spec.ts
+import { expect, test } from "@playwright/test";
+
+test("settings page", async ({ page }) => {
+  await page.goto("/");
+  await expect(page).toHaveScreenshot("settings.png", { fullPage: true });
+});
+```
+
+Every project gets its own baseline, because Playwright's default snapshot path includes the project name. Our run wrote `settings-light-darwin.png`, `settings-dark-darwin.png`, `settings-forced-colors-darwin.png` and `settings-more-contrast-darwin.png` ([snapshot paths](https://playwright.dev/docs/api/class-testconfig#test-config-snapshot-path-template)).
+
+To load the page once, switch the emulation inside the test with [`page.emulateMedia()`](https://playwright.dev/docs/api/class-page#page-emulate-media). On our page, these screenshots matched the project-based ones pixel for pixel:
+
+```ts
+// tests/settings-themes.spec.ts
+import { expect, test } from "@playwright/test";
+
+test("settings page in both color schemes", async ({ page }) => {
+  await page.goto("/");
+  for (const colorScheme of ["light", "dark"] as const) {
+    await page.emulateMedia({ colorScheme });
+    await expect(page).toHaveScreenshot(`settings-${colorScheme}.png`, {
+      fullPage: true,
+    });
+  }
+});
+```
+
+Projects are simpler when every test should run in every theme; the loop suits a few pages where a second page load is the slow part.
+
+## What if your theme is a class or a stored setting?
+
+Many apps don't rely on `prefers-color-scheme` alone: a theme toggle saves the choice in `localStorage`, and a script in `<head>` sets a class or `data-theme` on `<html>`. Write that state before the page's own scripts run:
+
+```ts
+// tests/settings.spec.ts (excerpt)
+test("settings page, dark theme from the toggle", async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem("theme", "dark"));
+  await page.goto("/");
+  await expect(page).toHaveScreenshot("settings-dark-toggle.png", {
+    fullPage: true,
+  });
+});
+```
+
+Our test page reads `localStorage.theme` in a `<head>` script, and this produced the same pixels as `colorScheme: "dark"`: 0 differing pixels out of 921,600.
+
+Whichever mechanism you use, set the CSS `color-scheme` property in the dark theme. Browsers use it for the default colors of the canvas, form controls and scrollbars ([MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/color-scheme)), and Argos uses it to label a screenshot as dark (more below).
+
+## Does prefers-color-scheme work in headless Chromium?
+
+Yes. Playwright sets it through browser emulation rather than the operating system's setting, so it works in headless runs, and pages see `"light"` unless you set the option. We checked `matchMedia("(prefers-color-scheme: dark)")` inside the page for each project, then ran everything again in Chromium's [new headless mode](https://playwright.dev/docs/browsers#chromium-new-headless-mode) (`channel: "chromium"`) instead of the default headless shell. The light and dark screenshots were identical across the two modes, and the forced colors ones differed by 2 pixels.
+
+## How do you test Windows High Contrast mode with Playwright?
+
+Windows High Contrast mode is a forced colors mode: the browser replaces the page's colors with a small system palette ([MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/forced-colors)). `forcedColors: "active"` emulates it. [Playwright 1.63](https://github.com/microsoft/playwright/releases/tag/v1.63.0) (September 2026) made it a standalone test option, along with `contrast` and `reducedMotion`. On Playwright 1.62, we confirmed that `use: { forcedColors: "active" }` was silently ignored while `use: { contextOptions: { forcedColors: "active" } }` worked, and `page.emulateMedia({ forcedColors: "active" })` has existed since 1.15.
+
+Forced colors removes more than colors. Per MDN, `box-shadow` and `text-shadow` are forced to `none`, gradients in `background-image` are dropped, and the page's values for `color`, `background-color`, `border-color` and `outline-color` are ignored. Compared with light mode, our forced colors screenshot differed by only 0.79% of its pixels, yet:
+
+- Both toggle switches disappeared. Their state was a background color, and the white knob ended up white on white.
+- The borderless Save button became plain text.
+- The card lost its edge, which was a shadow.
+- Focusing Save changed 596 pixels in light, dark and increased contrast, and 0 pixels in forced colors: the focus ring was a `box-shadow`.
+
+The fix is to give controls shapes that survive: borders and outlines keep their width and take a system color. MDN's own example swaps a box shadow for a `ButtonText` border. Ours:
+
+```css
+/* settings.css */
+@media (forced-colors: active) {
+  .card,
+  .switch,
+  .btn,
+  .badge {
+    border: 1px solid CanvasText;
+  }
+  .switch::after {
+    border: 2px solid CanvasText;
+    box-sizing: border-box;
+  }
+  .btn:focus {
+    outline: 3px solid Highlight;
+    outline-offset: 2px;
+  }
+}
+```
+
+With it, both switches showed their knob position, focusing Save changed 659 pixels in forced colors, and the light and dark screenshots did not change at all. A cheaper habit helps too: a `1px solid transparent` border is invisible in normal themes and becomes a system-colored edge in forced colors. The buttons in our Storybook test had one and kept their shape.
+
+The palette comes from Chromium's emulation, so it won't match every Windows contrast theme. With a light preference we got black text on white. Emulating a dark preference as well (`colorScheme: "dark"`) switched it to white on black, where our logo (an SVG with a dark fill in an `<img>`, which forced colors leaves alone) vanished. Test both if your users run dark contrast themes. `contrast: "more"` emulates `prefers-contrast: more` and only changes pages that style for it: ours darkened muted text and borders, a 0.24% difference. We ran Chromium only.
+
+## Which dark mode bugs does a screenshot catch?
+
+In dark mode, our settings page showed two bugs that a light baseline never would:
+
+- **A hard-coded text color.** The heading used `color: #1f2937` instead of a theme token and nearly vanished on the dark background. In our Storybook test, a card title with the same mistake failed the same way at component level.
+- **An image with baked-in colors.** The logo was an SVG with a dark fill, loaded through `<img>`, so CSS could not recolor it.
+
+A third pattern survived by luck: the card's edge was only a shadow, which barely shows on dark backgrounds, and the card stayed visible because its surface color differs from the page. In forced colors, the same card lost its edge entirely.
+
+Neither bug changes the DOM or the accessibility tree: the heading keeps its text and role, and only its pixels are wrong. That is why [ARIA snapshots](/blog/aria-snapshots-vs-screenshots) complement theme screenshots rather than replace them.
+
+Keep theme screenshots strict. Our focus ring measured 596 to 659 pixels depending on the theme, under 0.1% of a 1280×720 capture. A `maxDiffPixelRatio` of 0.01 tolerates up to 9,216 differing pixels, so it would let a lost focus ring through ([how the tolerances work](/blog/playwright-screenshot-threshold)). Fix flakiness at the source instead ([flaky visual tests](/blog/fix-flaky-visual-tests)).
+
+## How do you capture every Storybook story in each theme?
+
+With [Argos story modes](/docs/learn/how-to-guides/visual-coverage/storybook-story-modes), each mode sets Storybook globals before a capture, and each mode keeps its own baseline:
+
+```ts
+// .storybook/preview.ts (excerpt)
+parameters: {
+  argos: {
+    modes: {
+      light: { theme: "light" },
+      dark: { theme: "dark" },
+    },
+  },
+},
+```
+
+Every story then gets two screenshots, such as `components-button--primary mode-[light].png` and `mode-[dark].png`, and you turn a mode off for a component with `{ disabled: true }`. The setup, including Storybook 10.5's per-project `initialGlobals` and its file name trap with Argos, is in [How to Screenshot Every Storybook Story on Every Pull Request](/blog/storybook-screenshot-every-story). If you loop over a built Storybook with Playwright instead, pass the theme in the story URL: `iframe.html?id=components-button--primary&viewMode=story&globals=theme:dark`.
+
+Forced colors is browser emulation, not a Storybook global, so modes can't switch it. Cover it with page-level tests, or with a second Vitest project whose Playwright provider sets `contextOptions: { forcedColors: "active" }`, with its own Argos `root` and `buildName` so its files don't overwrite the default ones. We ran that second project on the Storybook from that guide, and all 11 stories were captured in forced colors.
+
+## How do you test themes in Vitest browser mode?
+
+Vitest's Playwright provider passes `contextOptions` to Playwright's `browser.newContext()` ([Vitest docs](https://vitest.dev/config/browser/playwright)), so each browser instance can emulate one theme:
+
+```ts
+// vitest.config.ts
+import { defineConfig } from "vitest/config";
+import { playwright } from "@vitest/browser-playwright";
+
+export default defineConfig({
+  test: {
+    browser: {
+      enabled: true,
+      headless: true,
+      instances: [
+        {
+          browser: "chromium",
+          name: "light",
+          provider: playwright({ contextOptions: { colorScheme: "light" } }),
+        },
+        {
+          browser: "chromium",
+          name: "dark",
+          provider: playwright({ contextOptions: { colorScheme: "dark" } }),
+        },
+        {
+          browser: "chromium",
+          name: "forced-colors",
+          provider: playwright({ contextOptions: { forcedColors: "active" } }),
+        },
+      ],
+    },
+  },
+});
+```
+
+Vitest names reference screenshots `<name>-<browser>-<platform>.png` ([guide](https://vitest.dev/guide/browser/visual-regression-testing)), and all three instances are `chromium`. Without the theme in the name, they share one file: in our run, the first pass kept one theme's image and the next run failed the other two instances with a 0.98 mismatch ratio. Read the theme in the test:
+
+```ts
+// src/Card.test.ts (excerpt)
+// All instances are "chromium": put the theme in the screenshot name.
+const theme = matchMedia("(forced-colors: active)").matches
+  ? "forced-colors"
+  : matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
+
+await expect(page.getByTestId("card")).toMatchScreenshot(`card-${theme}`);
+```
+
+The same rule applies to `argosScreenshot` from `@argos-ci/vitest`: one name per theme.
+
+## Which theme combinations are worth paying for?
+
+Each theme multiplies the screenshots you store, review and pay for, so spend them where themes break:
+
+- **Components in light and dark.** Hard-coded colors and token mistakes show up at this level, and component screenshots are small. A 300-story Storybook with two themes is 600 screenshots per build.
+- **Key pages in light and dark.** The pages people land on, and flows such as sign-in, checkout and settings.
+- **Forced colors on a few flows.** You are checking that controls keep a shape, a state and a focus indicator, which a handful of pages covering each control type answers.
+- **Increased contrast only where your CSS has a `prefers-contrast` rule.** Without one, the screenshots are copies of the light ones.
+- **Viewports times themes only where the layout differs.** One viewport per theme is usually enough.
+
+With Argos, Storybook screenshots cost less than other screenshots ([pricing](/pricing)). With local baselines, the cost is repository size and review time instead.
+
+## When do other checks beat theme screenshots?
+
+Screenshots are not the only theme check, and some are cheaper:
+
+- **Contrast rules.** axe-core's [`color-contrast` rule](https://dequeuniversity.com/rules/axe/4.13/color-contrast) computes text contrast against WCAG thresholds, and Playwright documents how to run it with `@axe-core/playwright` ([accessibility testing](https://playwright.dev/docs/accessibility-testing)). Run in each of our projects, axe-core 4.13.0 flagged the dark mode heading and nothing else: not the invisible logo, the shadow-only card, or anything in forced colors. Run it per theme alongside screenshots.
+- **Local baselines.** For a few theme screenshots, `toHaveScreenshot` or `toMatchScreenshot` with PNGs in Git is enough, as long as you generate them in your CI environment. Every theme multiplies the files to commit and review.
+- **A real Windows machine.** Before a release that matters to people using contrast themes, check it on Windows with one turned on. Emulation reproduces forced colors, not each user's palette.
+
+## Where does Argos fit?
+
+Argos doesn't render themes: your tests do, and Argos compares what they capture. Three details matter for themes:
+
+- With Playwright projects, `argosScreenshot(page, "settings")` uploads `light/settings`, `dark/settings` and `forced-colors/settings`, because the SDK [prefixes each name with the project name](https://github.com/argos-ci/argos-javascript/blob/e9d0b2fb39001683230eff86f9c39e0016b5cf27/packages/playwright/src/util.ts#L211-L216).
+- Each screenshot records a color scheme, read from the computed `color-scheme` of `body` or from the `prefers-color-scheme` media query ([source](https://github.com/argos-ci/argos-javascript/blob/e9d0b2fb39001683230eff86f9c39e0016b5cf27/packages/browser/src/global/media.ts#L4-L11)). We checked both cases: a dark theme toggled by a class, without `color-scheme: dark`, is recorded as light. With it, the build's [screenshot filters](/changelog/2026-03-30-screenshot-filters) can separate light and dark.
+- In Storybook, story modes keep each theme as its own baseline in the same build.
+
+Setup is in the [Playwright quickstart](/docs/quickstart/playwright-quickstart). Choose the matrix yourself: Argos stores and diffs whatever your tests capture, and forced colors emulation is limited to what the browser provides.
+
+## FAQ
+
+### How do I test dark mode in Playwright?
+
+Add a project with `use: { colorScheme: "dark" }` next to your default one, or call `page.emulateMedia({ colorScheme: "dark" })` in a test. Playwright includes the project name in each baseline file name, so light and dark screenshots get separate baselines. If your app stores the theme instead, set it with `page.addInitScript()` before `page.goto()`.
+
+### Does prefers-color-scheme work in headless Chromium?
+
+Yes. Playwright sets the media feature through browser emulation, so it applies in headless runs whatever the operating system's setting. Playwright's default is `"light"`. In our test, the default headless shell and the new headless mode produced identical light and dark screenshots.
+
+### How do I test Windows High Contrast mode?
+
+Emulate forced colors: `use: { forcedColors: "active" }` on Playwright 1.63 or later, `contextOptions: { forcedColors: "active" }` before that, or `page.emulateMedia({ forcedColors: "active" })`. The emulation uses Chromium's palette, not the user's Windows theme, so it checks that controls keep visible shapes and focus indicators. Add `colorScheme: "dark"` to test a dark contrast palette.
+
+### Should every Storybook story be captured in dark mode?
+
+If your components support dark mode, usually yes: component screenshots are small, and hard-coded colors break at that level. Add a `dark` mode in `.storybook/preview.ts` and disable it for components that don't change with the theme. Keep forced colors for a few page-level flows.
+
+### How many extra screenshots does a theme matrix add?
+
+Each theme multiplies the base count: two themes double it, and adding forced colors on every screen triples it. A 300-story Storybook in light and dark is 600 screenshots per build. Limit forced colors and increased contrast to the screens where they change something.
+
+## Conclusion
+
+Theme bugs mostly live in pixels: on our test page, axe flagged the heading, and the screenshots showed everything else, from the vanished logo to the missing switches and focus ring. In Playwright, cover themes with one project each, with forced colors now one option away; in Storybook, with one mode per theme; in Vitest, with one browser instance per theme and the theme in the screenshot name. Keep the tolerances tight, because what a theme breaks can be as small as a 600-pixel focus ring.

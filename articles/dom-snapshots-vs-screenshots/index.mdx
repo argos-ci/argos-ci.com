@@ -1,0 +1,219 @@
+---
+title: "DOM Snapshots vs Screenshots: How Visual Testing Tools Capture Your UI"
+description: "Percy, Chromatic, Happo and Applitools re-render a DOM snapshot in their cloud; Playwright, Vitest and Argos keep your test browser's pixels. What each misses."
+category: guides
+author: jeremy
+date: 2026-11-24
+image: ./main.jpg
+imageAlt: "Abstract illustration contrasting a wireframe document tree rebuilt inside a cloud with a direct camera capture of a rendered window"
+related:
+  - percy-vs-chromatic-vs-argos
+  - component-screenshots-storybook-vitest-playwright
+  - storybook-visual-testing-without-chromatic
+---
+
+Visual testing tools capture your UI in one of two ways: they render it again in their own cloud browsers, or they keep the pixels your test browser drew. Percy, Chromatic, Happo and the Applitools Ultrafast Grid re-render a DOM snapshot (HTML, CSS and assets) recorded during your test, or your built Storybook; Playwright's `toHaveScreenshot`, Vitest's `toMatchScreenshot`, BackstopJS and Argos keep the test browser's pixels. Re-rendering gives you Safari, Firefox and Edge from a single capture without running those browsers, while keeping pixels gives you exactly what your test saw, including WebGL canvases, cross-origin iframes and runtime state that a DOM snapshot can drop. This explainer covers how each vendor works (checked October 2026), a round-trip experiment we ran with Percy's open-source serializer, and how to choose.
+
+<MainImage />
+
+## What is the difference between a DOM snapshot and a screenshot?
+
+A **screenshot** is the output of rendering: the pixels one browser painted, on one operating system, with the fonts installed there, at the moment of capture. A **DOM snapshot** is the input to rendering: serialized HTML, the CSS rules in effect, form values, and the assets the page loaded, captured in your test browser and rendered later by another browser.
+
+Percy's [SDK workflow docs](https://www.browserstack.com/docs/percy/integrate/percy-sdk-workflow) describe the DOM model plainly: the SDK captures the DOM in your test browser, Percy renders it across browsers and widths, and "screenshots are not captured within your test suite but within Percy's infrastructure". The work splits in three steps:
+
+1. **Serialize.** At each checkpoint, the SDK clones the DOM and writes in-memory state into it: input values, CSSOM rules, readable iframes, and canvases converted to images.
+2. **Collect assets.** Percy loads the snapshot in Chromium and records every request to the same host as your tests; Happo packages local assets and leaves external URLs as they are.
+3. **Render and diff.** The vendor loads that bundle in each enabled browser and width, takes the screenshots there, and compares them with the baseline.
+
+In the screenshot model, the browser that ran your test takes the picture, usually after the tool waits for fonts and stops CSS animations. The image is then compared locally (Playwright, Vitest, BackstopJS) or uploaded to a service that compares it (Argos).
+
+## Which tools re-render a DOM snapshot, and which keep pixels?
+
+Checked October 2026, from each vendor's documentation:
+
+| Tool                                                                                                          | Default capture                                                                                                                                                                | Rendered in                                                                                                                                             | Other modes                                                                                                                                                                                                                                                                                                                                        |
+| ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Percy (web projects)                                                                                          | DOM snapshot and assets, rendered with JavaScript off                                                                                                                          | Percy's browsers; Chrome, Firefox, Edge and Safari are on by default ([source](https://www.browserstack.com/docs/percy/project-settings/cross-browser)) | Percy on Automate takes screenshots in BrowserStack Automate sessions; App Percy uploads the images Playwright's `toHaveScreenshot` captured ([project types](https://www.browserstack.com/docs/percy/overview/project-type), [App Percy](https://www.browserstack.com/docs/app-percy/playwright/getting-started/javascript/integrate-your-tests)) |
+| Chromatic                                                                                                     | Storybook: your built stories. Playwright, Cypress, Vitest: an "archive" of DOM, styles and assets ([what is an archive](https://www.chromatic.com/docs/faq/what-is-archive/)) | Chromatic's Capture Cloud; Chrome by default, plus Firefox, Safari and Edge ([browsers](https://www.chromatic.com/docs/browsers/))                      | None found in its docs                                                                                                                                                                                                                                                                                                                             |
+| Applitools Eyes                                                                                               | Ultrafast Grid: DOM, CSS and page resources ([Ultrafast Grid](https://applitools.com/docs/eyes/concepts/test-execution/ultrafast-grid))                                        | Applitools' browsers: Safari on macOS, Edge on Windows, others on Linux, iOS simulators                                                                 | Classic runner, the Playwright SDK default, runs on your machine without cross-browser rendering ([runners](https://applitools.com/docs/eyes/playwright/api/runner-configuration))                                                                                                                                                                 |
+| Happo                                                                                                         | Storybook builds, or the DOM and CSS of the captured element in Playwright and Cypress ([Cypress docs](https://docs.happo.io/docs/cypress))                                    | Happo's browsers: Chrome, Firefox, Edge, Safari, iOS Safari ([browsers](https://docs.happo.io/docs/browsers))                                           | [Image API](https://docs.happo.io/docs/image-api) for screenshots you take yourself                                                                                                                                                                                                                                                                |
+| Playwright `toHaveScreenshot`, Vitest `toMatchScreenshot`, [BackstopJS](https://github.com/garris/BackstopJS) | Pixels from the test browser                                                                                                                                                   | Your machine or CI, compared locally                                                                                                                    | None                                                                                                                                                                                                                                                                                                                                               |
+| Argos                                                                                                         | Pixels from the test browser, uploaded from CI                                                                                                                                 | Your CI; Argos runs no browsers                                                                                                                         | None                                                                                                                                                                                                                                                                                                                                               |
+
+The two families overlap more than they used to. Chromatic's [Vitest plugin](https://www.chromatic.com/blog/introducing-chromatic-for-vitest-browser-mode/) (September 2, 2026) and its [1.0 Playwright and Cypress packages](https://github.com/chromaui/chromatic-e2e/releases) (September 25, 2026) are all archive-based. Percy's [`toHaveScreenshot` drop-in](https://www.browserstack.com/docs/percy/references/playwright-tohavescreenshot) (`@percy/playwright` 1.1.2) keeps your test code, but in web projects it still sends a DOM snapshot that Percy renders in its own browsers ([package source](https://unpkg.com/@percy/playwright@1.1.2/dropin/dom.js)); App Percy projects keep the image Playwright captured.
+
+## What does a DOM snapshot lose? We tested it
+
+We built a test page with twelve cases in fixed 300×160 cells, loaded it in Playwright 1.63.0 (Chromium 153.0.8010.12, macOS), typed into an input, hovered a button, and took a screenshot. Then we serialized the same page with [`@percy/dom` 1.32.11](https://github.com/percy/cli/blob/80a7983e35606c049956af87c5f74646cb2333fa/packages/dom/README.md), the MIT-licensed serializer Percy's SDKs use, and rendered its output in a second Chromium page with JavaScript disabled (Percy's documented default) where only same-host requests succeed (asset discovery's default). This approximates the model; it is not Percy's infrastructure, which also freezes animations and can capture hover states when configured.
+
+```js
+// roundtrip.mjs: Playwright 1.63.0, @percy/dom 1.32.11, page served at http://localhost:4801
+import { createRequire } from "node:module";
+import { chromium } from "@playwright/test";
+
+const require = createRequire(import.meta.url);
+const origin = "http://localhost:4801";
+const viewport = { width: 900, height: 640 };
+const browser = await chromium.launch();
+
+// 1. What a screenshot-based tool keeps: the pixels of the test browser
+const page = await browser.newPage({ viewport });
+await page.goto(origin + "/");
+await page.evaluate(() => document.fonts.ready);
+await page.locator("#name").fill("Ada Lovelace");
+await page.locator("#hover-target").hover();
+await page.screenshot({ path: "pixels.png" });
+
+// 2. What a DOM-snapshot tool uploads: serialized HTML plus captured resources
+await page.addScriptTag({ path: require.resolve("@percy/dom") });
+const { html, resources } = await page.evaluate(() => PercyDOM.serialize({}));
+
+// 3. Re-render elsewhere: JavaScript off, only same-host assets reachable
+const context = await browser.newContext({
+  viewport,
+  javaScriptEnabled: false,
+});
+await context.route("**/*", async (route) => {
+  const url = new URL(route.request().url());
+  if (url.pathname === "/__rerender__") {
+    return route.fulfill({ contentType: "text/html", body: html });
+  }
+  const resource = resources.find((r) => r.url === url.href);
+  if (resource) {
+    return route.fulfill({
+      contentType: resource.mimetype,
+      body: Buffer.from(resource.content, "base64"),
+    });
+  }
+  if (url.origin === origin) return route.continue();
+  return route.abort(); // other hosts were not captured
+});
+const rerender = await context.newPage();
+await rerender.goto(origin + "/__rerender__");
+await rerender.waitForLoadState("networkidle");
+await rerender.screenshot({ path: "dom-roundtrip.png" });
+await browser.close();
+```
+
+Comparing each cell of the two images with pixelmatch (threshold 0.1):
+
+| Case                                        | Pixels changed (of 48,000) | After the round trip                                                                 |
+| ------------------------------------------- | -------------------------- | ------------------------------------------------------------------------------------ |
+| 2D canvas                                   | 624                        | Kept as an image, but 258px wide instead of 260px (the image gets `max-width: 100%`) |
+| WebGL canvas, default context               | 23,400                     | Blank                                                                                |
+| WebGL canvas, `preserveDrawingBuffer: true` | 180                        | Kept, same 2px resize                                                                |
+| Same-origin iframe                          | 0                          | Kept, inlined as `srcdoc`                                                            |
+| Cross-origin iframe                         | 22,798                     | Blank                                                                                |
+| Input value typed by the test               | 900                        | Value kept, focus ring lost                                                          |
+| `:hover` style                              | 3,035                      | Lost                                                                                 |
+| Font registered with the `FontFace` API     | 1,027                      | Fell back to the default serif font                                                  |
+| Font declared with CSS `@font-face`         | 0                          | Kept                                                                                 |
+| Rule added with CSSOM `insertRule`          | 0                          | Kept                                                                                 |
+| Image from a `blob:` URL                    | 7,001                      | Broken image                                                                         |
+| List rendered by JavaScript before capture  | 0                          | Kept                                                                                 |
+
+Some of these are limits of the browser, not of one serializer. A script in the page cannot read a cross-origin frame's document ([same-origin policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy)), so Percy only serializes [CORS-accessible frames](https://www.browserstack.com/docs/percy/common-issue/iframe-content-not-captured). Canvases are copied with `toDataURL`, and Percy notes that a WebGL canvas clears its drawing buffer after each render unless you set `preserveDrawingBuffer: true` ([canvas docs](https://www.browserstack.com/docs/percy/common-issue/canvas-elements-not-captured)).
+
+Others vary by vendor. Percy captures hover and focus styles when you configure [pseudo-class capture](https://www.browserstack.com/docs/percy/percy-snapshot-config/configure-pseudo-class) (`pseudo-class-enabled-elements`), which we did not. Chromatic's Playwright capture records canvas contents, notes which elements match `:hover`, `:focus`, `:focus-visible` and `:active`, and replaces `blob:` URLs ([source](https://github.com/chromaui/chromatic-e2e/blob/30444050b6938cac0a88a0f81b00fe27f95e5d0b/packages/playwright/src/browser.ts)). Happo inlines canvases as PNGs and can apply pseudo-state attributes ([source](https://github.com/happo/happo/blob/d311730a2550ef9dbb71983c031ff8b9f8a00228/src/browser/takeDOMSnapshot.ts)). Test your own risky cases before trusting either model.
+
+## Why do cloud-rendered screenshots differ from what you see locally?
+
+Because the screenshot comes from a different browser session than the one you watched. The usual causes, with what each vendor documents:
+
+- **A different browser, OS and font stack.** Applitools renders Safari on macOS, Edge on Windows and other desktop browsers on Linux. Percy [updates](https://www.browserstack.com/docs/percy/project-settings/cross-browser) desktop browsers every two quarters and Safari once a year.
+- **JavaScript is off during the render.** Percy renders snapshots with JavaScript disabled by default. Chromatic notes that a snapshot can differ from its live archive because JavaScript execution is blocked during capture ([snapshots](https://www.chromatic.com/docs/snapshots/)).
+- **State that never reached the DOM.** Hover and focus, WebGL buffers, runtime fonts and `blob:` images, as in the table above.
+- **Assets the renderer cannot fetch.** Percy captures same-host assets unless you add `allowed-hostnames`; Chromatic asks you to list other domains in `assetDomains` ([resource loading](https://www.chromatic.com/docs/resource-loading/)); Happo expects external URLs to be publicly reachable.
+- **Different sizes and pixel ratios.** Percy's default widths are 375 and 1280 with a 1024px minimum height ([config options](https://www.browserstack.com/docs/percy/references/config-options)); Chromatic captures at a device pixel ratio of 2.0 since Capture 9.
+- **Vendor browser upgrades.** Chromatic [warns](https://www.chromatic.com/docs/browsers/) that its browser upgrades can cause subtle changes; Applitools can auto-accept diffs caused by Ultrafast Grid infrastructure changes.
+
+## How do the two models compare on browsers, drift, CI time and cost?
+
+|                         | DOM snapshot, re-rendered by the vendor                                                                                                                                 | Pixels from your test browser                                           |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| Where the image is made | Vendor's browsers, after your test run                                                                                                                                  | Your test browser, during the test                                      |
+| Cross-browser coverage  | One capture rendered in each enabled browser, including Safari                                                                                                          | One test run per browser you run                                        |
+| Runtime state           | What the serializer encodes                                                                                                                                             | Everything that was painted                                             |
+| Environment drift       | Vendor-controlled browsers, upgraded on the vendor's schedule                                                                                                           | Your OS, fonts and browser version, so pin them and capture in CI       |
+| CI time                 | Serialization is fast; rendering happens outside your run                                                                                                               | Each screenshot, and each extra browser, runs in your CI                |
+| Cost                    | Billed per rendered image: Percy counts each browser separately; Chromatic bills tests × builds × browsers × modes ([billing](https://www.chromatic.com/docs/billing/)) | Free when compared locally; billed per uploaded screenshot by a service |
+| Debugging a diff        | Inspect the captured snapshot (Chromatic's archives open in its web app)                                                                                                | Rerun the test, or open its trace                                       |
+
+Three browsers mean three times the images in either model; what changes is who runs the browsers.
+
+## Which capture model should you choose?
+
+**Choose a DOM-snapshot service (Percy, Chromatic, Happo, Applitools Ultrafast Grid) if:**
+
+- You need Safari, iOS Safari or Edge renders on every run. A Linux CI cannot give you those: Playwright cannot drive branded Safari, since its WebKit build relies on patches, and it recommends running WebKit on a Mac for the closest result ([Playwright browsers](https://playwright.dev/docs/browsers#webkit)).
+- Your UI is mostly HTML and CSS, without WebGL, cross-origin embeds or fonts loaded from JavaScript.
+- You want local runs and CI to render identically without maintaining a Docker image.
+- You want CI time to stay flat as you add browsers.
+
+**Choose pixels from your test browser (Playwright, Vitest, BackstopJS, Argos) if:**
+
+- Your UI draws with WebGL, embeds cross-origin iframes, or loads fonts from JavaScript.
+- You want every failing diff to be reproducible by rerunning the test that produced it.
+- The state your test reached (hover, focus, scroll, typed input) is part of what you want to check.
+- Your tests already run in the browsers you care about.
+
+You can also mix them. For the component side of that decision, see [where component screenshots should live](/blog/component-screenshots-storybook-vitest-playwright).
+
+## Where does Argos fit?
+
+[Argos](/diff) keeps the pixels your test browser drew. Its SDKs take the screenshot during the test, after waiting for fonts, images and `aria-busy` loaders, upload it from CI, and Argos compares it with the baseline build from your base branch using its open-source [diff engine](/docs/learn/platform-fundamentals/how-argos-detects-visual-differences). It does not re-render pages and runs no browsers, so cross-browser coverage comes from the browsers you run, as Playwright projects:
+
+```ts
+// playwright.config.ts
+import { defineConfig, devices } from "@playwright/test";
+
+export default defineConfig({
+  reporter: [
+    ["list"],
+    ["@argos-ci/playwright/reporter", { uploadToArgos: !!process.env.CI }],
+  ],
+  projects: [
+    {
+      name: "chromium",
+      use: {
+        ...devices["Desktop Chrome"],
+        // Chromium-only flags Argos recommends to reduce text rendering differences
+        launchOptions: {
+          args: ["--disable-lcd-text", "--font-render-hinting=none"],
+        },
+      },
+    },
+    { name: "firefox", use: { ...devices["Desktop Firefox"] } },
+    { name: "webkit", use: { ...devices["Desktop Safari"] } },
+  ],
+});
+```
+
+What Argos does not do: render branded Safari, or make your CI image consistent for you. Baselines come from CI builds, so keep capture in one pinned environment; we cover the causes of drift in [why Playwright screenshots differ between macOS, Linux and Docker](/blog/playwright-screenshots-differ-macos-linux). Vendor-by-vendor trade-offs are on [Argos vs Percy](/compare/percy), [Argos vs Chromatic](/compare/chromatic) and [Argos vs Happo](/compare/happo).
+
+## FAQ
+
+### Does Percy take screenshots in my CI?
+
+Not in Percy web projects. The SDK serializes the DOM in your test browser, and Percy renders it in its own browsers; its docs state that screenshots are taken in Percy's infrastructure, not in your test suite. Percy on Automate takes screenshots in BrowserStack Automate sessions, and App Percy can upload the images that Playwright's `toHaveScreenshot` captured (checked October 2026).
+
+### Can DOM snapshots capture canvas or WebGL?
+
+Partly. Percy, Chromatic and Happo convert each canvas to a static image at capture time, so a 2D canvas usually survives. A WebGL canvas needs `preserveDrawingBuffer: true`; in our round trip with Percy's serializer, a default WebGL canvas came back blank. Animated canvases are frozen at the frame that was captured.
+
+### Why do cloud-rendered screenshots differ from what I see locally?
+
+The image comes from another browser session: a vendor browser on another OS with other fonts, usually with JavaScript off, at configured widths and pixel ratios. State that is not in the DOM (hover, WebGL buffers, runtime fonts, `blob:` images) and assets the renderer cannot reach are lost or replaced.
+
+### Which model is better for cross-browser testing?
+
+DOM-snapshot services, if you need real Safari, iOS Safari or Edge: one capture is rendered in every enabled browser without running them in CI. With the pixel model, you run your tests in each browser yourself; Playwright covers Chromium, Firefox and WebKit, but its WebKit build is not branded Safari.
+
+### Does Argos re-render my pages?
+
+No. Argos stores and compares the screenshots its SDK captured in your test browser; it runs no browsers of its own. If you want Firefox or WebKit coverage, add those browsers as Playwright projects: the SDK prefixes each screenshot name with the project name (`firefox/home`), so each browser is compared with its own baseline.
+
+## Conclusion
+
+DOM snapshots trade fidelity for reach: one capture, many browsers, minus whatever the serializer cannot encode. Pixels trade reach for fidelity: you review what your test drew, in the browsers you run. Pick the model whose blind spots your UI does not have, and check your riskiest pages, the ones with canvas, embeds or runtime fonts, before you commit.

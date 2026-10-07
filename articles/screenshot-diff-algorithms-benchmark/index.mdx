@@ -1,0 +1,226 @@
+---
+title: "pixelmatch vs odiff vs SSIM: Screenshot Diffing Benchmarked"
+description: "pixelmatch, odiff and SSIM benchmarked on Playwright screenshots: which changes each one catches, how fast it runs at 1280×800 and 1280×6000, which to use."
+category: engineering
+author: greg
+date: 2026-12-17
+image: ./main.jpg
+imageAlt: "Abstract illustration of three lenses analysing the same pair of screenshot tiles, with timing bars beneath"
+related:
+  - playwright-screenshot-threshold
+  - ai-generated-algorithm-to-production-rust
+  - ai-visual-testing
+---
+
+pixelmatch and odiff detect the same visual changes in screenshots: both count the pixels whose YIQ color distance exceeds a threshold and can skip anti-aliased pixels, and in our benchmark they flagged exactly the same pairs. odiff is much faster end to end: on a 1280×6000 screenshot it compared two PNGs and wrote the diff in 95 ms, against 656 ms for pixelmatch with pngjs. SSIM measures structural similarity instead of counting pixels, which is a weakness for visual regression testing: its mean score barely moved for a one-word change on a long page, and rounded to 1.0000 for a button recolored at equal brightness.
+
+<MainImage />
+
+## How do pixelmatch, odiff and SSIM compare screenshots?
+
+**[pixelmatch](https://github.com/mapbox/pixelmatch)** is a small JavaScript library. For each pixel it computes a perceived color distance; pixels above `threshold` (0 to 1, default 0.1) are candidates, and candidates that look like anti-aliasing are skipped. It returns the count and can draw a diff image. Up to 7.x the distance is measured in YIQ. [pixelmatch 8.0.0](https://github.com/mapbox/pixelmatch/releases/tag/v8.0.0), released October 6, 2026, switched to OKLab with the HyAB distance and added `windowSize`, which returns the largest count in any N×N square. Playwright 1.63 still ships [a copy of the 5.x code](https://github.com/microsoft/playwright/blob/1b025d7e20a026371cd5f98ba0cdce48892737c8/packages/utils/third_party/pixelmatch.js).
+
+**[BlazeDiff](https://github.com/teimurjan/blazediff)** (`@blazediff/core`) reimplements pixelmatch's algorithm with block-based optimizations. Vitest has used it for its built-in `"pixelmatch"` comparator since version 4.1 ([PR #9514](https://github.com/vitest-dev/vitest/pull/9514)).
+
+**[odiff](https://github.com/dmtrKovalenko/odiff)** is a native binary written in Zig (originally OCaml) with SIMD code paths, wrapped by the `odiff-bin` npm package. It uses the same YIQ distance and threshold scale as pixelmatch 7, but its anti-aliasing check is [off by default](https://github.com/dmtrKovalenko/odiff/blob/616651563b9f41a26def71f44a9260cef5115f88/src/diff.zig#L133-L142). It decodes PNG, JPEG, WebP and TIFF itself, and its Node API either spawns the binary for each `compare()` or keeps a process alive with `ODiffServer`. The API returns an exact `diffCount` and a `diffPercentage` [rounded to two decimals](https://github.com/dmtrKovalenko/odiff/blob/616651563b9f41a26def71f44a9260cef5115f88/src/main.zig#L163), so read the count when you need tiny differences.
+
+**SSIM**, the [structural similarity index](https://en.wikipedia.org/wiki/Structural_similarity_index_measure), compares the local mean, variance and covariance of brightness in small windows and returns a map of scores plus their mean, where 1 means identical. [ssim.js](https://github.com/obartra/ssim) 3.5.0 uses 11×11 windows, converts images to grayscale and, by default, downsamples them so the shorter side is about 256 pixels (3× for 1280×800, 5× for 1280×6000), like the reference MATLAB code.
+
+[Perceptual hashes](https://en.wikipedia.org/wiki/Perceptual_hashing) (pHash, dHash) reduce an image to a 64-bit fingerprint: fine for finding near-duplicates, too coarse for a one-word change, so we left them out.
+
+## How did we run the benchmark?
+
+We generated the screenshots with Playwright 1.63.0 in the official `mcr.microsoft.com/playwright:v1.63.0-noble` image (Chromium 153, linux/arm64), from a landing page that embeds the Inter font: a 1280×800 viewport capture and a 1280×6000 full-page capture. The base page was compared with seven variants:
+
+- **Identical**: a second render of the same page (byte-identical).
+- **Font hinting**: the same page rendered by a browser launched with `--font-render-hinting=none`, a stand-in for rendering noise between machines.
+- **1px shift**: the hero button moved down by one pixel.
+- **Subtle color**: paragraph text from `#333333` to `#3a3a3a`.
+- **One word**: the button label "Start free trial" changed to "Start your trial".
+- **Hue, same luminance**: the button from indigo `#4f46e5` to red `#d12246`, two colors with the same grayscale value in ssim.js.
+- **Layout change**: the feature grid from three columns to two.
+
+Engines: pixelmatch 8.0.0 and 7.2.0 and BlazeDiff 1.10.0 at threshold 0.1, odiff-bin 4.5.0 with its defaults and with `antialiasing: true`, ssim.js 3.5.0 with its defaults and with `downsample: false`, and Argos's two-pass logic, re-implemented locally from its source. Timings ran on Node 24.15.0 on a MacBook Pro with an Apple M1 Max (32 GB, macOS 26.6). Each value is the median of 7 timed runs after 2 warm-ups; the whole benchmark ran five times and we report the median of the five. "Compare" is the in-memory comparison of decoded pixels. "End to end" reads and decodes both PNGs with pngjs 7.0.0 (the codec Playwright and Vitest use), compares, and writes a diff PNG when the images differ, which is what odiff's binary does too. Other jobs shared the machine, so read absolute times as approximate.
+
+## What does each algorithm detect?
+
+Differing pixels counted at threshold 0.1, mean SSIM, and Argos's verdict, at 1280×800:
+
+| Change              | pixelmatch 8.0.0 | pixelmatch 7.2.0, BlazeDiff | odiff  | odiff, `antialiasing: true` | SSIM mean | Argos     |
+| ------------------- | ---------------- | --------------------------- | ------ | --------------------------- | --------- | --------- |
+| Identical           | 0                | 0                           | 0      | 0                           | 1.0000    | no change |
+| Font hinting        | 35,466           | 34,629                      | 54,147 | 31,004                      | 0.9338    | changed   |
+| 1px shift           | 563              | 549                         | 819    | 544                         | 0.9993    | changed   |
+| Subtle color        | 0                | 0                           | 0      | 0                           | 0.9999    | no change |
+| One word            | 538              | 540                         | 706    | 522                         | 0.9990    | changed   |
+| Hue, same luminance | 5,362            | 5,366                       | 5,707  | 5,366                       | 1.0000    | changed   |
+| Layout change       | 26,078           | 25,948                      | 40,622 | 25,452                      | 0.8093    | changed   |
+
+The results were identical in all five runs. What stands out:
+
+- **The pixel engines agree.** pixelmatch 7.2.0 and BlazeDiff returned identical counts on all 14 pairs, and so did the pixelmatch copy inside Playwright 1.63. pixelmatch 8's new metric moved counts by less than 3%. At Playwright's default threshold of 0.2, counts dropped by up to 20% and every verdict stayed the same.
+- **Nobody saw `#333333` to `#3a3a3a`.** Its largest per-pixel distance is 0.027 on the threshold scale, far below 0.1. [maxDiffPixels vs maxDiffPixelRatio vs threshold in Playwright](/blog/playwright-screenshot-threshold) measures which settings catch it.
+- **odiff's default counts anti-aliased pixels**: 819 instead of 544 for the 1px shift. With `antialiasing: true`, its counts stayed within 11% of pixelmatch's.
+
+## Is SSIM better than pixel diffing for UI screenshots?
+
+Not as a pass/fail gate. Here is the tall page, where the same local changes cover a smaller share of the image:
+
+| Change at 1280×6000 | pixelmatch 7.2.0 | SSIM mean | Lowest SSIM window |
+| ------------------- | ---------------- | --------- | ------------------ |
+| One word            | 540              | 0.99993   | 0.469              |
+| 1px shift           | 549              | 0.99991   | 0.394              |
+| Subtle color        | 0                | 0.99975   | 0.999              |
+| Hue, same luminance | 5,366            | 1.00000   | 1.000              |
+| Font hinting        | 331,378          | 0.96328   | 0.183              |
+
+The mean averages the whole image, so the same local change weighs less on a bigger page: the one-word change scored 0.99900 at 1280×800 but 0.99993 at 1280×6000, while its pixel count stayed at 540. On the tall page the mean even ranked the barely visible color change as a bigger difference than the changed word, so a pass/fail cutoff would sit in the fifth decimal and move with page size. The red button rounded to 1.00000 because ssim.js works on grayscale. The lowest window score separates better, but it also misses the hue change and needs its own cutoff. SSIM was the slowest engine too: in memory it took 4 to 18 times as long as pixelmatch with default downsampling, and 2 to 2.6 times longer again without it.
+
+SSIM fits image-quality scoring (compression, resizing) and ranking diffs for review. For UI regressions, counting pixels above a color threshold is easier to reason about.
+
+## Which screenshot diff engine is fastest?
+
+Median times in milliseconds, compare / end to end (odiff and Argos are end to end only):
+
+| Engine                             | 1280×800, one word | 1280×6000, one word | 1280×6000, layout change |
+| ---------------------------------- | ------------------ | ------------------- | ------------------------ |
+| pixelmatch 8.0.0                   | 9.0 / 88.5         | 62.5 / 658          | 172 / 774                |
+| pixelmatch 7.2.0                   | 8.2 / 87.6         | 58.2 / 656          | 174 / 776                |
+| BlazeDiff 1.10.0                   | 5.7 / 87.7         | 42.9 / 644          | 169 / 778                |
+| odiff 4.5.0, process per call      | 16.2               | 95.2                | 114                      |
+| odiff 4.5.0, `antialiasing: true`  | 16.5               | 98.7                | 206                      |
+| odiff 4.5.0, `ODiffServer`         | 11.9               | 89.7                | 104                      |
+| ssim.js 3.5.0, defaults            | 77.1 / 106         | 670 / 833           | 647 / 829                |
+| ssim.js 3.5.0, `downsample: false` | 186 / 214          | 1,466 / 1,684       | 1,393 / 1,601            |
+| Argos logic (two odiff passes)     | 15.8               | 96.6                | 227                      |
+
+odiff was 5 to 7 times faster than pixelmatch end to end when a diff image was written, and about 3 to 4 times faster when the images matched. JavaScript does not lose on the comparison itself: pixelmatch compared the tall pair in 58 ms, but pngjs needed 191 ms to decode the two PNGs and about 400 ms to encode the diff. BlazeDiff cut comparison time by 20 to 31% on local changes and by 3 to 13% when much of the page changed. odiff's anti-aliasing check costs time when many pixels differ (206 ms instead of 114 ms on the layout change), and `ODiffServer` saved 4 to 10 ms per call by not spawning a process.
+
+## Does anti-aliasing detection remove rendering noise?
+
+Only part of it. The font-hinting pair contains no code change, yet every engine flagged it: odiff counted 54,147 pixels by default and 31,004 with `antialiasing: true`, a 43% reduction. Hinting moves glyph outlines, so pixels inside the strokes change too, not only their edges. Anti-aliasing detection removes edge noise between two renders from the same rasterizer; it does not make two rasterizers agree. Generate baselines and comparisons in one environment, as explained in [why Playwright screenshots differ between macOS and Linux](/blog/playwright-screenshots-differ-macos-linux).
+
+## What does Argos use to compare screenshots?
+
+Argos runs odiff-bin 4.5.0 on its servers ([source](https://github.com/argos-ci/argos/blob/41b35d51b58639ea33b611de3352056d2fa62da0/apps/backend/src/screenshot-diff/diff/image/index.ts)). For each screenshot:
+
+1. Files are stored by SHA-256, so a screenshot with the same bytes as its baseline scores 0 without running odiff.
+2. Both images are brought to the same dimensions.
+3. Two odiff passes run in parallel with `antialiasing: true`: a base pass at threshold 0.15 that ignores very small differences, and a color-sensitive pass at 0.0225 that only counts when at least 3% of the image changed. The higher score wins and its diff mask is kept.
+4. A per-screenshot `threshold` option (0 to 1, default 0.5) scales all of these values.
+5. The diff mask gets a tolerant fingerprint, computed in Rust, so Argos can recognize a change it has seen before for flaky-change detection, auto-ignore and auto-approval ([how we built it](/blog/ai-generated-algorithm-to-production-rust)).
+
+On our pairs, this logic flagged the 1px shift and the one-word, hue and layout changes at both sizes, plus the font-hinting noise (through the color-sensitive pass: 3.5% of the 1280×800 image changed). It let the `#3a3a3a` text through: the color-sensitive pass found 0.52% of the image changed, under its 3% floor. A comment at the top of the file explains the engine choice: pixelmatch and looks-same were benchmarked and found too slow, which our numbers confirm.
+
+## Which diff algorithm should you choose?
+
+- **Choose pixelmatch** if you compare inside a Node or browser process, want no native binary, and your screenshots are viewport-sized: the comparison took 8 ms at 1280×800. Stay on 7.x to match Playwright's and Vitest's counts, or try 8.0 for the OKLab metric and `windowSize`.
+- **Choose BlazeDiff** if you want pixelmatch 7 results with less CPU: same counts on every pair, 20 to 31% less comparison time on local changes.
+- **Choose odiff** if you diff many or tall screenshots in CI or on a server. Turn on `antialiasing: true`, use `ODiffServer` for many calls, and read `diffCount` when exact counts matter.
+- **Choose SSIM** to score image quality or rank diffs, not to fail a build on UI changes.
+- **Choose a visual testing service** such as [Argos](/diff) when the hard part is no longer the comparison but baselines, review on the pull request, and flaky changes that keep coming back.
+
+## How can you rerun the benchmark?
+
+Generate pairs with Playwright in the official image so anyone gets the same pixels. The core of our generator:
+
+```js
+// generate.mjs (excerpt), run in mcr.microsoft.com/playwright:v1.63.0-noble
+import { chromium } from "@playwright/test";
+
+const browser = await chromium.launch();
+// Same page, different font hinting: rendering noise without a code change.
+const noisyBrowser = await chromium.launch({
+  args: ["--font-render-hinting=none"],
+});
+
+async function capture(b, html, fullPage) {
+  const page = await b.newPage({ viewport: { width: 1280, height: 800 } });
+  await page.setContent(html);
+  await page.evaluate(() => document.fonts.ready);
+  const png = await page.screenshot({
+    fullPage,
+    clip: fullPage ? { x: 0, y: 0, width: 1280, height: 6000 } : undefined,
+    animations: "disabled",
+    caret: "hide",
+  });
+  await page.close();
+  return png;
+}
+```
+
+Then time the engines on any pair:
+
+```js
+// bench.mjs: node bench.mjs <base.png> <head.png>
+// pixelmatch 8.0.0, odiff-bin 4.5.0, ssim.js 3.5.0, pngjs 7.0.0
+import { readFileSync, writeFileSync } from "node:fs";
+import { performance } from "node:perf_hooks";
+import { compare } from "odiff-bin";
+import pixelmatch from "pixelmatch";
+import { PNG } from "pngjs";
+import { ssim } from "ssim.js";
+
+const [basePath, headPath] = process.argv.slice(2);
+const decode = (path) => PNG.sync.read(readFileSync(path));
+
+const engines = {
+  pixelmatch: () => {
+    const a = decode(basePath);
+    const b = decode(headPath);
+    const diff = new PNG({ width: a.width, height: a.height });
+    const count = pixelmatch(a.data, b.data, diff.data, a.width, a.height, {
+      threshold: 0.1,
+    });
+    if (count > 0) writeFileSync("diff-pixelmatch.png", PNG.sync.write(diff));
+    return count;
+  },
+  odiff: async () => {
+    const result = await compare(basePath, headPath, "diff-odiff.png", {
+      threshold: 0.1,
+      antialiasing: true,
+    });
+    return result.match ? 0 : result.diffCount;
+  },
+  ssim: () => ssim(decode(basePath), decode(headPath)).mssim,
+};
+
+// Median of 7 timed runs after 2 warm-ups.
+for (const [name, run] of Object.entries(engines)) {
+  const times = [];
+  let result;
+  for (let i = 0; i < 9; i++) {
+    const start = performance.now();
+    result = await run();
+    if (i >= 2) times.push(performance.now() - start);
+  }
+  times.sort((x, y) => x - y);
+  console.log(
+    `${name.padEnd(10)} ${String(result).padEnd(18)} ${times[3].toFixed(1)} ms`,
+  );
+}
+```
+
+On the 1280×6000 one-word pair, it printed 538 pixels in 655.9 ms for pixelmatch, 522 pixels in 94.8 ms for odiff, and an SSIM of 0.99993 in 876.6 ms on our machine.
+
+## FAQ
+
+### What diff algorithm does Playwright use?
+
+Playwright 1.63 compares screenshots with a copy of pixelmatch's 5.x code: a YIQ color distance with a default threshold of 0.2, plus anti-aliasing detection that cannot be turned off. A private, undocumented `ssim-cie94` comparator also exists. The options are measured in [maxDiffPixels vs maxDiffPixelRatio vs threshold in Playwright](/blog/playwright-screenshot-threshold).
+
+### Is odiff faster than pixelmatch?
+
+End to end, yes: odiff read two 1280×6000 PNGs, compared them and wrote the diff in 95 ms, against 656 ms for pixelmatch 7.2.0 with pngjs. Most of the gap is PNG decoding and encoding, since pixelmatch's comparison itself took 58 ms. At 1280×800 it was 16 ms against 88 ms.
+
+### Is SSIM better than pixel diffing for UI screenshots?
+
+Not for pass/fail decisions. The mean SSIM of a long page barely moves for a local change (0.99993 for a one-word change at 1280×6000), grayscale conversion hides hue changes at equal brightness, and default downsampling blurs one-pixel shifts. SSIM is better suited to scoring image quality and ranking diffs.
+
+### What does Argos use to compare screenshots?
+
+Argos uses odiff 4.5 with anti-aliased pixels ignored, in two passes: a base pass at threshold 0.15 and a color-sensitive pass at 0.0225 that only counts large areas. A per-screenshot threshold scales both, and each diff mask is fingerprinted to recognize recurring flaky changes. See [how Argos detects visual differences](/docs/learn/platform-fundamentals/how-argos-detects-visual-differences).
+
+### How do I ignore anti-aliasing noise in screenshot diffs?
+
+Enable anti-aliasing detection: it is on by default in pixelmatch, Playwright and Vitest, and opt-in in odiff with `antialiasing: true`. It removes edge noise between two renders, not differences between machines: with different font hinting, 31,004 pixels still differed in odiff. Render baselines and comparisons in the same environment and mask dynamic regions.

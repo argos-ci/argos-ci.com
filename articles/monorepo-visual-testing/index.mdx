@@ -1,0 +1,158 @@
+---
+title: "Run Visual Tests Only for What Changed in a Monorepo"
+description: "Select affected packages with Turborepo or Nx, run only their screenshot tests, and mark the build partial so skipped screenshots aren't reported as removed."
+category: guides
+author: greg
+date: 2026-12-31
+image: ./main.jpg
+imageAlt: "Abstract illustration of a cluster of package blocks where only two highlighted blocks pass through a screenshot frame"
+related:
+  - speed-up-playwright
+  - github-actions-visual-approval
+  - storybook-screenshot-every-story
+---
+
+To run visual tests only for what changed in a monorepo, let your build tool pick the affected packages (`turbo run --affected` or `nx affected`), run only their screenshot tests, and tell your visual testing service that the build is partial, so screenshots from the packages you skipped aren't reported as removed. With Argos, an open-source visual regression testing platform, that means a subset build (`ARGOS_SUBSET=true`) on pull requests and a full build on `main`. Package-level selection is coarse, though: if your visual tests are Storybook stories, Vitest's `--changed` flag and Chromatic's TurboSnap select at the file level.
+
+<MainImage />
+
+## How do you find the packages a pull request affects?
+
+Turborepo and Nx both compare Git history with their package graph and select the changed packages plus everything that depends on them. We checked both on a three-package demo repository (npm workspaces, Turborepo 2.11.7, Nx 23.2.1, October 2026), where `apps/web` imports a button from `packages/ui` and `apps/docs` imports nothing:
+
+| Changed on the branch              | `turbo run test:visual --affected`              | `nx show projects --affected` |
+| ---------------------------------- | ----------------------------------------------- | ----------------------------- |
+| `packages/ui/src/index.js`         | `@demo/ui`, `@demo/web`                         | `@demo/ui`, `@demo/web`       |
+| `apps/docs/tests/docs.spec.ts`     | `@demo/docs`                                    | `@demo/docs`                  |
+| `README.md` at the repository root | Nothing ("No tasks were executed", exit code 0) | Nothing                       |
+
+```bash
+# Turborepo: equivalent to --filter=...[main...HEAD]
+npx turbo run test:visual --affected
+
+# Nx
+npx nx affected -t test:visual --base=origin/main --head=HEAD
+```
+
+Two details matter in CI. In GitHub Actions, `--affected` reads the base branch from `GITHUB_BASE_REF`, and a shallow clone makes every package look changed, so check out with `fetch-depth: 0` ([Turborepo CI guide](https://turborepo.com/docs/crafting-your-repository/constructing-ci#using---affected-in-github-actions)). Nx recommends the last successful `main` commit as the base (the `nrwl/nx-set-shas` action sets it) and, by default, marks every project as affected when the lockfile changes, so a dependency bump reruns everything unless you set `projectsAffectedByDependencyUpdates` ([Nx affected docs](https://nx.dev/docs/features/ci-features/affected#marking-projects-affected-by-dependency-updates)).
+
+## Does Turborepo caching skip visual tests?
+
+Yes, which is both the speedup and the trap. A cache hit doesn't run the task: Turborepo restores its declared `outputs` and replays its logs. In the demo, after we deleted every screenshot, a second `turbo run test:visual` finished in 7 ms with "3 cached, 3 total", restored the three PNGs, and replayed Playwright's "1 passed" lines for tests that never ran.
+
+The trap is the cache key. Turborepo hashes a task from its own package's files and global inputs, so a test in `apps/web` doesn't miss cache when `packages/ui` changes unless the task depends on a task in `packages/ui` ([Turborepo docs](https://turborepo.com/docs/crafting-your-repository/configuring-tasks#dependent-tasks-that-can-be-run-in-parallel) show the same issue with type checking). In the demo, after a button color change in `packages/ui`, `--affected` selected `@demo/web`, but its test was a cache hit that restored the old screenshot, old color included. A transit node in `turbo.json` fixes it:
+
+```json
+{
+  "$schema": "https://turborepo.com/schema.json",
+  "tasks": {
+    "transit": { "dependsOn": ["^transit"] },
+    "test:visual": {
+      "dependsOn": ["transit"],
+      "outputs": ["screenshots/**"]
+    }
+  }
+}
+```
+
+With it, the same change made both `@demo/ui` and `@demo/web` miss cache and recapture. Nx doesn't need this: by default, it hashes a project's files together with its dependencies' files ([Nx inputs](https://nx.dev/docs/reference/inputs)).
+
+## What happens to screenshots of packages that didn't run?
+
+A visual testing service compares each build with a complete baseline, so if a pull request build only contains `ui` and `web` screenshots, every `docs` screenshot looks deleted. Argos handles this with [subset builds](/docs/learn/how-to-guides/ci-pipelines/subset-builds): set `ARGOS_SUBSET=true` (or `argos upload --subset`, or the SDKs' `subset` option) and Argos ignores removed screenshots and reports only changed and added ones. A subset build can't become a baseline, so `main` still runs every package:
+
+```yaml
+# .github/workflows/visual.yml
+name: Visual tests
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  visual:
+    runs-on: ubuntu-latest
+    env:
+      ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }}
+      # Pull requests upload a subset; main uploads every package.
+      ARGOS_SUBSET: ${{ github.event_name == 'pull_request' }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0 # --affected needs history back to the merge base
+      - uses: actions/setup-node@v6
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npx turbo run test:visual ${{ github.event_name == 'pull_request' && '--affected' || '' }}
+      - name: Upload to Argos
+        run: |
+          if [ -n "$(find apps packages -path '*/screenshots/*.png' -print -quit)" ]; then
+            npx argos upload . --build-name visual \
+              --files "**/screenshots/**/*" \
+              --ignore "**/node_modules/**" "**/*.argos.json"
+          else
+            npx argos skip --build-name visual
+          fi
+```
+
+Each package's `test:visual` script runs Playwright with `argosScreenshot`, which saves PNGs to the package's `screenshots` folder. The Argos CLI (`@argos-ci/cli`, a dev dependency) then uploads once, outside the cache, as in the [cached pipelines guide](/docs/learn/how-to-guides/ci-pipelines/cached-pipelines). Screenshot names then carry their package path (`packages/ui/screenshots/button.png`), so packages can't collide. Run locally on the demo's button branch, this step found exactly the two screenshots the affected packages produced, with `subset` set. With a remote cache, `main` runs restore unchanged packages instead of testing them again. Argos counts every screenshot in a build, changed or not ([usage rules](/docs/learn/billing-and-subscription/spend-management)), so subset builds also keep pull requests cheaper than full uploads.
+
+If each package uploads from its own test run instead, through an SDK reporter, join the uploads into one build with finalize mode: `ARGOS_PARALLEL=true`, `ARGOS_PARALLEL_TOTAL=-1` and a shared `ARGOS_BUILD_NAME` in every task, then `argos finalize --skip-if-empty` after the run. Turborepo's strict environment mode drops those variables unless you list them in `globalPassThroughEnv`.
+
+## How do you keep a required check meaningful when nothing ran?
+
+A required status that never arrives blocks the pull request. That happens when the workflow is skipped by a `paths` filter ([GitHub docs](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/collaborating-on-repositories-with-code-quality-features/troubleshooting-required-status-checks#handling-skipped-but-required-checks)), and when it runs but uploads nothing, like the demo's README-only branch. Run the job on every pull request and let the selection decide, then report the empty case (more on required checks in [blocking a pull request until visual changes are approved](/blog/github-actions-visual-approval)):
+
+- `argos skip --build-name visual` (or `ARGOS_SKIPPED=true`) creates a [skipped build](/docs/learn/how-to-guides/ci-pipelines/skipping-a-build): no screenshots, no comparison, a success status. The workflow above does this when no package produced a screenshot.
+- In finalize mode, `argos finalize --skip-if-empty` creates the skipped build only when every upload was skipped.
+
+The check stays meaningful because any pull request that touches a package with visual tests still gets a real comparison and waits for [review](/review) when something changed.
+
+## Should each package get its own Argos project?
+
+Usually not. One project per repository works, with either one build for all packages (as above, with one `argos/visual` status) or one build name per suite (`--build-name`, `buildName` or `ARGOS_BUILD_NAME`), each with its own baseline and its own `argos/<build-name>` status ([monorepo setup](/docs/learn/how-to-guides/ci-pipelines/monorepos-setup)). With several build names, require `argos/summary`, which combines them, and set it to "Always add a summary check" if some commits produce a single build ([summary checks](/docs/learn/review-workflow/summary-checks)).
+
+Separate projects make sense when an app needs its own baseline branch, auto-approved branches or contributors, since those are project settings. Statuses then become `argos/<project-name>`, and tokenless uploads from GitHub Actions need `ARGOS_PROJECT` to pick the right project.
+
+## Is there a TurboSnap alternative for file-level selection?
+
+Package-level selection reruns every story in a package when one component changes. Chromatic's TurboSnap works at the file level: it reads your Git changes and the Webpack or Vite dependency graph, recaptures only the stories whose files depend on a changed file, and copies the rest from the baseline, billed at 0.2 snapshot each, and at zero for a build where no story's dependencies changed ([TurboSnap docs](https://www.chromatic.com/docs/turbosnap/), checked October 2026). It needs Storybook 6.5+ or Vitest 4+, and 10 successful CI builds before you can turn it on ([setup](https://www.chromatic.com/docs/turbosnap/setup)), recaptures everything when global files like `preview.js` change, and [doesn't support Playwright tests](https://www.chromatic.com/docs/playwright/setup/#turbosnap-support). Choose it if your visual tests are Storybook stories on Chromatic and you want complete builds and lower snapshot bills without wiring selection into CI ([Argos vs Chromatic](/compare/chromatic)).
+
+If your stories run through Storybook's Vitest addon, Vitest's [`--changed`](https://vitest.dev/config/changed) flag selects at the file level too, through Vite's module graph. We tested it with Storybook 10.6.1, Vitest 5.0.3 and the Argos Storybook plugin (`@argos-ci/storybook` 6.4.2) on three components, where `Card` imports `Badge` and `Button`:
+
+| Edited file                | Story files that ran                      | Screenshots captured |
+| -------------------------- | ----------------------------------------- | -------------------- |
+| `Badge.tsx`                | Badge, Card                               | 2 of 4               |
+| `Button.tsx`               | Button, Card                              | 3 of 4               |
+| `Card.tsx`                 | Card                                      | 1 of 4               |
+| `vitest.config.ts`         | All                                       | 4 of 4               |
+| A CSS file nothing imports | None ("No test files found", exit code 0) | 0 of 4               |
+
+```bash
+# Pull requests: stories affected since the merge base, as an Argos subset build
+ARGOS_SUBSET=true npx vitest run --project=storybook --changed origin/main
+```
+
+Vitest [diffs against the merge base](https://github.com/vitest-dev/vitest/blob/33cadea62e8763c455c7fca38d9ab1dda87c5f75/packages/vitest/src/node/vcs/git.ts#L49) (`git diff <ref>...HEAD`) and adds uncommitted files. It can't trace files outside the module graph, such as assets loaded by URL; add those to [`forceRerunTriggers`](https://vitest.dev/config/forcereruntriggers), which already covers `package.json` and the Vite and Vitest configs, to rerun everything when they change. When `vitest list --project=storybook --changed origin/main --filesOnly` prints nothing, run `argos skip`. Playwright's `--only-changed` flag ([since 1.46](https://playwright.dev/docs/release-notes)) works the same way for test files and their imports, but end-to-end specs load URLs rather than import components, so it mostly catches edited specs and helpers. For Storybook setups outside Chromatic, see [screenshot every story on every pull request](/blog/storybook-screenshot-every-story).
+
+## FAQ
+
+### Is there an open-source alternative to Chromatic TurboSnap?
+
+For stories run through Storybook's Vitest addon, `vitest --changed origin/main` selects stories through Vite's module graph, at the file level like TurboSnap. Pair it with a visual testing service that accepts partial builds, such as Argos subset builds, and run the full suite on `main`. For whole packages, Turborepo's `--affected` and `nx affected` are open source too.
+
+### What happens to screenshots of packages that didn't run?
+
+Unless you say the build is partial, they're reported as removed, because the build is compared with a complete baseline. Mark pull request builds as partial (in Argos, `ARGOS_SUBSET=true`) and only changed and added screenshots are reported. Keep `main` builds complete, since partial builds can't be baselines.
+
+### Should I use one Argos project per package or per repository?
+
+Per repository, in most cases. A build name per suite gives each suite its own baseline and status, and `argos/summary` gives you a single required check. Use separate projects when an app needs different branch settings or contributors.
+
+### Does Turborepo caching skip visual tests?
+
+Yes. A cache hit restores the task's outputs and replays its logs without running the tests, so nothing is uploaded from inside the task. Cache the screenshot folder as an output, upload after the run, and make the visual task depend on its internal dependencies (a transit node), or a cache hit can restore an outdated screenshot.
+
+### How do I keep the required check green when nothing visual changed?
+
+Create a skipped build: `argos skip` (or `ARGOS_SKIPPED=true`) reports success without screenshots, and `argos finalize --skip-if-empty` does it automatically when every upload was skipped. Don't skip the whole workflow with a `paths` filter: GitHub then keeps the required check pending.

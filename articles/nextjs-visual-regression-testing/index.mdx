@@ -1,0 +1,318 @@
+---
+title: "Visual Regression Testing for Next.js App Router"
+description: "Visual regression testing for the Next.js App Router with Playwright: test next start, wait for streamed content and next/image, and capture loading.tsx states."
+category: guides
+author: jeremy
+date: 2026-12-03
+image: ./main.jpg
+imageAlt: "Abstract illustration of a layered page frame streaming in sections, each section captured by a camera bracket"
+related:
+  - run-argos-on-vercel-preview
+  - playwright-visual-regression-testing-ci
+  - fix-flaky-visual-tests
+---
+
+Visual regression testing for a Next.js App Router app works best with Playwright screenshots of the production build (`next build`, then `next start`), plus three App Router habits: wait for streamed Suspense content, load `next/image` lazy images before capturing, and stub the data your Server Components fetch on the server. We built a small App Router app with Next.js 16.4.0, React 19.3.0 and Playwright 1.63.0 in October 2026, and every snippet below comes from that run, including two ways to screenshot `loading.tsx` states. The last sections run the suite in GitHub Actions and review the diffs with Argos.
+
+<MainImage />
+
+## Should you run visual tests against next dev or next start?
+
+Against `next start`. The Next.js Playwright guide recommends "running your tests against your production code" ([Next.js docs](https://nextjs.org/docs/app/guides/testing/playwright)), and screenshots are where the difference shows. We captured the same dashboard page from `next dev` and from `next start`: 3,690 pixels differed, all inside a 74×59 px box in the bottom-left corner, where `next dev` renders its dev tools indicator. Dev also [compiles routes as you open them](https://nextjs.org/docs/app/guides/local-development), which makes timing less predictable.
+
+If you have to screenshot `next dev`, set [`devIndicators: false`](https://nextjs.org/docs/app/api-reference/config/next-config-js/devIndicators) in `next.config.ts`. For CI, build once and test the build.
+
+## How do you run Playwright against a production Next.js build?
+
+Let Playwright start everything with [`webServer`](https://playwright.dev/docs/test-webserver). Our app's dashboard reads `process.env.API_URL` in a Server Component, so the config starts a stub API first, then builds and starts Next.js pointed at it:
+
+```ts
+// playwright.config.ts
+import { defineConfig, devices } from "@playwright/test";
+
+export default defineConfig({
+  testDir: "./tests",
+  use: { baseURL: "http://localhost:3000" },
+  projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
+  webServer: [
+    {
+      // Stub for the API that your Server Components call
+      command: "node mock-api.mjs",
+      url: "http://localhost:4010/health",
+      reuseExistingServer: !process.env.CI,
+    },
+    {
+      command: "npm run build && npm run start",
+      url: "http://localhost:3000",
+      env: { API_URL: "http://localhost:4010" },
+      timeout: 180_000,
+      reuseExistingServer: !process.env.CI,
+    },
+  ],
+});
+```
+
+`mock-api.mjs` is a small Node `http` server that returns fixed JSON for `/stats` and answers `/health`. Locally, `reuseExistingServer` lets you keep `next start` running between test runs; in CI, Playwright builds and starts a fresh server.
+
+## How do you keep fonts and next/image from flaking?
+
+**Fonts usually need no extra wait.** `next/font` self-hosts fonts as static assets, so "no requests are sent to Google by the browser" ([Next.js docs](https://nextjs.org/docs/app/getting-started/fonts)), and Playwright waits for `document.fonts.ready` before every screenshot ([source](https://github.com/microsoft/playwright/blob/1b025d7e20a026371cd5f98ba0cdce48892737c8/packages/playwright-core/src/server/screenshotter.ts#L257-L259)).
+
+**Images do.** `next/image` defaults to `loading="lazy"` ([docs](https://nextjs.org/docs/app/api-reference/components/image)), and lazy images don't hold back the `load` event that `page.goto()` waits for. On a fresh `next start`, the image optimizer also processes each size on its first request before caching it: 44 to 172 ms for our two test images, against about 2 ms once cached.
+
+To see the effect, we delayed the two below-the-fold images by 3 seconds with `page.route()`. A new `toHaveScreenshot` baseline captured the blurred placeholders, 246,800 pixels different from the real images, and a run against a correct baseline failed with 213,774 different pixels. `toHaveScreenshot` waits until "two consecutive page screenshots yield the same result" ([docs](https://playwright.dev/docs/api/class-pageassertions)), and a placeholder that sits still passes that check. Load the images explicitly:
+
+```ts
+// tests/home.spec.ts
+import { expect, test } from "@playwright/test";
+
+test("home page", async ({ page }) => {
+  await page.goto("/");
+  // next/image lazy-loads by default: start every image now, then wait for it.
+  await page.evaluate(() => {
+    for (const img of document.images) img.loading = "eager";
+  });
+  await page.waitForFunction(() =>
+    Array.from(document.images).every((img) => img.complete),
+  );
+  await expect(page).toHaveScreenshot("home.png", { fullPage: true });
+});
+```
+
+With the same 3-second delay, this test produced a baseline identical to the undelayed one.
+
+## How do you screenshot streamed Suspense content?
+
+Wait for the content, not for the page. With our stub API answering in 2 seconds, `page.goto("/dashboard")` returned after about 2 seconds, once the streamed HTML had finished, but the data became visible 300 ms later (800 ms in one run of five). A screenshot taken right after `page.goto()` showed the `loading.tsx` skeleton in 5 of 5 runs, and `toHaveScreenshot` failed 2 runs out of 3. The delay matches a React behavior: since 19.2, React batches reveals of server-rendered Suspense boundaries "for a short time" ([React blog](https://react.dev/blog/2025/10/01/react-19-2#batching-suspense-boundaries-for-ssr)).
+
+A web-first assertion on the streamed text fixes it:
+
+```ts
+// tests/dashboard.spec.ts
+import { expect, test } from "@playwright/test";
+
+test("dashboard", async ({ page }) => {
+  // Fixes Date in the browser only. Server Components still see the real time.
+  await page.clock.setFixedTime(new Date("2026-10-01T10:00:00Z"));
+  await page.goto("/dashboard");
+  // Wait for the streamed content, not only for page.goto().
+  await expect(page.getByText("Data updated 60 minutes ago")).toBeVisible();
+  await expect(page).toHaveScreenshot("dashboard.png");
+});
+```
+
+Mark loading UI with `aria-busy="true"` (our `loading.tsx` skeleton has it). Tests can wait on it, and the Argos SDK waits for it automatically.
+
+## How do you mock data that Server Components fetch?
+
+Not with `page.route()`. It intercepts requests made by the browser, and a Server Component fetches on the server: in our test, a `page.route("**/stats")` handler intercepted 0 requests while the page rendered data from the stub API. Two options work:
+
+- **A stub server plus an environment variable**, as in the config above. It works with any data layer that takes a URL.
+- **Next.js experimental test mode**: set `experimental.testProxy: true` and use `test` from `next/experimental/testmode/playwright`, whose `next.onFetch()` intercepts `fetch` calls made on the server. It is documented only in the [package README](https://github.com/vercel/next.js/blob/e273d5b2e869d0be06c0e86f788e1594f9dd40cf/packages/next/src/experimental/testmode/playwright/README.md); it worked with `next start` in our run.
+
+```ts
+// tests/dashboard-onfetch.spec.ts (build with experimental.testProxy: true)
+import { expect, test } from "next/experimental/testmode/playwright";
+
+test("dashboard with server fetch mocked", async ({ page, next }) => {
+  next.onFetch((request) => {
+    if (request.url === "http://api.example.test/stats") {
+      return new Response(
+        JSON.stringify({
+          signups: 42,
+          revenue: "$4,200",
+          churn: "1.0%",
+          updatedAt: "2026-10-01T09:00:00.000Z",
+        }),
+        { headers: { "Content-Type": "application/json" } },
+      );
+    }
+    return "abort";
+  });
+  await page.clock.setFixedTime(new Date("2026-10-01T10:00:00Z"));
+  await page.goto("/dashboard");
+  await expect(page.getByText("$4,200")).toBeVisible();
+  await expect(page).toHaveScreenshot("dashboard-mocked.png");
+});
+```
+
+Dates follow the same rule. [`page.clock`](https://playwright.dev/docs/clock) only changes time in the browser: in our test, a client component showed the frozen time while a server-rendered timestamp showed the real one. Format relative times in client components, or take dates from your stub data.
+
+## How do you screenshot loading.tsx states?
+
+**With Cache Components, use `instant()`.** The [Next.js 16.3 release post](https://nextjs.org/blog/next-16-3) (August 3, 2026) presents an `instant()` test helper in `@next/playwright`. While its callback runs, the page shows only the static shell and prefetched UI, and dynamic data waits until the callback returns ([guide](https://nextjs.org/docs/app/guides/instant-navigation#prevent-regressions-with-e2e-tests)). The package is marked experimental and requires Cache Components. A production build only includes the testing API with `exposeTestingApiInProductionBuild`, set when you run `next build`:
+
+```ts
+// next.config.ts
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  cacheComponents: true,
+  partialPrefetching: true,
+  experimental: {
+    // Only in builds made for end-to-end tests
+    exposeTestingApiInProductionBuild: process.env.EXPOSE_TESTING_API === "1",
+  },
+};
+
+export default nextConfig;
+```
+
+```ts
+// tests/dashboard-shell.spec.ts
+import { expect, test } from "@playwright/test";
+import { instant } from "@next/playwright";
+
+test("dashboard shell", async ({ page }) => {
+  await page.goto("/");
+  await instant(page, async () => {
+    await page.getByRole("link", { name: "Dashboard" }).click();
+    await page.waitForURL("**/dashboard");
+    await expect(page.locator('[aria-busy="true"]')).toBeVisible();
+    await expect(page).toHaveScreenshot("dashboard-shell.png");
+  });
+  // Outside the callback, the dynamic data streams in again.
+  await expect(page.getByText("Signups", { exact: true })).toBeVisible();
+});
+```
+
+For a direct page load, call `page.goto()` inside the callback and pass `{ baseURL }` as the third argument. Both variants passed 4 runs out of 4. Keep the flag out of user-facing deployments; the package README says it "is not meant to be deployed to live production sites" ([README](https://github.com/vercel/next.js/blob/e273d5b2e869d0be06c0e86f788e1594f9dd40cf/packages/next-playwright/README.md)). And don't forget it in the test build: without it, `instant()` didn't throw, our page-load test failed 3 runs out of 3, and the client-side one passed, most likely because our stub API takes 300 ms to answer.
+
+**Without Cache Components, hold the request.** In our build, a `<Link>` click fetched the new route's payload with an `_rsc` query parameter, after prefetches that carried a `next-router-prefetch` header. Holding that one request keeps the `loading.tsx` fallback on screen:
+
+```ts
+// tests/dashboard-loading.spec.ts
+import { expect, test } from "@playwright/test";
+
+test("dashboard loading state", async ({ page }) => {
+  await page.goto("/");
+
+  // Hold the RSC request that the click makes (not the prefetches) while we
+  // capture the loading.tsx fallback. Relies on Next.js internals: _rsc and the
+  // next-router-prefetch header.
+  let release = () => {};
+  const held = new Promise<void>((resolve) => (release = resolve));
+  await page.route("**/dashboard?_rsc=*", async (route) => {
+    if (!route.request().headers()["next-router-prefetch"]) await held;
+    await route.continue();
+  });
+
+  await page.getByRole("link", { name: "Dashboard" }).click();
+  await expect(page.locator('[aria-busy="true"]')).toBeVisible();
+  await expect(page).toHaveScreenshot("dashboard-loading.png");
+
+  release();
+  await expect(page.getByText("Signups", { exact: true })).toBeVisible();
+});
+```
+
+It passed 4 runs out of 4 on Next.js 16.4.0, but `_rsc` and that header are implementation details, so recheck the test after each Next.js upgrade.
+
+## What about component-level screenshots?
+
+Screenshot pages with Playwright and components with a component tool. For Storybook, the Storybook team recommends `@storybook/nextjs-vite` for most Next.js projects and keeps the Webpack-based `@storybook/nextjs` for custom Webpack or Babel setups ([Storybook docs](https://storybook.js.org/docs/get-started/frameworks/nextjs)). Vitest browser mode is the other option; we compare the three in [where component screenshots should live](/blog/component-screenshots-storybook-vitest-playwright).
+
+## How do you run it in CI and review the diffs with Argos?
+
+Run the suite in the Playwright Docker image, pinned to your Playwright version, so every build renders with the same browser and fonts:
+
+```yaml
+# .github/workflows/visual.yml
+name: Visual tests
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  visual:
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.63.0-noble
+    steps:
+      - uses: actions/checkout@v7
+      - run: npm ci
+      - run: npx playwright test
+        env:
+          ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }}
+```
+
+We ran the same commands with `CI=true` in that image (its arm64 variant): `npm ci`, the Next.js build, the stub API and the three tests all worked.
+
+With committed baselines, every intended change means regenerating PNGs in that image. [Argos](/diff) replaces that step: screenshots are uploaded from CI, Argos compares them with the baseline from your base branch, and you approve changes from the pull request check. Add the reporter and the Chromium flags that the [Argos Playwright docs](/docs/reference/playwright) recommend to reduce text rendering differences between machines:
+
+```ts
+// playwright.config.ts
+import { defineConfig, devices } from "@playwright/test";
+
+export default defineConfig({
+  // testDir, use and webServer as above
+  reporter: [
+    process.env.CI ? ["dot"] : ["list"],
+    ["@argos-ci/playwright/reporter", { uploadToArgos: !!process.env.CI }],
+  ],
+  projects: [
+    {
+      name: "chromium",
+      use: {
+        ...devices["Desktop Chrome"],
+        launchOptions: {
+          args: ["--disable-lcd-text", "--font-render-hinting=none"],
+        },
+      },
+    },
+  ],
+});
+```
+
+Then call `argosScreenshot()` instead of `toHaveScreenshot()`:
+
+```ts
+// tests/pages.spec.ts
+import { expect, test } from "@playwright/test";
+import { argosScreenshot } from "@argos-ci/playwright";
+
+test("home page", async ({ page }) => {
+  await page.goto("/");
+  // Waits for fonts and images (lazy ones included) before capturing
+  await argosScreenshot(page, "home", { fullPage: true });
+});
+
+test("dashboard", async ({ page }) => {
+  await page.clock.setFixedTime(new Date("2026-10-01T10:00:00Z"));
+  await page.goto("/dashboard");
+  await expect(page.getByText("Data updated 60 minutes ago")).toBeVisible();
+  await argosScreenshot(page, "dashboard");
+});
+```
+
+`argosScreenshot()` switches every image to `loading="eager"` and waits until each one is complete ([source](https://github.com/argos-ci/argos-javascript/blob/f75385541f6773071ff4be4d4cff9a7fcf67914f/packages/browser/src/global/stabilization/plugins/waitForImages.ts)): with the 3-second image delay, it waited 3.1 seconds and captured the real images. It also waits until no visible element has `aria-busy="true"` ([docs](/docs/learn/reliability-and-flakiness/flaky-tests/wait-for-loading)). It doesn't freeze time or mock data; keep `page.clock` and your stub. On GitHub Actions you can drop `ARGOS_TOKEN` for [OIDC or tokenless authentication](/docs/learn/integrations/github-actions-authentication).
+
+To test Vercel preview deployments instead of a CI build, point `baseURL` at the preview URL ([Argos guide](/docs/learn/how-to-guides/ci-pipelines/run-on-preview-deployments), [older walkthrough](/blog/run-argos-on-vercel-preview)).
+
+## When is Playwright's built-in comparison enough?
+
+Choose `toHaveScreenshot` with baselines in Git if you have a handful of pages, few contributors, and you always regenerate baselines in the CI Docker image ([CI guide](/blog/playwright-visual-regression-testing-ci)). Choose Argos when several people review UI changes or you don't want PNGs in the repository. Choose Chromatic if most of your UI lives in Storybook and you want it captured in Chrome, Firefox, Safari and Edge ([Chromatic docs](https://www.chromatic.com/docs/browsers/), checked October 2026; [comparison](/compare/chromatic)). Every option needs the stabilization above: the App Router behaviors are the same whatever compares the pixels.
+
+## FAQ
+
+### Should I test next dev or next start?
+
+`next start`. The Next.js Playwright guide recommends testing production code, and in our comparison `next dev` added its dev tools indicator to the screenshot (3,690 pixels in the corner of a 1280×720 page). Dev also compiles routes on demand, which changes timing.
+
+### How do I screenshot loading.tsx states?
+
+With Cache Components, wrap the link click or page load in `instant()` from `@next/playwright` and build with `experimental.exposeTestingApiInProductionBuild`. Without Cache Components, hold the `_rsc` request that the link click makes with `page.route()` until the screenshot is taken; it relies on Next.js internals, so recheck it after upgrades.
+
+### Why are next/image images missing from screenshots?
+
+`next/image` lazy-loads by default, and the `load` event that `page.goto()` waits for doesn't include lazy images, so a screenshot can catch the blurred placeholder. Set `loading = "eager"` on every image and wait until each one reports `complete`, or use `argosScreenshot()`, which does both.
+
+### Can I run visual tests on Vercel previews?
+
+Yes. Set Playwright's `baseURL` to the preview URL. If Deployment Protection is on, send the `x-vercel-protection-bypass` header with your automation secret, and send `x-vercel-skip-toolbar` to keep the Vercel Toolbar out of screenshots ([bypass docs](https://vercel.com/docs/deployment-protection/methods-to-bypass-deployment-protection/protection-bypass-automation), [toolbar docs](https://vercel.com/docs/vercel-toolbar/managing-toolbar), checked October 2026).
+
+### Does this work with the Pages Router?
+
+Mostly. Testing `next start`, loading `next/image` images and stubbing server-side data apply the same way, since `getServerSideProps` also fetches on the server. `loading.tsx`, Server Components streaming and `instant()` are App Router features, so those sections don't apply.

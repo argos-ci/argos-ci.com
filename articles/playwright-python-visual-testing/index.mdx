@@ -1,0 +1,356 @@
+---
+title: "Visual Regression Testing With Playwright for Python"
+description: "Playwright for Python has no toHaveScreenshot. How to run visual regression tests with pytest: a tested pixelmatch fixture, plugins, CI and Argos."
+category: guides
+author: jeremy
+date: 2026-12-24
+image: ./main.jpg
+imageAlt: "Abstract illustration of a coiled cable feeding screenshot tiles into a comparison frame with a check mark"
+related:
+  - playwright-visual-regression-testing-ci
+  - screenshot-testing-guide
+  - gitlab-ci-visual-testing
+---
+
+Playwright for Python has no screenshot assertion: there is no `to_have_screenshot()`, and the request to add one was closed as not planned in April 2026. To do visual regression testing with Playwright in Python, you capture screenshots with `page.screenshot()` and compare them yourself, with a short pytest fixture built on Pillow and pixelmatch or a community plugin, or you upload them to a visual testing service such as Argos with its CLI. This guide shows a fixture we ran with Playwright 1.63.0 and pytest-playwright 0.9.0, including the threshold setting that let a button color change slip through.
+
+<MainImage />
+
+## Does Playwright for Python support screenshot comparison?
+
+No. The Node.js test runner ships `toHaveScreenshot()`, but the Python [`PageAssertions`](https://playwright.dev/python/docs/api/class-pageassertions) and [`LocatorAssertions`](https://playwright.dev/python/docs/api/class-locatorassertions) classes have no screenshot method. The Python feature request, [playwright-python#837](https://github.com/microsoft/playwright-python/issues/837), was closed as not planned on April 30, 2026; a maintainer had answered in 2021 that visual comparisons belong in the test runner. The pytest side, [playwright-pytest#63](https://github.com/microsoft/playwright-pytest/issues/63), has been open since June 2021 with 25 upvotes (checked October 2026). Playwright for Java and .NET have no screenshot assertion either.
+
+Don't confuse it with pytest-playwright's `--screenshot only-on-failure` option: it saves a screenshot when a test fails and compares nothing.
+
+So a Python setup needs three parts: capture (Playwright), comparison (Pillow plus pixelmatch, or a plugin) and baseline management (files in Git, or a service).
+
+## Which screenshot options matter in Playwright for Python?
+
+[`page.screenshot()`](https://playwright.dev/python/docs/api/class-page#page-screenshot) and [`locator.screenshot()`](https://playwright.dev/python/docs/api/class-locator#locator-screenshot) take the same stabilization options as the Node.js API, in snake_case:
+
+| Option       | Values (default)                    | Why it matters                                                         |
+| ------------ | ----------------------------------- | ---------------------------------------------------------------------- |
+| `animations` | `"disabled"`, `"allow"` (`"allow"`) | Finishes finite CSS animations and transitions, cancels infinite ones  |
+| `caret`      | `"hide"`, `"initial"` (`"hide"`)    | Hides the blinking text cursor                                         |
+| `scale`      | `"css"`, `"device"` (`"device"`)    | `"css"` keeps one pixel per CSS pixel, even on high-DPI screens        |
+| `mask`       | list of locators                    | Paints a `#FF00FF` box over dynamic elements (`mask_color` changes it) |
+| `style`      | CSS text                            | Applies a stylesheet only while capturing                              |
+| `full_page`  | `True`, `False` (`False`)           | Captures the whole scrollable page, on `page.screenshot()` only        |
+
+One difference from Node.js trips people up: `toHaveScreenshot()` [disables animations by default](https://playwright.dev/docs/api/class-pageassertions#page-assertions-to-have-screenshot-1), but `screenshot()` leaves them running unless you pass `animations="disabled"`.
+
+## How do you write a screenshot comparison fixture for pytest?
+
+Install the pieces (versions we tested in October 2026):
+
+```text
+# requirements.txt
+pytest-playwright==0.9.0
+playwright==1.63.0
+pillow==12.3.0
+pixelmatch==0.4.0
+```
+
+Then run `python -m playwright install chromium`. [pixelmatch](https://github.com/whtsky/pixelmatch-py) is a Python port of the same pixelmatch library that Playwright [bundles](https://github.com/microsoft/playwright/blob/1b025d7e20a026371cd5f98ba0cdce48892737c8/packages/utils/third_party/pixelmatch.js) for `toHaveScreenshot()`. The fixture captures a page or locator, writes the first capture as the baseline, and compares later captures against it:
+
+```py
+# tests/conftest.py
+import io
+import sys
+from pathlib import Path
+
+import pytest
+from PIL import Image
+from pixelmatch.contrib.PIL import pixelmatch
+
+SNAPSHOTS = Path(__file__).parent / "__snapshots__"
+FAILURES = Path("test-results") / "visual"
+
+
+def pytest_addoption(parser):
+    parser.addoption(
+        "--update-snapshots",
+        action="store_true",
+        default=False,
+        help="Write the current screenshots as the new baselines.",
+    )
+
+
+@pytest.fixture(scope="session")
+def browser_context_args(browser_context_args):
+    # Same viewport, pixel density, motion, locale and timezone everywhere
+    return {
+        **browser_context_args,
+        "viewport": {"width": 1280, "height": 720},
+        "device_scale_factor": 1,
+        "reduced_motion": "reduce",
+        "locale": "en-US",
+        "timezone_id": "UTC",
+    }
+
+
+@pytest.fixture
+def assert_snapshot(request, browser_name):
+    update = request.config.getoption("--update-snapshots")
+
+    def check(target, name, *, threshold=0.05, max_diff_pixels=0, **options):
+        """Compare a Page or Locator screenshot with its baseline PNG."""
+        png = target.screenshot(
+            animations="disabled", caret="hide", scale="css", **options
+        )
+        file_name = f"{name}-{browser_name}-{sys.platform}.png"
+        baseline = SNAPSHOTS / request.path.stem / file_name
+
+        if update or not baseline.exists():
+            baseline.parent.mkdir(parents=True, exist_ok=True)
+            baseline.write_bytes(png)
+            if not update:
+                pytest.fail(f"Missing baseline, wrote {baseline}: review it and rerun")
+            return
+
+        expected = Image.open(baseline).convert("RGBA")
+        actual = Image.open(io.BytesIO(png)).convert("RGBA")
+        out = FAILURES / request.node.name
+        if expected.size != actual.size:
+            out.mkdir(parents=True, exist_ok=True)
+            expected.save(out / f"{name}-expected.png")
+            actual.save(out / f"{name}-actual.png")
+            pytest.fail(f"{name}: size changed from {expected.size} to {actual.size}")
+
+        diff = Image.new("RGBA", expected.size)
+        mismatched = pixelmatch(expected, actual, diff, threshold=threshold)
+        if mismatched > max_diff_pixels:
+            out.mkdir(parents=True, exist_ok=True)
+            expected.save(out / f"{name}-expected.png")
+            actual.save(out / f"{name}-actual.png")
+            diff.save(out / f"{name}-diff.png")
+            pytest.fail(f"{name}: {mismatched} pixels differ (max {max_diff_pixels}), see {out}")
+
+    return check
+```
+
+The tests read like any pytest-playwright test. The second one freezes the clock and masks a random visitor count:
+
+```py
+# tests/test_pricing.py
+from playwright.sync_api import Page
+
+
+def test_pro_plan_card(page: Page, assert_snapshot):
+    page.goto("/")
+    page.evaluate("document.fonts.ready")
+    assert_snapshot(page.get_by_test_id("pro-plan"), "pro-plan-card")
+
+
+def test_pricing_page(page: Page, assert_snapshot):
+    page.clock.set_fixed_time("2026-12-24T09:00:00Z")
+    page.goto("/")
+    page.evaluate("document.fonts.ready")
+    assert_snapshot(
+        page,
+        "pricing-page",
+        full_page=True,
+        mask=[page.get_by_test_id("live-visitors")],
+    )
+```
+
+```text
+# pytest.ini
+[pytest]
+addopts = --base-url http://localhost:8000 --browser chromium
+```
+
+Baselines land in `tests/__snapshots__/test_pricing/pro-plan-card-chromium-darwin.png`: the browser and platform suffix copies Playwright's Node.js convention, so a macOS baseline is never compared with a Linux capture. A missing baseline is written and the test fails, so you look at it before trusting it, and `pytest --update-snapshots` overwrites baselines after an intended change. On a mismatch, the expected, actual and diff images go to `test-results/visual/<test name>/`.
+
+## What happens when the UI changes?
+
+We ran the suite on an Apple M1 Max with Python 3.13.4 and Chromium 153, the build Playwright 1.63.0 installs. The first run wrote both baselines and failed as designed, the next six runs passed, then we changed the page on purpose. Changing the call-to-action background from `#4f46e5` to `#4338ca`, then its padding from `10px 18px` to `12px 18px`, produced:
+
+```text
+E           Failed: pro-plan-card: 3440 pixels differ (max 0), see test-results/visual/test_pro_plan_card[chromium]
+E           Failed: pricing-page: 3440 pixels differ (max 0), see test-results/visual/test_pricing_page[chromium]
+
+E           Failed: pro-plan-card: size changed from (368, 270) to (368, 274)
+E           Failed: pricing-page: 7208 pixels differ (max 0), see test-results/visual/test_pricing_page[chromium]
+```
+
+For the color change, the diff image marked only the button. The masked visitor count and the frozen "Prices updated" date stayed identical between runs.
+
+### Why the threshold is 0.05
+
+The color change first passed. With pixelmatch's default `threshold=0.1`, the comparison counted 0 differing pixels, because the two indigo shades sit closer together than that tolerance in pixelmatch's YIQ color distance. Here is the same pair of 1280×720 screenshots measured at four thresholds:
+
+| `threshold`                      | Background `#4f46e5` to `#4338ca` | Padding +2px |
+| -------------------------------- | --------------------------------- | ------------ |
+| 0.2 (`toHaveScreenshot` default) | 0                                 | 5,720        |
+| 0.1 (pixelmatch default)         | 0                                 | 6,093        |
+| 0.05                             | 3,440                             | 7,208        |
+| 0                                | 3,474                             | 8,362        |
+
+We repeated the check in Node.js: Playwright 1.63.0's `toHaveScreenshot()` with default options also passed the color change, and reported the same 3,440 pixels at `threshold: 0.05`. Lower the threshold if subtle color changes matter to you; our [threshold guide](/blog/playwright-screenshot-threshold) explains the trade-off.
+
+pixelmatch-py is pure Python, so cost is the other trade-off: on that M1 Max, each comparison of two different 1280×720 images took 1.1 to 1.8 seconds, while byte-identical images returned in milliseconds.
+
+## How do you keep Python screenshots stable?
+
+The fixture already pins viewport, pixel density, reduced motion, locale and timezone through pytest-playwright's [`browser_context_args`](https://playwright.dev/python/docs/test-runners) fixture. The rest happens in the test:
+
+- **Freeze time** with [`page.clock.set_fixed_time()`](https://playwright.dev/python/docs/api/class-clock#clock-set-fixed-time) before `goto`, so dates and "3 minutes ago" labels stop moving.
+- **Wait for fonts** with `page.evaluate("document.fonts.ready")`.
+- **Mask what you can't freeze**, such as live counters or ads, with `mask=[...]`.
+- **Wait for the content itself** with web-first assertions like `expect(locator).to_be_visible()`. Playwright's docs mark [`wait_for_load_state("networkidle")`](https://playwright.dev/python/docs/api/class-page#page-wait-for-load-state) as discouraged for testing.
+- **Capture where CI runs.** We generated Linux baselines for the same tests in the official Docker image. The card measured 368×270 pixels on macOS and 368×291 on Linux, and the full page differed by 33,830 pixels (3.67% at `threshold=0.05`), because the system fonts differ.
+
+To create Linux baselines from a Mac, run the suite in the Playwright Python image (`linux/amd64` matches GitHub's x64 runners):
+
+```bash
+docker run --rm --platform linux/amd64 -v "$(pwd)":/work -w /work \
+  mcr.microsoft.com/playwright/python:v1.63.0-noble \
+  bash -c "pip install -r requirements.txt && (python -m http.server 8000 --directory site &) && sleep 1 && pytest --update-snapshots"
+```
+
+More causes and fixes are in [why Playwright screenshots differ between macOS, Linux and Docker](/blog/playwright-screenshots-differ-macos-linux) and the [screenshot stabilization guide](/blog/screenshot-stabilization).
+
+## Should you use a pytest plugin instead?
+
+A few plugins package the same idea (checked October 2026 on PyPI):
+
+| Package                                                                                          | Latest release      | What it does                                                                                                 |
+| ------------------------------------------------------------------------------------------------ | ------------------- | ------------------------------------------------------------------------------------------------------------ |
+| [pytest-playwright-visual-snapshot](https://pypi.org/project/pytest-playwright-visual-snapshot/) | 0.5.1, Feb 5, 2026  | `assert_snapshot` fixture for Playwright, pixelmatch, CSS-selector masks, `--update-snapshots`, Python 3.11+ |
+| [pytest-image-snapshot](https://pypi.org/project/pytest-image-snapshot/)                         | 0.5.3, Jun 2, 2026  | `image_snapshot` fixture for any Pillow image, optional pixelmatch, `--image-snapshot-update`                |
+| [pytest-playwright-snapshot](https://pypi.org/project/pytest-playwright-snapshot/)               | 1.0, Aug 19, 2021   | Early Playwright plugin, no release since                                                                    |
+| [pytest-playwright-visual](https://pypi.org/project/pytest-playwright-visual/)                   | 2.1.2, Apr 28, 2022 | Playwright plugin, no release since                                                                          |
+
+pytest-playwright-visual-snapshot is the closest to the fixture above, with naming conventions and a failure folder built in. Its default threshold is 0.1, the value that let our color change through, so set `playwright_visual_snapshot_threshold` lower in `pytest.ini` if that matters. A plugin saves you the fixture code, but not the hard parts: baselines in Git, one rendering environment, and a review step.
+
+## How do you run Python visual tests in GitHub Actions?
+
+Run the suite in the same image that produced the Linux baselines (the steps below are the commands we ran in that image locally), and keep the diff images when something fails:
+
+```yaml
+# .github/workflows/visual.yml
+name: Visual tests
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  visual:
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright/python:v1.63.0-noble
+    steps:
+      - uses: actions/checkout@v7
+      - run: pip install -r requirements.txt
+      - name: Run visual tests
+        run: |
+          python -m http.server 8000 --directory site &
+          sleep 1
+          pytest
+      - uses: actions/upload-artifact@v7
+        if: failure()
+        with:
+          name: visual-diffs
+          path: test-results/visual/
+```
+
+Replace the `http.server` line with however you start your app. When a change is intended, regenerate the baselines with the Docker command above and commit them with the change. For GitLab, see [Playwright visual testing on GitLab CI](/blog/gitlab-ci-visual-testing).
+
+## How do you use Argos with Playwright for Python?
+
+Argos has no Python SDK, but it accepts screenshots from [any test framework](/docs/quickstart/any-test-framework): your tests write PNGs to a folder and the Argos CLI uploads them. The comparison moves out of pytest, so the fixture only captures:
+
+```py
+# tests/conftest.py (keep the browser_context_args fixture from above)
+from pathlib import Path
+
+import pytest
+
+SCREENSHOTS = Path("screenshots")
+
+
+@pytest.fixture
+def capture(browser_name):
+    def take(target, name, **options):
+        """Save a Page or Locator screenshot for the Argos CLI to upload."""
+        SCREENSHOTS.mkdir(exist_ok=True)
+        target.screenshot(
+            path=SCREENSHOTS / f"{name}-{browser_name}.png",
+            animations="disabled",
+            caret="hide",
+            scale="css",
+            **options,
+        )
+
+    return take
+```
+
+The workflow adds Node.js for the upload step. The CLI requires Node.js 22 or later ([`engines` field](https://github.com/argos-ci/argos-javascript/blob/f75385541f6773071ff4be4d4cff9a7fcf67914f/packages/cli/package.json#L21-L23) of `@argos-ci/cli` 6.9.6):
+
+```yaml
+# .github/workflows/argos.yml
+name: Argos
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  visual:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+      - run: pip install -r requirements.txt
+      - run: python -m playwright install --with-deps chromium
+      - name: Capture screenshots
+        run: |
+          python -m http.server 8000 --directory site &
+          sleep 1
+          pytest
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - name: Upload screenshots to Argos
+        run: npx @argos-ci/cli upload ./screenshots
+        env:
+          ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }}
+```
+
+We ran the capture fixture and checked the CLI's `upload` options with `@argos-ci/cli` 6.9.6; the upload command itself follows the [Argos docs](/docs/reference/argos-command-line-interface-cli). On GitHub Actions you can replace the token with [tokenless or OIDC authentication](/docs/learn/integrations/github-actions-authentication).
+
+What changes: no PNGs in Git and no platform suffix, because Argos takes the [baseline](/docs/learn/platform-fundamentals/baseline-build) from builds on your base branch, reports a check on the pull request, and approvals happen in Argos instead of with `--update-snapshots`. What doesn't: Argos's JavaScript SDKs wait for fonts, images and loaders before capturing, but from Python you keep that stabilization yourself, as in the fixture above. You can still send ARIA snapshots by writing `locator.aria_snapshot()` output to `.aria.yml` files ([guide](/docs/learn/how-to-guides/visual-coverage/adding-aria-snapshots-manually)). The same CLI approach works for Playwright for Java and .NET.
+
+## When is a local fixture enough?
+
+For a handful of stable screenshots, one CI image and a small team, the fixture or a plugin is all you need: no service, no account, and the diff images in a CI artifact. It gets harder when baselines multiply in Git, when several people need to review changes without downloading artifacts, or when you test more than one browser or platform. That is the point where moving storage and review to a service, Argos or another, pays off; [should you commit screenshot baselines to Git?](/blog/commit-screenshot-baselines-git) walks through that decision.
+
+## FAQ
+
+### Does Playwright for Python support screenshot comparison?
+
+No. Playwright for Python has no `to_have_screenshot()` assertion: the feature request was closed as not planned in April 2026, and the pytest-playwright issue for it has been open since 2021. Capture with `page.screenshot()` or `locator.screenshot()`, then compare with Pillow and pixelmatch, a pytest plugin, or a visual testing service.
+
+### Is there a pytest plugin for visual regression testing with Playwright?
+
+Yes. pytest-playwright-visual-snapshot (0.5.1, February 2026) adds an `assert_snapshot` fixture with masks and `--update-snapshots`, and pytest-image-snapshot (0.5.3, June 2026) compares any Pillow image. Older plugins, pytest-playwright-snapshot and pytest-playwright-visual, have not released since 2021 and 2022.
+
+### Can I use Argos without Node.js?
+
+Your tests stay in Python, but the upload goes through the Argos CLI, an npm package that requires Node.js 22 or later. In GitHub Actions that means one `actions/setup-node` step before `npx @argos-ci/cli upload ./screenshots`.
+
+### How do I mask dynamic content in Playwright for Python?
+
+Pass locators to `mask`, for example `page.screenshot(mask=[page.get_by_test_id("live-visitors")])`. Playwright paints a `#FF00FF` box over each element, and `mask_color` changes the color. For dates, freeze the clock with `page.clock.set_fixed_time()` instead of masking.
+
+### What about Selenium tests?
+
+Selenium has no screenshot comparison either, but it can [save screenshots](https://www.selenium.dev/documentation/webdriver/interactions/windows/) of the page or of an element. Compare those files with the same Pillow and pixelmatch code, or upload the folder with the Argos CLI, which picks up PNG and JPEG files by default.
+
+## Conclusion
+
+Playwright for Python gives you good capture options and no comparison, so you add the comparison. A pytest fixture with Pillow and pixelmatch takes a few dozen lines and works well for a small, stable set of screenshots, as long as you pick the threshold on purpose and generate baselines where CI runs. When the baselines and reviews outgrow the repository, keep the same tests, write screenshots to a folder, and let the [Argos CLI](/docs/quickstart/any-test-framework) handle baselines and review.

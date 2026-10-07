@@ -1,0 +1,246 @@
+---
+title: "How to Accept One Changed Playwright Screenshot"
+description: "Playwright has no Accept button: re-run just the changed test with --update-snapshots=changed, use --last-failed, or copy the -actual file over the baseline."
+category: guides
+author: jeremy
+date: 2026-11-05
+image: ./main.jpg
+imageAlt: "Abstract illustration of a row of screenshot tiles where a single tile is lifted out and stamped with a check mark"
+related:
+  - commit-screenshot-baselines-git
+  - playwright-visual-regression-testing-ci
+  - playwright-screenshots-differ-macos-linux
+---
+
+To accept one changed Playwright screenshot, re-run only the test that owns it with the update flag: `npx playwright test tests/ui.spec.ts:21 --update-snapshots=changed`, plus `--project=desktop` to limit it to one browser project. Playwright has no Accept button for visual regression tests (the request, [#24310](https://github.com/microsoft/playwright/issues/24310), was closed as not planned in May 2026), so accepting a screenshot means rewriting its baseline file and committing it. We ran every update mode in Playwright 1.63.0 against passing and failing screenshots. Below is what each one rewrote, how to accept the failures of the last run or of a CI run, and a script that accepts them without running the tests again.
+
+<MainImage />
+
+## Which command updates a single Playwright screenshot?
+
+Point Playwright at the test and add `--update-snapshots` (short: `-u`). Without a value the flag means `changed`, so only screenshots that fail their comparison are rewritten ([CLI docs](https://playwright.dev/docs/test-cli)). Put the flag after the file: `npx playwright test -u tests/ui.spec.ts:21` fails with `argument 'tests/ui.spec.ts:21' is invalid`, because `-u` takes an optional mode.
+
+```bash
+# The test declared on line 21, in every project
+npx playwright test tests/ui.spec.ts:21 --update-snapshots
+
+# The same test, desktop project only
+npx playwright test tests/ui.spec.ts:21 --project=desktop --update-snapshots
+
+# Every test whose title matches a regular expression
+npx playwright test -g "button" --update-snapshots
+```
+
+Our test project has three element screenshots in two projects, `desktop` (Desktop Chrome) and `mobile` (Pixel 7), so six baselines:
+
+```ts
+// tests/ui.spec.ts
+import { expect, test } from "@playwright/test";
+import fs from "node:fs";
+
+test.beforeEach(async ({ page }) => {
+  const css = fs.readFileSync("ui.css", "utf8");
+  await page.setContent(`<style>${css}</style>
+    <header>Acme dashboard</header>
+    <div class="card">Monthly report</div>
+    <button>Download</button>`);
+});
+
+test("header", async ({ page }) => {
+  await expect(page.locator("header")).toHaveScreenshot("header.png");
+});
+
+test("card", async ({ page }) => {
+  await expect(page.locator(".card")).toHaveScreenshot("card.png");
+});
+
+test("button", async ({ page }) => {
+  await expect(page.getByRole("button")).toHaveScreenshot("button.png");
+});
+```
+
+After we changed the button color in `ui.css`, both button screenshots failed (3,365 pixels different). Each command above, run from the same committed baselines:
+
+| Command                                                    | Tests run | Baselines rewritten                                     |
+| ---------------------------------------------------------- | --------- | ------------------------------------------------------- |
+| `tests/ui.spec.ts:21 --update-snapshots`                   | 2         | `button-desktop-darwin.png`, `button-mobile-darwin.png` |
+| `tests/ui.spec.ts:21 --project=desktop --update-snapshots` | 1         | `button-desktop-darwin.png`                             |
+| `-g "button" --update-snapshots`                           | 2         | `button-desktop-darwin.png`, `button-mobile-darwin.png` |
+
+## What do --update-snapshots all, changed, missing and none do?
+
+Playwright's [configuration reference](https://playwright.dev/docs/api/class-testconfig#test-config-update-snapshots) defines four modes. `missing` is the default without the flag and only creates baselines that do not exist yet; `none` writes nothing; `changed` rewrites snapshots that did not match; `all` updates every snapshot of the tests that run. The `changed` mode arrived in Playwright 1.50, when `all` stopped meaning "only the failed ones" ([release notes](https://playwright.dev/docs/release-notes#version-150)).
+
+To see the difference, we made a second change, too small to fail: the card border went from `#dddddd` to `#dcdcdc`, under the default `threshold` of 0.2, so the card test kept passing. Then we ran the whole suite in each mode:
+
+| Mode                | Result             | Baselines rewritten                     |
+| ------------------- | ------------------ | --------------------------------------- |
+| No flag (`missing`) | 2 failed, 4 passed | None                                    |
+| `none`              | 2 failed, 4 passed | None                                    |
+| `missing`           | 2 failed, 4 passed | None                                    |
+| `changed` (or `-u`) | 6 passed           | Both `button` baselines                 |
+| `all`               | 6 passed           | Both `button` and both `card` baselines |
+
+`all` rewrote the card baselines although their screenshots had passed. In 1.63, that mode skips the comparison and rewrites any baseline whose bytes differ from the new capture, so it accepts every change under your `threshold` and `maxDiffPixels` too. The header baselines, byte-identical, were left alone. Use `changed` unless you want to reset everything. For how the tolerance options decide what passes, see [maxDiffPixels vs maxDiffPixelRatio vs threshold](/blog/playwright-screenshot-threshold).
+
+A missing baseline behaves differently per mode: `none` fails without writing it, `missing` writes the file and fails the test with "A snapshot doesn't exist at ..., writing actual.", and `changed` and `all` write it and pass.
+
+## How do I accept only the screenshots that failed in the last run?
+
+`--last-failed` (Playwright 1.44+) re-runs the tests listed in `test-results/.last-run.json`. Combined with the update flag, it accepts exactly what failed:
+
+```bash
+npx playwright test
+npx playwright test --last-failed --update-snapshots
+```
+
+In our project, the first command failed the two button tests and the second ran only those two and rewrote their baselines.
+
+It also works for a CI failure. Upload `test-results/` as an artifact, with `include-hidden-files: true`, because `actions/upload-artifact` skips dot files such as `.last-run.json` by default ([docs](https://github.com/actions/upload-artifact#uploading-hidden-files)):
+
+```yaml
+# .github/workflows/playwright.yml (excerpt)
+- uses: actions/upload-artifact@v7
+  if: failure()
+  with:
+    name: playwright-results
+    path: |
+      test-results/
+      playwright-report/
+    include-hidden-files: true # keeps test-results/.last-run.json
+```
+
+Then download it into your checkout with `gh run download <run-id> -n playwright-results` and run `npx playwright test --last-failed --update-snapshots` in the CI image (next sections). We tested this with a `test-results/` folder produced in another checkout directory: the test IDs matched and the same two tests ran. Playwright 1.63 also accepts `--last-failed-file <file>` when the JSON lives elsewhere.
+
+## Can I accept a screenshot without re-running the test?
+
+No flag does it: [#34376](https://github.com/microsoft/playwright/issues/34376), open since January 2025, asks for exactly that. The failed run already has what you need, though. For each failed `toHaveScreenshot()`, the [JSON reporter](https://playwright.dev/docs/test-reporters) lists an `-expected` attachment whose path is the baseline and an `-actual` attachment with the new capture. This script copies one over the other:
+
+```js
+// scripts/accept-actual.mjs
+// Accept failed screenshots from the last run without re-running tests:
+// copies each "-actual" image over its baseline, using Playwright's JSON report.
+// Usage: node scripts/accept-actual.mjs <report.json> [filter regex]
+import fs from "node:fs";
+import path from "node:path";
+
+const [reportFile = "playwright-report/report.json", filter = "."] =
+  process.argv.slice(2);
+const report = JSON.parse(fs.readFileSync(reportFile, "utf8"));
+// The report stores absolute paths from the machine that ran the tests (maybe CI).
+// Re-root them on the current directory, which must be the repository root.
+const runRoot = path.dirname(report.config.configFile);
+const local = (p) => path.resolve(path.relative(runRoot, p));
+
+function* specs(suite) {
+  yield* suite.specs ?? [];
+  for (const child of suite.suites ?? []) yield* specs(child);
+}
+
+for (const spec of report.suites.flatMap((s) => [...specs(s)])) {
+  for (const test of spec.tests) {
+    const result = test.results.at(-1); // last retry
+    const id = `${test.projectName} ${spec.file} ${spec.title}`;
+    if (!result || result.status === "passed" || !new RegExp(filter).test(id))
+      continue;
+    for (const actual of result.attachments) {
+      if (!/-actual\.(png|webp)$/.test(actual.name)) continue;
+      const expected = result.attachments.find(
+        (a) => a.name === actual.name.replace("-actual.", "-expected."),
+      );
+      if (!expected) continue;
+      fs.copyFileSync(local(actual.path), local(expected.path));
+      console.log(`accepted ${path.relative(".", local(expected.path))}`);
+    }
+  }
+}
+```
+
+It needs the JSON reporter, for example `reporter: [["list"], ["json", { outputFile: "playwright-report/report.json" }]]`. After a failing run, `node scripts/accept-actual.mjs playwright-report/report.json "desktop .* button"` accepted only `button-desktop-darwin.png`, and the next run had one failure left, on mobile. With a report and `test-results/` copied from another checkout, the way a CI artifact arrives, it re-rooted the paths and accepted both button baselines; the next run passed. Like the CI download above, this accepts the CI machine's capture, which is what you want when CI is the source of truth.
+
+## Why did updating a screenshot locally break CI?
+
+Because the baseline you wrote belongs to your machine. On macOS, Playwright writes `button-desktop-darwin.png`, and Linux CI reads `button-desktop-linux.png`. Even with matching names, fonts and anti-aliasing differ between systems ([why Playwright screenshots differ between macOS, Linux and Docker](/blog/playwright-screenshots-differ-macos-linux)). Update inside the image CI uses, pinned to your `@playwright/test` version:
+
+```bash
+docker run --rm --init --ipc=host -v "$PWD":/work -v /work/node_modules -w /work \
+  mcr.microsoft.com/playwright:v1.63.0-noble \
+  /bin/bash -c "npm ci && npx playwright test tests/ui.spec.ts:21 --update-snapshots"
+```
+
+On our Apple Silicon Mac (OrbStack), this rewrote `button-desktop-linux.png` and `button-mobile-linux.png` and nothing else. The `-v /work/node_modules` volume keeps the container's Linux install out of your local `node_modules`. `--init` and `--ipc=host` follow the [Playwright Docker docs](https://playwright.dev/docs/docker). If your CI runners are x64, add `--platform linux/amd64` to run the same architecture (emulated, slower).
+
+## How do I update screenshots from GitHub Actions?
+
+A manually triggered workflow runs the update on the runner and commits the result to the branch, so nobody needs Docker locally. This one takes the Playwright arguments as an input (checked with actionlint 1.7.12):
+
+```yaml
+# .github/workflows/update-screenshots.yml
+name: Update screenshots
+on:
+  workflow_dispatch:
+    inputs:
+      tests:
+        description: "Playwright arguments, e.g. tests/ui.spec.ts:21 --project=desktop"
+        required: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.63.0-noble
+    permissions:
+      contents: write
+    env:
+      TESTS: ${{ inputs.tests }}
+    steps:
+      - uses: actions/checkout@v7
+      - run: npm ci
+      - run: |
+          # shellcheck disable=SC2086 # split TESTS into arguments on purpose
+          npx playwright test $TESTS --update-snapshots=changed
+      - name: Commit the new baselines
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- '*-snapshots/*'
+          git commit -m "test: update screenshots for $TESTS" || exit 0
+          git push
+```
+
+Run it on your branch with `gh workflow run update-screenshots.yml --ref my-branch -f tests="tests/ui.spec.ts:21 --project=desktop"`. The workflow file must be on the default branch, and triggering it requires write access ([GitHub docs](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/manually-run-a-workflow)). Commits pushed with the default `GITHUB_TOKEN` do not start push workflows, and the pull request runs they cause wait for someone with write access to approve them ([GitHub docs](https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/trigger-a-workflow#triggering-a-workflow-from-a-workflow)). Use a GitHub App token if CI should re-run on its own.
+
+## What can go wrong when you accept screenshots?
+
+A broad update accepts regressions along with the intended change, and `all` goes further by rewriting screenshots that passed. Review the new images before merging: GitHub compares PNGs in 2-up, swipe and onion skin views ([GitHub docs](https://docs.github.com/en/repositories/working-with-files/using-files/working-with-non-code-files#viewing-differences)). Playwright's HTML report shows the diff, actual and expected images, side by side or with a slider, but has no button to accept them. The closest thing is UI Mode (`npx playwright test --ui`), which since 1.56 has an "Update snapshots" setting (All, Changed, Missing, None) applied when you run a test from the sidebar ([release notes](https://playwright.dev/docs/release-notes#version-156)).
+
+An AI coding agent that wants a green run is also one `-u` away from accepting its own change; [stop your AI agent from rewriting screenshot baselines](/blog/stop-ai-agents-updating-baselines) covers guardrails. Where the baselines live, and what each update costs in Git, is covered in [should you commit screenshot baselines to Git?](/blog/commit-screenshot-baselines-git).
+
+## How does accepting a change work in Argos?
+
+In [Argos](/review), a visual change does not fail the test or rewrite a file. `argosScreenshot()` uploads the capture, Argos compares it with a baseline build picked from your Git history, and the pull request gets an Argos status check. In the build, you mark each changed screenshot as accepted or rejected, then approve or reject the build ([review a build](/docs/learn/review-workflow/review-a-build)). Nothing is committed: approved builds, which by default include every build on your base branch, become the baselines of later builds.
+
+Approval is per build. If one change in five is a regression, you reject the build, fix the code and push, rather than accepting four screenshots and keeping one failing. For a small suite on one platform that a single person updates, `file:line --update-snapshots` in the CI image is enough and costs nothing. A review step pays off when several people approve visual changes across browsers and pull requests.
+
+## FAQ
+
+### What does --update-snapshots=changed do?
+
+It rewrites the baselines of screenshots that fail their comparison and creates missing ones; screenshots that pass are left alone. It is the default when you pass `--update-snapshots` or `-u` without a value. In our Playwright 1.63.0 test, it rewrote only the two failing baselines, while `all` also rewrote two that had passed.
+
+### How do I update snapshots for one browser project only?
+
+Add `--project` with the project name from your config: `npx playwright test tests/ui.spec.ts:21 --project=desktop --update-snapshots`. Only that project's baselines, such as `button-desktop-linux.png`, are rewritten. The option accepts several names and `*` wildcards.
+
+### Can I accept a screenshot from the HTML report?
+
+No. The HTML report shows the diff, actual and expected images, but the request for an Accept button (#24310) was closed as not planned in May 2026. Re-run the test with `--update-snapshots`, set "Update snapshots" in UI Mode before running it, or copy the `-actual` file from `test-results/` over the baseline.
+
+### How do I update snapshots in CI?
+
+Run the update in a manually triggered workflow that uses the same Docker image as your tests, then commit the changed `*-snapshots` files back to the branch. Pass a `file:line` or `--project` filter so the job only accepts the screenshots you reviewed. Pushes made with `GITHUB_TOKEN` do not trigger new workflow runs by themselves.
+
+### Why did updating snapshots locally break CI?
+
+Your machine wrote a baseline for its own platform: `-darwin` files on macOS, while Linux CI reads `-linux` files and renders text differently anyway. Run the update inside the CI Docker image, with the image tag matching your `@playwright/test` version, or let a CI job do it.

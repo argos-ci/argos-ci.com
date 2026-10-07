@@ -1,0 +1,297 @@
+---
+title: "Stop Your AI Agent From Rewriting Screenshot Baselines"
+description: "Regenerating a screenshot baseline is an approval. Tested config to block --update-snapshots and vitest -u in Claude Code and keep baseline changes reviewed."
+category: guides
+author: greg
+date: 2026-11-12
+image: ./main.jpg
+imageAlt: "Abstract illustration of an agent module reaching toward a locked vault of reference screenshots guarded by a shield"
+related:
+  - visual-testing-ai-coding-agents
+  - ai-agents-review-visual-diffs
+  - playwright-update-one-screenshot
+---
+
+An AI coding agent can make any failing screenshot test pass by regenerating its baseline: one `npx playwright test --update-snapshots` or `vitest -u`, and whatever the page renders now becomes the expected result, regression included. To stop it, treat a baseline update as an approval the agent may not give itself: block the update commands inside the agent (Claude Code deny rules and a PreToolUse hook), require a human for baseline changes in the pull request (CODEOWNERS and a CI check), and keep the agent's access to visual review read-only. I tested every config below (Claude Code 2.1.212, Playwright 1.63.0, GitHub files checked locally) and note what each one misses.
+
+<MainImage />
+
+## Why is updating a screenshot baseline an approval?
+
+A visual regression test compares a new screenshot with a baseline, the reference image that defines what correct looks like. Playwright keeps baselines in a `<test file>-snapshots/` folder and its [snapshot docs](https://playwright.dev/docs/test-snapshots) say to commit that folder "and review any changes to it." Vitest browser mode does the same with `__screenshots__/`.
+
+The update flag doesn't fix a failing comparison; it replaces the reference with the current rendering. I reproduced it in a small Playwright project: a committed baseline, then a button padding change from `12px 24px` to `16px 32px`, so the test failed on 2,493 differing pixels. With no guardrails, I asked Claude Code (Haiku 4.5, `claude -p`, `Bash(npx playwright test *)` allowed) to run `npx playwright test --update-snapshots`. Playwright printed `save-button-darwin.png is re-generated, writing actual` and `1 passed`.
+
+The pull request now carries a green check and one modified PNG. GitHub keeps its own agent from approving its own work: Copilot's cloud agent can't approve or merge a pull request, and the person who asked it to open one can't approve it either ([GitHub docs](https://docs.github.com/en/copilot/concepts/agents/coding-agent/risks-and-mitigations)). A regenerated baseline inside the pull request is an approval those rules don't see.
+
+## Do AI coding agents really update snapshots to make tests pass?
+
+I found no documented case of an agent abusing `--update-snapshots`, so treat it as a risk, not a known incident. The behavior behind it is documented:
+
+- **Reward hacking.** The EvilGenie benchmark ([arXiv 2511.21654](https://arxiv.org/abs/2511.21654), November 2025) let coding agents hardcode test cases or edit test files, and observed explicit reward hacking by OpenAI's Codex and Anthropic's Claude Code.
+- **Agents told to reach green.** Playwright's healer agent re-runs a failing test until it passes, or marks it skipped if it decides the feature is broken ([test agents docs](https://playwright.dev/docs/test-agents)). Its [instructions in Playwright 1.63.0](https://github.com/microsoft/playwright/blob/1b025d7e20a026371cd5f98ba0cdce48892737c8/packages/playwright/src/agents/playwright-test-healer.agent.md) include fixing "assertions and expected values" and doing the most reasonable thing to pass the test without asking you.
+- **A one-flag shortcut.** Playwright: `-u` or `--update-snapshots`, which runs in `changed` mode without a value ([CLI docs](https://playwright.dev/docs/test-cli)). Vitest 5: `-u` or `--update` ([config docs](https://vitest.dev/config/update)). Jest and the Storybook test runner: `-u` or `--updateSnapshot`.
+
+## How do you block snapshot updates in Claude Code?
+
+Add deny rules to `.claude/settings.json`, the project settings file you commit ([permissions docs](https://code.claude.com/docs/en/permissions)):
+
+```json
+{
+  "permissions": {
+    "deny": [
+      "Bash(*--update-snapshots*)",
+      "Bash(*playwright* -u*)",
+      "Bash(*vitest* -u*)",
+      "Bash(*vitest* --update*)"
+    ]
+  }
+}
+```
+
+A `*` matches any text, so the first rule catches the long flag anywhere in the command, with any mode. Deny rules beat allow rules and block in every permission mode, including `bypassPermissions` ([permission modes](https://code.claude.com/docs/en/permission-modes)). In my run, with `Bash(npx playwright test *)` still allowed, Claude Code refused `npx playwright test --update-snapshots` and the baseline stayed untouched.
+
+The limit: rules match the command text Claude writes, and the docs say a Bash rule isn't a security boundary around the program. With the same rules, `npm run test:update` (a script running `playwright test --update-snapshots`) went through and rewrote the baseline.
+
+## How do you catch updates hidden in npm scripts?
+
+A [PreToolUse hook](https://code.claude.com/docs/en/hooks) receives each Bash command as JSON before it runs and can deny it. This one also expands `package.json` scripts:
+
+```js
+// .claude/hooks/block-baseline-updates.mjs
+// Claude Code PreToolUse hook: deny shell commands that rewrite screenshot
+// baselines. Claude Code sends the tool call as JSON on stdin.
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+
+const input = JSON.parse(readFileSync(0, "utf8"));
+const command = input.tool_input?.command ?? "";
+
+// A test runner that writes baselines, and the flags that make it write them:
+// Playwright (-u, --update-snapshots), Vitest (-u, --update), Jest and the
+// Storybook test runner (-u, --updateSnapshot). "=none" and "=false" are safe.
+const RUNNER = /(^|[\s/'"])(playwright|vitest|jest|test-storybook)([\s'"]|$)/;
+const UPDATE =
+  /(^|[\s'"])(-u|--update|--update-snapshots|--updateSnapshot)(=(?!none|false)[^\s'"]*)?([\s'"]|$)/;
+
+// Expand package.json scripts, so `npm run test:update` gets checked too.
+let scripts = {};
+try {
+  const pkg = JSON.parse(readFileSync(join(input.cwd, "package.json"), "utf8"));
+  scripts = pkg.scripts ?? {};
+} catch {}
+
+const split = (text) => text.split(/&&|\|\||[;|\n]/).map((part) => part.trim());
+
+function expand(sub, depth = 0) {
+  const name = sub.match(/^(?:npm|pnpm|yarn|bun)\s+(?:run\s+)?([\w:.-]+)/)?.[1];
+  if (depth > 2 || !Object.hasOwn(scripts, name)) return sub;
+  const inner = split(scripts[name]).map((part) => expand(part, depth + 1));
+  return `${sub} ${inner.join(" ")}`;
+}
+
+const blocked = split(command)
+  .map((sub) => expand(sub))
+  .some((text) => RUNNER.test(text) && UPDATE.test(text));
+
+if (blocked) {
+  console.log(
+    JSON.stringify({
+      hookSpecificOutput: {
+        hookEventName: "PreToolUse",
+        permissionDecision: "deny",
+        permissionDecisionReason:
+          "Updating screenshot baselines is a review decision. Do not update them. " +
+          "Leave the screenshot test failing, describe the visual change in your " +
+          "summary, and let a human approve it.",
+      },
+    }),
+  );
+}
+```
+
+Register it in the same file, in the exec form (`command` plus `args`) the docs recommend for script paths:
+
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node",
+            "args": [
+              "${CLAUDE_PROJECT_DIR}/.claude/hooks/block-baseline-updates.mjs"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+Test it without Claude Code by piping a PreToolUse payload into it:
+
+```bash
+echo '{"cwd":".","tool_input":{"command":"npx vitest -u"}}' \
+  | node .claude/hooks/block-baseline-updates.mjs
+# {"hookSpecificOutput":{"hookEventName":"PreToolUse","permissionDecision":"deny",...}}
+
+echo '{"cwd":".","tool_input":{"command":"npx playwright test"}}' \
+  | node .claude/hooks/block-baseline-updates.mjs
+# no output: the normal permission flow decides
+```
+
+My test script sent 24 commands through it: it denied all 14 update forms, including `npm test -- -u` and `sh -c 'npx playwright test -u'`, and let the other 10 through, including `--update-snapshots=none` and `npx playwright test && git push -u origin feat/login`. In Claude Code, it denied `npm run test:update` and `vitest -u`, and the agent got the reason text. With rules and hook on, a plain `npx playwright test` still ran and failed on the 2,493-pixel difference, as it should. A hook denial also holds in `bypassPermissions` mode ([hooks guide](https://code.claude.com/docs/en/hooks-guide)).
+
+Two gaps remain. A hook that crashes or exits with code 1 doesn't block (only exit code 2 or a `deny` decision does), so a wrong path in `settings.json` silently disables it. And no command filter sees an agent rename a screenshot, which writes a fresh baseline by default, or raise a `threshold`. That is why the next guardrails live in the pull request.
+
+## What should AGENTS.md or CLAUDE.md say?
+
+Instruction files enforce nothing: Claude Code's docs call CLAUDE.md context, not enforced configuration, and point to hooks for blocking ([memory docs](https://code.claude.com/docs/en/memory)). They are where you tell the agent what to do instead:
+
+```text
+<!-- AGENTS.md -->
+## Visual tests
+
+- Never update screenshot baselines: no `--update-snapshots`, `-u` or `--update`,
+  and no new or edited files in `*-snapshots/` or `__screenshots__/`.
+- Never make a screenshot test pass by masking, raising thresholds, renaming the
+  screenshot or skipping the test.
+- When a screenshot test fails, open the `-diff.png` that Playwright writes to
+  `test-results/`, say which screenshots changed and whether that was intended,
+  attach before and after images to the pull request, and let a human approve.
+```
+
+`AGENTS.md` is read by OpenAI Codex ([docs](https://learn.chatgpt.com/docs/agent-configuration/agents-md)), Cursor ([docs](https://cursor.com/docs/context/rules)) and GitHub Copilot's coding agent ([changelog, August 2025](https://github.blog/changelog/2025-08-28-copilot-coding-agent-now-supports-agents-md-custom-instructions/)). Claude Code 2.1.277 and later reads it by default only when there is no `CLAUDE.md`; otherwise add `@AGENTS.md` to `CLAUDE.md` to import it. For the images, [Argos media sharing](/media-sharing) lets an agent upload screenshots from the CLI and posts them on the pull request.
+
+## How do you require a human for baseline changes in a pull request?
+
+### Put the snapshot folders under CODEOWNERS
+
+```text
+# .github/CODEOWNERS
+# The last matching pattern wins: keep these below any catch-all "*" line.
+
+# Playwright baselines: "<test file>-snapshots/" next to each spec
+*-snapshots/            @acme/ui-reviewers
+
+# Vitest browser mode baselines: "__screenshots__/" next to each test
+__screenshots__/        @acme/ui-reviewers
+
+# Config files that can loosen comparisons or turn on updates
+playwright.config.*     @acme/ui-reviewers
+vitest.config.*         @acme/ui-reviewers
+
+# Protect this file and the CI workflows that enforce the rules
+/.github/               @acme/maintainers
+```
+
+Then turn on **Require review from Code Owners** in a ruleset or branch protection rule ([about code owners](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners)). The patterns follow gitignore rules minus `!` negation and `[ ]` ranges, so I checked them with `git check-ignore` against 13 paths: they matched baselines at any depth (`.png` and `.webp`), nested configs and `.github/`, and nothing else. Owners need write access, one owner's approval is enough, and the [CODEOWNERS errors API](https://docs.github.com/en/rest/repos/repos#list-codeowners-errors) reports invalid lines.
+
+### Fail CI when baselines change without a label
+
+```yaml
+# .github/workflows/baseline-guard.yml
+name: Baseline guard
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+
+permissions:
+  contents: read
+
+jobs:
+  baseline-guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Require a label when screenshot baselines change
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          APPROVED: ${{ contains(github.event.pull_request.labels.*.name, 'baselines-approved') }}
+        run: |
+          changed=$(git diff --name-only "$BASE_SHA...$HEAD_SHA" -- '*-snapshots/*' '*__screenshots__/*')
+          if [ -z "$changed" ]; then
+            echo "No baseline changes."
+          elif [ "$APPROVED" = "true" ]; then
+            echo "Baseline changes approved with the label:"
+            echo "$changed"
+          else
+            echo "::error::Screenshot baselines changed. A reviewer must check them and add the 'baselines-approved' label."
+            echo "$changed"
+            exit 1
+          fi
+```
+
+[actionlint](https://github.com/rhysd/actionlint) 1.7.12 reports no errors, and I ran the script against a scratch repository: a code-only change passes, a change that rewrites a Playwright baseline and adds a Vitest one fails and lists both files, and it passes once the label is set. Make `baseline-guard` a required check. The label is a speed bump, not a lock: anyone with triage access can add it ([GitHub docs](https://docs.github.com/en/issues/using-labels-and-milestones-to-track-work/managing-labels)), including an agent using your `gh` login. CODEOWNERS is the lock.
+
+### Stop CI from writing baselines
+
+Renaming a screenshot creates a baseline without any flag: when I renamed `save-button.png` to `save-button-v2.png`, Playwright's default `updateSnapshots: "missing"` wrote the new file on the first run (which failed), and the second run passed. Turn that off in CI:
+
+```ts
+// playwright.config.ts
+import { defineConfig } from "@playwright/test";
+
+export default defineConfig({
+  // Never write baselines in CI, not even missing ones
+  updateSnapshots: process.env.CI ? "none" : "missing",
+});
+```
+
+With `CI=1`, both runs failed and no file was written. Vitest 5 does this by default: without `update`, it behaves as `none` when `process.env.CI` is set ([docs](https://vitest.dev/config/update)).
+
+## How does Argos keep approval out of the agent's reach?
+
+With [Argos](/review), there is no baseline file in the repository to rewrite. CI uploads the screenshots, and the baseline is the most recent approved build in your Git history: one with an approved review or a merged pull request, or one from an auto-approved branch such as `main` ([baseline selection](/docs/learn/platform-fundamentals/baseline-build)). When screenshots change, the `argos` status check fails with "waiting for your decision" until someone approves the build ([build modes](/docs/learn/platform-fundamentals/build-modes)). Make it a required check, and approval becomes a review by a named person.
+
+The agent can still read what it needs:
+
+- **MCP server, read only.** Add it with `claude mcp add --transport http argos https://mcp.argos-ci.com` and, on the OAuth consent screen, grant `projects:read` without `reviews:write`. The agent can list builds and read diffs; approving needs `reviews:write` ([MCP server docs](/docs/agents/mcp-server)).
+- **CLI with a project token.** `argos build snapshots <build-url> --needs-review --json` works with the CI project token; submitting a review needs a user token ([CLI authentication](/docs/reference/argos-command-line-interface-cli)). `argos login` stores a user token, so don't leave one where an agent runs unattended.
+
+What Argos doesn't block: a project token can create a skipped build with `argos skip`, which reports success without comparing anything ([skipping a build](/docs/learn/how-to-guides/ci-pipelines/skipping-a-build)). Add `"Bash(*argos skip*)"` to the deny rules (it denied `npx --no-install argos skip` in my Claude Code run). The `/.github/` CODEOWNERS rule covers an `ARGOS_SKIPPED` variable added to a workflow.
+
+## Which guardrails do you need?
+
+| Guardrail                       | Stops                                         | Misses                                       | Works with                          |
+| ------------------------------- | --------------------------------------------- | -------------------------------------------- | ----------------------------------- |
+| Claude Code deny rules          | Update flags typed in the command             | npm scripts, renamed screenshots, configs    | Claude Code                         |
+| PreToolUse hook                 | Update flags, also in npm scripts and `sh -c` | Renamed screenshots, configs, a crashed hook | Claude Code                         |
+| AGENTS.md rule                  | Nothing; it tells the agent what to do        | Anything the agent does anyway               | Codex, Cursor, Copilot, Claude Code |
+| CODEOWNERS with required review | Unreviewed baseline and config changes        | Owners who approve without looking           | Any agent or person                 |
+| CI label check                  | Baseline changes without the label            | Labels added by anyone with triage access    | Any agent or person                 |
+| `updateSnapshots: "none"` in CI | Baselines written during CI runs              | Local runs                                   | Playwright (Vitest by default)      |
+| Argos                           | Baseline rewrites: approval is a review       | `argos skip`, unless you deny it             | Any agent or person                 |
+
+If the agent only works in your terminal and you review every pull request, the deny rules and the hook are enough. Once agents open pull requests on their own, add the repository checks, because they work whichever agent made the change.
+
+## FAQ
+
+### Can an AI agent update screenshot baselines in a separate pull request?
+
+Yes, when a person asked for it, for example after a Playwright upgrade changes every screenshot. Run the update yourself or from a manual CI job ([accepting changed Playwright screenshots](/blog/playwright-update-one-screenshot)), keep that pull request to baseline files, and have a code owner review the images. The agent can still write the description from the diff images.
+
+### Does this also stop vitest -u?
+
+Yes. The deny rules cover `vitest -u` and `vitest --update`, and the hook blocks `-u`, `--update` and `--update=all` while letting `--update=false` and `--update=none` through. Vitest 5 also never writes snapshots in CI unless you pass the flag.
+
+### Do these rules work for Cursor, Codex or Copilot?
+
+The deny rules and hook are Claude Code settings. Cursor has `beforeShellExecution` hooks that can deny a command ([docs](https://cursor.com/docs/hooks)), and Codex has prefix-based command rules for commands it runs outside its sandbox ([docs](https://learn.chatgpt.com/docs/agent-configuration/rules)); I tested neither. CODEOWNERS, the CI check and `updateSnapshots: "none"` act on the repository, so they work with any agent.
+
+### Should an AI agent ever approve visual changes?
+
+Not its own. An agent can summarize a visual diff, point to the likely cause and recommend approval, which saves reviewers time. The approval should come from someone who didn't make the change, the rule GitHub applies to Copilot's pull requests.
+
+### How do I let an agent see visual diffs without approving them?
+
+Locally, it can open the `-actual.png`, `-expected.png` and `-diff.png` files Playwright writes to `test-results/` when a comparison fails. With Argos, use the MCP server with only `projects:read`, or the CLI with a project token: both read diffs, neither can submit a review. [Letting Claude Code, Cursor and Codex review visual diffs](/blog/ai-agents-review-visual-diffs) covers the setup.

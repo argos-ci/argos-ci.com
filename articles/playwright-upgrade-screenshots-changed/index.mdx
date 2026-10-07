@@ -1,0 +1,188 @@
+---
+title: "Why Did My Screenshots Change After Upgrading Playwright?"
+description: "Each Playwright release ships new browser builds. I measured upgrades from 1.49 to 1.63: which ones moved pixels, why, and how to upgrade visual tests safely."
+category: guides
+author: greg
+date: 2026-12-15
+image: ./main.jpg
+imageAlt: "Abstract illustration of a browser window swapped for a newer one while a column of screenshot tiles shifts to new versions"
+related:
+  - playwright-screenshots-differ-macos-linux
+  - playwright-update-one-screenshot
+  - fix-flaky-visual-tests
+---
+
+Your screenshots changed after upgrading Playwright because each Playwright release pins new browser builds, and the matching Docker image brings its own system updates, so the browser rendering your visual regression tests is no longer the one that rendered your baselines. Most upgrades move few pixels: in my tests, every upgrade between Playwright 1.56.1 and 1.63.0 left a text-heavy page untouched, and 1.63.0 changed 20 pixels of a native textarea. Longer jumps do more: going from 1.49.1 to 1.56.1 shifted the anti-aliasing of every line of text, enough to fail three of my four screenshots at `toHaveScreenshot`'s default settings.
+
+<MainImage />
+
+## What changes when you upgrade Playwright?
+
+Each Playwright version downloads specific browser builds, listed in its [release notes](https://playwright.dev/docs/release-notes), and the official Docker image of the same version ships exactly those builds. Here are the recent ones (as of October 2026, when 1.64 was still a pre-release):
+
+| Playwright | Released     | Chromium      | Firefox | WebKit | Notes for screenshot tests                                       |
+| ---------- | ------------ | ------------- | ------- | ------ | ---------------------------------------------------------------- |
+| 1.63.0     | Sep 4, 2026  | 153.0.8010.12 | 155.0   | 26.6   | Linux arm64 switches to Chrome for Testing                       |
+| 1.62.0     | Jul 24, 2026 | 151.0.7922.34 | 153.0   | 26.5   | Optional lossless WebP baselines                                 |
+| 1.61.0     | Jun 15, 2026 | 149.0.7827.55 | 151.0   | 26.5   | Ubuntu 26.04 support                                             |
+| 1.60.0     | May 11, 2026 | 148.0.7778.96 | 150.0.2 | 26.4   | New `{testFileBaseName}` snapshot path token                     |
+| 1.59.0     | Apr 1, 2026  | 147.0.7727.15 | 148.0.2 | 26.4   | WebKit drops macOS 14                                            |
+| 1.58.0     | Jan 23, 2026 | 145.0.7632.6  | 146.0.1 | 26.0   | WebKit drops macOS 13                                            |
+| 1.57.0     | Nov 25, 2025 | 143.0.7499.4  | 144.0.2 | 26.0   | Chrome for Testing builds; headless uses `chrome-headless-shell` |
+
+_Browser versions from the release notes, dates from [GitHub releases](https://github.com/microsoft/playwright/releases)._
+
+The Docker image moves too. Inspecting the linux/amd64 images, `v1.49.1-noble` ran Ubuntu 24.04.1 with Node.js 22.12.0, while `v1.63.0-noble` runs Ubuntu 24.04.4 with Node.js 24.20.0; the Noto Color Emoji package went from 2.042 to 2.047 along the way. The binary changed name too: up to `v1.56.1` the image reported "Chromium 141.0.7390.37", and from `v1.57.0` "Google Chrome for Testing 143.0.7499.4". The font list stayed the same in every image I checked. As of 1.63, each version also ships [`-jammy` and `-resolute` tags](https://playwright.dev/docs/docker) (Ubuntu 22.04 and 26.04) next to `-noble`; switching between them swaps the system packages under the browser, so keep the suffix fixed when you bump the version.
+
+## How many pixels does a Playwright upgrade change?
+
+I rendered two pages with five Playwright versions, each in its own official image (linux/amd64, emulated on an Apple M1 Max by OrbStack): the text-heavy page from my [macOS vs Linux comparison](/blog/playwright-screenshots-differ-macos-linux), and a widgets page with native form controls, emoji, gradients, shadows, blur, SVG and canvas text. Each page came with a system font stack and with a bundled web font, at 1280×800 and `deviceScaleFactor: 1`, in Playwright's default headless mode; the table shows the system font versions. "Flagged" means counted by the comparator `toHaveScreenshot` uses, with default settings.
+
+| Upgrade (Docker, linux/amd64) | Browser                               | Text page                 | Widgets page              |
+| ----------------------------- | ------------------------------------- | ------------------------- | ------------------------- |
+| 1.49.1 → 1.56.1               | Chromium 131 → 141                    | 52,046 changed, 3 flagged | 12,623 changed, 2 flagged |
+| 1.56.1 → 1.57.0               | Chromium 141 → Chrome for Testing 143 | 0                         | 0                         |
+| 1.57.0 → 1.61.1               | Chrome for Testing 143 → 149          | 0                         | 4 changed, 0 flagged      |
+| 1.61.1 → 1.63.0               | Chrome for Testing 149 → 153          | 0                         | 24 changed, 20 flagged    |
+
+_Each page is 1,024,000 pixels. Measured October 2026._
+
+Three results stand out:
+
+- **The Chrome for Testing switch in 1.57 changed nothing.** The [1.57 release notes](https://playwright.dev/docs/release-notes) said the team expected "no functional changes", and on both pages the screenshots stayed identical. On macOS, 1.56.1 to 1.58.2 was also pixel-identical.
+- **1.63.0 moved a textarea's resize grip by one pixel.** That is the 20 flagged pixels, in every environment I tried: Linux amd64, macOS, and Linux arm64, where 1.61.1 still shipped Playwright's own Chromium build (149.0.7827.0) and 1.63.0 ships Chrome for Testing 153.
+- **1.49.1 to 1.56.1 touched every glyph.** Most changed pixels moved by 3 to 32 levels out of 255, invisible side by side, and Playwright's default threshold and anti-aliasing detection ignored almost all of them. But `toHaveScreenshot` fails on a single flagged pixel by default, so three of my four screenshots (both pages, each with system and web fonts) would have failed by 2 or 3 pixels each. On macOS, the same upgrade changed 77,062 pixels of the text page and flagged 1,085.
+
+Repeated captures with one version matched exactly, except for up to 47 pixels off by one color level on the widgets page in the 1.63.0 amd64 image, which the default threshold ignores.
+
+## Why do all my screenshots fail at once after an upgrade?
+
+A whole suite turning red usually has one of four causes:
+
+- **You skipped versions.** Rendering changes accumulate. About a year of Chromium releases (131 to 141) changed the anti-aliasing of all text, so every screenshot with text was at risk.
+- **A shared element changed.** If a native control, a scrollbar or an icon font appears on every page, one browser change shows up in every screenshot, like the textarea grip above.
+- **The environment changed with the version.** Baselines regenerated on a laptop instead of in the CI image differ by tens of thousands of pixels. My [macOS vs Linux measurements](/blog/playwright-screenshots-differ-macos-linux) put the gap at 38,503 to 39,940 pixels for one page.
+- **The headless mode changed.** Playwright runs the `chrome-headless-shell` build by default; [opting into `channel: 'chromium'`](https://playwright.dev/docs/browsers#chromium-new-headless-mode) runs the full browser in new headless mode, which changed 43,630 pixels of a web font page in my Linux tests. When Playwright 1.49 made that split, it told `chrome` and `msedge` channel users to [update all screenshot expectations](https://github.com/microsoft/playwright/issues/33566).
+
+## How do I tell a rendering change from a real regression?
+
+Keep application code out of the upgrade pull request. If the only changes are the Playwright version and the image tag, every diff is a rendering change by construction.
+
+Then look at the shape of each diff in the HTML report:
+
+- **Browser changes are diffuse or repeated.** Faint changes along every glyph edge, or the same small change in every screenshot that contains a given control.
+- **Regressions are local and strong.** On my text page, changing one word flagged about 2,500 pixels in a single paragraph, and adding 1px of padding to the sidebar cards flagged more than 7,000.
+
+When in doubt, run the old version on the same commit. If it passes and the new one fails, the browser caused the diff.
+
+## How do I upgrade Playwright without breaking visual tests?
+
+**1. Pin the version exactly, in both places.** No caret range in `package.json`, and the same version in the image tag:
+
+```json
+{
+  "devDependencies": {
+    "@playwright/test": "1.63.0"
+  }
+}
+```
+
+```yaml
+# .github/workflows/playwright.yml
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.63.0-noble
+      options: --user 1001
+```
+
+**2. Upgrade in a dedicated pull request.** Bump both versions together, run the suite in CI, and review every diff.
+
+**3. Regenerate baselines in the CI image, not with your local browser.** Without a value, `--update-snapshots` [defaults to `changed`](https://playwright.dev/docs/test-cli), so only the screenshots that no longer match are rewritten:
+
+```bash
+docker run --rm --init --ipc=host -v "$(pwd)":/work -v /work/node_modules -w /work \
+  mcr.microsoft.com/playwright:v1.63.0-noble \
+  /bin/bash -c "npm ci && npx playwright test --update-snapshots"
+```
+
+The `-v /work/node_modules` volume keeps the container's Linux install separate from your local `node_modules`.
+
+**4. Merge before feature work.** Branches opened after the merge compare against baselines from the new browser, and their diffs only show their own changes.
+
+**5. Let Renovate open one pull request for both.** Renovate's `monorepo:playwright` preset groups the npm packages by their [source repository](https://github.com/renovatebot/renovate/blob/74aea121a858ac0743b8b62d9fb0b24918104652/lib/data/monorepo.json). The image has no source label, so the preset does not match it and the tag bump arrives separately. A [package rule](https://docs.renovatebot.com/configuration-options/#packagerulesmatchpackagenames) puts them together. Renovate [reads `container` images](https://github.com/renovatebot/renovate/blob/74aea121a858ac0743b8b62d9fb0b24918104652/lib/modules/manager/github-actions/extract.ts#L292-L299) from GitHub Actions workflows and keeps the `-noble` suffix when it bumps the tag ([Docker versioning](https://docs.renovatebot.com/modules/versioning/docker/)).
+
+```json5
+// renovate.json5
+{
+  extends: ["config:recommended"],
+  packageRules: [
+    {
+      groupName: "Playwright",
+      matchPackageNames: ["@playwright/test", "mcr.microsoft.com/playwright"],
+    },
+  ],
+}
+```
+
+## How does Argos handle a Playwright upgrade?
+
+With [Argos](/integrations/playwright), the upgrade pull request produces one build. Argos compares it with the latest approved build from your base branch ([how baselines are chosen](/docs/learn/platform-fundamentals/baseline-build)) and shows each changed screenshot with its diff. You open the build from the pull request's status check, review the changes, and a single approval marks the whole build approved. After the merge, the base branch build becomes the baseline, so later pull requests compare against the new browser. No PNG is regenerated or committed.
+
+```ts
+// tests/homepage.spec.ts
+import { argosScreenshot } from "@argos-ci/playwright";
+import { test } from "@playwright/test";
+
+test("homepage", async ({ page }) => {
+  await page.goto("/");
+  await argosScreenshot(page, "homepage");
+});
+```
+
+What Argos does not do: it does not pin your browser, which stays your Playwright version and image tag, and it does not decide that a rendering change is acceptable. It diffs pixels [deterministically](/docs/learn/platform-fundamentals/how-argos-detects-visual-differences), so the changes it detects after an upgrade go through the same review as any other change. Setup is a reporter entry in your Playwright config ([quickstart](/docs/quickstart/playwright-quickstart)).
+
+## When is plain Playwright enough?
+
+If your suite is small and one person owns the upgrade, steps 1 to 4 work well with `toHaveScreenshot` alone: the upgrade pull request regenerates the few changed PNGs, and reviewers see them in the diff. If you only need to accept a handful of changed screenshots, see [how to update one Playwright screenshot](/blog/playwright-update-one-screenshot). A review tool helps when an upgrade touches hundreds of screenshots across several teams.
+
+## FAQ
+
+### Does upgrading Playwright change screenshots?
+
+Sometimes. Each version pins new browser builds, and browsers occasionally change how they draw text or native controls. In my tests, upgrades between 1.56.1 and 1.63.0 changed no pixels on a text page and 20 pixels of a textarea, while the older jump from 1.49.1 to 1.56.1 would have failed three of my four screenshots by 2 or 3 pixels each.
+
+### Should I pin the Playwright version?
+
+Yes. Pin `@playwright/test` to an exact version and use the Docker image with the same version, so the browser only changes in a pull request you opened for it. With a caret range, a lockfile refresh can bring a new minor version, and new browsers, into an unrelated pull request.
+
+### What is chrome-headless-shell?
+
+It is Chrome's old headless mode, which Chrome only ships as a [standalone binary since Chrome 132](https://developer.chrome.com/docs/chromium/headless). Playwright uses it by default for headless Chromium, downloaded from Chrome for Testing since 1.57 (since 1.63 on Linux arm64). Setting `channel: 'chromium'` switches to the full browser in new headless mode, which renders differently.
+
+### Do I need to update the Docker image too?
+
+Yes, to the same version as `@playwright/test`. When I ran Playwright 1.63.0 in the `v1.61.1-noble` image, it could not start the browser:
+
+```text
+browserType.launch: Executable doesn't exist at /ms-playwright/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell
+╔════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just updated to 1.63.0.      ║
+║ Please update docker image as well.                    ║
+║ -  current: mcr.microsoft.com/playwright:v1.61.1-noble ║
+║ - required: mcr.microsoft.com/playwright:v1.63.0-noble ║
+║                                                        ║
+║ <3 Playwright Team                                     ║
+╚════════════════════════════════════════════════════════╝
+```
+
+The new image also brings its own system updates, so regenerate baselines inside it, not on your machine.
+
+### Can I upgrade browsers without re-approving every screenshot?
+
+You only need to re-approve the screenshots that changed. `npx playwright test --update-snapshots` rewrites only snapshots that no longer match, and in Argos one approval of the upgrade build accepts all of its changes. Screenshots whose pixels stayed the same keep their baselines.
+
+## Conclusion
+
+A Playwright upgrade swaps the browser that draws your screenshots, and sometimes the system around it. Recent upgrades changed very little in my tests, while a jump of about a year touched every line of text. Pin the version and the image, upgrade in a pull request of its own, regenerate or approve the changes in the CI environment, and merge before feature work starts.

@@ -1,0 +1,211 @@
+---
+title: "Self-Hosted Visual Regression Testing: What You Can Run Yourself"
+description: "Self-hosted visual regression testing compared: Playwright, Vitest, BackstopJS, reg-suit, Visual Regression Tracker and Screenshotbot, plus where Argos stands."
+category: guides
+author: greg
+date: 2026-12-01
+image: ./main.jpg
+imageAlt: "Abstract illustration of a self-contained server rack enclosing a small screenshot review loop, next to an open code panel"
+related:
+  - backstopjs-alternative
+  - commit-screenshot-baselines-git
+  - best-visual-regression-testing-tools
+---
+
+The open-source visual regression testing tools that run entirely on your own infrastructure are Playwright's and Vitest's built-in screenshot assertions (baselines committed to Git), BackstopJS (local HTML reports), reg-suit (baselines in your own S3 or GCS bucket), Visual Regression Tracker (a Docker Compose server with a review UI) and the open-source edition of Screenshotbot. Argos is open source under the MIT license too, but it is operated as a managed cloud service, and self-hosting it is not officially supported or documented. This guide compares what each self-hosted option makes you run and maintain, with release dates checked in October 2026 and a reg-suit setup we tested against our own S3-compatible storage.
+
+<MainImage />
+
+## What does a self-hosted visual testing setup need?
+
+Your tests already capture screenshots in CI, whatever tool you pick. Self-hosting means you also own what a hosted service does after the capture:
+
+- **Baseline storage.** Git, Git LFS, an S3-compatible bucket, or a database plus a disk volume.
+- **Baseline selection.** Which reference a branch is compared against. In Git it is whatever is checked out; outside Git, something has to find the right commit on the base branch.
+- **Diff engine.** Pixel comparison with thresholds and anti-aliasing handling, usually [pixelmatch](https://github.com/mapbox/pixelmatch) or [odiff](https://github.com/dmtrKovalenko/odiff).
+- **Review UI.** Before, after and diff images, and a way to approve.
+- **Pull request integration.** A status check or comment that keeps unreviewed changes from merging.
+- **Access control.** Who sees screenshots and who approves, ideally through your SSO or LDAP.
+- **Retention and upgrades.** Deleting old screenshots, backing up the database, patching the server.
+
+The options below differ in how many of these they cover and how much infrastructure they ask you to operate.
+
+## Can you self-host visual testing with Playwright or Vitest alone?
+
+Yes, and for a small suite it is the simplest answer. Playwright's [`toHaveScreenshot`](https://playwright.dev/docs/test-snapshots) and Vitest browser mode's [`toMatchScreenshot`](https://vitest.dev/guide/browser/visual-regression-testing) compare each capture against a baseline PNG committed next to your tests. Nothing leaves your CI runner and your Git host, and there is no server to run.
+
+You give up everything after the comparison. A failed Playwright assertion writes `-expected.png`, `-actual.png` and `-diff.png` files that the HTML report displays; Vitest saves the actual and diff images as attachments and shows an A/B slider in UI mode. Approving a change means rerunning with `--update-snapshots` (or `vitest --update`) and committing the new PNGs for reviewers to inspect in the pull request.
+
+Two rules keep it working. Generate baselines in the same OS image CI uses, because fonts render differently on macOS and Linux (our [Playwright CI guide](/blog/playwright-visual-regression-testing-ci) shows the Docker setup). And expect baselines to stay in Git: Playwright closed the request for [remote baseline storage](https://github.com/microsoft/playwright/issues/29227) as "not planned" in May 2026. If repository weight worries you, read [should you commit screenshot baselines to Git?](/blog/commit-screenshot-baselines-git) first.
+
+## How does reg-suit store baselines in your own S3 or GCS bucket?
+
+[reg-suit](https://github.com/reg-viz/reg-suit) is a CLI that takes a folder of screenshots from any tool. `reg-suit run` downloads the images published for the base commit, compares them, writes an HTML report, then uploads the current images and the report under the current commit hash. `reg-keygen-git-hash-plugin` finds the base commit by walking the Git graph, `reg-publish-s3-plugin` or `reg-publish-gcs-plugin` handles storage, and notifier plugins report to GitHub, GitLab or Slack.
+
+We tested it in October 2026 with reg-suit 0.14.5, reg-publish-s3-plugin 0.14.4 and Playwright 1.63.0, with [SeaweedFS](https://github.com/seaweedfs/seaweedfs) 4.48 (an S3-compatible server, in Docker) standing in for internal object storage. Playwright only captures:
+
+```ts
+// tests/pricing.spec.ts
+import path from "node:path";
+import { pathToFileURL } from "node:url";
+import { test } from "@playwright/test";
+
+test("pricing card", async ({ page }) => {
+  await page.goto(pathToFileURL(path.resolve("site/index.html")).href);
+  await page.evaluate(() => document.fonts.ready);
+  // reg-suit compares whatever lands in this folder ("actualDir")
+  await page.locator(".card").screenshot({
+    path: "screenshots/pricing-card.png",
+    animations: "disabled",
+  });
+});
+```
+
+The `regconfig.json` at the project root points the S3 plugin at your endpoint. reg-suit replaces `$VARIABLE` placeholders in plugin options with environment variables, and the AWS SDK reads `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`:
+
+```json
+{
+  "core": {
+    "workingDir": ".reg",
+    "actualDir": "screenshots",
+    "thresholdRate": 0
+  },
+  "plugins": {
+    "reg-keygen-git-hash-plugin": {},
+    "reg-publish-s3-plugin": {
+      "bucketName": "vrt-baselines",
+      "enableACL": false,
+      "sdkOptions": {
+        "endpoint": "$S3_ENDPOINT",
+        "forcePathStyle": true,
+        "region": "us-east-1"
+      }
+    }
+  }
+}
+```
+
+After a first run on `main`, we changed a button's padding by 2px on a feature branch and ran `npx reg-suit run` again:
+
+```text
+[reg-suit] info version: 0.14.5
+[reg-suit] info Detected the previous snapshot key: '20eff9941e50397e4aee7eb5077f63f3b37e467b'
+[reg-publish-s3-plugin] info Download 1 files from vrt-baselines.
+[reg-suit] info Comparison Complete
+[reg-suit] info    Changed items: 1
+[reg-suit] info    New items: 0
+[reg-suit] info    Deleted items: 0
+[reg-suit] info    Passed items: 0
+[reg-suit] info The current snapshot key: 'fe7a738b0e9d506cc6cb310b5483023472fe24ad'
+[reg-publish-s3-plugin] info Upload 7 files to vrt-baselines.
+[reg-suit] info Published snapshot 'fe7a738b0e9d506cc6cb310b5483023472fe24ad' successfully.
+[reg-suit] info Report URL: https://vrt-baselines.s3.amazonaws.com/fe7a738b0e9d506cc6cb310b5483023472fe24ad/index.html
+[reg-suit] info Skipped to notify result because notifier plugins are not set up.
+```
+
+The bucket now holds one folder per commit, each with `actual/`, `expected/` and `diff/` images, the HTML report and an `out.json` summary.
+
+## What did running reg-suit on our own storage teach us?
+
+Four details worth knowing before you adopt it:
+
+1. **`reg-suit run` exits 0 when screenshots change.** "Changed items: 1" came with exit code 0. The failing signal normally comes from `reg-notify-github-plugin`, which sets a commit status through the [reg-suit GitHub App](https://github.com/apps/reg-suit), run by the reg-viz project, so results pass through a third party. The token-based [`reg-notify-github-with-api-plugin`](https://github.com/reg-viz/reg-suit/tree/master/packages/reg-notify-github-with-api-plugin), written for GitHub Enterprise, only posts a PR comment. To fail the job yourself, read the result file (this exited 1 on the changed branch and 0 on a branch without visual changes):
+
+   ```bash
+   npx reg-suit run
+   # fail the CI job if any screenshot changed
+   jq -e '.failedItems | length == 0' .reg/out.json
+   ```
+
+2. **Uploads are public unless you opt out.** The S3 plugin sends a `public-read` ACL by default ([source](https://github.com/reg-viz/reg-suit/blob/5c09c8eb1e356d7e8145e5850e6de17b2b25a5a0/packages/reg-publish-s3-plugin/src/s3-publisher-plugin.ts#L97-L106)). Set `enableACL: false` for a private bucket and serve reports behind authentication.
+3. **Report links assume AWS.** With a custom endpoint, the printed URL still pointed at `vrt-baselines.s3.amazonaws.com`. Set `customDomain` so links reach your own host.
+4. **Nothing gets deleted.** Every commit adds a folder and the README documents no cleanup command, so add a lifecycle rule that expires old prefixes.
+
+In CI, reg-suit needs the full Git history (`fetch-depth: 0`) and a checked-out branch rather than a detached HEAD, as its [README explains](https://github.com/reg-viz/reg-suit#workaround-for-detached-head). The latest GitHub release is [v0.14.6](https://github.com/reg-viz/reg-suit/releases/tag/v0.14.6) (March 16, 2026), which only changed the token-based notifier; the `reg-suit` package itself is at 0.14.5 (August 26, 2025). Its diff engine, reg-cli, is moving to a Rust core compiled to WebAssembly, with release candidates since May 2026 ([0.19.0-rc3](https://github.com/reg-viz/reg-cli/releases/tag/0.19.0-rc3) in September).
+
+## Which self-hosted tools give you a review UI?
+
+Two options run a server with a review screen.
+
+[Visual Regression Tracker](https://github.com/Visual-Regression-Tracker/Visual-Regression-Tracker) (Apache-2.0) is the closest thing to a self-hosted visual testing service. Its Docker Compose file starts the UI, the API, a migration job and PostgreSQL, and stores images on a local volume or in S3. Reviewers approve or reject results one by one or in bulk, draw ignore regions, and browse baseline history per branch, OS, browser and viewport. Comparison runs on pixelmatch, looks-same, odiff or a vision-language model through Ollama, and login can use LDAP. Playwright and Cypress agents, SDKs for JavaScript, Java, Python and .NET, and a REST API send it screenshots. It is actively developed ([5.8.0](https://github.com/Visual-Regression-Tracker/Visual-Regression-Tracker/releases/tag/5.8.0) shipped September 1, 2026), with caveats:
+
+- The Docker Hub images are [amd64 only](https://hub.docker.com/r/visualregressiontracker/api/tags), so ARM servers run them under emulation.
+- The compose file pins [`postgres:12`](https://github.com/Visual-Regression-Tracker/Visual-Regression-Tracker/blob/e133d6b0fa704779ac4eb008ed697bc630c3dd02/docker-compose.yml#L70), whose [final release](https://www.postgresql.org/support/versioning/) was in November 2024.
+- The sample [`.env`](https://github.com/Visual-Regression-Tracker/Visual-Regression-Tracker/blob/e133d6b0fa704779ac4eb008ed697bc630c3dd02/.env#L48-L63) ships a default user password and a fixed JWT secret. Change both.
+- There is no pull request integration. The SDK throws "Difference found" with a link to the UI, so the test fails until someone approves.
+- Client libraries move slower than the server: the Playwright agent last shipped in July 2024, the Python SDK in March 2022.
+
+[Screenshotbot OSS](https://github.com/screenshotbot/screenshotbot-oss) (MPL-2.0) is the open-source core of the commercial screenshotbot.io, built around Android, iOS and Selenium screenshot tests. It integrates with GitHub, GitLab, Bitbucket, Azure DevOps and Phabricator, and supports OpenID Connect. It is written in Common Lisp: you build it with `docker-compose up --build`, configure integrations in a `config.lisp` file, and its database lives in memory with transactions logged to disk. Commits are recent (October 2, 2026, synced from the maintainers' internal repository), but there are no versioned releases, so upgrading means pulling `main`.
+
+## Is BackstopJS still maintained?
+
+It still works, but it has not shipped since 2024. The latest npm release is 6.3.25 from September 7, 2024, and the only commit since is a README update in September 2026 (checked October 2026 on [npm](https://www.npmjs.com/package/backstopjs) and [GitHub](https://github.com/garris/BackstopJS/commits/master)). Its `puppeteer` range (`^22.1.0`) caps the default engine at Puppeteer 22.15.0 (July 2024), which runs [Chrome for Testing 127](https://pptr.dev/supported-browsers); its `playwright` range (`^1.40.1`) resolves to current Playwright on a fresh install.
+
+[BackstopJS](https://github.com/garris/BackstopJS) is fully local: scenarios in `backstop.json`, `backstop test` to compare, `backstop approve` to promote test images to references, a `--docker` flag for consistent rendering and a JUnit report for CI. With no shared review UI and no PR integration, it fits one developer or a stable list of URLs (more in [BackstopJS alternative](/blog/backstopjs-alternative)). Lost Pixel, which older lists also mention, has an [archived repository](https://github.com/lost-pixel/lost-pixel).
+
+## How do the self-hosted options compare?
+
+Release data checked in October 2026 on GitHub, npm and Docker Hub.
+
+| Option                        | What you run                         | Baselines live in               | Review UI                          | PR integration                                  | License    | Latest release                |
+| ----------------------------- | ------------------------------------ | ------------------------------- | ---------------------------------- | ----------------------------------------------- | ---------- | ----------------------------- |
+| Playwright `toHaveScreenshot` | Your test runner                     | Git                             | HTML report (expected/actual/diff) | Failing test                                    | Apache-2.0 | 1.63.0, Sep 4, 2026           |
+| Vitest `toMatchScreenshot`    | Your test runner                     | Git                             | UI mode A/B slider                 | Failing test                                    | MIT        | 5.0.3, Sep 30, 2026           |
+| BackstopJS                    | CLI, optional Docker image           | Local folder, usually in Git    | Local HTML report                  | None (JUnit report)                             | MIT        | 6.3.25, Sep 7, 2024           |
+| reg-suit                      | CLI plus an S3 or GCS bucket         | Bucket, one folder per commit   | Static HTML report                 | Status via hosted GitHub App, or PR/MR comments | MIT        | v0.14.6, Mar 16, 2026         |
+| Visual Regression Tracker     | UI, API, migration job, PostgreSQL   | PostgreSQL plus a volume or S3  | Approve/reject, bulk actions       | None, the SDK fails the test                    | Apache-2.0 | 5.8.0, Sep 1, 2026            |
+| Screenshotbot OSS             | Common Lisp server built from source | Server disk, in-memory database | Yes                                | GitHub, GitLab, Bitbucket, Azure DevOps         | MPL-2.0    | None; last commit Oct 2, 2026 |
+
+## Can you self-host Argos?
+
+Not in a supported way. The code is public: the whole Argos platform (backend, frontend and the screenshot comparison engine) is developed in the MIT-licensed [argos-ci/argos](https://github.com/argos-ci/argos) repository, with no closed-source component behind the diff service. But the [Argos docs](/docs#open-source-and-self-hosting) are explicit about how it runs:
+
+> Argos is operated as a managed cloud service, and that is the supported way to run it. Self-hosting is not officially supported or documented: the production setup targets AWS and depends on PostgreSQL, RabbitMQ, Redis, S3, and DynamoDB, plus integrations such as the GitHub App and Stripe.
+
+The same page adds that you would be on your own to deploy and operate those services. If your organization has strict hosting or compliance requirements, [contact Argos](/contact) about the Enterprise plan.
+
+## What do teams asking for self-hosting actually need?
+
+Usually one of these, and each points to a different answer:
+
+- **Screenshots must not leave our network.** Only the self-hosted options qualify. With reg-suit, that means internal object storage and the token-based notifier, not the hosted GitHub App.
+- **Data must stay in one region.** Self-host, or check where your vendor stores data. Argos stores screenshots on AWS S3 in the US, replicated to the EU (see [security](/security)), so a rule that data never leaves the EU rules out the managed service.
+- **The vendor must not see our source code or reach our app.** Tools that capture in your CI need neither. Argos receives the screenshots you upload, commit metadata and pull request information, not your source code, and offers a GitHub mode without content permissions. Your own tests take the screenshots, so Argos needs no network access to the application under test.
+- **We need audit evidence.** A self-hosted tool joins your own audit scope. Argos is SOC 2 Type II compliant, audited by Prescient Security and monitored through Vanta ([announcement](/blog/soc-2)), and encrypts GitHub and GitLab tokens at rest.
+- **Single sign-on.** Visual Regression Tracker supports LDAP, Screenshotbot OSS supports OpenID Connect, and Argos offers SAML SSO (see [pricing](/pricing)).
+- **Cost at volume.** Self-hosting turns a per-screenshot bill into infrastructure and maintenance time.
+
+## Which option should you choose?
+
+- **Choose Playwright or Vitest built-in comparison** if you have a few dozen screenshots, one CI image, and reviewers who are fine reading PNG diffs in pull requests.
+- **Choose BackstopJS** if you want URL-and-selector scenarios without test code, and accept a tool whose last release was in September 2024.
+- **Choose reg-suit** if you want baselines out of Git, in a bucket you control and keyed by commit, and can add the CI gate and bucket policies yourself.
+- **Choose Visual Regression Tracker** if you need a self-hosted review UI with approvals and LDAP, and can run PostgreSQL and amd64 containers.
+- **Choose Screenshotbot OSS** if you also test Android or iOS screenshots, want PR integrations from your own server, and can operate a Common Lisp application.
+- **Choose Argos** if your requirement is about trust rather than location: open-source code you can audit, SOC 2 Type II, capture in your own CI and review on the pull request, without operating the stack.
+
+## FAQ
+
+### Is Argos open source?
+
+Yes. The whole Argos platform, including the backend, the frontend and the screenshot comparison engine, is developed in the MIT-licensed argos-ci/argos repository on GitHub, and the SDKs are open source too. There is no closed-source component behind the diff service.
+
+### Can I self-host Argos?
+
+Not with official support. Argos runs as a managed cloud service, self-hosting is not documented, and the production setup depends on AWS services (PostgreSQL, RabbitMQ, Redis, S3, DynamoDB) plus the GitHub App and Stripe. Teams with strict hosting or compliance requirements can contact Argos about the Enterprise plan.
+
+### What is the easiest self-hosted visual testing tool with a review UI?
+
+Visual Regression Tracker. One Docker Compose file starts the UI, the API, a migration job and PostgreSQL, and Playwright or Cypress agents send screenshots to it. Change the default password and JWT secret before exposing it, and plan for amd64-only images and the pinned PostgreSQL 12.
+
+### Is BackstopJS still maintained?
+
+Not actively. The latest npm release, 6.3.25, dates from September 7, 2024, and the only commit since then is a README update in September 2026. It still runs, but its default Puppeteer engine is capped at Puppeteer 22 (Chrome 127), so prefer its Playwright engine for current browsers.
+
+### Can I store Playwright baselines in S3?
+
+Not natively. Playwright closed the request for remote baseline storage as "not planned" in May 2026, and `toHaveScreenshot` reads baselines from disk. You can sync the snapshot folder with your own scripts, or capture with `page.screenshot()` into a folder and let reg-suit store, compare and key the images by commit in S3, GCS or any S3-compatible store.
+
+## Conclusion
+
+Committed baselines cost nothing to run, reg-suit moves storage into your own bucket but leaves the CI gate to you, and Visual Regression Tracker and Screenshotbot OSS add a review UI in exchange for a server to patch. If what you need is auditable code and capture in your own CI rather than your own servers, Argos covers that as a managed service: start with the [Argos docs](/docs).

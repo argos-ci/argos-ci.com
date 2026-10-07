@@ -1,0 +1,135 @@
+---
+title: "Which Visual Testing Tools Have an MCP Server?"
+description: "Argos, Applitools, Happo, Percy and TestMu AI run MCP servers that let AI agents read visual diffs. What each one exposes, checked October 2026."
+category: guides
+author: jeremy
+date: 2026-10-15
+image: ./main.jpg
+imageAlt: "Abstract illustration of several agent modules plugged into a central hub of screenshot tiles through glowing connectors"
+related:
+  - ai-agents-review-visual-diffs
+  - playwright-mcp-visual-testing
+  - review-builds-ai-agents
+---
+
+As of October 2026, Argos, Applitools Eyes, Happo, Percy (through the BrowserStack MCP server) and TestMu AI SmartUI each document an MCP server that lets an AI agent read the screenshot diffs from your visual regression tests. All of them except TestMu AI also let the agent approve or reject the changes. Storybook MCP and Cypress Cloud MCP give agents component context and test results instead of diffs, and browser MCPs such as Playwright MCP drive a browser without comparing anything to a baseline. Every fact below comes from the vendor's own documentation or source code, checked on October 6, 2026.
+
+<MainImage />
+
+## Which visual testing tools have an MCP server?
+
+A visual testing MCP server gives your agent structured access to comparisons the service has already computed: which screenshots changed, the before and after images, and a tool to record a decision. The [Model Context Protocol](https://modelcontextprotocol.io) is what lets any compatible client (Claude Code, Cursor, Codex, VS Code) call those tools without a custom plugin.
+
+What an agent can do with each server:
+
+| Server                                                                                              | Reads diffs                                                                                               | Approves or rejects                                                | Other tools                                                                                                   |
+| --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------- |
+| [Argos](/docs/agents/mcp-server)                                                                    | Yes: base, head and diff image URLs for each changed screenshot, with test metadata and flakiness metrics | Yes: a build review, optionally with a decision per screenshot     | Comments, review requests, ignoring flaky changes, project and team settings, media upload. 89 tools in total |
+| [Applitools Eyes](https://applitools.com/docs/eyes/integrations/mcp-servers/applitools-mcp)         | Yes: clustered changed areas, baseline and checkpoint images, DOM diffs, change history                   | Yes: per checkpoint; saving to the baseline asks for your approval | Eyes setup, adding checkpoints to tests, Ultrafast Grid config, match regions. 21 tools                       |
+| [Happo](https://docs.happo.io/docs/mcp)                                                             | Yes: the comparisons for a commit SHA, with diffs and snapshots                                           | Yes: per comparison                                                | Report a flake. 5 tools                                                                                       |
+| [Percy via BrowserStack MCP](https://www.browserstack.com/docs/browserstack-mcp-server/tools/percy) | Partly: AI-written descriptions of each changed region in the project's latest build                      | Yes: per build; approving sets the new baseline                    | Add Percy snapshot commands to tests, run a Percy scan, an onboarding agent                                   |
+| [TestMu AI SmartUI](https://www.testmuai.com/support/docs/smartui-mcp-server/)                      | Partly: written summaries of pixel, layout, DOM and perceptual changes for one comparison                 | Not documented                                                     | Fetch a comparison's screenshots, DOM snapshots and metadata                                                  |
+
+How you connect, and what each server covers:
+
+| Server          | Transport                                                                                                                      | Auth                                            | Scope                                                                                    |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| Argos           | Remote, Streamable HTTP (`https://mcp.argos-ci.com`)                                                                           | OAuth with scopes, or a personal access token   | Builds from any Argos SDK (Playwright, Storybook, Vitest, Cypress and others) or the CLI |
+| Applitools Eyes | Local, stdio (`npx @applitools/mcp`, Node.js 18+)                                                                              | API keys: execution, read-only and write-only   | Review tools: results from any Eyes SDK. Setup tools: Playwright JS/TS Fixtures SDK only |
+| Happo           | Remote, Streamable HTTP (`https://happo.io/api/mcp`)                                                                           | OAuth 2.1, acting with your own permissions     | Any Happo integration                                                                    |
+| Percy           | [BrowserStack MCP](https://www.browserstack.com/docs/browserstack-mcp-server/get-started): local stdio (Node.js 22+) or remote | Username and access key (local), OAuth (remote) | Percy SDKs; the Percy tools need a Percy license enabled on your account                 |
+| TestMu AI       | Remote, Streamable HTTP (`https://mcp.lambdatest.com/mcp`)                                                                     | OAuth                                           | SmartUI comparisons                                                                      |
+
+Tool counts are the tools each vendor's page lists. The Argos count comes from the tool list pinned in its [open-source server tests](https://github.com/argos-ci/argos/blob/ce9316cb12bd7f1c851763a2ae02a6858237c988/apps/backend/src/mcp/tools.test.ts#L10). Package versions at the time of writing: `@applitools/mcp` 0.8.5 and `@browserstack/mcp-server` 2.1.1. We also sent an unauthenticated request to the remote endpoints of Argos, Happo and Cypress Cloud: each answered with an HTTP 401 pointing to its OAuth metadata, which is how a client knows to open the sign-in page on its own.
+
+Newer services built around agents also ship MCP servers, for example [UI Verify](https://uiverify.ai/docs/triage-with-your-agent), whose `render_diff_image` tool returns before and after crops as inline images, and [RegressionBot](https://regressionbot.com/docs/mcp/), which compares live URLs and authenticates with an API key. This page focuses on the established services.
+
+## How do these MCP servers differ?
+
+They answer the same question in different ways. Four differences matter when you pick one:
+
+- **Hosted or local.** Argos, Happo and TestMu AI are URLs you add to your client, with nothing to install. Applitools runs on your machine through `npx` and reads its keys from environment variables, a `.env` file or the MCP config. BrowserStack offers both.
+- **What comes back.** Argos and Happo return the comparison data and leave the judgment to your agent's model. Applitools pre-processes more: it clusters raw pixel differences into at most 20 changed areas per step and can return DOM diffs and an element's history across runs. Percy's `fetchPercyChanges` returns text: an AI-written title and description for each changed region. TestMu AI's SmartUI tool also answers in text.
+- **What an approval does.** Argos records a build review, with optional per-screenshot decisions, and a single approval passes the build unless someone [rejected it](/docs/learn/review-workflow/review-a-build#how-reviews-decide-the-build-status). Applitools resolves checkpoints and, by default, applies the same decision to identical diffs in sibling sessions; only `eyes_resolve_save` writes to the baseline. Percy approves a whole build.
+- **How much else is exposed.** Argos generates its tools from its [REST API](/docs/agents/mcp-server#available-tools), so the same server also manages comments, projects, team members and automations. Happo's five tools cover review and nothing else.
+
+## Are Storybook MCP and Cypress Cloud MCP visual testing servers?
+
+Not in the diff-review sense: neither one compares screenshots.
+
+[Storybook MCP](https://storybook.js.org/docs/ai/mcp/overview) (`@storybook/addon-mcp`, still in preview) runs on your Storybook dev server at `/mcp`. Its tools give the agent your component documentation (`docs-list`, `docs-show`), instructions for writing stories, and `test-run`, which runs interaction and accessibility tests on stories. [Chromatic can publish it](https://www.chromatic.com/docs/mcp/) for your whole team (Storybook 10.3 or later with React), with only the documentation tools available remotely. Chromatic's MCP documentation doesn't list a tool for reading or accepting visual test results.
+
+[Cypress Cloud MCP](https://docs.cypress.io/cloud/integrations/cloud-mcp), generally available since May 20, 2026, is read-only and covers recorded runs: run status, failed and flaky tests with Test Replay links, plus Cypress Accessibility and UI Coverage reports. It's included on every Cypress Cloud plan and limited to 100 tool requests per hour.
+
+## Do browser MCP servers like Playwright MCP compare screenshots?
+
+No. [Playwright MCP](https://github.com/microsoft/playwright-mcp) and [Chrome DevTools MCP](https://github.com/ChromeDevTools/chrome-devtools-mcp) let an agent drive a real browser. Playwright MCP works mainly from the page's accessibility tree and can take screenshots with `browser_take_screenshot`. Chrome DevTools MCP does the same through DevTools, with screenshots, console messages, network requests and performance traces.
+
+Neither keeps a baseline. The agent sees the page as it is right now and decides on its own whether it looks right, which is useful while it builds a page and silent about every other page the change touched. We covered how the two fit together in [Playwright MCP and visual testing](/blog/playwright-mcp-visual-testing).
+
+## What does an agent workflow with a visual testing MCP server look like?
+
+The loop has the same shape with every service:
+
+1. CI runs your visual tests and uploads the screenshots; the service computes the diffs. The MCP server doesn't capture anything. In Argos, the upload endpoints are [excluded from the MCP server](https://github.com/argos-ci/argos/blob/ce9316cb12bd7f1c851763a2ae02a6858237c988/apps/backend/src/mcp/tools.test.ts#L112) and stay with CI's project token.
+2. The agent finds the comparison for the pull request: `listBuilds` filtered by branch or commit in Argos, `list_comparisons_for_sha` in Happo, `eyes_inspect_sessions` for a batch in Applitools.
+3. It reads each change: `listBuildDiffs` with `needsReview` in Argos, `get_comparison_details` in Happo, or `eyes_review_progress` in Applitools, which calls the inspection tools in order for you.
+4. It compares each change with what the pull request was meant to do and sorts it: intended, regression, or flaky.
+5. It reports back. A person approves, or the agent calls the approve tool if you gave it the right to.
+
+For the Argos version of this loop in Claude Code, Cursor and Codex, with read-only scopes and a triage prompt, see [how to let Claude Code, Cursor and Codex review your visual diffs](/blog/ai-agents-review-visual-diffs).
+
+## Should an AI agent be allowed to approve visual changes?
+
+An approval decides what your UI is supposed to look like from now on, so it deserves the same control as merging code. Each vendor gives you a different lever:
+
+- **Argos: OAuth scopes.** `projects:read` lets the agent inspect builds, diffs and tests; approving, rejecting and ignoring changes need `reviews:write`; posting comments needs `comments:write`. You pick scopes on the consent screen. A personal access token isn't scope-restricted: it can do anything your user can, as each tool's [description](https://github.com/argos-ci/argos/blob/ce9316cb12bd7f1c851763a2ae02a6858237c988/apps/backend/src/mcp/tools.ts#L206) states.
+- **Applitools: separate keys.** Inspection needs only `APPLITOOLS_READ_KEY`, resolution needs `APPLITOOLS_WRITE_KEY`, and `eyes_resolve_save` and `eyes_resolve_reset` always ask for your explicit approval.
+- **Happo, BrowserStack, Cypress Cloud: your own permissions.** The server can do what your account can. Happo attributes every action to your user; Cypress Cloud MCP has no write tools at all.
+- **Your client.** Claude Code, Cursor and Codex can all require a confirmation before a tool call; keep it on for anything that writes.
+
+## How do you connect an agent to the Argos MCP server?
+
+Argos is an open-source visual regression testing platform for Playwright, Storybook, Vitest and Cypress. Its MCP server is remote, so in Claude Code it's one command, then a browser sign-in where you choose the organizations and scopes to share:
+
+```bash
+claude mcp add --transport http argos https://mcp.argos-ci.com
+claude mcp login argos
+```
+
+What it does not do: it doesn't run tests or upload screenshots (CI does that with a project token, which the MCP server rejects), and it returns image URLs rather than inline images, so the agent downloads the files to look at them. Cursor and Codex setup, read-only scopes, the fields the agent reads and a triage prompt are in [our step-by-step guide](/blog/ai-agents-review-visual-diffs). The [MCP server docs](/docs/agents/mcp-server#setup) also cover VS Code, Windsurf and Claude.ai.
+
+## Which visual testing MCP server should you choose?
+
+The MCP server comes with the visual testing service, so in practice you're choosing the service. Changing services only to get an MCP server rarely pays off. If you're choosing both:
+
+- **Choose Argos** if you want a hosted server whose tools cover the whole API (review, comments, flaky tests, settings), OAuth scopes to keep the agent read-only, and screenshots taken by your own Playwright, Storybook, Vitest or Cypress runs.
+- **Choose Applitools Eyes** if you already run Eyes, want the server to pre-process changes (clustered areas, DOM diffs, history) and to help set up Eyes in Playwright projects, and you're fine running it locally with API keys. See [Argos vs Applitools](/compare/applitools).
+- **Choose Happo** if you want a small, review-only tool set with OAuth and lookups by commit SHA. See [Argos vs Happo](/compare/happo).
+- **Choose Percy** if your team already uses BrowserStack: one MCP server covers Percy and BrowserStack's other products. See [Argos vs Percy](/compare/percy).
+- **Choose TestMu AI SmartUI** if you want written explanations of a failing comparison, including DOM and perceptual analysis, and don't need the agent to approve anything.
+- **Choose Storybook MCP** (with Chromatic to publish it for your team) if your goal is better generated components rather than diff review.
+- **Choose Cypress Cloud MCP** to debug recorded Cypress runs; it has no screenshot comparison.
+- **Stay with Playwright MCP alone** if you only need the agent to look at the page it's editing and you don't keep visual baselines yet.
+
+## FAQ
+
+### What does an MCP server for visual testing do?
+
+It exposes the visual testing service's results and actions as tools an AI agent can call: list the screenshots that changed in a build, fetch the baseline, new and diff images, and record a decision. Screenshots are still captured in CI and compared by the service; the MCP server only gives the agent access to the results.
+
+### Can an AI agent approve visual changes?
+
+With Argos, Applitools, Happo and Percy, yes, if the credentials you give it allow it. Whether it should is a separate question, because an approval sets what the UI is supposed to look like. Give the agent read-only credentials (Argos's `projects:read` scope, Applitools's read-only key) and approve yourself, or require a confirmation in your client for every write tool.
+
+### Do I need MCP, or can the agent use a CLI?
+
+An agent with a terminal can use a CLI instead. Argos has `argos build snapshots <build-url> --needs-review --json` and installable agent skills, described in [reviewing Argos builds with AI agents](/blog/review-builds-ai-agents). Playwright's own [README](https://github.com/microsoft/playwright-mcp/blob/f183dad4a52965583e3cc1d59b88cdc279e2e57d/README.md) notes that coding agents increasingly prefer a CLI with skills over MCP because it uses fewer tokens. MCP fits clients without a shell, such as Claude.ai, and setups where you want OAuth scopes rather than a token in an environment variable.
+
+### Is Playwright MCP a visual testing tool?
+
+No. It drives a browser and returns accessibility snapshots and screenshots of the page as it is now. It has no baselines and no comparison, so it can't tell you what changed elsewhere in the app. Use it while the agent builds, and a visual regression testing service in CI to check the whole app.
+
+### Which AI clients support remote MCP servers?
+
+Claude Code, Claude.ai and Claude Desktop (as custom connectors), Cursor, VS Code with GitHub Copilot, OpenAI Codex and Windsurf all connect to remote Streamable HTTP servers and handle the OAuth sign-in, as the [Argos setup instructions](/docs/agents/mcp-server#setup) show for each. A client that only supports local stdio servers can reach a remote one through a bridge such as `mcp-remote`, a fallback [TestMu AI documents](https://www.testmuai.com/support/docs/testmu-mcp-server/).

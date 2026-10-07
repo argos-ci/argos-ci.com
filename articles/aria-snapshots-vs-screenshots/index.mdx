@@ -1,0 +1,315 @@
+---
+title: "ARIA Snapshots vs Screenshots: Catching Accessibility Regressions"
+description: "ARIA snapshots record the accessibility tree as YAML; screenshots record pixels. We broke one page 12 ways in Playwright 1.63 to see what each one catches."
+category: guides
+author: jeremy
+date: 2026-12-08
+image: ./main.jpg
+imageAlt: "Abstract illustration of a screenshot tile paired with a branching outline tree of the same interface"
+related:
+  - dark-mode-visual-testing
+  - playwright-mcp-visual-testing
+  - what-is-visual-testing
+---
+
+An ARIA snapshot records a page's accessibility tree (roles, accessible names, states like `checked` or `expanded`) as YAML; a screenshot records its pixels. That is why Playwright's `toMatchAriaSnapshot` catches accessibility regressions that visual regression testing with `toHaveScreenshot` cannot see, and the reverse. We broke one checkout page 12 ways with Playwright 1.63: the ARIA snapshot caught six regressions that left the screenshot unchanged, and the screenshot caught five that the ARIA snapshot missed, including a contrast drop and a removed focus ring. Use both, and add an axe-core scan for the accessibility rules that neither snapshot checks.
+
+<MainImage />
+
+## What is an ARIA snapshot?
+
+An ARIA snapshot is a YAML serialization of the accessibility tree, the structure the browser exposes to screen readers and other assistive technology. Each line is one node: a role, the accessible name in quotes, and states in brackets. Playwright introduced it in [version 1.49](https://github.com/microsoft/playwright/releases/tag/v1.49.0) (November 2024). [Playwright MCP](https://github.com/microsoft/playwright-mcp/blob/f183dad4a52965583e3cc1d59b88cdc279e2e57d/README.md) returns the same format with element references added, and calls it an accessibility snapshot. It is not a DOM snapshot, the HTML capture some services re-render in the cloud (see [DOM snapshots vs screenshots](/blog/dom-snapshots-vs-screenshots)).
+
+This is the `main` landmark of the snapshot Playwright 1.63 generated for our test page:
+
+```yaml
+# tests/checkout.spec.ts-snapshots/checkout.aria.yml (banner omitted)
+- main:
+    - heading "Checkout" [level=1]
+    - heading "Contact" [level=2]
+    - text: Email
+    - textbox "Email": ada@example.com
+    - paragraph: We send the receipt to this address.
+    - checkbox "Save my details" [checked]
+    - text: Save my details
+    - heading "Order summary" [level=2]
+    - button "Items (2)" [expanded]
+    - list:
+        - listitem:
+            - text: /Wireless keyboard, \$\d+/
+            - button "Remove Wireless keyboard"
+        - listitem:
+            - text: /USB-C cable, \$\d+/
+            - button "Remove USB-C cable"
+    - button /Pay \$\d+/
+```
+
+Everything a screen reader announces is there: heading levels, the field's label, the checkbox and disclosure states, the icon buttons' names. Nothing about color, size or position is. Note the last line: Playwright stored the price as a regular expression (more on that below).
+
+## What does an ARIA snapshot catch that a screenshot misses?
+
+To measure it, we built a small checkout page and applied 12 bugs of the kind refactors introduce, one at a time. Each version went through three checks: `toHaveScreenshot` (full page, default settings), `toMatchAriaSnapshot` against a generated `.aria.yml` file, and an [axe-core](https://github.com/dequelabs/axe-core) scan with [`@axe-core/playwright`](https://github.com/dequelabs/axe-core-npm/tree/develop/packages/playwright) 4.13.0 expecting zero violations. "Caught" means the check failed.
+
+| Regression                                     | Screenshot                          | ARIA snapshot                     | axe-core                  |
+| ---------------------------------------------- | ----------------------------------- | --------------------------------- | ------------------------- |
+| Icon button loses its `aria-label`             | Missed                              | Caught                            | Caught (`button-name`)    |
+| Pay `<button>` becomes a styled `<div>`        | Missed at rest, caught when focused | Caught                            | Missed                    |
+| `<h2>` becomes `<h3>` with the same CSS class  | Missed                              | Caught                            | Missed                    |
+| `aria-expanded` stuck at `false`               | Missed                              | Caught                            | Missed                    |
+| `<label for>` no longer matches the input `id` | Missed                              | Caught                            | Caught (`label`)          |
+| Logo image inside the home link gets `alt=""`  | Missed                              | Caught                            | Caught (`link-name`)      |
+| Help text contrast drops from 7.56:1 to 1.66:1 | Caught (403 px)                     | Missed                            | Caught (`color-contrast`) |
+| Focus ring removed with `outline: none`        | Caught when focused (815 px)        | Missed                            | Missed                    |
+| Pay button overlaps the item list              | Caught (7,021 px)                   | Missed                            | Missed                    |
+| Total changes from $128 to $182                | Caught (29 px)                      | Missed                            | Missed                    |
+| Checkbox no longer checked by default          | Caught (105 px)                     | Caught                            | Missed                    |
+| New "Add a coupon" link                        | Caught (4,746 px)                   | Missed (caught with `deep-equal`) | Missed                    |
+
+Tested in October 2026 with Playwright 1.63.0 and Chromium 153 on macOS (Apple silicon). Every check passed six runs in a row on the unchanged page before we applied any change.
+
+The six regressions at the top changed nothing on screen: `toHaveScreenshot` passed, and a strict pixel comparison found no difference beyond a 4-pixel flicker at the email field's rounded corner, which also shows up between two captures of the unchanged page. Yet each one changes what a screen reader user hears, and the `<div>` is no longer in the keyboard tab order. Each ARIA diff points at the exact node: `button "Remove Wireless keyboard"` became `button`, `[level=2]` became `[level=3]`.
+
+Screenshots caught every visual change, down to 29 pixels for a price. Of the six accessibility regressions, axe-core caught the three that break an automated rule and missed the three that are valid markup, just not the markup you had.
+
+## What does a failing ARIA snapshot look like?
+
+This is the `aria-expanded` regression from the table (separator line and call log trimmed). The screenshot and axe tests passed; the ARIA snapshot failed:
+
+```text
+  ✓  3 [chromium] › tests/checkout.spec.ts:10:3 › at rest › screenshot (308ms)
+  ✓  2 [chromium] › tests/checkout.spec.ts:18:3 › at rest › axe (530ms)
+  ✘  1 [chromium] › tests/checkout.spec.ts:14:3 › at rest › aria snapshot (5.2s)
+
+  1) [chromium] › tests/checkout.spec.ts:14:3 › at rest › aria snapshot
+
+    Error: expect(page).toMatchAriaSnapshot(expected) failed
+
+    Timeout: 5000ms
+    - Expected  - 4
+    + Received  + 4
+
+    @@ -12,14 +12,14 @@
+        - textbox "Email": ada@example.com
+        - paragraph: We send the receipt to this address.
+        - checkbox "Save my details" [checked]
+        - text: Save my details
+        - heading "Order summary" [level=2]
+    -   - button "Items (2)" [expanded]
+    +   - button "Items (2)"
+        - list:
+          - listitem:
+    -       - text: /Wireless keyboard, \$\d+/
+    +       - text: Wireless keyboard, $79
+            - button "Remove Wireless keyboard"
+          - listitem:
+    -       - text: /USB-C cable, \$\d+/
+    +       - text: USB-C cable, $49
+            - button "Remove USB-C cable"
+    -   - button /Pay \$\d+/
+    +   - button "Pay $128"
+```
+
+Only the first pair is the regression: the disclosure button lost `[expanded]`, so a screen reader announces a collapsed section while the items are on screen. The other three pairs matched: Playwright prints each regex from the file next to the literal text it received, so a one-line change reports as four.
+
+## How do you add ARIA snapshot tests in Playwright?
+
+A file snapshot stores the whole tree in a `.aria.yml` file in the test's snapshot folder. Since Playwright 1.60 you can assert on the page directly:
+
+```ts
+// tests/checkout.spec.ts
+import { expect, test } from "@playwright/test";
+
+test("checkout accessibility tree", async ({ page }) => {
+  await page.goto("/");
+  await expect(page).toMatchAriaSnapshot({ name: "checkout.aria.yml" });
+});
+```
+
+An inline template lists only the nodes you care about, and by default extra nodes are allowed:
+
+```ts
+// tests/inline.spec.ts
+import { expect, test } from "@playwright/test";
+
+test("checkout keeps its accessible structure", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.getByRole("main")).toMatchAriaSnapshot(`
+    - heading "Checkout" [level=1]
+    - textbox "Email"
+    - checkbox "Save my details" [checked]
+    - button "Items (2)" [expanded]
+    - list:
+      - listitem:
+        - button "Remove Wireless keyboard"
+    - button "Pay $128"
+  `);
+});
+```
+
+Run `npx playwright test --update-snapshots` once to generate `tests/checkout.spec.ts-snapshots/checkout.aria.yml`, then commit it.
+
+Unlike screenshot baselines, ARIA baselines don't depend on the machine. Playwright [saves one `.aria.yml` file for all browsers](https://playwright.dev/docs/aria-snapshots), with no `-chromium-darwin` suffix. We ran the same tests in the official `mcr.microsoft.com/playwright:v1.63.0-noble` image (Linux arm64): the ARIA baseline generated on macOS passed as is, while the macOS screenshot baseline differed by 1,302 pixels, all in text rendering. The causes are covered in [why Playwright screenshots differ between macOS, Linux and Docker](/blog/playwright-screenshots-differ-macos-linux).
+
+### What changed in each Playwright version?
+
+| Version                                                              | Released       | ARIA snapshot change                                              |
+| -------------------------------------------------------------------- | -------------- | ----------------------------------------------------------------- |
+| [1.49](https://github.com/microsoft/playwright/releases/tag/v1.49.0) | November 2024  | `toMatchAriaSnapshot()` and `locator.ariaSnapshot()`              |
+| [1.50](https://github.com/microsoft/playwright/releases/tag/v1.50.0) | January 2025   | Snapshots in separate `.aria.yml` files, `--update-source-method` |
+| [1.52](https://github.com/microsoft/playwright/releases/tag/v1.52.0) | April 2025     | `/children` strict matching, `/url` for links                     |
+| [1.59](https://github.com/microsoft/playwright/releases/tag/v1.59.0) | April 2026     | `page.ariaSnapshot()`, `mode: "ai"` and `depth` options           |
+| [1.60](https://github.com/microsoft/playwright/releases/tag/v1.60.0) | May 2026       | `expect(page).toMatchAriaSnapshot()`, `boxes` option              |
+| [1.63](https://github.com/microsoft/playwright/releases/tag/v1.63.0) | September 2026 | `ariaSnapshotJSON()`, ARIA snapshots recorded in traces           |
+
+For debugging CI failures, the 1.63 `trace` option accepts `snapshots: { dom: true, aria: true, screen: true }`: each action then stores a tree and a screenshot (our recorded trace had entries such as `aria/call@8-after.json`), shown side by side in the trace viewer's Display Aria mode.
+
+## What do ARIA snapshots miss by default?
+
+Three defaults explain the ARIA misses in the table.
+
+**Numbers become regular expressions.** When Playwright generates or updates a snapshot, it turns UUIDs, file sizes, durations and numbers of two or more digits into regexes ([source](https://github.com/microsoft/playwright/blob/1b025d7e20a026371cd5f98ba0cdce48892737c8/packages/isomorphic/ariaSnapshotRenderer.ts#L132-L147)). Single digits stay literal, which is why `Items (2)` survived and `Pay $128` became `/Pay \$\d+/`. The generated snapshot keeps passing when the total goes from $128 to $182. When a number matters, write it as a literal in an inline template: ours failed on the price change.
+
+**Matching is partial.** The default `contain` mode passes as long as the listed nodes are present in order, so the new coupon link went unnoticed. The `equal` mode didn't catch it either: it only applies to the root's direct children, and the link sits inside `main`. [`deep-equal`](https://playwright.dev/docs/aria-snapshots#strict-matching) caught it:
+
+```ts
+// playwright.config.ts
+import { defineConfig } from "@playwright/test";
+
+export default defineConfig({
+  expect: {
+    toMatchAriaSnapshot: { children: "deep-equal" },
+  },
+});
+```
+
+**Focus and appearance are not recorded.** The page's default snapshot was identical with and without focus on the Pay button (only `mode: "ai"` adds `[active]`), and it has no colors, sizes or positions. Contrast, overlap and focus styles belong to screenshots.
+
+## How do you update ARIA snapshots?
+
+`npx playwright test --update-snapshots` (or `-u`) rewrites the snapshots that no longer match. For a file snapshot, the YAML diff is the review. After the `aria-expanded` regression, `diff -u` on the regenerated file showed one changed line:
+
+```diff
+@@ -14,7 +14,7 @@
+   - checkbox "Save my details" [checked]
+   - text: Save my details
+   - heading "Order summary" [level=2]
+-  - button "Items (2)" [expanded]
++  - button "Items (2)"
+   - list:
+     - listitem:
+       - text: /Wireless keyboard, \$\d+/
+```
+
+Inline templates are not edited by default. Playwright writes a patch instead:
+
+```text
+New baselines created for:
+
+  tests/inline.spec.ts
+
+  git apply test-results/rebaselines.patch
+```
+
+`--update-source-method=3way` writes merge-conflict markers into the test, and `overwrite` replaces the template. Read the patch before applying it: in our run, updating the 8-line partial template replaced it with the full 18-line tree, and the hand-written `"Pay $128"` came back as a regex. One update, and the price check was gone.
+
+## Do ARIA snapshots replace axe-core or a manual audit?
+
+No. An ARIA snapshot compares today's tree with the one you approved. It has no rules: if the icon button never had a label, the baseline records `- button` and the test passes forever. axe-core does the opposite: it checks the current page against WCAG-based rules, with no baseline. In our run it flagged 4 of the 12 regressions (`button-name`, `label`, `link-name`, `color-contrast`) and passed the stale `aria-expanded`, the heading change and the `<div>` button. Adding it takes a few lines:
+
+```ts
+// tests/checkout.spec.ts
+import AxeBuilder from "@axe-core/playwright";
+import { expect, test } from "@playwright/test";
+
+test("checkout has no detectable axe violations", async ({ page }) => {
+  await page.goto("/");
+  const { violations } = await new AxeBuilder({ page }).analyze();
+  expect(violations.map((v) => `${v.id} (${v.impact})`)).toEqual([]);
+});
+```
+
+Neither tool tells you whether the page works with a keyboard and a screen reader. Playwright's [accessibility testing guide](https://playwright.dev/docs/accessibility-testing) says many problems "can only be discovered through manual testing". If you sell to consumers in the EU, the [European Accessibility Act](https://eur-lex.europa.eu/eli/dir/2019/882/oj) (Directive (EU) 2019/882) applies to e-commerce services provided to consumers after 28 June 2025. Regression tests keep fixed problems fixed; they are not a conformance audit.
+
+## Why do AI agents care about the accessibility tree?
+
+Because it is how browser agents read your page. Playwright MCP lists this among its features in its [README](https://github.com/microsoft/playwright-mcp/blob/f183dad4a52965583e3cc1d59b88cdc279e2e57d/README.md): "Uses Playwright's accessibility tree, not pixel-based input." Its `browser_snapshot` tool returns an ARIA snapshot, and the agent acts on elements by role and name (the 1.59 `mode: "ai"` adds element references for this). An icon button that lost its label is an unnamed `button` to a screen reader user and to an agent asked to remove the keyboard from the cart. More in [Playwright MCP and visual testing](/blog/playwright-mcp-visual-testing).
+
+## How do you review ARIA snapshot diffs in a pull request?
+
+With plain Playwright, commit the `.aria.yml` files and review the YAML diff like code. The screenshot diff for the same test lives elsewhere (PNG files or the HTML report), so reviewers check two places.
+
+[Argos](/review) puts both in one build review. Since [November 2025](/changelog/2025-11-04-aria-snapshots), the Argos Playwright SDK can capture an ARIA snapshot along with a screenshot, or on its own:
+
+```ts
+// tests/checkout.spec.ts
+import { argosAriaSnapshot, argosScreenshot } from "@argos-ci/playwright";
+import { test } from "@playwright/test";
+
+test("checkout", async ({ page }) => {
+  await page.goto("/");
+  // Screenshot + ARIA snapshot, attached to each other in Argos
+  await argosScreenshot(page, "checkout", { ariaSnapshot: true });
+});
+
+test("checkout tree only", async ({ page }) => {
+  await page.goto("/");
+  await argosAriaSnapshot(page, "checkout-tree");
+});
+```
+
+With the Argos reporter set up ([Playwright quickstart](/docs/quickstart/playwright-quickstart)), CI uploads the screenshot and its ARIA snapshot together. In the build, the [ARIA view](/docs/learn/review-workflow/review-a-build) switches a screenshot to its accessibility tree. Baselines come from base-branch builds and approval happens in Argos or on the pull request, so no YAML or PNG lands in Git.
+
+One difference from `toMatchAriaSnapshot`: the SDK stores the tree exactly as `ariaSnapshot()` returns it, with no regexes. On the price regression, a local run with SDK 7.7.1 wrote this change (excerpt of `diff -u`); in a build, Argos shows it next to the screenshot diff:
+
+```diff
+@@ -22,4 +22,4 @@
+     - listitem:
+       - text: USB-C cable, $49
+       - button "Remove USB-C cable"
+-  - button "Pay $128"
++  - button "Pay $182"
+```
+
+So every text change shows up, including unstabilized dates and counters: freeze them as you would for screenshots. Argos does not run accessibility rules (keep axe-core) or decide whether a change is acceptable; a reviewer approves it. Each ARIA snapshot counts as an additional screenshot for billing ([pricing](/pricing)), one per viewport when you use the `viewports` option. The [Vitest SDK](/docs/reference/vitest) has the same `ariaSnapshot: true` option, and other tools, such as Playwright for Python, can [upload `.aria.yml` files with the CLI](/docs/learn/how-to-guides/visual-coverage/adding-aria-snapshots-manually).
+
+## When is a screenshot alone enough?
+
+| Check                 | Catches                                                      | Misses                                                                  |
+| --------------------- | ------------------------------------------------------------ | ----------------------------------------------------------------------- |
+| `toHaveScreenshot`    | Layout, color, contrast, overlap, focus styles, visible text | Names, roles, states and heading levels that don't change pixels        |
+| `toMatchAriaSnapshot` | Roles, accessible names, states, heading levels, text        | Anything visual; changed numbers and added nodes, with default settings |
+| axe-core              | Automatically testable rule violations, even in the baseline | Valid markup that regressed; keyboard and screen reader use             |
+
+- **Screenshots alone** are enough when a component library owns your widgets' semantics and your changes are mostly styling and content.
+- **Add ARIA snapshots** when you build custom widgets with ARIA states (disclosures, tabs, menus), refactor component markup, or want baselines that pass on any OS.
+- **Playwright's built-in `toMatchAriaSnapshot`** is enough when a small team reviews YAML diffs in pull requests. Argos helps when you want trees and screenshots reviewed together, with approvals and history.
+
+## FAQ
+
+### Is ARIA snapshot testing the same as accessibility testing?
+
+No. An ARIA snapshot detects changes to the accessibility tree compared with a baseline you approved. It checks no accessibility rules, so a page that was inaccessible on day one keeps passing. Pair it with a rules engine such as axe-core and with manual keyboard and screen reader testing.
+
+### Do ARIA snapshots replace screenshot tests?
+
+No. They record roles, names and states but no colors, sizes or positions. In our test of 12 regressions with Playwright 1.63, ARIA snapshots missed a contrast drop, an overlapping button and a removed focus ring, while screenshots missed six accessibility regressions. Run both.
+
+### How do I update ARIA snapshots in Playwright?
+
+Run `npx playwright test --update-snapshots`. File snapshots (`.aria.yml`) are rewritten in place. For inline templates, Playwright writes a patch you apply with `git apply test-results/rebaselines.patch`, unless you pass `--update-source-method=3way` or `overwrite`. Review the result: regenerated snapshots turn multi-digit numbers into regexes and replace partial templates with the full tree.
+
+### Can I review ARIA snapshot diffs in a pull request?
+
+Yes. If you commit `.aria.yml` files, the pull request shows the YAML diff like any code change. With Argos, `argosScreenshot(page, name, { ariaSnapshot: true })` uploads the tree with the screenshot, and the build review switches between the screenshot diff and the accessibility tree before you approve.
+
+### Does Vitest support ARIA snapshots?
+
+Yes, experimentally since [Vitest 4.1.4](https://github.com/vitest-dev/vitest/releases/tag/v4.1.4) (April 2026). `toMatchAriaSnapshot()` stores the tree in a `.snap` file and `toMatchAriaInlineSnapshot()` keeps it in the test, with the same YAML syntax as Playwright's ([Vitest guide](https://vitest.dev/guide/browser/aria-snapshots)). The Argos Vitest SDK also accepts `ariaSnapshot: true` in `argosScreenshot`.
+
+### Which Playwright version added ARIA snapshots?
+
+Playwright 1.49, released in November 2024, introduced `toMatchAriaSnapshot()` and `locator.ariaSnapshot()`. Version 1.50 added separate `.aria.yml` files, 1.60 (May 2026) added page-level `expect(page).toMatchAriaSnapshot()`, and 1.63 (September 2026) added `ariaSnapshotJSON()` and ARIA snapshots in traces.
+
+## Conclusion
+
+A screenshot tells you whether the page still looks right; an ARIA snapshot tells you whether it still says the right thing to assistive technology. Add a page-level `toMatchAriaSnapshot` next to your screenshots, use `deep-equal` if added elements matter, keep literal numbers where they matter, and run axe-core for the rules both ignore. To review both diffs in one place, the [Argos Playwright SDK](/docs/reference/playwright#aria-snapshots) captures them in a single call.
