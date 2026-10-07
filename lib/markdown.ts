@@ -1,7 +1,9 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 
+import { createProcessor } from "@mdx-js/mdx";
 import * as matter from "gray-matter";
+import remarkGfm from "remark-gfm";
 
 import { AI_AGENTS_QUESTIONS } from "@/app/ai-agents/faq";
 import { COMPARISONS } from "@/app/compare/comparisons";
@@ -93,16 +95,155 @@ function docHeader(props: {
 }
 
 /**
- * Reduce an MDX source to plain markdown: drop the frontmatter and the
- * top-level import/export statements. Our articles and changelog entries are
- * otherwise plain markdown.
+ * The props of a JSX element written as plain strings (`alt="…"`, not
+ * `width={416}`): the ones its markdown can use.
  */
-function mdxToMarkdown(source: string): string {
+type StringProps = Partial<Record<string, string>>;
+
+/**
+ * Renders a JSX element of an MDX source as markdown: the markdown
+ * counterpart of the component the page renders the element with.
+ */
+type MarkdownComponent = (props: StringProps) => string;
+
+/**
+ * The fields of an mdast node (https://github.com/syntax-tree/mdast) that the
+ * conversion reads.
+ */
+type MdastNode = {
+  type: string;
+  children?: MdastNode[];
+  /** Set by the parser on every node. */
+  position: {
+    start: { column: number; offset: number };
+    end: { offset: number };
+  };
+  /** JSX elements only. */
+  name?: string | null;
+  attributes?: { type: string; name?: string; value?: unknown }[];
+};
+
+/** Parses MDX the way the pages compile it (see `getDocMdxSource`). */
+const mdxProcessor = createProcessor({ remarkPlugins: [remarkGfm] });
+
+/** Escape the characters that would end a link or image label early. */
+function escapeLabel(text: string): string {
+  return text.replace(/[[\]\\]/g, "\\$&");
+}
+
+function markdownImage({ src, alt = "" }: StringProps): string {
+  return src ? `![${escapeLabel(alt)}](${absoluteUrl(src)})` : "";
+}
+
+/** Media elements; any other element is replaced by its content. */
+const MARKDOWN_COMPONENTS: Record<string, MarkdownComponent> = {
+  Image: markdownImage,
+  img: markdownImage,
+  iframe: ({ src, title }) =>
+    src ? `[${escapeLabel(title ?? src)}](${absoluteUrl(src)})` : "",
+};
+
+/**
+ * MDX syntax: JSX elements (`mdxJsxFlowElement`, `mdxJsxTextElement`),
+ * import/export (`mdxjsEsm`) and `{expressions}`. Never found inside code.
+ */
+function isMdxNode(node: MdastNode): boolean {
+  return node.type.startsWith("mdx");
+}
+
+/** The outermost MDX nodes under `node`, in document order. */
+function findMdxNodes(node: MdastNode): MdastNode[] {
+  return (node.children ?? []).flatMap((child) =>
+    isMdxNode(child) ? [child] : findMdxNodes(child),
+  );
+}
+
+function getStringProps(node: MdastNode): StringProps {
+  const props: StringProps = {};
+  for (const attribute of node.attributes ?? []) {
+    if (attribute.name && typeof attribute.value === "string") {
+      props[attribute.name] = attribute.value;
+    }
+  }
+  return props;
+}
+
+/** Remove up to `indent` leading spaces from every line but the first. */
+function dedent(text: string, indent: number): string {
+  return text.replace(new RegExp(`\n {0,${indent}}`, "g"), "\n");
+}
+
+/** The markdown of an MDX node: nothing for import/export and expressions. */
+function renderMdxNode(
+  content: string,
+  node: MdastNode,
+  components: Record<string, MarkdownComponent>,
+): string {
+  if (node.type !== "mdxJsxFlowElement" && node.type !== "mdxJsxTextElement") {
+    return "";
+  }
+  const component = node.name ? components[node.name] : undefined;
+  if (component) {
+    return component(getStringProps(node));
+  }
+  // The content of an element is often indented in the source: dedent each
+  // child to its own column so nested code blocks and lists stay intact.
+  return (node.children ?? [])
+    .map((child) =>
+      isMdxNode(child)
+        ? renderMdxNode(content, child, components)
+        : dedent(
+            renderSource(content, child, components),
+            child.position.start.column - 1,
+          ),
+    )
+    .filter(Boolean)
+    .join(node.type === "mdxJsxFlowElement" ? "\n\n" : "");
+}
+
+/**
+ * The source of `node`, with the MDX syntax inside it rendered as markdown.
+ * Everything else, code included, is kept as written.
+ */
+function renderSource(
+  content: string,
+  node: MdastNode,
+  components: Record<string, MarkdownComponent>,
+): string {
+  let output = "";
+  let cursor = node.position.start.offset;
+  for (const mdxNode of findMdxNodes(node)) {
+    output += content.slice(cursor, mdxNode.position.start.offset);
+    const markdown = renderMdxNode(content, mdxNode, components);
+    const isInline =
+      mdxNode.type === "mdxJsxTextElement" ||
+      mdxNode.type === "mdxTextExpression";
+    if (markdown || isInline) {
+      output += markdown;
+    } else {
+      // A block that renders to nothing takes its blank line along.
+      output = output.trimEnd();
+    }
+    cursor = mdxNode.position.end.offset;
+  }
+  return output + content.slice(cursor, node.position.end.offset);
+}
+
+/**
+ * Reduce an MDX source to plain markdown: drop the frontmatter, the
+ * import/export statements and the `{expressions}`, and render JSX elements
+ * with `components` (media by default) or replace them by their content.
+ */
+function mdxToMarkdown(
+  source: string,
+  components: Record<string, MarkdownComponent> = {},
+): string {
   const { content } = matter.default(source);
-  return content
-    .replace(/^(import|export)\s[^\n]*(\n|$)/gm, "")
-    .replace(/\n{3,}/g, "\n\n")
-    .trim();
+  const tree = mdxProcessor.parse(content) as MdastNode;
+  return renderSource(content, tree, {
+    ...MARKDOWN_COMPONENTS,
+    ...components,
+  }).trim();
 }
 
 async function readCuratedPage(name: string): Promise<string> {
@@ -191,7 +332,11 @@ async function getArticleMarkdown(slug: string): Promise<string | null> {
     }),
     `Author: ${article.author.name} · Category: ${article.category.title}`,
     "",
-    mdxToMarkdown(source),
+    mdxToMarkdown(source, {
+      // The hero image from the frontmatter, resolved like the page's.
+      MainImage: () =>
+        markdownImage({ src: article.image.src, alt: article.imageAlt }),
+    }),
     "",
   ].join("\n");
 }
@@ -256,7 +401,8 @@ async function getChangelogIndexMarkdown(): Promise<string> {
   for (const entry of entries) {
     const date = entry.date.split("T")[0];
     lines.push(
-      `- [${entry.title}](${SITE_URL}/changelog/${date}-${entry.slug}) — ${date}`,
+      // The slug already starts with the date: `YYYY-MM-DD-slug`.
+      `- [${entry.title}](${SITE_URL}/changelog/${entry.slug}) — ${date}`,
       `  ${entry.description}`,
     );
   }
