@@ -18,7 +18,7 @@ Yes, AI coding agents like Claude Code, Cursor and OpenAI Codex can review the v
 
 ## What does an agent need to review a visual diff?
 
-Two inputs. The first is what the pull request was supposed to change: its title, description and code diff, which the agent already reads from Git and GitHub. The second is what actually changed on screen, and that has to come from your visual testing service, because a model comparing two screenshots by itself misses most small changes (numbers further down). If you're still choosing a service, our comparison of [visual testing tools with an MCP server](/blog/visual-testing-mcp-servers) covers Argos, Applitools, Happo, Percy and TestMu AI.
+Two inputs. The first is what the pull request was supposed to change: its title, description and code diff, which the agent already reads from Git and GitHub. The second is what actually changed on screen, and that has to come from your visual testing service, because a model comparing two full screenshots by itself misses small changes (numbers further down). If you're still choosing a service, our comparison of [visual testing tools with an MCP server](/blog/visual-testing-mcp-servers) covers Argos, Applitools, Happo, Percy and TestMu AI.
 
 In Argos, that second input is a build: the screenshots CI uploaded for a commit, compared with a baseline build from your base branch. The [MCP server](/docs/agents/mcp-server) exposes every REST API operation a user can call as a tool; these are the ones a review uses:
 
@@ -186,6 +186,8 @@ If an agent does submit a review, Argos labels it: since August 2026, the review
 ## How reliable are AI models at spotting UI changes?
 
 Not reliable enough to find changes on their own. The [DiffSpot benchmark](https://arxiv.org/abs/2605.29615) (arXiv, May 2026) built 4,400 pairs of web interface screenshots: 3,900 where a single CSS property of one element changed, and 500 with no change. Of the 13 vision-language models it tested, the best identified 40.7% of the real changes, and every model stayed under 23% recall on the hardest tier.
+
+Newer models do better on small screenshots. In [our own test](/blog/ai-models-spot-ui-changes), Claude Opus 5.5, Claude Sonnet 5.5, GPT-6 Astra and GPT-6.1 Sol flagged 93 to 99% of one-property changes between two 800×600 component screenshots, but only 64 to 86% on full-page screenshots, which both APIs shrink before the model sees them. With the diff mask added, all four flagged every change.
 
 So don't ask the agent to spot differences between two full screenshots. A pixel diff reports every region whose change exceeds its threshold, by construction; the agent's job is to explain the region the diff mask already marks, using the pull request as context. That's why the prompt starts from `listBuildDiffs` and crops around the mask.
 
