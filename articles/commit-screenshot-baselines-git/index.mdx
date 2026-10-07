@@ -1,0 +1,235 @@
+---
+title: "Should You Commit Screenshot Baselines to Git?"
+description: "Yes for small suites. Past a few hundred screenshots, Git history, LFS quotas and merge conflicts add up. Measured sizes, WebP baselines and alternatives."
+category: guides
+author: greg
+date: 2026-10-29
+image: ./main.jpg
+imageAlt: "Abstract illustration of a version-control tree whose branches grow heavy with stacked screenshot tiles, beside a light external vault"
+related:
+  - playwright-visual-regression-testing-ci
+  - playwright-update-one-screenshot
+  - playwright-visual-testing-limits
+---
+
+Commit your screenshot baselines to Git when your visual regression suite is small: that is how Playwright's `toHaveScreenshot()` is designed, and the [Playwright docs](https://playwright.dev/docs/test-snapshots) tell you to commit the `*-snapshots` folders and review every change to them. Past a few hundred screenshots or a few people updating them, the costs add up: each update adds a near-full copy of the image to Git history, Git LFS meters storage and CI downloads, binary files cannot be merged, and Playwright never deletes baselines your tests stopped using. This guide measures those costs with Playwright 1.63.0 on real pages and covers the fixes: Git LFS, lossless WebP baselines, a cleanup script, and moving baselines out of the repository.
+
+<MainImage />
+
+## When is committing baselines to Git the right call?
+
+Committed baselines travel with the code that produced them. A pull request shows the changed PNGs next to the code, and GitHub compares them in 2-up, swipe and onion skin views ([GitHub docs](https://docs.github.com/en/repositories/working-with-files/using-files/working-with-non-code-files#viewing-differences)). There is no service, no token and no network dependency, so anyone who clones the repository can run the suite.
+
+That setup is the right one when the suite has dozens to a few hundred screenshots, one or two people update them from one environment (usually the CI Docker image), and the UI changes occasionally. To accept a single changed screenshot, see [how to accept one changed Playwright screenshot](/blog/playwright-update-one-screenshot).
+
+## How much space do screenshot baselines take in Git?
+
+We captured six pages of argos-ci.com with Playwright 1.63.0 (Chromium 153, macOS, 1280 px wide, device scale factor 1), one viewport screenshot (1280×720) and one full-page screenshot each. Viewport PNGs weighed 91 to 452 KB, 199 KB on average. Full-page PNGs weighed 324 KB to 2.1 MB, 1.27 MB on average, for pages 1,545 to 15,207 px tall.
+
+Git keeps every version of every file. To measure one update, we committed the 12 captures as PNGs, captured them again after a small CSS change (wider letter-spacing on `h1` and `h2`), committed again and ran `git gc --aggressive`. The packed repository grew by 8.4 MB, 95% of the size of the new files: delta compression finds almost nothing to share between two compressed images. A 1 px vertical shift gave the same result.
+
+So history grows by roughly screenshots × average size × (1 + updates per screenshot). With 500 viewport baselines at 200 KB, the current set is 100 MB. If each changes ten times over the life of the project, history holds about 1 GB of PNGs, times the number of browser projects. GitHub recommends keeping repositories under 1 GB and strongly recommends under 5 GB ([GitHub docs](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github#repository-size-limits)). CI barely notices, since `actions/checkout` fetches one commit by default. Full clones on developer machines pay for the whole history.
+
+## Does Git LFS solve the size problem?
+
+Partly. Git LFS replaces each image in Git with a three-line pointer and keeps the content in LFS storage, so clones stay small. Scope it to snapshot folders so other images stay in Git:
+
+```text
+# .gitattributes
+**/*-snapshots/** filter=lfs diff=lfs merge=lfs -text
+```
+
+That is the line `git lfs track "**/*-snapshots/**"` writes (checked with git-lfs 3.4.1). Add `**/__screenshots__/**` for Vitest baselines.
+
+Every machine that runs the tests needs git-lfs, CI included. The official Playwright Docker image ships git but not git-lfs (checked on `v1.63.0-noble`), and `actions/checkout` fails when `lfs: true` is set without it:
+
+```yaml
+# .github/workflows/visual.yml
+name: Visual tests
+on: pull_request
+
+jobs:
+  visual:
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.63.0-noble
+    steps:
+      # The Playwright image ships git but not git-lfs
+      - run: apt-get update && apt-get install -y git-lfs
+      - uses: actions/checkout@v7
+        with:
+          lfs: true
+      - run: npm ci
+      - run: npx playwright test
+```
+
+A checkout without LFS leaves pointer files where the images should be, and Playwright 1.63 fails with `Could not decode expected image as PNG.` Run `git lfs pull` when you see it.
+
+GitHub's LFS terms, checked October 2026 ([Git LFS billing](https://docs.github.com/en/billing/concepts/product-billing/git-lfs)):
+
+- GitHub Free, Pro and Free for organizations include 10 GiB of storage and 10 GiB of bandwidth per month; Team and Enterprise Cloud include 250 GiB of each.
+- Every pushed version counts in full against storage, and GitHub Actions downloads count against the owner's bandwidth. Without a payment method, exceeding the bandwidth quota disables LFS until the next month.
+- Deleting files does not free storage: GitHub says to delete and recreate the repository, or contact support ([docs](https://docs.github.com/en/repositories/working-with-files/managing-large-files/removing-files-from-git-large-file-storage)).
+- Pull requests show only the pointer for some LFS files ([docs](https://docs.github.com/en/repositories/working-with-files/managing-large-files/collaboration-with-git-large-file-storage#viewing-large-files-in-pull-requests)).
+
+Bandwidth runs out first: a 100 MB baseline set downloaded by 20 CI runs a day over 22 working days is 44 GB a month, four times the free quota. Caching `.git/lfs` with `actions/cache`, keyed on the output of `git lfs ls-files -l`, limits downloads to new objects ([pattern from actions/checkout#165](https://github.com/actions/checkout/issues/165)).
+
+## Are WebP baselines smaller than PNG?
+
+Playwright 1.62 (July 2026) added WebP baselines: give the snapshot a `.webp` name and `toHaveScreenshot()` stores lossless WebP ([release notes](https://playwright.dev/docs/release-notes#version-162), [PR #41152](https://github.com/microsoft/playwright/pull/41152), which closed the 2023 request [#22984](https://github.com/microsoft/playwright/issues/22984)). The same argos-ci.com captures in both formats, as Playwright 1.63.0 wrote them:
+
+| Page            | Viewport PNG | Viewport WebP | Full-page PNG | Full-page WebP  | Page height |
+| --------------- | ------------ | ------------- | ------------- | --------------- | ----------- |
+| Home            | 452 KB       | 288 KB (-36%) | 1,824 KB      | 1,726 KB (-5%)  | 11,487 px   |
+| Pricing         | 93 KB        | 59 KB (-36%)  | 379 KB        | 404 KB (+7%)    | 3,305 px    |
+| Blog index      | 212 KB       | 169 KB (-21%) | 1,438 KB      | 1,134 KB (-21%) | 4,741 px    |
+| Blog post       | 96 KB        | 94 KB (-2%)   | 1,558 KB      | 1,622 KB (+4%)  | 8,959 px    |
+| Changelog       | 91 KB        | 87 KB (-5%)   | 2,084 KB      | 2,040 KB (-2%)  | 15,207 px   |
+| Docs quickstart | 247 KB       | 166 KB (-33%) | 324 KB        | 271 KB (-16%)   | 1,545 px    |
+| Total           | 1,192 KB     | 863 KB (-28%) | 7,606 KB      | 7,198 KB (-5%)  |             |
+
+Every WebP decoded to exactly the pixels of its PNG (zero differing pixels in all 12 pairs), so the format is safe for comparisons. The savings vary: 28% on viewport captures, 5% on full pages, and two full pages grew. On a mostly white test page with a login form, the WebP was almost three times the size of the PNG (32 KB against 11 KB).
+
+The encoder is the limiting factor. Chromium produces the WebP during capture, and re-encoding the same 12 images with `cwebp -lossless -z 9` (libwebp 1.5.0) made them 57% smaller than the PNGs, still pixel-identical. Playwright compares decoded pixels, so a recompressed baseline keeps passing and `--update-snapshots=changed` leaves it alone. `--update-snapshots=all` rewrites it, because that mode compares bytes.
+
+In Git, zlib compression shrinks Chromium's WebP files further: the same update test grew the repository by 4.9 MB instead of 8.4 MB with PNG. Git LFS stores files as they are, so expect the table's numbers there.
+
+One hard limit: a WebP image cannot exceed 16,383 px on a side ([WebP FAQ](https://developers.google.com/speed/webp/faq)). In Playwright 1.63.0, a 17,000 px full-page `.webp` snapshot failed with `Could not decode expected image as WEBP.` while the PNG version passed. An open issue, [#42717](https://github.com/microsoft/playwright/issues/42717), reports the same empty image from Playwright's MCP screenshot tool.
+
+## How do you switch Playwright baselines to WebP?
+
+Name the screenshot with the extension:
+
+```ts
+// tests/home.spec.ts
+await expect(page).toHaveScreenshot("home.webp");
+```
+
+To switch a whole suite in Playwright 1.62 or 1.63 without renaming every call, end the screenshot path template in `.webp`. This is Playwright's default template with the extension replaced. In 1.62.1 and 1.63.0 it stored both a screenshot named `hello.png` and an unnamed one as WebP:
+
+```ts
+// playwright.config.ts
+import { defineConfig } from "@playwright/test";
+
+export default defineConfig({
+  expect: {
+    toHaveScreenshot: {
+      pathTemplate:
+        "{snapshotDir}/{testFileDir}/{testFileName}-snapshots/{arg}{-projectName}{-snapshotSuffix}.webp",
+    },
+  },
+});
+```
+
+The next release adds an `expect.toHaveScreenshot.type` option ([PR #42865](https://github.com/microsoft/playwright/pull/42865), merged September 22, 2026, not in 1.63.0). It sets the format for unnamed screenshots and names without an extension; names ending in `.png` stay PNG. Either way, generate the WebP set once in your CI image, then delete the old PNGs with the script below.
+
+## Why do baselines cause merge conflicts and duplicate files?
+
+Two branches that update the same baseline conflict, and Git cannot merge images. With Git 2.47:
+
+```text
+$ git merge main
+warning: Cannot merge binary files: tests/home.spec.ts-snapshots/home-chromium-linux.png (HEAD vs. main)
+Auto-merging tests/home.spec.ts-snapshots/home-chromium-linux.png
+CONFLICT (content): Merge conflict in tests/home.spec.ts-snapshots/home-chromium-linux.png
+Automatic merge failed; fix conflicts and then commit the result.
+```
+
+Picking either side is wrong when both branches changed the UI. Finish the merge, then regenerate that test's screenshots in the CI image.
+
+Platform suffixes add churn too. Playwright names a baseline `home-chromium-linux.png` on Linux and `home-chromium-darwin.png` on macOS, so a local run on a Mac writes a parallel set. If the CI image is your only source of baselines, keep the others out of Git:
+
+```text
+# .gitignore
+**/*-snapshots/*-darwin.*
+**/*-snapshots/*-win32.*
+```
+
+Why the platforms render differently is covered in [why Playwright screenshots differ between macOS, Linux and Docker](/blog/playwright-screenshots-differ-macos-linux).
+
+## How do you delete obsolete Playwright snapshots?
+
+Playwright never deletes a baseline. Rename a screenshot or delete a test, and the old file stays. Requests for a cleanup option were closed as not planned in May 2026 ([#34775](https://github.com/microsoft/playwright/issues/34775)) and August 2026 ([#16582](https://github.com/microsoft/playwright/issues/16582)).
+
+This script lets Git do the bookkeeping: it removes every baseline from the working tree, runs the suite so each assertion writes its file back, and deletes what no test wrote. It uses `--update-snapshots=changed` because in the default mode, `missing`, each rewritten baseline also fails its test. We tested it with Playwright 1.63.0 on a project with one renamed screenshot and one deleted test file: it removed exactly those two baselines and restored the others from `HEAD`.
+
+```bash
+# scripts/prune-snapshots.sh: delete Playwright baselines that no test uses anymore.
+# Run with `bash scripts/prune-snapshots.sh` on a clean checkout of a passing branch,
+# in the CI image, with every project enabled: a skipped or failing test writes nothing.
+set -euo pipefail
+pattern='*-snapshots/*' # Playwright's default snapshot folders
+
+# 1. Remove every committed baseline from the working tree.
+git ls-files -z -- "$pattern" | xargs -0 rm -f
+
+# 2. Run the full suite. Each screenshot assertion that still exists writes its file back.
+npx playwright test --update-snapshots=changed
+
+# 3. Whatever no test wrote back is an orphan.
+orphans=()
+while IFS= read -r -d '' file; do orphans+=("$file"); done \
+  < <(git ls-files -z --deleted -- "$pattern")
+
+# 4. Restore the committed baselines, then delete only the orphans.
+git checkout HEAD -- "$pattern"
+if [ ${#orphans[@]} -eq 0 ]; then
+  echo "No orphaned snapshots."
+else
+  git rm --quiet -- "${orphans[@]}"
+  printf 'Removed %s\n' "${orphans[@]}"
+fi
+```
+
+## How do you move baselines out of Git?
+
+Playwright will not store them elsewhere for you: the request for remote baseline storage was closed as not planned in May 2026 ([#29227](https://github.com/microsoft/playwright/issues/29227)). Two options remain.
+
+**Your own object storage.** Ignore the snapshot folders, upload baselines from CI on the main branch to a bucket keyed by commit, and download the merge base's set before each pull request run. You then build the rest: accepting intended changes, hosting the diff report, expiring old sets. [reg-suit](https://github.com/reg-viz/reg-suit) (MIT) packages that loop for S3 and Google Cloud Storage, with a GitHub app for commit statuses and PR comments; its last release, 0.14.5, shipped in August 2025 (checked October 2026). See [self-hosted visual regression testing](/blog/self-hosted-visual-regression-testing) for the options you can run yourself.
+
+**A hosted service.** With [Argos](/docs/quickstart/playwright-quickstart), your tests still capture screenshots in their own browser, and the Argos reporter uploads them at the end of the CI run. Nothing is committed. For each build, Argos picks a [baseline build](/docs/learn/platform-fundamentals/baseline-build) from your Git history: the most recent approved build whose commit is an ancestor of the merge base. You mark each changed screenshot as accepted or rejected, and approving the build replaces `--update-snapshots`.
+
+```ts
+// tests/home.spec.ts
+import { argosScreenshot } from "@argos-ci/playwright";
+import { test } from "@playwright/test";
+
+test("homepage", async ({ page }) => {
+  await page.goto("/");
+  await argosScreenshot(page, "homepage");
+});
+```
+
+The trade-offs: an external service, a token in CI, and a bill past the free tier ([pricing](/pricing)). Screenshots are stored on AWS S3 in the US and replicated to the EU ([security](/security)). Argos does not make macOS and Linux render alike; comparisons stay consistent because baselines come from CI builds. Moving an existing suite is mostly a find-and-replace ([migration guide](/docs/learn/how-to-guides/migrate-to-argos/from-playwright-native-screenshots)).
+
+## Git, Git LFS, object storage or a service: how do they compare?
+
+|                    | Git                               | Git LFS                                           | Your object storage                        | Hosted service (Argos)                 |
+| ------------------ | --------------------------------- | ------------------------------------------------- | ------------------------------------------ | -------------------------------------- |
+| Repository size    | Every version stays in history    | Pointers in Git, every version in LFS storage     | No images in Git                           | No images in Git                       |
+| Setup              | None                              | `.gitattributes`, git-lfs everywhere, `lfs: true` | Bucket, credentials, scripts (or reg-suit) | SDK, reporter, token                   |
+| Accepting a change | `--update-snapshots`, then commit | Same as Git                                       | A flow you build                           | Approve the build                      |
+| Review             | Image diff in the pull request    | Pointers for some files on GitHub, diff locally   | A report you host                          | Review UI with per-screenshot status   |
+| Cost               | Free within repository limits     | 10 GiB of each on GitHub Free, then metered       | Storage, egress, maintenance time          | Free tier, then [paid plans](/pricing) |
+
+## FAQ
+
+### Should Playwright snapshots be in .gitignore?
+
+Only if your baselines live somewhere else, such as a bucket or a service like Argos. Playwright compares against files on disk: without them, every `toHaveScreenshot()` fails with "A snapshot doesn't exist at ..., writing actual." on each CI run.
+
+### Does Git LFS work with Playwright snapshots?
+
+Yes. Track the snapshot folders in `.gitattributes`, install git-lfs on every machine and in CI (the official Playwright Docker image does not include it), and set `lfs: true` on `actions/checkout`. On GitHub Free, 10 GiB of storage and 10 GiB of monthly bandwidth are included, and CI downloads count.
+
+### Are WebP baselines smaller and still lossless?
+
+They are lossless: in our test, all 12 WebP baselines decoded to the same pixels as their PNGs. The size gain depends on content: 28% smaller for viewport captures, 5% for full pages, and larger for flat, mostly white pages. Full-page WebP screenshots fail above 16,383 px.
+
+### How do I delete obsolete Playwright snapshots?
+
+Playwright has no built-in option. Delete all baselines from the working tree, run the full suite with `--update-snapshots=changed` so each assertion writes its file back, then `git rm` the files nothing wrote and restore the rest from `HEAD`.
+
+### Where does Argos store baselines?
+
+Not in your repository. Screenshots from every build are stored on AWS S3 in the US, replicated to the EU and encrypted at rest and in transit. For each new build, Argos selects an approved build from your Git history as the baseline.

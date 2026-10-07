@@ -1,0 +1,315 @@
+---
+title: "maxDiffPixels vs maxDiffPixelRatio vs threshold in Playwright"
+description: "In Playwright, threshold decides which pixels count as different; maxDiffPixels and maxDiffPixelRatio cap how many. Measured on 1.63, with code."
+category: guides
+author: jeremy
+date: 2026-11-17
+image: ./main.jpg
+imageAlt: "Abstract illustration of two overlapping pixel grids with a tolerance dial and a measurement bracket"
+related:
+  - fix-flaky-visual-tests
+  - screenshot-diff-algorithms-benchmark
+  - playwright-visual-regression-testing-ci
+---
+
+In Playwright visual regression tests, `threshold` decides whether a single pixel of a `toHaveScreenshot` comparison counts as different: it is a perceived color distance in the YIQ color space, from 0 to 1, with a default of 0.2. `maxDiffPixels` and `maxDiffPixelRatio` then decide how many counted pixels the assertion tolerates, and the default is zero. Because these are two separate stages, and anti-aliased pixels are skipped before anything is counted, `maxDiffPixels: 0` is not a pixel-perfect comparison: in our test with Playwright 1.63.0, a paragraph recolored from `#333333` to `#666666` passed it.
+
+<MainImage />
+
+## How does toHaveScreenshot decide that two screenshots differ?
+
+Playwright 1.63 compares screenshots with a copy of [pixelmatch](https://github.com/mapbox/pixelmatch) kept in its own repository ([source at the v1.63.0 tag](https://github.com/microsoft/playwright/blob/1b025d7e20a026371cd5f98ba0cdce48892737c8/packages/utils/third_party/pixelmatch.js)). Apart from the license header, the file is identical to pixelmatch 5.3. The comparison runs in three steps:
+
+1. **Color distance, pixel by pixel.** Both pixels are converted to YIQ (one brightness axis, two color axes) and a weighted squared distance is computed. A pixel becomes a candidate only if that distance is above `35215 × threshold²`, where 35215 is the largest distance the formula can produce.
+2. **Anti-aliasing filter.** For each candidate, pixelmatch inspects its 3×3 neighborhood. If the pixel has both a darker and a brighter neighbor, and the darkest or the brightest of them sits in a flat area (three or more identical neighbors) in both images, the pixel is classified as anti-aliasing: painted yellow in the diff image and not counted.
+3. **Count against the tolerance.** The remaining pixels are counted and compared with the number you allow.
+
+Here is the tolerance logic, paraphrased from [`comparators.ts`](https://github.com/microsoft/playwright/blob/1b025d7e20a026371cd5f98ba0cdce48892737c8/packages/utils/comparators.ts#L87-L101):
+
+```ts
+// Paraphrased from packages/utils/comparators.ts, Playwright 1.63.0
+const count = pixelmatch(expected, actual, diff, width, height, {
+  threshold: options.threshold ?? 0.2, // includeAA is never passed
+});
+const byCount = options.maxDiffPixels;
+const byRatio =
+  options.maxDiffPixelRatio === undefined
+    ? undefined
+    : options.maxDiffPixelRatio * width * height; // size of the baseline
+const allowed =
+  byCount !== undefined && byRatio !== undefined
+    ? Math.min(byCount, byRatio) // both set: the stricter one wins
+    : (byCount ?? byRatio ?? 0); // neither set: zero tolerance
+const pass = sameSize && count <= allowed;
+```
+
+A size mismatch fails whatever the tolerance. And if the first capture does not match the baseline, Playwright retakes screenshots until two consecutive captures match under the same options, then compares the last one with the baseline, so your tolerance also applies to that stability check.
+
+## What does threshold measure in practice?
+
+The YIQ distance weighs brightness most. Between two grays only brightness changes, so the default threshold of 0.2 lets any gray change of 52 levels or fewer (out of 255) through, whatever `maxDiffPixels` says. `#333333` to `#666666` is 51 levels.
+
+For each change we tested, here is the largest per-pixel distance expressed on the threshold scale. A `threshold` above roughly this value hides the change completely:
+
+| Change                         | Largest pixel distance, as a threshold |
+| ------------------------------ | -------------------------------------- |
+| Text `#333333` to `#3a3a3a`    | 0.027                                  |
+| Border `#e5e7eb` to `#d1d5db`  | 0.070                                  |
+| Text `#333333` to `#666666`    | 0.193                                  |
+| Button moved 1px down          | 0.647                                  |
+| Font weight 400 to 500 (Inter) | 0.773                                  |
+
+Color-only changes sit low on this scale. Geometry changes (a shift, a heavier stroke) turn background pixels into foreground pixels, which produces large distances. That is why the default catches the last two rows and misses the first three. Brand colors are no safer: with the same formula, a button recolored from indigo `#4f46e5` to `#4338ca` is at 0.059 and from `#4f46e5` to violet `#7c3aed` at 0.095, so both pass at 0.1 and fail at 0.05.
+
+## Why does maxDiffPixels: 0 still pass when the screenshot changed?
+
+Because zero is already the default. With neither option set, Playwright allows zero counted pixels, so adding `maxDiffPixels: 0` changes nothing: the pixels that `threshold` and the anti-aliasing filter discard were never counted. [Issue #42959](https://github.com/microsoft/playwright/issues/42959) (September 2026) reported this exact trap: a config with `maxDiffPixels: 0`, described in a comment as zero tolerance, let two different text colors and a faint card border pass. The docs now say that `threshold` defines which pixels count ([PR #42998](https://github.com/microsoft/playwright/pull/42998), merged September 29, 2026, after Playwright 1.63.0 shipped on September 4).
+
+We measured it. A small card on a 1280×720 page was captured as the baseline, then five real changes were compared under five option sets, with Playwright 1.63.0 and Chromium 153 in the official `mcr.microsoft.com/playwright:v1.63.0-noble` Docker image:
+
+| Change                        | default         | `maxDiffPixels: 0` | `threshold: 0.1` | `threshold: 0`  | `maxDiffPixelRatio: 0.01` |
+| ----------------------------- | --------------- | ------------------ | ---------------- | --------------- | ------------------------- |
+| Text `#333333` to `#3a3a3a`   | pass            | pass               | pass             | fail (1,890 px) | pass                      |
+| Text `#333333` to `#666666`   | pass            | pass               | fail (1,137 px)  | fail (2,009 px) | pass                      |
+| Border `#e5e7eb` to `#d1d5db` | pass            | pass               | pass             | fail (1,078 px) | pass                      |
+| Button moved 1px down         | fail (273 px)   | fail (273 px)      | fail (336 px)    | fail (1,228 px) | pass                      |
+| Font weight 400 to 500        | fail (2,009 px) | fail (2,009 px)    | fail (2,560 px)  | fail (3,221 px) | pass                      |
+
+The pixel counts are the ones Playwright printed in its failure messages. The image produced byte-identical screenshots on linux/arm64 and linux/amd64 (emulated), and three runs gave the same table. On macOS 26 (Apple M1 Max) every pass and fail was the same, with different counts because text rasterizes differently there (744 px instead of 1,137 for `#666666` at `threshold: 0.1`, for example).
+
+Here is the full test. The font is embedded so every machine renders the same Inter file:
+
+```ts
+// playwright.config.ts
+import { defineConfig } from "@playwright/test";
+
+export default defineConfig({
+  testDir: "./tests",
+  // One baseline shared by every option set, without a platform suffix.
+  snapshotPathTemplate: "{testDir}/__screenshots__/{arg}{ext}",
+  use: { viewport: { width: 1280, height: 720 } },
+});
+```
+
+```ts
+// tests/threshold.spec.ts (tested with @playwright/test 1.63.0)
+import { readFileSync } from "node:fs";
+import { createRequire } from "node:module";
+import { expect, test } from "@playwright/test";
+
+const require = createRequire(import.meta.url);
+const inter = readFileSync(
+  require.resolve("@fontsource-variable/inter/files/inter-latin-wght-normal.woff2"),
+).toString("base64");
+
+const card = (css = "") => `<!doctype html>
+<style>
+  @font-face { font-family: "Inter"; src: url(data:font/woff2;base64,${inter}) format("woff2"); font-weight: 100 900; }
+  body { margin: 0; font-family: "Inter"; background: #fff; }
+  .card { margin: 40px; width: 360px; padding: 24px; border: 1px solid #e5e7eb; border-radius: 12px; }
+  h2 { margin: 0 0 8px; font-size: 20px; font-weight: 600; color: #111827; }
+  p { margin: 0 0 16px; font-size: 14px; line-height: 20px; color: #333333; }
+  button { font: inherit; font-size: 14px; font-weight: 500; padding: 8px 16px;
+           border: 0; border-radius: 8px; background: #4f46e5; color: #fff; }
+  ${css}
+</style>
+<div class="card">
+  <h2>Upgrade your plan</h2>
+  <p>Unlimited projects, priority support and advanced analytics for your whole team.</p>
+  <button>Upgrade</button>
+</div>`;
+
+const changes = {
+  "text #333333 to #3a3a3a": "p { color: #3a3a3a; }",
+  "text #333333 to #666666": "p { color: #666666; }",
+  "border #e5e7eb to #d1d5db": ".card { border-color: #d1d5db; }",
+  "button moved 1px down": "button { margin-top: 1px; }",
+  "font-weight 400 to 500": "p { font-weight: 500; }",
+};
+const optionSets = {
+  default: {},
+  "maxDiffPixels: 0": { maxDiffPixels: 0 },
+  "threshold: 0.1": { threshold: 0.1 },
+  "threshold: 0": { threshold: 0 },
+  "maxDiffPixelRatio: 0.01": { maxDiffPixelRatio: 0.01 },
+};
+
+if (process.env.VARIANT !== "after") {
+  test("baseline", async ({ page }) => {
+    await page.setContent(card());
+    await page.evaluate(() => document.fonts.ready);
+    await expect(page).toHaveScreenshot("card.png");
+  });
+} else {
+  for (const [change, css] of Object.entries(changes)) {
+    for (const [label, options] of Object.entries(optionSets)) {
+      test(`${change} | ${label}`, async ({ page }) => {
+        await page.setContent(card(css));
+        await page.evaluate(() => document.fonts.ready);
+        await expect(page).toHaveScreenshot("card.png", options);
+      });
+    }
+  }
+}
+```
+
+Install the two packages, write the baseline, then run the 25 comparisons inside the same image:
+
+```bash
+npm install -D @playwright/test@1.63.0 @fontsource-variable/inter
+docker run --rm -v "$PWD":/work -w /work mcr.microsoft.com/playwright:v1.63.0-noble \
+  bash -c "npx playwright test --update-snapshots=all; VARIANT=after npx playwright test"
+```
+
+## What does anti-aliasing detection skip?
+
+Look at the `threshold: 0` column: it is still not exact. In the `#3a3a3a` case, 3,338 pixels changed, and the filter classified 1,448 of them (43%) as anti-aliasing and skipped them. Text is mostly edges, and the detector judges each pixel by its local neighborhood, not by whether the whole glyph changed color.
+
+Playwright 1.63 has no public option to turn the filter off: the comparator never passes pixelmatch's `includeAA` flag. [Issue #39742](https://github.com/microsoft/playwright/issues/39742) (March 2026) asked for it after the detector hid a changed selection border; it was folded into [#32057](https://github.com/microsoft/playwright/issues/32057), which was closed as not planned in May 2026. Changing the comparison is a hard sell: when a contributor proposed updating the vendored pixelmatch, a maintainer answered that "the way we compare pixels is a part of the Playwright contract" ([PR #38039](https://github.com/microsoft/playwright/pull/38039)).
+
+There is also a private comparator, `_comparator: "ssim-cie94"`, absent from the docs and the TypeScript types. It ignores `threshold`, skips pixels whose CIE94 color difference is 1.0 or less (a just-noticeable difference), counts changed pixels in flat 3×3 areas, and treats the others as anti-aliasing when the structural similarity of their 31×31 window is at least 0.99 ([source](https://github.com/microsoft/playwright/blob/1b025d7e20a026371cd5f98ba0cdce48892737c8/packages/utils/image_tools/compare.ts)). In our run it failed four of the five changes and passed the `#3a3a3a` text.
+
+The filter does not absorb environment noise either. On macOS, moving the paragraph by 0.3px changed 2,941 pixels and 203 were still counted, so the default assertion failed. On Linux the same CSS produced a byte-identical screenshot, so the result depends on the platform. Render baselines and comparisons in the same Docker image rather than raising tolerances; [why Playwright screenshots differ between macOS and Linux](/blog/playwright-screenshots-differ-macos-linux) covers the causes.
+
+## Should you use maxDiffPixels or maxDiffPixelRatio?
+
+Use `maxDiffPixels`, set on the assertions that need it. It means the same thing on every screenshot, so "this chart may change by 50 pixels" stays 50 pixels. `maxDiffPixelRatio` scales with the baseline's area: 0.01 is 9,216 pixels on a 1280×720 page and 76,800 pixels on a 1280×6000 full-page capture. In the table above, `maxDiffPixelRatio: 0.01` passed every change, including the 1px shift and the font-weight change.
+
+Be careful when you mix them across the config and an assertion. Options from `playwright.config.ts` are merged with the assertion's options, the assertion's values override, and when both limits end up set the stricter one wins. We checked it on macOS: with `maxDiffPixelRatio: 0.0001` in the config (92 pixels at 1280×720), an assertion with `maxDiffPixels: 5000` still failed on the font-weight change with 1,714 pixels. It passed once the assertion also set the ratio:
+
+```ts
+// playwright.config.ts sets expect.toHaveScreenshot.maxDiffPixelRatio = 0.0001
+await expect(page).toHaveScreenshot("card.png", { maxDiffPixels: 5000 });
+// fails: the config ratio (92 px) is stricter than 5,000 px
+
+await expect(page).toHaveScreenshot("card.png", {
+  maxDiffPixels: 5000,
+  maxDiffPixelRatio: undefined, // drops the config value
+});
+// passes
+```
+
+## Which screenshot settings should you use?
+
+1. **Fix rendering first.** Generate baselines and run comparisons in the same Docker image, pinned to your Playwright version, with fonts loaded and animations off. Tolerances come last; [how to fix flaky visual tests](/blog/fix-flaky-visual-tests) lists the usual causes.
+2. **Lower `threshold` to 0.1 globally.** It catches `#333333` to `#666666`, and it is the default in Vitest. Go to 0.05 if you need to catch subtle grays or close brand colors: it flagged the border change in our data, and the two indigo changes above sit at 0.059 and 0.095. Of the values we tried, only 0 caught the `#3a3a3a` text, and even 0 skips anti-aliased pixels.
+3. **Keep the count tolerance at zero in the config.** Raise `maxDiffPixels` only on assertions that capture known noisy content, after masking what you can.
+
+```ts
+// playwright.config.ts
+import { defineConfig } from "@playwright/test";
+
+export default defineConfig({
+  expect: {
+    toHaveScreenshot: {
+      threshold: 0.1, // the default 0.2 let #333333 to #666666 pass
+    },
+  },
+});
+```
+
+```ts
+// tests/dashboard.spec.ts
+import { expect, test } from "@playwright/test";
+
+test("revenue chart", async ({ page }) => {
+  await page.goto("/dashboard");
+  await expect(page.getByTestId("revenue-chart")).toHaveScreenshot(
+    "revenue-chart.png",
+    {
+      maxDiffPixels: 50, // tolerance for this canvas chart only
+      mask: [page.getByTestId("last-updated")],
+    },
+  );
+});
+```
+
+## How do Vitest's screenshot options compare?
+
+Vitest's `toMatchScreenshot` works in the same two stages with different names. Two differences: the default `threshold` is 0.1, and the anti-aliasing filter can be turned off with `includeAA: true` ([Vitest docs](https://vitest.dev/api/browser/assertions#pixelmatch-comparator-options)). Since Vitest 4.1 (March 2026), the comparator named `"pixelmatch"` runs `@blazediff/core` ([PR #9514](https://github.com/vitest-dev/vitest/pull/9514)), which uses the same YIQ formula.
+
+| Playwright `toHaveScreenshot`           | Vitest `comparatorOptions`    |
+| --------------------------------------- | ----------------------------- |
+| `threshold` (default 0.2)               | `threshold` (default 0.1)     |
+| `maxDiffPixels`                         | `allowedMismatchedPixels`     |
+| `maxDiffPixelRatio`                     | `allowedMismatchedPixelRatio` |
+| No option: anti-aliasing always skipped | `includeAA` (default `false`) |
+
+In both tools, no limit means zero pixels allowed, and when both limits are set the stricter one applies. We rendered the same card in Vitest 5.0.3 on macOS: with Vitest's defaults, the `#666666` change failed with 744 pixels (the count Playwright reported at `threshold: 0.1` on that machine), `includeAA: true` raised it to 1,012, and the `#3a3a3a` change passed both ways.
+
+```ts
+// vitest.config.ts (Vitest 5)
+import { playwright } from "@vitest/browser-playwright";
+import { defineConfig } from "vitest/config";
+
+export default defineConfig({
+  test: {
+    browser: {
+      enabled: true,
+      provider: playwright(),
+      instances: [{ browser: "chromium" }],
+      expect: {
+        toMatchScreenshot: {
+          comparatorName: "pixelmatch",
+          comparatorOptions: {
+            threshold: 0.1,
+            includeAA: true, // count anti-aliased pixels too (stricter, noisier)
+          },
+        },
+      },
+    },
+  },
+});
+```
+
+## How does Argos measure visual differences?
+
+Argos does not fail a test on a pixel count. Screenshots are uploaded, compared on the server with [odiff](https://github.com/dmtrKovalenko/odiff) (a native engine that uses the same YIQ distance), and changes are reviewed and approved on the pull request. Each comparison runs two odiff passes that ignore anti-aliased pixels ([source](https://github.com/argos-ci/argos/blob/41b35d51b58639ea33b611de3352056d2fa62da0/apps/backend/src/screenshot-diff/diff/image/index.ts)):
+
+- a base pass at an odiff threshold of 0.15, which ignores a few dozen scattered pixels on a 1280×720 screenshot;
+- a color-sensitive pass at 0.0225, which only counts when at least 3% of the image changed.
+
+A single `threshold` option per screenshot (0 to 1, default 0.5) scales all of these numbers. We ran the five pairs above through a local copy of that logic with odiff-bin 4.5.0. At the default, Argos flagged the `#666666` text, the 1px shift and the font-weight change, and it did not flag the `#3a3a3a` text or the border change. At `threshold: 0.05`, it flagged all five:
+
+```ts
+// tests/settings.spec.ts
+import { argosScreenshot } from "@argos-ci/playwright";
+import { test } from "@playwright/test";
+
+test("settings card", async ({ page }) => {
+  await page.goto("/settings");
+  await argosScreenshot(page, "settings-card", { threshold: 0.05 });
+});
+```
+
+See [how Argos detects visual differences](/docs/learn/platform-fundamentals/how-argos-detects-visual-differences) and the [Playwright SDK reference](/docs/reference/playwright). The diff engines themselves are measured side by side in [pixelmatch vs odiff vs SSIM](/blog/screenshot-diff-algorithms-benchmark).
+
+## When is Playwright's built-in comparison enough?
+
+- A small suite rendered in one Docker image, where `toHaveScreenshot` with `threshold: 0.1` is strict enough and costs nothing.
+- Component screenshots where any difference should fail the build, with no review step.
+- Baselines that rarely change and are reviewed as PNGs in Git without friction.
+
+A review service such as Argos earns its place when several people approve visual changes, baselines change often, or you want them out of Git. The [Playwright comparison page](/compare/playwright) lists the trade-offs.
+
+## FAQ
+
+### What is Playwright's default screenshot threshold?
+
+`threshold` defaults to 0.2 on a 0 to 1 scale of YIQ color distance, and the default count tolerance is zero pixels. Anti-aliased pixels are always skipped. With these defaults, a gray color change of 52 levels or fewer out of 255 does not fail the assertion.
+
+### Does maxDiffPixels: 0 mean pixel-perfect?
+
+No. Zero is already the default, and `threshold` and the anti-aliasing filter decide which pixels are counted before `maxDiffPixels` applies. Even `threshold: 0` is not exact: in our `#3a3a3a` test it still skipped 43% of the changed pixels as anti-aliasing.
+
+### Should I use maxDiffPixels or maxDiffPixelRatio?
+
+Prefer `maxDiffPixels`, set only on the assertions that need it. A ratio grows with the screenshot: 1% of a 1280×720 page is 9,216 pixels, enough to hide a 1px shift and a font-weight change in our test. If both are set, the stricter limit applies, including when one of them comes from the config.
+
+### Can I turn off anti-aliasing detection in Playwright?
+
+Not in Playwright 1.63: `toHaveScreenshot` never passes pixelmatch's `includeAA` flag, and the request to expose it was closed as not planned. Vitest exposes it as `includeAA: true`. Playwright's private `_comparator: "ssim-cie94"` is a different, undocumented algorithm, so don't build on it.
+
+### Why do anti-aliasing differences still fail sometimes?
+
+The detector recognizes one neighborhood pattern, so sub-pixel shifts and different font rasterizers change pixels it does not classify as anti-aliasing. On macOS, a 0.3px text offset still left 203 counted pixels in our test. Render baselines and comparisons in the same environment instead of raising tolerances.

@@ -1,0 +1,419 @@
+---
+title: "Storybook, Vitest Browser Mode or Playwright: Where Should Component Screenshots Live?"
+description: "Compare Storybook's Vitest addon, Vitest browser mode and Playwright component testing for component screenshots, with configs we ran on current versions."
+category: guides
+author: jeremy
+date: 2026-10-27
+image: ./main.jpg
+imageAlt: "Abstract illustration of three parallel lanes feeding component tiles into one shared screenshot frame"
+related:
+  - vitest-visual-testing
+  - storybook-screenshot-every-story
+  - argos-vitest-sdk
+---
+
+Component screenshots belong where your component states are already written down: in Storybook if you maintain stories, in Vitest browser mode (`toMatchScreenshot`) if your component tests already run in Vitest, and in Playwright component testing if Playwright runs your end-to-end suite and you want one runner. All three render components in a real browser (typically Chromium driven by Playwright) and support visual regression testing as of October 2026, but only Vitest and Playwright compare screenshots on their own: Storybook relies on a visual testing service for that. We ran each setup on the same React button with Vitest 5.0.3, Storybook 10.6.1 and Playwright 1.63.0; this guide shows the configs, the real output, and how to choose.
+
+<MainImage />
+
+## What are the options for component screenshots in October 2026?
+
+Three tools now cover component-level visual testing, and two of them changed between July and September 2026:
+
+- **Storybook's Vitest addon** turns every story into a test. Storybook itself has no screenshot assertion; a service captures each story.
+- **Vitest browser mode** has had a built-in `toMatchScreenshot` assertion since [Vitest 4.0](https://vitest.dev/blog/vitest-4) (October 2025). [Vitest 5.0](https://vitest.dev/blog/vitest-5) shipped on September 3, 2026.
+- **Playwright component testing** was rebuilt in [Playwright 1.62](https://github.com/microsoft/playwright/releases/tag/v1.62.0) (July 24, 2026) around stories, a gallery page and a built-in `mount` fixture. [Playwright 1.63](https://github.com/microsoft/playwright/releases/tag/v1.63.0) (September 4, 2026) froze the old experimental packages.
+
+|                      | Storybook + Vitest addon          | Vitest browser mode                     | Playwright component testing      |
+| -------------------- | --------------------------------- | --------------------------------------- | --------------------------------- |
+| You write            | Stories                           | Tests that render components            | Stories, a gallery page and specs |
+| Screenshot assertion | None built in                     | `toMatchScreenshot()`                   | `toHaveScreenshot()`              |
+| Reference images     | Stored by the service             | PNGs in `__screenshots__/`, in Git      | PNGs in `*-snapshots/`, in Git    |
+| Requires             | A Vite-based Storybook, Vitest 3+ | Vitest 4+ (Node.js 22.12+ for Vitest 5) | Playwright 1.62+, a dev server    |
+
+## How do Storybook stories become screenshot tests?
+
+Storybook's [Vitest addon](https://storybook.js.org/docs/writing-tests/integrations/vitest-addon) (`@storybook/addon-vitest`) transforms each story into a Vitest test with portable stories and runs it in browser mode. Each story gets a smoke test (does it render?), and its `play` function runs as an interaction test. Storybook's docs say the addon has superseded the older Jest-based [test runner](https://storybook.js.org/docs/writing-tests/integrations/test-runner), whose official support ended with `@storybook/test-runner` 0.26.0 in September 2026. The addon requires Vite (or `@storybook/nextjs-vite`), so Webpack-based Storybooks are left with the unsupported test runner or a Playwright loop over the built Storybook ([both routes](/blog/storybook-screenshot-every-story)).
+
+```ts
+// vitest.config.ts
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
+import { playwright } from "@vitest/browser-playwright";
+import { defineConfig } from "vitest/config";
+
+const dirname = path.dirname(fileURLToPath(import.meta.url));
+
+export default defineConfig({
+  test: {
+    projects: [
+      {
+        plugins: [
+          storybookTest({ configDir: path.join(dirname, ".storybook") }),
+        ],
+        test: {
+          name: "storybook",
+          browser: {
+            enabled: true,
+            headless: true,
+            provider: playwright(),
+            instances: [{ browser: "chromium" }],
+          },
+        },
+      },
+    ],
+  },
+});
+```
+
+On its own, this config checks that stories render and that `play` functions pass. It takes no screenshots. For pixels, Storybook's [visual testing docs](https://storybook.js.org/docs/writing-tests/visual-testing) point to Chromatic's Visual Tests addon, which sends stories to Chromatic's cloud for capture. The alternative is a Vitest plugin that captures each story inside your own run, which is how Argos works (covered below).
+
+You may not need the `setProjectAnnotations` setup file that older guides add: with Storybook 10.6.1, the addon printed that it has applied preview annotations itself since Storybook 10.3, so we removed it. Mocking happens at the story level, with [`sb.mock()`](https://storybook.js.org/docs/writing-stories/mocking-data-and-modules/mocking-modules) registered in `.storybook/preview.ts`, MSW, or decorators.
+
+Where Storybook wins: the states already exist, so screenshots cost no extra test code, and the same stories document the components for designers and reviewers.
+
+## How does toMatchScreenshot work in Vitest browser mode?
+
+`toMatchScreenshot()` captures an element (or the page) in the browser that runs your test and compares it with pixelmatch against a reference PNG next to the test. The [Vitest visual regression guide](https://vitest.dev/guide/browser/visual-regression-testing) recommends a separate project with a `*.vrt.test.*` naming convention, headless mode and a fixed viewport:
+
+```ts
+// vitest.config.ts
+import react from "@vitejs/plugin-react";
+import { playwright } from "@vitest/browser-playwright";
+import { defineConfig } from "vitest/config";
+
+export default defineConfig({
+  plugins: [react()],
+  test: {
+    projects: [
+      {
+        test: {
+          name: "vrt",
+          include: ["src/**/*.vrt.test.tsx"],
+          browser: {
+            enabled: true,
+            headless: true,
+            provider: playwright(),
+            instances: [
+              { browser: "chromium", viewport: { width: 1280, height: 720 } },
+            ],
+          },
+        },
+      },
+    ],
+  },
+});
+```
+
+```tsx
+// src/components/Button.vrt.test.tsx
+import { expect, test } from "vitest";
+import { page } from "vitest/browser";
+import { render } from "vitest-browser-react";
+import { Button } from "./Button";
+
+test("primary button", async () => {
+  await render(<Button title="Submit" />);
+  await expect(page.getByRole("button")).toMatchScreenshot("button-primary");
+});
+```
+
+The first `vitest run --project vrt` fails on purpose: "No existing reference screenshot found; a new one was created." It wrote `src/components/__screenshots__/Button.vrt.test.tsx/button-primary-chromium-darwin.png`, an 82×38 crop of the button. The second run passed. Then we changed the button's `border-radius` from 8px to 4px:
+
+```text
+Screenshot does not match the stored reference.
+14 pixels (ratio 0.01) differ.
+
+Reference screenshot:
+  src/components/__screenshots__/Button.vrt.test.tsx/button-primary-chromium-darwin.png
+Actual screenshot:
+  .vitest/attachments/src/components/Button.vrt.test.tsx/button-primary-actual-chromium-darwin.png
+Diff image:
+  .vitest/attachments/src/components/Button.vrt.test.tsx/button-primary-diff-chromium-darwin.png
+```
+
+The catch is in the tolerance. Vitest defines no default mismatch tolerance, and its guide shows `allowedMismatchedPixelRatio: 0.01` as an example. With that setting, the same corner change passed: 14 pixels is less than 1% of a small crop. Keep tolerances near zero for component screenshots and fix noise at the source instead.
+
+What Vitest 5 changed for screenshots, per the [migration guide](https://vitest.dev/guide/migration):
+
+- Actual and diff images moved to `.vitest/attachments/`, and failure screenshots to `.vitest/attachments/failure-screenshots/`, so they no longer mix with references. One `.vitest` entry in `.gitignore` covers them.
+- A custom reference folder now needs `browser.expect.toMatchScreenshot.screenshotDirectory`; `browser.screenshotDirectory` no longer applies to references.
+- Locators match text exactly by default, Node.js 22.12+ and Vite 6.4+ are required, and the WebdriverIO provider moved to the vitest-community organization.
+
+Where Vitest wins: unit and component tests share one runner, `vi.mock()` works in the browser (with `{ spy: true }` instead of `vi.spyOn` on module exports, per the [browser mode limitations](https://vitest.dev/guide/browser/#limitations)), and UI mode shows a diff slider.
+
+## What changed in Playwright component testing in 1.62 and 1.63?
+
+Playwright 1.62 replaced JSX-in-the-test with three pieces, documented in [Component testing](https://playwright.dev/docs/test-components): a **story** (a named export in a `*.story.tsx` file that renders one scenario), a **gallery** page served by your own dev server, and the built-in [`mount()` fixture](https://playwright.dev/docs/api/class-fixtures#fixtures-mount), which loads the gallery page, renders a story by id and returns a locator for its root. Tests import `test` and `expect` from plain `@playwright/test`.
+
+Playwright 1.63 then announced that `@playwright/experimental-ct-react`, `-react17` and `-vue` "will no longer be updated". As of October 2026, the latest [`@playwright/experimental-ct-react`](https://www.npmjs.com/package/@playwright/experimental-ct-react) on npm is 1.62.1, and the docs tell users of those packages to stay on 1.62 until they migrate.
+
+```tsx
+// src/components/Button.story.tsx
+import { Button } from "./Button";
+
+export const Primary = () => <Button title="Submit" />;
+export const Secondary = () => <Button title="Submit" variant="secondary" />;
+export const Disabled = () => <Button title="Submit" disabled />;
+```
+
+The gallery is yours to write. `npx playwright init-skills` installs a skill your coding agent can follow to generate it; ours is adapted from the React example in that skill:
+
+```tsx
+// playwright/gallery/main.tsx (loaded by playwright/gallery/index.html)
+import { flushSync } from "react-dom";
+import { createRoot, type Root } from "react-dom/client";
+
+const stories = import.meta.glob("../../src/**/*.story.{tsx,jsx}");
+const id = (f: string) =>
+  f.replace(/^(\.\.\/)+src\//, "").replace(/\.story\.\w+$/, "");
+
+async function resolve(storyId: string) {
+  const sep = storyId.lastIndexOf("/");
+  const [path, name] = [storyId.slice(0, sep), storyId.slice(sep + 1)];
+  const file = Object.keys(stories).find(
+    (f) => id(f) === path || id(f).endsWith("/" + path),
+  );
+  const mod = (file && (await stories[file]())) as
+    Record<string, any> | undefined;
+  return mod?.[name] ?? mod?.default;
+}
+
+const rootEl = document.getElementById("root")!;
+let root: Root | undefined;
+
+(window as any).mount = async ({
+  story,
+  props,
+}: {
+  story: string;
+  props?: object;
+}) => {
+  const Story = await resolve(story);
+  if (!Story) throw new Error(`Unknown story: ${story}`);
+  root ??= createRoot(rootEl);
+  flushSync(() => root!.render(<Story {...props} />));
+};
+
+(window as any).unmount = async () => {
+  root?.unmount();
+  root = undefined;
+};
+```
+
+```ts
+// playwright.config.ts
+import { defineConfig, devices } from "@playwright/test";
+
+const GALLERY = "http://localhost:5287/playwright/gallery/index.html";
+
+export default defineConfig({
+  projects: [
+    {
+      name: "components",
+      testDir: "./tests/components",
+      use: {
+        ...devices["Desktop Chrome"],
+        baseURL: GALLERY,
+        serviceWorkers: "block",
+        reuseContext: true,
+      },
+    },
+  ],
+  webServer: {
+    command: "npx vite --port 5287 --strictPort",
+    url: GALLERY,
+    reuseExistingServer: !process.env.CI,
+  },
+});
+```
+
+```ts
+// tests/components/button.spec.ts
+import { expect, test } from "@playwright/test";
+
+test("disabled button", async ({ mount }) => {
+  const component = await mount("components/Button/Disabled");
+  await expect(component.getByRole("button")).toBeDisabled();
+  await expect(component).toHaveScreenshot("button-disabled.png");
+});
+```
+
+The first run wrote `tests/components/button.spec.ts-snapshots/button-disabled-components-darwin.png` (project name and platform in the file name). After the same `border-radius` change, `toHaveScreenshot` failed with "13 pixels (ratio 0.01 of all image pixels) are different" (14 for the primary button). Its call log shows what it does before comparing: disable CSS animations, wait for fonts, and retake until two captures match.
+
+Where Playwright wins: one runner, trace viewer and retry setup for E2E and components; any framework your dev server can render (Next.js or webpack apps run the gallery on a small standalone Vite server); `page.route()` for network mocks; Chromium, Firefox and WebKit through projects. The cost: you own the gallery, and story ids are strings, so a renamed story breaks at runtime.
+
+## How do the three approaches compare?
+
+|                     | Storybook + Vitest addon                              | Vitest browser mode                             | Playwright component testing                       |
+| ------------------- | ----------------------------------------------------- | ----------------------------------------------- | -------------------------------------------------- |
+| Unit of capture     | A story                                               | A test                                          | A story mounted by a test                          |
+| Stabilization       | Up to the capture service                             | Animations disabled, retakes until stable       | Animations disabled, fonts awaited, retakes        |
+| Browsers            | Chromium by default, others via Vitest `instances`    | Chromium, Firefox, WebKit (Playwright provider) | Any Playwright project                             |
+| Mocking             | `sb.mock()`, MSW, decorators                          | `vi.mock()`, MSW                                | `page.route()`, state inside the story             |
+| Reviewing a failure | In the service's UI                                   | Terminal output, Vitest UI slider               | HTML report with expected, actual and diff         |
+| Also gives you      | Docs, a browsable catalog, a11y and interaction tests | Unit tests and watch mode in the same runner    | Same runner, traces and projects as your E2E suite |
+
+Whichever you pick, references compare well only when they come from one environment: macOS and Linux render text differently, which is why both tools put the platform in the file name. We cover the causes in [why Playwright screenshots differ between macOS, Linux and Docker](/blog/playwright-screenshots-differ-macos-linux).
+
+## Which one should you pick for your stack?
+
+| Your situation                                    | Put component screenshots in                      |
+| ------------------------------------------------- | ------------------------------------------------- |
+| Storybook on a Vite framework                     | Stories, run by the Vitest addon, plus a service  |
+| Storybook on Webpack                              | Stories, via a Playwright loop or the test runner |
+| Vite app with Vitest tests and no Storybook       | Vitest browser mode                               |
+| Playwright E2E suite, no Storybook, any framework | Playwright component testing                      |
+| Bugs come from page composition, not components   | Page-level E2E screenshots instead                |
+
+- **Choose Storybook** if your states already exist as stories, or designers review components outside the app. You get one screenshot per story without writing a test per state. See [how to screenshot every Storybook story on every pull request](/blog/storybook-screenshot-every-story).
+- **Choose Vitest browser mode** if your component tests already run in Vitest, you rely on module mocking, or you want screenshot assertions in watch mode. Our [Vitest visual testing guide](/blog/vitest-visual-testing) covers CI and baseline updates.
+- **Choose Playwright component testing** if Playwright is already your only runner, your app is not built with Vite, or you want the trace viewer for component failures.
+- **Choose a cloud re-rendering service** if you need many browsers without running them yourself: [Chromatic for Vitest](https://www.chromatic.com/docs/vitest/) ([launched September 2, 2026](https://www.chromatic.com/blog/introducing-chromatic-for-vitest-browser-mode/)) captures an archive of each test and renders it in Chromatic's cloud (checked October 2026). The trade-offs of that model are in [DOM snapshots vs screenshots](/blog/dom-snapshots-vs-screenshots).
+
+## Where does Argos fit in each setup?
+
+[Argos](/diff) takes the screenshots in the browser your tests already run, uploads them from CI, compares them with a baseline build from your base branch, and posts a status check where your team approves or rejects each change. A visual change does not fail the test run; it shows up in that check. Argos does not render pages in other browsers: cross-browser coverage comes from the browsers you run.
+
+For Storybook and plain Vitest tests, Argos is a Vitest plugin per project. This is the config we ran (without uploading), with both projects side by side:
+
+```ts
+// vitest.config.ts
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { argosVitestPlugin as argosStorybookPlugin } from "@argos-ci/storybook/vitest-plugin";
+import { argosVitestPlugin } from "@argos-ci/vitest/plugin";
+import { storybookTest } from "@storybook/addon-vitest/vitest-plugin";
+import react from "@vitejs/plugin-react";
+import { playwright } from "@vitest/browser-playwright";
+import { defineConfig } from "vitest/config";
+
+const dirname = path.dirname(fileURLToPath(import.meta.url));
+// One build name per suite, so each gets its own baseline and status check
+const upload = (buildName: string) => ({
+  uploadToArgos: !!process.env.CI,
+  buildName,
+});
+// A factory: two projects sharing one `instances` array fail at startup
+const browser = () => ({
+  enabled: true,
+  headless: true,
+  provider: playwright({
+    // Recommended by Argos to reduce text rendering differences between machines
+    launchOptions: {
+      args: ["--disable-lcd-text", "--font-render-hinting=none"],
+    },
+  }),
+  instances: [{ browser: "chromium" as const }],
+});
+
+export default defineConfig({
+  plugins: [react()],
+  test: {
+    projects: [
+      {
+        plugins: [argosVitestPlugin(upload("components"))],
+        test: {
+          name: "vrt",
+          include: ["src/**/*.vrt.test.tsx"],
+          browser: browser(),
+        },
+      },
+      {
+        plugins: [
+          storybookTest({ configDir: path.join(dirname, ".storybook") }),
+          argosStorybookPlugin(upload("storybook")),
+        ],
+        test: { name: "storybook", browser: browser() },
+      },
+    ],
+  },
+});
+```
+
+The Storybook plugin needs no test code: it wrote one PNG per story (`components-button--primary.png`). For an extra state, call `argosScreenshot(ctx, name)` in a `play` function:
+
+```tsx
+// src/components/Button.stories.tsx
+import { argosScreenshot } from "@argos-ci/storybook/vitest";
+import type { Meta, StoryObj } from "@storybook/react-vite";
+import { expect, userEvent } from "storybook/test";
+import { Button } from "./Button";
+
+const meta = {
+  component: Button,
+  args: { title: "Submit" },
+} satisfies Meta<typeof Button>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Primary: Story = {};
+
+export const Focused: Story = {
+  play: async (ctx) => {
+    await userEvent.tab();
+    await expect(ctx.canvas.getByRole("button")).toHaveFocus();
+    await argosScreenshot(ctx, "button-focused");
+  },
+};
+```
+
+In plain Vitest tests, `argosScreenshot` takes no `page`, and `element` is a string selector because options cross the browser/Node boundary:
+
+```tsx
+// src/components/Button.argos.vrt.test.tsx
+import { argosScreenshot } from "@argos-ci/vitest";
+import { test } from "vitest";
+import { render } from "vitest-browser-react";
+import { Button } from "./Button";
+
+test("secondary button", async () => {
+  await render(<Button title="Submit" variant="secondary" />);
+  await argosScreenshot("button-secondary", { element: "button" });
+});
+```
+
+Argos does not document Playwright component testing as an integration, but `mount()` returns a regular locator, so the [Playwright SDK](/docs/reference/playwright) works once `["@argos-ci/playwright/reporter", { uploadToArgos: !!process.env.CI }]` is in your `reporter` list. We ran this on 1.63.0:
+
+```ts
+// tests/components/button-argos.spec.ts
+import { argosScreenshot } from "@argos-ci/playwright";
+import { test } from "@playwright/test";
+
+test("secondary button", async ({ page, mount }) => {
+  const component = await mount("components/Button/Secondary");
+  await argosScreenshot(page, "button-secondary", { element: component });
+});
+```
+
+The reporter printed a warning that the project lacked the two launch args above, so add them under `use.launchOptions.args` in the Playwright project too.
+
+Support as of October 2026: `@argos-ci/storybook` covers Storybook 8 to 11 (the Vitest addon from Storybook 9), and `@argos-ci/vitest` requires Vitest 4 or later with the Playwright provider. Setup guides: [Storybook](/docs/quickstart/storybook-quickstart), [Vitest](/docs/quickstart/vitest-quickstart). The `buildName` in the config above is how [build splitting](/docs/learn/how-to-guides/ci-pipelines/monorepos-setup) works when several suites upload from the same commit. Storybook screenshots are billed at a lower rate; see [pricing](/pricing).
+
+## FAQ
+
+### Is Playwright component testing still experimental?
+
+Not in its new form. Since Playwright 1.62 (July 2026), component tests use the `mount()` fixture built into `@playwright/test`, with stories and a gallery page you own. The old `@playwright/experimental-ct-react`, `-react17` and `-vue` packages stopped at 1.62.1, and Playwright 1.63 says they will no longer be updated, so migrate before upgrading past 1.62.
+
+### Can Storybook stories run in Vitest?
+
+Yes. Storybook's Vitest addon (`@storybook/addon-vitest`) turns each story into a Vitest test with portable stories and runs it in browser mode, including its `play` function. It needs a Vite-based Storybook framework and Vitest 3 or later. Projects on Webpack can use the Storybook test runner, whose official support ended in September 2026, or a Playwright loop over the built Storybook's `index.json`.
+
+### Does toMatchScreenshot work in Vitest 5?
+
+Yes. We ran it on Vitest 5.0.3 with `@vitest/browser-playwright` 5.0.3 and Playwright 1.63.0. In 5.0, actual and diff images moved to `.vitest/attachments/`, a custom reference folder needs `browser.expect.toMatchScreenshot.screenshotDirectory`, and Node.js 22.12 or later is required.
+
+### Which approach is fastest for component screenshots?
+
+We did not benchmark them against each other, and all three drive the same Chromium through Playwright. The Storybook addon runs stories as Vitest tests without building Storybook. Playwright's `mount()` loads the gallery page on every call, which is why its docs call `reuseContext: true` "a large speedup for component suites". Vitest 5 made browser mode faster: in the [Vitest team's benchmark](https://vitest.dev/blog/vitest-5), a 92-module React app went from 2.40s on Vitest 4.1 to 2.01s.
+
+### Can I mix Storybook, Vitest and Playwright screenshots in one project?
+
+Yes. One Vitest config can hold a `storybook` project and a `vrt` project side by side, and Playwright component tests live in their own Playwright project. Give each component state one home so the same state is not reviewed twice, and with Argos, use a separate build name per suite.
+
+## Conclusion
+
+Start from what you already maintain. Stories are the cheapest source of component screenshots if you have them; Vitest browser mode is the shortest path if your tests already run there; Playwright's new stories-and-gallery model fits teams that want one runner for everything. Then decide where references live: committed PNGs are fine for a small suite on one platform, and a service such as [Argos](/docs/quickstart) moves baselines and review out of Git when the team grows.

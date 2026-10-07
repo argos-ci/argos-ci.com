@@ -1,0 +1,112 @@
+---
+title: "Every Coding Agent Has a Browser Now. What Can Each One Verify?"
+description: "Claude Code, Cursor, Codex, Copilot, Devin, Jules and Antigravity can open a browser. What each one checks, what reaches the PR, and what a screenshot misses."
+category: guides
+author: greg
+date: 2026-12-10
+image: ./main.jpg
+imageAlt: "Abstract illustration of several agent modules each holding a small browser window, while one wide panel shows the whole app grid"
+related:
+  - visual-testing-ai-coding-agents
+  - playwright-mcp-visual-testing
+  - agents-show-their-work
+---
+
+As of October 2026, every major coding agent can open a browser and look at the UI it builds: Claude Code, Cursor, OpenAI Codex, GitHub Copilot, Devin, Google Jules and Google Antigravity all take screenshots or recordings of their own work. They differ in two ways that matter for review: whether the check runs without being asked, and whether the evidence reaches your pull request. None of their documented checks compares the whole app against approved baselines or keeps a review record, which is still the job of visual regression testing.
+
+<MainImage />
+
+## Which coding agents can see the UI they build?
+
+I opened the official docs, changelog or announcement for each agent and kept only what they state. Checked October 2026:
+
+| Agent                      | How it checks the UI                                                                                                                                                                                                                                                  | What reaches the pull request                                                                                                                              |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Claude Code (CLI, VS Code) | Drives your Chrome through the Claude in Chrome extension (`claude --chrome`, added in [2.0.72](https://code.claude.com/docs/en/changelog), December 2025): screenshots, console, DOM, GIF recordings once connected ([docs](https://code.claude.com/docs/en/chrome)) | Nothing automatic                                                                                                                                          |
+| Claude Code Desktop        | Runs your dev server in a Browser pane; auto-verify, on by default, takes screenshots and checks for errors after edits ([docs](https://code.claude.com/docs/en/desktop))                                                                                             | Nothing automatic                                                                                                                                          |
+| Cursor (editor agent)      | Built-in browser, generally available since [Cursor 2.0](https://cursor.com/changelog/2-0) (October 29, 2025); screenshots reach the model as images ([docs](https://cursor.com/docs/agent/tools/browser))                                                            | Nothing automatic                                                                                                                                          |
+| Cursor cloud agents        | Own VM with computer use ([February 24, 2026](https://cursor.com/blog/agent-computer-use)): starts the app, clicks through flows, records screenshots, videos and logs ([docs](https://cursor.com/docs/cloud-agent/capabilities))                                     | Artifacts in Cursor; embedded in the GitHub PR description only if you turn on **Allow posting artifacts to GitHub**                                       |
+| OpenAI Codex (desktop app) | Built-in browser in the ChatGPT desktop app: Computer Use inspects the rendered page and takes screenshots, and you can annotate elements. Not in the Codex CLI or IDE extension ([docs](https://learn.chatgpt.com/docs/browser))                                     | Nothing documented                                                                                                                                         |
+| OpenAI Codex (cloud)       | Announced September 15, 2025: opens its own browser, looks at what it built and iterates ([OpenAI](https://openai.com/index/introducing-upgrades-to-codex/))                                                                                                          | A screenshot on the task and the GitHub PR, per that announcement; the current Codex Cloud docs don't describe it                                          |
+| GitHub Copilot cloud agent | Playwright MCP server, on by default since July 2, 2025, limited to `localhost` and `127.0.0.1` by default ([docs](https://docs.github.com/en/copilot/concepts/agents/coding-agent/mcp-and-coding-agent))                                                             | Screenshots the agent chooses to share in its PR ([changelog](https://github.blog/changelog/2025-07-02-copilot-coding-agent-now-has-its-own-web-browser/)) |
+| GitHub Copilot in VS Code  | Browser tools, generally available and on by default since July 1, 2026: open pages, click, read console errors, take screenshots ([changelog](https://github.blog/changelog/2026-07-01-browser-tools-for-github-copilot-in-vs-code-are-generally-available))         | Nothing automatic                                                                                                                                          |
+| Devin                      | After opening a PR, tests the app end to end in a browser and records a video with labels at key moments ([docs](https://docs.devin.ai/work-with-devin/testing-and-recordings))                                                                                       | No: videos are attached to messages in the Devin session (web app or Slack)                                                                                |
+| Google Jules               | On request, renders the site and sends a screenshot with the code changes; Playwright is in its base image (August 7, 2025, [changelog](https://jules.google/docs/changelog/2025-08-07))                                                                              | Not documented                                                                                                                                             |
+| Google Antigravity         | Uses the browser to test its work; artifacts include screenshots and browser recordings (public preview November 20, 2025, [announcement](https://developers.googleblog.com/build-with-google-antigravity-our-new-agentic-development-platform/))                     | Not documented                                                                                                                                             |
+| Lovable                    | Browser testing in a remote VM against the project preview: screenshots, flows, screen sizes. Used selectively, after cheaper checks ([docs](https://docs.lovable.dev/features/browser-testing))                                                                      | Not documented                                                                                                                                             |
+
+Any agent that supports MCP can also use [Playwright MCP](https://github.com/microsoft/playwright-mcp/blob/f183dad4a52965583e3cc1d59b88cdc279e2e57d/README.md) or [Chrome DevTools MCP](https://developer.chrome.com/blog/chrome-devtools-mcp) (Google, September 2025); the Copilot cloud agent ships with Playwright MCP turned on.
+
+## What reaches the pull request?
+
+Very little. Three agents put visual evidence on GitHub: the Copilot cloud agent when it decides to share a screenshot, Codex cloud according to its September 2025 announcement, and Cursor cloud agents if you opt in. Cursor's docs note that those embedded images use long, unguessable URLs viewable without authentication, because GitHub's image proxy needs public URLs. Everything else stays in a chat, an IDE pane or a vendor dashboard, so the reviewer of the pull request sees a description and a CI status, not what the agent saw.
+
+That matters at today's volume. GitHub counted more than one million pull requests created by its coding agent between May and September 2025 ([Octoverse 2025](https://github.blog/news-insights/octoverse/octoverse-a-new-developer-joins-github-every-second-as-ai-leads-typescript-to-1/)). An October 5, 2026 snapshot by [Amplifying](https://amplifying.ai/research/state-of-coding-agents) found a public agent signal on 32.5% of the 1,999 most recent public pull requests, and a human reviewer on 44% of 268 merged agent pull requests in significant repositories (their counts are floors).
+
+## What does an agent's screenshot prove, and what doesn't it?
+
+It proves that the page the agent opened rendered, at one viewport, with the data it had, at that moment. That catches a lot: a blank page, a crash in the console, a button that overflows, a feature that plainly doesn't work. It is the reason to keep the agent's browser on.
+
+It doesn't prove five things:
+
+- **That other pages are fine.** Agents edit shared CSS, design tokens and layout components. The settings page that reuses the class the agent changed never got opened ([why functional tests miss these bugs too](/blog/visual-testing-ai-coding-agents)).
+- **That nothing subtle changed.** In the DiffSpot benchmark ([arXiv 2605.29615](https://arxiv.org/abs/2605.29615), May 2026), 13 vision-language models looked at 4,400 web UI pairs in which a single CSS property changed. The best model identified 40.7% of the true changes, and on the hardest tier every model stayed below 23%. A model's "looks right" is a weak check for small spacing or color changes. Newer models do better on small crops, but in [our own test](/blog/ai-models-spot-ui-changes) the best ones still missed 14 to 36% of one-property changes on full-page screenshots.
+- **That the model looked at pixels at all.** Playwright MCP, Copilot's default browser, works from accessibility snapshots, "bypassing the need for screenshots" according to its README; taking a screenshot is a separate tool (`browser_take_screenshot`). In a [July 2025 Claude Code bug report](https://github.com/anthropics/claude-code/issues/3597), a user described the agent taking a Playwright MCP screenshot and calling the page fine when it wasn't; a maintainer suggested the tool should return the image or tell the model to read it.
+- **What changed.** There is no baseline. The agent judges one image against its idea of the task, so a second run can't tell you what moved between the two.
+- **Who approved it.** The evidence lives in a session, not next to the change, so it's gone from view when someone later asks why the page looks the way it does.
+
+## How do agent checks and visual regression tests fit together?
+
+They answer different questions, so you want both:
+
+|                | Agent self-check                   | Visual regression test in CI                           |
+| -------------- | ---------------------------------- | ------------------------------------------------------ |
+| Question       | Did my change work on this page?   | What changed anywhere I have a screenshot?             |
+| Coverage       | Pages the agent decides to open    | Every page, component and state in the suite           |
+| Comparison     | A model's judgment of one image    | Pixel diff against a baseline from an approved build   |
+| Subtle changes | Often missed (DiffSpot)            | Flagged when pixels change beyond the threshold        |
+| Repeatability  | Varies by run and model            | Same input, same diff, once screenshots are stabilized |
+| Record         | Chat, IDE pane or vendor dashboard | Build history, reviews and comments                    |
+| Cost to start  | None, it ships with the agent      | A screenshot suite and the work to make it stable      |
+| Speed          | Seconds, while the agent works     | Minutes, on every push                                 |
+
+The pattern that works has three layers. The agent checks its own change in the browser while it codes, the fast loop. CI captures the screenshot suite on every pull request and diffs it against approved baselines, which finds the regression on the page nobody opened. A person reviews those diffs next to the agent's evidence of the intended change and approves; the agent shouldn't approve its own visual changes ([how to keep it from rewriting baselines](/blog/stop-ai-agents-updating-baselines)).
+
+## Where does Argos fit?
+
+[Argos](/diff) is the second layer. Your Playwright, Storybook, Vitest or Cypress tests capture screenshots in CI, Argos diffs them against the baseline from your Git history and posts a status check on the pull request, and reviewers approve or reject the changes ([review workflow](/review)). It also connects the other two layers:
+
+- **The agent can read the whole build.** With the [Argos MCP server](/docs/agents/mcp-server) or the CLI (`argos build snapshots <build-url> --needs-review --json`), an agent gets every changed screenshot with its baseline, diff mask and metadata, including pages it never opened. On the MCP server, grant only `projects:read` so it explains changes without approving them. [How Claude Code, Cursor and Codex review visual diffs](/blog/ai-agents-review-visual-diffs) covers the setup.
+- **The agent's own screenshots reach the PR.** [Media sharing](/media-sharing) uploads images and videos from the CLI or the MCP server. Staged on a branch, they land in one managed pull request comment once the PR opens:
+
+```bash
+argos media upload checkout-before.png checkout-after.png --branch feat/checkout
+```
+
+What Argos doesn't do: it doesn't drive a browser for the agent, and it doesn't decide whether a change was intended. Media is not compared to anything; it shows the intended change, while the build shows every change ([announcement](/blog/agents-show-their-work)).
+
+## When is the agent's own check enough?
+
+For a prototype, an internal tool, a single landing page, or an app you build in Lovable while watching the preview, the agent's browser check plus your own look is a reasonable bar. Setting up a screenshot suite and stabilizing it costs time, and the agent's video of a working flow is good evidence of intent. Add visual regression tests when the agent touches shared components or a design system, when the app has more pages than anyone opens per change, or when several people and agents ship to the same codebase. Those are the cases where the page nobody opened breaks.
+
+## FAQ
+
+### Can Claude Code take screenshots of my app?
+
+Yes. In the CLI and VS Code, `claude --chrome` connects Claude Code to Chrome through the Claude in Chrome extension; it can open your local app, read the console and DOM, take screenshots, save them to disk when asked and record GIFs. Chrome integration needs a direct Anthropic plan. In the Desktop app, auto-verify is on by default and takes screenshots after edits.
+
+### Does Cursor's agent check the UI automatically?
+
+In the editor, the agent has built-in browser tools it can call, and you can point it at them with `@browser`; it sees screenshots as images. Cursor's cloud agents run in their own VMs with computer use and record screenshots, videos and logs. Those artifacts appear in the GitHub pull request description only if you enable the setting in the Cloud Agents dashboard.
+
+### Do Codex pull requests include screenshots?
+
+OpenAI's September 2025 announcement says Codex cloud can open its own browser and attach a screenshot of the result to the task and the GitHub pull request. As of October 2026, the Codex Cloud docs don't describe this, so check a recent task. In the ChatGPT desktop app, Codex can take screenshots in its built-in browser, which stay in the chat.
+
+### Why isn't an agent's screenshot enough?
+
+It covers one page at one moment, judged by a model that misses many subtle changes: the best of 13 models found 40.7% of single-property CSS changes in DiffSpot. It has no baseline to compare with and leaves no review record. A visual regression test compares every captured page against an approved baseline and records who approved the change.
+
+### How do I get agent screenshots onto a GitHub pull request?
+
+The Copilot cloud agent can include screenshots in its pull request, and Cursor cloud agents can embed artifacts in the PR description once you opt in. For other agents, the image needs a host: Argos media sharing uploads it from the CLI or MCP server and posts it in a managed PR comment. [Agents, show your work](/blog/agents-show-their-work) walks through it.

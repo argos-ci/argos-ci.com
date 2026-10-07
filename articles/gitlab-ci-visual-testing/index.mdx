@@ -1,0 +1,240 @@
+---
+title: "Playwright Visual Testing on GitLab CI"
+description: "Run Playwright visual tests on GitLab CI with the pinned Playwright image, show failed screenshots in merge requests, and update baselines from a manual job."
+category: guides
+author: jeremy
+date: 2026-12-22
+image: ./main.jpg
+imageAlt: "Abstract illustration of a staged pipeline of rounded blocks ending in a side-by-side screenshot comparison panel"
+related:
+  - github-actions-visual-approval
+  - playwright-update-one-screenshot
+  - playwright-visual-regression-testing-ci
+---
+
+To run Playwright visual tests on GitLab CI, use the official Playwright Docker image pinned to your exact `@playwright/test` version (`mcr.microsoft.com/playwright:v1.63.0-noble` for 1.63.0), run `npx playwright test`, and keep the HTML report, `test-results/` and a JUnit file as artifacts so failed screenshot comparisons show up in the merge request. Baselines stay committed next to the tests, and a manual job can regenerate them with `--update-snapshots` and push them to the merge request branch. To approve diffs instead of committing PNGs, a visual testing service such as Argos uploads the screenshots and reports a commit status on the merge request.
+
+<MainImage />
+
+## Which Docker image should you use for Playwright on GitLab CI?
+
+Use `mcr.microsoft.com/playwright:v<version>-noble` with the same version as `@playwright/test`, and pin both exactly (`"@playwright/test": "1.63.0"`, no caret). The image ships the browsers and their system dependencies but not the npm package, and [Playwright's Docker docs](https://playwright.dev/docs/docker) warn that a version mismatch leaves Playwright unable to find its browsers. As of 1.63.0, `-noble` (and the plain `v1.63.0` tag) is Ubuntu 24.04, `-jammy` is 22.04 and `-resolute` is 26.04. The image runs as root, which disables Chromium's sandbox; Playwright's docs say that may be fine for trusted code such as your own tests.
+
+Pinning the image also pins pixels, since baselines only compare cleanly from the same browser build and OS. Architecture can matter too: GitLab.com's default hosted runner is `saas-linux-small-amd64` ([GitLab docs](https://docs.gitlab.com/ci/runners/hosted_runners/linux/)), while Docker on an Apple Silicon Mac pulls the arm64 variant of the same tag. My demo page's amd64 baseline also passed on arm64, but that is one simple page, and [text rendering can differ between machines](/blog/playwright-screenshots-differ-macos-linux). Generate baselines where CI runs, as the update job below does.
+
+## What does a .gitlab-ci.yml for Playwright screenshots look like?
+
+Start with the Playwright config. Besides the HTML report, write a JUnit file at the project root (the next section explains why):
+
+```ts
+// playwright.config.ts
+import { defineConfig, devices } from "@playwright/test";
+
+export default defineConfig({
+  testDir: "./tests",
+  reporter: [
+    ["list"],
+    ["html", { open: "never" }],
+    // Keep the JUnit file at the project root: GitLab resolves
+    // [[ATTACHMENT|...]] paths from $CI_PROJECT_DIR.
+    ["junit", { outputFile: "junit.xml" }],
+  ],
+  use: { baseURL: "http://localhost:3000" },
+  projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
+  webServer: {
+    command: "npm run start",
+    url: "http://localhost:3000",
+    reuseExistingServer: !process.env.CI,
+  },
+});
+```
+
+```ts
+// tests/pricing.spec.ts
+import { expect, test } from "@playwright/test";
+
+test("pricing page", async ({ page }) => {
+  await page.goto("/");
+  await expect(page).toHaveScreenshot("pricing.png");
+});
+```
+
+Then the pipeline, with a test job and a manual job that updates baselines:
+
+```yaml
+# .gitlab-ci.yml
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+      when: never
+    - if: $CI_COMMIT_BRANCH
+
+default:
+  image: mcr.microsoft.com/playwright:v1.63.0-noble
+  cache:
+    key:
+      files: [package-lock.json]
+    paths: [.npm/]
+
+variables:
+  npm_config_cache: "$CI_PROJECT_DIR/.npm"
+
+visual-tests:
+  stage: test
+  script:
+    - npm ci
+    - npx playwright test
+  after_script:
+    - node scripts/junit-diff-first.mjs junit.xml
+  artifacts:
+    when: always
+    expire_in: 14 days
+    expose_as: "Playwright report"
+    paths:
+      - playwright-report/
+      - test-results/
+      - junit.xml
+    reports:
+      junit: junit.xml
+
+update-baselines:
+  stage: test
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: manual
+      allow_failure: true
+  script:
+    - npm ci
+    - npx playwright test --update-snapshots
+    - git config user.name "Baseline bot"
+    - git config user.email "baseline-bot@example.com"
+    - git add --all -- '*-snapshots/*'
+    - git diff --cached --quiet || git commit -m "Update Playwright baselines"
+    - git push "https://baseline-bot:${BASELINE_PUSH_TOKEN}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git" "HEAD:${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME}"
+```
+
+The `workflow` rules run merge request pipelines when a merge request is open and branch pipelines otherwise, the pattern GitLab documents to [avoid duplicate pipelines](https://docs.gitlab.com/ci/yaml/workflow/#switch-between-branch-pipelines-and-merge-request-pipelines). `artifacts:when: always` keeps the report when tests fail, and [`after_script`](https://docs.gitlab.com/ci/yaml/#after_script) runs before the artifacts upload, even after a failing script.
+
+I validated this file against GitLab's CI JSON schema (GitLab repository, October 2026) with check-jsonschema 0.38.2, then ran the `visual-tests` job with gitlab-ci-local 4.76.0 in the Playwright 1.63.0 image: once passing, once with a changed button label (320 pixels different, job failed, artifacts collected). The schema check caught a bug in my first draft: a script line ending in `commit -m "test: update Playwright baselines"`, which YAML reads as a key-value pair because of the colon and space. Quote such lines or drop the colon.
+
+## Can GitLab show the visual diff in the merge request?
+
+Partly. With `reports:junit`, the merge request shows a test summary, and **View details** on a failed test can link one screenshot, read from a `[[ATTACHMENT|path]]` tag in the JUnit file ([unit test reports](https://docs.gitlab.com/ci/testing/unit_test_reports/), all tiers). Playwright's JUnit reporter writes a tag for each attachment, relative to the JUnit file's folder, and GitLab resolves them from `$CI_PROJECT_DIR`. Hence `junit.xml` at the project root and `test-results/` in the artifacts.
+
+There's a catch. GitLab's parser keeps only the first tag ([source](https://gitlab.com/gitlab-org/gitlab/-/blob/a6c8ade79f3c34758c98df62fa93fd6bf7b4b1cb/lib/gitlab/ci/parsers/test/junit.rb#L157-L162)), and in my run Playwright 1.63.0 listed the expected baseline first, then the actual screenshot, the diff and `error-context.md`. The test details would link the one image that didn't change. The `after_script` above moves the diff first:
+
+```js
+// scripts/junit-diff-first.mjs
+// GitLab links the first [[ATTACHMENT|...]] of a failed test. Make it the diff.
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
+
+const file = process.argv[2] ?? "junit.xml";
+if (existsSync(file)) {
+  const xml = readFileSync(file, "utf8").replace(
+    /<!\[CDATA\[([\s\S]*?)\]\]>/g,
+    (cdata, body) => {
+      const diff = body.match(/\[\[ATTACHMENT\|[^\]]*-diff\.png\]\]/)?.[0];
+      return diff ? `<![CDATA[\n${diff}\n${body.replace(diff, "")}]]>` : cdata;
+    },
+  );
+  writeFileSync(file, xml);
+}
+```
+
+On the JUnit file from the failing run, GitLab's attachment regex matched `tests/pricing.spec.ts-snapshots/pricing-chromium-linux.png` before the script and `test-results/pricing-pricing-page-chromium/pricing-diff.png` after it.
+
+For everything else, open the HTML report. `expose_as` adds a **Playwright report** link to the merge request that [opens the artifacts browser](https://docs.gitlab.com/ci/yaml/#artifactsexpose_as) when the job has several paths. There, `playwright-report/index.html` opens in the browser if GitLab Pages is enabled on the instance, and internal or private projects also need Pages access control ([artifacts docs](https://docs.gitlab.com/ci/jobs/job_artifacts/#browse-the-contents-of-the-artifacts-archive)). A stable report URL per merge request needs [Pages parallel deployments](https://docs.gitlab.com/user/project/pages/parallel_deployments/) (Premium), which expire after 24 hours by default.
+
+## How do you update Playwright baselines from a merge request?
+
+Run the update in CI, in the same image that compares, instead of running Docker locally (the question in this [June 2026 r/Playwright thread](https://www.reddit.com/r/Playwright/comments/1u77f8t/)). The `update-baselines` job above appears as a manual job in merge request pipelines. Its `--update-snapshots` flag [defaults to `changed`](https://playwright.dev/docs/test-cli): it rewrites only the screenshots that no longer match, plus missing ones. The job then commits the snapshot folders and pushes to the source branch.
+
+Three details matter:
+
+- **`allow_failure: true`.** A manual job defined in `rules` is [blocking by default](https://docs.gitlab.com/ci/jobs/job_control/#types-of-manual-jobs), and a blocked pipeline can't merge when **Pipelines must succeed** is on.
+- **The push token.** Use a [project access token](https://docs.gitlab.com/user/project/settings/project_access_tokens/) with the Developer role and `write_repository`, stored as a masked CI/CD variable (`BASELINE_PUSH_TOKEN`). Its push starts a new pipeline that checks the new baselines. On GitLab.com, project access tokens require Premium or Ultimate; on Free, use a personal access token from a dedicated account.
+- **The job token alternative.** Since GitLab 18.4, a Maintainer can let `CI_JOB_TOKEN` push to the project ([Allow Git push requests to the repository](https://docs.gitlab.com/ci/jobs/ci_job_token/#allow-git-push-requests-to-your-project-repository), off by default). Job token pushes trigger no pipeline, so the new head has none, and **Pipelines must succeed** blocks the merge until someone runs one.
+
+I ran the job's script in the amd64 image against a local bare repository: it committed only the changed PNG and pushed it, and a second run committed nothing and printed `Everything up-to-date`. The job accepts every failing screenshot at once, so check the new PNGs in the merge request's **Changes** tab. For one screenshot at a time, see [how to accept one changed Playwright screenshot](/blog/playwright-update-one-screenshot).
+
+## How does Argos report visual changes on a GitLab merge request?
+
+[Argos](/diff) replaces committed baselines with approvals: the same job uploads the screenshots, the baseline comes from builds on your default branch, and reviewers approve or reject changes in the build. Setup takes three steps:
+
+1. Connect GitLab in Argos with a personal access token (`api` and `read_user` scopes) or a project access token with the Developer role, then link the repository to a project ([GitLab integration](/docs/learn/integrations/gitlab-integration)).
+2. Add `ARGOS_TOKEN` as a masked CI/CD variable, not protected: merge request pipelines on unprotected branches can't read [protected variables](https://docs.gitlab.com/ci/variables/). There is no tokenless upload on GitLab. In a simulated GitLab job without the variable, the SDK detected GitLab (commit, branch, pipeline ID) and failed with `Missing Argos repository token 'ARGOS_TOKEN'`.
+3. Add the reporter, replace `toHaveScreenshot` with `argosScreenshot` from `@argos-ci/playwright`, and delete the `update-baselines` job.
+
+```ts
+// playwright.config.ts (with Argos)
+import { createArgosReporterOptions } from "@argos-ci/playwright/reporter";
+import { defineConfig } from "@playwright/test";
+
+export default defineConfig({
+  testDir: "./tests",
+  reporter: [
+    ["list"],
+    ["html", { open: "never" }],
+    ["junit", { outputFile: "junit.xml" }],
+    [
+      "@argos-ci/playwright/reporter",
+      createArgosReporterOptions({ uploadToArgos: !!process.env.CI }),
+    ],
+  ],
+  use: {
+    baseURL: "http://localhost:3000",
+    launchOptions: {
+      args: ["--disable-lcd-text", "--font-render-hinting=none"],
+    },
+  },
+  // projects and webServer as before
+});
+```
+
+On GitLab, Argos reports through commit statuses only, with no merge request comment ([docs](/docs/learn/review-workflow/pull-request-comments)). The status, named `argos` (`argos/<build-name>` for named builds), appears as a job in an `external` stage of the merge request pipeline ([external commit statuses](https://docs.gitlab.com/ci/ci_cd_for_external_repos/external_commit_statuses/)). A build with changes marks it failed ("waiting for your decision"), and approving the build turns it to success.
+
+To make that a merge gate, turn on [Pipelines must succeed](https://docs.gitlab.com/user/project/merge_requests/auto_merge/#require-a-successful-pipeline-for-merge) (all tiers). The failed `argos` job fails the merge request pipeline until someone approves. Two GitLab details from its source code: a status lands in the [newest pipeline for the commit](https://gitlab.com/gitlab-org/gitlab/-/blob/a6c8ade79f3c34758c98df62fa93fd6bf7b4b1cb/app/services/ci/create_commit_status_service.rb), so keep the `workflow` rules that prevent duplicate pipelines, and GitLab [rejects an external status named like a CI job](https://gitlab.com/gitlab-org/gitlab/-/blob/a6c8ade79f3c34758c98df62fa93fd6bf7b4b1cb/app/models/generic_commit_status.rb#L26-L32) in the same pipeline, so don't call a job `argos`.
+
+GitLab Self-Managed is supported on the Argos Enterprise plan. The open-source [`@argos-ci/gitlab`](https://github.com/argos-ci/argos-javascript/blob/f75385541f6773071ff4be4d4cff9a7fcf67914f/packages/gitlab/src/statuses.ts) package can also post the statuses from inside your pipeline (`npx @argos-ci/gitlab update-statuses`, with a token allowed to post commit statuses). It waits for the build to finish and reports once, so re-run that job after an approval.
+
+## Do you need GitLab Premium for visual testing?
+
+No. Showing failures and blocking merges only takes Free features, and Argos posts commit statuses that count toward the pipeline rather than GitLab's external status checks. Tiers checked October 2026 on docs.gitlab.com:
+
+| What you want                                      | GitLab feature                                                                                | Tier              |
+| -------------------------------------------------- | --------------------------------------------------------------------------------------------- | ----------------- |
+| Failed tests and a screenshot link in the MR       | Unit test reports                                                                             | Free              |
+| Link to the HTML report in the MR                  | `artifacts:expose_as`                                                                         | Free              |
+| Block merges on a failed pipeline, including Argos | Pipelines must succeed                                                                        | Free              |
+| Push baselines with the job token                  | Allow Git push requests (GitLab 18.4+)                                                        | Free              |
+| Push baselines with a project access token         | Project access tokens on GitLab.com                                                           | Premium, Ultimate |
+| Require named approvers                            | [Approval rules](https://docs.gitlab.com/user/project/merge_requests/approvals/), Code Owners | Premium, Ultimate |
+| A report URL per merge request                     | Pages parallel deployments                                                                    | Premium, Ultimate |
+| Pass or fail from an external service via API      | [External status checks](https://docs.gitlab.com/user/project/merge_requests/status_checks/)  | Ultimate          |
+
+## When is Playwright's built-in comparison enough?
+
+When the suite is small and stable. A few dozen screenshots, one or two maintainers and a single runner architecture work fine with committed baselines and the update job above: no service, no extra cost, and PNGs reviewed like code. The pain grows with the suite: an engineer on [r/QualityAssurance](https://www.reddit.com/r/QualityAssurance/comments/1vww51d/) describes 50-60 components heading to thousands of baselines in the GitLab repository, with a GitLab Pages report that may not show the diffs when many tests fail. That is when moving screenshots out of Git and reviewing diffs in a dedicated UI pays off. Argos is one option ([free up to 5,000 screenshots a month](/pricing)), and Chromatic documents the same Pipelines must succeed setup for its [GitLab checks](https://www.chromatic.com/docs/mandatory-pr-checks). On GitHub, the equivalent is a required status check: see [blocking a pull request until visual changes are approved](/blog/github-actions-visual-approval).
+
+## FAQ
+
+### Can GitLab show visual diffs in a merge request?
+
+Yes, partly. A JUnit report gives the merge request a test summary, and each failed test can link one screenshot through a `[[ATTACHMENT|path]]` tag. Playwright lists the expected image first, so reorder the tags if you want the diff linked, and use `expose_as` to link the full HTML report.
+
+### How do I update Playwright snapshots from GitLab CI?
+
+Add a manual job for merge request pipelines that runs `npx playwright test --update-snapshots` in the same Playwright image as your tests, commits the `*-snapshots/` folders and pushes to the source branch with a token that can write to the repository. Set `allow_failure: true` so the manual job doesn't block the pipeline.
+
+### Which Docker image should I use for Playwright on GitLab?
+
+Use `mcr.microsoft.com/playwright:v1.63.0-noble`, or the tag matching your exact `@playwright/test` version. A mismatched version can't find its browsers, and another OS or browser build changes pixels, so update the tag and the package together and regenerate baselines in the new image.
+
+### Does Argos work with self-managed GitLab?
+
+Yes, on the Argos Enterprise plan, which covers the tailored configuration these setups need. The `@argos-ci/gitlab` package can post commit statuses from inside your own pipeline. GitLab.com works on every [plan](/pricing), including the free Hobby plan, with a GitLab access token.
+
+### Do I need GitLab Premium for visual testing?
+
+No. Unit test reports, `expose_as`, Pipelines must succeed and job token pushes are in GitLab Free, and Argos reports through commit statuses that count toward the pipeline. Premium adds project access tokens on GitLab.com, required approval rules and per-merge-request Pages deployments.
