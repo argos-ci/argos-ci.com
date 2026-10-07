@@ -39,12 +39,16 @@ in the same commit.** The twins:
 | `/security` (`app/security/page.tsx`)                                                         | `getSecurityMarkdown()` in `lib/markdown.ts`: prose hand-written, lists from the page's data modules                                                                 |
 | Site overview for agents                                                                      | `app/llms.txt/route.ts` (curated link map)                                                                                                                           |
 
-Two more lockstep spots:
+Three more lockstep spots:
 
 - `app/pricing/PricingFaq.tsx` and every `faq.tsx` store each answer twice:
   `answer` (JSX) and `textAnswer` (string, feeds FAQPage JSON-LD and the
   markdown twin). Edit both.
 - Pricing numbers come from `lib/constants.ts`; never hardcode them in copy.
+- JSX in articles and changelog entries: `mdxToMarkdown()` in
+  `lib/markdown.ts` replaces an element by its content, so a component whose
+  content lives in its props (like `<Image>`) needs a markdown renderer in
+  `MARKDOWN_COMPONENTS`, or it never reaches the twin.
 
 ### Which pages have a markdown variant
 
