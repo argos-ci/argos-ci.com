@@ -97,7 +97,7 @@ import { render } from "vitest-browser-react";
 import { Button } from "./Button";
 
 test("Button", async () => {
-  render(<Button>Click me</Button>);
+  await render(<Button>Click me</Button>);
   await argosScreenshot("button");
 });
 ```

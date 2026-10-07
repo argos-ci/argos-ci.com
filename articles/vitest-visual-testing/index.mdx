@@ -71,7 +71,7 @@ import { render } from "vitest-browser-react";
 import { Hero } from "./Hero";
 
 test("hero section looks right", async () => {
-  render(<Hero />);
+  await render(<Hero />);
   await expect(page.getByTestId("hero")).toMatchScreenshot("hero-section");
 });
 ```
@@ -156,7 +156,7 @@ import { render } from "vitest-browser-react";
 import { Hero } from "./Hero";
 
 test("hero section", async () => {
-  render(<Hero />);
+  await render(<Hero />);
   await argosScreenshot("hero-section");
 });
 ```
