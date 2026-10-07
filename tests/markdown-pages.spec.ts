@@ -70,3 +70,74 @@ test.describe("Markdown pages", () => {
     expect(matcher).toEqual(MARKDOWN_ROUTES.map((route) => route.source));
   });
 });
+
+/** An HTML or JSX tag: `<div>`, `</div>`, `<MainImage />`. */
+const TAG = /<\/?[A-Za-z][\w.-]*(?=[\s/>])/;
+
+/** Markdown without its fenced code blocks and code spans. */
+function stripCode(markdown: string): string {
+  return (
+    markdown
+      .replace(/^ {0,3}(`{3,}|~{3,}).*\n[\s\S]*?^ {0,3}\1[ \t]*$/gm, "")
+      // A code span can wrap lines, not paragraphs.
+      .replace(/(`+)(?:[^\n]|\n(?!\n))*?\1/g, "")
+  );
+}
+
+/**
+ * Articles and changelog entries are MDX: their markdown twins must render
+ * its components instead of handing the tags to agents.
+ */
+test.describe("Blog and changelog markdown", () => {
+  for (const index of ["/blog", "/changelog"]) {
+    test(`renders every page listed in ${index} as plain markdown`, async ({
+      request,
+    }) => {
+      const listing = await (await request.get(`/md${index}`)).text();
+      const paths = [
+        ...listing.matchAll(/\]\(https:\/\/argos-ci\.com(\/[^)]+)\)/g),
+      ].map(([, path]) => path);
+      expect(paths.length).toBeGreaterThan(10);
+      for (const path of paths) {
+        const response = await request.get(path, {
+          headers: { accept: "text/markdown" },
+        });
+        expect.soft(response.status(), path).toBe(200);
+        const tag = stripCode(await response.text()).match(TAG);
+        expect.soft(tag?.[0], `tag outside code in ${path}`).toBeUndefined();
+      }
+    });
+  }
+
+  test("renders images as markdown images", async ({ request }) => {
+    const markdown = await (
+      await request.get("/md/blog/screenshot-stabilization")
+    ).text();
+    // <MainImage />: the hero image from the frontmatter.
+    expect(markdown).toContain(
+      "![Abstract illustration of a screenshot pinned by measurement brackets while unstable duplicates fan out behind it](https://argos-ci.com/_next/static/media/",
+    );
+    // <Image src alt />
+    expect(markdown).toContain(
+      "![Flaky visual test caused by font not loaded](https://argos-ci.com/assets/articles/screenshot-stabilization/font-not-loaded.jpg)",
+    );
+    const urls = [
+      ...markdown.matchAll(/!\[[^\]]*\]\((https:\/\/argos-ci\.com\/[^)]+)\)/g),
+    ].map(([, url]) => url);
+    expect(urls.length).toBeGreaterThanOrEqual(3);
+    for (const url of urls) {
+      const response = await request.get(new URL(url).pathname);
+      expect.soft(response.status(), url).toBe(200);
+    }
+  });
+
+  test("keeps code samples as written", async ({ request }) => {
+    const markdown = await (
+      await request.get("/md/blog/screenshot-stabilization")
+    ).text();
+    expect(markdown).toContain(
+      'import { argosScreenshot } from "@argos-ci/webdriverio";',
+    );
+    expect(markdown).toContain('<div id="loader" aria-busy />');
+  });
+});
