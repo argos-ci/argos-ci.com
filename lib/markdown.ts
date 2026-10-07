@@ -256,7 +256,8 @@ async function getChangelogIndexMarkdown(): Promise<string> {
   for (const entry of entries) {
     const date = entry.date.split("T")[0];
     lines.push(
-      `- [${entry.title}](${SITE_URL}/changelog/${date}-${entry.slug}) — ${date}`,
+      // The slug already starts with the date: `YYYY-MM-DD-slug`.
+      `- [${entry.title}](${SITE_URL}/changelog/${entry.slug}) — ${date}`,
       `  ${entry.description}`,
     );
   }
