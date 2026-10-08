@@ -144,7 +144,11 @@ YYYY-MM-DD`: it shows as "Updated" on the page and feeds the markdown twin,
 
 **Scheduling:** content is published by dating it. Future-dated changelog
 folders (`YYYY-MM-DD__slug/`) and articles are hidden from production builds
-and go live automatically once the date passes (a daily cron redeploys).
+and go live automatically once the date passes: a Vercel Cron Job
+(`vercel.json` → `app/api/cron/publish-scheduled/route.ts`) redeploys at
+00:05 UTC and retries hourly until 06:05, so content is live a few minutes
+after midnight UTC on its date. The "Publish scheduled articles" GitHub
+workflow is only a backstop (GitHub delays its cron by hours).
 Preview scheduled content with `SHOW_SCHEDULED_ARTICLES=true corepack pnpm
 build`. Note: `/changelog` 500s in the dev server (known bug) — check
 changelog work against the production build.

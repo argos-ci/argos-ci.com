@@ -2,10 +2,14 @@ name: Publish scheduled articles
 permissions: {}
 
 # Scheduled articles and changelog entries (publish date in the future) are
-# excluded from the production build (see lib/api/blog.tsx and
-# lib/api/changelog.tsx). This workflow runs daily and triggers a Vercel
-# production deployment when content's publish date has elapsed but the
-# content is not live yet.
+# excluded from the production build (see lib/api/schedule.ts). A Vercel Cron
+# Job publishes them shortly after midnight UTC
+# (app/api/cron/publish-scheduled/route.ts). This workflow is the backstop: it
+# runs the same check once a day and triggers a Vercel production deployment
+# when content's publish date has elapsed but the content is not live yet.
+#
+# GitHub delays scheduled runs under load (this one has fired 4 to 9 hours
+# after 07:30), so don't rely on it for timing.
 #
 # Requires the VERCEL_DEPLOY_HOOK_URL secret: create a Deploy Hook on the
 # `main` branch in Vercel (Project Settings > Git > Deploy Hooks) and save

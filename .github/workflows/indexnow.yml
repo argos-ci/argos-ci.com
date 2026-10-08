@@ -3,8 +3,9 @@ permissions: {}
 
 # Tells Bing (which feeds Copilot), Yandex, Naver, Seznam and Yep about new
 # and updated pages through IndexNow, instead of waiting for their next
-# crawl. Runs after "Publish scheduled articles" (07:30 UTC) has redeployed,
-# and submits the sitemap URLs whose <lastmod> changed in the last two days.
+# crawl. Runs after scheduled content has been published (Vercel Cron, from
+# 00:05 UTC), and submits the sitemap URLs whose <lastmod> changed in the last
+# two days.
 # Run it by hand with "all" after site-wide changes (titles, copy).
 #
 # No secret needed: the IndexNow key is public and served from

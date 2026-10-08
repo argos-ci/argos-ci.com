@@ -1,7 +1,9 @@
 /**
  * Check if any article or changelog entry with an elapsed publish date is
  * missing from the production site. Used by the "Publish scheduled articles"
- * workflow to decide whether to trigger a Vercel deployment.
+ * workflow to decide whether to trigger a Vercel deployment. It is the
+ * backstop of the Vercel Cron Job, which runs the same check from
+ * `getPendingPaths` in lib/api/schedule.ts: keep the two in sync.
  *
  * Comparing against the live sitemaps (instead of "was something due in the
  * last 24h") makes the check self-healing: if a scheduled deployment fails,
@@ -72,9 +74,13 @@ const [articleUrls, changelogUrls, blogSitemap, changelogSitemap] =
     fetchSitemap("/changelog/sitemap.xml"),
   ]);
 
+// Match the whole <loc>, so /blog/foo isn't mistaken for live when only
+// /blog/foo-bar is.
 const missing = [
-  ...articleUrls.filter((url) => !blogSitemap.includes(url)),
-  ...changelogUrls.filter((url) => !changelogSitemap.includes(url)),
+  ...articleUrls.filter((url) => !blogSitemap.includes(`<loc>${url}</loc>`)),
+  ...changelogUrls.filter(
+    (url) => !changelogSitemap.includes(`<loc>${url}</loc>`),
+  ),
 ];
 
 if (missing.length > 0) {

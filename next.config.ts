@@ -8,12 +8,17 @@ const nextConfig: NextConfig = {
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
   allowedDevOrigins: ["127.0.0.1"],
   // The markdown-for-agents route reads MDX sources and curated markdown from
-  // disk at request time; make sure they ship with the serverless function.
+  // disk at request time, and the publish cron reads the content's dates; make
+  // sure they ship with the serverless functions.
   outputFileTracingIncludes: {
     "/md/[[...slug]]": [
       "./articles/**/*.mdx",
       "./changelogs/**/*.mdx",
       "./app/markdown/**",
+    ],
+    "/api/cron/publish-scheduled": [
+      "./articles/**/*.mdx",
+      "./changelogs/**/*.mdx",
     ],
   },
   headers: async () => {
