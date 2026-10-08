@@ -1,0 +1,2588 @@
+#!/usr/bin/env node
+
+/**
+ * Typefully CLI - Manage social media posts via the Typefully API
+ * https://typefully.com/docs/api
+ *
+ * Zero dependencies - uses only Node.js built-in modules
+ */
+
+const fs = require('fs');
+const path = require('path');
+const os = require('os');
+const readline = require('readline');
+
+// Allow overriding API base for tests / self-hosted mocks.
+let API_BASE = normalizeApiBase(process.env.TYPEFULLY_API_BASE || 'https://api.typefully.com/v2');
+const GLOBAL_CONFIG_DIR = path.join(os.homedir(), '.config', 'typefully');
+const GLOBAL_CONFIG_FILE = path.join(GLOBAL_CONFIG_DIR, 'config.json');
+const LOCAL_CONFIG_DIR = '.typefully';
+const LOCAL_CONFIG_FILE = path.join(LOCAL_CONFIG_DIR, 'config.json');
+const API_KEY_URL = 'https://typefully.com/?settings=api';
+const AUTH_FAILURE_MESSAGE = `Authentication failed: Typefully API key is invalid, expired, or lacks access. Run 'typefully.js setup' to configure a valid key.`;
+const X_ARTICLE_PLATFORM = 'x_article';
+const SUBSTACK_PLATFORM = 'substack';
+const POST_PLATFORM_ORDER = ['x', 'linkedin', 'threads', 'bluesky', 'mastodon', 'substack'];
+const X_ARTICLE_POST_ONLY_FLAGS = [
+  ['text', '--text'],
+  ['file', '--file'],
+  ['media', '--media'],
+  ['append', '--append'],
+  ['reply-to', '--reply-to'],
+  ['community', '--community'],
+  ['quote-post-url', '--quote-post-url'],
+  ['quote-url', '--quote-url'],
+  ['paid-partnership', '--paid-partnership'],
+  ['paid_partnership', '--paid_partnership'],
+  ['made-with-ai', '--made-with-ai'],
+  ['made_with_ai', '--made_with_ai'],
+];
+
+function normalizeApiBase(value) {
+  const trimmed = String(value || '').trim().replace(/\/+$/, '');
+  if (!trimmed) return 'https://api.typefully.com/v2';
+  return trimmed.endsWith('/v2') ? trimmed : `${trimmed}/v2`;
+}
+
+// Content-type mapping for media uploads
+const CONTENT_TYPES = {
+  jpg: 'image/jpeg',
+  jpeg: 'image/jpeg',
+  png: 'image/png',
+  gif: 'image/gif',
+  webp: 'image/webp',
+  mp4: 'video/mp4',
+  mov: 'video/quicktime',
+  pdf: 'application/pdf',
+};
+
+// ============================================================================
+// ANSI Color Helpers (no dependencies)
+// Only apply colors when outputting to a TTY (terminal)
+
+const isColorSupported = process.stderr.isTTY;
+
+const colors = {
+  reset: isColorSupported ? '\x1b[0m' : '',
+  bold: isColorSupported ? '\x1b[1m' : '',
+  dim: isColorSupported ? '\x1b[2m' : '',
+  green: isColorSupported ? '\x1b[32m' : '',
+  yellow: isColorSupported ? '\x1b[33m' : '',
+  blue: isColorSupported ? '\x1b[34m' : '',
+  cyan: isColorSupported ? '\x1b[36m' : '',
+  white: isColorSupported ? '\x1b[37m' : '',
+  gray: isColorSupported ? '\x1b[90m' : '',
+};
+
+// Formatting helpers
+const fmt = {
+  title: (text) => `${colors.bold}${colors.cyan}${text}${colors.reset}`,
+  success: (text) => `${colors.green}✓${colors.reset} ${text}`,
+  warn: (text) => `${colors.yellow}⚠${colors.reset}  ${text}`,
+  info: (text) => `${colors.blue}→${colors.reset} ${text}`,
+  dim: (text) => `${colors.dim}${text}${colors.reset}`,
+  bold: (text) => `${colors.bold}${text}${colors.reset}`,
+  link: (text) => `${colors.cyan}${text}${colors.reset}`,
+  num: (n) => `${colors.yellow}${n}${colors.reset}`,
+  label: (text) => `${colors.dim}${text}${colors.reset}`,
+};
+
+// ============================================================================
+// Utilities
+// ============================================================================
+
+function output(data) {
+  console.log(JSON.stringify(data, null, 2));
+}
+
+function error(message, details = {}) {
+  output({ error: message, ...details });
+  process.exit(1);
+}
+
+function readConfigFile(configPath) {
+  try {
+    if (fs.existsSync(configPath)) {
+      const content = fs.readFileSync(configPath, 'utf-8');
+      return JSON.parse(content);
+    }
+  } catch {
+    // Invalid JSON or read error - ignore
+  }
+  return null;
+}
+
+function getApiKey() {
+  // Priority 1: Environment variable
+  if (process.env.TYPEFULLY_API_KEY) {
+    return { source: 'environment variable', key: process.env.TYPEFULLY_API_KEY };
+  }
+
+  // Priority 2: Project-local config (./.typefully/config.json)
+  const localConfigPath = path.join(process.cwd(), LOCAL_CONFIG_FILE);
+  const localConfig = readConfigFile(localConfigPath);
+  if (localConfig?.apiKey) {
+    return { source: localConfigPath, key: localConfig.apiKey };
+  }
+
+  // Priority 3: User-global config (~/.config/typefully/config.json)
+  const globalConfig = readConfigFile(GLOBAL_CONFIG_FILE);
+  if (globalConfig?.apiKey) {
+    return { source: GLOBAL_CONFIG_FILE, key: globalConfig.apiKey };
+  }
+
+  return null;
+}
+
+function getDefaultSocialSetId() {
+  // Priority 1: Project-local config (./.typefully/config.json)
+  const localConfigPath = path.join(process.cwd(), LOCAL_CONFIG_FILE);
+  const localConfig = readConfigFile(localConfigPath);
+  if (localConfig?.defaultSocialSetId) {
+    return { source: localConfigPath, id: localConfig.defaultSocialSetId };
+  }
+
+  // Priority 2: User-global config (~/.config/typefully/config.json)
+  const globalConfig = readConfigFile(GLOBAL_CONFIG_FILE);
+  if (globalConfig?.defaultSocialSetId) {
+    return { source: GLOBAL_CONFIG_FILE, id: globalConfig.defaultSocialSetId };
+  }
+
+  return null;
+}
+
+/**
+ * Sort and format social sets for display.
+ * Personal accounts (team: null) come first, then team accounts grouped by team name.
+ * Returns array of { set, displayLine } objects maintaining selection index mapping.
+ */
+function formatSocialSetsForDisplay(socialSets) {
+  // Separate personal and team accounts
+  const personal = socialSets.filter(s => !s.team);
+  const team = socialSets.filter(s => s.team);
+
+  // Sort team accounts by team name
+  team.sort((a, b) => (a.team.name || '').localeCompare(b.team.name || ''));
+
+  // Combine: personal first, then team
+  const sorted = [...personal, ...team];
+
+  // Format each for display with colors
+  return sorted.map((set, index) => {
+    const num = fmt.num(`${index + 1}.`.padStart(3));
+    const name = fmt.bold(set.name || 'Unnamed');
+    const username = set.username ? fmt.dim(` @${set.username}`) : '';
+    const teamLabel = set.team ? fmt.label(` [${set.team.name}]`) : '';
+    const displayLine = `  ${num} ${name}${username}${teamLabel}`;
+    return { set, displayLine, index: index + 1 };
+  });
+}
+
+function requireSocialSetId(providedId) {
+  if (providedId) {
+    return providedId;
+  }
+
+  const defaultResult = getDefaultSocialSetId();
+  if (defaultResult) {
+    return defaultResult.id;
+  }
+
+  error('social_set_id is required', {
+    hint: 'Run: typefully.js config:set-default to set a default, or provide it as an argument'
+  });
+}
+
+/**
+ * Resolve draft target for commands that accept [social_set_id] <draft_id>.
+ * When a default social set is configured, a single argument is ambiguous,
+ * so require --use-default to confirm intent.
+ */
+function resolveDraftTarget(positional, commandName, hasUseDefault) {
+  // If two args provided, no ambiguity - first is social_set_id, second is draft_id
+  if (positional.length >= 2) {
+    return { socialSetId: positional[0], draftId: positional[1] };
+  }
+
+  // If no args, always an error
+  if (positional.length === 0) {
+    error('draft_id is required');
+  }
+
+  // Single arg case - this is where ambiguity can occur
+  const singleArg = positional[0];
+  const defaultResult = getDefaultSocialSetId();
+
+  // If no default configured, the single arg must be draft_id (will error on missing social_set_id)
+  if (!defaultResult) {
+    error('draft_id is required', {
+      hint: 'Provide both social_set_id and draft_id, or set a default social set with: typefully.js config:set-default'
+    });
+  }
+
+  // Default is configured - require --use-default flag to confirm intent
+  if (!hasUseDefault) {
+    error(`Ambiguous arguments for ${commandName}`, {
+      hint: `With a default social set configured, a single argument is interpreted as draft_id.
+To confirm you want to use the default social set (${defaultResult.id}), add --use-default:
+  typefully.js ${commandName} ${singleArg} --use-default
+
+Or provide both arguments explicitly:
+  typefully.js ${commandName} <social_set_id> <draft_id>`
+    });
+  }
+
+  return { socialSetId: defaultResult.id, draftId: singleArg };
+}
+
+function requireApiKey() {
+  const result = getApiKey();
+  if (!result) {
+    error(`API key not found. Run 'typefully.js setup' to configure your API key. Get your key at ${API_KEY_URL}`, {
+      action: 'Run: typefully.js setup'
+    });
+  }
+  return result.key;
+}
+
+function authenticationFailureDetails(response) {
+  return {
+    action: 'Run: typefully.js setup',
+    api_key_url: API_KEY_URL,
+    response,
+  };
+}
+
+function errorIfAuthenticationFailure(err) {
+  if (err?.status === 401) {
+    error(AUTH_FAILURE_MESSAGE, authenticationFailureDetails(err.response));
+  }
+}
+
+function extractGlobalArgs(args) {
+  const result = [];
+
+  for (let i = 0; i < args.length; i++) {
+    const arg = args[i];
+
+    if (arg === '--api-base-url') {
+      const value = args[i + 1];
+      if (!value || String(value).startsWith('--')) {
+        error('--api-base-url requires a value');
+      }
+      API_BASE = normalizeApiBase(value);
+      i++;
+      continue;
+    }
+
+    result.push(arg);
+  }
+
+  return result;
+}
+
+function extractApiErrorMessage(data) {
+  if (!data || typeof data !== 'object') return null;
+
+  if (typeof data.message === 'string' && data.message.trim() !== '') {
+    return data.message;
+  }
+
+  if (typeof data.error === 'string' && data.error.trim() !== '') {
+    return data.error;
+  }
+
+  if (data.error && typeof data.error.message === 'string' && data.error.message.trim() !== '') {
+    return data.error.message;
+  }
+
+  if (Array.isArray(data.errors)) {
+    for (const item of data.errors) {
+      if (typeof item === 'string' && item.trim() !== '') {
+        return item;
+      }
+      if (item && typeof item.message === 'string' && item.message.trim() !== '') {
+        return item.message;
+      }
+    }
+  }
+
+  return null;
+}
+
+async function apiRequest(method, endpoint, body = null, opts = {}) {
+  const { exitOnError = true } = opts;
+  const apiKey = requireApiKey();
+
+  const options = {
+    method,
+    headers: {
+      'Authorization': `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+    },
+  };
+
+  if (body) {
+    options.body = JSON.stringify(body);
+  }
+
+  const response = await fetch(`${API_BASE}${endpoint}`, options);
+
+  let data;
+  const text = await response.text();
+  try {
+    data = text ? JSON.parse(text) : {};
+  } catch {
+    data = { raw: text };
+  }
+
+  if (!response.ok) {
+    if (exitOnError) {
+      if (response.status === 401) {
+        error(AUTH_FAILURE_MESSAGE, authenticationFailureDetails(data));
+      }
+      const validationCode = data?.code || data?.error?.code;
+      if (response.status === 400 && validationCode === 'VALIDATION_ERROR') {
+        const validationMessage = extractApiErrorMessage(data) || 'Request validation failed';
+        error(`Validation error: ${validationMessage}`, { response: data });
+      }
+      error(`HTTP ${response.status}`, { response: data });
+    }
+    const err = new Error(response.status === 401 ? AUTH_FAILURE_MESSAGE : `HTTP ${response.status}`);
+    err.response = data;
+    err.status = response.status;
+    throw err;
+  }
+
+  return data;
+}
+
+function parseArgs(args, spec = {}) {
+  const result = { _positional: [] };
+  let i = 0;
+
+  while (i < args.length) {
+    const arg = args[i];
+    if (typeof arg !== 'string') {
+      // This should never happen with process.argv, but can happen if we build argv arrays internally.
+      error('Invalid argument type', { argument: arg });
+    }
+
+    if (arg.startsWith('--')) {
+      const rawKey = arg.slice(2);
+      const key = rawKey === 'scratchpad' ? 'notes' : rawKey;
+      if (spec[key] === 'boolean') {
+        result[key] = true;
+        i++;
+      } else if (i + 1 < args.length && !String(args[i + 1]).startsWith('--')) {
+        result[key] = args[i + 1];
+        i += 2;
+      } else {
+        if (rawKey === 'social-set-id' || rawKey === 'social_set_id') {
+          error('--social-set-id (or --social_set_id) requires a value');
+        }
+        error(`${arg} requires a value`);
+      }
+    } else if (arg === '-f') {
+      // Shorthand for --file
+      if (i + 1 < args.length) {
+        result.file = args[i + 1];
+        i += 2;
+      } else {
+        error('-f requires a value');
+      }
+    } else if (arg === '-a') {
+      // Shorthand for --append
+      result.append = true;
+      i++;
+    } else {
+      result._positional.push(arg);
+      i++;
+    }
+  }
+
+  return result;
+}
+
+function coerceFlagValueToString(value, flagName, { allowEmpty = false } = {}) {
+  if (value === true || value == null) {
+    error(`${flagName} requires a value`);
+  }
+  if (typeof value !== 'string' && typeof value !== 'number') {
+    error(`${flagName} must be a string`);
+  }
+  const str = String(value);
+  if (!allowEmpty && str.trim() === '') {
+    error(`${flagName} requires a non-empty value`);
+  }
+  return str;
+}
+
+function pushStringFlag(argv, parsed, key, flagName, opts) {
+  if (!Object.prototype.hasOwnProperty.call(parsed, key)) return;
+  const value = coerceFlagValueToString(parsed[key], flagName, opts);
+  argv.push(flagName, value);
+}
+
+function getQuotePostUrlFromParsed(parsed) {
+  const hasPrimary = Object.prototype.hasOwnProperty.call(parsed, 'quote-post-url');
+  const hasAlias = Object.prototype.hasOwnProperty.call(parsed, 'quote-url');
+
+  if (!hasPrimary && !hasAlias) return null;
+
+  const primary = hasPrimary
+    ? coerceFlagValueToString(parsed['quote-post-url'], '--quote-post-url')
+    : null;
+  const alias = hasAlias
+    ? coerceFlagValueToString(parsed['quote-url'], '--quote-url')
+    : null;
+
+  if (primary && alias && primary !== alias) {
+    error('Conflicting quote post URL values', {
+      '--quote-post-url': primary,
+      '--quote-url': alias,
+    });
+  }
+
+  return primary || alias;
+}
+
+// The quote goes on one post: the first, or the appended one with --append. Quoting from
+// every post of a thread is never what's meant, and on --append it would overwrite an
+// earlier post's own quote.
+function addQuotePostUrl(posts, quotePostUrl, index = 0) {
+  if (!quotePostUrl) return posts;
+  return posts.map((post, i) => (i === index ? { ...post, quote_post_url: quotePostUrl } : post));
+}
+
+// Platforms whose posts accept quote_post_url (a restack on Substack). LinkedIn has no quote.
+const QUOTE_PLATFORM_NAMES = {
+  x: 'X',
+  threads: 'Threads',
+  bluesky: 'Bluesky',
+  mastodon: 'Mastodon',
+  substack: 'Substack',
+};
+
+function matchesHost(host, ...domains) {
+  return domains.some(domain => host === domain || host.endsWith(`.${domain}`));
+}
+
+// The platform a quote URL belongs to, by the host checks the API runs. Mastodon is
+// federated, so it has no host of its own (`null`). A Substack match on the path alone is
+// `weak`: publications run on custom domains, but other sites use `/p/` paths too (Pixelfed
+// posts quoted from Mastodon).
+function classifyQuoteUrl(parsedUrl) {
+  const host = parsedUrl.hostname.toLowerCase();
+  if (matchesHost(host, 'x.com', 'twitter.com')) return { platform: 'x' };
+  if (matchesHost(host, 'threads.net', 'threads.com')) return { platform: 'threads' };
+  if (matchesHost(host, 'bsky.app')) return { platform: 'bluesky' };
+  if (matchesHost(host, 'substack.com')) return { platform: 'substack' };
+  if (/\/note\/c-|\/p\//.test(parsedUrl.pathname)) return { platform: 'substack', weak: true };
+  return { platform: null };
+}
+
+// Which of the targeted platforms --quote-post-url applies to. A URL from a known host must
+// target its own platform; any other URL is a Mastodon status, or goes to the only
+// quote-capable platform so the API can validate it.
+function resolveQuotePlatform(platformList, quotePostUrl) {
+  let parsedUrl = null;
+  try {
+    parsedUrl = new URL(quotePostUrl);
+  } catch {
+    // Reported below.
+  }
+  if (!parsedUrl || !['http:', 'https:'].includes(parsedUrl.protocol)) {
+    error('--quote-post-url must be a full post URL starting with https://');
+  }
+
+  const { platform: urlPlatform, weak } = classifyQuoteUrl(parsedUrl);
+  if (urlPlatform && (!weak || platformList.includes(urlPlatform))) {
+    if (!platformList.includes(urlPlatform)) {
+      error(`--quote-post-url points to a post on ${QUOTE_PLATFORM_NAMES[urlPlatform]}. Include ${urlPlatform} in --platform or remove the quote flag.`);
+    }
+    return urlPlatform;
+  }
+  const quotePlatforms = platformList.filter(p => QUOTE_PLATFORM_NAMES[p]);
+  if (quotePlatforms.includes('mastodon')) return 'mastodon';
+  if (quotePlatforms.length === 1) return quotePlatforms[0];
+  if (quotePlatforms.length === 0) {
+    error('--quote-post-url is supported on X, Threads, Bluesky, Mastodon, and Substack posts. Include one of them in --platform or remove the quote flag.');
+  }
+  error('Could not tell which platform --quote-post-url belongs to. If it is a Mastodon post, include mastodon in --platform.');
+}
+
+// Draft GET responses include response-only and platform-specific post fields
+// (e.g. subscribers_only, linkedin_reshare_urn) that the API's request schemas
+// reject with 422 on other platforms. Before re-sending fetched posts, keep only
+// the fields each platform's request schema accepts.
+function sanitizePostForPlatform(post, platform) {
+  const clean = { text: post.text };
+  if (Array.isArray(post.media_ids) && post.media_ids.length > 0) {
+    clean.media_ids = post.media_ids;
+  }
+  // Re-sent as fetched: the API replaces posts wholesale, so a dropped quote is deleted.
+  // Posts copied from another platform arrive here already stripped of theirs.
+  if (post.quote_post_url && QUOTE_PLATFORM_NAMES[platform]) {
+    clean.quote_post_url = post.quote_post_url;
+  }
+  if (platform === 'x') {
+    for (const field of ['subscribers_only', 'paid_partnership', 'made_with_ai']) {
+      if (post[field] !== undefined && post[field] !== null && post[field] !== false) {
+        clean[field] = post[field];
+      }
+    }
+  } else if (platform === 'linkedin') {
+    const reshareTarget = post.linkedin_reshare_target || post.linkedin_reshare_urn;
+    if (reshareTarget) {
+      clean.linkedin_reshare_target = reshareTarget;
+    }
+  }
+  if (HIDE_LINK_PREVIEW_PLATFORMS.includes(platform) && post.hide_link_preview) {
+    clean.hide_link_preview = true;
+  }
+  return clean;
+}
+
+function getXContentDisclosuresFromParsed(parsed) {
+  const paidPartnership = Boolean(parsed['paid-partnership'] || parsed.paid_partnership);
+  const madeWithAi = Boolean(parsed['made-with-ai'] || parsed.made_with_ai);
+
+  return {
+    paidPartnership,
+    madeWithAi,
+    hasAny: paidPartnership || madeWithAi,
+  };
+}
+
+function addXContentDisclosures(posts, disclosures) {
+  if (!disclosures.hasAny) return posts;
+  return posts.map(post => {
+    const updated = { ...post };
+    if (disclosures.paidPartnership) {
+      updated.paid_partnership = true;
+    }
+    if (disclosures.madeWithAi) {
+      updated.made_with_ai = true;
+    }
+    return updated;
+  });
+}
+
+function validateXContentDisclosures(platformList, disclosures) {
+  if (disclosures.hasAny && !platformList.includes('x')) {
+    error('--paid-partnership/--made-with-ai is only supported for X posts. Include x in --platform or remove the X-only flag.');
+  }
+}
+
+// Platforms where Typefully lets you suppress the link-preview card (matches the web editor).
+const HIDE_LINK_PREVIEW_PLATFORMS = ['linkedin', 'threads', 'substack'];
+
+function getHideLinkPreviewFromParsed(parsed) {
+  return Boolean(parsed['hide-link-preview'] || parsed.hide_link_preview);
+}
+
+function addHideLinkPreview(posts, hideLinkPreview) {
+  if (!hideLinkPreview) return posts;
+  return posts.map(post => ({ ...post, hide_link_preview: true }));
+}
+
+function validateHideLinkPreviewOption(platformList, hideLinkPreview) {
+  if (hideLinkPreview && !platformList.some(p => HIDE_LINK_PREVIEW_PLATFORMS.includes(p))) {
+    error('--hide-link-preview is only supported for LinkedIn, Threads, and Substack posts. Include linkedin, threads, or substack in --platform or remove the flag.');
+  }
+}
+
+// Substack Notes accepts a single post per draft — the API rejects longer
+// posts arrays with a 422, so fail fast with a clearer message.
+function validateSubstackSinglePost(platformsObj) {
+  const posts = platformsObj[SUBSTACK_PLATFORM]?.posts;
+  if (Array.isArray(posts) && posts.length > 1) {
+    error('substack (Substack Notes) supports a single post per draft — threads are not supported. Use a single post, or target other platforms with --platform.');
+  }
+}
+
+function hasParsedArg(parsed, key) {
+  return Object.prototype.hasOwnProperty.call(parsed, key);
+}
+
+function parsePlatformList(value) {
+  const platforms = String(value)
+    .split(',')
+    .map(p => p.trim().toLowerCase())
+    .filter(Boolean);
+
+  if (platforms.length === 0) {
+    error('--platform requires at least one platform');
+  }
+
+  return platforms;
+}
+
+function hasXArticleDraftFlags(parsed) {
+  return hasParsedArg(parsed, 'content-markdown') || hasParsedArg(parsed, 'cover-media-id');
+}
+
+function validateXArticlePlatformUsage(platformList, parsed) {
+  const hasXArticle = platformList.includes(X_ARTICLE_PLATFORM);
+  const hasArticleFlags = hasXArticleDraftFlags(parsed);
+
+  if (hasXArticle && platformList.length > 1) {
+    error('x_article is standalone and cannot be combined with other platforms');
+  }
+
+  if (hasArticleFlags && !(platformList.length === 1 && hasXArticle)) {
+    error('X Article flags require --platform x_article');
+  }
+
+  if (!hasXArticle) return;
+
+  for (const [key, flagName] of X_ARTICLE_POST_ONLY_FLAGS) {
+    if (hasParsedArg(parsed, key)) {
+      error(`${flagName} cannot be used with --platform x_article`);
+    }
+  }
+}
+
+function buildXArticlePlatformConfig(parsed, { requireContent }) {
+  const hasContentMarkdown = hasParsedArg(parsed, 'content-markdown');
+  const hasCoverMediaId = hasParsedArg(parsed, 'cover-media-id');
+
+  if (requireContent && !hasContentMarkdown) {
+    error('--content-markdown is required for X Article drafts');
+  }
+
+  const config = {};
+  if (hasContentMarkdown) {
+    config.content_markdown = coerceFlagValueToString(
+      parsed['content-markdown'],
+      '--content-markdown',
+    );
+  }
+  if (hasCoverMediaId) {
+    const coverMediaId = coerceFlagValueToString(parsed['cover-media-id'], '--cover-media-id');
+    config.cover_media_id = coverMediaId === 'null' ? null : coverMediaId;
+  }
+
+  return config;
+}
+
+function getPostTextFromParsed(parsed) {
+  let text = parsed.text;
+  if (parsed.file) {
+    if (!fs.existsSync(parsed.file)) {
+      error(`File not found: ${parsed.file}`);
+    }
+    text = fs.readFileSync(parsed.file, 'utf-8');
+  }
+  return text;
+}
+
+function parseCsvArg(value, flagName) {
+  // parseArgs sets missing values to true (e.g. `--tags --other-flag`)
+  if (value === true) {
+    error(`${flagName} requires a value`);
+  }
+  if (value == null) return null;
+  if (typeof value !== 'string') {
+    error(`${flagName} must be a string`);
+  }
+  if (value.trim() === '') return [];
+  return value
+    .split(',')
+    .map(v => v.trim())
+    .filter(Boolean);
+}
+
+function getSocialSetIdFromParsed(parsed) {
+  // Support both kebab and snake case. (People often copy from API docs.)
+  const value = parsed['social-set-id'] ?? parsed.social_set_id;
+  if (value === true) {
+    error('--social-set-id (or --social_set_id) requires a value');
+  }
+  if (value == null) return null;
+  if (typeof value !== 'string') {
+    error('--social-set-id (or --social_set_id) must be a string');
+  }
+  if (value.trim() === '') {
+    error('--social-set-id (or --social_set_id) requires a non-empty value');
+  }
+  return value;
+}
+
+function getRequiredStringArgFromParsed(parsed, key, aliases = []) {
+  const candidates = [key, ...aliases];
+  let value = null;
+
+  for (const candidate of candidates) {
+    if (!Object.prototype.hasOwnProperty.call(parsed, candidate)) continue;
+    value = parsed[candidate];
+    break;
+  }
+
+  const preferred = `--${key}`;
+  const aliasText = aliases.length > 0
+    ? ` (or ${aliases.map(a => `--${a}`).join(', ')})`
+    : '';
+
+  if (value == null) {
+    error(`${preferred}${aliasText} is required`);
+  }
+  if (value === true) {
+    error(`${preferred}${aliasText} requires a value`);
+  }
+  if (typeof value !== 'string') {
+    error(`${preferred}${aliasText} must be a string`);
+  }
+  if (value.trim() === '') {
+    error(`${preferred}${aliasText} requires a non-empty value`);
+  }
+
+  return String(value);
+}
+
+function getOptionalStringArgFromParsed(parsed, key, aliases = []) {
+  const candidates = [key, ...aliases];
+
+  for (const candidate of candidates) {
+    if (!Object.prototype.hasOwnProperty.call(parsed, candidate)) continue;
+
+    const value = parsed[candidate];
+    const preferred = `--${key}`;
+    const aliasText = aliases.length > 0
+      ? ` (or ${aliases.map(a => `--${a}`).join(', ')})`
+      : '';
+
+    if (value === true) {
+      error(`${preferred}${aliasText} requires a value`);
+    }
+    if (typeof value !== 'string') {
+      error(`${preferred}${aliasText} must be a string`);
+    }
+    if (value.trim() === '') {
+      error(`${preferred}${aliasText} requires a non-empty value`);
+    }
+
+    return String(value);
+  }
+
+  return null;
+}
+
+function resolveSocialSetIdFromParsed(parsed, positionalId) {
+  const flagId = getSocialSetIdFromParsed(parsed);
+  if (flagId && positionalId && flagId !== positionalId) {
+    error('Conflicting social_set_id values', { positional: positionalId, flag: flagId });
+  }
+  return requireSocialSetId(flagId || positionalId);
+}
+
+function resolveDraftTargetFromParsed(parsed, commandName) {
+  const positional = parsed._positional;
+  const flagId = getSocialSetIdFromParsed(parsed);
+
+  if (flagId) {
+    // Support `[social_set_id] <draft_id>` and `<draft_id>` forms while still allowing --social-set-id.
+    if (positional.length >= 2 && positional[0] !== flagId) {
+      error('Conflicting social_set_id values', { positional: positional[0], flag: flagId });
+    }
+    const draftId = positional.length >= 2 ? positional[1] : positional[0];
+    if (!draftId) {
+      error('draft_id is required');
+    }
+    return { socialSetId: flagId, draftId };
+  }
+
+  return resolveDraftTarget(positional, commandName, parsed['use-default']);
+}
+
+function splitThreadText(text) {
+  // Split on --- that appears on its own line. Support both LF and CRLF.
+  // Allow surrounding spaces so " --- " still counts, but avoid matching longer runs like "----".
+  return text.split(/\r?\n[ \t]*---[ \t]*\r?\n/).filter(t => t.trim());
+}
+
+function getContentType(filename) {
+  const ext = path.extname(filename).slice(1).toLowerCase();
+  return CONTENT_TYPES[ext] || 'application/octet-stream';
+}
+
+async function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function sanitizeFilename(filename) {
+  // API pattern: (?i)^[a-zA-Z0-9_.()\\-]+\\.(jpg|jpeg|png|webp|gif|mp4|mov|pdf)$
+  // Extract extension
+  const ext = path.extname(filename).toLowerCase();
+  const basename = path.basename(filename, path.extname(filename));
+
+  // Replace invalid characters with underscores
+  // Valid: letters, numbers, underscores, dots, parentheses, hyphens
+  const sanitized = basename
+    .replace(/[^a-zA-Z0-9_.()-]/g, '_')  // Replace invalid chars with underscore
+    .replace(/_+/g, '_')                  // Collapse multiple underscores
+    .replace(/^_|_$/g, '');               // Trim leading/trailing underscores
+
+  // Ensure we have a valid name
+  const finalName = sanitized || 'upload';
+
+  return finalName + ext;
+}
+
+// ============================================================================
+// Commands
+// ============================================================================
+
+async function cmdMeGet() {
+  const data = await apiRequest('GET', '/me');
+  output(data);
+}
+
+async function cmdSocialSetsList() {
+  const data = await apiRequest('GET', '/social-sets?limit=50');
+  output(data);
+}
+
+async function cmdSocialSetsGet(args) {
+  const parsed = parseArgs(args);
+  const socialSetId = resolveSocialSetIdFromParsed(parsed, parsed._positional[0]);
+
+  const data = await apiRequest('GET', `/social-sets/${socialSetId}`);
+  output(data);
+}
+
+async function cmdLinkedInOrganizationsResolve(args) {
+  const parsed = parseArgs(args);
+  const socialSetId = resolveSocialSetIdFromParsed(parsed, parsed._positional[0]);
+  const organizationUrl = getRequiredStringArgFromParsed(
+    parsed,
+    'organization-url',
+    ['organization_url', 'url']
+  );
+
+  const params = new URLSearchParams();
+  params.set('organization_url', organizationUrl);
+
+  const data = await apiRequest(
+    'GET',
+    `/social-sets/${socialSetId}/linkedin/organizations/resolve?${params}`
+  );
+  output(data);
+}
+
+function prompt(question) {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stderr, // Use stderr so JSON output stays clean on stdout
+  });
+
+  return new Promise((resolve) => {
+    rl.question(question, (answer) => {
+      rl.close();
+      resolve(answer.trim());
+    });
+  });
+}
+
+function writeConfig(configPath, config) {
+  const configDir = path.dirname(configPath);
+  if (!fs.existsSync(configDir)) {
+    fs.mkdirSync(configDir, { recursive: true });
+  }
+  fs.writeFileSync(configPath, JSON.stringify(config, null, 2) + '\n', { mode: 0o600 });
+}
+
+async function cmdSetup(args) {
+  const parsed = parseArgs(args, { 'no-default': 'boolean' });
+
+  // Check if running in non-interactive mode (key provided as argument)
+  let apiKey = parsed._positional[0] || parsed.key;
+  let location = parsed.location || parsed.scope;
+  const defaultSocialSetArg = parsed['default-social-set'];
+  const noDefault = parsed['no-default'] === true || parsed['no-default'] === 'true';
+
+  // Non-interactive mode when --key is provided
+  const isNonInteractive = !!apiKey;
+
+  // If key provided via argument, skip interactive prompt
+  if (!apiKey) {
+    console.error('');
+    console.error(fmt.title('Typefully CLI Setup'));
+    console.error('');
+    console.error(fmt.dim('Sign up free at typefully.com if you don\'t have an account.'));
+    console.error('');
+    console.error(fmt.info(`Get your API key at: ${fmt.link(API_KEY_URL)}`));
+    console.error('');
+    apiKey = await prompt(`${colors.bold}Enter your Typefully API key:${colors.reset} `);
+  }
+
+  if (!apiKey) {
+    error('API key is required');
+  }
+
+  // Determine location
+  if (!location) {
+    if (isNonInteractive) {
+      // Default to global in non-interactive mode
+      location = 'global';
+    } else {
+      console.error('');
+      console.error(fmt.bold('Where should the API key be stored?'));
+      console.error(`  ${fmt.num('1.')} Global ${fmt.dim('(~/.config/typefully/)')} ${fmt.label('- Available to all projects')}`);
+      console.error(`  ${fmt.num('2.')} Local ${fmt.dim('(./.typefully/)')} ${fmt.label('- Only this project')}`);
+      console.error('');
+      const choice = await prompt(`${colors.bold}Choose location [1/2]${colors.reset} ${fmt.dim('(default: 1)')}: `);
+      location = choice === '2' ? 'local' : 'global';
+    }
+  }
+
+  const isLocal = location === 'local' || location === '2';
+  const configPath = isLocal
+    ? path.join(process.cwd(), LOCAL_CONFIG_FILE)
+    : GLOBAL_CONFIG_FILE;
+
+  // Read existing config to preserve other settings
+  const existingConfig = readConfigFile(configPath) || {};
+  const newConfig = { ...existingConfig, apiKey };
+
+  writeConfig(configPath, newConfig);
+
+  // Offer to add .typefully/ to .gitignore for local config
+  if (isLocal) {
+    const gitignorePath = path.join(process.cwd(), '.gitignore');
+    if (fs.existsSync(gitignorePath)) {
+      const gitignore = fs.readFileSync(gitignorePath, 'utf-8');
+      if (!gitignore.includes('.typefully/') && !gitignore.includes('.typefully\n')) {
+        if (isNonInteractive) {
+          // Auto-add to .gitignore in non-interactive mode
+          fs.appendFileSync(gitignorePath, '\n# Typefully config (contains API key)\n.typefully/\n');
+          console.error(fmt.success('Added .typefully/ to .gitignore'));
+        } else {
+          console.error('');
+          const addToGitignore = await prompt(`${colors.bold}Add .typefully/ to .gitignore?${colors.reset} ${fmt.dim('[Y/n]')}: `);
+          if (addToGitignore.toLowerCase() !== 'n') {
+            fs.appendFileSync(gitignorePath, '\n# Typefully config (contains API key)\n.typefully/\n');
+            console.error(fmt.success('Added .typefully/ to .gitignore'));
+          }
+        }
+      }
+    } else {
+      // No .gitignore exists - offer to create one to protect the API key
+      if (isNonInteractive) {
+        // Auto-create .gitignore in non-interactive mode
+        fs.writeFileSync(gitignorePath, '# Typefully config (contains API key)\n.typefully/\n');
+        console.error(fmt.success('Created .gitignore with .typefully/ entry'));
+      } else {
+        console.error('');
+        console.error(fmt.warn('No .gitignore found. Your API key could be accidentally committed.'));
+        const createGitignore = await prompt(`${colors.bold}Create .gitignore with .typefully/ entry?${colors.reset} ${fmt.dim('[Y/n]')}: `);
+        if (createGitignore.toLowerCase() !== 'n') {
+          fs.writeFileSync(gitignorePath, '# Typefully config (contains API key)\n.typefully/\n');
+          console.error(fmt.success('Created .gitignore with .typefully/ entry'));
+        } else {
+          console.error(fmt.warn('Remember to add .typefully/ to .gitignore to protect your API key'));
+        }
+      }
+    }
+  }
+
+  console.error('');
+  console.error(fmt.success(`API key saved to ${fmt.dim(configPath)}`));
+
+  // Handle default social set
+  let defaultSocialSetId = null;
+
+  // If --default-social-set was provided, validate it before saving
+  if (defaultSocialSetArg) {
+    // Validate the social set exists via API
+    const origKey = process.env.TYPEFULLY_API_KEY;
+    process.env.TYPEFULLY_API_KEY = apiKey;
+    try {
+      await apiRequest('GET', `/social-sets/${defaultSocialSetArg}`, null, { exitOnError: false });
+    } catch (err) {
+      errorIfAuthenticationFailure(err);
+      error(`Social set ${defaultSocialSetArg} not found or not accessible`);
+    } finally {
+      if (origKey) {
+        process.env.TYPEFULLY_API_KEY = origKey;
+      } else {
+        delete process.env.TYPEFULLY_API_KEY;
+      }
+    }
+
+    defaultSocialSetId = defaultSocialSetArg;
+    const updatedConfig = readConfigFile(configPath) || {};
+    updatedConfig.defaultSocialSetId = defaultSocialSetId;
+    writeConfig(configPath, updatedConfig);
+    console.error(fmt.success(`Default social set saved: ${defaultSocialSetId}`));
+  } else if (noDefault) {
+    // Skip setting default social set
+    console.error(fmt.dim('Skipping default social set configuration.'));
+  } else {
+    // Fetch social sets to determine what to do
+    let socialSets = null;
+    const origKey = process.env.TYPEFULLY_API_KEY;
+    process.env.TYPEFULLY_API_KEY = apiKey;
+    try {
+      socialSets = await apiRequest('GET', '/social-sets?limit=50', null, { exitOnError: false });
+    } catch (err) {
+      errorIfAuthenticationFailure(err);
+      console.error(fmt.warn(`Could not fetch social sets: ${err.message}`));
+      console.error(fmt.dim('You can set a default later with: typefully.js config:set-default'));
+    } finally {
+      if (origKey) {
+        process.env.TYPEFULLY_API_KEY = origKey;
+      } else {
+        delete process.env.TYPEFULLY_API_KEY;
+      }
+    }
+
+    if (socialSets) {
+      if (!socialSets.results || socialSets.results.length === 0) {
+        // No social sets found - provide helpful guidance
+        console.error('');
+        console.error(fmt.warn('No social sets found.'));
+        console.error(fmt.dim('To get started, connect a social account at typefully.com:'));
+        console.error(fmt.info(`${fmt.link('https://typefully.com/?settings=accounts')}`));
+        console.error('');
+        console.error(fmt.dim('After connecting, run: typefully.js config:set-default'));
+      } else if (socialSets.results.length === 1) {
+        // Only one social set - auto-select it without asking
+        defaultSocialSetId = socialSets.results[0].id;
+        const updatedConfig = readConfigFile(configPath) || {};
+        updatedConfig.defaultSocialSetId = defaultSocialSetId;
+        writeConfig(configPath, updatedConfig);
+        const name = socialSets.results[0].name || 'Unnamed';
+        const username = socialSets.results[0].username ? `@${socialSets.results[0].username}` : '';
+        console.error(fmt.success(`Default social set: ${fmt.bold(name)} ${fmt.dim(username)}`));
+      } else if (isNonInteractive) {
+        // Multiple social sets in non-interactive mode
+        console.error(fmt.info(`Found ${socialSets.results.length} social sets. Use --default-social-set <id> to set one as default.`));
+      } else {
+        // Multiple social sets in interactive mode - ask user to choose
+        const formatted = formatSocialSetsForDisplay(socialSets.results);
+
+        console.error('');
+        console.error(fmt.bold('Choose a default social set'));
+        console.error(fmt.dim('This will be used when you don\'t specify one. You can always override it.'));
+        console.error('');
+        formatted.forEach(({ displayLine }) => console.error(displayLine));
+        console.error('');
+
+        const choice = await prompt(`${colors.bold}Enter number${colors.reset} ${fmt.dim('(or Enter to skip)')}: `);
+        if (choice) {
+          const choiceNum = parseInt(choice, 10);
+          if (!isNaN(choiceNum) && choiceNum >= 1 && choiceNum <= formatted.length) {
+            defaultSocialSetId = formatted[choiceNum - 1].set.id;
+            const updatedConfig = readConfigFile(configPath) || {};
+            updatedConfig.defaultSocialSetId = defaultSocialSetId;
+            writeConfig(configPath, updatedConfig);
+            console.error(fmt.success(`Default social set saved`));
+          }
+        }
+      }
+    }
+  }
+
+  output({
+    success: true,
+    message: 'Setup complete',
+    config_path: configPath,
+    scope: isLocal ? 'local' : 'global',
+    default_social_set_id: defaultSocialSetId,
+  });
+}
+
+async function cmdConfigShow() {
+  const result = getApiKey();
+
+  if (!result) {
+    output({
+      configured: false,
+      hint: 'Run: typefully.js setup',
+      api_key_url: API_KEY_URL,
+    });
+    return;
+  }
+
+  // Also show what config files exist
+  const localConfigPath = path.join(process.cwd(), LOCAL_CONFIG_FILE);
+  const localConfig = readConfigFile(localConfigPath);
+  const globalConfig = readConfigFile(GLOBAL_CONFIG_FILE);
+
+  // Get default social set info
+  const defaultSocialSet = getDefaultSocialSetId();
+
+  output({
+    configured: true,
+    active_source: result.source,
+    api_key_preview: result.key.slice(0, 8) + '...',
+    default_social_set: defaultSocialSet ? {
+      id: defaultSocialSet.id,
+      source: defaultSocialSet.source,
+    } : null,
+    config_files: {
+      local: localConfig ? {
+        path: localConfigPath,
+        has_key: !!localConfig.apiKey,
+        has_default_social_set: !!localConfig.defaultSocialSetId,
+      } : null,
+      global: globalConfig ? {
+        path: GLOBAL_CONFIG_FILE,
+        has_key: !!globalConfig.apiKey,
+        has_default_social_set: !!globalConfig.defaultSocialSetId,
+      } : null,
+    },
+  });
+}
+
+async function cmdConfigSetDefault(args) {
+  const parsed = parseArgs(args);
+  const socialSetIdFlag = getSocialSetIdFromParsed(parsed);
+  let socialSetId = parsed._positional[0];
+  if (socialSetIdFlag && socialSetId && socialSetIdFlag !== socialSetId) {
+    error('Conflicting social_set_id values', { positional: socialSetId, flag: socialSetIdFlag });
+  }
+  socialSetId = socialSetIdFlag || socialSetId;
+  let location = parsed.location || parsed.scope;
+
+  // Ensure we have an API key first
+  requireApiKey();
+
+  // If no social_set_id provided, list available social sets and ask
+  if (!socialSetId) {
+    const socialSets = await apiRequest('GET', '/social-sets?limit=50');
+
+    if (!socialSets.results || socialSets.results.length === 0) {
+      error('No social sets found. Create one at typefully.com first.');
+    }
+
+    const formatted = formatSocialSetsForDisplay(socialSets.results);
+
+    console.error(fmt.bold('Available social sets:'));
+    console.error('');
+    formatted.forEach(({ displayLine }) => console.error(displayLine));
+    console.error('');
+
+    if (formatted.length === 1) {
+      // Only one social set - auto-select it
+      socialSetId = formatted[0].set.id;
+      console.error(fmt.success(`Auto-selecting: ${fmt.bold(formatted[0].set.name || 'Unnamed')}`));
+    } else {
+      const choice = await prompt(`${colors.bold}Enter number:${colors.reset} `);
+      const choiceNum = parseInt(choice, 10);
+
+      if (isNaN(choiceNum) || choiceNum < 1 || choiceNum > formatted.length) {
+        error('Invalid selection');
+      }
+
+      socialSetId = formatted[choiceNum - 1].set.id;
+    }
+  }
+
+  // Verify the social set exists
+  try {
+    await apiRequest('GET', `/social-sets/${socialSetId}`, null, { exitOnError: false });
+  } catch (err) {
+    errorIfAuthenticationFailure(err);
+    error(`Social set ${socialSetId} not found or not accessible`);
+  }
+
+  // Determine location
+  if (!location) {
+    console.error('');
+    console.error(fmt.bold('Where should the default be stored?'));
+    console.error(`  ${fmt.num('1.')} Global ${fmt.dim('(~/.config/typefully/)')} ${fmt.label('- Available to all projects')}`);
+    console.error(`  ${fmt.num('2.')} Local ${fmt.dim('(./.typefully/)')} ${fmt.label('- Only this project')}`);
+    console.error('');
+    const choice = await prompt(`${colors.bold}Choose location [1/2]${colors.reset} ${fmt.dim('(default: 1)')}: `);
+    location = choice === '2' ? 'local' : 'global';
+  }
+
+  const isLocal = location === 'local' || location === '2';
+  const configPath = isLocal
+    ? path.join(process.cwd(), LOCAL_CONFIG_FILE)
+    : GLOBAL_CONFIG_FILE;
+
+  // Read existing config to preserve other settings
+  const existingConfig = readConfigFile(configPath) || {};
+  const newConfig = { ...existingConfig, defaultSocialSetId: socialSetId };
+
+  writeConfig(configPath, newConfig);
+
+  console.error('');
+  console.error(fmt.success(`Default social set saved to ${fmt.dim(configPath)}`));
+
+  output({
+    success: true,
+    message: 'Default social set configured',
+    default_social_set_id: socialSetId,
+    config_path: configPath,
+    scope: isLocal ? 'local' : 'global',
+  });
+}
+
+async function cmdDraftsList(args) {
+  const parsed = parseArgs(args);
+  const socialSetId = resolveSocialSetIdFromParsed(parsed, parsed._positional[0]);
+
+  const params = new URLSearchParams();
+  params.set('limit', parsed.limit || '10');
+  if (parsed.status) params.set('status', parsed.status);
+  if (parsed.tag) params.set('tag', parsed.tag);
+  if (parsed.sort) params.set('order_by', parsed.sort);
+
+  const data = await apiRequest('GET', `/social-sets/${socialSetId}/drafts?${params}`);
+  output(data);
+}
+
+async function cmdDraftsGet(args) {
+  const parsed = parseArgs(args, {
+    'use-default': 'boolean',
+    'exclude-comment-markers': 'boolean',
+    exclude_comment_markers: 'boolean',
+  });
+  const { socialSetId, draftId } = resolveDraftTargetFromParsed(parsed, 'drafts:get');
+
+  const params = new URLSearchParams();
+  if (parsed['exclude-comment-markers'] || parsed.exclude_comment_markers) {
+    params.set('exclude_comment_markers', 'true');
+  }
+  const qs = params.toString();
+  const url = qs
+    ? `/social-sets/${socialSetId}/drafts/${draftId}?${qs}`
+    : `/social-sets/${socialSetId}/drafts/${draftId}`;
+
+  const data = await apiRequest('GET', url);
+  output(data);
+}
+
+async function getFirstConnectedPlatform(socialSetId) {
+  const socialSet = await apiRequest('GET', `/social-sets/${socialSetId}`);
+
+  // Check each platform for connection
+  // The API returns platforms as an object where each key exists if that platform is connected
+  const platforms = socialSet.platforms || {};
+
+  for (const platform of POST_PLATFORM_ORDER) {
+    if (platforms[platform]) {
+      return platform;
+    }
+  }
+
+  return null;
+}
+
+async function getAllConnectedPlatforms(socialSetId) {
+  const socialSet = await apiRequest('GET', `/social-sets/${socialSetId}`);
+  const platforms = socialSet.platforms || {};
+  const connected = [];
+
+  for (const platform of POST_PLATFORM_ORDER) {
+    if (platforms[platform]) {
+      connected.push(platform);
+    }
+  }
+
+  return connected;
+}
+
+async function cmdDraftsCreate(args) {
+  const parsed = parseArgs(args, {
+    share: 'boolean',
+    all: 'boolean',
+    'paid-partnership': 'boolean',
+    paid_partnership: 'boolean',
+    'made-with-ai': 'boolean',
+    made_with_ai: 'boolean',
+    'hide-link-preview': 'boolean',
+    hide_link_preview: 'boolean',
+  });
+  const socialSetId = resolveSocialSetIdFromParsed(parsed, parsed._positional[0]);
+  const quotePostUrl = getQuotePostUrlFromParsed(parsed);
+  const xContentDisclosures = getXContentDisclosuresFromParsed(parsed);
+  const hideLinkPreview = getHideLinkPreviewFromParsed(parsed);
+
+  // Determine platform(s)
+  let platforms = parsed.platform;
+
+  if (parsed.all && parsed.platform) {
+    error('Cannot use both --all and --platform flags');
+  }
+
+  if (hasXArticleDraftFlags(parsed) && !parsed.platform) {
+    error('X Article flags require --platform x_article');
+  }
+
+  if (parsed.all) {
+    // Get all connected platforms
+    const allPlatforms = await getAllConnectedPlatforms(socialSetId);
+    if (allPlatforms.length === 0) {
+      error('No connected platforms found. Connect a platform at typefully.com');
+    }
+    platforms = allPlatforms.join(',');
+  } else if (!platforms) {
+    // Smart default: get first connected platform
+    const defaultPlatform = await getFirstConnectedPlatform(socialSetId);
+    if (!defaultPlatform) {
+      error('No connected platforms found. Connect a platform at typefully.com or specify --platform');
+    }
+    platforms = defaultPlatform;
+  }
+
+  const platformList = parsePlatformList(platforms);
+  validateXArticlePlatformUsage(platformList, parsed);
+
+  // Build request body
+  const platformsObj = {};
+
+  if (platformList.includes(X_ARTICLE_PLATFORM)) {
+    platformsObj[X_ARTICLE_PLATFORM] = buildXArticlePlatformConfig(parsed, {
+      requireContent: true,
+    });
+  } else {
+    const text = getPostTextFromParsed(parsed);
+    if (!text) {
+      error('--text or --file is required');
+    }
+
+    const quotePlatform = quotePostUrl ? resolveQuotePlatform(platformList, quotePostUrl) : null;
+    validateXContentDisclosures(platformList, xContentDisclosures);
+    validateHideLinkPreviewOption(platformList, hideLinkPreview);
+
+    // Split text into posts (thread support)
+    const posts = splitThreadText(text);
+
+    // Parse media IDs
+    const mediaIds = parsed.media ? parsed.media.split(',').map(m => m.trim()) : [];
+
+    // Build posts array
+    const basePostsArray = posts.map((postText, index) => {
+      const post = { text: postText };
+      // Attach media only to first post
+      if (index === 0 && mediaIds.length > 0) {
+        post.media_ids = mediaIds;
+      }
+      return post;
+    });
+
+    for (const platform of platformList) {
+      let postsArray = platform === quotePlatform
+        ? addQuotePostUrl(basePostsArray, quotePostUrl)
+        : basePostsArray;
+      if (platform === 'x') {
+        postsArray = addXContentDisclosures(postsArray, xContentDisclosures);
+      }
+      if (HIDE_LINK_PREVIEW_PLATFORMS.includes(platform)) {
+        postsArray = addHideLinkPreview(postsArray, hideLinkPreview);
+      }
+      const platformConfig = {
+        enabled: true,
+        posts: postsArray,
+      };
+
+      // X-specific settings
+      if (platform === 'x' && (parsed['reply-to'] || parsed.community)) {
+        platformConfig.settings = {};
+        if (parsed['reply-to']) {
+          platformConfig.settings.reply_to_url = parsed['reply-to'];
+        }
+        if (parsed.community) {
+          platformConfig.settings.community_id = parsed.community;
+        }
+      }
+
+      platformsObj[platform] = platformConfig;
+    }
+
+    validateSubstackSinglePost(platformsObj);
+  }
+
+  const body = { platforms: platformsObj };
+
+  if (parsed.title) {
+    body.draft_title = parsed.title;
+  }
+
+  if (parsed.schedule && parsed.plan) {
+    error('--schedule and --plan are mutually exclusive - provide only one');
+  }
+
+  if (parsed.schedule) {
+    body.publish_at = parsed.schedule;
+  }
+
+  if (parsed.plan) {
+    body.plan_at = parsed.plan;
+  }
+
+  if (Object.prototype.hasOwnProperty.call(parsed, 'tags')) {
+    body.tags = parseCsvArg(parsed.tags, '--tags');
+  }
+
+  if (parsed.share) {
+    body.share = true;
+  }
+
+  if (parsed.notes) {
+    body.scratchpad_text = parsed.notes;
+  }
+
+  const data = await apiRequest('POST', `/social-sets/${socialSetId}/drafts`, body);
+  output(data);
+}
+
+async function cmdDraftsUpdate(args) {
+  const parsed = parseArgs(args, {
+    append: 'boolean',
+    share: 'boolean',
+    'use-default': 'boolean',
+    'paid-partnership': 'boolean',
+    paid_partnership: 'boolean',
+    'made-with-ai': 'boolean',
+    made_with_ai: 'boolean',
+    'exclude-comment-markers': 'boolean',
+    exclude_comment_markers: 'boolean',
+    'force-overwrite-comments': 'boolean',
+    force_overwrite_comments: 'boolean',
+    'hide-link-preview': 'boolean',
+    hide_link_preview: 'boolean',
+  });
+  const { socialSetId, draftId } = resolveDraftTargetFromParsed(parsed, 'drafts:update');
+  const quotePostUrl = getQuotePostUrlFromParsed(parsed);
+  const xContentDisclosures = getXContentDisclosuresFromParsed(parsed);
+  const hideLinkPreview = getHideLinkPreviewFromParsed(parsed);
+
+  const body = {};
+  const explicitPlatformList = parsed.platform
+    ? parsePlatformList(parsed.platform)
+    : null;
+
+  if (hasXArticleDraftFlags(parsed) && !explicitPlatformList) {
+    error('X Article flags require --platform x_article');
+  }
+
+  if (explicitPlatformList) {
+    validateXArticlePlatformUsage(explicitPlatformList, parsed);
+  }
+
+  const shouldUpdateArticle = Boolean(
+    explicitPlatformList?.includes(X_ARTICLE_PLATFORM) && hasXArticleDraftFlags(parsed)
+  );
+
+  if (shouldUpdateArticle) {
+    body.platforms = {
+      [X_ARTICLE_PLATFORM]: buildXArticlePlatformConfig(parsed, {
+        requireContent: false,
+      }),
+    };
+  }
+
+  // Get text content for normal post updates only.
+  let text = null;
+  if (!shouldUpdateArticle) {
+    text = getPostTextFromParsed(parsed);
+  }
+
+  const shouldUpdatePosts = Boolean(
+    !shouldUpdateArticle && (text || quotePostUrl || xContentDisclosures.hasAny || hideLinkPreview)
+  );
+  if (shouldUpdatePosts) {
+    if (explicitPlatformList) {
+      // Fail fast, before fetching the draft; the full checks run once platforms are known.
+      if (quotePostUrl) resolveQuotePlatform(explicitPlatformList, quotePostUrl);
+      validateXContentDisclosures(explicitPlatformList, xContentDisclosures);
+      validateHideLinkPreviewOption(explicitPlatformList, hideLinkPreview);
+    }
+
+    // Parse media IDs
+    const mediaIds = parsed.media ? parsed.media.split(',').map(m => m.trim()) : [];
+
+    // Fetch existing draft to determine platforms (and for --append, to get posts)
+    const existing = await apiRequest('GET', `/social-sets/${socialSetId}/drafts/${draftId}`);
+
+    // Determine which platforms to update
+    let platformList;
+    if (explicitPlatformList) {
+      // Explicit platform(s) specified
+      platformList = explicitPlatformList;
+    } else {
+      // Default to draft's existing enabled post platforms. Disconnected or
+      // standalone platforms (x_article) can be null in the response.
+      platformList = Object.entries(existing.platforms || {})
+        .filter(([platform, config]) => POST_PLATFORM_ORDER.includes(platform) && config && config.enabled)
+        .map(([platform]) => platform);
+
+      if (platformList.length === 0) {
+        // Fallback: get first connected platform for this social set
+        const defaultPlatform = await getFirstConnectedPlatform(socialSetId);
+        if (!defaultPlatform) {
+          error('No connected platforms found. Connect a platform at typefully.com or specify --platform');
+        }
+        platformList = [defaultPlatform];
+      }
+    }
+
+    const quotePlatform = quotePostUrl ? resolveQuotePlatform(platformList, quotePostUrl) : null;
+    validateXContentDisclosures(platformList, xContentDisclosures);
+    validateHideLinkPreviewOption(platformList, hideLinkPreview);
+
+    let postsArray;
+    // --append adds this post to each platform's own posts, so per-platform content (a
+    // quote, an edited copy) survives. A platform with no posts yet starts from the first
+    // enabled platform's posts.
+    let appendedPost = null;
+    let appendFallbackPosts = [];
+
+    if (text) {
+      if (parsed.append) {
+        for (const [, config] of Object.entries(existing.platforms || {})) {
+          if (config && config.enabled && Array.isArray(config.posts) && config.posts.length > 0) {
+            // Another platform's quote URL is one this platform would reject.
+            appendFallbackPosts = config.posts.map(({ quote_post_url: _quote, ...post }) => post);
+            break;
+          }
+        }
+
+        appendedPost = { text };
+        if (mediaIds.length > 0) {
+          appendedPost.media_ids = mediaIds;
+        }
+        postsArray = null;
+      } else {
+        // Replace with new posts
+        const posts = splitThreadText(text);
+        postsArray = posts.map((postText, index) => {
+          const post = { text: postText };
+          if (index === 0 && mediaIds.length > 0) {
+            post.media_ids = mediaIds;
+          }
+          return post;
+        });
+      }
+    } else if (quotePostUrl || xContentDisclosures.hasAny) {
+      // Metadata-only update: keep each affected platform's existing posts and add the
+      // quote and/or X disclosure attrs to them.
+      if (hideLinkPreview) {
+        error('Cannot combine --hide-link-preview with --quote-post-url, --paid-partnership, or --made-with-ai unless --text is provided');
+      }
+      const hasExistingPosts = p => Array.isArray(existing.platforms?.[p]?.posts) && existing.platforms[p].posts.length > 0;
+      if (quotePlatform && !hasExistingPosts(quotePlatform)) {
+        error(`Cannot apply --quote-post-url because this draft has no existing ${QUOTE_PLATFORM_NAMES[quotePlatform]} posts`);
+      }
+      if (xContentDisclosures.hasAny && !hasExistingPosts('x')) {
+        error('Cannot apply X-only post options because this draft has no existing X posts');
+      }
+      postsArray = null;
+      platformList = [...new Set([quotePlatform, xContentDisclosures.hasAny ? 'x' : null].filter(Boolean))];
+    } else {
+      // --hide-link-preview only: preserve existing posts on platforms that support suppression.
+      const targets = platformList.filter(p =>
+        HIDE_LINK_PREVIEW_PLATFORMS.includes(p) &&
+        Array.isArray(existing.platforms?.[p]?.posts) &&
+        existing.platforms[p].posts.length > 0
+      );
+      if (targets.length === 0) {
+        error('Cannot apply --hide-link-preview because this draft has no existing LinkedIn, Threads, or Substack posts');
+      }
+      postsArray = null;
+      platformList = targets;
+    }
+
+    // Build platforms object
+    const platformsObj = {};
+    for (const p of platformList) {
+      const ownPosts = existing.platforms?.[p]?.posts;
+      const hasOwnPosts = Array.isArray(ownPosts) && ownPosts.length > 0;
+      const sourcePosts = appendedPost
+        ? [...(hasOwnPosts ? ownPosts : appendFallbackPosts), appendedPost]
+        : postsArray ?? ownPosts ?? [];
+      const sanitizedPosts = sourcePosts.map(post => sanitizePostForPlatform(post, p));
+      let platformPosts = p === quotePlatform
+        ? addQuotePostUrl(sanitizedPosts, quotePostUrl, appendedPost ? sanitizedPosts.length - 1 : 0)
+        : sanitizedPosts;
+      if (p === 'x') {
+        platformPosts = addXContentDisclosures(platformPosts, xContentDisclosures);
+      }
+      if (HIDE_LINK_PREVIEW_PLATFORMS.includes(p)) {
+        platformPosts = addHideLinkPreview(platformPosts, hideLinkPreview);
+      }
+      platformsObj[p] = {
+        enabled: true,
+        posts: platformPosts,
+      };
+    }
+    validateSubstackSinglePost(platformsObj);
+    body.platforms = platformsObj;
+  }
+
+  if (parsed.title) {
+    body.draft_title = parsed.title;
+  }
+
+  if (parsed.schedule && parsed.plan) {
+    error('--schedule and --plan are mutually exclusive - provide only one');
+  }
+
+  if (parsed.schedule) {
+    body.publish_at = parsed.schedule;
+  }
+
+  if (parsed.plan) {
+    // Literal null returns a planned/scheduled draft to plain draft status
+    body.plan_at = parsed.plan === 'null' ? null : parsed.plan;
+  }
+
+  if (parsed.share) {
+    body.share = true;
+  }
+
+  if (parsed.notes) {
+    body.scratchpad_text = parsed.notes;
+  }
+
+  if (Object.prototype.hasOwnProperty.call(parsed, 'tags')) {
+    body.tags = parseCsvArg(parsed.tags, '--tags');
+  }
+
+  if (parsed['force-overwrite-comments'] || parsed.force_overwrite_comments) {
+    body.force_overwrite_comments = true;
+  }
+
+  if (Object.keys(body).length === 0) {
+    error('At least one of --text, --file, --content-markdown, --cover-media-id, --title, --schedule, --plan, --share, --notes, --tags, --quote-post-url, --paid-partnership, --made-with-ai, --hide-link-preview, or --force-overwrite-comments is required');
+  }
+
+  const params = new URLSearchParams();
+  if (parsed['exclude-comment-markers'] || parsed.exclude_comment_markers) {
+    params.set('exclude_comment_markers', 'true');
+  }
+  const qs = params.toString();
+  const url = qs
+    ? `/social-sets/${socialSetId}/drafts/${draftId}?${qs}`
+    : `/social-sets/${socialSetId}/drafts/${draftId}`;
+
+  const data = await apiRequest('PATCH', url, body);
+  output(data);
+}
+
+// ---------------------------------------------------------------------------
+// Aliases (human/agent-friendly)
+// ---------------------------------------------------------------------------
+
+async function cmdCreateDraftAlias(args) {
+  const parsed = parseArgs(args, {
+    share: 'boolean',
+    all: 'boolean',
+    'paid-partnership': 'boolean',
+    paid_partnership: 'boolean',
+    'made-with-ai': 'boolean',
+    made_with_ai: 'boolean',
+  });
+  const socialSetId = requireSocialSetId(getSocialSetIdFromParsed(parsed));
+
+  const forwarded = [String(socialSetId)];
+
+  // Prefer explicit --file / --text, otherwise treat positional args as the draft content.
+  const canSkipPostText = hasXArticleDraftFlags(parsed)
+    && !hasParsedArg(parsed, 'file')
+    && !hasParsedArg(parsed, 'text')
+    && parsed._positional.length === 0;
+  if (!canSkipPostText) {
+    if (Object.prototype.hasOwnProperty.call(parsed, 'file')) {
+      forwarded.push('--file', coerceFlagValueToString(parsed.file, '--file'));
+    } else {
+      let text;
+      if (Object.prototype.hasOwnProperty.call(parsed, 'text')) {
+        text = coerceFlagValueToString(parsed.text, '--text');
+      } else {
+        if (parsed._positional.length === 0) {
+          error('Draft text is required (provide it as the first argument, or use --text/--file)');
+        }
+        text = parsed._positional.join(' ');
+      }
+      forwarded.push('--text', text);
+    }
+  }
+
+  pushStringFlag(forwarded, parsed, 'platform', '--platform');
+  if (parsed.all) forwarded.push('--all');
+  pushStringFlag(forwarded, parsed, 'content-markdown', '--content-markdown');
+  pushStringFlag(forwarded, parsed, 'cover-media-id', '--cover-media-id');
+  pushStringFlag(forwarded, parsed, 'media', '--media');
+  pushStringFlag(forwarded, parsed, 'title', '--title');
+  pushStringFlag(forwarded, parsed, 'schedule', '--schedule');
+  pushStringFlag(forwarded, parsed, 'tags', '--tags', { allowEmpty: true });
+  pushStringFlag(forwarded, parsed, 'reply-to', '--reply-to');
+  pushStringFlag(forwarded, parsed, 'community', '--community');
+  const quotePostUrl = getQuotePostUrlFromParsed(parsed);
+  if (quotePostUrl) forwarded.push('--quote-post-url', quotePostUrl);
+  if (parsed['paid-partnership'] || parsed.paid_partnership) forwarded.push('--paid-partnership');
+  if (parsed['made-with-ai'] || parsed.made_with_ai) forwarded.push('--made-with-ai');
+  if (parsed.share) forwarded.push('--share');
+  pushStringFlag(forwarded, parsed, 'notes', '--notes');
+
+  await cmdDraftsCreate(forwarded);
+}
+
+async function cmdUpdateDraftAlias(args) {
+  const parsed = parseArgs(args, {
+    append: 'boolean',
+    share: 'boolean',
+    'paid-partnership': 'boolean',
+    paid_partnership: 'boolean',
+    'made-with-ai': 'boolean',
+    made_with_ai: 'boolean',
+  });
+  const socialSetId = requireSocialSetId(getSocialSetIdFromParsed(parsed));
+
+  if (parsed._positional.length === 0) {
+    error('draft_id is required');
+  }
+  const draftId = parsed._positional[0];
+
+  // Optional positional text after draft_id:
+  // `update-draft <id> "New text" ...`
+  let text;
+  if (Object.prototype.hasOwnProperty.call(parsed, 'text')) {
+    text = coerceFlagValueToString(parsed.text, '--text');
+  } else if (!Object.prototype.hasOwnProperty.call(parsed, 'file') && parsed._positional.length > 1) {
+    text = parsed._positional.slice(1).join(' ');
+  }
+
+  const forwarded = [String(socialSetId), String(draftId)];
+  pushStringFlag(forwarded, parsed, 'platform', '--platform');
+  pushStringFlag(forwarded, parsed, 'content-markdown', '--content-markdown');
+  pushStringFlag(forwarded, parsed, 'cover-media-id', '--cover-media-id');
+  if (text) forwarded.push('--text', text);
+  if (Object.prototype.hasOwnProperty.call(parsed, 'file')) {
+    forwarded.push('--file', coerceFlagValueToString(parsed.file, '--file'));
+  }
+  pushStringFlag(forwarded, parsed, 'media', '--media');
+  if (parsed.append) forwarded.push('--append');
+  pushStringFlag(forwarded, parsed, 'title', '--title');
+  pushStringFlag(forwarded, parsed, 'schedule', '--schedule');
+  pushStringFlag(forwarded, parsed, 'tags', '--tags', { allowEmpty: true });
+  const quotePostUrl = getQuotePostUrlFromParsed(parsed);
+  if (quotePostUrl) forwarded.push('--quote-post-url', quotePostUrl);
+  if (parsed['paid-partnership'] || parsed.paid_partnership) forwarded.push('--paid-partnership');
+  if (parsed['made-with-ai'] || parsed.made_with_ai) forwarded.push('--made-with-ai');
+  if (parsed.share) forwarded.push('--share');
+  pushStringFlag(forwarded, parsed, 'notes', '--notes');
+
+  await cmdDraftsUpdate(forwarded);
+}
+
+async function cmdDraftsDelete(args) {
+  const parsed = parseArgs(args, { 'use-default': 'boolean' });
+  // Destructive operation - require explicit --use-default when using default with single arg
+  const { socialSetId, draftId } = resolveDraftTargetFromParsed(parsed, 'drafts:delete');
+
+  await apiRequest('DELETE', `/social-sets/${socialSetId}/drafts/${draftId}`);
+  output({ success: true, message: 'Draft deleted' });
+}
+
+async function cmdDraftsSchedule(args) {
+  const parsed = parseArgs(args, { 'use-default': 'boolean' });
+  // Destructive operation - require explicit --use-default when using default with single arg
+  const { socialSetId, draftId } = resolveDraftTargetFromParsed(parsed, 'drafts:schedule');
+
+  if (!parsed.time) {
+    error('--time is required (use "next-free-slot" or ISO datetime)');
+  }
+
+  const data = await apiRequest('PATCH', `/social-sets/${socialSetId}/drafts/${draftId}`, {
+    publish_at: parsed.time,
+  });
+  output(data);
+}
+
+async function cmdDraftsPlan(args) {
+  const parsed = parseArgs(args, { 'use-default': 'boolean' });
+  // Require explicit --use-default when using default with single arg
+  const { socialSetId, draftId } = resolveDraftTargetFromParsed(parsed, 'drafts:plan');
+
+  if (!parsed.time) {
+    error('--time is required (use "next-free-slot" or a future ISO datetime)');
+  }
+
+  const data = await apiRequest('PATCH', `/social-sets/${socialSetId}/drafts/${draftId}`, {
+    plan_at: parsed.time,
+  });
+  output(data);
+}
+
+async function cmdDraftsPublish(args) {
+  const parsed = parseArgs(args, { 'use-default': 'boolean' });
+  // Destructive operation - require explicit --use-default when using default with single arg
+  const { socialSetId, draftId } = resolveDraftTargetFromParsed(parsed, 'drafts:publish');
+
+  const data = await apiRequest('PATCH', `/social-sets/${socialSetId}/drafts/${draftId}`, {
+    publish_at: 'now',
+  });
+  output(data);
+}
+
+// ---------------------------------------------------------------------------
+// Comments (per-draft comment threads)
+// ---------------------------------------------------------------------------
+
+function requireDraftIdPositional(parsed, commandName) {
+  const positional = parsed._positional;
+  if (positional.length === 0) {
+    error(`draft_id is required`, {
+      hint: `Usage: typefully.js ${commandName} <draft_id> [--social-set-id <id>]`,
+    });
+  }
+  const socialSetId = requireSocialSetId(getSocialSetIdFromParsed(parsed));
+  return { socialSetId, draftId: positional[0] };
+}
+
+function requireThreadPositional(parsed, commandName) {
+  const positional = parsed._positional;
+  if (positional.length < 2) {
+    error('draft_id and thread_id are required', {
+      hint: `Usage: typefully.js ${commandName} <draft_id> <thread_id> [--social-set-id <id>]`,
+    });
+  }
+  const socialSetId = requireSocialSetId(getSocialSetIdFromParsed(parsed));
+  return { socialSetId, draftId: positional[0], threadId: positional[1] };
+}
+
+function requireCommentPositional(parsed, commandName) {
+  const positional = parsed._positional;
+  if (positional.length < 3) {
+    error('draft_id, thread_id, and comment_id are required', {
+      hint: `Usage: typefully.js ${commandName} <draft_id> <thread_id> <comment_id> [--social-set-id <id>]`,
+    });
+  }
+  const socialSetId = requireSocialSetId(getSocialSetIdFromParsed(parsed));
+  return {
+    socialSetId,
+    draftId: positional[0],
+    threadId: positional[1],
+    commentId: positional[2],
+  };
+}
+
+async function cmdCommentsList(args) {
+  const parsed = parseArgs(args);
+  const { socialSetId, draftId } = requireDraftIdPositional(parsed, 'comments:list');
+
+  const params = new URLSearchParams();
+  if (parsed.platform) params.set('platform', parsed.platform);
+  if (parsed.status) params.set('status', parsed.status);
+  params.set('limit', parsed.limit || '10');
+  if (parsed.offset) params.set('offset', parsed.offset);
+
+  const data = await apiRequest(
+    'GET',
+    `/social-sets/${socialSetId}/drafts/${draftId}/comment-threads?${params}`,
+  );
+  output(data);
+}
+
+async function cmdCommentsCreate(args) {
+  const parsed = parseArgs(args);
+  const { socialSetId, draftId } = requireDraftIdPositional(parsed, 'comments:create');
+
+  const text = getRequiredStringArgFromParsed(parsed, 'text');
+  const selectedText = getRequiredStringArgFromParsed(parsed, 'selected-text', ['selected_text']);
+  const body = {
+    selected_text: selectedText,
+    text,
+  };
+
+  if (parsed.platform) body.platform = parsed.platform;
+  if (parsed.platform === X_ARTICLE_PLATFORM) {
+    const postIndexRaw = getOptionalStringArgFromParsed(parsed, 'post-index', ['post_index']);
+    if (postIndexRaw != null) {
+      const postIndex = Number.parseInt(postIndexRaw, 10);
+      if (!Number.isInteger(postIndex) || postIndex !== 0) {
+        error('--post-index must be 0 when --platform x_article');
+      }
+    }
+  } else {
+    const postIndexRaw = getRequiredStringArgFromParsed(parsed, 'post-index', ['post_index']);
+    const postIndex = Number.parseInt(postIndexRaw, 10);
+    if (!Number.isInteger(postIndex) || postIndex < 0) {
+      error('--post-index must be a non-negative integer');
+    }
+    body.post_index = postIndex;
+  }
+
+  if (Object.prototype.hasOwnProperty.call(parsed, 'occurrence')) {
+    const occurrence = Number.parseInt(parsed.occurrence, 10);
+    if (!Number.isInteger(occurrence) || occurrence < 0) {
+      error('--occurrence must be a non-negative integer');
+    }
+    body.occurrence = occurrence;
+  }
+
+  const data = await apiRequest(
+    'POST',
+    `/social-sets/${socialSetId}/drafts/${draftId}/comment-threads`,
+    body,
+  );
+  output(data);
+}
+
+async function cmdCommentsReply(args) {
+  const parsed = parseArgs(args);
+  const { socialSetId, draftId, threadId } = requireThreadPositional(parsed, 'comments:reply');
+  const text = getRequiredStringArgFromParsed(parsed, 'text');
+
+  const data = await apiRequest(
+    'POST',
+    `/social-sets/${socialSetId}/drafts/${draftId}/comment-threads/${threadId}/comments`,
+    { text },
+  );
+  output(data);
+}
+
+async function cmdCommentsResolve(args) {
+  const parsed = parseArgs(args);
+  const { socialSetId, draftId, threadId } = requireThreadPositional(parsed, 'comments:resolve');
+
+  const data = await apiRequest(
+    'POST',
+    `/social-sets/${socialSetId}/drafts/${draftId}/comment-threads/${threadId}/resolve`,
+  );
+  output(data);
+}
+
+async function cmdCommentsUpdate(args) {
+  const parsed = parseArgs(args);
+  const { socialSetId, draftId, threadId, commentId } = requireCommentPositional(
+    parsed,
+    'comments:update',
+  );
+  const text = getRequiredStringArgFromParsed(parsed, 'text');
+
+  const data = await apiRequest(
+    'PATCH',
+    `/social-sets/${socialSetId}/drafts/${draftId}/comment-threads/${threadId}/comments/${commentId}`,
+    { text },
+  );
+  output(data);
+}
+
+async function cmdCommentsDelete(args) {
+  const parsed = parseArgs(args, { 'use-default': 'boolean' });
+  const positional = parsed._positional;
+
+  if (positional.length < 2) {
+    error('draft_id and thread_id are required', {
+      hint: 'Usage: typefully.js comments:delete <draft_id> <thread_id> [comment_id] [--social-set-id <id>]',
+    });
+  }
+  const socialSetId = requireSocialSetId(getSocialSetIdFromParsed(parsed));
+  const draftId = positional[0];
+  const threadId = positional[1];
+  const commentId = positional[2] || null;
+
+  const url = commentId
+    ? `/social-sets/${socialSetId}/drafts/${draftId}/comment-threads/${threadId}/comments/${commentId}`
+    : `/social-sets/${socialSetId}/drafts/${draftId}/comment-threads/${threadId}`;
+
+  await apiRequest('DELETE', url);
+  output({
+    success: true,
+    message: commentId ? 'Comment deleted' : 'Comment thread deleted',
+  });
+}
+
+async function cmdQueueGet(args) {
+  const parsed = parseArgs(args);
+  const socialSetId = resolveSocialSetIdFromParsed(parsed, parsed._positional[0]);
+  const startDate = getRequiredStringArgFromParsed(parsed, 'start-date', ['start_date']);
+  const endDate = getRequiredStringArgFromParsed(parsed, 'end-date', ['end_date']);
+
+  const params = new URLSearchParams();
+  params.set('start_date', startDate);
+  params.set('end_date', endDate);
+
+  const data = await apiRequest('GET', `/social-sets/${socialSetId}/queue?${params}`);
+  output(data);
+}
+
+async function cmdQueueScheduleGet(args) {
+  const parsed = parseArgs(args);
+  const socialSetId = resolveSocialSetIdFromParsed(parsed, parsed._positional[0]);
+
+  const data = await apiRequest('GET', `/social-sets/${socialSetId}/queue/schedule`);
+  output(data);
+}
+
+async function cmdQueueSchedulePut(args) {
+  const parsed = parseArgs(args);
+  const socialSetId = resolveSocialSetIdFromParsed(parsed, parsed._positional[0]);
+  const rawRules = getRequiredStringArgFromParsed(parsed, 'rules');
+
+  let rules;
+  try {
+    rules = JSON.parse(rawRules);
+  } catch {
+    error('--rules must be valid JSON');
+  }
+
+  if (!Array.isArray(rules)) {
+    error('--rules must be a JSON array');
+  }
+
+  const data = await apiRequest('PUT', `/social-sets/${socialSetId}/queue/schedule`, { rules });
+  output(data);
+}
+
+async function cmdTagsList(args) {
+  const parsed = parseArgs(args);
+  const socialSetId = resolveSocialSetIdFromParsed(parsed, parsed._positional[0]);
+
+  const data = await apiRequest('GET', `/social-sets/${socialSetId}/tags?limit=50`);
+  output(data);
+}
+
+async function cmdTagsCreate(args) {
+  const parsed = parseArgs(args);
+  const socialSetId = resolveSocialSetIdFromParsed(parsed, parsed._positional[0]);
+
+  if (!parsed.name) {
+    error('--name is required');
+  }
+
+  const data = await apiRequest('POST', `/social-sets/${socialSetId}/tags`, {
+    name: parsed.name,
+  });
+  output(data);
+}
+
+async function cmdMediaUpload(args) {
+  const parsed = parseArgs(args, { 'no-wait': 'boolean' });
+  const positional = parsed._positional;
+
+  // Support both: media:upload <file_path> (with default) and media:upload <social_set_id> <file_path>
+  let socialSetId, filePath;
+  const socialSetIdFlag = getSocialSetIdFromParsed(parsed);
+  if (positional.length >= 2) {
+    if (socialSetIdFlag && positional[0] !== socialSetIdFlag) {
+      error('Conflicting social_set_id values', { positional: positional[0], flag: socialSetIdFlag });
+    }
+    socialSetId = socialSetIdFlag || positional[0];
+    filePath = positional[1];
+  } else if (positional.length === 1) {
+    filePath = positional[0];
+    socialSetId = requireSocialSetId(socialSetIdFlag);
+  } else {
+    error('file path is required');
+  }
+
+  if (!fs.existsSync(filePath)) {
+    error(`File not found: ${filePath}`);
+  }
+
+  const rawFilename = path.basename(filePath);
+  const filename = sanitizeFilename(rawFilename);
+  const timeout = parseInt(parsed.timeout || '60', 10) * 1000;
+  const pollIntervalMs = (() => {
+    const raw = process.env.TYPEFULLY_MEDIA_POLL_INTERVAL_MS;
+    if (!raw) return 2000;
+    const n = parseInt(raw, 10);
+    return Number.isFinite(n) && n >= 0 ? n : 2000;
+  })();
+
+  // Step 1: Get presigned URL from API
+  const presignedResponse = await apiRequest('POST', `/social-sets/${socialSetId}/media/upload`, {
+    file_name: filename,
+  });
+
+  const { upload_url: uploadUrl, media_id: mediaId } = presignedResponse;
+
+  if (!uploadUrl) {
+    error('Failed to get presigned URL', { response: presignedResponse });
+  }
+
+  // Step 2: Upload file to S3 (WITHOUT Content-Type header - this was the bug!)
+  const fileBuffer = fs.readFileSync(filePath);
+
+  const uploadResponse = await fetch(uploadUrl, {
+    method: 'PUT',
+    body: fileBuffer,
+    // Note: Do NOT set Content-Type header - S3 presigned URLs have it encoded
+  });
+
+  if (!uploadResponse.ok) {
+    error('Failed to upload file to S3', {
+      http_code: uploadResponse.status,
+      status_text: uploadResponse.statusText,
+    });
+  }
+
+  // Step 3: Poll for processing status (unless --no-wait)
+  if (parsed['no-wait']) {
+    output({
+      media_id: mediaId,
+      message: 'Upload complete. Use media:status to check processing.',
+    });
+    return;
+  }
+
+  const startTime = Date.now();
+
+  while (Date.now() - startTime < timeout) {
+    const statusResponse = await apiRequest('GET', `/social-sets/${socialSetId}/media/${mediaId}`);
+
+    if (statusResponse.status === 'ready') {
+      output({
+        media_id: mediaId,
+        status: statusResponse.status,
+        message: 'Media uploaded and ready to use',
+      });
+      return;
+    }
+
+    if (statusResponse.status === 'error' || statusResponse.status === 'failed') {
+      error('Media processing failed', { status: statusResponse });
+    }
+
+    // Wait before polling again (override for tests with TYPEFULLY_MEDIA_POLL_INTERVAL_MS)
+    await sleep(pollIntervalMs);
+  }
+
+  // Timeout reached
+  output({
+    media_id: mediaId,
+    status: 'processing',
+    message: 'Upload complete but still processing. Use media:status to check.',
+    hint: 'Increase timeout with --timeout <seconds>',
+  });
+}
+
+async function cmdMediaStatus(args) {
+  const parsed = parseArgs(args);
+  const positional = parsed._positional;
+
+  // Support both: media:status <media_id> (with default) and media:status <social_set_id> <media_id>
+  let socialSetId, mediaId;
+  const socialSetIdFlag = getSocialSetIdFromParsed(parsed);
+  if (positional.length >= 2) {
+    if (socialSetIdFlag && positional[0] !== socialSetIdFlag) {
+      error('Conflicting social_set_id values', { positional: positional[0], flag: socialSetIdFlag });
+    }
+    socialSetId = socialSetIdFlag || positional[0];
+    mediaId = positional[1];
+  } else if (positional.length === 1) {
+    mediaId = positional[0];
+    socialSetId = requireSocialSetId(socialSetIdFlag);
+  } else {
+    error('media_id is required');
+  }
+
+  const data = await apiRequest('GET', `/social-sets/${socialSetId}/media/${mediaId}`);
+  output(data);
+}
+
+function showHelp() {
+  console.log(`Typefully CLI - Manage social media posts via the Typefully API
+
+USAGE:
+  typefully.js <command> [arguments]
+
+NOTE:
+  Commands that take a social_set_id as a positional argument also accept:
+    --social-set-id <id>   (or --social_set_id <id>)
+  Global options:
+    --api-base-url <url>                     Override API base URL for this command
+                                             (appends /v2 when omitted)
+
+SETUP:
+  setup                                      Interactive setup - saves API key and optional default social set
+    --key <api_key>                          Provide key non-interactively (enables non-interactive mode)
+    --location <global|local>                Choose config location (default: global in non-interactive mode)
+                                             global: ~/.config/typefully/config.json
+                                             local: ./.typefully/config.json (project-specific)
+    --default-social-set <id>                Set default social set non-interactively
+    --no-default                             Skip setting default social set in non-interactive mode
+
+  config:show                                Show current config, API key source, and default social set
+  config:set-default [social_set_id]         Set default social set (interactive if ID not provided)
+    --location <global|local>                Choose where to store the default
+
+COMMANDS:
+  me:get                                     Get authenticated user info
+
+  social-sets:list                           List all social sets
+  social-sets:get [social_set_id]            Get social set details with platforms (uses default if ID omitted)
+  linkedin:organizations:resolve [social_set_id] [options]
+                                             Resolve LinkedIn organization URL for mention syntax
+    --organization-url <url>                 Public LinkedIn company/school URL
+                                             Also accepts: --organization_url / --url
+
+  drafts:list [social_set_id] [options]      List drafts (uses default if ID omitted)
+    --status <status>                        Filter by: draft, planned, scheduled, published, error, publishing
+    --tag <tag_slug>                         Filter by tag slug
+    --sort <order>                           Sort by: created_at, -created_at, updated_at, -updated_at,
+                                             scheduled_date, -scheduled_date, published_at, -published_at
+    --limit <n>                              Max results (default: 10, max: 50)
+
+  drafts:get [social_set_id] <draft_id>      Get a specific draft
+    --exclude-comment-markers                Render posts[*].text as plain text without
+                                             <typ:comment-thread> markers (read-only display use).
+                                             Round-tripping the result back to PATCH will lose
+                                             comment anchors. Also accepts: --exclude_comment_markers
+    --use-default                            Required when using default social set with single arg
+
+  drafts:create [social_set_id] [options]    Create a new draft (uses default if ID omitted)
+    --platform <platforms>                   Comma-separated: x,linkedin,threads,bluesky,mastodon,substack
+                                             or standalone x_article
+                                             (auto-selects first connected platform if omitted;
+                                             substack = Substack Notes, single post only)
+    --all                                    Post to all connected post platforms (excludes x_article)
+    --text <text>                            Post content (use --- on its own line for threads)
+    --file, -f <path>                        Read content from file instead of --text
+    --content-markdown <markdown>            X Article markdown (requires --platform x_article)
+    --cover-media-id <media_id|null>         X Article cover image; use literal null to remove on update
+    --media <media_ids>                      Comma-separated media IDs to attach
+    --title <title>                          Draft title (internal only)
+    --schedule <time>                        "now", "next-free-slot", or ISO datetime
+    --plan <time>                            "next-free-slot" or future ISO datetime. Plans the
+                                             draft: dated but inert until confirmed (mutually
+                                             exclusive with --schedule)
+    --tags <tag_slugs>                       Comma-separated tag slugs
+    --reply-to <url>                         URL of X post to reply to
+    --community <id>                         X community ID to post to
+    --quote-post-url, --quote-url <url>      Quote a post (X, Threads, Bluesky, Mastodon) or restack
+                                             on Substack, on the URL's platform only
+    --paid-partnership, --paid_partnership   Label X posts as paid partnership
+    --made-with-ai, --made_with_ai           Label X posts as made with AI
+    --hide-link-preview                      Suppress the link-preview card (LinkedIn/Threads only).
+                                             Also accepts: --hide_link_preview
+    --share                                  Generate a public share URL for the draft
+    --notes, --scratchpad <text>             Internal notes/scratchpad for the draft
+
+  drafts:update [social_set_id] <draft_id> [options]  Update a draft
+    --platform <platforms>                   Comma-separated platforms, or standalone x_article
+                                             (preserves draft's existing platforms if omitted)
+    --text <text>                            New post content
+    --file, -f <path>                        Read content from file instead of --text
+    --content-markdown <markdown>            New X Article markdown (requires --platform x_article)
+    --cover-media-id <media_id|null>         Set X Article cover, or use literal null to remove it
+    --media <media_ids>                      Comma-separated media IDs to attach
+    --append, -a                             Append to existing thread instead of replacing
+    --title <title>                          New draft title
+    --schedule <time>                        "now", "next-free-slot", or ISO datetime
+    --plan <time|null>                       "next-free-slot" or future ISO datetime. Plans or
+                                             replans the draft (dated but inert, mutually exclusive
+                                             with --schedule); literal null returns a planned or
+                                             scheduled draft to plain draft status
+    --tags <tag_slugs>                       Comma-separated tag slugs
+    --quote-post-url, --quote-url <url>      Quote a post (X, Threads, Bluesky, Mastodon) or restack
+                                             on Substack, on the URL's platform only
+    --paid-partnership, --paid_partnership   Label X posts as paid partnership
+    --made-with-ai, --made_with_ai           Label X posts as made with AI
+    --hide-link-preview                      Suppress the link-preview card (LinkedIn/Threads only).
+                                             Also accepts: --hide_link_preview
+    --share                                  Generate a public share URL for the draft
+    --notes, --scratchpad <text>             Internal notes/scratchpad for the draft
+    --exclude-comment-markers                Render response posts[*].text without
+                                             <typ:comment-thread> markers (display only).
+                                             Also accepts: --exclude_comment_markers
+    --force-overwrite-comments               Destructive last resort: resolves every thread whose
+                                             anchor is missing from submitted text, including
+                                             unrelated threads. Agents must list affected threads
+                                             and get explicit user confirmation before using it.
+                                             Also accepts: --force_overwrite_comments
+    --use-default                            Required when using default social set with single arg
+
+  create-draft <text> [options]             Alias for drafts:create (positional text + --social-set-id)
+  update-draft <draft_id> [text] [options]  Alias for drafts:update (positional text optional + --social-set-id)
+
+  drafts:delete <social_set_id> <draft_id>   Delete a draft
+    --use-default                            Required when using default social set with single arg
+
+  drafts:schedule <social_set_id> <draft_id> [options]  Schedule a draft
+    --time <time>                            "next-free-slot" or ISO datetime (required)
+    --use-default                            Required when using default social set with single arg
+
+  drafts:plan <social_set_id> <draft_id> [options]  Plan a draft (dated but inert until confirmed)
+    --time <time>                            "next-free-slot" or future ISO datetime (required)
+    --use-default                            Required when using default social set with single arg
+
+  drafts:publish <social_set_id> <draft_id>  Publish a draft immediately
+    --use-default                            Required when using default social set with single arg
+
+  queue:get [social_set_id] --start-date <date> --end-date <date>
+                                            Get queue slots and scheduled drafts (uses default if ID omitted)
+                                            Also accepts: --start_date / --end_date
+  queue:schedule:get [social_set_id]        Get queue schedule rules (uses default if ID omitted)
+  queue:schedule:put [social_set_id] --rules <json_array>
+                                            Replace queue schedule rules (uses default if ID omitted)
+                                            Rule shape: [{"h":9,"m":30,"days":["mon","wed","fri"]}]
+
+  comments:list <draft_id> [options]         List comment threads on a draft
+    --social-set-id <id>                     Social set (uses default if omitted)
+    --platform <platform>                    Filter by platform: x, linkedin, threads, bluesky, mastodon, substack, x_article
+    --status <status>                        Filter by: unresolved (default), resolved, all
+    --limit <n>                              Max results (default: 10, max: 50)
+    --offset <n>                             Skip first N results
+
+  comments:create <draft_id> [options]       Create a new comment thread anchored on a span
+    --social-set-id <id>                     Social set (uses default if omitted)
+    --post-index <n>                         Zero-based post index (required except for x_article)
+    --selected-text <text>                   Exact substring of post text or visible X Article text
+    --text <text>                            Plain-text comment body (required)
+    --platform <platform>                    Required for x_article and multi-platform drafts
+    --occurrence <n>                         Zero-based occurrence when selected_text repeats (default: 0)
+
+  comments:reply <draft_id> <thread_id> --text <text>
+                                             Add a comment to an existing thread
+    --social-set-id <id>                     Social set (uses default if omitted)
+
+  comments:resolve <draft_id> <thread_id>    Resolve a comment thread (strips its markers from text)
+    --social-set-id <id>                     Social set (uses default if omitted)
+
+  comments:update <draft_id> <thread_id> <comment_id> --text <text>
+                                             Update a comment's text (author only)
+    --social-set-id <id>                     Social set (uses default if omitted)
+
+  comments:delete <draft_id> <thread_id> [comment_id]
+                                             Delete a thread, or a single comment within it.
+                                             If comment_id is the root, the entire thread (and
+                                             its markers) is deleted.
+    --social-set-id <id>                     Social set (uses default if omitted)
+
+  tags:list [social_set_id]                  List all tags (uses default if ID omitted)
+  tags:create [social_set_id] --name <name>  Create a new tag (uses default if ID omitted)
+
+  media:upload [social_set_id] <file>        Upload media file (uses default if one arg)
+    --no-wait                                Return immediately after upload (don't poll)
+    --timeout <seconds>                      Max wait for processing (default: 60)
+  media:status [social_set_id] <media_id>    Check media upload status (uses default if one arg)
+
+EXAMPLES:
+  # First time setup (interactive)
+  ./typefully.js setup
+
+  # Non-interactive setup (for scripts/CI) - auto-selects default if only one social set
+  ./typefully.js setup --key typ_xxx --location global
+
+  # Non-interactive setup with explicit default social set
+  ./typefully.js setup --key typ_xxx --location global --default-social-set 123
+
+  # Non-interactive setup, skip default social set selection
+  ./typefully.js setup --key typ_xxx --no-default
+
+  # Check current configuration (shows API key source and default social set)
+  ./typefully.js config:show
+
+  # Set a default social set (interactive)
+  ./typefully.js config:set-default
+
+  # Set a default social set (non-interactive)
+  ./typefully.js config:set-default 123 --location global
+
+  # Get your user info
+  ./typefully.js me:get
+
+  # List all social sets
+  ./typefully.js social-sets:list
+
+  # Resolve a LinkedIn URL to mention syntax
+  ./typefully.js linkedin:organizations:resolve 123 --organization-url "https://www.linkedin.com/company/typefullycom/"
+
+  # Same resolver using default social set
+  ./typefully.js linkedin:organizations:resolve --url "https://www.linkedin.com/company/typefullycom/"
+
+  # Use resolved mention syntax in a LinkedIn draft
+  ./typefully.js drafts:create 123 --platform linkedin --text "Thanks @[Typefully](urn:li:organization:86779668) for the support."
+
+  # Create a tweet (uses default social set if configured)
+  ./typefully.js drafts:create --text "Hello world!"
+
+  # Create a tweet with explicit social set ID
+  ./typefully.js drafts:create 123 --text "Hello world!"
+
+  # Create an X Article (standalone platform)
+  ./typefully.js drafts:create 123 --platform x_article --content-markdown "# Article Title\n\nLong-form article body..."
+
+  # Create an X Article with a cover image
+  ./typefully.js drafts:create 123 --platform x_article --content-markdown "# Article Title\n\nBody..." --cover-media-id media_123
+
+  # Remove an X Article cover image
+  ./typefully.js drafts:update 123 456 --platform x_article --cover-media-id null
+
+  # Create a cross-platform post (specific platforms)
+  ./typefully.js drafts:create --platform x,linkedin --text "Big announcement!"
+
+  # Create a post on all connected platforms
+  ./typefully.js drafts:create --all --text "Posting everywhere!"
+
+  # Create a thread (use --- on its own line to separate posts)
+  ./typefully.js drafts:create 123 --platform x --text $'First tweet\\n---\\nSecond tweet\\n---\\nThird tweet'
+
+  # Create from file
+  ./typefully.js drafts:create 123 --platform x --file ./thread.txt
+
+  # Schedule for next available slot
+  ./typefully.js drafts:create 123 --platform x --text "Scheduled post" --schedule next-free-slot
+
+  # Schedule for specific time
+  ./typefully.js drafts:create 123 --platform x --text "Timed post" --schedule "2027-01-20T14:00:00Z"
+
+  # Plan a draft: on the queue/calendar but inert until confirmed
+  ./typefully.js drafts:create 123 --platform x --text "Pencil this in" --plan next-free-slot
+
+  # Confirm a planned draft into a real schedule
+  ./typefully.js drafts:schedule 123 456 --time "2027-01-20T14:00:00Z"
+
+  # List planned drafts sorted by date
+  ./typefully.js drafts:list 123 --status planned --sort scheduled_date
+
+  # List scheduled drafts sorted by date
+  ./typefully.js drafts:list 123 --status scheduled --sort scheduled_date
+
+  # Publish a draft immediately (explicit social_set_id and draft_id)
+  ./typefully.js drafts:publish 123 456
+
+  # Publish using default social set (requires --use-default for safety)
+  ./typefully.js drafts:publish 456 --use-default
+
+  # Delete a draft (requires --use-default when using default social set)
+  ./typefully.js drafts:delete 456 --use-default
+
+  # Get queue view for a date range
+  ./typefully.js queue:get 123 --start-date 2026-02-01 --end-date 2026-02-29
+
+  # Get current queue schedule rules
+  ./typefully.js queue:schedule:get 123
+
+  # Replace queue schedule rules
+  ./typefully.js queue:schedule:put 123 --rules '[{"h":9,"m":30,"days":["mon","wed","fri"]}]'
+
+  # Append to existing thread
+  ./typefully.js drafts:update 123 456 --append --text "New tweet at the end"
+
+  # Reply to an existing tweet
+  ./typefully.js drafts:create 123 --platform x --text "Great thread!" --reply-to "https://x.com/user/status/123456"
+
+  # Post to an X community
+  ./typefully.js drafts:create 123 --platform x --text "Community post" --community 1493446837214187523
+
+  # Create a quote post on X
+  ./typefully.js drafts:create 123 --platform x --text "My take on this" --quote-post-url "https://x.com/user/status/1234567890123456789"
+
+  # Quote a Bluesky post (Threads, Mastodon, and Substack restacks work the same way)
+  ./typefully.js drafts:create 123 --platform bluesky --text "Worth a read" --quote-post-url "https://bsky.app/profile/user.bsky.social/post/3kabc123"
+
+  # Create an X post with content disclosure labels
+  ./typefully.js drafts:create 123 --platform x --text "Sponsored AI-assisted update" --paid-partnership --made-with-ai
+
+  # Update an X draft to quote a post
+  ./typefully.js drafts:update 123 456 --platform x --text "Updated take" --quote-post-url "https://x.com/user/status/1234567890123456789"
+
+  # Create draft with share URL
+  ./typefully.js drafts:create 123 --platform x --text "Check this out" --share
+
+  # List unresolved comment threads on a draft
+  ./typefully.js comments:list 456
+
+  # Create a comment thread anchored on the first post
+  ./typefully.js comments:create 456 --post-index 0 --selected-text "exciting news" --text "Tighten this — passive."
+
+  # Create a comment thread anchored on visible X Article text
+  ./typefully.js comments:create 456 --platform x_article --selected-text "article phrase" --text "Clarify this section."
+
+  # Reply to a thread
+  ./typefully.js comments:reply 456 7e2a... --text "Agreed, will revise."
+
+  # Resolve a thread (also strips its markers from posts[*].text)
+  ./typefully.js comments:resolve 456 7e2a...
+
+  # Delete the whole thread (comment_id omitted)
+  ./typefully.js comments:delete 456 7e2a...
+
+  # Get a draft as plain text (no <typ:comment-thread> markers) for LLM context / exports
+  ./typefully.js drafts:get 456 --exclude-comment-markers
+
+  # Upload media and create post with it
+  ./typefully.js media:upload 123 ./image.jpg
+  # Returns: {"media_id": "abc-123", "status": "ready", "message": "Media uploaded and ready to use"}
+  ./typefully.js drafts:create 123 --platform x --text "Check out this image!" --media abc-123
+
+CONFIG PRIORITY:
+  1. TYPEFULLY_API_KEY environment variable (highest)
+  2. ./.typefully/config.json (project-local)
+  3. ~/.config/typefully/config.json (user-global, lowest)
+
+GET YOUR API KEY:
+  ${API_KEY_URL}
+`);
+}
+
+// ============================================================================
+// Main Router
+// ============================================================================
+
+const COMMANDS = {
+  'setup': cmdSetup,
+  'me:get': cmdMeGet,
+  'social-sets:list': cmdSocialSetsList,
+  'social-sets:get': cmdSocialSetsGet,
+  'linkedin:organizations:resolve': cmdLinkedInOrganizationsResolve,
+  'drafts:list': cmdDraftsList,
+  'drafts:get': cmdDraftsGet,
+  'drafts:create': cmdDraftsCreate,
+  'drafts:update': cmdDraftsUpdate,
+  'create-draft': cmdCreateDraftAlias,
+  'update-draft': cmdUpdateDraftAlias,
+  'drafts:delete': cmdDraftsDelete,
+  'drafts:schedule': cmdDraftsSchedule,
+  'drafts:plan': cmdDraftsPlan,
+  'drafts:publish': cmdDraftsPublish,
+  'queue:get': cmdQueueGet,
+  'queue:schedule:get': cmdQueueScheduleGet,
+  'queue:schedule:put': cmdQueueSchedulePut,
+  'comments:list': cmdCommentsList,
+  'comments:create': cmdCommentsCreate,
+  'comments:reply': cmdCommentsReply,
+  'comments:resolve': cmdCommentsResolve,
+  'comments:update': cmdCommentsUpdate,
+  'comments:delete': cmdCommentsDelete,
+  'tags:list': cmdTagsList,
+  'tags:create': cmdTagsCreate,
+  'media:upload': cmdMediaUpload,
+  'media:status': cmdMediaStatus,
+  'config:show': cmdConfigShow,
+  'config:set-default': cmdConfigSetDefault,
+  'help': showHelp,
+  '--help': showHelp,
+  '-h': showHelp,
+};
+
+async function main() {
+  const args = extractGlobalArgs(process.argv.slice(2));
+  const command = args[0] || 'help';
+  const commandArgs = args.slice(1);
+
+  if (commandArgs.includes('--help') || commandArgs.includes('-h')) {
+    showHelp();
+    return;
+  }
+
+  const handler = COMMANDS[command];
+
+  if (!handler) {
+    error(`Unknown command: ${command}`, { hint: 'Use --help for usage.' });
+  }
+
+  try {
+    await handler(commandArgs);
+  } catch (err) {
+    if (err.code === 'ENOENT') {
+      error(`File not found: ${err.path}`);
+    }
+    error(err.message, { stack: err.stack });
+  }
+}
+
+main();
