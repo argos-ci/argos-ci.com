@@ -95,6 +95,39 @@ export async function getChangelogEntries(files: string[]) {
   return entries;
 }
 
+const SITE_URL = "https://argos-ci.com";
+
+/**
+ * The latest published changelog entries as a JSON Feed
+ * (https://jsonfeed.org/version/1.1), newest first. Read from the frontmatter
+ * alone: the feed tells what shipped and links to it, it carries no body.
+ */
+export async function getChangelogFeed(input: { limit: number }) {
+  const files = (await getChangelogFiles()).slice(0, input.limit);
+  const items = files.map((filepath) => {
+    const frontmatter = readMatterData(filepath, FrontmatterSchema);
+    if (!frontmatter) {
+      throw new Error(`Changelog entry not found: ${filepath}`);
+    }
+    const url = `${SITE_URL}/changelog/${frontmatter.date.split("T")[0]}-${frontmatter.slug}`;
+    return {
+      id: url,
+      url,
+      title: frontmatter.title,
+      summary: frontmatter.description,
+      image: new URL(frontmatter.image, SITE_URL).href,
+      date_published: frontmatter.date,
+    };
+  });
+  return {
+    version: "https://jsonfeed.org/version/1.1",
+    title: "Argos changelog",
+    home_page_url: `${SITE_URL}/changelog`,
+    feed_url: `${SITE_URL}/changelog.json`,
+    items,
+  };
+}
+
 /**
  * Get the paginated changelogs.
  */
