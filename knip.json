@@ -6,5 +6,10 @@
   },
   "tags": ["-lintignore"],
   "entry": ["scripts/*.mjs"],
-  "ignore": ["changelogs/**", "articles/**", "customers/**"]
+  "ignore": [
+    "changelogs/**",
+    "articles/**",
+    "customers/**",
+    "**/skills/*/scripts/**"
+  ]
 }
