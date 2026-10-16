@@ -1,0 +1,30 @@
+---
+title: CLI docs search
+homeTitle: Search the Argos docs from your terminal
+description: argos docs search finds the documentation pages that answer your question, ranked, from the terminal — with JSON output an agent can read and no token required.
+slug: cli-docs-search
+date: 2026-10-16
+image: /assets/changelogs/cli-docs-search/cli-docs-search.jpg
+---
+
+![A terminal search flowing into a ranked stack of documentation pages](/assets/changelogs/cli-docs-search/cli-docs-search.jpg)
+
+Checking how a flag or a config option works meant leaving the terminal for the docs. An agent working in your repository had it worse: it either guessed or had to be connected to an MCP server first. **Docs search** brings the documentation to the command line:
+
+```bash
+argos docs search "parallel builds"
+```
+
+- **Ranked pages, with the passage that matched**: each result has its title, its URL and the excerpt that answers the query, best match first.
+- **No token**: the search reads the public documentation, so it works before you create a project or run `argos login`.
+- **Built for agents**: `--json` prints `[{ title, url, excerpt }]`, and `--limit` returns up to 10 results (5 by default).
+- **Read the whole page**: append `.md` to a result's URL to get the page as Markdown.
+
+Search, then read, in two commands:
+
+```bash
+url=$(argos docs search "parallel builds" --json | jq -r '.[0].url')
+curl "$url.md"
+```
+
+Update `@argos-ci/cli` to the latest version to get it. Learn more in the [CLI documentation](https://argos-ci.com/docs/reference/argos-command-line-interface-cli#searching-the-documentation).
