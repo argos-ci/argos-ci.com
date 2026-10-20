@@ -20,7 +20,7 @@ export const CHROMATIC_QUESTIONS: FAQQuestion[] = [
   ),
   faq(
     "How do Chromatic and Argos prices compare?",
-    `As of October 2026, Chromatic Starter is $179/month for 35,000 snapshots and Pro $399/month for 85,000, then $0.008 per snapshot; TurboSnap bills an unchanged story at a fifth of a snapshot. Argos Pro is $${ARGOS_PRO_FLAT_PRICE}/month for ${included} screenshots, then $${ARGOS_SCREENSHOT_PRICE} per screenshot, or $${ARGOS_STORYBOOK_SCREENSHOT_PRICE} per Storybook screenshot. Both have a free plan with 5,000 a month; Argos's is for personal projects.`,
+    `As of October 2026, Chromatic Starter is $179/month for 35,000 snapshots and Pro $399/month for 85,000, then $0.008 per snapshot; TurboSnap bills an unchanged story at a fifth of a snapshot. Argos Pro is $${ARGOS_PRO_FLAT_PRICE}/month for ${included} screenshots, then $${ARGOS_SCREENSHOT_PRICE} per screenshot, or $${ARGOS_STORYBOOK_SCREENSHOT_PRICE} per Storybook screenshot. Both have a free plan with 5,000 a month; Argos's is for individual developers.`,
   ),
   faq(
     "Does Argos support story modes and play functions?",

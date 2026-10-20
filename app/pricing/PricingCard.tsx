@@ -132,7 +132,7 @@ export function PricingCards() {
       <PricingCard>
         <PricingCardBody>
           <Title>Hobby Plan</Title>
-          <Description>For personal projects.</Description>
+          <Description>For individual developers.</Description>
           <Price price={0} recurring={false} fixedPrice={true} />
           <CTA href="https://app.argos-ci.com/login" variant="outline">
             Start Hobby Plan

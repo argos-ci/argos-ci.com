@@ -107,12 +107,13 @@ export const SECURITY_QUESTIONS: FAQQuestion[] = [
     name: "Can I delete my data from Argos?",
     answer: (
       <p>
-        Yes. You can delete builds, screenshots, or entire projects at any time
-        from the Argos dashboard. If you need to enforce full deletion for
-        compliance purposes, you can contact our support team for assistance.
+        Yes. You can delete a project, a team, or your account at any time from
+        the Argos dashboard. Individual builds and screenshots can&apos;t be
+        deleted on their own. For a deletion request made for compliance
+        purposes, contact our support team.
       </p>
     ),
     textAnswer:
-      "Yes. You can delete builds, screenshots, or projects at any time from the Argos dashboard, or contact support for full data removal.",
+      "Yes. You can delete a project, a team, or your account at any time from the Argos dashboard. Individual builds and screenshots can't be deleted on their own. For a deletion request made for compliance purposes, contact our support team.",
   },
 ];

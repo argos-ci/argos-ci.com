@@ -245,7 +245,7 @@ export const Opened: Story = {
     ),
     faq(
       "How much does visual testing for Storybook cost?",
-      `Personal projects are free up to ${hobby} screenshots a month. Pro is $${ARGOS_PRO_FLAT_PRICE} a month with ${included} screenshots included, and Storybook screenshots beyond that cost $${ARGOS_STORYBOOK_SCREENSHOT_PRICE} each.`,
+      `Individual developers use Argos free up to ${hobby} screenshots a month. Pro is $${ARGOS_PRO_FLAT_PRICE} a month with ${included} screenshots included, and Storybook screenshots beyond that cost $${ARGOS_STORYBOOK_SCREENSHOT_PRICE} each.`,
     ),
   ],
 };

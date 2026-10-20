@@ -31,7 +31,7 @@ export const cypressIntegration: Integration = {
   metaDescription:
     "Visual regression testing for Cypress: add cy.argosScreenshot() to your tests and review every visual change on the pull request, with stable captures and baselines from Git. Cypress 12 to 15.",
   summary:
-    "Argos adds visual regression testing to Cypress. Register the Argos task, call `cy.argosScreenshot()` in your tests, and every pull request gets its visual changes diffed against the baseline from your Git history and reviewed on GitHub. Open source, and free for personal projects.",
+    "Argos adds visual regression testing to Cypress. Register the Argos task, call `cy.argosScreenshot()` in your tests, and every pull request gets its visual changes diffed against the baseline from your Git history and reviewed on GitHub. Open source, and free for individual developers.",
   short: "cy.argosScreenshot() in your Cypress tests",
   steps: [
     {
@@ -130,7 +130,7 @@ module.exports = defineConfig({
       {
         topic: "Cost",
         alternative: "Free",
-        argos: `Free for personal projects, Pro at $${ARGOS_PRO_FLAT_PRICE}/month`,
+        argos: `Free for individual developers, Pro at $${ARGOS_PRO_FLAT_PRICE}/month`,
       },
     ],
     sources: [
@@ -218,7 +218,7 @@ module.exports = defineConfig({
     ),
     faq(
       "How much does it cost?",
-      `Argos is free for personal projects up to ${hobby} screenshots a month. Pro is $${ARGOS_PRO_FLAT_PRICE} a month with ${included} screenshots included, then $${ARGOS_SCREENSHOT_PRICE} per screenshot.`,
+      `Argos is free for individual developers up to ${hobby} screenshots a month. Pro is $${ARGOS_PRO_FLAT_PRICE} a month with ${included} screenshots included, then $${ARGOS_SCREENSHOT_PRICE} per screenshot.`,
     ),
   ],
 };

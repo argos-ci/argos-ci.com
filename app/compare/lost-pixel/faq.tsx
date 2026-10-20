@@ -30,7 +30,7 @@ export const LOST_PIXEL_QUESTIONS: FAQQuestion[] = [
   ),
   faq(
     "How much does Argos cost?",
-    `Argos is free for personal projects up to ${hobby} screenshots a month, and Pro is $${ARGOS_PRO_FLAT_PRICE} a month for teams. Argos also sponsors selected non-commercial open-source projects, case by case: see the [open source program](/docs/learn/billing-and-subscription/open-source).`,
+    `Argos is free for individual developers up to ${hobby} screenshots a month, and Pro is $${ARGOS_PRO_FLAT_PRICE} a month for teams. Argos also sponsors selected non-commercial open-source projects, case by case: see the [open source program](/docs/learn/billing-and-subscription/open-source).`,
   ),
 ];
 
