@@ -33,7 +33,7 @@ export const comparison: Comparison = {
   },
   chooseArgos: [
     "You want the diff to show exactly what your test rendered, captured in your own CI browser.",
-    `You want prices you can read: free for personal projects, $${ARGOS_PRO_FLAT_PRICE}/month flat for teams.`,
+    `You want prices you can read: free for individual developers, $${ARGOS_PRO_FLAT_PRICE}/month flat for teams.`,
     "You want Playwright traces and failure screenshots next to the visual review.",
     "You also want text diffs of Markdown, JSON or HTML, and preview deployments.",
     "You want open-source code.",

@@ -360,7 +360,7 @@ export const WEBMCP_TOOLS: WebMcpTool[] = [
       }
       if (total <= ARGOS_HOBBY_SCREENSHOT_COUNT && addOns === 0) {
         lines.push(
-          `Hobby plan: free. This usage fits its ${formatCount(ARGOS_HOBBY_SCREENSHOT_COUNT)} screenshots/month allowance. Hobby is for personal projects; teams and private organizations need Pro.`,
+          `Hobby plan: free. This usage fits its ${formatCount(ARGOS_HOBBY_SCREENSHOT_COUNT)} screenshots/month allowance. Hobby is for one person, commercial use and private organization repositories included; teams that review builds together need Pro.`,
         );
       }
       const extras: string[] = [];

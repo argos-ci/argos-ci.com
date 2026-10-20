@@ -128,7 +128,7 @@ export const softwareApplicationJsonLd: SoftwareApplication = {
       name: "Hobby",
       price: 0,
       priceCurrency: "USD",
-      description: `Free for personal projects, up to ${ARGOS_HOBBY_SCREENSHOT_COUNT.toLocaleString("en-US")} screenshots a month.`,
+      description: `Free for individual developers, up to ${ARGOS_HOBBY_SCREENSHOT_COUNT.toLocaleString("en-US")} screenshots a month.`,
       url: `${SITE_URL}/pricing`,
     },
     {

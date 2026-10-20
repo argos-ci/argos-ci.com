@@ -144,7 +144,7 @@ test("user payload", async () => {
       {
         topic: "Cost",
         alternative: "Free",
-        argos: `Free for personal projects, Pro at $${ARGOS_PRO_FLAT_PRICE}/month`,
+        argos: `Free for individual developers, Pro at $${ARGOS_PRO_FLAT_PRICE}/month`,
       },
     ],
     sources: [
@@ -240,7 +240,7 @@ test("user payload", async () => {
     ),
     faq(
       "How much does it cost?",
-      `Argos is free for personal projects up to ${hobby} screenshots a month. Pro is $${ARGOS_PRO_FLAT_PRICE} a month with ${included} screenshots included, then $${ARGOS_SCREENSHOT_PRICE} per screenshot.`,
+      `Argos is free for individual developers up to ${hobby} screenshots a month. Pro is $${ARGOS_PRO_FLAT_PRICE} a month with ${included} screenshots included, then $${ARGOS_SCREENSHOT_PRICE} per screenshot.`,
     ),
   ],
 };

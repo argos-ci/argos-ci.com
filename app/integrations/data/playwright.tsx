@@ -31,7 +31,7 @@ export const playwrightIntegration: Integration = {
   metaDescription:
     "Add visual regression testing to your Playwright tests: install @argos-ci/playwright, call argosScreenshot(), and review every visual change on the pull request. Open source, baselines from Git, no committed PNGs.",
   summary:
-    "Argos adds visual regression testing to your Playwright suite. Install `@argos-ci/playwright`, call `argosScreenshot()` in your tests, and every pull request gets its visual changes diffed against a baseline from your Git history, with traces for the tests that fail. Open source, and free for personal projects.",
+    "Argos adds visual regression testing to your Playwright suite. Install `@argos-ci/playwright`, call `argosScreenshot()` in your tests, and every pull request gets its visual changes diffed against a baseline from your Git history, with traces for the tests that fail. Open source, and free for individual developers.",
   short: "argosScreenshot() in your Playwright tests",
   steps: [
     {
@@ -148,7 +148,7 @@ jobs:
       {
         topic: "Cost",
         alternative: "Free",
-        argos: `Free for personal projects, Pro at $${ARGOS_PRO_FLAT_PRICE}/month`,
+        argos: `Free for individual developers, Pro at $${ARGOS_PRO_FLAT_PRICE}/month`,
       },
     ],
     sources: [
@@ -245,7 +245,7 @@ jobs:
     ),
     faq(
       "How much does it cost?",
-      `Argos is free for personal projects up to ${hobby} screenshots a month. Teams use Pro: $${ARGOS_PRO_FLAT_PRICE} a month with ${included} screenshots included, then $${ARGOS_SCREENSHOT_PRICE} per screenshot. Argos is open source under the MIT license.`,
+      `Argos is free for individual developers up to ${hobby} screenshots a month. Teams use Pro: $${ARGOS_PRO_FLAT_PRICE} a month with ${included} screenshots included, then $${ARGOS_SCREENSHOT_PRICE} per screenshot. Argos is open source under the MIT license.`,
     ),
   ],
 };

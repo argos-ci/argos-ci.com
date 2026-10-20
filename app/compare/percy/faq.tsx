@@ -20,7 +20,7 @@ export const PERCY_QUESTIONS: FAQQuestion[] = [
   ),
   faq(
     "How much does Percy cost compared to Argos?",
-    `Percy has a free plan with 5,000 screenshots a month. BrowserStack no longer publishes its paid prices: paid plans are quoted by sales. Argos publishes its prices: a free Hobby plan for personal projects with ${hobby} screenshots a month, and Pro at $${ARGOS_PRO_FLAT_PRICE}/month flat with ${included} screenshots included.`,
+    `Percy has a free plan with 5,000 screenshots a month. BrowserStack no longer publishes its paid prices: paid plans are quoted by sales. Argos publishes its prices: a free Hobby plan for individual developers with ${hobby} screenshots a month, and Pro at $${ARGOS_PRO_FLAT_PRICE}/month flat with ${included} screenshots included.`,
   ),
   faq(
     "Do I have to rewrite my tests to migrate from Percy?",

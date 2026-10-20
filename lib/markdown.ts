@@ -419,7 +419,7 @@ function getPricingMarkdown(): string {
     }),
     `## Hobby — free
 
-For personal projects and experiments.
+For individual developers. Commercial use and private organization repositories are allowed.
 
 - Up to ${formatCount(ARGOS_HOBBY_SCREENSHOT_COUNT)} screenshots per month
 - Visual and snapshot testing, GitHub/GitLab integration, community support

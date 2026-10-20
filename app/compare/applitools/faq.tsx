@@ -20,7 +20,7 @@ export const APPLITOOLS_QUESTIONS: FAQQuestion[] = [
   ),
   faq(
     "How much does Applitools cost compared to Argos?",
-    `Applitools publishes one price: Starter at $667 a month, paid annually, for 100,000 component checkpoints or 1,000 page checkpoints. Professional and Enterprise plans are quoted by sales. Argos publishes all of its prices: a free Hobby plan for personal projects with ${hobby} screenshots a month, and Pro at $${ARGOS_PRO_FLAT_PRICE}/month flat with ${included} screenshots included, billed monthly. Custom plans are available for large volumes.`,
+    `Applitools publishes one price: Starter at $667 a month, paid annually, for 100,000 component checkpoints or 1,000 page checkpoints. Professional and Enterprise plans are quoted by sales. Argos publishes all of its prices: a free Hobby plan for individual developers with ${hobby} screenshots a month, and Pro at $${ARGOS_PRO_FLAT_PRICE}/month flat with ${included} screenshots included, billed monthly. Custom plans are available for large volumes.`,
   ),
   faq(
     "Where are screenshots captured?",

@@ -8,14 +8,30 @@ export const PRICING_QUESTIONS: FAQQuestion[] = [
     name: "Which Argos plan is right for me?",
     answer: (
       <>
-        The Hobby plan is designed for personal GitHub repositories, providing
-        up to <LocalString value={ARGOS_HOBBY_SCREENSHOT_COUNT} /> screenshots.
-        If you’re seeking to collaborate as a team, need a higher screenshot
-        limit, or wish to use Argos on a repository within a private GitHub
-        organization, our Pro plan is the necessary choice.
+        The Hobby plan is free for an individual developer, with up to{" "}
+        <LocalString value={ARGOS_HOBBY_SCREENSHOT_COUNT} /> screenshots a
+        month. It works with any repository, including private repositories
+        owned by an organization, and you can use it for commercial work. Choose
+        Pro when several people need to review and approve builds as a team, or
+        when you need more screenshots: Hobby uploads pause at the limit, while
+        Pro bills extra screenshots.
       </>
     ),
-    textAnswer: `The Hobby plan is designed for personal GitHub repositories, providing up to ${ARGOS_HOBBY_SCREENSHOT_COUNT} screenshots. If you're seeking to collaborate as a team, need a higher screenshot limit, or wish to use Argos on a repository within a private GitHub organization, our Pro plan is the necessary choice.`,
+    textAnswer: `The Hobby plan is free for an individual developer, with up to ${ARGOS_HOBBY_SCREENSHOT_COUNT.toLocaleString("en-US")} screenshots a month. It works with any repository, including private repositories owned by an organization, and you can use it for commercial work. Choose Pro when several people need to review and approve builds as a team, or when you need more screenshots: Hobby uploads pause at the limit, while Pro bills extra screenshots.`,
+  },
+  {
+    name: "Can I use the Hobby plan for commercial work or private repositories?",
+    answer: (
+      <>
+        Yes. The Hobby plan allows commercial use, and it works with private
+        repositories, including repositories owned by a GitHub organization.
+        What separates Hobby from Pro is the hard limit of{" "}
+        <LocalString value={ARGOS_HOBBY_SCREENSHOT_COUNT} /> screenshots a month
+        and team collaboration: a Hobby account belongs to one person, so builds
+        can&apos;t be reviewed and approved by several team members.
+      </>
+    ),
+    textAnswer: `Yes. The Hobby plan allows commercial use, and it works with private repositories, including repositories owned by a GitHub organization. What separates Hobby from Pro is the hard limit of ${ARGOS_HOBBY_SCREENSHOT_COUNT.toLocaleString("en-US")} screenshots a month and team collaboration: a Hobby account belongs to one person, so builds can't be reviewed and approved by several team members.`,
   },
   {
     name: "Does Argos only test screenshots?",
