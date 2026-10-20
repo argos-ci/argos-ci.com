@@ -44,7 +44,7 @@ Pricing checked in October 2026. Percy's free plan includes 5,000 screenshots a 
 
 The differences from Percy are the point:
 
-- **Local capture, no cloud re-render.** `argosScreenshot(page, "name")` captures in the same Playwright or Cypress browser your tests already run. What you see in your test is exactly what gets diffed. No second rendering environment to keep in sync, no cloud-render flakiness class of bugs. Argos SDKs also [stabilize screenshots](/blog/screenshot-stabilization) before capture: waiting for fonts, images, and network idle, hiding carets and scrollbars.
+- **Local capture, no cloud re-render.** `argosScreenshot(page, "name")` captures in the same Playwright or Cypress browser your tests already run. What you see in your test is exactly what gets diffed. No second rendering environment to keep in sync, no cloud-render flakiness class of bugs. Argos SDKs also [stabilize screenshots](/blog/screenshot-stabilization) before capture: waiting for fonts, images, and `aria-busy` loaders, hiding carets and scrollbars.
 - **$100/month flat.** The Pro plan includes 35,000 screenshots, then $0.004 per extra screenshot ($0.0015 for Storybook screenshots). The free Hobby plan covers 5,000 screenshots/month for individual developers, the same volume as Percy's free tier; teams need Pro. See [pricing](/pricing). You can also set a budget limit to cap spending.
 - **Unlimited parallelization included.** No extra fee for parallel CI workers.
 - **Snapshot testing for any file.** Argos diffs Markdown, JSON, HTML, and more, not just images. Useful for testing generated output beyond the UI.

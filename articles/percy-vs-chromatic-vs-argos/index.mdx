@@ -19,19 +19,19 @@ Percy, Chromatic, and Argos all catch visual regressions, but they work very dif
 
 ## Percy vs Chromatic vs Argos at a glance
 
-|                                              | **Argos**                                                                                | **Percy (BrowserStack)**                           | **Chromatic**                            |
-| -------------------------------------------- | ---------------------------------------------------------------------------------------- | -------------------------------------------------- | ---------------------------------------- |
-| **Entry paid plan**                          | $100/mo flat (35,000 screenshots)                                                        | Not published (contact sales)                      | $179/mo (35,000 snapshots)               |
-| **Free tier**                                | 5,000 screenshots/mo                                                                     | Limited free tier                                  | 5,000 snapshots/mo (Chrome only)         |
-| **Extra screenshots**                        | $0.004 each ($0.0015 for Storybook)                                                      | Snapshot caps reported post-acquisition            | $0.008 each                              |
-| **Capture model**                            | Local, in your real test browser                                                         | DOM upload, re-rendered in Percy's cloud           | Rendered in Chromatic's cloud            |
-| **Integrations**                             | Playwright, Cypress, Puppeteer, WebdriverIO, Storybook, Node.js SDK, CLI (any framework) | Playwright, Cypress, Selenium, Storybook, and more | Storybook (deepest), Playwright, Cypress |
-| **Snapshot any file (JSON, Markdown, HTML)** | ✔️                                                                                       | ❌                                                 | ❌                                       |
-| **Deployments / PR previews**                | Any static build                                                                         | ❌                                                 | Storybook only                           |
-| **Collaborative review**                     | ✔️ Comments, threads, reactions, presence                                                | ✔️                                                 | ✔️ Polished review UI                    |
-| **Agent-ready CLI & API**                    | ✔️ Structured JSON output, review from CLI                                               | AI Visual Review Agent + MCP                       | Storybook MCP servers                    |
-| **Open source**                              | ✔️ SDKs and platform                                                                     | ❌                                                 | ❌                                       |
-| **Parallelization**                          | Unlimited, included                                                                      | Costs extra                                        | Included, snapshot-billed                |
+|                                              | **Argos**                                                                                | **Percy (BrowserStack)**                           | **Chromatic**                                    |
+| -------------------------------------------- | ---------------------------------------------------------------------------------------- | -------------------------------------------------- | ------------------------------------------------ |
+| **Entry paid plan**                          | $100/mo flat (35,000 screenshots)                                                        | Not published (contact sales)                      | $179/mo (35,000 snapshots)                       |
+| **Free tier**                                | 5,000 screenshots/mo                                                                     | Limited free tier                                  | 5,000 snapshots/mo (Chrome only)                 |
+| **Extra screenshots**                        | $0.004 each ($0.0015 for Storybook)                                                      | Snapshot caps reported post-acquisition            | $0.008 each                                      |
+| **Capture model**                            | Local, in your real test browser                                                         | DOM upload, re-rendered in Percy's cloud           | Rendered in Chromatic's cloud                    |
+| **Integrations**                             | Playwright, Cypress, Puppeteer, WebdriverIO, Storybook, Node.js SDK, CLI (any framework) | Playwright, Cypress, Selenium, Storybook, and more | Storybook (deepest), Playwright, Cypress, Vitest |
+| **Snapshot any file (JSON, Markdown, HTML)** | ✔️                                                                                       | ❌                                                 | ❌                                               |
+| **Deployments / PR previews**                | Any static build                                                                         | ❌                                                 | Storybook only                                   |
+| **Collaborative review**                     | ✔️ Comments, threads, reactions, presence                                                | ✔️                                                 | ✔️ Polished review UI                            |
+| **Agent-ready CLI & API**                    | ✔️ Structured JSON output, review from CLI                                               | AI Visual Review Agent + MCP                       | Storybook MCP servers                            |
+| **Open source**                              | ✔️ SDKs and platform                                                                     | ❌                                                 | ❌                                               |
+| **Parallelization**                          | Unlimited, included                                                                      | Supported                                          | Included, snapshot-billed                        |
 
 Sources: [Chromatic pricing](https://www.chromatic.com/pricing) and the [Percy billing docs](https://www.browserstack.com/docs/percy/overview/plans-and-billing) (checked October 2026), [Argos pricing](/pricing), and the Argos [Percy](/compare/percy) and [Chromatic](/compare/chromatic) comparison pages.
 
@@ -53,7 +53,7 @@ Cloud capture is more predictable than DOM re-rendering, but it is still a secon
 
 ### Argos: local capture in your real test browser
 
-Argos takes the opposite approach: screenshots are captured **locally, in the browser your tests already run** — the actual Playwright or Cypress browser in your CI. The Argos SDK stabilizes the page before capture (waits for fonts, images, and network idle, hides carets and scrollbars — see [how Argos stabilizes screenshots](/blog/screenshot-stabilization)), then uploads the images to Argos for diffing.
+Argos takes the opposite approach: screenshots are captured **locally, in the browser your tests already run**: the actual Playwright or Cypress browser in your CI. The Argos SDK stabilizes the page before capture (waits for fonts, images, and `aria-busy` loaders, hides carets and scrollbars; see [how Argos stabilizes screenshots](/blog/screenshot-stabilization)), then uploads the images to Argos for diffing.
 
 ```ts
 import { argosScreenshot } from "@argos-ci/playwright";
@@ -75,7 +75,7 @@ Here is what each platform costs as of October 2026:
 - **Chromatic**: Free plan with 5,000 snapshots/month on Chrome only. **Starter is $179/month for 35,000 snapshots** (adds Safari, Firefox, Edge), Pro is $399/month for 85,000, and extra snapshots cost $0.008 each ([chromatic.com/pricing](https://www.chromatic.com/pricing), checked October 2026). Remember that snapshots multiply with viewports and browsers, so 500 stories × 2 viewports × 2 browsers is already 2,000 snapshots per build.
 - **Percy**: the free plan includes 5,000 screenshots a month, unlimited users and unlimited projects ([Percy billing docs](https://www.browserstack.com/docs/percy/overview/plans-and-billing)). BrowserStack no longer publishes paid Percy prices, so a paid plan means a sales conversation.
 
-At the same 35,000-capture volume, Argos costs $100 and Chromatic $179, with Chromatic overages twice as expensive ($0.008 vs $0.004). Percy starts at roughly 6× the price of Argos. For a deeper cost breakdown, see our [visual testing pricing guide](/blog/visual-testing-pricing).
+At the same 35,000-capture volume, Argos costs $100 and Chromatic $179, with Chromatic overages twice as expensive ($0.008 vs $0.004). For a deeper cost breakdown, see our [visual testing pricing guide](/blog/visual-testing-pricing).
 
 ## When should you pick each tool?
 
@@ -87,7 +87,7 @@ If your organization already pays for BrowserStack and you specifically want clo
 
 ### Pick Chromatic if you are strictly Storybook-centric
 
-Chromatic is excellent for teams whose entire UI development workflow lives in Storybook. It is made by the Storybook maintainers, the review UI is polished, and recent additions like accessibility testing, Storybook MCP servers (March 2026), a React Native preview (May 2026) and Chromatic for Vitest (generally available since September 2026) keep it moving. The limits appear when you step outside Storybook: deployments are Storybook-only, and E2E visual coverage is not its center of gravity. If you love Storybook but not the bill, read [Storybook visual testing without Chromatic](/blog/storybook-visual-testing-without-chromatic) or the [Argos vs Chromatic comparison](/compare/chromatic).
+Chromatic is excellent for teams whose entire UI development workflow lives in Storybook. It is made by the Storybook maintainers, the review UI is polished, and recent additions like accessibility testing, Storybook MCP servers (March 2026), a React Native preview (May 2026) and Chromatic for Vitest (launched in September 2026) keep it moving. The limits appear when you step outside Storybook: deployments are Storybook-only, and E2E visual coverage is not its center of gravity. If you love Storybook but not the bill, read [Storybook visual testing without Chromatic](/blog/storybook-visual-testing-without-chromatic) or the [Argos vs Chromatic comparison](/compare/chromatic).
 
 ### Pick Argos for everything else, including most Storybook teams
 
@@ -99,9 +99,9 @@ Beyond price and capture fidelity, Argos is the only tool of the three with seve
 
 1. **Snapshot testing for any file.** Argos diffs [Markdown, JSON, HTML, and more](/diff), not just images. API payloads, generated docs, and config outputs get the same review workflow as screenshots, and each capture counts as one screenshot for billing.
 2. **PR previews for any static build.** [Argos deployments](/deploy) host your Storybook or any static site on a live URL per pull request. Chromatic only hosts Storybook; Percy hosts nothing.
-3. **Agent-ready by design.** The [Argos CLI and API](/ai-agents) output structured JSON (`argos build get <ref> --json`, `argos review create <ref> --event approve`), so coding agents can inspect and review builds autonomously. Open-source agent skills install with `npx skills add argos-ci/argos-javascript@argos-cli`. See [reviewing builds with AI agents](/blog/review-builds-ai-agents).
+3. **Agent-ready by design.** The [Argos CLI and API](/ai-agents) output structured JSON (`argos build get <ref> --json`, `argos review create <ref> --event approve`), so coding agents can inspect and review builds autonomously. Open-source agent skills install with `npx skills add https://argos-ci.com`. See [reviewing builds with AI agents](/blog/review-builds-ai-agents).
 4. **Open source.** The SDKs and the platform code are on [GitHub](https://github.com/argos-ci). No black box.
-5. **Collaborative review without the enterprise tax.** Pinned comments, threads, reactions, and real-time presence are part of [collaborative reviews](/review) on every plan.
+5. **Collaborative review without the enterprise tax.** Pinned comments, threads, reactions, and real-time presence are part of [collaborative reviews](/review), and reviewing as a team starts with the $100/month Pro plan, not an enterprise tier.
 6. **Unlimited parallelization included.** Shard your test suite as wide as your CI allows at no extra cost.
 
 It is also battle-tested: Argos runs visual testing for MUI (Material UI) and other well-known open-source projects and companies.
@@ -124,7 +124,7 @@ Yes. As of October 2026, Argos Pro is $100/month flat with 35,000 screenshots in
 
 ### Can Chromatic and Percy test things other than UI screenshots?
 
-No. Both are image-only. Argos additionally snapshots any file — Markdown, JSON, HTML, and more — so you can visually review changes to API responses, generated documentation, or config outputs in the same workflow, with each capture billed as one screenshot.
+Only partly. Chromatic also runs interaction and accessibility tests on your stories, but neither tool diffs files: both compare rendered UI. Argos additionally snapshots any file (Markdown, JSON, HTML, and more), so you can review changes to API responses, generated documentation, or config outputs in the same workflow, with each capture billed as one screenshot.
 
 ### How hard is it to migrate from Percy or Chromatic to Argos?
 

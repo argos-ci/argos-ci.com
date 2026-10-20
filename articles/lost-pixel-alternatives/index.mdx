@@ -47,7 +47,7 @@ Here is how the realistic options compare, as of October 2026:
 
 Argos is the closest match to what made Lost Pixel appealing, minus the parts that hurt. It is [open source](https://github.com/argos-ci), and it captures screenshots **locally in the real browser your tests already run**, so what you see in Playwright is exactly what gets diffed. There is no cloud re-rendering step and no separate browser configuration to maintain.
 
-The biggest upgrade over Lost Pixel's open-source mode: **no baseline images committed to Git**. Argos picks baselines automatically from your Git history, so approving a change is a click in the review UI, not a commit that bloats your repository. On top of diffing, you get [collaborative reviews](/review) with threads and pinned comments, [PR-preview deployments](/deploy) for Storybook or any static build, [snapshot testing of any file](/diff) (Markdown, JSON, HTML, not just images), and an [agent-ready CLI and API](/ai-agents) so AI coding agents can inspect and review builds. Pricing is the lowest of the cloud options: free up to 5,000 screenshots per month, then $100/month flat with 35,000 screenshots and unlimited parallelization included. See [pricing](/pricing) for details.
+The biggest upgrade over Lost Pixel's open-source mode: **no baseline images committed to Git**. Argos picks baselines automatically from your Git history, so approving a change is a click in the review UI, not a commit that bloats your repository. On top of diffing, you get [collaborative reviews](/review) with threads and pinned comments, [PR-preview deployments](/deploy) for Storybook or any static build, [snapshot testing of any file](/diff) (Markdown, JSON, HTML, not just images), and an [agent-ready CLI and API](/ai-agents) so AI coding agents can inspect and review builds. Its entry price is the lowest of the cloud options here: free up to 5,000 screenshots per month, then $100/month flat with 35,000 screenshots and unlimited parallelization included. See [pricing](/pricing) for details.
 
 ### Chromatic
 
@@ -96,7 +96,7 @@ test("homepage", async ({ page }) => {
 });
 ```
 
-`argosScreenshot` also stabilizes the page before capture: it waits for fonts, images, and network idle, and hides carets and scrollbars, which removes a whole class of flaky diffs. More on that in [screenshot stabilization](/blog/screenshot-stabilization).
+`argosScreenshot` also stabilizes the page before capture: it waits for fonts, images, and `aria-busy` loaders, and hides carets and scrollbars, which removes a whole class of flaky diffs. More on that in [screenshot stabilization](/blog/screenshot-stabilization).
 
 ### 2. Storybook projects
 
@@ -140,4 +140,4 @@ As of October 2026, Argos is free up to 5,000 screenshots per month for individu
 
 ## Conclusion
 
-Lost Pixel's sunset is a forced migration, but a small one. Your screenshots, your Playwright tests, and your Storybook stories all carry over. If you want cross-browser cloud rendering and can absorb the price, Percy works; if you live entirely in Storybook, Chromatic is polished; if you want free and self-hosted with manual upkeep, BackstopJS or native Playwright will do. For most teams leaving Lost Pixel, Argos is the strongest landing spot: open source, local capture in your real test browser, automatic baselines from Git history, a real review workflow, and the lowest price of any cloud option. Start with the free tier and run it against your next PR.
+Lost Pixel's sunset is a forced migration, but a small one. Your screenshots, your Playwright tests, and your Storybook stories all carry over. If you want cross-browser cloud rendering and can absorb the price, Percy works; if you live entirely in Storybook, Chromatic is polished; if you want free and self-hosted with manual upkeep, BackstopJS or native Playwright will do. For most teams leaving Lost Pixel, Argos is the strongest landing spot: open source, local capture in your real test browser, automatic baselines from Git history, a real review workflow, and the lowest entry price of the cloud options above. Start with the free tier and run it against your next PR.

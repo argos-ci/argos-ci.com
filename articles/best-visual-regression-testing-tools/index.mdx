@@ -41,13 +41,13 @@ If you're new to the practice itself, start with [what visual testing is](/blog/
 | **Vitest browser mode**           | Free                                                  | ✔️          | Local, baselines in Git                        | ❌                       |
 | **BackstopJS**                    | Free                                                  | ✔️          | Local (Puppeteer/Playwright), baselines in Git | ❌                       |
 | **reg-suit**                      | Free (BYO storage)                                    | ✔️          | BYO images, reports to S3/GCS                  | ❌                       |
-| **Lost Pixel**                    | Sunsetting (team joined Figma, April 2026)            | ✔️          | Local capture                                  | ✔️ (cloud, discontinued) |
+| **Lost Pixel**                    | Sunsetting (team joined Figma, April 2026)            | ✔️          | Local capture                                  | ✔️ (cloud, being sunset) |
 
 ## 1. Argos — best overall for most teams
 
 [Argos](/diff) is an open source visual testing platform built by frontend developers. Its defining choice is the **capture model: screenshots are taken locally, in the real browser your tests already run** (your Playwright or Cypress browser in CI), then uploaded for diffing. What you see in your test is exactly what gets diffed. No cloud re-rendering step, no second browser config to keep in sync.
 
-**Best at:** price-to-capability ratio and workflow fit. Baselines are picked automatically from Git history, unlimited parallelization is included, and screenshot stabilization (fonts, images, network idle, hidden carets) is built into the SDKs ([how that works](/blog/screenshot-stabilization)). Beyond images, Argos does [snapshot testing of any file](/diff): Markdown, JSON, HTML. It also hosts [PR-preview deployments for any static build](/deploy), not just Storybook, and ships an [agent-ready CLI and API](/ai-agents) so AI agents can inspect and review builds (`argos build snapshots <ref> --needs-review --json`).
+**Best at:** price-to-capability ratio and workflow fit. Baselines are picked automatically from Git history, unlimited parallelization is included, and screenshot stabilization (fonts, images, `aria-busy` loaders, hidden carets) is built into the SDKs ([how that works](/blog/screenshot-stabilization)). Beyond images, Argos does [snapshot testing of any file](/diff): Markdown, JSON, HTML. It also hosts [PR-preview deployments for any static build](/deploy), not just Storybook, and ships an [agent-ready CLI and API](/ai-agents) so AI agents can inspect and review builds (`argos build snapshots <ref> --needs-review --json`).
 
 **Pricing:** free Hobby plan for individual developers with 5,000 screenshots/month, commercial use included. Pro is **$100/month flat** with 35,000 screenshots included, then $0.004 per extra ($0.0015 for Storybook screenshots), with a budget limit to cap spending. See [pricing](/pricing).
 
@@ -55,7 +55,7 @@ If you're new to the practice itself, start with [what visual testing is](/blog/
 
 ## 2. Chromatic — best for Storybook-centric teams
 
-Chromatic is made by the Storybook maintainers, and it shows: the deepest Storybook integration on the market, a polished review UI, and steady shipping (accessibility testing in 2025, SteadySnap anti-flake rendering in September 2025, Storybook MCP servers in March 2026, Vitest and React Native previews in May 2026, and Chromatic for Vitest generally available since September 2026). It also supports Playwright and Cypress.
+Chromatic is made by the Storybook maintainers, and it shows: the deepest Storybook integration on the market, a polished review UI, and steady shipping (accessibility testing in 2025, SteadySnap anti-flake rendering in September 2025, Storybook MCP servers in March 2026, Vitest and React Native previews in May 2026, and Chromatic for Vitest launched in September 2026). It also supports Playwright and Cypress.
 
 **Pricing:** from $179/month. Snapshot-based billing grows with each viewport and browser you add, so multi-viewport suites get expensive faster than the sticker price suggests.
 
@@ -91,7 +91,7 @@ await expect(page).toHaveScreenshot("checkout.png");
 
 Vitest now has an official [visual regression testing guide](https://vitest.dev/guide/browser/visual-regression-testing) for browser mode: a `toMatchScreenshot()` assertion, baselines stored per browser and platform (`button-chromium-darwin.png`), and stability detection that retries capture until the page settles. If your unit tests already run in Vitest browser mode, it's the shortest path to component screenshots.
 
-**Limits:** the docs themselves call visual tests "inherently unstable across different environments" and recommend Docker or a cloud service for consistency. Baselines live in Git with the same team-scale problems as Playwright's native approach. Argos's Vitest SDK (`@argos-ci/vitest`) adds cloud baselines and team review on top, and Chromatic for Vitest has been generally available since September 2026.
+**Limits:** the docs themselves warn that rendering "is not perfectly deterministic across environments" and strongly recommend Docker containers, CI-only workflows, or a cloud service. Baselines live in Git with the same team-scale problems as Playwright's native approach. Argos's Vitest SDK (`@argos-ci/vitest`) adds cloud baselines and team review on top, and Chromatic for Vitest launched in September 2026.
 
 ## 7. BackstopJS — best self-hosted scenario runner
 
@@ -101,13 +101,13 @@ BackstopJS is a free, open source veteran: scenarios in `backstop.json`, Puppete
 
 ## 8. reg-suit — best diff engine for a DIY pipeline
 
-[reg-suit](https://github.com/reg-viz/reg-suit) takes a different shape: you bring the images (from any capture tool), and it diffs them against baselines keyed to Git history, publishes reports to S3 or Google Cloud Storage, and notifies GitHub, GitLab, or Slack. MIT-licensed and still maintained (v0.14.6 released March 2026).
+[reg-suit](https://github.com/reg-viz/reg-suit) takes a different shape: you bring the images (from any capture tool), and it diffs them against baselines keyed to Git history, publishes reports to S3 or Google Cloud Storage, and notifies GitHub, GitLab, or Slack. MIT-licensed and still maintained (latest GitHub release v0.14.6, March 2026).
 
 **Limits:** it's a toolkit, not a product. You assemble capture, storage, and CI wiring yourself, and review happens in static HTML reports rather than a collaborative UI.
 
 ## 9. Lost Pixel — sunsetting, do not adopt
 
-Lost Pixel was a solid open source option with Playwright, Storybook, Cypress, and Ladle support. But the team [announced they are joining Figma](https://lost-pixel.com/blog/lost-pixel-team-is-joining-figma) on April 22, 2026, and the product is being discontinued. It's on this list only so you don't pick it from an outdated article. If you're a Lost Pixel user, we covered your options in [Lost Pixel alternatives](/blog/lost-pixel-alternatives).
+Lost Pixel was a solid open source option with Playwright, Storybook, Cypress, and Ladle support. But the team [announced they are joining Figma](https://www.lost-pixel.com/blog/lost-pixel-team-is-joining-figma) on April 22, 2026, and the product is being discontinued. It's on this list only so you don't pick it from an outdated article. If you're a Lost Pixel user, we covered your options in [Lost Pixel alternatives](/blog/lost-pixel-alternatives).
 
 ## Verdict: which visual regression testing tool should you pick?
 
@@ -137,4 +137,4 @@ Open source tools are free but self-managed. Among platforms, as of October 2026
 
 ### Can AI agents use these tools?
 
-Increasingly, yes. Argos ships an agent-ready CLI and REST API with structured JSON output and open-source agent skills, so agents can inspect and review builds ([how it works](/blog/review-builds-ai-agents)). Percy shipped an AI Visual Review Agent in October 2025 and exposes Percy tools through the BrowserStack MCP server, Applitools has an Eyes MCP server for Playwright, and Chromatic released Storybook MCP servers for component docs in March 2026.
+Increasingly, yes. Argos ships an agent-ready CLI and REST API with structured JSON output and open-source agent skills, so agents can inspect and review builds ([how it works](/blog/review-builds-ai-agents)). Percy shipped an AI Visual Review Agent in October 2025 and exposes Percy tools through the BrowserStack MCP server, Applitools has an Eyes MCP server for Playwright, and since March 2026 Chromatic lets teams publish Storybook MCP servers for their component docs.
