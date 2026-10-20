@@ -13,7 +13,7 @@ related:
   - storybook-github-actions
 ---
 
-You can run Storybook visual testing without Chromatic in two solid ways: the [Argos Storybook addon](/integrations/storybook), which captures every story during your Vitest or test-runner run and bills Storybook screenshots at $0.0015 each (free up to 5,000/month for personal projects), or a DIY setup with the Storybook test-runner and Playwright's `toHaveScreenshot`, which is free but leaves baseline management and CI rendering issues on your plate. As of October 2026, Chromatic's paid plans start at $179/month, and that price gap is the main reason teams look at alternatives.
+You can run Storybook visual testing without Chromatic in two solid ways: the [Argos Storybook addon](/integrations/storybook), which captures every story during your Vitest or test-runner run and bills Storybook screenshots at $0.0015 each (free up to 5,000/month for individual developers), or a DIY setup with the Storybook test-runner and Playwright's `toHaveScreenshot`, which is free but leaves baseline management and CI rendering issues on your plate. As of October 2026, Chromatic's paid plans start at $179/month, and that price gap is the main reason teams look at alternatives.
 
 <MainImage />
 
@@ -36,7 +36,7 @@ On pricing, the comparison is direct (as of October 2026):
 
 |                             | Argos                                                    | Chromatic                                      |
 | --------------------------- | -------------------------------------------------------- | ---------------------------------------------- |
-| Free tier                   | 5,000 screenshots/month (Hobby, personal projects)       | 5,000 snapshots/month (Chrome only)            |
+| Free tier                   | 5,000 screenshots/month (Hobby, individual developers)   | 5,000 snapshots/month (Chrome only)            |
 | Paid entry                  | $100/month flat, 35,000 screenshots included             | $179/month                                     |
 | Extra Storybook screenshots | $0.0015 each                                             | Snapshot billing grows with viewports/browsers |
 | Capture model               | Local, in your CI browser                                | Chromatic's cloud infrastructure               |
@@ -44,7 +44,7 @@ On pricing, the comparison is direct (as of October 2026):
 | Parallelization             | Unlimited, included                                      | Unlimited, included                            |
 | Open source                 | Yes ([github.com/argos-ci](https://github.com/argos-ci)) | No                                             |
 
-A concrete scenario: a design system with 400 stories, tested on every PR, roughly 30 builds a month. That's 12,000 Storybook screenshots, inside the 35,000 included in the $100 Pro plan with room to spare, and personal projects fit entirely in the free Hobby plan. You can also set a budget limit to cap spending. Full details on [/pricing](/pricing).
+A concrete scenario: a design system with 400 stories, tested on every PR, roughly 30 builds a month. That's 12,000 Storybook screenshots, inside the 35,000 included in the $100 Pro plan with room to spare, and a developer working alone under 5,000 screenshots a month pays nothing on the free Hobby plan. You can also set a budget limit to cap spending. Full details on [/pricing](/pricing).
 
 ### How do you set up Argos with Storybook?
 
@@ -167,7 +167,7 @@ Yes. The Argos Storybook addon captures every story during your Vitest or test-r
 
 ### How much cheaper is Argos than Chromatic for Storybook?
 
-As of October 2026, Chromatic's paid plans start at $179/month with snapshot billing that grows with viewports and browsers. Argos Pro is $100/month flat with 35,000 screenshots included, extra Storybook screenshots at $0.0015 each, and a free Hobby plan covering 5,000 screenshots/month for personal projects.
+As of October 2026, Chromatic's paid plans start at $179/month with snapshot billing that grows with viewports and browsers. Argos Pro is $100/month flat with 35,000 screenshots included, extra Storybook screenshots at $0.0015 each, and a free Hobby plan covering 5,000 screenshots/month for individual developers.
 
 ### Does Argos host my Storybook like Chromatic does?
 

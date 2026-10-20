@@ -45,7 +45,7 @@ Pricing checked in October 2026. Percy's free plan includes 5,000 screenshots a 
 The differences from Percy are the point:
 
 - **Local capture, no cloud re-render.** `argosScreenshot(page, "name")` captures in the same Playwright or Cypress browser your tests already run. What you see in your test is exactly what gets diffed. No second rendering environment to keep in sync, no cloud-render flakiness class of bugs. Argos SDKs also [stabilize screenshots](/blog/screenshot-stabilization) before capture: waiting for fonts, images, and network idle, hiding carets and scrollbars.
-- **$100/month flat.** The Pro plan includes 35,000 screenshots, then $0.004 per extra screenshot ($0.0015 for Storybook screenshots). The free Hobby plan covers 5,000 screenshots/month for personal projects, the same volume as Percy's free tier; teams need Pro. See [pricing](/pricing). You can also set a budget limit to cap spending.
+- **$100/month flat.** The Pro plan includes 35,000 screenshots, then $0.004 per extra screenshot ($0.0015 for Storybook screenshots). The free Hobby plan covers 5,000 screenshots/month for individual developers, the same volume as Percy's free tier; teams need Pro. See [pricing](/pricing). You can also set a budget limit to cap spending.
 - **Unlimited parallelization included.** No extra fee for parallel CI workers.
 - **Snapshot testing for any file.** Argos diffs Markdown, JSON, HTML, and more, not just images. Useful for testing generated output beyond the UI.
 - **[Deployments and PR previews](/deploy)** for Storybook or any static build, and [collaborative reviews](/review) with threads, reactions, and real-time presence.
@@ -141,7 +141,7 @@ As of October 2026, BrowserStack doesn't publish Percy's paid prices: the free p
 
 ### What is the cheapest Percy alternative with a real review workflow?
 
-Argos: free for personal projects up to 5,000 screenshots/month; teams pay $100/month flat with 35,000 screenshots included and unlimited parallelization. BackstopJS and Playwright's `toHaveScreenshot` are free, but neither includes a team review UI or PR-based approval workflow, so you pay in engineering time instead.
+Argos: free for individual developers up to 5,000 screenshots/month; teams pay $100/month flat with 35,000 screenshots included and unlimited parallelization. BackstopJS and Playwright's `toHaveScreenshot` are free, but neither includes a team review UI or PR-based approval workflow, so you pay in engineering time instead.
 
 ### Does migrating from Percy to Argos require rewriting my tests?
 

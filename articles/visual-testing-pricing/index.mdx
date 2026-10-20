@@ -102,7 +102,7 @@ Chromatic: $179 + (1,000 × $0.008)  = $187.00
 Argos:     $100 + (1,000 × $0.0015) = $101.50  (Storybook screenshot rate)
 ```
 
-The gap widens as volume grows, because Argos overage runs at half Chromatic's rate for regular screenshots and under a fifth for Storybook screenshots. And under 5,000 captures a month, a solo developer pays $0 on either. Teams are where the free tiers differ: Chromatic's free plan allows unlimited collaborators but is Chrome-only, while Argos's free Hobby plan is for personal projects, so a team needs Pro.
+The gap widens as volume grows, because Argos overage runs at half Chromatic's rate for regular screenshots and under a fifth for Storybook screenshots. And under 5,000 captures a month, a solo developer pays $0 on either. Teams are where the free tiers differ: Chromatic's free plan allows unlimited collaborators but is Chrome-only, while Argos's free Hobby plan is for individual developers (commercial work and private organization repositories included), so a team that reviews builds together needs Pro.
 
 One more line item that's easy to miss: **parallelization**. Sharding Playwright across 4 CI machines is the standard way to keep pipelines fast. Argos and Chromatic include unlimited parallel runs, and Percy supports parallel builds as well. If you shard your suite, check that your plan doesn't limit it.
 
@@ -118,7 +118,7 @@ Whatever platform you choose:
 
 ## Verdict
 
-As of October 2026, Argos is the cheapest way to run serious visual testing: free up to 5,000 screenshots per month for personal projects, then [$100/month flat with 35,000 included](/pricing), the lowest published overage rates of the four, and unlimited parallelization at no extra charge. Chromatic is a fair, transparently priced second choice at $179/month, especially if your workflow is deeply Storybook-centric, as long as you do the viewport × browser math first. Applitools starts at $667/month billed annually, and Percy no longer publishes its paid prices.
+As of October 2026, Argos is the cheapest way to run serious visual testing: free up to 5,000 screenshots per month for individual developers, then [$100/month flat with 35,000 included](/pricing), the lowest published overage rates of the four, and unlimited parallelization at no extra charge. Chromatic is a fair, transparently priced second choice at $179/month, especially if your workflow is deeply Storybook-centric, as long as you do the viewport × browser math first. Applitools starts at $667/month billed annually, and Percy no longer publishes its paid prices.
 
 If you're currently on Percy and the renewal quote stung, the [migration to Argos](/docs/learn/how-to-guides/migrate-to-argos/from-percy) is mostly a find-and-replace: `percySnapshot` becomes `argosScreenshot`, and your `.percy.yml` widths become Playwright viewports. For a broader feature comparison beyond price, see [Percy vs Chromatic vs Argos](/blog/percy-vs-chromatic-vs-argos).
 
@@ -138,7 +138,7 @@ As of October 2026, BrowserStack's Percy pricing URL returns a 404, its main pri
 
 ### Is free visual testing good enough?
 
-Often, yes, to start. Argos's free Hobby plan includes 5,000 screenshots per month for personal projects, which covers a small project comfortably; teams need Pro. Fully free options like Playwright's built-in `toHaveScreenshot` cost nothing but push the expense elsewhere: git-committed baselines, platform-dependent rendering, and no team review UI (see [Playwright visual testing limits](/blog/playwright-visual-testing-limits)).
+Often, yes, to start. Argos's free Hobby plan gives an individual developer 5,000 screenshots per month, commercial use included, which covers a small project comfortably; teams that review builds together need Pro. Fully free options like Playwright's built-in `toHaveScreenshot` cost nothing but push the expense elsewhere: git-committed baselines, platform-dependent rendering, and no team review UI (see [Playwright visual testing limits](/blog/playwright-visual-testing-limits)).
 
 ### Do retries and re-runs count against my screenshot quota?
 

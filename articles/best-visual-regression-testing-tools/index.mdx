@@ -49,7 +49,7 @@ If you're new to the practice itself, start with [what visual testing is](/blog/
 
 **Best at:** price-to-capability ratio and workflow fit. Baselines are picked automatically from Git history, unlimited parallelization is included, and screenshot stabilization (fonts, images, network idle, hidden carets) is built into the SDKs ([how that works](/blog/screenshot-stabilization)). Beyond images, Argos does [snapshot testing of any file](/diff): Markdown, JSON, HTML. It also hosts [PR-preview deployments for any static build](/deploy), not just Storybook, and ships an [agent-ready CLI and API](/ai-agents) so AI agents can inspect and review builds (`argos build snapshots <ref> --needs-review --json`).
 
-**Pricing:** free Hobby plan for personal projects with 5,000 screenshots/month. Pro is **$100/month flat** with 35,000 screenshots included, then $0.004 per extra ($0.0015 for Storybook screenshots), with a budget limit to cap spending. See [pricing](/pricing).
+**Pricing:** free Hobby plan for individual developers with 5,000 screenshots/month, commercial use included. Pro is **$100/month flat** with 35,000 screenshots included, then $0.004 per extra ($0.0015 for Storybook screenshots), with a budget limit to cap spending. See [pricing](/pricing).
 
 **Limits:** it diffs what your test browser renders, so if you need rendering from a browser you don't run in CI, a cloud re-render tool like Percy covers that case differently. Used in production by MUI and other large OSS projects.
 
@@ -129,11 +129,11 @@ Local capture tools (Argos, Playwright, Vitest, BackstopJS) screenshot the brows
 
 ### Are free visual regression testing tools good enough?
 
-For a solo developer, yes: Playwright's `toHaveScreenshot` or Vitest browser mode cost nothing and catch real bugs. In a team, Git-committed baselines cause merge conflicts, platform-dependent rendering, and review-by-PNG. That's usually the moment to move to a platform with a review UI; Argos's free Hobby plan covers 5,000 screenshots/month for personal projects, and teams start at $100/month flat.
+For a solo developer, yes: Playwright's `toHaveScreenshot` or Vitest browser mode cost nothing and catch real bugs. In a team, Git-committed baselines cause merge conflicts, platform-dependent rendering, and review-by-PNG. That's usually the moment to move to a platform with a review UI; Argos's free Hobby plan covers an individual developer up to 5,000 screenshots/month, and teams start at $100/month flat.
 
 ### How much does visual regression testing cost in 2026?
 
-Open source tools are free but self-managed. Among platforms, as of October 2026: Argos starts free for personal projects (5,000 screenshots/month) with Pro at $100/month flat, Chromatic starts at $179/month with snapshot-based billing, Applitools Starter is $667/month billed annually, and Percy's paid plans are quoted by sales. We break down billing models in [visual testing pricing](/blog/visual-testing-pricing).
+Open source tools are free but self-managed. Among platforms, as of October 2026: Argos starts free for individual developers (5,000 screenshots/month) with Pro at $100/month flat, Chromatic starts at $179/month with snapshot-based billing, Applitools Starter is $667/month billed annually, and Percy's paid plans are quoted by sales. We break down billing models in [visual testing pricing](/blog/visual-testing-pricing).
 
 ### Can AI agents use these tools?
 
