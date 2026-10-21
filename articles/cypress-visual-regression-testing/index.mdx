@@ -29,7 +29,7 @@ The [official Cypress documentation on visual testing](https://docs.cypress.io/a
 
 Two plugins dominate this category as of 2026, and both are actively maintained:
 
-- **[cypress-visual-regression](https://github.com/cypress-visual-regression/cypress-visual-regression)**: the classic. Baselines live in `cypress/snapshots/base`, and you switch between generating and comparing baselines with an environment variable.
+- **[cypress-visual-regression](https://github.com/cypress-visual-regression/cypress-visual-regression)**: the classic. Baselines live in `cypress/snapshots/base`, and you switch between generating and comparing baselines with the `visualRegressionType` option.
 - **[cypress-image-diff-js](https://github.com/haim-io/cypress-image-diff)**: built on Pixelmatch, with an HTML report and one-click baseline updates. Baselines live in `cypress-image-diff-screenshots/baseline`.
 
 Here is a minimal cypress-visual-regression setup. Register the plugin in `cypress.config.js`:
@@ -67,7 +67,7 @@ it("renders the homepage", () => {
 });
 ```
 
-Generate baselines with `CYPRESS_visualRegressionType=base`, then run comparisons with `CYPRESS_visualRegressionType=regression`. The cypress-image-diff-js API is similar (`cy.compareSnapshot("home-page")`) with its own config file and reporter.
+Generate baselines with `npx cypress run --expose visualRegressionType=base`, then run comparisons with `npx cypress run --expose visualRegressionType=regression`. Since version 6, the plugin reads Cypress `expose` values, so the older `CYPRESS_visualRegressionType` environment variable no longer works. The cypress-image-diff-js API is similar (`cy.compareSnapshot("home-page")`) with its own config file and reporter.
 
 ### Where the plugin approach breaks down
 
