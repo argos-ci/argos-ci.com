@@ -44,6 +44,8 @@ The server URL lives in the **`TYPEFULLY_MCP`** environment variable. It embeds 
 
 3. Confirm it connects. If `claude mcp list` reports `Missing environment variables: TYPEFULLY_MCP`, the variable is set in the user's terminal but not in the environment Claude Code inherits — `~/.zshrc` only runs for interactive shells. Tell the user to either move the `export` to `~/.zshenv`, which every zsh reads, or start Claude Code from a terminal. Do not work around it by pasting the expanded URL into the config.
 
+   In the **Claude desktop app**, the same cause shows up differently: the server is listed as failed with `'url' is not a valid URL`, because `${TYPEFULLY_MCP}` reached it unexpanded. The app is launched by macOS, not by a shell, so neither `~/.zshrc` nor `~/.zshenv` reach it — `claude mcp list` run from a terminal can say **Connected** at the same time. Check with `[ -n "$(launchctl getenv TYPEFULLY_MCP)" ] && echo set || echo missing` (never print the value). If it is missing, tell the user to run `launchctl setenv TYPEFULLY_MCP "$TYPEFULLY_MCP"` from their terminal and restart the app; `launchctl setenv` does not survive a reboot.
+
 4. A server added mid-session is not live until the session reconnects. If the `typefully_*` tools are still missing after adding it, tell the user to run `/mcp` or restart the session, and pick the announcement back up from there.
 
 ## Pick the social set
@@ -55,7 +57,7 @@ The server URL lives in the **`TYPEFULLY_MCP`** environment variable. It embeds 
 | `argos_ci`   | `146700`        | The product. What shipped, what a reader can now do.                     |
 | `gregberge_` | `145185`        | Greg, first person. Why it was built this way, what he learned shipping. |
 
-Post to the one the user named. When they ask for both, write them **separately** — the personal post reposting the brand's words is the failure mode. Keep the same facts and change the angle: the brand announces the capability, Greg says what was interesting about building it. Plan the personal one an hour after the brand one so they don't compete in the same feed.
+Post to the one the user named. A **changelog announcement goes to both** — the `changelog` skill proposes them as a pair. When posting to both, write them **separately** — the personal post reposting the brand's words is the failure mode. Keep the same facts and change the angle: the brand announces the capability, Greg says what was interesting about building it. Plan the personal one an hour after the brand one so they don't compete in the same feed.
 
 `typefully_get_social_set_details` confirms which platforms are actually connected. Both sets currently have **X**, **LinkedIn** and **Bluesky**; enabling a platform that is not connected fails the call.
 
