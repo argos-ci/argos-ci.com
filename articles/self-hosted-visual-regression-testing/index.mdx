@@ -172,7 +172,7 @@ Usually one of these, and each points to a different answer:
 - **Data must stay in one region.** Self-host, or check where your vendor stores data. Argos stores screenshots on AWS S3 in the US, replicated to the EU (see [security](/security)), so a rule that data never leaves the EU rules out the managed service.
 - **The vendor must not see our source code or reach our app.** Tools that capture in your CI need neither. Argos receives the screenshots you upload, commit metadata and pull request information, not your source code, and offers a GitHub mode without content permissions. Your own tests take the screenshots, so Argos needs no network access to the application under test.
 - **We need audit evidence.** A self-hosted tool joins your own audit scope. Argos is SOC 2 Type II compliant, audited by Prescient Security and monitored through Vanta ([announcement](/blog/soc-2)), and encrypts GitHub and GitLab tokens at rest.
-- **Single sign-on.** Visual Regression Tracker supports LDAP, Screenshotbot OSS supports OpenID Connect, and Argos offers SAML SSO (see [pricing](/pricing)).
+- **Single sign-on.** Visual Regression Tracker supports LDAP, Screenshotbot OSS supports OpenID Connect, and Argos offers SAML SSO with SCIM provisioning (see [pricing](/pricing)).
 - **Cost at volume.** Self-hosting turns a per-screenshot bill into infrastructure and maintenance time.
 
 ## Which option should you choose?

@@ -324,7 +324,8 @@ export const WEBMCP_TOOLS: WebMcpTool[] = [
         },
         samlSso: {
           type: "boolean",
-          description: "Add the SAML SSO add-on.",
+          description:
+            "Add the SAML SSO add-on, which includes SCIM provisioning.",
         },
       },
       additionalProperties: false,
@@ -383,7 +384,9 @@ export const WEBMCP_TOOLS: WebMcpTool[] = [
         );
       }
       if (samlSso) {
-        lines.push(`SAML SSO add-on: ${formatDollars(SAML_SSO_PRICE)}/month.`);
+        lines.push(
+          `SAML SSO add-on (includes SCIM provisioning): ${formatDollars(SAML_SSO_PRICE)}/month.`,
+        );
       }
       lines.push(
         `Estimated total on Pro: ${formatDollars(pro.price + addOns)}/month. Pro starts with a 14-day free trial.`,

@@ -214,7 +214,7 @@ export function PricingCards() {
               </PriceBadge>
             </Feature>
             <Feature icon={LockKeyholeIcon}>
-              SAML SSO
+              SAML SSO & SCIM
               <PriceBadge>
                 <LocalDollar value={SAML_SSO_PRICE} /> /mo
               </PriceBadge>
@@ -237,7 +237,7 @@ export function PricingCards() {
           <Features>
             <FeaturesCaption>Everything in Pro, plus:</FeaturesCaption>
             <Feature icon={ImagesIcon}>Custom screenshot number</Feature>
-            <Feature icon={LockKeyholeIcon}>SAML SSO included</Feature>
+            <Feature icon={LockKeyholeIcon}>SAML SSO & SCIM included</Feature>
             <Feature icon={SlidersHorizontalIcon}>
               Fine-grained access control
             </Feature>
