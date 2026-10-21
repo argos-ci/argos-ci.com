@@ -1,56 +1,48 @@
 ---
 name: typefully-post
-description: Draft Argos or Greg's social posts on Typefully through its MCP server — connecting the server, generating and attaching the post image, creating a draft across X, LinkedIn and Bluesky, and the rules that keep publishing a human decision. Use whenever something needs announcing on social, on its own or as the last step of the changelog skill.
+description: Draft Argos or Greg's social posts on Typefully through its API — running Typefully's CLI with the API key, generating and attaching the post image, creating a draft across X, LinkedIn and Bluesky, and the rules that keep publishing a human decision. Use whenever something needs announcing on social, on its own or as the last step of the changelog skill.
 ---
 
 # Drafting on Typefully
 
-Typefully holds the Argos social accounts. Everything here goes through its **MCP server**, never through the Typefully REST API directly.
+Typefully holds the Argos social accounts. Everything here goes through the **Typefully API**, with Typefully's official CLI vendored in this repo (`.agents/skills/typefully/scripts/typefully.js`; its own `typefully` skill documents every command). Do not use the Typefully MCP server: in the Claude app it needs the company to approve it as a connector.
 
 ## Always draft, never publish
 
-`typefully_create_draft` can publish immediately. Do not.
+`drafts:create` can publish immediately. Do not.
 
 - Leave the draft for a human to send.
-- Use `plan_at` for a date: a planned draft shows on the queue and calendar at its date but is **inert** — it never auto-publishes until someone confirms it.
-- Only set `publish_at` if the user asks you to schedule or publish in that same message. It is the one field that creates a publishing commitment.
-- Same rule for `typefully_delete_draft` and `typefully_edit_draft` on a draft you did not create in this session: ask first.
+- Use `--plan <datetime>` for a date: a planned draft shows on the queue and calendar at its date but is **inert** — it never auto-publishes until someone confirms it.
+- Only use `--schedule`, `drafts:schedule` or `drafts:publish` if the user asks you to schedule or publish in that same message. They are the commands that create a publishing commitment.
+- Same rule for `drafts:delete` and `drafts:update` on a draft you did not create in this session: ask first.
 
-**Read the draft back before you report it.** The `status` in the create response is not the final word: a draft created with `plan_at` has been observed coming back as `scheduled` from `typefully_get_draft` — armed to auto-publish — when its date landed on a queue slot. Always confirm with `typefully_get_draft`, and if `status` is `scheduled` when the user did not ask for that, disarm it:
+**Read the draft back before you report it.** The `status` in the create response is not the final word: a planned draft has been observed coming back as `scheduled` — armed to auto-publish — when its date landed on a queue slot. Always confirm with `drafts:get`, and if `status` is `scheduled` when the user did not ask for that, disarm it:
 
+```bash
+drafts:plan <social_set_id> <draft_id> --time "<the same datetime>"   # scheduled → planned
 ```
-typefully_edit_draft { plan_at: "<the same datetime>" }   // scheduled → planned
+
+Planning a scheduled draft disarms it and keeps the date. Verify once more after disarming. Never tell the user a draft is "planned, not scheduled" on the strength of the create response alone.
+
+## Run the CLI
+
+The API key lives in **`TYPEFULLY_API_KEY`**, exported in `~/.zshrc`. Never print it, never paste it into a file or a command line, and never commit it.
+
+Two things stand between the CLI and a working call, so run it like this:
+
+```bash
+cp .agents/skills/typefully/scripts/typefully.js /tmp/typefully.cjs
+zsh -ic 'node /tmp/typefully.cjs social-sets:list'
 ```
 
-`plan_at` on a scheduled draft disarms it and keeps the date. Verify once more after disarming. Never tell the user a draft is "planned, not scheduled" on the strength of the create response alone.
+- **`.cjs` copy** — the CLI is CommonJS, but this repo's `package.json` declares `"type": "module"`, so running it in place fails with `require is not defined in ES module scope`. Do not edit the vendored file: `skills-lock.json` tracks it.
+- **`zsh -ic`** — `~/.zshrc` only runs for interactive shells, so a plain call does not see the key and answers "API key not found". Inside the double-quoted form, keep the arguments as literal words — `zsh` does not word-split `$variables` the way `bash` does.
 
-## Connect the MCP server
-
-The server URL lives in the **`TYPEFULLY_MCP`** environment variable. It embeds the API key, so never print it, never paste it into a file, and never commit it.
-
-1. Check whether it is already connected:
-
-   ```bash
-   claude mcp list | grep typefully
-   ```
-
-2. If it is missing, add it **by reference**, so the config stores the placeholder and not the key:
-
-   ```bash
-   claude mcp add --transport http --scope local typefully '${TYPEFULLY_MCP}'
-   ```
-
-   Single quotes matter — the shell must not expand it.
-
-3. Confirm it connects. If `claude mcp list` reports `Missing environment variables: TYPEFULLY_MCP`, the variable is set in the user's terminal but not in the environment Claude Code inherits — `~/.zshrc` only runs for interactive shells. Tell the user to either move the `export` to `~/.zshenv`, which every zsh reads, or start Claude Code from a terminal. Do not work around it by pasting the expanded URL into the config.
-
-   In the **Claude desktop app**, the same cause shows up differently: the server is listed as failed with `'url' is not a valid URL`, because `${TYPEFULLY_MCP}` reached it unexpanded. The app is launched by macOS, not by a shell, so neither `~/.zshrc` nor `~/.zshenv` reach it — `claude mcp list` run from a terminal can say **Connected** at the same time. Check with `[ -n "$(launchctl getenv TYPEFULLY_MCP)" ] && echo set || echo missing` (never print the value). If it is missing, tell the user to run `launchctl setenv TYPEFULLY_MCP "$TYPEFULLY_MCP"` from their terminal and restart the app; `launchctl setenv` does not survive a reboot.
-
-4. A server added mid-session is not live until the session reconnects. If the `typefully_*` tools are still missing after adding it, tell the user to run `/mcp` or restart the session, and pick the announcement back up from there.
+Every command prints JSON. On "API key not found", "Authentication failed" or HTTP 401, stop and ask the user to check `TYPEFULLY_API_KEY`; do not look for credentials anywhere else.
 
 ## Pick the social set
 
-`typefully_list_social_sets` returns two:
+`social-sets:list` returns two:
 
 | Set          | `social_set_id` | Voice                                                                    |
 | ------------ | --------------- | ------------------------------------------------------------------------ |
@@ -59,18 +51,31 @@ The server URL lives in the **`TYPEFULLY_MCP`** environment variable. It embeds 
 
 Post to the one the user named. A **changelog announcement goes to both** — the `changelog` skill proposes them as a pair. When posting to both, write them **separately** — the personal post reposting the brand's words is the failure mode. Keep the same facts and change the angle: the brand announces the capability, Greg says what was interesting about building it. Plan the personal one an hour after the brand one so they don't compete in the same feed.
 
-`typefully_get_social_set_details` confirms which platforms are actually connected. Both sets currently have **X**, **LinkedIn** and **Bluesky**; enabling a platform that is not connected fails the call.
+`social-sets:get <social_set_id>` confirms which platforms are actually connected. Both sets currently have **X**, **LinkedIn** and **Bluesky**; enabling a platform that is not connected fails the call.
 
 ## Create the draft
 
-1. Build the images first — see [Images](#images). Uploading after the draft exists means a second `typefully_edit_draft` round-trip.
-2. `typefully_create_draft` with one `requestBody.platforms` entry per platform, each `{ enabled: true, posts: [...] }`:
-   - **`x`** — a thread. Post 1 is the hook: what shipped and why it matters, no link (links suppress reach). The middle posts take one capability each. The last post carries the URL.
-   - **`bluesky`** — the same thread. Its limit is 300 characters, so anything that fits X fits here.
-   - **`linkedin`** — a single post, 3–6 short paragraphs. Same substance, less clipped than X: a sentence of context, what shipped, who it helps, then the link.
-3. `plan_at` takes an ISO 8601 datetime **with offset** — `2026-08-10T09:00:00+02:00`, i.e. 09:00 Europe/Paris on the day the thing goes live. `"next-free-slot"` also works. Omit it entirely if the date is not settled.
-4. `draft_title` names the draft in Typefully. Use the feature's name, so the draft is findable next to whatever it announces.
-5. Report the `private_url` from the response back to the user, and confirm `status` came back as `planned` (or `draft`) — never `published`.
+One draft per account carries every platform: the X and Bluesky thread, and the LinkedIn post written for LinkedIn.
+
+1. Build and upload the images first — see [Images](#images). Adding them after the draft exists means another `drafts:update` round-trip.
+2. Write the thread to a file, posts separated by a line holding only `---`:
+   - **X** — a thread. Post 1 is the hook: what shipped and why it matters, no link (links suppress reach). The middle posts take one capability each. The last post carries the URL.
+   - **Bluesky** — the same thread. Its limit is 300 characters, so anything that fits X fits here.
+3. Create the draft for both:
+
+   ```bash
+   zsh -ic "node /tmp/typefully.cjs drafts:create 146700 --platform x,bluesky --file /tmp/thread.txt --media <media_id> --plan 2026-08-10T09:00:00+02:00 --title 'Feature name'"
+   ```
+
+   `--media` goes on the first post, the hook. `--plan` takes an ISO 8601 datetime **with offset** — 09:00 Europe/Paris on the day the thing goes live, `+02:00` in summer and `+01:00` in winter; `next-free-slot` also works. Leave it out entirely if the date is not settled. `--title` names the draft in Typefully: use the feature's name, so the draft is findable next to whatever it announces.
+
+4. Add the **LinkedIn** post to the same draft: a single post, 3–6 short paragraphs. Same substance, less clipped than X: a sentence of context, what shipped, who it helps, then the link.
+
+   ```bash
+   zsh -ic "node /tmp/typefully.cjs drafts:update 146700 <draft_id> --platform linkedin --file /tmp/linkedin.txt --media <media_id>"
+   ```
+
+5. Read it back with `drafts:get <social_set_id> <draft_id>`: `status` is `planned` (or `draft`, never `published` or `scheduled`), each platform has the posts you wrote, and the hook carries the image. Report the draft URL — `https://typefully.com/?d=<draft_id>&a=<social_set_id>` — to the user.
 
 ## Images
 
@@ -94,12 +99,13 @@ A thread wants one or two images, not five. The hook post and the one concrete p
 
 Media is scoped to a social set, so the same file uploads once **per set** — a brand post and a personal post about the same thing each need their own upload.
 
-1. `typefully_create_media_upload` with `{ social_set_id, requestBody: { file_name } }` → returns a `media_id` and a presigned S3 URL. The filename must end in `.jpg`, `.jpeg`, `.png`, `.webp`, `.gif`, `.mp4`, `.mov` or `.pdf`.
-2. `PUT` the raw bytes to that URL with **no headers at all**. The signature was calculated without them, so adding `Content-Type` or `Authorization` gives `403 SignatureDoesNotMatch`. Use `curl -T <file> "<url>"`, or `fetch(url, { method: "PUT", body: buffer })` — not `--data-binary`. Success is `200` or `204`.
-3. Poll `typefully_get_media_status` until `status` is `ready`. The upload URL expires after an hour; a media that never received its file goes to `failed` and needs a new upload.
-4. Put the id on the post it belongs to: `{ text: "…", media_ids: ["<media_id>"] }`. Up to 10 per post.
+```bash
+zsh -ic "node /tmp/typefully.cjs media:upload 146700 /path/to/image.jpg"
+```
 
-To add an image to a draft that already exists, `typefully_edit_draft` replaces a platform's `posts` list wholesale — read the draft back with `typefully_get_draft`, map the existing `text` values through, and add `media_ids` where they belong. Verify by reading it back: each post carries a `media_ids` array, and an empty one means nothing attached.
+It waits until processing is done and prints the `media_id` with `status: ready`. The file must be a `.jpg`, `.jpeg`, `.png`, `.webp`, `.gif`, `.mp4`, `.mov` or `.pdf`.
+
+To add an image to a draft that already exists, `drafts:update` with `--text` or `--file` replaces that platform's posts, and `--media` lands on the first one. Verify by reading the draft back: each post carries a `media_ids` array, and an empty one means nothing attached.
 
 ### Review before attaching
 
@@ -107,11 +113,11 @@ Read every generated PNG back before it goes anywhere near a draft. Reject it if
 
 ## Queue and cadence
 
-The queue schedule is a set of weekly slots; drafts sit in them. Two tools read it and one replaces it.
+The queue schedule is a set of weekly slots; drafts sit in them. Two commands read it and one replaces it.
 
-- `typefully_get_queue_schedule` → the current rules, each `{ h, m, days: [...] }` in the social set's timezone (Europe/Paris).
-- `typefully_queue_put_queue_schedule` → **full atomic replacement**. There is no add-one-slot call, so read the rules first and send back the whole set. Needs ADMIN access.
-- `typefully_get_queue` → the slots and the drafts occupying them between two dates, max 62 days per call. Check each `status`: `scheduled` will auto-publish, `planned` will not.
+- `queue:schedule:get <social_set_id>` → the current rules, each `{ h, m, days: [...] }` in the social set's timezone (Europe/Paris).
+- `queue:schedule:put <social_set_id> --rules '[…]'` → **full atomic replacement**. There is no add-one-slot call, so read the rules first and send back the whole set. Needs ADMIN access.
+- `queue:get <social_set_id> --start-date <YYYY-MM-DD> --end-date <YYYY-MM-DD>` → the slots and the drafts occupying them between two dates, max 62 days per call. Check each `status`: `scheduled` will auto-publish, `planned` will not.
 
 **Changing the rules does not move anything.** Existing drafts keep the exact datetime they already have — the new rules only govern slots that are still empty. Re-spacing an existing queue is a second, separate pass over the drafts.
 
@@ -119,7 +125,7 @@ The queue schedule is a set of weekly slots; drafts sit in them. Two tools read 
 
 1. **Snapshot first.** Write every draft's `id`, `status` and `scheduled_date` to a file before touching them. There is no bulk undo, and putting 30 drafts back by hand is not a rollback.
 2. Sort by current `scheduled_date` and keep that order — the sequence is editorial, only the spacing is changing.
-3. Move each one with **`publish_at`**, not `plan_at`. Both accept a new datetime, but `plan_at` disarms an armed draft, so using it here would quietly unschedule the entire queue. Assert each response still reads `scheduled`.
+3. Move each one with **`drafts:schedule <social_set_id> <draft_id> --time <datetime>`**, not `drafts:plan`. Both accept a new datetime, but planning disarms an armed draft, so using it here would quietly unschedule the entire queue. Assert each response still reads `scheduled`.
 4. **Leave two kinds of draft alone**: anything due within the next few hours (a new slot earlier the same day is in the past), and anything whose date is tied to something external — a changelog going live, a launch. Reserve those days and let the sequence skip them.
 5. Verify by reading the queue back: count drafts per day and assert the maximum is what the user asked for.
 

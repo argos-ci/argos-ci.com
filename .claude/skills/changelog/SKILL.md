@@ -59,7 +59,7 @@ The two drafts are written separately, never one copied into the other:
 - **`argos_ci`** announces the capability, planned at 09:00 Europe/Paris on the entry's date.
 - **`gregberge_`** is first person — why it was built this way, what was interesting about shipping it — planned an hour later, at 10:00, so the two don't compete in the same feed.
 
-Use the **`typefully-post`** skill: it owns the MCP connection, the draft-creation calls, and the rule that publishing stays a human decision. What it needs from this skill:
+Use the **`typefully-post`** skill: it owns the API access, the draft-creation calls, and the rule that publishing stays a human decision. What it needs from this skill:
 
 - **Source** — the finished entry. The posts summarize it and must not claim anything it does not.
 - **Structure** — the X and Bluesky thread follows the entry's shape: the opening paragraph becomes the hook, the bullets become one post each, the closing link becomes the last post.
