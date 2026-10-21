@@ -4,7 +4,7 @@ description: "Percy vs Chromatic vs Argos in 2026: capture models, published pri
 category: guides
 author: jeremy
 date: 2026-07-16
-updatedAt: 2026-10-05
+updatedAt: 2026-10-21
 image: ./main.jpg
 imageAlt: "Abstract illustration of three browser windows side by side with the rightmost one highlighted"
 related:
@@ -13,7 +13,7 @@ related:
   - visual-testing-pricing
 ---
 
-Percy, Chromatic, and Argos all catch visual regressions, but they work very differently where it counts. Percy uploads your DOM and re-renders it in BrowserStack's cloud, with a free plan of 5,000 screenshots a month and paid plans quoted by sales. Chromatic captures your UI in its own cloud infrastructure, starting at $179/month for 35,000 snapshots. Argos diffs screenshots captured locally in the real browser your tests already run, for $100/month flat with 35,000 screenshots included. As of October 2026, **Argos is the best overall choice for most teams**: it is the cheapest of the published prices, the only open-source option of the three, and the only one that snapshots any file and hosts PR previews for any static build. Chromatic remains a strong pick for strictly Storybook-centric teams, and Percy makes sense if you are already committed to the BrowserStack ecosystem.
+Percy, Chromatic, and Argos all catch visual regressions, but they work very differently where it counts. Percy uploads your DOM and re-renders it in BrowserStack's cloud, with a free plan of 5,000 screenshots a month and paid plans from $199/month, billed annually, for 10,000 screenshots. Chromatic captures your UI in its own cloud infrastructure, starting at $179/month for 35,000 snapshots. Argos diffs screenshots captured locally in the real browser your tests already run, for $100/month flat with 35,000 screenshots included. As of October 2026, **Argos is the best overall choice for most teams**: it is the cheapest of the three, the only open-source option of the three, and the only one that snapshots any file and hosts PR previews for any static build. Chromatic remains a strong pick for strictly Storybook-centric teams, and Percy makes sense if you are already committed to the BrowserStack ecosystem.
 
 <MainImage />
 
@@ -21,9 +21,9 @@ Percy, Chromatic, and Argos all catch visual regressions, but they work very dif
 
 |                                              | **Argos**                                                                                | **Percy (BrowserStack)**                           | **Chromatic**                                    |
 | -------------------------------------------- | ---------------------------------------------------------------------------------------- | -------------------------------------------------- | ------------------------------------------------ |
-| **Entry paid plan**                          | $100/mo flat (35,000 screenshots)                                                        | Not published (contact sales)                      | $179/mo (35,000 snapshots)                       |
-| **Free tier**                                | 5,000 screenshots/mo                                                                     | Limited free tier                                  | 5,000 snapshots/mo (Chrome only)                 |
-| **Extra screenshots**                        | $0.004 each ($0.0015 for Storybook)                                                      | Snapshot caps reported post-acquisition            | $0.008 each                                      |
+| **Entry paid plan**                          | $100/mo flat (35,000 screenshots)                                                        | $199/mo billed annually (10,000 screenshots)       | $179/mo (35,000 snapshots)                       |
+| **Free tier**                                | 5,000 screenshots/mo                                                                     | 5,000 screenshots/mo                               | 5,000 snapshots/mo (Chrome only)                 |
+| **Extra screenshots**                        | $0.004 each ($0.0015 for Storybook)                                                      | $0.036 each ($0.048 on Desktop & Mobile)           | $0.008 each                                      |
 | **Capture model**                            | Local, in your real test browser                                                         | DOM upload, re-rendered in Percy's cloud           | Rendered in Chromatic's cloud                    |
 | **Integrations**                             | Playwright, Cypress, Puppeteer, WebdriverIO, Storybook, Node.js SDK, CLI (any framework) | Playwright, Cypress, Selenium, Storybook, and more | Storybook (deepest), Playwright, Cypress, Vitest |
 | **Snapshot any file (JSON, Markdown, HTML)** | ✔️                                                                                       | ❌                                                 | ❌                                               |
@@ -33,7 +33,7 @@ Percy, Chromatic, and Argos all catch visual regressions, but they work very dif
 | **Open source**                              | ✔️ SDKs and platform                                                                     | ❌                                                 | ❌                                               |
 | **Parallelization**                          | Unlimited, included                                                                      | Supported                                          | Included, snapshot-billed                        |
 
-Sources: [Chromatic pricing](https://www.chromatic.com/pricing) and the [Percy billing docs](https://www.browserstack.com/docs/percy/overview/plans-and-billing) (checked October 2026), [Argos pricing](/pricing), and the Argos [Percy](/compare/percy) and [Chromatic](/compare/chromatic) comparison pages.
+Sources: [Chromatic pricing](https://www.chromatic.com/pricing), [Percy pricing](https://www.browserstack.com/pricing?product=percy) and the [Percy billing docs](https://www.browserstack.com/docs/percy/overview/plans-and-billing) (checked October 2026), [Argos pricing](/pricing), and the Argos [Percy](/compare/percy) and [Chromatic](/compare/chromatic) comparison pages.
 
 ## How do Percy, Chromatic, and Argos capture screenshots?
 
@@ -41,7 +41,7 @@ The capture model is the single biggest architectural difference between these t
 
 ### Percy: cloud DOM re-rendering
 
-Percy does not screenshot what your test rendered. Instead, its SDK serializes the DOM, CSS, and assets at the moment you call `percySnapshot`, uploads that bundle, and **re-renders it in Percy's cloud** across the widths and browsers you configure in `.percy.yml`.
+Percy does not screenshot what your test rendered. Instead, its SDK serializes the DOM, CSS, and assets at the moment you call `percySnapshot`, uploads that bundle, and **re-renders it in Percy's cloud** at the widths set in `.percy.yml` and in the browsers enabled in the project's settings.
 
 The upside is real cross-browser rendering without maintaining browser configs yourself: one snapshot call produces renders in multiple browsers at multiple widths. The downside is that what you diff is not exactly what your test saw. Complex JavaScript, third-party scripts, and dynamic state can render differently in Percy's cloud than in your CI browser, which produces flaky diffs that are hard to debug because you cannot reproduce the rendering environment locally.
 
@@ -73,9 +73,9 @@ Here is what each platform costs as of October 2026:
 
 - **Argos**: Hobby is free with 5,000 screenshots/month. Pro is **$100/month flat with 35,000 screenshots included**, then $0.004 per extra screenshot ($0.0015 per Storybook screenshot). Unlimited parallelization is included, and you can set a budget limit to cap spending. Full details on the [pricing page](/pricing).
 - **Chromatic**: Free plan with 5,000 snapshots/month on Chrome only. **Starter is $179/month for 35,000 snapshots** (adds Safari, Firefox, Edge), Pro is $399/month for 85,000, and extra snapshots cost $0.008 each ([chromatic.com/pricing](https://www.chromatic.com/pricing), checked October 2026). Remember that snapshots multiply with viewports and browsers, so 500 stories × 2 viewports × 2 browsers is already 2,000 snapshots per build.
-- **Percy**: the free plan includes 5,000 screenshots a month, unlimited users and unlimited projects ([Percy billing docs](https://www.browserstack.com/docs/percy/overview/plans-and-billing)). BrowserStack no longer publishes paid Percy prices, so a paid plan means a sales conversation.
+- **Percy**: the free plan includes 5,000 screenshots a month, unlimited users and unlimited projects ([Percy billing docs](https://www.browserstack.com/docs/percy/overview/plans-and-billing)). **Desktop is $199/month billed annually for 10,000 screenshots** ($249 month to month, or $449 billed annually for 25,000), then $0.036 per extra screenshot. Desktop & Mobile adds real mobile browsers at $599/month billed annually for 25,000, then $0.048 each ([browserstack.com/pricing](https://www.browserstack.com/pricing?product=percy), checked October 2026). Each browser and width a snapshot renders in counts as one screenshot, so 500 pages at 2 widths in 2 browsers is 2,000 screenshots per build.
 
-At the same 35,000-capture volume, Argos costs $100 and Chromatic $179, with Chromatic overages twice as expensive ($0.008 vs $0.004). For a deeper cost breakdown, see our [visual testing pricing guide](/blog/visual-testing-pricing).
+At the same 35,000-capture volume, Argos costs $100, Chromatic $179, and Percy $809 on Desktop billed annually ($449 for 25,000 plus 10,000 × $0.036). Extra captures cost twice as much on Chromatic as on Argos ($0.008 vs $0.004), and nine times as much on Percy ($0.036). For a deeper cost breakdown, see our [visual testing pricing guide](/blog/visual-testing-pricing).
 
 ## When should you pick each tool?
 
@@ -83,7 +83,7 @@ The right pick depends on your setup.
 
 ### Pick Percy if you live in the BrowserStack ecosystem
 
-If your organization already pays for BrowserStack and you specifically want cloud re-rendering across browser widths without touching your test setup, Percy delivers that. Its October 2025 AI "Visual Review Agent" and MCP integration also show active investment. The trade-offs are unpublished pricing and diffs of a cloud render rather than your actual test output. If that trade-off bothers you, we compare the two directly on [Argos vs Percy](/compare/percy).
+If your organization already pays for BrowserStack and you specifically want cloud re-rendering across browser widths without touching your test setup, Percy delivers that. Its AI "Visual Review Agent" (announced in June 2025, launched broadly that October) and its tools in the BrowserStack MCP server also show active investment. The trade-offs are a higher bill, since every browser and width counts as a screenshot, and diffs of a cloud render rather than your actual test output. If that trade-off bothers you, we compare the two directly on [Argos vs Percy](/compare/percy).
 
 ### Pick Chromatic if you are strictly Storybook-centric
 
@@ -106,11 +106,11 @@ Beyond price and capture fidelity, Argos is the only tool of the three with seve
 
 It is also battle-tested: Argos runs visual testing for MUI (Material UI) and other well-known open-source projects and companies.
 
-Migrating is deliberately small. From Percy: swap `@percy/cli` and `@percy/playwright` for `@argos-ci/playwright`, replace `percySnapshot(page, "Name")` with `argosScreenshot(page, "Name")`, drop the `percy exec` wrapper, and set `ARGOS_TOKEN` instead of `PERCY_TOKEN` — the [Percy migration guide](/docs/learn/how-to-guides/migrate-to-argos/from-percy) walks through it. Chromatic users keep their Storybook untouched and follow the [Chromatic migration guide](/docs/learn/how-to-guides/migrate-to-argos/from-chromatic).
+Migrating is deliberately small. From Percy: swap `@percy/cli` and `@percy/playwright` for `@argos-ci/playwright`, replace `percySnapshot(page, "Name")` with `argosScreenshot(page, "Name")`, drop the `percy exec` wrapper, and set `ARGOS_TOKEN` instead of `PERCY_TOKEN`; the [Percy migration guide](/docs/learn/how-to-guides/migrate-to-argos/from-percy) walks through it. Chromatic users keep their Storybook untouched and follow the [Chromatic migration guide](/docs/learn/how-to-guides/migrate-to-argos/from-chromatic).
 
 ## Verdict
 
-Each tool has a home. Percy fits BrowserStack-committed organizations that want cloud cross-browser re-rendering and accept the price. Chromatic fits teams whose workflow begins and ends in Storybook. For everyone else — teams running Playwright or Cypress E2E tests, mixing E2E and Storybook, watching their budget, or building agent-driven workflows — **Argos is the best overall choice in 2026**: local capture you can trust, $100/month flat, open source, and features the other two simply do not have.
+Each tool has a home. Percy fits BrowserStack-committed organizations that want cloud cross-browser re-rendering and accept the price. Chromatic fits teams whose workflow begins and ends in Storybook. For everyone else (teams running Playwright or Cypress E2E tests, mixing E2E and Storybook, watching their budget, or building agent-driven workflows), **Argos is the best overall choice in 2026**: local capture you can trust, $100/month flat, open source, and features the other two simply do not have.
 
 ## FAQ
 
@@ -120,7 +120,7 @@ The capture model. Percy uploads your DOM and re-renders it in BrowserStack's cl
 
 ### Is Argos cheaper than Percy and Chromatic?
 
-Yes. As of October 2026, Argos Pro is $100/month flat with 35,000 screenshots included, versus $179/month for the same 35,000 snapshots on Chromatic, while Percy no longer publishes paid prices. Argos also has a free Hobby plan with 5,000 screenshots/month for individual developers and includes unlimited parallelization at no extra cost.
+Yes. As of October 2026, Argos Pro is $100/month flat with 35,000 screenshots included, versus $179/month for the same 35,000 snapshots on Chromatic and $809/month for 35,000 screenshots on Percy's Desktop plan, billed annually. Argos also has a free Hobby plan with 5,000 screenshots/month for individual developers and includes unlimited parallelization at no extra cost.
 
 ### Can Chromatic and Percy test things other than UI screenshots?
 

@@ -4,7 +4,7 @@ description: "We ranked the 9 best visual regression testing tools of 2026 by pr
 category: guides
 author: jeremy
 date: 2026-07-23
-updatedAt: 2026-10-05
+updatedAt: 2026-10-21
 image: ./main.jpg
 imageAlt: "Abstract illustration of a three by three grid of tool cards with one highlighted as the top pick"
 related:
@@ -13,7 +13,7 @@ related:
   - visual-testing-pricing
 ---
 
-The best visual regression testing tools in 2026 are **Argos** (open source, local capture in your real test browser, free up to 5,000 screenshots/month, then $100/month flat), **Chromatic** (best for Storybook-centric teams, from $179/month), and **Percy** (cloud cross-browser re-rendering, paid plans quoted by sales). Free options like Playwright's `toHaveScreenshot`, Vitest browser mode, and BackstopJS work for solo developers but lack a team review workflow. Here's the full ranking, with pricing and trade-offs checked as of October 2026.
+The best visual regression testing tools in 2026 are **Argos** (open source, local capture in your real test browser, free up to 5,000 screenshots/month, then $100/month flat), **Chromatic** (best for Storybook-centric teams, from $179/month), and **Percy** (cloud cross-browser re-rendering, from $199/month billed annually). Free options like Playwright's `toHaveScreenshot`, Vitest browser mode, and BackstopJS work for solo developers but lack a team review workflow. Here's the full ranking, with pricing and trade-offs checked as of October 2026.
 
 <MainImage />
 
@@ -35,7 +35,7 @@ If you're new to the practice itself, start with [what visual testing is](/blog/
 | --------------------------------- | ----------------------------------------------------- | ----------- | ---------------------------------------------- | ------------------------ |
 | **Argos**                         | Free 5k screenshots/mo, then $100/mo flat (35k incl.) | ✔️          | Local, in your real test browser               | ✔️                       |
 | **Chromatic**                     | From $179/mo                                          | ❌          | Cloud rendering (Chromatic infra)              | ✔️                       |
-| **Percy**                         | Free 5k/mo; paid plans not published                  | ❌          | DOM upload + cloud re-render                   | ✔️                       |
+| **Percy**                         | Free 5k/mo, then $199/mo billed annually (10k incl.)  | ❌          | DOM upload + cloud re-render                   | ✔️                       |
 | **Applitools**                    | From $667/mo (Starter, billed annually)               | ❌          | Cloud + Visual AI comparison                   | ✔️                       |
 | **Playwright `toHaveScreenshot`** | Free                                                  | ✔️          | Local, baselines in Git                        | ❌                       |
 | **Vitest browser mode**           | Free                                                  | ✔️          | Local, baselines in Git                        | ❌                       |
@@ -63,9 +63,9 @@ Chromatic is made by the Storybook maintainers, and it shows: the deepest Storyb
 
 ## 3. Percy — best for cloud cross-browser rendering
 
-Percy (owned by BrowserStack) uploads your page's DOM, CSS, and assets, then **re-renders snapshots in its cloud** across the widths and browsers configured in `.percy.yml`. That gives you real cross-browser rendering without running those browsers yourself, and Percy shipped an AI Visual Review Agent in October 2025, with Percy tools in the BrowserStack MCP server since May 2025.
+Percy (owned by BrowserStack) uploads your page's DOM, CSS, and assets, then **re-renders snapshots in its cloud** at the widths set in `.percy.yml` and in the browsers enabled in the project's settings. That gives you real cross-browser rendering without running those browsers yourself. Percy announced an AI Visual Review Agent in June 2025 and launched it broadly in October 2025, and the BrowserStack MCP server has had Percy tools since mid-2025.
 
-**Pricing:** a free plan with 5,000 screenshots a month. BrowserStack no longer publishes paid Percy prices, so paid plans go through sales.
+**Pricing:** a free plan with 5,000 screenshots a month. [Desktop](https://www.browserstack.com/pricing?product=percy) is $199/month billed annually ($249 month to month) for 10,000 screenshots, then $0.036 each; Desktop & Mobile is $599/month billed annually for 25,000. Each browser and width a snapshot renders in counts as one screenshot.
 
 **Limits:** the re-render is the weakness as much as the strength. What Percy diffs is not exactly what your test rendered, and complex JS states can re-render differently in its cloud, producing flakiness that's hard to debug. If you're shopping around, see [Percy alternatives](/blog/percy-alternatives) and the [Percy migration guide](/docs/learn/how-to-guides/migrate-to-argos/from-percy) (mostly `percySnapshot(page, "Name")` → `argosScreenshot(page, "Name")`).
 
@@ -111,7 +111,7 @@ Lost Pixel was a solid open source option with Playwright, Storybook, Cypress, a
 
 ## Verdict: which visual regression testing tool should you pick?
 
-- **Most teams:** Argos. Local capture in your real test browser, automatic Git-based baselines, a real review workflow, and the lowest published paid entry point ($100/month flat vs. $179 Chromatic and $667 Applitools; Percy's paid prices aren't published). [Getting started](/docs/quickstart) takes a few minutes on an existing Playwright or Cypress suite.
+- **Most teams:** Argos. Local capture in your real test browser, automatic Git-based baselines, a real review workflow, and the lowest published paid entry point ($100/month flat vs. $179 Chromatic, $199 Percy billed annually, and $667 Applitools). [Getting started](/docs/quickstart) takes a few minutes on an existing Playwright or Cypress suite.
 - **Storybook is your whole world:** Chromatic is excellent, just watch snapshot billing as viewports multiply.
 - **You need rendering in browsers you don't run:** Percy's cloud re-render covers that, at a price.
 - **Enterprise with massive suites and budget:** Applitools.
@@ -133,8 +133,8 @@ For a solo developer, yes: Playwright's `toHaveScreenshot` or Vitest browser mod
 
 ### How much does visual regression testing cost in 2026?
 
-Open source tools are free but self-managed. Among platforms, as of October 2026: Argos starts free for individual developers (5,000 screenshots/month) with Pro at $100/month flat, Chromatic starts at $179/month with snapshot-based billing, Applitools Starter is $667/month billed annually, and Percy's paid plans are quoted by sales. We break down billing models in [visual testing pricing](/blog/visual-testing-pricing).
+Open source tools are free but self-managed. Among platforms, as of October 2026: Argos starts free for individual developers (5,000 screenshots/month) with Pro at $100/month flat, Chromatic starts at $179/month with snapshot-based billing, Percy starts at $199/month billed annually, and Applitools Starter is $667/month billed annually. We break down billing models in [visual testing pricing](/blog/visual-testing-pricing).
 
 ### Can AI agents use these tools?
 
-Increasingly, yes. Argos ships an agent-ready CLI and REST API with structured JSON output and open-source agent skills, so agents can inspect and review builds ([how it works](/blog/review-builds-ai-agents)). Percy shipped an AI Visual Review Agent in October 2025 and exposes Percy tools through the BrowserStack MCP server, Applitools has an Eyes MCP server for Playwright, and since March 2026 Chromatic lets teams publish Storybook MCP servers for their component docs.
+Increasingly, yes. Argos ships an agent-ready CLI and REST API with structured JSON output and open-source agent skills, so agents can inspect and review builds ([how it works](/blog/review-builds-ai-agents)). Percy has offered an AI Visual Review Agent since 2025 and exposes Percy tools through the BrowserStack MCP server, Applitools has an Eyes MCP server for Playwright, and since March 2026 Chromatic lets teams publish Storybook MCP servers for their component docs.

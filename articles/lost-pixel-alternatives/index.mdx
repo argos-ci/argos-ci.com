@@ -4,7 +4,7 @@ description: "Lost Pixel is shutting down after its team joined Figma. Compare t
 category: guides
 author: greg
 date: 2026-07-14
-updatedAt: 2026-10-05
+updatedAt: 2026-10-21
 image: ./main.jpg
 imageAlt: "Abstract illustration of screenshots migrating in an arc from a dissolving platform to a solid one"
 related:
@@ -35,13 +35,13 @@ Practically, three things:
 
 Here is how the realistic options compare, as of October 2026:
 
-| Tool                                                 | Pricing                                      | Capture model                            | Open source | Team review UI |
-| ---------------------------------------------------- | -------------------------------------------- | ---------------------------------------- | ----------- | -------------- |
-| [Argos](/pricing)                                    | Free 5k/mo, then $100/mo flat (35k included) | Local, in your real test browser         | ✔️          | ✔️             |
-| [Chromatic](/compare/chromatic)                      | From $179/mo                                 | Chromatic cloud infrastructure           | ❌          | ✔️             |
-| [Percy](/compare/percy)                              | Paid plans not published                     | DOM upload, re-rendered in Percy's cloud | ❌          | ✔️             |
-| [BackstopJS](/compare/backstopjs)                    | Free, self-hosted                            | Local (Puppeteer/Playwright)             | ✔️          | ❌             |
-| [Playwright `toHaveScreenshot`](/compare/playwright) | Free, built-in                               | Local, baselines in Git                  | ✔️          | ❌             |
+| Tool                                                 | Pricing                                                 | Capture model                            | Open source | Team review UI |
+| ---------------------------------------------------- | ------------------------------------------------------- | ---------------------------------------- | ----------- | -------------- |
+| [Argos](/pricing)                                    | Free 5k/mo, then $100/mo flat (35k included)            | Local, in your real test browser         | ✔️          | ✔️             |
+| [Chromatic](/compare/chromatic)                      | From $179/mo                                            | Chromatic cloud infrastructure           | ❌          | ✔️             |
+| [Percy](/compare/percy)                              | Free 5k/mo, then $199/mo billed annually (10k included) | DOM upload, re-rendered in Percy's cloud | ❌          | ✔️             |
+| [BackstopJS](/compare/backstopjs)                    | Free, self-hosted                                       | Local (Puppeteer/Playwright)             | ✔️          | ❌             |
+| [Playwright `toHaveScreenshot`](/compare/playwright) | Free, built-in                                          | Local, baselines in Git                  | ✔️          | ❌             |
 
 ### Argos
 
@@ -55,7 +55,7 @@ Chromatic is made by the Storybook maintainers and remains the deepest Storybook
 
 ### Percy
 
-Percy, now part of BrowserStack, uploads your DOM, CSS, and assets and re-renders snapshots in its cloud across configured widths and browsers. That gives you real cross-browser rendering without running those browsers yourself, which is its real strength. The downsides are the flip side of the same design: what gets diffed is a cloud re-render, not what your test actually displayed, which can produce hard-to-debug flakiness with complex JavaScript. Its free plan includes 5,000 screenshots a month; paid prices aren't published. Full comparison: [Argos vs Percy](/compare/percy), and if you are weighing the big three, see [Percy vs Chromatic vs Argos](/blog/percy-vs-chromatic-vs-argos).
+Percy, now part of BrowserStack, uploads your DOM, CSS, and assets and re-renders snapshots in its cloud across configured widths and browsers. That gives you real cross-browser rendering without running those browsers yourself, which is its real strength. The downsides are the flip side of the same design: what gets diffed is a cloud re-render, not what your test actually displayed, which can produce hard-to-debug flakiness with complex JavaScript. Its free plan includes 5,000 screenshots a month, and [Desktop](https://www.browserstack.com/pricing?product=percy) is $199/month billed annually for 10,000, with each browser and width counted as a screenshot. Full comparison: [Argos vs Percy](/compare/percy), and if you are weighing the big three, see [Percy vs Chromatic vs Argos](/blog/percy-vs-chromatic-vs-argos).
 
 ### BackstopJS
 
@@ -136,7 +136,7 @@ No. Lost Pixel consumed Playwright, Storybook, Cypress, or Ladle screenshots, an
 
 ### How much does Argos cost compared to other Lost Pixel alternatives?
 
-As of October 2026, Argos is free up to 5,000 screenshots per month for individual developers, then $100/month flat with 35,000 screenshots included and unlimited parallelization. Chromatic starts at $179/month with snapshot-based billing that grows with viewports and browsers, and Percy's paid prices aren't published. You can also set a budget limit on Argos to cap spending. See [pricing](/pricing).
+As of October 2026, Argos is free up to 5,000 screenshots per month for individual developers, then $100/month flat with 35,000 screenshots included and unlimited parallelization. Chromatic starts at $179/month with snapshot-based billing that grows with viewports and browsers, and Percy's Desktop plan is $199/month billed annually for 10,000 screenshots. You can also set a budget limit on Argos to cap spending. See [pricing](/pricing).
 
 ## Conclusion
 
