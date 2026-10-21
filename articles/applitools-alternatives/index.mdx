@@ -31,9 +31,9 @@ If you're a five-person frontend team that wants visual coverage on your Playwri
 
 Applitools' core differentiator is AI-powered diffing: it ignores anti-aliasing and rendering noise and surfaces only "meaningful" changes. That's a real strength, noise is the number one problem in visual testing.
 
-The trade-off is that the decision isn't yours to inspect. When Visual AI passes or flags a change, you can't reproduce that judgment locally, tune it deterministically, or debug why two runs were classified differently. You configure match levels (Strict, Layout, Content, Exact) and trust the model. For teams that treat their test suite as code, an unreproducible assertion is an uncomfortable foundation.
+The trade-off is that the decision isn't yours to inspect. When Visual AI passes or flags a change, you can't reproduce that judgment locally, tune it deterministically, or debug why two runs were classified differently. You configure match levels (Strict, Layout, Ignore Colors, Dynamic, Exact) and trust the model. For teams that treat their test suite as code, an unreproducible assertion is an uncomfortable foundation.
 
-The alternative approach: solve the noise **at capture time**, then diff deterministically. Argos SDKs [stabilize screenshots before capture](/blog/screenshot-stabilization) (wait for fonts, images, and network idle; hide carets and scrollbars), and a per-screenshot sensitivity threshold handles the rest. Same outcome, fewer false positives, but every decision is reproducible.
+The alternative approach: solve the noise **at capture time**, then diff deterministically. Argos SDKs [stabilize screenshots before capture](/blog/screenshot-stabilization) (wait for fonts, images, and `aria-busy` loaders; hide carets and scrollbars), and a per-screenshot sensitivity threshold handles the rest. Same outcome, fewer false positives, but every decision is reproducible.
 
 ### 3. The enterprise and agentic-SDLC pivot
 
@@ -58,7 +58,7 @@ Pricing checked on each vendor's pricing page or billing docs in October 2026.
 
 Where it answers the three Applitools complaints directly:
 
-- **Public, flat pricing.** Free Hobby plan with 5,000 screenshots/month for personal projects. Pro is **$100/month flat** with 35,000 screenshots included, then $0.004 per extra screenshot ($0.0015 for Storybook screenshots). Unlimited parallelization included, no per-seat fees, and you can set a budget limit to cap spending. It's all on the [pricing page](/pricing), no sales call required.
+- **Public, flat pricing.** Free Hobby plan with 5,000 screenshots/month for individual developers, commercial use included. Pro is **$100/month flat** with 35,000 screenshots included, then $0.004 per extra screenshot ($0.0015 for Storybook screenshots). Unlimited parallelization included, no per-seat fees, and you can set a budget limit to cap spending. It's all on the [pricing page](/pricing), no sales call required.
 - **Deterministic diffs you can debug.** Argos does pixel diffing with a **per-screenshot sensitivity threshold** (0 to 1, default 0.5; higher means less sensitive). Combined with SDK-level stabilization, this solves the same noise problem Visual AI addresses, transparently. When a diff fires, you can see exactly why, and reproduce it.
 - **Local capture in your real test browser.** `argosScreenshot(page, "name")` captures in the same Playwright or Cypress browser your tests already run. No cloud rendering grid, no second environment to keep in sync: what your test rendered is what gets diffed.
 - **Agent-ready by design.** The [CLI and REST API](/ai-agents) output structured JSON (`argos build get <ref> --json`, `argos review create <ref> --event approve`), so coding agents can inspect and review builds without screen-scraping a dashboard.
@@ -97,7 +97,7 @@ The full walkthrough is in the docs: [migrate to Argos from Applitools](/docs/le
 | `eyes.open()` / `eyes.check()` / `eyes.close()` | `argosScreenshot(page, "Name")`                      |
 | `cy.eyesCheckWindow()`                          | `cy.argosScreenshot("Name")`                         |
 | Batch                                           | Build                                                |
-| Match levels (Strict, Layout, Content)          | Per-screenshot sensitivity threshold + stabilization |
+| Match levels (Strict, Layout, Dynamic)          | Per-screenshot sensitivity threshold + stabilization |
 | Ultrafast Grid widths                           | Playwright projects with viewports                   |
 | `APPLITOOLS_API_KEY`                            | `ARGOS_TOKEN`                                        |
 | Baselines managed in dashboard                  | Baselines auto-selected from Git history             |
@@ -146,7 +146,7 @@ As of October 2026, Applitools' Starter plan is $667/month, paid annually ($8,00
 
 ### Is there a free alternative to Applitools?
 
-Yes, for personal projects: Argos's free Hobby plan includes 5,000 screenshots per month, and Argos is open source. Teams need the Pro plan ($100/month flat). BackstopJS and Playwright's `toHaveScreenshot` are entirely free but self-managed: no team review UI, and baselines live in your git repo.
+Yes, for an individual developer: Argos's free Hobby plan includes 5,000 screenshots per month, commercial use and private organization repositories included, and Argos is open source. Teams that review builds together need the Pro plan ($100/month flat). BackstopJS and Playwright's `toHaveScreenshot` are entirely free but self-managed: no team review UI, and baselines live in your git repo.
 
 ### Do I need Visual AI to avoid flaky visual tests?
 

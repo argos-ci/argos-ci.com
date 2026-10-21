@@ -126,9 +126,9 @@ Run your suite in CI with the `ARGOS_TOKEN` environment variable set, and screen
 
 Three things make this fundamentally different from the plugin workflow:
 
-- **Screenshots are captured locally, in your real Cypress browser.** Argos does not re-render your pages in a remote cloud browser. What your test sees is exactly what gets diffed, so there is no second rendering environment to keep in sync. Before capture, `cy.argosScreenshot` waits for fonts and images to load, network to go idle, and hides carets and scrollbars, which eliminates most flakiness at the source.
+- **Screenshots are captured locally, in your real Cypress browser.** Argos does not re-render your pages in a remote cloud browser. What your test sees is exactly what gets diffed, so there is no second rendering environment to keep in sync. Before capture, `cy.argosScreenshot` waits for fonts, images, and `aria-busy` loaders, and hides carets and scrollbars, which eliminates most flakiness at the source.
 - **Baselines come from Git history, automatically.** Argos picks the correct baseline build by looking at your branch's merge base. No baseline PNGs in the repo, no base/regression mode switching, no "regenerate baselines" chore.
-- **Review happens on the pull request.** Each PR gets a status check; visual changes appear in a [collaborative review UI](/review) with side-by-side and overlay diffs, threads, and one-click approval. Approving a change on `main` makes it the new baseline for everyone. You can even let [AI agents review builds](/ai-agents) through the CLI and API.
+- **Review happens on the pull request.** Each PR gets a status check; visual changes appear in a [collaborative review UI](/review) with side-by-side and overlay diffs, threads, and one-click approval. Once you approve and merge, the build on `main` is auto-approved and becomes the new baseline for everyone. You can even let [AI agents review builds](/ai-agents) through the CLI and API.
 
 Pricing is deliberately simple: **free up to 5,000 screenshots/month**, then a flat **$100/month Pro plan with 35,000 screenshots included** and unlimited parallelization ([pricing details](/pricing)). Argos is also open source, so the SDK and platform code are on [GitHub](https://github.com/argos-ci).
 
@@ -136,16 +136,16 @@ Pricing is deliberately simple: **free up to 5,000 screenshots/month**, then a f
 
 All three appear on the Cypress docs page as commercial integrations. Here is how they compare for a Cypress-first team, as of 2026:
 
-|                                         | Argos                                 | Percy (BrowserStack)                       | Chromatic                     |
-| --------------------------------------- | ------------------------------------- | ------------------------------------------ | ----------------------------- |
-| Capture model                           | Locally, in your real Cypress browser | DOM uploaded, re-rendered in Percy's cloud | Rendered in Chromatic's cloud |
-| Baseline management                     | Automatic from Git history            | Managed in dashboard                       | Managed in dashboard          |
-| Entry paid plan                         | $100/mo flat (35k screenshots)        | Not published                              | $179/mo                       |
-| Free tier                               | 5,000 screenshots/mo                  | —                                          | —                             |
-| Parallel test runs                      | Unlimited, included                   | Costs extra                                | Included                      |
-| Open source                             | Yes                                   | No                                         | No                            |
-| Snapshot any file (JSON, Markdown, ...) | Yes                                   | No                                         | No                            |
-| Best fit                                | Cypress/Playwright E2E teams          | Cross-browser cloud rendering needs        | Storybook-centric teams       |
+|                                         | Argos                                 | Percy (BrowserStack)                       | Chromatic                        |
+| --------------------------------------- | ------------------------------------- | ------------------------------------------ | -------------------------------- |
+| Capture model                           | Locally, in your real Cypress browser | DOM uploaded, re-rendered in Percy's cloud | Rendered in Chromatic's cloud    |
+| Baseline management                     | Automatic from Git history            | From Git (merge base or default branch)    | From Git history, per branch     |
+| Entry paid plan                         | $100/mo flat (35k screenshots)        | Not published                              | $179/mo                          |
+| Free tier                               | 5,000 screenshots/mo                  | 5,000 screenshots/mo                       | 5,000 snapshots/mo (Chrome only) |
+| Parallel test runs                      | Unlimited, included                   | Supported                                  | Included                         |
+| Open source                             | Yes                                   | No                                         | No                               |
+| Snapshot any file (JSON, Markdown, ...) | Yes                                   | No                                         | No                               |
+| Best fit                                | Cypress/Playwright E2E teams          | Cross-browser cloud rendering needs        | Storybook-centric teams          |
 
 Where the alternatives win: Percy's cloud re-rendering gives you real cross-browser rendering at multiple widths from a single capture, and Chromatic, made by the Storybook maintainers, is excellent if your visual testing strategy is component-first in Storybook. But Percy's cloud re-render means the diffed page is not exactly what your Cypress test rendered, which can introduce hard-to-debug discrepancies with complex JavaScript, and both are priced well above Argos. See the detailed breakdowns on [Argos vs Percy](/compare/percy) and [Argos vs Chromatic](/compare/chromatic), or the migration guide for [moving from Percy to Argos](/docs/learn/how-to-guides/migrate-to-argos/from-percy).
 
@@ -171,12 +171,12 @@ cypress-visual-regression and cypress-image-diff-js are the two most established
 
 ### How do I avoid flaky visual tests in Cypress?
 
-Most flakiness comes from capturing before the page settles: fonts loading, images decoding, animations running, blinking carets. `cy.argosScreenshot()` from @argos-ci/cypress handles this automatically by waiting for fonts, images, and network idle and hiding carets and scrollbars. With raw plugins you must implement that stabilization yourself; our [screenshot stabilization guide](/blog/screenshot-stabilization) covers the techniques.
+Most flakiness comes from capturing before the page settles: fonts loading, images decoding, animations running, blinking carets. `cy.argosScreenshot()` from @argos-ci/cypress handles this automatically by waiting for fonts, images, and `aria-busy` loaders and hiding carets and scrollbars. With raw plugins you must implement that stabilization yourself; our [screenshot stabilization guide](/blog/screenshot-stabilization) covers the techniques.
 
 ### How much does Cypress visual testing with Argos cost?
 
-Argos is free up to 5,000 screenshots per month on the Hobby plan, for personal projects. The Pro plan is a flat $100/month with 35,000 screenshots included and $0.004 per extra screenshot, with unlimited parallelization at no extra cost, as of 2026. Compare that with Chromatic at $179/month on its entry paid tier; Percy doesn't publish its paid prices.
+Argos is free for individual developers up to 5,000 screenshots per month on the Hobby plan, commercial use included. The Pro plan, for teams, is a flat $100/month with 35,000 screenshots included and $0.004 per extra screenshot, with unlimited parallelization at no extra cost, as of 2026. Compare that with Chromatic at $179/month on its entry paid tier; Percy doesn't publish its paid prices.
 
 ### Do I need to commit screenshot baselines to Git with Argos?
 
-No. Argos selects baselines automatically from your Git history: when you open a pull request, screenshots are compared against the approved build from your branch's merge base. Approving changes in the Argos review UI updates the baseline for the whole team, with no binary files in your repository.
+No. Argos selects baselines automatically from your Git history: when you open a pull request, screenshots are compared against the approved build from your branch's merge base. After you approve the changes in the Argos review UI and merge, the build on your default branch becomes the baseline for the whole team, with no binary files in your repository.
