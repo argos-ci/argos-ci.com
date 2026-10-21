@@ -47,19 +47,24 @@ Target length: 150–300 words. It's a changelog, not a blog post — if there's
 - **Benefit before mechanism.** Say what the user can now do, then how it works.
 - **Present tense, active voice.** "Argos picks the baseline from your Git history", not "the baseline will be picked".
 - **Bold sparingly**: feature name on first mention, bullet lead-ins, UI element names (**Copy prompt**). Backticks for commands, packages, paths.
-- **Fact-check everything.** Never invent capabilities, limits, or pricing — verify against the docs repo (`/Users/gregberge/projects/docs`) and the feature's PR. Every docs link must resolve (docs live under `https://argos-ci.com/docs/...`).
+- **Fact-check everything.** Never invent capabilities, limits, or pricing — verify against the docs repo (`/Users/gregberge/argos-projects/docs`) and the feature's PR. Every docs link must resolve (docs live under `https://argos-ci.com/docs/...`).
 - Em-dashes and short sentences are house style; avoid comma-spliced walls of text.
 
 ## Announce it on Typefully
 
-Every entry ships with matching social drafts. Do this once the `index.mdx` is written and fact-checked — the posts are derived from it, so writing them earlier means writing them twice.
+Every entry ships with matching social drafts **on both accounts**: `argos_ci`, the product, and `gregberge_`, Greg. Once the `index.mdx` is written and fact-checked, always propose them — the posts are derived from the entry, so writing them earlier means writing them twice. Do not skip this step silently: if the user did not already ask for the posts, offer them before finishing, and if Typefully is unreachable, say so and leave the copy ready to paste.
 
-Use the **`typefully-post`** skill: it owns the MCP connection, the draft-creation calls, and the rule that publishing stays a human decision. What it needs from this skill:
+The two drafts are written separately, never one copied into the other:
+
+- **`argos_ci`** announces the capability, planned at 09:00 Europe/Paris on the entry's date.
+- **`gregberge_`** is first person — why it was built this way, what was interesting about shipping it — planned an hour later, at 10:00, so the two don't compete in the same feed.
+
+Use the **`typefully-post`** skill: it owns the API access, the draft-creation calls, and the rule that publishing stays a human decision. What it needs from this skill:
 
 - **Source** — the finished entry. The posts summarize it and must not claim anything it does not.
 - **Structure** — the X and Bluesky thread follows the entry's shape: the opening paragraph becomes the hook, the bullets become one post each, the closing link becomes the last post.
-- **Image** — the entry's own illustration, already generated and reviewed at `public/assets/changelogs/<slug>/<slug>.jpg`. It goes on the hook post so the post and the page look like the same thing. Do not generate a second image for the same entry; a `code-card` on the post that shows commands is the one worthwhile addition.
-- **`plan_at`** — the entry's publication date at 09:00 Europe/Paris, e.g. `2026-08-10T09:00:00+02:00`. Omit it if the date is not settled.
+- **Image** — the entry's own illustration, already generated and reviewed at `public/assets/changelogs/<slug>/<slug>.jpg`. It goes on the hook post of both drafts (uploaded once per social set) so the posts and the page look like the same thing. Do not generate a second image for the same entry; a `code-card` on the post that shows commands is the one worthwhile addition.
+- **`plan_at`** — the entry's publication date at 09:00 Europe/Paris for `argos_ci` and 10:00 for `gregberge_`, e.g. `2026-08-10T09:00:00+02:00`. Omit it if the date is not settled.
 - **`draft_title`** — the changelog `title`, so the draft is findable next to the entry.
 - **Link** — `https://argos-ci.com/changelog/<slug>`, the same slug as the folder and the frontmatter.
 
@@ -70,4 +75,4 @@ Use the **`typefully-post`** skill: it owns the MCP connection, the draft-creati
 - [ ] All links verified against the docs.
 - [ ] Read it aloud: opening states why it matters, bullets scan, ending tells the reader where to go next.
 - [ ] Verify it builds: `SHOW_SCHEDULED_ARTICLES=true corepack pnpm build` and check the entry appears under `.next/server/app/changelog/` (use `corepack pnpm`, not plain pnpm). Note: as of 2026-07, `/changelog` routes 500 in the dev server for all entries (pre-existing bug) — the production build is the reliable check.
-- [ ] Typefully draft created with the `typefully-post` skill, planned (never scheduled or published) on the entry's date, and its URL reported to the user.
+- [ ] Typefully drafts proposed for **both** `argos_ci` and `gregberge_` and, once agreed, created with the `typefully-post` skill: planned (never scheduled or published) on the entry's date, read back, and both URLs reported to the user.

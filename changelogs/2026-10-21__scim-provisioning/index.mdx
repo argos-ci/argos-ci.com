@@ -1,0 +1,27 @@
+---
+title: SCIM provisioning
+homeTitle: Manage your Argos team from Okta or Microsoft Entra ID
+description: Teams with SAML SSO can now let Okta, Microsoft Entra ID or any SCIM 2.0 identity provider add members, remove them the moment they leave, and set their roles.
+slug: scim-provisioning
+date: 2026-10-21
+image: /assets/changelogs/scim-provisioning/scim-provisioning.jpg
+---
+
+![An identity provider directory syncing with an Argos team: one member added, one removed](/assets/changelogs/scim-provisioning/scim-provisioning.jpg)
+
+SAML SSO added people to your team on their first sign-in, and someone had to remember to remove them when they left. **SCIM provisioning** hands the team to your identity provider: assign someone to Argos and they are a member, deactivate them and they lose access.
+
+- **Members before their first sign-in**: Okta, Microsoft Entra ID or any SCIM 2.0 identity provider creates them, linked to their Argos account through a verified email, or to a new one.
+- **Offboarding in one place**: unassigning or deactivating someone removes them from the team on the spot. Their Argos account and their other teams stay theirs.
+- **Roles from your directory**: map `owner`, `member` and `contributor` through the standard `roles` attribute, for example with Entra ID app roles.
+- **Safe by default**: the last owner is never demoted, and the settings warn you when your team has a single owner.
+
+Set it up from **Team Settings -> Authentication**: generate a token, then give your identity provider the token and the base URL.
+
+```
+https://api.argos-ci.com/scim/v2
+```
+
+SCIM provisioning comes with SAML SSO, in the Enterprise plan and in the SAML SSO add-on.
+
+👉 [Set it up with the SCIM provisioning documentation](https://argos-ci.com/docs/learn/account-and-access/scim-provisioning)

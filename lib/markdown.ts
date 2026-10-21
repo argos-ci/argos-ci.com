@@ -433,7 +433,7 @@ For teams. 14-day free trial.
 - Extra screenshots: $${ARGOS_SCREENSHOT_PRICE} each ($${ARGOS_STORYBOOK_SCREENSHOT_PRICE} for Storybook screenshots)
 - Unlimited team members and projects, Slack notifications, priority support
 - Media sharing: team-scoped or public share pages, 1-year retention, 500 MB per file
-- Add-ons: GitHub Single Sign-On ($${GITHUB_SSO_PRICE}/month), SAML SSO ($${SAML_SSO_PRICE}/month)
+- Add-ons: GitHub Single Sign-On ($${GITHUB_SSO_PRICE}/month), SAML SSO with SCIM provisioning ($${SAML_SSO_PRICE}/month)
 
 Media uploads draw on the screenshot allowance rather than a separate quota:
 an uploaded image counts as ${ARGOS_MEDIA_IMAGE_SCREENSHOT_COUNT} screenshot, an uploaded video as ${ARGOS_MEDIA_VIDEO_SCREENSHOT_COUNT}, and
@@ -442,7 +442,7 @@ re-uploading identical bytes is free.
 ## Enterprise — custom
 
 For organizations with specific needs: custom screenshot volume, 99.99% uptime
-SLA, SSO/SAML, dedicated support, invoicing.
+SLA, SAML SSO with SCIM provisioning, dedicated support, invoicing.
 [Contact us](${SITE_URL}/contact/sale).
 `,
     faqMarkdown(PRICING_QUESTIONS),
