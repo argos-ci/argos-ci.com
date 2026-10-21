@@ -488,8 +488,8 @@ function isCompetitorSlug(slug: string): slug is CompetitorSlug {
  */
 function getComparePricingMarkdown(comparison: Comparison): string | null {
   if (!isCompetitorSlug(comparison.slug)) {
-    // No published per-screenshot prices to estimate against (Percy,
-    // Applitools): state Argos's prices and the sourced note about theirs.
+    // No published per-screenshot prices to estimate against (Applitools):
+    // state Argos's prices and the sourced note about theirs.
     if (!comparison.pricingNote) {
       return null;
     }

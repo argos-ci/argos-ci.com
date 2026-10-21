@@ -89,11 +89,26 @@ const TURBO_SNAP_RATIO = 1 / 5;
  * The competitors whose published prices the homepage and compare pages
  * estimate against, as read on `source` at `checkedAt`. Re-check them before
  * changing anything here, and say where they come from wherever they show.
- *
- * Percy is deliberately absent: BrowserStack no longer publishes paid Percy
- * prices (only the 5,000-screenshot free plan), so any figure would be a guess.
  */
 export const COMPETITORS = {
+  percy: {
+    name: "Percy",
+    subtitle: "Desktop, yearly",
+    // The plans are on BrowserStack's main pricing page, not the old
+    // browserstack.com/percy/pricing (a 404): grep the raw HTML, summaries
+    // of that page drop the plan cards.
+    source: "https://www.browserstack.com/pricing?product=percy",
+    checkedAt: "2026-10-21",
+    // Percy counts each browser × width a snapshot renders in as one
+    // screenshot, Storybook included.
+    screenshotPrice: 0.036,
+    storybookScreenshotPrice: 0.036,
+    // The Desktop plan billed annually ($249 and $549 month to month).
+    steps: [
+      { screenshots: 10_000, price: 199 },
+      { screenshots: 25_000, price: 449 },
+    ],
+  },
   chromatic: {
     name: "Chromatic",
     subtitle: "80% TurboSnap",

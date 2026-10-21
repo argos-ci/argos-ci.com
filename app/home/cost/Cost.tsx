@@ -122,7 +122,7 @@ export function Cost() {
               href="/docs/learn/billing-and-subscription/pricing-plans"
               icon={TrendingDownIcon}
               title="Cheaper at every volume"
-              description="From small teams to millions of snapshots, Argos stays below Chromatic’s published plans."
+              description="From small teams to millions of snapshots, Argos stays below Chromatic’s and Percy’s published plans."
             />
           </div>
           <div className="flex flex-col md:basis-1/2 lg:basis-3/5">
@@ -172,7 +172,15 @@ export function Cost() {
                     chromatic.com/pricing
                   </a>
                   , checked {formatCheckedAt(COMPETITORS.chromatic.checkedAt)}.
-                  Percy no longer publishes its paid prices.
+                  Percy prices from{" "}
+                  <a
+                    href={COMPETITORS.percy.source}
+                    className="underline-offset-2 hover:underline"
+                  >
+                    browserstack.com/pricing
+                  </a>
+                  , Desktop plan billed yearly, checked{" "}
+                  {formatCheckedAt(COMPETITORS.percy.checkedAt)}.
                 </p>
               </div>
             </div>
@@ -290,6 +298,12 @@ function getScenarioPrices(usage: {
       subtitle: COMPETITORS.chromatic.subtitle,
       price: getCompetitorPrice("chromatic", usage),
       color: clsx("bg-linear-to-l from-(--red-9) to-(--red-11)"),
+    },
+    {
+      name: COMPETITORS.percy.name,
+      subtitle: COMPETITORS.percy.subtitle,
+      price: getCompetitorPrice("percy", usage),
+      color: clsx("bg-linear-to-l from-(--plum-9) to-(--plum-11)"),
     },
   ];
 }

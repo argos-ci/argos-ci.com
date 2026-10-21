@@ -19,7 +19,7 @@ related:
 
 ## Why every visual testing tool suddenly has "AI"
 
-Between 2025 and 2026, the whole category rebranded. Applitools has marketed its comparison engine as [Visual AI](https://applitools.com) for years. Percy (BrowserStack) shipped an AI "Visual Review Agent" in October 2025, and the BrowserStack MCP server exposes Percy tools to agents. Applitools published an Eyes MCP server in March 2026, and Chromatic released Storybook MCP servers the same month. Argos shipped an [agent-ready CLI and API](/ai-agents) with open-source agent skills.
+Between 2025 and 2026, the whole category rebranded. Applitools has marketed its comparison engine as [Visual AI](https://applitools.com) for years. Percy (BrowserStack) announced an AI "Visual Review Agent" in June 2025 and launched it broadly that October, and the BrowserStack MCP server exposes Percy tools to agents. Applitools published an Eyes MCP server in March 2026, and Chromatic released Storybook MCP servers the same month. Argos shipped an [agent-ready CLI and API](/ai-agents) with open-source agent skills.
 
 These are not the same feature. Some of that AI runs _inside_ the comparison, changing what counts as a difference. Some of it runs _on top of_ the comparison, changing who reviews the differences. Conflating the two is how teams end up surprised by what their tool silently ignored.
 
@@ -77,14 +77,14 @@ But that is a workaround for uncontrolled capture, not a superior architecture. 
 
 ## How do the main tools compare on AI?
 
-As of September 2026:
+As of October 2026:
 
 | Tool                              | What "AI" means there                                               | Comparison engine                                          | Entry pricing                 |
 | --------------------------------- | ------------------------------------------------------------------- | ---------------------------------------------------------- | ----------------------------- |
 | [Argos](/pricing)                 | Agents review deterministic diffs via CLI/API, open-source skills   | Deterministic, pixel-accurate, per-screenshot thresholds   | Free 5k/mo, then $100/mo flat |
 | [Chromatic](/compare/chromatic)   | Storybook MCP servers (Mar 2026)                                    | Deterministic (their cloud, SteadySnap anti-flake)         | From $179/mo                  |
 | [Applitools](/compare/applitools) | Visual AI comparison engine ignores noise, flags "meaningful" diffs | AI-powered (black box)                                     | From $667/mo, billed annually |
-| [Percy](/compare/percy)           | Visual Review Agent (Oct 2025), MCP tools via BrowserStack          | Pixel comparison with AI noise reduction, on cloud renders | Paid plans not published      |
+| [Percy](/compare/percy)           | Visual Review Agent (2025), MCP tools via BrowserStack              | Pixel comparison with AI noise reduction, on cloud renders | From $199/mo, billed annually |
 
 Two things stand out. First, most of the market's "AI" is review-layer AI on top of pixel comparison; Applitools goes furthest in putting a model inside the diff itself, and Percy markets AI noise reduction in its engine. Second, the AI label has no correlation with price: Argos gives you the agent-review layer, deterministic diffs, and unlimited parallelization at $100/month flat, and it is [open source](https://github.com/argos-ci).
 

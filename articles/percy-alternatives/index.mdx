@@ -4,7 +4,7 @@ description: "Looking for Percy alternatives? Compare Argos, Chromatic, Applitoo
 category: guides
 author: greg
 date: 2026-07-28
-updatedAt: 2026-10-05
+updatedAt: 2026-10-21
 image: ./main.jpg
 imageAlt: "Abstract illustration of screenshots fanning out from a central node to five alternative destinations"
 related:
@@ -13,7 +13,7 @@ related:
   - best-visual-regression-testing-tools
 ---
 
-The best Percy alternatives in 2026 are **Argos** ($100/mo flat, open source, captures in your real test browser), **Chromatic** (deepest Storybook integration), **Applitools** (enterprise Visual AI), **BackstopJS** (free, self-hosted), and **Playwright's built-in `toHaveScreenshot`**. For most teams, Argos is the closest workflow match to Percy: PR-based review, CI-driven captures, and a one-file migration, with prices you can read on the pricing page.
+The best Percy alternatives in 2026 are **Argos** ($100/mo flat, open source, captures in your real test browser), **Chromatic** (deepest Storybook integration), **Applitools** (enterprise Visual AI), **BackstopJS** (free, self-hosted), and **Playwright's built-in `toHaveScreenshot`**. For most teams, Argos is the closest workflow match to Percy: PR-based review, CI-driven captures, and a one-file migration, at $100/month flat for 35,000 screenshots against $199/month, billed annually, for 10,000 on Percy's Desktop plan.
 
 <MainImage />
 
@@ -21,10 +21,10 @@ The best Percy alternatives in 2026 are **Argos** ($100/mo flat, open source, ca
 
 Percy was the tool that made visual testing mainstream. Then [BrowserStack acquired it](https://www.browserstack.com/press/browserstack-acquires-percy-visual-testing) in 2020, and the search volume for "percy alternatives" tells the rest of the story. The recurring complaints:
 
-- **Price you can't read.** As of October 2026, BrowserStack no longer displays Percy plans on its [public pricing page](https://www.browserstack.com/pricing?product=percy). The [billing docs](https://www.browserstack.com/docs/percy/overview/plans-and-billing) describe a free plan with 5,000 screenshots a month and paid plans with a fixed number of screenshots, but no prices, so expect a sales conversation.
-- **Cloud DOM re-rendering flakiness.** Percy doesn't diff the pixels your test rendered. It uploads your page's DOM, CSS, and assets, then **re-renders the snapshot in Percy's cloud** across the widths and browsers configured in `.percy.yml`. That architecture has a real upside (true cross-browser rendering without running those browsers yourself), but it also means what you review is not exactly what your test saw. Complex JavaScript, lazy-loaded content, and third-party embeds can render differently in Percy's environment, producing diffs that are hard to reproduce and debug locally.
+- **A bill that multiplies.** As of October 2026, Percy's [Desktop plan](https://www.browserstack.com/pricing?product=percy) is $199/month billed annually ($249 month to month) for 10,000 screenshots, then $0.036 per extra screenshot, and Desktop & Mobile is $599/month billed annually for 25,000. The [billing docs](https://www.browserstack.com/docs/percy/overview/plans-and-billing) count each browser and width a snapshot renders in as one screenshot, so 300 snapshots at 3 widths in 2 browsers are 1,800 screenshots per build.
+- **Cloud DOM re-rendering flakiness.** Percy doesn't diff the pixels your test rendered. It uploads your page's DOM, CSS, and assets, then **re-renders the snapshot in Percy's cloud** at the widths set in `.percy.yml` and in the browsers enabled in the project's settings. That architecture has a real upside (true cross-browser rendering without running those browsers yourself), but it also means what you review is not exactly what your test saw. Complex JavaScript, lazy-loaded content, and third-party embeds can render differently in Percy's environment, producing diffs that are hard to reproduce and debug locally.
 
-Percy is still shipping: it released an AI "Visual Review Agent" in October 2025, and the BrowserStack MCP server exposes Percy tools to agents. But if the pricing or the re-render model no longer fits, here are the alternatives worth evaluating.
+Percy is still shipping: it announced an AI "Visual Review Agent" in June 2025 and launched it broadly in October 2025, and the BrowserStack MCP server exposes Percy tools to agents. But if the pricing or the re-render model no longer fits, here are the alternatives worth evaluating.
 
 ## Percy alternatives compared (October 2026)
 
@@ -36,7 +36,7 @@ Percy is still shipping: it released an AI "Visual Review Agent" in October 2025
 | [BackstopJS](/compare/backstopjs)        | Free (self-hosted)                 | N/A                  | Local Puppeteer/Playwright       | HTML reports, no team UI           |
 | [Playwright native](/compare/playwright) | Free (built-in)                    | N/A                  | Local, baselines in git          | None (git diffs)                   |
 
-Pricing checked in October 2026. Percy's free plan includes 5,000 screenshots a month; its paid prices aren't published.
+Pricing checked in October 2026. For reference, Percy's free plan includes 5,000 screenshots a month, and its [Desktop plan](https://www.browserstack.com/pricing?product=percy) is $199/month billed annually for 10,000.
 
 ## 1. Argos: the closest workflow match to Percy
 
@@ -135,9 +135,9 @@ Your first CI run on the main branch establishes baselines automatically from Gi
 
 ## FAQ
 
-### Why is Percy so expensive now?
+### Why is Percy so expensive?
 
-As of October 2026, BrowserStack doesn't publish Percy's paid prices: the free plan includes 5,000 screenshots a month, and paid plans are quoted by sales. That model works for enterprises already on BrowserStack contracts; it's a poor fit for small and mid-size teams that want to know the price before they talk to anyone.
+Because the count multiplies before the price does. As of October 2026, Percy's [Desktop plan](https://www.browserstack.com/pricing?product=percy) is $199/month billed annually for 10,000 screenshots, or $449 for 25,000, then $0.036 per extra screenshot, and every browser and width a snapshot renders in is one screenshot. A suite of 300 snapshots at 3 widths in 2 browsers is 1,800 screenshots per build; 30 builds a month is 54,000, about $1,493 a month on Desktop ($449 plus 29,000 × $0.036). BrowserStack also sells larger custom volumes through sales. On Argos Pro, the same 54,000 screenshots cost $176 ($100 plus 19,000 × $0.004).
 
 ### What is the cheapest Percy alternative with a real review workflow?
 
@@ -153,4 +153,4 @@ Percy re-renders snapshots across browsers and widths in its cloud from one test
 
 ## Verdict
 
-If Percy's unpublished pricing or cloud re-render flakiness pushed you here: pick **Argos** if you want the same PR-based, CI-driven workflow with local capture, open source code, and a $100/month flat price. Pick **Chromatic** if your team lives in Storybook and the $179/mo entry fits. Pick **Applitools** if you're an enterprise with the budget for Visual AI. Pick **BackstopJS** or **Playwright native** if you're solo and free matters more than a review workflow. Compare the details on [Argos vs Percy](/compare/percy), or start with the [getting started guide](/docs/quickstart).
+If Percy's per-browser, per-width billing or cloud re-render flakiness pushed you here: pick **Argos** if you want the same PR-based, CI-driven workflow with local capture, open source code, and a $100/month flat price. Pick **Chromatic** if your team lives in Storybook and the $179/mo entry fits. Pick **Applitools** if you're an enterprise with the budget for Visual AI. Pick **BackstopJS** or **Playwright native** if you're solo and free matters more than a review workflow. Compare the details on [Argos vs Percy](/compare/percy), or start with the [getting started guide](/docs/quickstart).

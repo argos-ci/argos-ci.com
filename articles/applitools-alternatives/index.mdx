@@ -4,7 +4,7 @@ description: "Applitools starts at $667/month, billed annually. Compare the best
 category: guides
 author: greg
 date: 2026-07-07
-updatedAt: 2026-10-05
+updatedAt: 2026-10-21
 image: ./main.jpg
 imageAlt: "Abstract illustration of five tool cards with measurement brackets beneath them, the longest bracket under the dimmed leftmost card"
 related:
@@ -13,7 +13,7 @@ related:
   - percy-alternatives
 ---
 
-The best Applitools alternatives in 2026 are **Argos** (open source, $100/mo flat, free 5,000 screenshots/month), **Chromatic** (deepest Storybook integration, $179/mo), **Percy** (cloud cross-browser re-rendering, paid plans quoted by sales), and free open-source options like **BackstopJS** and **Playwright's `toHaveScreenshot`**. For most product teams, Argos delivers what they actually wanted from Applitools, reliable visual diffs on every PR, without an annual commitment or the black-box AI.
+The best Applitools alternatives in 2026 are **Argos** (open source, $100/mo flat, free 5,000 screenshots/month), **Chromatic** (deepest Storybook integration, $179/mo), **Percy** (cloud cross-browser re-rendering, from $199/mo billed annually), and free open-source options like **BackstopJS** and **Playwright's `toHaveScreenshot`**. For most product teams, Argos delivers what they actually wanted from Applitools, reliable visual diffs on every PR, without an annual commitment or the black-box AI.
 
 <MainImage />
 
@@ -45,7 +45,7 @@ Applitools' product and messaging increasingly target large enterprises and an "
 | ---------------------------------------- | ---------------------------------- | -------------------- | ---------------------------------------------------- | -------------------------------- |
 | [Argos](/compare/applitools)             | $100/mo flat (35k screenshots)     | 5,000 screenshots/mo | Deterministic pixel diff + per-screenshot thresholds | Local, in your real test browser |
 | [Chromatic](/compare/chromatic)          | $179/mo                            | 5,000 snapshots/mo   | Pixel diff with anti-flake rendering                 | Chromatic's cloud infrastructure |
-| [Percy](/compare/percy)                  | Not published (contact sales)      | 5,000 screenshots/mo | Pixel diff with AI noise reduction                   | Cloud DOM re-render              |
+| [Percy](/compare/percy)                  | $199/mo (Desktop, billed annually) | 5,000 screenshots/mo | Pixel diff with AI noise reduction                   | Cloud DOM re-render              |
 | Applitools                               | $667/mo (Starter, billed annually) | None listed          | Visual AI (black box)                                | Ultrafast Grid or local capture  |
 | [BackstopJS](/compare/backstopjs)        | Free (self-hosted)                 | N/A                  | Pixel diff, manual tuning                            | Local Puppeteer/Playwright       |
 | [Playwright native](/compare/playwright) | Free (built-in)                    | N/A                  | Pixel diff, baselines in git                         | Local, platform-dependent        |
@@ -76,7 +76,7 @@ Compared to Applitools, pricing is public and sane: entry at $179/mo. The trade-
 
 [Percy](/compare/percy) (acquired by BrowserStack) uploads your page's DOM and assets and re-renders snapshots in its cloud across configured widths and browsers. If Applitools' Ultrafast Grid was the feature you cared about, Percy is the closest architectural match.
 
-But it inherits a similar problem: BrowserStack no longer publishes paid Percy prices, so a paid plan still means a sales conversation. The cloud re-render also means what you review is not exactly what your test rendered, which produces its own class of hard-to-reproduce diffs.
+It also inherits the matrix math. Percy's [Desktop plan](https://www.browserstack.com/pricing?product=percy) is $199/month billed annually for 10,000 screenshots, then $0.036 each, and Percy counts every browser and width a snapshot renders in as one screenshot: a 500-page suite at 2 widths in 2 browsers uses 2,000 per build. The cloud re-render also means what you review is not exactly what your test rendered, which produces its own class of hard-to-reproduce diffs.
 
 ## 4. Open source and DIY: BackstopJS and Playwright
 

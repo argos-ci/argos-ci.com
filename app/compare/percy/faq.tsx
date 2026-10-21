@@ -4,6 +4,7 @@ import {
   ARGOS_HOBBY_SCREENSHOT_COUNT,
   ARGOS_PRO_FLAT_PRICE,
   ARGOS_PRO_FLAT_SCREENSHOT_COUNT,
+  ARGOS_SCREENSHOT_PRICE,
 } from "@/lib/constants";
 
 const hobby = ARGOS_HOBBY_SCREENSHOT_COUNT.toLocaleString("en-US");
@@ -12,7 +13,7 @@ const included = ARGOS_PRO_FLAT_SCREENSHOT_COUNT.toLocaleString("en-US");
 export const PERCY_QUESTIONS: FAQQuestion[] = [
   faq(
     "Is Argos a good Percy alternative?",
-    "For most teams, yes: the workflow is the same (screenshots from CI, a check on the pull request, changes approved in a web UI), with three differences. Argos diffs the screenshot your test took instead of a cloud re-render, it publishes its prices, and its code is open source. Percy stays the better fit if you already pay for BrowserStack and want cloud rendering across many browsers.",
+    "For most teams, yes: the workflow is the same (screenshots from CI, a check on the pull request, changes approved in a web UI), with three differences. Argos diffs the screenshot your test took instead of a cloud re-render, it costs less, and its code is open source. Percy stays the better fit if you already pay for BrowserStack and want cloud rendering across many browsers.",
   ),
   faq(
     "How does Percy capture screenshots, compared to Argos?",
@@ -20,7 +21,7 @@ export const PERCY_QUESTIONS: FAQQuestion[] = [
   ),
   faq(
     "How much does Percy cost compared to Argos?",
-    `Percy has a free plan with 5,000 screenshots a month. BrowserStack no longer publishes its paid prices: paid plans are quoted by sales. Argos publishes its prices: a free Hobby plan for individual developers with ${hobby} screenshots a month, and Pro at $${ARGOS_PRO_FLAT_PRICE}/month flat with ${included} screenshots included.`,
+    `As of October 2026, BrowserStack's [pricing page](https://www.browserstack.com/pricing?product=percy) lists three Percy plans: Free, with 5,000 screenshots a month; Desktop, $199/month billed annually ($249 month to month) for 10,000 screenshots and $0.036 per extra one; and Desktop & Mobile, $599/month billed annually ($729) for 25,000 and $0.048 per extra one. Percy counts each browser and width a snapshot renders in as one screenshot. Argos has a free Hobby plan for individual developers with ${hobby} screenshots a month, and Pro at $${ARGOS_PRO_FLAT_PRICE}/month flat with ${included} screenshots included and $${ARGOS_SCREENSHOT_PRICE} per extra one.`,
   ),
   faq(
     "Do I have to rewrite my tests to migrate from Percy?",

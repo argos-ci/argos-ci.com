@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import { PricingSlider } from "@/app/common/PricingSlider";
+import { ComparePricingSlider } from "@/app/common/PricingSlider";
 import { getMetadata } from "@/lib/metadata";
 
 import {
@@ -56,8 +56,8 @@ export default function Page() {
         <SourcesNote comparison={comparison} />
       </TableSection>
 
-      <PricingSection title="Argos Pricing">
-        <PricingSlider />
+      <PricingSection title="Estimate your savings">
+        <ComparePricingSlider competitor="percy" />
         {comparison.pricingNote ? (
           <p className="mt-4 text-center text-sm text-low">
             {comparison.pricingNote}
