@@ -16,7 +16,7 @@ export const APPLITOOLS_QUESTIONS: FAQQuestion[] = [
   ),
   faq(
     "How does Visual AI compare with Argos's pixel diffing?",
-    "Applitools' Visual AI decides which differences matter, with match levels (Strict, Layout, Content, Exact) set per checkpoint or region. Argos compares pixels with the open-source odiff engine and a `threshold` from 0 to 1 that you set, after stabilizing the page before capture. Same input, same result, and you can see exactly which pixels changed.",
+    "Applitools' Visual AI decides which differences matter, with match levels (Strict, Layout, Ignore Colors, Dynamic, Exact) set per checkpoint or region. Argos compares pixels with the open-source odiff engine and a `threshold` from 0 to 1 that you set, after stabilizing the page before capture. Same input, same result, and you can see exactly which pixels changed.",
   ),
   faq(
     "How much does Applitools cost compared to Argos?",

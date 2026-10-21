@@ -91,13 +91,14 @@ export const PRICING_QUESTIONS: FAQQuestion[] = [
     name: "How does Argos determine usage?",
     answer: (
       <>
-        Usage is calculated based on the number of screenshots uploaded during
-        successful builds. Screenshots uploaded during failed builds are not
-        counted towards your usage.
+        Usage is the number of screenshots your builds upload. A build counts
+        once its upload completes, including when its tests failed or its
+        comparison errored. A build that never finishes uploading counts
+        nothing.
       </>
     ),
     textAnswer:
-      "Usage is calculated based on the number of screenshots uploaded during successful builds. Screenshots uploaded during failed builds are not counted towards your usage.",
+      "Usage is the number of screenshots your builds upload. A build counts once its upload completes, including when its tests failed or its comparison errored. A build that never finishes uploading counts nothing.",
   },
   {
     name: "What happens if I exceed the plan's screenshot limit?",

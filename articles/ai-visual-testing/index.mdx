@@ -62,7 +62,7 @@ Three properties you give up when a model decides what changed, and why they mat
 
 The standard objection is that pixel-perfect diffing drowns you in false positives. That was true for naive screenshot comparison. It is not true for a modern deterministic pipeline, which attacks noise at the source instead of filtering it after the fact:
 
-- **Stabilization before capture.** Argos SDKs wait for fonts, images, and network idle, and hide carets and scrollbars before taking the screenshot. Most "flaky diffs" are actually unstable captures; details in [screenshot stabilization](/blog/screenshot-stabilization).
+- **Stabilization before capture.** Argos SDKs wait for fonts, images, and `aria-busy` loaders, and hide carets and scrollbars before taking the screenshot. Most "flaky diffs" are actually unstable captures; details in [screenshot stabilization](/blog/screenshot-stabilization).
 - **Capture in your real test browser.** Screenshots are taken locally in the browser your Playwright or Cypress tests already run, not re-rendered in a separate cloud environment. One less rendering pipeline, one less source of unexplained differences.
 - **Per-screenshot sensitivity thresholds.** For the noisy cases that remain (canvas, charts, media), you loosen tolerance on that one screenshot, explicitly and visibly, instead of loosening trust in the entire suite.
 - **Flaky detection signals.** Argos surfaces flake indicators so you can fix root causes rather than mask them. Our guide to [fixing flaky visual tests](/blog/fix-flaky-visual-tests) covers the playbook.
