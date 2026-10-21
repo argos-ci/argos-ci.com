@@ -68,7 +68,7 @@ export const comparison: Comparison = {
   sources: [
     {
       label: "The Lost Pixel Team Is Joining Figma",
-      href: "https://lost-pixel.com/blog/lost-pixel-team-is-joining-figma",
+      href: "https://www.lost-pixel.com/blog/lost-pixel-team-is-joining-figma",
     },
     {
       label: "lost-pixel on GitHub (archived)",
