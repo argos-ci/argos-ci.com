@@ -177,7 +177,7 @@ export default defineConfig({
 });
 ```
 
-Then capture with `argosScreenshot`, which also waits for fonts, images, and network idle and hides carets and scrollbars before capturing:
+Then capture with `argosScreenshot`, which also waits for fonts, images, and `aria-busy` loaders and hides carets and scrollbars before capturing:
 
 ```ts
 import { argosScreenshot } from "@argos-ci/playwright";
