@@ -68,6 +68,10 @@ export const comparison: Comparison = {
       label: "BackstopJS releases on npm",
       href: "https://www.npmjs.com/package/backstopjs?activeTab=versions",
     },
+    {
+      label: "BackstopJS issue #1625: a new maintainer joins",
+      href: "https://github.com/garris/BackstopJS/issues/1625",
+    },
   ],
   checkedAt: "2026-10-04",
 };

@@ -70,7 +70,7 @@ export const BACKSTOPJS_QUESTIONS: FAQQuestion[] = [
   },
   faq(
     "Is BackstopJS still maintained?",
-    "Its last release, 6.3.25, came out in September 2024. It still works for what it does, but if your stack moves to newer Playwright or Node versions, you are the one keeping it running.",
+    "Its last release, 6.3.25, came out in September 2024. In September 2026 its creator posted that the project needs a new maintainer, and in October 2026 added one on GitHub and npm; no new version had shipped by October 21, 2026. It still works for what it does, but until releases resume, if your stack moves to newer Playwright or Node versions, you are the one keeping it running.",
   ),
 ];
 

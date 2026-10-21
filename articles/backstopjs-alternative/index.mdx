@@ -12,7 +12,7 @@ related:
   - lost-pixel-alternatives
 ---
 
-BackstopJS is still a solid choice for solo developers who want free, self-hosted visual regression testing, but the project has been in maintenance mode since 2024 and was never designed for team review workflows. The best BackstopJS alternative in 2026 is [Argos](/docs/quickstart): it is open source like BackstopJS, keeps your local capture model, and adds what BackstopJS lacks: automatic baselines from Git history, PR statuses, and a collaborative review UI, free for 5,000 screenshots per month.
+BackstopJS is still a solid choice for solo developers who want free, self-hosted visual regression testing, but the project has not shipped a release since September 2024 and was never designed for team review workflows. The best BackstopJS alternative in 2026 is [Argos](/docs/quickstart): it is open source like BackstopJS, keeps your local capture model, and adds what BackstopJS lacks: automatic baselines from Git history, PR statuses, and a collaborative review UI, free for 5,000 screenshots per month.
 
 <MainImage />
 
@@ -31,9 +31,11 @@ If your entire requirement is "one person, one machine, catch visual regressions
 
 ## What is the state of BackstopJS in 2026?
 
-BackstopJS is in maintenance mode. At the time of writing, the latest version on [npm](https://www.npmjs.com/package/backstopjs) is **v6.3.25, published in September 2024**, more than two years ago. The GitHub releases page has not been updated since v5.0.2 in 2020; npm is the accurate source for the release cadence. The repository still accepts issues and has hundreds open, but there is no active feature development.
+BackstopJS has gone more than two years without a release. As of October 2026, the latest version on [npm](https://www.npmjs.com/package/backstopjs) is **v6.3.25, published in September 2024**. The GitHub releases page has not been updated since v5.0.2 in 2020; npm is the accurate source for the release cadence. The repository still accepts issues and has hundreds open.
 
-Maintenance mode is not a death sentence for an OSS tool. BackstopJS is stable and its scope is frozen, which some teams see as a feature. But it means the gaps it had in 2024 are the gaps it has in 2026, and the ecosystem around it (Playwright releases, new browser behaviors, CI platforms) keeps moving.
+That may change. In September 2026 its creator wrote in the README that BackstopJS needs a new maintainer, and in October 2026 [added a volunteer](https://github.com/garris/BackstopJS/issues/1625) as a collaborator on GitHub and an owner on npm. Their first pull request, a Puppeteer upgrade that removes a flagged dependency, was still unmerged on October 21, 2026. Check npm for a newer version before you decide.
+
+Two years without a release is not a death sentence for an OSS tool. BackstopJS is stable and its scope has not changed, which some teams see as a feature. But the gaps it had in 2024 are the gaps it has in 2026, and the ecosystem around it (Playwright releases, new browser behaviors, CI platforms) keeps moving.
 
 ## Where BackstopJS hurts at team scale
 
@@ -133,13 +135,13 @@ You immediately get Git-history baselines, the review UI, and PR statuses on top
 
 ## Verdict
 
-BackstopJS earned its reputation and still deserves it for solo, offline, or zero-budget use. But in 2026 it is a maintenance-mode tool with a single-machine review model, and teams feel that every week in baseline churn and manual flake tuning. Argos keeps the parts worth keeping, open source and local capture, and replaces the parts that do not scale with Git-history baselines, PR statuses, and a [collaborative review workflow](/review). With a free tier of 5,000 screenshots per month, trying the migration costs you an afternoon, not a budget line.
+BackstopJS earned its reputation and still deserves it for solo, offline, or zero-budget use. But in 2026 it has gone two years without a release and still has a single-machine review model, and teams feel that every week in baseline churn and manual flake tuning. Argos keeps the parts worth keeping, open source and local capture, and replaces the parts that do not scale with Git-history baselines, PR statuses, and a [collaborative review workflow](/review). With a free tier of 5,000 screenshots per month, trying the migration costs you an afternoon, not a budget line.
 
 ## FAQ
 
 ### Is BackstopJS still maintained in 2026?
 
-It is in maintenance mode. The latest release on npm is v6.3.25 from September 2024, with no new versions in over two years. The project remains usable and stable, but there is no active feature development.
+It has a new maintainer but no new release yet. The latest version on npm is v6.3.25 from September 2024. In October 2026 its creator added a volunteer maintainer, whose first pull request was still unmerged on October 21, 2026. The project remains usable and stable; check npm for a newer version before counting on fixes.
 
 ### What is the best BackstopJS alternative?
 
