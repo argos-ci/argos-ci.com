@@ -1,5 +1,5 @@
 /**
- * Generate concept illustrations for social posts with gpt-image-2.
+ * Generate concept illustrations for social posts with gpt-image-2.6-flare.
  *
  * Every image gets the same locked style suffix, so a set generated months
  * apart still reads as one system. Scenes describe geometry and composition —
@@ -31,7 +31,12 @@ const STYLE =
   "Absolutely no text, no letters, no numbers, no words, no labels, no logos. " +
   "Confident, minimal, high craft.";
 
-const MODEL = "gpt-image-2";
+/**
+ * Part of the brand lock too: switching models mid-set changes the look.
+ * Flare is OpenAI's fast-iteration model, a good fit for flat editorial
+ * scenes generated in batches. gpt-image-2 shuts off on February 10, 2027.
+ */
+const MODEL = "gpt-image-2.6-flare";
 /** Social feeds crop to 3:2. Blog headers need 2:1 — override with --size. */
 const DEFAULT_SIZE = "1536x1024";
 const CONCURRENCY = 4;

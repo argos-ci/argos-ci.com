@@ -1,6 +1,6 @@
 ---
 name: social-image
-description: Generate a concept illustration for a social post (X, LinkedIn, Bluesky) with gpt-image-2 in the Argos dark-indigo house style, using scripts/social-image.mjs. Use when a post needs an abstract image rather than a code snippet.
+description: Generate a concept illustration for a social post (X, LinkedIn, Bluesky) with gpt-image-2.6-flare in the Argos dark-indigo house style, using scripts/social-image.mjs. Use when a post needs an abstract image rather than a code snippet.
 ---
 
 # Social concept illustrations
@@ -20,7 +20,7 @@ that string, not the individual prompt, is what makes a set look like a set.
 - **Script**: `scripts/social-image.mjs`. No dependencies beyond Node.
 - **API key**: `ARGOS_OPENAI_API_KEY`, in `~/.zshrc`. Run `source ~/.zshrc` if it is not already in the environment.
 - **Output**: 1536×1024 (3:2) PNG — reads well in every feed and crops safely.
-- **Cost**: roughly $0.10–0.15 per image. A 40-image set is a few dollars, so batch deliberately and never regenerate a set casually.
+- **Cost**: about $0.04 per image at 1536×1024 (~1,100 output tokens at $30/1M, checked November 2026). A 40-image set is under $2, so batch deliberately and never regenerate a set casually.
 - **Destination**: a scratch directory. Social assets — do **not** commit them.
 
 ### Blog headers
@@ -101,6 +101,6 @@ composition** — shapes, quantities, spatial relationships, what's emphasised.
 
 ## Changing the look
 
-Edit `STYLE` in `scripts/social-image.mjs`, then regenerate **the whole set** and
-re-attach the images. A half-migrated set is worse than the old look — that
-inconsistency is exactly what this script exists to prevent.
+Edit `STYLE` (or `MODEL`) in `scripts/social-image.mjs`, then regenerate **the
+whole set** and re-attach the images. A half-migrated set is worse than the old
+look — that inconsistency is exactly what this script exists to prevent.
