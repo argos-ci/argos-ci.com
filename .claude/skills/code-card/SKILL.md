@@ -95,7 +95,7 @@ text, which is a safe fallback rather than a bug.
 
 - **Code card** — the snippet _is_ the message: a command, a config, an API shape.
 - **Concept illustration** — the idea is abstract (a workflow, a tradeoff, scale).
-  Use `gpt-image-2` with a no-text prompt; see the `changelog-image` skill for
-  the house style, and never let the model render letterforms.
+  Use the `social-image` skill, which locks the house style and never lets the
+  model render letterforms.
 
 A post should carry one or the other, never a code card of prose.
