@@ -2,6 +2,9 @@ allowBuilds:
   sharp: true
   unrs-resolver: true
 overrides:
-  postcss: ^8.5.14
-  react: ^19.2.8
-  react-dom: ^19.2.8
+  # next pins postcss@8.4.31; force the patched release (GHSA path traversal fixes).
+  postcss: ^8.5.33
+  # @tailwindcss/typography pins postcss-selector-parser@6.0.10 (GHSA-rj75-hqrm-r3gf).
+  "@tailwindcss/typography>postcss-selector-parser": ^6.1.6
+  react: ^19.3.1
+  react-dom: ^19.3.1

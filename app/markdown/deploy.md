@@ -102,7 +102,7 @@ argos project domain get --project acme/storybook
 
 - The CLI: `argos deploy` uses the same authentication as `argos upload` (a
   project token, or OIDC and tokenless on GitHub Actions). `argos project
-deployments --json` lists a project's deployments, most recent first.
+  deployments --json` lists a project's deployments, most recent first.
 - The MCP server at https://mcp.argos-ci.com exposes every REST API operation
   as a tool, including reading and updating a project's deployments and
   settings, within the OAuth scopes you grant.

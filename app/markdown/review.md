@@ -126,12 +126,12 @@ argos comment list <build> --json
 - **Skills**: `argos-pr-review` runs the whole workflow: find the build from
   the pull request, inspect the snapshots that need review, summarize the
   changes, approve or request changes. Prompt: `Use $argos-pr-review to review
-this pull request with its Argos build.` The `argos-cli` skill covers the
+  this pull request with its Argos build.` The `argos-cli` skill covers the
   commands, flags, authentication, and output formats.
   https://argos-ci.com/docs/agents/agent-skills
 - **CLI**: `argos review create <build> --event approve|reject|comment
-[--body]`, `argos review list`, `argos review dismiss`, `argos review reviewer
-list|add|remove`, `argos comment list|create|resolve|react …`. Read-only
+  [--body]`, `argos review list`, `argos review dismiss`, `argos review reviewer
+  list|add|remove`, `argos comment list|create|resolve|react …`. Read-only
   commands (`build get`, `build snapshots --needs-review`) accept a project
   token; everything attributed to a user needs a personal access token or
   `argos login`. https://argos-ci.com/docs/reference/argos-command-line-interface-cli#reviewing-and-commenting
