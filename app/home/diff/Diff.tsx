@@ -20,7 +20,7 @@ export function Diff() {
           key: "real-changes",
           icon: <ScanEyeIcon />,
           title: "Only the real changes",
-          text: "The SDK waits for fonts and images, hides carets and scrollbars and pauses GIFs before it captures. A deterministic pixel diff then separates change from rendering noise.",
+          text: "The SDK waits for fonts and images, hides carets and scrollbars and pauses GIFs before it captures. A deterministic pixel diff then separates change from rendering noise, and sets apart content that only moved.",
           main: <Stabilization />,
           href: "/diff#screenshots",
         },

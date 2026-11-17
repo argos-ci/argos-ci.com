@@ -10,6 +10,7 @@ import {
   HistoryIcon,
   LayersIcon,
   MousePointerClickIcon,
+  MoveVerticalIcon,
   PlugIcon,
   ScaleIcon,
   ScanEyeIcon,
@@ -134,8 +135,7 @@ export default function Page() {
                 <>
                   Each comparison reads both images once at two sensitivities,
                   leaves anti-aliasing out, and outputs a diff mask and a score.
-                  Content that only moved is set apart from what changed. The
-                  engine is iris, open source like the rest of the
+                  The engine is iris, open source like the rest of the
                   implementation.
                 </>
               }
@@ -149,8 +149,20 @@ export default function Page() {
           </FeatureGrid>
           <Container
             noGutter
-            className="relative grid grid-cols-1 border-x border-b max-md:divide-y md:grid-cols-3 md:divide-x"
+            className="relative grid grid-cols-1 border-x border-b max-lg:divide-y lg:grid-cols-4 lg:divide-x"
           >
+            <FeatureGridFeatureSmall
+              title="Layout shifts, set apart"
+              description={
+                <>
+                  When a banner pushes the page down, the overlay shows only
+                  what changed, and each block that moved is outlined with how
+                  far it went.
+                </>
+              }
+              href="/docs/learn/platform-fundamentals/how-argos-detects-visual-differences#layout-shifts"
+              icon={MoveVerticalIcon}
+            />
             <FeatureGridFeatureSmall
               title="A threshold you set"
               description={

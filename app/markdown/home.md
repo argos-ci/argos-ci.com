@@ -11,7 +11,8 @@ Machine-readable map: https://argos-ci.com/llms.txt
 
 - Deterministic pixel diffing with iris, Argos's open-source diff engine (not AI), with
   capture defaults that wait for fonts and images, hide carets and scrollbars
-  and pause GIFs, so a diff is a real change.
+  and pause GIFs, so a diff is a real change. Content that only moved, such as
+  a page pushed down by a banner, is outlined apart from what changed.
 - Text diffs for Markdown, JSON, YAML, XML, HTML, CSS, JavaScript and plain
   text uploaded with the CLI or snapshotted from Vitest, and ARIA snapshots
   from Playwright, diffed line by line.

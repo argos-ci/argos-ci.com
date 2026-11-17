@@ -17,8 +17,15 @@ with the changes a build detected.
   switching between baseline and changes, a **changes overlay** whose color and
   opacity you pick from the toolbar, a highlighter that flashes the changed
   regions, and fit-or-expand with zoom and pan kept in sync between the panes.
+- **Layout shifts, set apart.** When a banner or a taller element pushes the
+  page down, the overlay shows only what changed: content that only moved is
+  left out of it, out of the highlighter and out of `J` / `K`. Each block that
+  moved is outlined in both panes, where it was and where it is now, with the
+  direction and distance it moved. `⇧ D` shows or hides the outlines. See
+  [layout shifts](https://argos-ci.com/docs/learn/platform-fundamentals/how-argos-detects-visual-differences#layout-shifts).
 - Keyboard shortcuts: `↑` / `↓` previous or next snapshot, `←` / `→` show only
-  the baseline or the changes, `S` side-by-side, `D` overlay, `H` highlight,
+  the baseline or the changes, `S` side-by-side, `D` overlay, `⇧ D` layout
+  shift outlines, `H` highlight,
   `J` / `K` previous or next change, `Space` fit to screen, `Y` / `N` accept or
   reject a change, `I` ignore a flaky change, `C` comment tool, `↵` review
   popover, `?` the full list.

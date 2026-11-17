@@ -127,7 +127,8 @@ export default function Page() {
                   Split view or single view, a changes overlay in your own color
                   and opacity, and a highlighter that flashes the changed
                   regions. <Code>J</Code> and <Code>K</Code> jump from one
-                  change to the next, and zoom and pan stay in sync between the
+                  change to the next, content that only moved is outlined apart
+                  from what changed, and zoom and pan stay in sync between the
                   baseline and changes panes.
                 </>
               }
