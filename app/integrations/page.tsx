@@ -18,6 +18,9 @@ export const metadata: Metadata = getMetadata({
   title: "Integrations",
   absoluteTitle:
     "Argos Integrations · Visual testing for Playwright, Storybook, Vitest and Cypress",
+  ogTitle: "Visual testing for the tests you already run",
+  subtitle:
+    "Playwright, Storybook, Vitest, Cypress, or any framework through the CLI.",
   description:
     "Argos adds visual regression testing to the tests you already run: Playwright, Storybook, Vitest, Cypress, Puppeteer, WebdriverIO, or any framework through the CLI.",
   pathname: "/integrations",

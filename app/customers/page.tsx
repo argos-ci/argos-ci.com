@@ -40,6 +40,7 @@ import { trackDemoClick, trackSignupClick } from "../google-ads";
 
 export const metadata: Metadata = getMetadata({
   title: "Customers",
+  ogTitle: "Teams that trust Argos",
   description: "Meet the teams that trust Argos for their frontend testing.",
   pathname: "/customers",
 });

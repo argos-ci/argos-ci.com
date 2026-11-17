@@ -55,7 +55,9 @@ export const metadata: Metadata = getMetadata({
   title: "Argos Stabilize",
   absoluteTitle:
     "Argos Stabilize · Fix flaky Playwright tests with full per-test history",
-  subtitle: "Kill flakes and debug failures with full per-test history.",
+  ogTitle: "Kill flakes, debug failures",
+  subtitle:
+    "Flakiness scores, per-test history, and Playwright traces for every retry.",
   description:
     "Flakiness scores and change history per test, one-click ignore, Playwright traces and failure screenshots for every retry. Fix flaky tests, with or without AI.",
   pathname: "/stabilize",

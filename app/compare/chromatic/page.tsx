@@ -22,6 +22,8 @@ import { FAQ } from "./faq";
 export const metadata: Metadata = getMetadata({
   title: "Argos vs Chromatic",
   absoluteTitle: "Argos vs Chromatic · An open-source Chromatic alternative",
+  subtitle:
+    "An open-source Chromatic alternative, for Storybook and Playwright.",
   description:
     "Argos vs Chromatic for visual testing: pricing, capture model, Storybook and Playwright support, and reviews. Argos is an open-source alternative to Chromatic.",
   pathname: "/compare/chromatic",

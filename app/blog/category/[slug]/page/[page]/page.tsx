@@ -35,6 +35,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   const category = Categories[params.slug];
   return getMetadata({
     title: `${category.pageTitle} - Page ${params.page}`,
+    ogTitle: category.title,
     description: category.description,
     pathname: `/blog/category/${category.slug}/page/${params.page}`,
   });

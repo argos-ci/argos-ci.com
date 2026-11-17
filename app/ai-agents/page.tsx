@@ -46,6 +46,7 @@ import { PillarAgentGrid } from "./features/PillarAgentGrid";
 export const metadata: Metadata = getMetadata({
   title: "Argos for AI Agents",
   absoluteTitle: "Argos for AI Agents · MCP server, CLI, skills, and REST API",
+  ogTitle: "Your agents use Argos end to end",
   subtitle: "MCP server, CLI, skills, and REST API",
   description:
     "Connect Claude Code, Cursor, or any MCP client to Argos. Agents deploy previews, read diffs, review builds, and fix flaky tests from the CLI, the MCP server, and the REST API.",

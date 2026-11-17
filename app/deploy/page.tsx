@@ -52,7 +52,9 @@ export const metadata: Metadata = getMetadata({
   title: "Argos Deploy",
   absoluteTitle:
     "Argos Deploy · Free preview URLs for Storybook and static sites on every PR",
-  subtitle: pillar.description,
+  ogTitle: "Free preview URLs for every pull request",
+  subtitle:
+    "Deploy your Storybook or static site on every PR. Branch URLs, custom domains, no infra.",
   description:
     "Deploy your Storybook or static site to a free, immutable preview URL on every pull request. Branch URLs, custom domains, access protection, no infra.",
   pathname: pillar.href,

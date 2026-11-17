@@ -62,6 +62,7 @@ export const metadata: Metadata = getMetadata({
   title: "Argos Diff",
   absoluteTitle:
     "Argos Diff · Visual regression testing for screenshots and any file",
+  ogTitle: "Every change, diffed. Pixels or any file.",
   subtitle: pillar.description,
   description:
     "Open-source visual regression testing for Playwright, Storybook, Vitest and Cypress: deterministic pixel diffs for screenshots, text diffs for Markdown, JSON, YAML, HTML and ARIA snapshots.",

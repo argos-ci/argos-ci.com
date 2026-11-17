@@ -19,6 +19,9 @@ import { FAQ } from "./PricingFaq";
 export const metadata: Metadata = getMetadata({
   title: "Pricing",
   absoluteTitle: "Argos Pricing · Open-source visual testing, free to start",
+  ogTitle: "Pricing that scales with usage, not seats",
+  subtitle:
+    "Free to start, no credit card. Explicit rates per screenshot you can verify.",
   description:
     "Argos visual testing pricing: a free Hobby plan, then simple usage-based pricing with explicit per-screenshot rates. No credit card to start. Scale usage, not seats.",
   pathname: "/pricing",

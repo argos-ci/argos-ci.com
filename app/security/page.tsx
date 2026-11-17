@@ -27,6 +27,8 @@ import { SECURITY_QUESTIONS } from "./security-faq";
 
 export const metadata: Metadata = getMetadata({
   title: "Security",
+  ogTitle: "Security you can audit",
+  subtitle: "SOC 2 Type II, GDPR compliant, and fully open source.",
   description:
     "Argos is SOC 2 Type II compliant, GDPR compliant, and fully open source. Encrypted tokens, screenshots on secure S3, and security you can audit line by line.",
   pathname: "/security",

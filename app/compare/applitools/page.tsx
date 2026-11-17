@@ -22,6 +22,8 @@ import { FAQ } from "./faq";
 export const metadata: Metadata = getMetadata({
   title: "Argos vs Applitools",
   absoluteTitle: "Argos vs Applitools · An open-source Applitools alternative",
+  subtitle:
+    "An open-source Applitools alternative, with deterministic pixel diffs.",
   description:
     "Argos vs Applitools for visual testing: pricing, deterministic pixel diffs vs Visual AI, Playwright and Storybook support, and reviews. Argos is an open-source alternative to Applitools.",
   pathname: "/compare/applitools",

@@ -7,6 +7,7 @@ import { Changelogs } from "./changelogs";
 
 export const metadata: Metadata = getMetadata({
   title: "Changelog",
+  ogTitle: "What's new in Argos",
   description: "New updates and improvements to Argos.",
   pathname: "/changelog",
 });

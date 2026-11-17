@@ -60,7 +60,9 @@ export const metadata: Metadata = getMetadata({
   title: "Argos Review",
   absoluteTitle:
     "Argos Review · Approve visual changes together, humans and AI agents",
-  subtitle: "One place for humans and agents to approve what changed.",
+  ogTitle: "One place to approve what changed",
+  subtitle:
+    "For humans and agents: side-by-side diffs, comments pinned to the pixel.",
   description:
     "One place to review what changed: side-by-side diffs, keyboard shortcuts, comments pinned to the pixel, one verdict per reviewer, GitHub checks, and Slack alerts. For humans and agents.",
   pathname: "/review",

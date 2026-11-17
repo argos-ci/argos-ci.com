@@ -4,7 +4,12 @@ import { CallToActionSection } from "@/components/CallToActionSection";
 import { FeaturedSDKsSection } from "@/components/featured-sdk/FeaturedSDKs";
 import { JsonLd } from "@/components/JsonLd";
 import { RedirectIfCookie } from "@/components/RedirectIfCookie";
-import { defaultDescription, defaultTitle, getMetadata } from "@/lib/metadata";
+import {
+  defaultDescription,
+  defaultOgImage,
+  defaultTitle,
+  getMetadata,
+} from "@/lib/metadata";
 import {
   softwareApplicationJsonLd,
   websiteJsonLd,
@@ -23,7 +28,7 @@ import { Stabilize } from "./home/stabilize/Stabilize";
 
 export const metadata: Metadata = getMetadata({
   title: "Argos",
-  subtitle: "Review the product, not just the code",
+  ...defaultOgImage,
   absoluteTitle: defaultTitle,
   description: defaultDescription,
   pathname: "/",

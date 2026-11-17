@@ -8,6 +8,9 @@ import { PostsList } from "./PostsList";
 export const metadata: Metadata = getMetadata({
   title: "Blog",
   absoluteTitle: "Argos Blog · Visual Testing, Playwright, and CI Insights",
+  ogTitle: "Visual testing, Playwright, and CI",
+  subtitle:
+    "Guides, engineering deep dives, and product news from the Argos team.",
   description:
     "Articles from the Argos team on visual testing, Playwright, CI workflows, and shipping UI changes safely at scale.",
   pathname: "/blog",
