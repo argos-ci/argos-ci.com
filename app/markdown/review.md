@@ -35,6 +35,11 @@ with the changes a build detected.
   in the build's history.
 - Reference a screenshot from either pane: copy a direct link, copy an embed as
   Markdown, or download the screenshot, its diff mask, or the composed changes.
+- The snapshot list groups snapshots by status (the default) or **by test**:
+  one section per test, its screenshots in the order the test took them, the
+  tests with a change first, and a status on every snapshot. Show the list as
+  screenshots or as a compact list of names; your choice is kept for every
+  build.
 
 ## Every reviewer's verdict counts
 

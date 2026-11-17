@@ -1,6 +1,7 @@
 import {
   BellIcon,
   FileEditIcon,
+  FlaskConicalIcon,
   GitBranchIcon,
   GitMergeIcon,
   GitPullRequestIcon,
@@ -9,6 +10,7 @@ import {
   KeyRoundIcon,
   LinkIcon,
   ListChecksIcon,
+  ListIcon,
   MessageSquareTextIcon,
   PlugIcon,
   RadioIcon,
@@ -190,6 +192,36 @@ export default function Page() {
               }
               href={`${REVIEW_DOCS}#reference-a-screenshot`}
               icon={LinkIcon}
+            />
+          </Container>
+          <Container
+            noGutter
+            className="relative grid grid-cols-1 border-x border-b max-md:divide-y md:grid-cols-2 md:divide-x"
+          >
+            <FeatureGridFeatureSmall
+              title="Review test by test"
+              description={
+                <>
+                  Group the snapshot list by test: one section per test, its
+                  screenshots in the order the test took them, and the tests
+                  with a change first. Every snapshot shows its status, so you
+                  see what is left to review.
+                </>
+              }
+              href={`${REVIEW_DOCS}#group-snapshots-by-test`}
+              icon={FlaskConicalIcon}
+            />
+            <FeatureGridFeatureSmall
+              title="Screenshots or names"
+              description={
+                <>
+                  Show the list as thumbnails, or as a compact list of names to
+                  scan hundreds of snapshots at a glance. Your choice is kept
+                  for every build.
+                </>
+              }
+              href={`${REVIEW_DOCS}#choose-how-the-snapshot-list-is-shown`}
+              icon={ListIcon}
             />
           </Container>
           <Container className="h-12 border-x border-b" />
