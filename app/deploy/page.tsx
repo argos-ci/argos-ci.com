@@ -48,11 +48,14 @@ import { UrlLadder } from "./features/UrlLadder";
 
 const pillar = getPillar("deploy");
 
+/** The hero heading, also the headline of the page's social image. */
+const heroTitle = "Free preview URLs for every pull request";
+
 export const metadata: Metadata = getMetadata({
   title: "Argos Deploy",
   absoluteTitle:
     "Argos Deploy · Free preview URLs for Storybook and static sites on every PR",
-  ogTitle: "Free preview URLs for every pull request",
+  ogTitle: heroTitle,
   subtitle:
     "Deploy your Storybook or static site on every PR. Branch URLs, custom domains, no infra.",
   description:
@@ -73,7 +76,7 @@ export default function Page() {
       <PillarHero
         color={pillar.color}
         label={pillar.name}
-        title="Free preview URLs for every pull request"
+        title={heroTitle}
         description={
           <>
             Run <Code>argos deploy</Code> on your Storybook or any static build.

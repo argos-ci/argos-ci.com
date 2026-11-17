@@ -16,6 +16,7 @@ import {
 } from "@/components/Hero";
 import { ThemeImage } from "@/components/ThemeImage";
 import { getPaginatedChangelogs } from "@/lib/api/changelog";
+import { defaultOgImage } from "@/lib/metadata";
 
 import gradients from "./assets/gradients.svg";
 
@@ -33,7 +34,7 @@ export function Hero() {
         <div className="relative flex w-full flex-col items-center gap-10 py-16 text-center md:pt-20 md:pb-24">
           <LastChangelog />
           <HeroComponent align="center">
-            <HeroHeading>Review the product, not just the code.</HeroHeading>
+            <HeroHeading>{defaultOgImage.ogTitle}</HeroHeading>
             <HeroDescription>
               Open-source visual regression testing for Playwright, Storybook
               and Vitest. Argos makes visual changes obvious to your team and

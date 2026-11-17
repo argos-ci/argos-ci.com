@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 import { getMarkdownPath } from "./markdown-pages";
-import { type OgImageParams, getOgImageUrl } from "./og-image";
+import { type OgImageParams, getOgImage } from "./og-image";
 
 export const defaultTitle =
   "Argos · Open-source visual testing for Playwright, Storybook & Vitest";
@@ -19,8 +19,9 @@ export const argosDefinition =
   "Argos is an open-source visual regression testing platform for Playwright, Storybook, Vitest and Cypress, and an alternative to Chromatic and Percy.";
 
 /**
- * The homepage's social image: its hero heading and the one-line pitch. Also
- * the fallback image of pages that don't set one (`app/layout.tsx`).
+ * The homepage's social image: its hero heading (`app/home/hero/Hero.tsx`
+ * reads it from here) and the one-line pitch. Also the fallback image of
+ * pages that don't set one (`app/layout.tsx`).
  */
 export const defaultOgImage = {
   ogTitle: "Review the product, not just the code.",
@@ -59,20 +60,7 @@ export function getMetadata(
   const { title, ogTitle, subtitle, absoluteTitle, description, pathname } =
     props;
   const url = `https://argos-ci.com${pathname}`;
-  const imageTitle = ogTitle ?? title;
-  const image = {
-    url: getOgImageUrl({
-      title: imageTitle,
-      // A meta description is written for search results and runs two or
-      // three lines on the image; fall back to it only when it is short.
-      subtitle:
-        subtitle ?? (description.length <= 100 ? description : undefined),
-      pathname,
-    }),
-    width: 1200,
-    height: 630,
-    alt: imageTitle,
-  };
+  const image = getOgImage({ title: ogTitle ?? title, subtitle, pathname });
   const config: Metadata = {
     title: absoluteTitle ? { absolute: absoluteTitle } : title || defaultTitle,
     description,

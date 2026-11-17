@@ -43,10 +43,13 @@ import { DiscoveryTerminal } from "./features/DiscoveryTerminal";
 import { McpSetup } from "./features/McpSetup";
 import { PillarAgentGrid } from "./features/PillarAgentGrid";
 
+/** The hero heading, also the headline of the page's social image. */
+const heroTitle = "Your agents use Argos end to end";
+
 export const metadata: Metadata = getMetadata({
   title: "Argos for AI Agents",
   absoluteTitle: "Argos for AI Agents · MCP server, CLI, skills, and REST API",
-  ogTitle: "Your agents use Argos end to end",
+  ogTitle: heroTitle,
   subtitle: "MCP server, CLI, skills, and REST API",
   description:
     "Connect Claude Code, Cursor, or any MCP client to Argos. Agents deploy previews, read diffs, review builds, and fix flaky tests from the CLI, the MCP server, and the REST API.",
@@ -64,7 +67,7 @@ export default function Page() {
       <PillarHero
         color="violet"
         label="For AI agents"
-        title="Your agents use Argos end to end"
+        title={heroTitle}
         description={
           <>
             Deploy a preview, read the diff, review the build, fix the flake.

@@ -27,6 +27,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   return getMetadata({
     title: category.pageTitle,
     ogTitle: category.title,
+    subtitle: category.description,
     description: category.description,
     pathname: `/blog/category/${category.slug}`,
   });

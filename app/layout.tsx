@@ -14,7 +14,7 @@ import {
   defaultOgImage,
   defaultTitle,
 } from "@/lib/metadata";
-import { getOgImageUrl } from "@/lib/og-image";
+import { getOgImage } from "@/lib/og-image";
 import { organizationJsonLd } from "@/lib/structured-data";
 
 import "@/styles/globals.css";
@@ -43,16 +43,11 @@ const webMcpOriginTrialToken = process.env.WEBMCP_ORIGIN_TRIAL_TOKEN;
  * with `getMetadata()` replace the whole `openGraph` and `twitter` objects
  * with their own.
  */
-const defaultImage = {
-  url: getOgImageUrl({
-    title: defaultOgImage.ogTitle,
-    subtitle: defaultOgImage.subtitle,
-    pathname: "/",
-  }),
-  width: 1200,
-  height: 630,
-  alt: defaultOgImage.ogTitle,
-};
+const defaultImage = getOgImage({
+  title: defaultOgImage.ogTitle,
+  subtitle: defaultOgImage.subtitle,
+  pathname: "/",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://argos-ci.com"),

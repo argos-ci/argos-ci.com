@@ -58,11 +58,14 @@ import { TestContext } from "./features/TestContext";
 
 const pillar = getPillar("diff");
 
+/** The hero heading, also the headline of the page's social image. */
+const heroTitle = "Every change, diffed. Pixels or any file.";
+
 export const metadata: Metadata = getMetadata({
   title: "Argos Diff",
   absoluteTitle:
     "Argos Diff · Visual regression testing for screenshots and any file",
-  ogTitle: "Every change, diffed. Pixels or any file.",
+  ogTitle: heroTitle,
   subtitle: pillar.description,
   description:
     "Open-source visual regression testing for Playwright, Storybook, Vitest and Cypress: deterministic pixel diffs for screenshots, text diffs for Markdown, JSON, YAML, HTML and ARIA snapshots.",
@@ -83,7 +86,7 @@ export default function Page() {
       <PillarHero
         color={pillar.color}
         label={pillar.name}
-        title="Every change, diffed. Pixels or any file."
+        title={heroTitle}
         description={
           <>
             Visual regression testing for Playwright, Storybook, Vitest and

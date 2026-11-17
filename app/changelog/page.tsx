@@ -1,14 +1,16 @@
 import { Metadata } from "next";
 
-import { getPaginatedChangelogs } from "@/lib/api/changelog";
+import {
+  CHANGELOG_METADATA,
+  getPaginatedChangelogs,
+} from "@/lib/api/changelog";
 import { getMetadata } from "@/lib/metadata";
 
 import { Changelogs } from "./changelogs";
 
 export const metadata: Metadata = getMetadata({
   title: "Changelog",
-  ogTitle: "What's new in Argos",
-  description: "New updates and improvements to Argos.",
+  ...CHANGELOG_METADATA,
   pathname: "/changelog",
 });
 

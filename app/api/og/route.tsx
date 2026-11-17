@@ -1,14 +1,21 @@
-/* oxlint-disable nextjs/no-img-element -- Takumi draws plain <img> elements; next/image has no meaning in an ImageResponse. */
+/* oxlint-disable nextjs/no-img-element -- Takumi draws plain <img> elements; next/image has no meaning here. */
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 
 import { Renderer } from "@takumi-rs/core";
+import { fromJsx } from "@takumi-rs/helpers/jsx";
 import type { NextRequest } from "next/server";
 import { createElement } from "react";
-import { ImageResponse } from "takumi-js/response";
+
+import {
+  INTEGRATION_SLUGS,
+  type IntegrationSlug,
+} from "@/app/integrations/types";
+import { SITE_URL } from "@/lib/agents";
+import { OG_IMAGE_SIZE } from "@/lib/og-image";
 
 import { OG_ICONS } from "./icons";
-import { type OgBrand, OG_PALETTE, type OgTheme, getOgTheme } from "./theme";
+import { OG_PALETTE, type OgTheme, type Swatch, getOgTheme } from "./theme";
 
 /**
  * The social image of every page built with `getMetadata()`: 1200×630, on the
@@ -24,18 +31,20 @@ import { type OgBrand, OG_PALETTE, type OgTheme, getOgTheme } from "./theme";
  * blocks for the whole process, so images fail once a page has optimized one.
  * Takumi lays text out like Chromium and paints the PNG itself.
  *
- * Its native addon is listed in `serverExternalPackages`, and the files read
- * here in `outputFileTracingIncludes` (`next.config.ts`).
+ * The route calls Takumi's native renderer directly: the `takumi-js` wrapper
+ * would also ship its 4 MB WebAssembly fallback, which never runs on Node.
+ * The addon is listed in `serverExternalPackages`, and the files read here in
+ * `outputFileTracingIncludes` (`next.config.ts`).
  */
 
-const WIDTH = 1200;
-const HEIGHT = 630;
+const { width: WIDTH, height: HEIGHT } = OG_IMAGE_SIZE;
 const BACKGROUND = "#0b0d2b";
 const PADDING_X = 80;
 const PADDING_Y = 68;
 const TEXT_WIDTH = 690;
 /** Center of the tile and its rings. */
 const TILE_CENTER = { x: 985, y: HEIGHT / 2 };
+const SITE_HOST = new URL(SITE_URL).host;
 
 const ASSETS_DIR = join(process.cwd(), "app/api/og/assets");
 const BRANDS_DIR = join(process.cwd(), "app/assets/brands");
@@ -44,16 +53,23 @@ const BRANDS_DIR = join(process.cwd(), "app/assets/brands");
  * Framework logos for `/integrations/<slug>`, in `app/assets/brands/`. The
  * image is dark, so Cypress uses its dark-mode variant.
  */
-const BRAND_LOGOS: Record<OgBrand, string> = {
+const BRAND_LOGOS: Record<IntegrationSlug, string> = {
   playwright: "playwright.svg",
   storybook: "storybook.svg",
   vitest: "vitest.svg",
   cypress: "cypress-dark.svg",
 };
 
-type Assets = { renderer: Renderer; logo: string; eye: string };
+type Assets = {
+  renderer: Renderer;
+  logo: string;
+  eye: string;
+  brands: Record<IntegrationSlug, string>;
+};
 
 let assetsPromise: Promise<Assets> | null = null;
+
+const readSvg = async (path: string) => toDataUri(await readFile(path, "utf8"));
 
 /**
  * Builds the renderer and reads the logos once per instance; retries after a
@@ -63,17 +79,23 @@ let assetsPromise: Promise<Assets> | null = null;
 function loadAssets(): Promise<Assets> {
   assetsPromise ??= (async () => {
     const renderer = new Renderer();
-    const [mono, logo, eye] = await Promise.all([
+    const [mono, logo, eye, ...brandLogos] = await Promise.all([
       readFile(join(ASSETS_DIR, "GeistMono-Medium.ttf")),
-      readFile(join(ASSETS_DIR, "argos-logo.svg"), "utf8"),
-      readFile(join(ASSETS_DIR, "argos-eye.svg"), "utf8"),
+      readSvg(join(ASSETS_DIR, "argos-logo.svg")),
+      readSvg(join(ASSETS_DIR, "argos-eye.svg")),
+      ...INTEGRATION_SLUGS.map((slug) =>
+        readSvg(join(BRANDS_DIR, BRAND_LOGOS[slug])),
+      ),
     ]);
     await renderer.registerFont({
       name: "Geist Mono",
       data: mono,
       weight: 500,
     });
-    return { renderer, logo: toDataUri(logo), eye: toDataUri(eye) };
+    const brands = Object.fromEntries(
+      INTEGRATION_SLUGS.map((slug, index) => [slug, brandLogos[index]!]),
+    ) as Record<IntegrationSlug, string>;
+    return { renderer, logo, eye, brands };
   })().catch((error: unknown) => {
     assetsPromise = null;
     throw error;
@@ -111,28 +133,12 @@ export async function GET(req: NextRequest) {
   const rawPath = searchParams.get("path") ?? "/";
   const path = /^\/[\w\-/]*$/.test(rawPath) ? rawPath.slice(0, 80) : "/";
   const theme = getOgTheme(path);
-  // A label that repeats the headline adds nothing.
-  const eyebrow =
-    theme.eyebrow?.toLowerCase() === title.toLowerCase()
-      ? undefined
-      : theme.eyebrow;
-
-  const assets = await loadAssets();
-  const brandLogo =
-    theme.visual.type === "brand"
-      ? toDataUri(
-          await readFile(
-            join(BRANDS_DIR, BRAND_LOGOS[theme.visual.brand]),
-            "utf8",
-          ),
-        )
-      : null;
-
   const swatch = OG_PALETTE[theme.color];
   const titleSize = getTitleSize(title);
-  const url = `argos-ci.com${path === "/" ? "" : path}`;
+  const url = `${SITE_HOST}${path === "/" ? "" : path}`;
 
-  return new ImageResponse(
+  const assets = await loadAssets();
+  const { node, css } = await fromJsx(
     <div
       style={{
         width: "100%",
@@ -146,7 +152,7 @@ export async function GET(req: NextRequest) {
     >
       <Backdrop color={swatch.solid} />
       <Rings color={swatch.solid} />
-      <Tile theme={theme} assets={assets} brandLogo={brandLogo} />
+      <Tile visual={theme.visual} swatch={swatch} assets={assets} />
 
       <div
         style={{
@@ -163,7 +169,7 @@ export async function GET(req: NextRequest) {
         <img src={assets.logo} alt="" style={{ width: 213, height: 40 }} />
 
         <div style={{ display: "flex", flexDirection: "column" }}>
-          {eyebrow ? (
+          {theme.eyebrow ? (
             <div
               style={{
                 display: "flex",
@@ -183,7 +189,7 @@ export async function GET(req: NextRequest) {
                   backgroundColor: swatch.light,
                 }}
               />
-              {eyebrow}
+              {theme.eyebrow}
             </div>
           ) : null}
           <div
@@ -228,23 +234,27 @@ export async function GET(req: NextRequest) {
         </div>
       </div>
     </div>,
-    {
-      width: WIDTH,
-      height: HEIGHT,
-      renderer: assets.renderer,
-      // The dark, low-alpha glows band visibly once quantized to 8 bits.
-      dithering: "ordered-bayer",
-      // No emoji in this template: don't fetch any.
-      emoji: "from-font",
-      // Every input is in the URL, so a response never goes stale. Next sends
+  );
+  const png = await assets.renderer.render(node, {
+    width: WIDTH,
+    height: HEIGHT,
+    format: "png",
+    css,
+    // The dark, low-alpha glows band visibly once quantized to 8 bits.
+    dithering: "ordered-bayer",
+  });
+
+  return new Response(new Uint8Array(png), {
+    headers: {
+      "content-type": "image/png",
+      // A URL always renders the same image (`OG_IMAGE_VERSION` changes it
+      // when the template or theme does), so let the CDN keep it. Next sends
       // `max-age=0` otherwise, and each crawler fetch renders the image again.
       // Vercel clears its CDN cache on deploy, so a design change still shows.
-      headers: {
-        "cache-control":
-          "public, max-age=86400, s-maxage=31536000, stale-while-revalidate=86400",
-      },
+      "cache-control":
+        "public, max-age=86400, s-maxage=31536000, stale-while-revalidate=86400",
     },
-  );
+  });
 }
 
 /**
@@ -315,12 +325,11 @@ function Rings(props: { color: string }) {
 const TILE_SIZE = 216;
 
 function Tile(props: {
-  theme: OgTheme;
+  visual: OgTheme["visual"];
+  swatch: Swatch;
   assets: Assets;
-  brandLogo: string | null;
 }) {
-  const { theme, assets, brandLogo } = props;
-  const swatch = OG_PALETTE[theme.color];
+  const { visual, swatch, assets } = props;
   const position = {
     position: "absolute",
     left: TILE_CENTER.x - TILE_SIZE / 2,
@@ -339,7 +348,7 @@ function Tile(props: {
     boxShadow: `0 30px 90px ${rgba(swatch.solid, 0.45)}, inset 0 1.5px 0 rgba(255, 255, 255, 0.12)`,
   } as const;
 
-  switch (theme.visual.type) {
+  switch (visual.type) {
     case "eye":
       return (
         <div style={glass}>
@@ -350,9 +359,11 @@ function Tile(props: {
       return (
         <>
           <div style={glass}>
-            {brandLogo ? (
-              <img src={brandLogo} alt="" style={{ width: 176, height: 176 }} />
-            ) : null}
+            <img
+              src={assets.brands[visual.brand]}
+              alt=""
+              style={{ width: 176, height: 176 }}
+            />
           </div>
           <div
             style={{
@@ -373,8 +384,7 @@ function Tile(props: {
           </div>
         </>
       );
-    case "icon": {
-      const nodes = OG_ICONS[theme.visual.icon];
+    case "icon":
       return (
         <div
           style={{
@@ -389,21 +399,17 @@ function Tile(props: {
             height={108}
             viewBox="0 0 24 24"
             fill="none"
-            stroke={swatch.onSolid}
+            color={swatch.onSolid}
+            stroke="currentColor"
             strokeWidth={1.6}
             strokeLinecap="round"
             strokeLinejoin="round"
           >
-            {nodes.map(([tag, attrs], index) =>
-              createElement(tag, {
-                key: index,
-                ...attrs,
-                ...("fill" in attrs ? { fill: swatch.onSolid } : {}),
-              }),
+            {OG_ICONS[visual.icon].map(([tag, attrs], index) =>
+              createElement(tag, { key: index, ...attrs }),
             )}
           </svg>
         </div>
       );
-    }
   }
 }
