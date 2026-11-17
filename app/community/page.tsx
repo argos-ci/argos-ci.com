@@ -41,6 +41,9 @@ export const metadata: Metadata = getMetadata({
   title: "Community",
   absoluteTitle:
     "Argos Community · Open source, Discord, and the OSS ecosystem",
+  ogTitle: "Built in the open",
+  subtitle:
+    "Argos is open source. Join us on Discord and contribute on GitHub.",
   description:
     "Argos is open source and built in the open. Join our Discord, contribute on GitHub, and see how Argos helps ship some of the most-used UI projects in the world, from MUI's Base UI to Mermaid.",
   pathname: "/community",

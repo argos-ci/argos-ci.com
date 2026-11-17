@@ -21,6 +21,8 @@ export const metadata: Metadata = getMetadata({
   title: "Argos vs Playwright screenshots",
   absoluteTitle:
     "Argos vs Playwright toHaveScreenshot() · Visual testing beyond built-in snapshots",
+  subtitle:
+    "Visual testing beyond toHaveScreenshot(): cloud baselines and reviews on the PR.",
   description:
     "Move from Playwright's built-in toHaveScreenshot() to Argos: cloud baselines, a review UI on the pull request, and no committed PNGs.",
   pathname: "/compare/playwright",

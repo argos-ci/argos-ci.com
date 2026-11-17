@@ -24,6 +24,7 @@ export const metadata: Metadata = getMetadata({
   title: "Argos vs Percy",
   absoluteTitle:
     "Argos vs Percy (BrowserStack) · An open-source Percy alternative",
+  subtitle: "An open-source alternative to Percy by BrowserStack.",
   description:
     "Argos vs Percy by BrowserStack for visual testing: pricing, capture model, Playwright and Storybook support, and reviews. Argos is an open-source alternative to Percy.",
   pathname: "/compare/percy",

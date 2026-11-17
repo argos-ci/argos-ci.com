@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 
 import {
+  BLOG_METADATA,
   getArticles,
   getArticlesPagesCount,
   getPaginatedArticles,
@@ -25,8 +26,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   const params = await props.params;
   return getMetadata({
     title: `Blog - Page ${params.page}`,
-    description:
-      "Articles from the Argos team on visual testing, Playwright, CI workflows, and shipping UI changes safely at scale.",
+    ...BLOG_METADATA,
     pathname: `/blog/page/${params.page}`,
   });
 }

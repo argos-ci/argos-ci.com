@@ -16,9 +16,15 @@ import { TrustedBy } from "../common/TrustedBy";
 import { PricingCards } from "./PricingCard";
 import { FAQ } from "./PricingFaq";
 
+/** The hero heading, also the headline of the page's social image. */
+const heroTitle = "Pricing that scales with usage, not seats";
+
 export const metadata: Metadata = getMetadata({
   title: "Pricing",
   absoluteTitle: "Argos Pricing · Open-source visual testing, free to start",
+  ogTitle: heroTitle,
+  subtitle:
+    "Free to start, no credit card. Explicit rates per screenshot you can verify.",
   description:
     "Argos visual testing pricing: a free Hobby plan, then simple usage-based pricing with explicit per-screenshot rates. No credit card to start. Scale usage, not seats.",
   pathname: "/pricing",
@@ -31,7 +37,7 @@ export default function Page() {
         <Container className="relative py-16 md:h-75 md:py-24">
           <FullPageGrid height="h-200 md:h-75" />
           <Hero align="center" className="relative">
-            <HeroHeading>Pricing that scales with usage, not seats</HeroHeading>
+            <HeroHeading>{heroTitle}</HeroHeading>
             <HeroDescription>
               Free to start, no credit card. Explicit per-screenshot rates you
               can read and verify.

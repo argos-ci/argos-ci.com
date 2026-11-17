@@ -50,6 +50,9 @@ import { LIVE_EXAMPLE_PR_URL, LIVE_EXAMPLE_SHARE_URL } from "./live-example";
 export const metadata: Metadata = getMetadata({
   title: "Media Sharing",
   absoluteTitle: "Media Sharing · See what your agents built",
+  ogTitle: "See what your agents built",
+  subtitle:
+    "Screenshots and recordings from the CLI, SDK, API or MCP, posted to the pull request.",
   description:
     "Upload a screenshot or a screen recording from the CLI, SDK, API, or MCP and get a share link with ready-to-paste Markdown. Stage media on a branch and Argos posts it to the pull request automatically, so you see what your agents built instead of reading about it.",
   pathname: "/media-sharing",

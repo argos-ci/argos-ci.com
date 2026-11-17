@@ -21,6 +21,13 @@ const FrontmatterSchema = z.object({
 
 export type Frontmatter = z.infer<typeof FrontmatterSchema>;
 
+/** The metadata the changelog index shares with its paginated pages. */
+export const CHANGELOG_METADATA = {
+  ogTitle: "What's new in Argos",
+  subtitle: "New updates and improvements to Argos.",
+  description: "New updates and improvements to Argos.",
+};
+
 export type ChangelogEntry = Frontmatter & {
   filepath: string;
   source: React.ReactNode;

@@ -14,10 +14,16 @@ import { getMetadata } from "@/lib/metadata";
 
 import { INTEGRATIONS, OTHER_SDKS } from "./integrations";
 
+/** The hero heading, also the headline of the page's social image. */
+const heroTitle = "Visual testing for the tests you already run";
+
 export const metadata: Metadata = getMetadata({
   title: "Integrations",
   absoluteTitle:
     "Argos Integrations · Visual testing for Playwright, Storybook, Vitest and Cypress",
+  ogTitle: heroTitle,
+  subtitle:
+    "Playwright, Storybook, Vitest, Cypress, or any framework through the CLI.",
   description:
     "Argos adds visual regression testing to the tests you already run: Playwright, Storybook, Vitest, Cypress, Puppeteer, WebdriverIO, or any framework through the CLI.",
   pathname: "/integrations",
@@ -30,9 +36,7 @@ export default function Page() {
         <Container className="relative py-16 md:py-24">
           <FullPageGrid height="h-200 md:h-full" />
           <Hero align="center" className="relative">
-            <HeroHeading>
-              Visual testing for the tests you already run
-            </HeroHeading>
+            <HeroHeading>{heroTitle}</HeroHeading>
             <HeroDescription>
               Argos plugs into Playwright, Storybook, Vitest and Cypress through
               open-source SDKs, and into any other framework through the CLI.

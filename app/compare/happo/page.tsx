@@ -19,6 +19,8 @@ import { FAQ } from "./faq";
 export const metadata: Metadata = getMetadata({
   title: "Argos vs Happo",
   absoluteTitle: "Argos vs Happo · An open-source Happo alternative",
+  subtitle:
+    "An open-source Happo alternative, with screenshots taken in your own CI.",
   description:
     "Argos vs Happo for visual testing: where screenshots are rendered, browsers, pricing and integrations. Argos is an open-source alternative to Happo.",
   pathname: "/compare/happo",

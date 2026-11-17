@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 import { getMarkdownPath } from "./markdown-pages";
-import { type OgImageParams, getOgImageUrl } from "./og-image";
+import { type OgImageParams, getOgImage } from "./og-image";
 
 export const defaultTitle =
   "Argos · Open-source visual testing for Playwright, Storybook & Vitest";
@@ -17,6 +17,17 @@ export const defaultDescription =
  */
 export const argosDefinition =
   "Argos is an open-source visual regression testing platform for Playwright, Storybook, Vitest and Cypress, and an alternative to Chromatic and Percy.";
+
+/**
+ * The homepage's social image: its hero heading (`app/home/hero/Hero.tsx`
+ * reads it from here) and the one-line pitch. Also the fallback image of
+ * pages that don't set one (`app/layout.tsx`).
+ */
+export const defaultOgImage = {
+  ogTitle: "Review the product, not just the code.",
+  subtitle:
+    "Open-source visual regression testing for Playwright, Storybook, Vitest and Cypress.",
+} satisfies OgImageParams;
 
 /** What Argos does on every pull request: the four pillars in one sentence. */
 export const argosPillarsSentence =
@@ -46,12 +57,10 @@ export function getMetadata(
     pathname: string;
   } & OgImageParams,
 ): Metadata {
-  const { title, subtitle, absoluteTitle, description, pathname } = props;
+  const { title, ogTitle, subtitle, absoluteTitle, description, pathname } =
+    props;
   const url = `https://argos-ci.com${pathname}`;
-  const ogParams = {
-    title,
-    subtitle: subtitle ?? description,
-  };
+  const image = getOgImage({ title: ogTitle ?? title, subtitle, pathname });
   const config: Metadata = {
     title: absoluteTitle ? { absolute: absoluteTitle } : title || defaultTitle,
     description,
@@ -63,28 +72,14 @@ export function getMetadata(
       siteName: "Argos",
       locale: "en_US",
       type: "website",
-      images: [
-        {
-          url: getOgImageUrl(ogParams),
-          width: 1200,
-          height: 630,
-          alt: title,
-        },
-      ],
+      images: [image],
     },
     twitter: {
       card: "summary_large_image",
       site: "@argos_ci",
       title: absoluteTitle ?? `${title} · Argos`,
       description,
-      images: [
-        {
-          url: getOgImageUrl(ogParams),
-          width: 1200,
-          height: 630,
-          alt: title,
-        },
-      ],
+      images: [image],
     },
   };
 

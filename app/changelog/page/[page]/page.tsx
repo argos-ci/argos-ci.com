@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
 
 import {
+  CHANGELOG_METADATA,
   getChangelogFiles,
   getChangelogPagesCount,
   getPaginatedChangelogs,
@@ -27,7 +28,7 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
 
   return getMetadata({
     title: `Changelog - Page ${page}`,
-    description: "New updates and improvements to Argos.",
+    ...CHANGELOG_METADATA,
     pathname: `/changelog/page/${page}`,
   });
 }

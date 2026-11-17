@@ -21,6 +21,7 @@ export const metadata: Metadata = getMetadata({
   title: "Argos vs BackstopJS",
   absoluteTitle:
     "Argos vs BackstopJS · Visual regression testing without committed baselines",
+  subtitle: "Visual regression testing without committed baselines.",
   description:
     "Move from self-hosted BackstopJS to Argos: cloud baselines from your Git history, consistent comparisons across machines, and reviews on the pull request.",
   pathname: "/compare/backstopjs",

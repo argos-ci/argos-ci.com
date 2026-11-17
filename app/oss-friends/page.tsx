@@ -8,6 +8,7 @@ import { getMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = getMetadata({
   title: "OSS Friends",
+  subtitle: "Open-source projects and tools for an open world.",
   description: "Open-source projects and tools for an open world.",
   pathname: "/oss-friends",
 });

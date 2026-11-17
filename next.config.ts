@@ -7,14 +7,19 @@ const nextConfig: NextConfig = {
   reactStrictMode: false,
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
   allowedDevOrigins: ["127.0.0.1"],
+  // Takumi, which draws the social images, is a native addon: load it from
+  // node_modules at runtime instead of bundling it.
+  serverExternalPackages: ["@takumi-rs/core"],
   // The markdown-for-agents route reads MDX sources and curated markdown from
   // disk at request time; make sure they ship with the serverless function.
+  // So does the social image route with its font and logos.
   outputFileTracingIncludes: {
     "/md/[[...slug]]": [
       "./articles/**/*.mdx",
       "./changelogs/**/*.mdx",
       "./app/markdown/**",
     ],
+    "/api/og": ["./app/api/og/assets/**", "./app/assets/brands/*.svg"],
   },
   headers: async () => {
     const markdownAlternate = (path: string) =>

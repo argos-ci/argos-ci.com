@@ -22,6 +22,9 @@ import { TrustedBy } from "../common/TrustedBy";
 export const metadata: Metadata = getMetadata({
   title: "About",
   absoluteTitle: "About Argos · The open-source visual testing platform",
+  ogTitle: "Open-source visual testing, built in Paris",
+  subtitle:
+    "Since 2016: deterministic diffs, stable baselines, and reviews for humans and AI agents.",
   description:
     "Argos is an open-source visual regression testing platform, built in Paris since 2016. Meet the team and the principles behind it: deterministic diffs, stable baselines, reviews for humans and AI agents.",
   pathname: "/about",

@@ -20,6 +20,7 @@ export const metadata: Metadata = getMetadata({
   title: "Argos vs Lost Pixel",
   absoluteTitle:
     "Lost Pixel Alternative · Argos, open-source visual testing after the sunset",
+  subtitle: "Lost Pixel is being sunset. Argos is an open-source alternative.",
   description:
     "Lost Pixel is being sunset after its team joined Figma. Argos is an open-source alternative for Storybook and page screenshots, with baselines from Git and reviews on the pull request.",
   pathname: "/compare/lost-pixel",

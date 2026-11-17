@@ -55,6 +55,8 @@ const cards: ContactCard[] = [
 
 export const metadata: Metadata = getMetadata({
   title: "Contact",
+  ogTitle: "Talk to the Argos team",
+  subtitle: "Get help with setup, scaling, or enterprise needs.",
   description:
     "Contact the Argos team to discuss visual testing, CI stability, and product quality. Get help with setup, scaling, or enterprise needs and ship with confidence.",
   pathname: "/contact",

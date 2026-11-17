@@ -110,6 +110,14 @@ Registration points, all required unless noted:
 
 1. `app/<slug>/page.tsx` (+ `app/<slug>/features/*.tsx` illustrations).
    Metadata via `getMetadata({ …, pathname })` from `lib/metadata.tsx`.
+   It also builds the social image (`app/api/og/route.tsx`): pass `ogTitle`
+   (the hero heading, 45 characters or fewer so it fits in two lines; share
+   one constant with the hero) and a short `subtitle` (about 100 characters),
+   never the meta description. The label, accent color and icon come from
+   the path in `app/api/og/theme.ts`: add an entry there for a new section
+   (`tests/og-image.spec.ts` fails for a sitemap page without one). Bump
+   `OG_IMAGE_VERSION` in `lib/og-image.ts` when the template or an existing
+   page's theme changes, or X and LinkedIn keep showing the old image.
 2. `app/navbar.tsx`: a `LinkCard` in the right dropdown column (pillars
    render from `lib/pillars.ts`; other pages are hand-listed).
 3. `app/footer.tsx`: a `FooterLink` (Product column for feature pages).

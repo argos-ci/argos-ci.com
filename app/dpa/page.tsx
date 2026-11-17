@@ -7,6 +7,7 @@ import DpaMdxPage from "../markdown/dpa.mdx";
 
 export const metadata: Metadata = getMetadata({
   title: "Data Processing Agreement",
+  subtitle: "How Argos processes personal data on your behalf.",
   description:
     "The Argos Data Processing Agreement: how we process personal data on your behalf, our subprocessors, security measures, international transfers, and audit rights.",
   pathname: "/dpa",

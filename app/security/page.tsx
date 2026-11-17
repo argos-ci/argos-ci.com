@@ -25,8 +25,13 @@ import { GDPRFeatures, GDPR_FEATURES, GDPR_RIGHTS } from "./gdpr-features";
 import { SECURITY_HIGHLIGHTS, SecurityHighlights } from "./security-controls";
 import { SECURITY_QUESTIONS } from "./security-faq";
 
+/** The hero heading, also the headline of the page's social image. */
+const heroTitle = "Security you can audit";
+
 export const metadata: Metadata = getMetadata({
   title: "Security",
+  ogTitle: heroTitle,
+  subtitle: "SOC 2 Type II, GDPR compliant, and fully open source.",
   description:
     "Argos is SOC 2 Type II compliant, GDPR compliant, and fully open source. Encrypted tokens, screenshots on secure S3, and security you can audit line by line.",
   pathname: "/security",
@@ -39,7 +44,7 @@ export default function SecurityPage() {
         <Container className="relative py-16 md:h-60 md:py-24">
           <FullPageGrid height="h-200 md:h-60" />
           <Hero align="center" className="relative">
-            <HeroHeading>Security you can audit</HeroHeading>
+            <HeroHeading>{heroTitle}</HeroHeading>
             <HeroDescription>
               SOC 2 Type II, GDPR compliant, and fully open source. We protect
               your data with strong controls, and let you verify every one of
