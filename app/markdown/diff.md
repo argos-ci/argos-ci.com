@@ -34,6 +34,13 @@ https://app.argos-ci.com/argos-ci/snkr-shop/builds/11
   [odiff](https://github.com/dmtrKovalenko/odiff) library, and Argos's own
   [diff implementation](https://github.com/argos-ci/argos/blob/main/apps/backend/src/screenshot-diff/diff/image/index.ts)
   is public.
+- **Layout shifts, set apart.** When an element grows or a banner pushes the
+  page down, iris finds the blocks of the screenshot that moved rather than
+  changed. The overlay then shows only what changed, and each moved block is
+  outlined in both panes with the direction and distance it moved. The score,
+  the fingerprint and the snapshot's status still count every changed pixel.
+  Vertical moves only; content that moved and changed counts as a change. See
+  [layout shifts](https://argos-ci.com/docs/learn/platform-fundamentals/how-argos-detects-visual-differences#layout-shifts).
 - **A threshold you set.** `threshold` runs from 0 to 1 (default 0.5): the
   higher, the less sensitive the comparison. Set it per screenshot in the SDK
   options, or per upload with `argos upload --threshold`.

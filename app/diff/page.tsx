@@ -134,7 +134,8 @@ export default function Page() {
                 <>
                   Each comparison reads both images once at two sensitivities,
                   leaves anti-aliasing out, and outputs a diff mask and a score.
-                  The engine is iris, open source like the rest of the
+                  Content that only moved is set apart from what changed. The
+                  engine is iris, open source like the rest of the
                   implementation.
                 </>
               }
