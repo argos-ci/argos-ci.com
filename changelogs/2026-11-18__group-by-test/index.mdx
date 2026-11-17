@@ -1,0 +1,21 @@
+---
+title: Group by test
+homeTitle: Review a build test by test
+description: The build sidebar groups snapshots by the test that took them, in the order the test took them, and can list them as names to scan a large build at a glance.
+slug: group-by-test
+date: 2026-11-18
+image: /assets/changelogs/group-by-test/group-by-test.jpg
+---
+
+![Screenshots listed under the tests that took them, each with a status dot](/assets/changelogs/group-by-test/group-by-test.jpg)
+
+The build sidebar listed snapshots by status: every change of the build in one section, whatever test it came from. The new **Display options** button, next to the filter button, lists them **by test** instead, and as **names** when screenshots take too much room.
+
+- **One section per test**: named by the test's title and file, with its snapshots in the order the test took them. A test run by several Playwright projects is one section, and Storybook snapshots group by component.
+- **Most pressing first**: tests with a failure or a change come first and start open. Tests where nothing changed wait, collapsed, at the bottom.
+- **A status on every snapshot**: each one shows its status icon, accepted or rejected included, and each test shows its most pressing one.
+- **Names only**: a compact list of names, to scan a build of hundreds of snapshots at a glance.
+
+Both choices are kept in your browser, and switching keeps the snapshot you are reviewing in view.
+
+Learn more in [Review a build](https://argos-ci.com/docs/learn/review-workflow/review-a-build#choose-how-the-snapshot-list-is-shown).
