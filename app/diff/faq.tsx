@@ -9,12 +9,12 @@ export const DIFF_QUESTIONS: FAQQuestion[] = [
       <>
         <p>
           No. Argos compares each snapshot to its baseline with deterministic
-          pixel diffing, built on the open-source{" "}
-          <Link href="https://github.com/dmtrKovalenko/odiff">odiff</Link>{" "}
-          library. Each comparison normalizes both images, runs several diff
-          passes at different thresholds, clusters pixels to separate noise from
-          real change, and outputs a diff mask and a score. Same input, same
-          result, and the exact pixels that changed are visible. The{" "}
+          pixel diffing, in{" "}
+          <Link href="https://github.com/argos-ci/iris">iris</Link>, its
+          open-source diff engine. Each comparison reads both images once at two
+          sensitivities, leaves anti-aliasing out, and outputs a diff mask and a
+          score. Same input, same result, and the exact pixels that changed are
+          visible. The{" "}
           <Link href="https://github.com/argos-ci/argos/blob/main/apps/backend/src/screenshot-diff/diff/image/index.ts">
             diff implementation
           </Link>{" "}
@@ -27,7 +27,7 @@ export const DIFF_QUESTIONS: FAQQuestion[] = [
       </>
     ),
     textAnswer:
-      "No. Argos compares each snapshot to its baseline with deterministic pixel diffing, built on the open-source odiff library. Each comparison normalizes both images, runs several diff passes at different thresholds, clusters pixels to separate noise from real change, and outputs a diff mask and a score. Same input, same result, and the exact pixels that changed are visible. The diff implementation is public too. Agents can read the result as evidence when they review a build, but no model decides what counts as a change.",
+      "No. Argos compares each snapshot to its baseline with deterministic pixel diffing, in iris, its open-source diff engine. Each comparison reads both images once at two sensitivities, leaves anti-aliasing out, and outputs a diff mask and a score. Same input, same result, and the exact pixels that changed are visible. The diff implementation is public too. Agents can read the result as evidence when they review a build, but no model decides what counts as a change.",
   },
   {
     name: "What can Argos diff besides screenshots?",

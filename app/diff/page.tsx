@@ -10,6 +10,7 @@ import {
   HistoryIcon,
   LayersIcon,
   MousePointerClickIcon,
+  MoveVerticalIcon,
   PlugIcon,
   ScaleIcon,
   ScanEyeIcon,
@@ -132,11 +133,10 @@ export default function Page() {
               title="A mask and a score, not a guess"
               description={
                 <>
-                  Each comparison normalizes both images, runs several diff
-                  passes at different thresholds, clusters pixels to separate
-                  noise from change, and outputs a diff mask and a score. The
-                  engine is the open-source odiff library; the implementation is
-                  public too.
+                  Each comparison reads both images once at two sensitivities,
+                  leaves anti-aliasing out, and outputs a diff mask and a score.
+                  The engine is iris, open source like the rest of the
+                  implementation.
                 </>
               }
               href="/docs/learn/platform-fundamentals/how-argos-detects-visual-differences"
@@ -149,8 +149,20 @@ export default function Page() {
           </FeatureGrid>
           <Container
             noGutter
-            className="relative grid grid-cols-1 border-x border-b max-md:divide-y md:grid-cols-3 md:divide-x"
+            className="relative grid grid-cols-1 border-x border-b max-lg:divide-y lg:grid-cols-4 lg:divide-x"
           >
+            <FeatureGridFeatureSmall
+              title="Layout shifts, set apart"
+              description={
+                <>
+                  When a banner pushes the page down, the overlay shows only
+                  what changed, and each block that moved is outlined with how
+                  far it went.
+                </>
+              }
+              href="/docs/learn/platform-fundamentals/how-argos-detects-visual-differences#layout-shifts"
+              icon={MoveVerticalIcon}
+            />
             <FeatureGridFeatureSmall
               title="A threshold you set"
               description={

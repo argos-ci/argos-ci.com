@@ -24,13 +24,23 @@ https://app.argos-ci.com/argos-ci/snkr-shop/builds/11
   in place. All of it is on by default (`stabilize.waitForFonts`,
   `stabilize.hideCarets`, `stabilize.pauseGifs`, …) and can be turned off per
   screenshot.
-- **A mask and a score, not a guess.** Each comparison runs in four stages:
-  image normalization (resolution, color space, alpha), several diff passes at
-  different thresholds, pixel clustering to separate noise from meaningful
-  change, and a final diff mask plus a score. The engine is the open-source
+- **A mask and a score, not a guess.** Each comparison reads both images once
+  and evaluates two sensitivities in the same pass: a tolerant one that ignores
+  small color differences, and a color-sensitive one that only counts when a
+  faint change covers at least 3% of the image. Pixels that only differ by
+  anti-aliasing are left out, and the result is a diff mask and a score. The
+  engine is [iris](https://github.com/argos-ci/iris), Argos's open-source diff
+  engine, which reproduces the pixel comparison of the
   [odiff](https://github.com/dmtrKovalenko/odiff) library, and Argos's own
   [diff implementation](https://github.com/argos-ci/argos/blob/main/apps/backend/src/screenshot-diff/diff/image/index.ts)
   is public.
+- **Layout shifts, set apart.** When an element grows or a banner pushes the
+  page down, iris finds the blocks of the screenshot that moved rather than
+  changed. The overlay then shows only what changed, and each moved block is
+  outlined in both panes with the direction and distance it moved. The score,
+  the fingerprint and the snapshot's status still count every changed pixel.
+  Vertical moves only; content that moved and changed counts as a change. See
+  [layout shifts](https://argos-ci.com/docs/learn/platform-fundamentals/how-argos-detects-visual-differences#layout-shifts).
 - **A threshold you set.** `threshold` runs from 0 to 1 (default 0.5): the
   higher, the less sensitive the comparison. Set it per screenshot in the SDK
   options, or per upload with `argos upload --threshold`.

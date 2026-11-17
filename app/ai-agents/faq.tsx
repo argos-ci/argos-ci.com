@@ -83,8 +83,8 @@ export const AI_AGENTS_QUESTIONS: FAQQuestion[] = [
     answer: (
       <>
         <p>
-          No. Argos compares screenshots with deterministic pixel diffing, built
-          on the open-source odiff library, and compares non-image files as
+          No. Argos compares screenshots with deterministic pixel diffing, in
+          iris, its open-source diff engine, and compares non-image files as
           text. Same input, same result, and the exact pixels that changed are
           visible. Agents use that build data as review evidence; they do not
           replace your team&apos;s ownership of review decisions. See{" "}
@@ -96,7 +96,7 @@ export const AI_AGENTS_QUESTIONS: FAQQuestion[] = [
       </>
     ),
     textAnswer:
-      'No. Argos compares screenshots with deterministic pixel diffing, built on the open-source odiff library, and compares non-image files as text. Same input, same result, and the exact pixels that changed are visible. Agents use that build data as review evidence; they do not replace your team\'s ownership of review decisions. See <a href="/docs/learn/platform-fundamentals/how-argos-detects-visual-differences">how Argos detects visual differences</a>.',
+      'No. Argos compares screenshots with deterministic pixel diffing, in iris, its open-source diff engine, and compares non-image files as text. Same input, same result, and the exact pixels that changed are visible. Agents use that build data as review evidence; they do not replace your team\'s ownership of review decisions. See <a href="/docs/learn/platform-fundamentals/how-argos-detects-visual-differences">how Argos detects visual differences</a>.',
   },
   {
     name: "Can an agent read this site and the documentation?",

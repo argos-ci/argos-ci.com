@@ -1,0 +1,23 @@
+---
+title: Layout shifts
+homeTitle: See what changed, not everything that moved
+description: When content moves, Argos now shows only what changed and outlines each block that moved, with how far it went.
+slug: layout-shifts
+date: 2026-11-18
+image: /assets/changelogs/layout-shifts/layout-shifts.jpg
+---
+
+![The same page in two panes, the block that moved outlined in both](/assets/changelogs/layout-shifts/layout-shifts.jpg)
+
+Add a banner to a page and everything below it moves. Compared pixel by pixel, the whole page turned red, and the one real change got lost in it. Argos now detects **layout shifts** and shows them apart from what changed.
+
+- **Only the real changes in red**: the overlay leaves out content that only moved, and so do the change highlights, the previous and next change navigation and the markers beside the screenshot.
+- **Moved blocks, outlined**: each block that moved is outlined in both panes, where it was and where it is now, with the direction and distance it moved, such as ↓ 48 px.
+- **One key to hide them**: toggle the outlines with the **Layout shift** button in the toolbar, or `Shift`+`D`.
+- **Nothing else changes**: scores, fingerprints and ignore rules work as before, and a snapshot whose content only moved still needs review.
+
+## Exact, never guessed
+
+Argos compares screenshots with [iris](https://github.com/argos-ci/iris), its open-source diff engine. While it compares two screenshots, iris looks for blocks of rows that appear at another height. A block counts as moved only when its pixels are identical in both, so a move is never invented. iris detects vertical moves, and content that moved and changed is reported as a change. Detection applies to new comparisons; earlier builds keep their full diff.
+
+Learn more in the [layout shifts documentation](https://argos-ci.com/docs/learn/platform-fundamentals/how-argos-detects-visual-differences#layout-shifts).
