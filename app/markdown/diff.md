@@ -67,7 +67,7 @@ https://argos-ci.com/docs/learn/reliability-and-flakiness/flaky-tests/argos-help
   heading or a lost landmark shows up as a text diff even when the pixels don't
   move. Each ARIA snapshot counts as one screenshot.
 - **Snapshot any value from Vitest.** `argosSnapshot(value, { extension:
-".json" })` serializes any value in a browser or Node test (strings verbatim,
+  ".json" })` serializes any value in a browser or Node test (strings verbatim,
   anything else with `@vitest/pretty-format`) and diffs it across builds. No
   browser needed.
 - **Same build as your screenshots.** Pass both globs to one `argos upload`

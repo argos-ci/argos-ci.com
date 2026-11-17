@@ -4,11 +4,11 @@ import rehypeShiki from "@shikijs/rehype";
 import * as matter from "gray-matter";
 import { MDXRemoteProps, compileMDX } from "next-mdx-remote/rsc";
 import type { ComponentProps } from "react";
-import rehypeImgSize from "rehype-img-size";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkGfm from "remark-gfm";
 import { ZodType, type output } from "zod";
 
+import { rehypeImgSize } from "./rehype-img-size";
 import { getScheduledPaths } from "./schedule";
 
 /**

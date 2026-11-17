@@ -134,8 +134,8 @@ Authoring conventions live in skills — follow them, don't improvise:
   and the Typefully hand-off. Images via `.claude/skills/changelog-image/`.
 - Blog frontmatter is validated by `FrontmatterSchema` in `lib/api/blog.tsx`
   (`author: greg|jeremy`, `category: company|guides|engineering`, `image:
-./main.jpg` + `imageAlt`). When you revise an article's facts, set `updatedAt:
-YYYY-MM-DD`: it shows as "Updated" on the page and feeds the markdown twin,
+  ./main.jpg` + `imageAlt`). When you revise an article's facts, set `updatedAt:
+  YYYY-MM-DD`: it shows as "Updated" on the page and feeds the markdown twin,
   the sitemap and the JSON-LD `dateModified`. Only bump it after re-checking
   the facts; a fake fresh date is worse than an old one. Hero images: `.claude/skills/social-image/`
   (2048×1024 JPEG, committed next to `index.mdx`).
@@ -193,7 +193,7 @@ here:
 - Dark mode is automatic when you use semantic/Radix tokens — avoid `dark:`
   branches except for raster images (`ThemeImage`).
 - Entry animation: `animate-slide-up-fade animate-duration-500 fill-mode-both
-motion-reduce:animate-fade-in`, staggered with `animate-delay-*`.
+  motion-reduce:animate-fade-in`, staggered with `animate-delay-*`.
 - Check every change at mobile (375px) and desktop widths, in light and dark.
 
 ## AI visibility tracking
