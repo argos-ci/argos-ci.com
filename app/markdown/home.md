@@ -9,7 +9,7 @@ Machine-readable map: https://argos-ci.com/llms.txt
 
 ### 1. Diff: visual regression testing, pixels or any file
 
-- Deterministic pixel diffing with the open-source odiff engine (not AI), with
+- Deterministic pixel diffing with iris, Argos's open-source diff engine (not AI), with
   capture defaults that wait for fonts and images, hide carets and scrollbars
   and pause GIFs, so a diff is a real change.
 - Text diffs for Markdown, JSON, YAML, XML, HTML, CSS, JavaScript and plain
