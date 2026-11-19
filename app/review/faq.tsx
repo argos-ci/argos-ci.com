@@ -79,6 +79,31 @@ export const REVIEW_QUESTIONS: FAQQuestion[] = [
       "On GitHub, a commit status per build, named `argos`, `argos/<build-name>` for a named build, and `argos/summary` when a commit carries several builds. Use those exact names as required status checks in branch protection. Argos also keeps one comment on the pull request, edited in place on every update: each build's status, an Inspect link, and a Details column such as `4 changed, 3 ignored`, plus your deployments with their preview URLs when you deploy with Argos. You can turn the comment off in the project settings. On GitLab, Argos posts commit statuses on merge requests and no comment.",
   },
   {
+    name: "Does Argos support stacked pull requests?",
+    answer: (
+      <>
+        <p>
+          Yes, natively, on GitHub. When a pull request targets the branch of
+          another open pull request, Argos compares it with that pull
+          request&apos;s build, even before anyone approves it, so each build
+          shows only the changes of its own pull request.
+        </p>
+        <p>
+          On the build page, a <strong>stacked</strong> button next to the pull
+          request lists the whole stack with the status of each pull
+          request&apos;s latest build, and opens any of them. There is nothing
+          to configure: stack by hand or with a tool like Graphite. See{" "}
+          <Link href="/docs/learn/review-workflow/stacked-pull-requests">
+            stacked pull requests
+          </Link>
+          .
+        </p>
+      </>
+    ),
+    textAnswer:
+      'Yes, natively, on GitHub. When a pull request targets the branch of another open pull request, Argos compares it with that pull request\'s build, even before anyone approves it, so each build shows only the changes of its own pull request. On the build page, a "stacked" button next to the pull request lists the whole stack with the status of each pull request\'s latest build, and opens any of them. There is nothing to configure: stack by hand or with a tool like Graphite. See <a href="/docs/learn/review-workflow/stacked-pull-requests">stacked pull requests</a>.',
+  },
+  {
     name: "Can Argos notify Slack, Microsoft Teams, or Discord?",
     answer: (
       <>
