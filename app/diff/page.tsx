@@ -346,7 +346,7 @@ export default function Page() {
                 key: "vitest",
                 icon: <FlaskConicalIcon />,
                 title: "Captured in your CI with Vitest",
-                text: "Screenshots are taken where your code runs, by the Vitest browser mode you already use. Nothing is rendered in a third-party cloud.",
+                text: "Screenshots are taken where your code runs, by the Vitest browser mode you already use, in each browser it runs. Nothing is rendered in a third-party cloud.",
                 main: (
                   <div className="w-full max-w-lg px-4">
                     <StorybookCIVitest />
@@ -441,9 +441,10 @@ export default function Page() {
               description={
                 <>
                   URL, viewport, color scheme, browser, test title and location,
-                  retry, tags: the SDKs attach it all as metadata. It shows on
-                  the build page and in the CLI&apos;s JSON, so a reviewer or an
-                  agent knows what they are looking at.
+                  retry, tags, and a description you write for the reviewer: the
+                  SDKs attach it all as metadata. It shows on the build page and
+                  in the CLI&apos;s JSON, so a reviewer or an agent knows what
+                  they are looking at.
                 </>
               }
               href="/docs/reference/screenshot-metadata"

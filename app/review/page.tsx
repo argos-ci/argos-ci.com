@@ -258,10 +258,11 @@ export default function Page() {
               title="Comment on exactly what changed"
               description={
                 <>
-                  Pin a comment to a point on a screenshot, or to a line range
-                  in a Markdown or JSON snapshot. Comments are Markdown with{" "}
-                  <Code>/</Code> commands and @mentions. Reply in threads, react
-                  with emoji, and resolve the thread once it&apos;s settled.
+                  Pin a comment to a point or an area of a screenshot, or to a
+                  line range in a Markdown or JSON snapshot. Comments are
+                  Markdown with <Code>/</Code> commands and @mentions. Reply in
+                  threads, react with emoji, and resolve the thread once
+                  it&apos;s settled.
                 </>
               }
               href={`${REVIEW_DOCS}#comment-on-exactly-what-changed`}
@@ -351,7 +352,7 @@ export default function Page() {
                 key: "checks",
                 icon: <GitPullRequestIcon />,
                 title: "A check you can require",
-                text: "Statuses post as argos, argos/<build-name>, or argos/summary when a commit has several builds. Require them in branch protection and a rejected build blocks the merge.",
+                text: "Statuses post as argos, argos/<build-name>, or argos/summary when a commit has several builds. Require them in branch protection and a rejected build blocks the merge. Changes awaiting review fail the check by default, or keep it pending.",
                 main: <GitHubChecks />,
                 href: "/docs/learn/integrations/github-integration#commit-status-names",
               },
@@ -396,8 +397,8 @@ export default function Page() {
               <>
                 Builds on <Code>main</Code>, or any branch pattern you set, are
                 approved automatically so they can serve as baselines without a
-                manual review. A build with an active rejection never becomes
-                one.
+                manual review. Turn it off to review every build. A build with
+                an active rejection never becomes one.
               </>
             }
             href="/docs/learn/platform-fundamentals/baseline-build#auto-approved-branches"

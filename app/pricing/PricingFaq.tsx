@@ -106,7 +106,9 @@ export const PRICING_QUESTIONS: FAQQuestion[] = [
       <ul className="list-inside list-disc">
         <li>
           <strong>Regular plans:</strong> you will not be able to upload any
-          additional screenshots until your billing period renews.
+          additional screenshots until your billing period renews. Owners and
+          billing members get an email at 90% of the limit, and again when
+          uploads are refused.
         </li>
         <li>
           <strong>Usage-based plans:</strong> you will be charged for every
@@ -115,7 +117,7 @@ export const PRICING_QUESTIONS: FAQQuestion[] = [
       </ul>
     ),
     textAnswer:
-      "Regular plans: you will not be able to upload any additional screenshots until your billing period renews. Usage-based plans: you will be charged for every additional screenshot.",
+      "Regular plans: you will not be able to upload any additional screenshots until your billing period renews. Owners and billing members get an email at 90% of the limit, and again when uploads are refused. Usage-based plans: you will be charged for every additional screenshot.",
   },
   {
     name: "How can I get support or provide feedback and feature requests?",

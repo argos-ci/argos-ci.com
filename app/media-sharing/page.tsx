@@ -181,10 +181,10 @@ export default function Page() {
             title={<>Feedback pinned to the pixel</>}
             description={
               <>
-                Reviewers pin comments to a point on the image. A pin stores
-                normalized coordinates and the exact version it was written on,
-                so an agent that cannot see the picture can still read the spot,
-                fix it, and resolve the thread, all from the CLI.
+                Reviewers pin comments to a point or an area of the image. A pin
+                stores normalized coordinates and the exact version it was
+                written on, so an agent that cannot see the picture can still
+                read the spot, fix it, and resolve the thread, all from the CLI.
               </>
             }
             href="/docs/learn/media/standalone-media-upload#reading-the-feedback-left-on-a-media"

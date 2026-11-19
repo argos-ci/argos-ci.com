@@ -27,8 +27,8 @@ Machine-readable map: https://argos-ci.com/llms.txt
 ### 2. Review: one place for humans and agents to approve what changed
 
 - Side-by-side or overlay views, keyboard shortcuts (`Y`/`N` to accept or
-  reject), comments pinned to the exact pixel or text line, threads with
-  mentions, reactions and resolve, all in real time.
+  reject), comments pinned to the exact pixel, an area or a text line,
+  threads with mentions, reactions and resolve, all in real time.
 - Request several reviewers and track each verdict: one rejection blocks,
   otherwise one approval passes. Agents review too, from the CLI
   (`argos review create`), the MCP server or the REST API, with a personal

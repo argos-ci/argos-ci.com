@@ -106,7 +106,9 @@ https://argos-ci.com/docs/reference/vitest
   `parameters.chromatic.modes` are read too.
 - **Captured in your CI with Vitest.** Screenshots are taken where your code
   runs, by the Vitest browser mode you already use, not in a third-party
-  cloud.
+  cloud. Run several browsers and each gets its own snapshots: names gain a
+  `browser-[firefox]` or `browser-[webkit]` suffix, and Chromium names stay
+  the same so existing baselines carry over.
 - **Screenshots inside play functions.** The `play` function runs before the
   capture. With Vitest, call `argosScreenshot(ctx, name)` from
   `@argos-ci/storybook/vitest` inside it to capture intermediate states.
@@ -126,8 +128,9 @@ https://argos-ci.com/docs/reference/storybook
   captured, straight from the CI job. No binary files committed, no baseline
   folder to maintain, no local run to refresh it.
 - **Every snapshot carries its context.** URL, viewport, color scheme, media
-  type, browser, test title and location, retries and retry index, tags: the
-  SDKs attach it as a `.argos.json` metadata file. It shows on the build page
+  type, browser, test title and location, retries and retry index, tags, and a
+  `description` you write for the reviewer: the SDKs attach it as a
+  `.argos.json` metadata file. It shows on the build page
   and in the CLI's JSON output. Without an SDK, generate the metadata yourself
   and upload it with the CLI.
 - **The right baseline, from Git.** Argos compares against the most recent

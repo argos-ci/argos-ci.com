@@ -41,8 +41,8 @@ them, opening on the before/after compare view.
 - **Before/after pairs**: files named `name-before.png` and `name-after.png`
   (or uploaded with `--state`) share one identity: one comment row, one share
   page comparing both sides with synced pan and zoom.
-- **Pinned feedback**: reviewers pin comments to a point on the image. Pins
-  store normalized coordinates and the media version they were written on, so
+- **Pinned feedback**: reviewers pin comments to a point or an area of the
+  image. Pins store normalized coordinates and the media version they were written on, so
   an agent reads the spot from the CLI, fixes it, replies, and resolves the
   thread.
 - The CLI compresses PNG and JPEG to WebP client-side before upload (a 252 KB

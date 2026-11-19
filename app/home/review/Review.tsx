@@ -21,7 +21,7 @@ export function Review() {
           key: "canvas",
           icon: <MessagesSquareIcon />,
           title: "Pin it, discuss it",
-          text: "Pin a comment to the exact pixel or line, discuss it in a thread, and resolve it when it's settled, all in real time.",
+          text: "Pin a comment to the exact pixel, an area or a line, discuss it in a thread, and resolve it when it's settled, all in real time.",
           main: <ReviewCanvas />,
           href: "/review#together",
         },

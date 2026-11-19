@@ -96,16 +96,16 @@ export const MEDIA_SHARING_QUESTIONS: FAQQuestion[] = [
     answer: (
       <>
         <p>
-          A reviewer pins a comment to a point on the image, and the pin is
-          stored as normalized coordinates with the exact version it was written
-          on. The agent runs <Code>argos media list --branch</Code> to find its
-          uploads, <Code>argos media comment list</Code> to read the open
-          threads, then replies and resolves each one from the same CLI. Even a
-          process that cannot see pixels can act on the feedback.
+          A reviewer pins a comment to a point or an area of the image, and the
+          pin is stored as normalized coordinates with the exact version it was
+          written on. The agent runs <Code>argos media list --branch</Code> to
+          find its uploads, <Code>argos media comment list</Code> to read the
+          open threads, then replies and resolves each one from the same CLI.
+          Even a process that cannot see pixels can act on the feedback.
         </p>
       </>
     ),
     textAnswer:
-      "A reviewer pins a comment to a point on the image, and the pin is stored as normalized coordinates with the exact version it was written on. The agent runs `argos media list --branch` to find its uploads, `argos media comment list` to read the open threads, then replies and resolves each one from the same CLI. Even a process that cannot see pixels can act on the feedback.",
+      "A reviewer pins a comment to a point or an area of the image, and the pin is stored as normalized coordinates with the exact version it was written on. The agent runs `argos media list --branch` to find its uploads, `argos media comment list` to read the open threads, then replies and resolves each one from the same CLI. Even a process that cannot see pixels can act on the feedback.",
   },
 ];
