@@ -68,17 +68,22 @@ export const DIFF_QUESTIONS: FAQQuestion[] = [
           and mode whose commit is an ancestor of the merge base between your
           branch and its base branch. For a pull request the base branch is the
           PR&apos;s; for a push it is the project&apos;s default baseline
-          branch. Builds on auto-approved branches such as <Code>main</Code>{" "}
-          serve as baselines without a manual review, and a build with an active
-          rejection never does. Until a build exists on your baseline branch,
-          pull request builds are orphans with nothing to compare against. Set{" "}
-          <Code>ARGOS_REFERENCE_BRANCH</Code> or{" "}
+          branch. A{" "}
+          <Link href="/docs/learn/review-workflow/stacked-pull-requests">
+            stacked pull request
+          </Link>{" "}
+          is compared with the build of the pull request below it, even before
+          that build is approved. Builds on auto-approved branches such as{" "}
+          <Code>main</Code> serve as baselines without a manual review, and a
+          build with an active rejection never does. Until a build exists on
+          your baseline branch, pull request builds are orphans with nothing to
+          compare against. Set <Code>ARGOS_REFERENCE_BRANCH</Code> or{" "}
           <Code>ARGOS_REFERENCE_COMMIT</Code> to pin a different baseline.
         </p>
       </>
     ),
     textAnswer:
-      "The <a href=\"/docs/learn/platform-fundamentals/baseline-build\">baseline build</a>: the most recent complete, approved build with the same build name and mode whose commit is an ancestor of the merge base between your branch and its base branch. For a pull request the base branch is the PR's; for a push it is the project's default baseline branch. Builds on auto-approved branches such as `main` serve as baselines without a manual review, and a build with an active rejection never does. Until a build exists on your baseline branch, pull request builds are orphans with nothing to compare against. Set `ARGOS_REFERENCE_BRANCH` or `ARGOS_REFERENCE_COMMIT` to pin a different baseline.",
+      'The <a href="/docs/learn/platform-fundamentals/baseline-build">baseline build</a>: the most recent complete, approved build with the same build name and mode whose commit is an ancestor of the merge base between your branch and its base branch. For a pull request the base branch is the PR\'s; for a push it is the project\'s default baseline branch. A <a href="/docs/learn/review-workflow/stacked-pull-requests">stacked pull request</a> is compared with the build of the pull request below it, even before that build is approved. Builds on auto-approved branches such as `main` serve as baselines without a manual review, and a build with an active rejection never does. Until a build exists on your baseline branch, pull request builds are orphans with nothing to compare against. Set `ARGOS_REFERENCE_BRANCH` or `ARGOS_REFERENCE_COMMIT` to pin a different baseline.',
   },
   {
     name: "How do I keep diffs from flaking?",
