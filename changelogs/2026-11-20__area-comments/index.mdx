@@ -1,0 +1,28 @@
+---
+title: Area comments
+homeTitle: Comment on a whole area of a screenshot
+description: Drag over part of a screenshot or a shared media to comment on the whole area. Agents read and post area comments through the API, the MCP server and the CLI.
+slug: area-comments
+date: 2026-11-20
+image: /assets/changelogs/area-comments/area-comments.jpg
+---
+
+![A product card selected on a page, with a comment pinned to the corner of the selection](/assets/changelogs/area-comments/area-comments.jpg)
+
+Feedback is often about a whole card, a header or a section, not one pixel of it. A pin made you pick a spot inside it and hope the reader saw the rest. **Area comments** mark the whole thing.
+
+- **Drag to select**: with the comment tool on, drag over the image to comment on that area. A click still drops a pin on a single spot.
+- **On builds and shared media**: area comments work on build snapshots and on media share pages, with the same threads, mentions and reactions as any other comment.
+- **Out of the way**: the pin sits on the area's top-right corner, so it never covers what the comment is about. The outline shows when you hover the pin or open its thread.
+- **Agents see the area too**: an area is stored in normalized coordinates, `x` and `y` for its top-left corner plus its `width` and `height`. The REST API, the MCP server and the CLI return it with the comment, so an agent knows exactly which part of the screenshot a reviewer means.
+
+Agents can post one as well. With the CLI, pass the area as four numbers between 0 and 1:
+
+```bash
+argos comment create https://app.argos-ci.com/acme/web/builds/42 \
+  --diff 1234567 \
+  --anchor-area 0.1,0.2,0.3,0.25 \
+  --body "This card needs more room."
+```
+
+Update `@argos-ci/cli` to the latest version to get `--anchor-area`. Learn more in the [review documentation](https://argos-ci.com/docs/learn/review-workflow/review-a-build#comment-on-exactly-what-changed) and the [CLI reference](https://argos-ci.com/docs/reference/argos-command-line-interface-cli).
