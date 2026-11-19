@@ -1,0 +1,21 @@
+---
+title: Stacked pull requests
+homeTitle: Review stacked pull requests one change at a time
+description: Argos now compares a stacked pull request with the one below it, approved or not, and lets you move through the stack from the build page.
+slug: stacked-pull-requests
+date: 2026-11-25
+image: /assets/changelogs/stacked-pull-requests/stacked-pull-requests.jpg
+---
+
+![Three stacked pull request cards joined by a line, the top one compared with the one below it](/assets/changelogs/stacked-pull-requests/stacked-pull-requests.jpg)
+
+Split a big change into stacked pull requests, and the second one used to be compared with `main`: its build showed every change of the first one again, until someone approved them. Argos now supports **stacked pull requests** natively.
+
+- **Compared with the pull request below**: when a pull request targets the branch of another open pull request, Argos compares it with that pull request's build, even before anyone approves it. A refactor stacked on a feature reports no changes when it changes nothing.
+- **The stack in the build header**: a **stacked** button next to the pull request lists the whole stack, from its top down to the branch it merges into, with the status of each pull request's latest build.
+- **One click to the next build**: each pull request of the stack opens its latest build, so you review a stack by going down the list.
+- **Nothing to set up**: stack by hand or with a tool like Graphite. Each pull request only has to target the branch of the one below it.
+
+A rejected build is still never used as a baseline. Once the pull request below is merged and yours targets your baseline branch again, its next build compares with that branch as usual. Stacks are detected on GitHub.
+
+Learn more in the [stacked pull requests documentation](https://argos-ci.com/docs/learn/review-workflow/stacked-pull-requests).
