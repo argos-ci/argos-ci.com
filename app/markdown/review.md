@@ -55,8 +55,8 @@ with the changes a build detected.
   rejection.
 - A review submitted from the CLI or the API is attributed to the token's
   user, so an agent's verdict appears under the person who ran it.
-- Comments pin to a point on a screenshot or to a line range in a text snapshot
-  (Markdown, JSON, and other non-image files). They are written in Markdown
+- Comments pin to a point or an area of a screenshot, or to a line range in a
+  text snapshot (Markdown, JSON, and other non-image files). They are written in Markdown
   with `/` slash commands and @mentions; reply in threads, react with emoji,
   resolve and reopen.
 - Draft reviews: comments gather into a pending review only you can see until

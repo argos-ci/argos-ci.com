@@ -258,10 +258,11 @@ export default function Page() {
               title="Comment on exactly what changed"
               description={
                 <>
-                  Pin a comment to a point on a screenshot, or to a line range
-                  in a Markdown or JSON snapshot. Comments are Markdown with{" "}
-                  <Code>/</Code> commands and @mentions. Reply in threads, react
-                  with emoji, and resolve the thread once it&apos;s settled.
+                  Pin a comment to a point or an area of a screenshot, or to a
+                  line range in a Markdown or JSON snapshot. Comments are
+                  Markdown with <Code>/</Code> commands and @mentions. Reply in
+                  threads, react with emoji, and resolve the thread once
+                  it&apos;s settled.
                 </>
               }
               href={`${REVIEW_DOCS}#comment-on-exactly-what-changed`}
