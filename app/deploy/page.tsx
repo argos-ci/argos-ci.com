@@ -287,8 +287,8 @@ export default function Page() {
                 <SectionDescription>
                   Run <Code>argos deploy</Code> in the workflow you already
                   have. Argos links the deployment to the pull request, lists
-                  its URLs in the comment, and sets a commit status you can
-                  require.
+                  its URLs in the comment, sets a commit status you can require,
+                  and reports it to GitHub as a deployment.
                 </SectionDescription>
               </SectionHeaderTexts>
             </SectionHeader>
@@ -334,7 +334,8 @@ export default function Page() {
                   Every deployment sets an{" "}
                   <Code>argos-deploy/&lt;project&gt;</Code> commit status:
                   pending while it uploads, success when it is ready. Require it
-                  in branch protection.
+                  in branch protection. On GitHub, the pull request also shows{" "}
+                  <strong>View deployment</strong>.
                 </>
               }
               href="/docs/learn/deployments/use-deployments-in-ci#status-checks"

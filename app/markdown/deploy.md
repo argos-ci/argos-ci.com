@@ -84,6 +84,10 @@ jobs:
 - Each deployment sets a commit status named `argos-deploy/<project>`: pending
   while the upload runs, success when the deployment is ready. It can be
   required in branch protection rules.
+- On GitHub, Argos also reports each deployment as a GitHub deployment: the
+  pull request shows **View deployment**, the repository's Deployments panel
+  lists it, and `deployment_status` workflows can run tests against the
+  preview once it is live. A project setting turns it off.
 - Any CI provider: set `ARGOS_TOKEN` and run `argos deploy <directory>`. Argos
   detects the commit SHA, branch, and pull request number from the common CI
   environment variables.

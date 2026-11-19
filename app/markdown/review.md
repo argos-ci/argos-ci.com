@@ -77,6 +77,9 @@ with the changes a build detected.
   `argos/<project-name>/<build-name>` (several projects on one repository), and
   `argos/summary`, the summary check combining all builds on a commit. Use
   these exact names as required status checks in branch protection.
+- While changes await review, a status reports failure by default. A project
+  can report it as pending instead (running on GitLab), so visual changes do
+  not read as a broken build.
 - Summary check options: add it only when a commit has more than one build
   (default), always, or never. It never replaces the individual statuses.
 - One pull request comment, edited in place on every update: each build's
@@ -87,7 +90,8 @@ with the changes a build detected.
   selection from your commit history. No comment on GitLab.
 - Auto-approved branches (`main` by default, or any pattern you configure) are
   approved automatically so they can serve as baselines without a manual
-  review. A build with an active rejection can never be a baseline.
+  review. Turn auto-approval off and every build needs a review, base branch
+  included. A build with an active rejection can never be a baseline.
 - Automations: **when** a build event happens (Build Completed, Build
   Reviewed), **if** conditions match (build conclusion, type, mode, name,
   branch, combined with AND, each negatable), **then** post in a Slack,
