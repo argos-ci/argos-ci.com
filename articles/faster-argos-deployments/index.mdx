@@ -1,0 +1,140 @@
+---
+title: "How we made Argos deployments 3x faster"
+description: "Argos deployments shipped JavaScript uncompressed and waited two seconds on a cold edge function. Production logs, a 128 MB CPU in Docker and a few CloudFront settings took a Storybook page load from 4.4 s to 1.3 s on a 10 Mbps connection."
+category: engineering
+author: greg
+date: 2026-11-19
+image: ./main.jpg
+imageAlt: "Abstract illustration of large blocks squeezed through a press into a thin, bright stream of small blocks that reaches a browser window"
+related:
+  - heroku-to-aws-migration
+  - ai-generated-algorithm-to-production-rust
+---
+
+<MainImage />
+
+Argos is an open-source visual regression testing platform for Playwright, Storybook, Vitest and Cypress. With [Argos Deploy](https://argos-ci.com/deploy), every pull request also gets its Storybook or static build served on its own URL. Those URLs felt slow, so we measured where the time went and fixed it.
+
+**On a 10 Mbps connection, our own Storybook now finishes loading in 1.3 s instead of 4.4 s. The edge function every request goes through starts cold in 0.6 s instead of 2.2 s.**
+
+## The results
+
+|                                                   | Before   | After             |
+| ------------------------------------------------- | -------- | ----------------- |
+| Storybook page, bytes over the wire (80 requests) | 9.02 MB  | 2.39 MB           |
+| Page `load` event, 10 Mbps and 40 ms latency      | 4.4 s    | 1.3 s             |
+| Last byte of the page, 10 Mbps and 40 ms latency  | 8.0 s    | 2.8 s             |
+| Last byte of the page, fiber connection in Paris  | 1.24 s   | 1.11 s            |
+| Viewer edge function, cold start (median)         | 2,175 ms | 595 ms            |
+| File lookup edge function, cold start (median)    | 995 ms   | 365 ms            |
+| Custom domains                                    | HTTP/1.1 | HTTP/2 and HTTP/3 |
+
+The slower the connection, the bigger the gain: most of it comes from sending fewer bytes. How we measured each number is at the end of the post.
+
+## How a deployment is served
+
+A deployment is a static build stored in S3. Files are content-addressed: each one is stored once, under the hash of its content, and shared by every deployment that contains it. A request goes through three steps:
+
+1. **CloudFront** receives it, on `*.argos-ci.live` or on a custom domain.
+2. **A viewer-request Lambda@Edge function** maps the hostname to a deployment, through an Argos API endpoint cached by Cloudflare, and checks access for private deployments. It rewrites the path to `/deployment/<id>/<file>`, which is what CloudFront caches.
+3. On a cache miss, **an origin-request Lambda@Edge function** looks up the file's content hash in DynamoDB and points CloudFront at the right S3 object.
+
+The viewer function runs on every request, before CloudFront checks its cache. **Whatever it costs, every file pays it.**
+
+## Measure first
+
+Lambda@Edge writes a `REPORT` line for each invocation, in the region that ran it, with the duration and, on a cold start, the init duration. Our functions ran in 13 regions, so we queried each one with CloudWatch Logs Insights:
+
+```
+filter @type = "REPORT"
+| stats count(*), pct(@duration, 50), pct(@duration, 90)
+  by ispresent(@initDuration)
+```
+
+In the week before the changes, the viewer function ran 42,186 times:
+
+| Viewer function | Share of requests | Median   | p90      |
+| --------------- | ----------------- | -------- | -------- |
+| Warm            | 87.1%             | 135 ms   | 375 ms   |
+| Cold            | 12.9%             | 2,175 ms | 2,435 ms |
+
+**One request in eight waited more than two seconds before CloudFront even looked at its cache.** Two things make it worse than it sounds:
+
+- **Lambda@Edge runs one request per container.** A Storybook page loads 80 files in parallel, so a single page view can start dozens of containers at once.
+- **Preview deployments get little traffic.** Each URL is opened a few times, containers are reclaimed in between, and the next visitor starts cold again.
+
+## Fix 1: nothing was compressed
+
+The biggest win was not in a function. Our Storybook's `runtime.js` came back at 1.28 MB whatever `Accept-Encoding` the browser sent. The CloudFront behaviors had compression turned on, but **CloudFront only compresses when the cache policy also enables the encodings**, and ours had Gzip and Brotli off.
+
+```ts
+const cachePolicy = new cloudfront.CachePolicy(this, "CachePolicy", {
+  // ...
+  enableAcceptEncodingBrotli: true,
+  enableAcceptEncodingGzip: true,
+});
+```
+
+`runtime.js` now arrives as 291 KB. Across the 80 requests of the page, 8.96 MB of content travels as 2.39 MB. That alone explains most of the page-load gain: on a 10 Mbps connection, the page's last byte arrives at 2.8 s instead of 8.0 s.
+
+The Argos app's own assets, served from `assets.argos-ci.com`, had the same cache policy setting and got the same fix. Its main JavaScript chunk went from 213 KB to 62 KB over the wire.
+
+## Fix 2: the first fetch() cost two seconds
+
+A cold start's init phase took about 150 ms. The two seconds were spent in the handler itself.
+
+The viewer function makes one HTTP request, to resolve the hostname, and it used the global `fetch()`. In Node.js, the first `fetch()` call loads undici and compiles its WebAssembly HTTP parser. On a laptop, that is about 50 ms of CPU. But a viewer-request function is capped at 128 MB of memory, and Lambda allocates CPU in proportion to memory: 128 MB gets about 7% of a vCPU.
+
+You can reproduce that share of CPU with Docker:
+
+```bash
+docker run --rm --cpus=0.072 --memory=128m -v "$PWD:/app" node:22-alpine node /app/bench.js
+```
+
+With that limit, the first request took 3.0 to 3.5 s with `fetch()` and 0.9 to 1.3 s with `node:https`, which uses Node's native HTTP parser. We switched, and kept the socket alive between invocations, so a warm container reuses its TLS connection instead of opening a new one:
+
+```ts
+import { Agent, get } from "node:https";
+
+const apiAgent = new Agent({ keepAlive: true });
+```
+
+A kept socket can be closed by the server while Lambda freezes the container, and Node only notices when it writes to it. The function retries once on a new socket when a reused one fails with `ECONNRESET`.
+
+**In production, the median cold start went from 2,175 ms to 595 ms.**
+
+## Fix 3: stop asking the API for every file
+
+Every file of a page asked the API the same question: which deployment does this hostname serve? Cloudflare caches the answer, but each file was still a network round trip from the edge function, and a Cloudflare cache miss reached our API, about 400 ms away from Paris.
+
+The viewer function now keeps the answer in memory for 10 seconds. The files of a page arrive within that window, so after the first one, a warm container answers without leaving the function. The window is short on purpose: when a deploy moves a branch URL to a new build, warm containers pick it up within 10 seconds.
+
+## Fix 4: more memory where Lambda allows it
+
+The origin-request function, which looks up each file in DynamoDB, is not capped at 128 MB the way viewer functions are. Its cold start loads the AWS SDK and opens a TLS connection to DynamoDB, both bound by CPU, so we raised its memory from 128 MB to 1,024 MB. **Its median cold start went from 995 ms to 365 ms.** It only runs on cache misses, so the extra cost is small.
+
+We are also adding a DynamoDB replica in Europe. Once it has finished copying the table, file lookups from European edge locations will no longer cross the Atlantic.
+
+## Fix 5: custom domains were on HTTP/1.1
+
+Custom domains go through a separate, multi-tenant CloudFront distribution, which we had written as a raw CloudFormation resource. CloudFormation defaults a distribution to HTTP/1.1 with compression off, while the CDK construct we use for `*.argos-ci.live` defaults to HTTP/2 with compression on. So every custom domain was served over HTTP/1.1, uncompressed.
+
+Both distributions now serve HTTP/2 and HTTP/3, and the custom-domain distribution is built from the same CDK construct as the other one, so the two can no longer drift apart. With compression on in both cases, switching from HTTP/1.1 to HTTP/2 and HTTP/3 brought the page's last byte from 3.68 s to 3.13 s at 150 ms of latency.
+
+## One more fix: stale pages after a deploy
+
+While measuring, we found that browsers could keep showing an old build on a branch URL after a new deploy. Files carried no `Cache-Control` header, so browsers guessed how long each one stays fresh from its `Last-Modified` date: about a tenth of its age. For a file that had not changed in months, that meant weeks without asking the server.
+
+Responses now carry `Cache-Control: no-cache`. A browser revalidates each file, and an unchanged file costs a 304 answered from CloudFront's cache.
+
+## What we learned
+
+- **Measure in production first.** We expected the API to be the bottleneck. The `REPORT` lines pointed at cold starts instead.
+- **Reproduce the constraint locally.** `--cpus=0.072` turned "Lambda is slow" into a two-second number we could fix on a laptop.
+- **Check the defaults you inherit.** Two of the five fixes were settings we never wrote: compression needs the cache policy, and raw CloudFormation does not default the way the CDK does.
+
+## How we measured
+
+- **Production durations** come from the `REPORT` lines of all 13 regions. "Before" is the week before the changes, November 11 to 19, 2026. "After" covers the first hours after they shipped on November 19: 47 cold starts of the viewer function and 94 of the origin function. That is enough to measure how long a cold start takes, which depends on the code. How often cold starts happen depends on traffic and needs more time to measure.
+- **Page loads** use Chromium driven by Playwright, with the browser cache disabled, loading [storybook.argos-ci.live](https://storybook.argos-ci.live/), our own Storybook deployed with Argos. Each setup ran 4 times, alternating with the other, and the tables show the median. We reproduced the "before" setup on today's infrastructure: `Accept-Encoding: identity` turns compression off, and Chromium's `--disable-http2 --disable-quic` flags force HTTP/1.1. The fiber runs were not throttled; the others were throttled through the Chrome DevTools Protocol.
+- **Lab cold starts** use the function bundled with esbuild, as in production, run in a `node:22-alpine` container limited to `--cpus=0.072 --memory=128m`, against the real API.
