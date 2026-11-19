@@ -1,7 +1,7 @@
 ---
 title: Area comments
 homeTitle: Comment on a whole area of a screenshot
-description: Drag over part of a screenshot or a shared media to comment on the whole area. Agents read and post area comments through the API, the MCP server and the CLI.
+description: Drag over part of a screenshot or a shared media to comment on the whole area, and agents can too. Plus project token rotation, a billing role, GitHub deployments and more.
 slug: area-comments
 date: 2026-11-20
 image: /assets/changelogs/area-comments/area-comments.jpg
@@ -26,3 +26,19 @@ argos comment create https://app.argos-ci.com/acme/web/builds/42 \
 ```
 
 Update `@argos-ci/cli` to the latest version to get `--anchor-area`. Learn more in the [review documentation](https://argos-ci.com/docs/learn/review-workflow/review-a-build#comment-on-exactly-what-changed) and the [CLI reference](https://argos-ci.com/docs/reference/argos-command-line-interface-cli).
+
+## Also new
+
+- **Several project tokens per project**: each token has its own permissions and an expiration (90 days by default), so you [rotate one without downtime](https://argos-ci.com/docs/learn/account-and-access/project-tokens#rotate-a-token-without-downtime). Account admins get an email a week before a token expires, and `argos project token create`, `list` and `revoke` manage them from the CLI.
+- **Billing role**: a [team member with the Billing role](https://argos-ci.com/docs/learn/account-and-access/team-members-and-roles#billing-role) manages the plan, invoices and spend limit and receives the billing emails, without being an owner.
+- **GitHub deployments**: Argos reports each deployment to GitHub, so the pull request shows **View deployment** and `deployment_status` workflows run once the preview is live. [Turn it off per project](https://argos-ci.com/docs/learn/integrations/github-integration#github-deployments) if you don't need it.
+- **Pending while awaiting review**: a project can [report changes awaiting review as pending](https://argos-ci.com/docs/learn/integrations/github-integration#status-while-awaiting-review) (`running` on GitLab) instead of failed, so visual changes stop reading as a broken build.
+- **No auto-approved branch**: [turn off auto-approval](https://argos-ci.com/docs/learn/platform-fundamentals/baseline-build#turn-off-auto-approval) so every build needs a review, base branch included, from the project settings or with `argos project update --auto-approval false`.
+- **Screenshot descriptions**: pass a [`description`](https://argos-ci.com/docs/reference/screenshot-metadata#description) when you take a screenshot, and reviewers read it at the top of the build sidebar.
+- **Back to the pull request**: once you approve or reject the last build of a commit that needs you, Argos offers to take you back to the pull request.
+- **Plan limit emails**: on a flat-rate plan, owners and billing members get an email at 90% of the included screenshots, and again when builds start being rejected.
+- **GitLab permission alerts**: when GitLab refuses Argos's commit statuses, team owners get an email naming the permissions the token's user needs.
+- **Join your team at signup**: signing up for team projects, or through SAML SSO, shows the team already open to your email domain before creating a new one.
+- **Analytics in your time zone**: `argos analytics --time-zone Europe/Paris` and the API's `timeZone` parameter cut days at your local midnight, like the Analytics page.
+
+In the SDKs, element screenshots take a [`padding` option](https://argos-ci.com/docs/reference/playwright) to include shadows and focus rings (Playwright, Puppeteer, Cypress and Vitest). Cypress and `argos upload --ignore-upload-failures` can keep CI green when an upload fails. Storybook and Vitest [name screenshots per browser](https://argos-ci.com/docs/reference/storybook#capture-several-browsers) when a run captures several browsers, and Chromium names stay the same so baselines carry over.
