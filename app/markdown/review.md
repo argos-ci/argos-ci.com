@@ -95,8 +95,10 @@ with the changes a build detected.
 - Automations: **when** a build event happens (Build Completed, Build
   Reviewed), **if** conditions match (build conclusion, type, mode, name,
   branch, combined with AND, each negatable), **then** post in a Slack,
-  Microsoft Teams, or Discord channel. Rules are per project. Argos has no
-  user-configurable outgoing webhooks.
+  Microsoft Teams, or Discord channel. Rules are per project.
+- Webhooks: Argos posts a signed request to your endpoint when a build
+  completes or is reviewed, or when a deployment is created or ready. Set them
+  up in your account settings, for every project or only some.
 
 ## Agents show their work
 
@@ -162,6 +164,7 @@ argos comment list <build> --json
 - Pull request comments: https://argos-ci.com/docs/learn/review-workflow/pull-request-comments
 - Summary checks: https://argos-ci.com/docs/learn/review-workflow/summary-checks
 - Automations: https://argos-ci.com/docs/learn/review-workflow/automations
+- Webhooks: https://argos-ci.com/docs/learn/integrations/webhooks
 - GitHub integration: https://argos-ci.com/docs/learn/integrations/github-integration
 - GitLab integration: https://argos-ci.com/docs/learn/integrations/gitlab-integration
 - Team members & roles: https://argos-ci.com/docs/learn/account-and-access/team-members-and-roles

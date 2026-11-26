@@ -116,19 +116,24 @@ export const REVIEW_QUESTIONS: FAQQuestion[] = [
           saving.
         </p>
         <p>
-          Argos has no user-configurable outgoing webhooks. To react to build
-          events elsewhere, use the commit statuses on your Git provider, or
-          poll builds from the <Link href="/docs/api-reference">REST API</Link>{" "}
-          or the CLI. See{" "}
+          To send events to your own systems, add a <strong>webhook</strong> in
+          your account settings. Argos posts a signed request to your endpoint
+          when a build completes or is reviewed, or when a deployment is created
+          or ready. See{" "}
           <Link href="/docs/learn/review-workflow/automations">
             Automations
+          </Link>
+          , <Link href="/docs/learn/integrations/webhooks">webhooks</Link>, and
+          the{" "}
+          <Link href="/docs/api-reference/reference/integrations/webhooks">
+            webhooks API reference
           </Link>
           .
         </p>
       </>
     ),
     textAnswer:
-      'Yes, through Automations, a rule on a project: when a build completes or is reviewed, if it matches your conditions (build conclusion, type, mode, name, or branch), then post in a Slack, Microsoft Teams, or Discord channel. Rules are per project, and you can send a test notification before saving. Argos has no user-configurable outgoing webhooks. To react to build events elsewhere, use the commit statuses on your Git provider, or poll builds from the <a href="/docs/api-reference">REST API</a> or the CLI. See <a href="/docs/learn/review-workflow/automations">Automations</a>.',
+      'Yes, through Automations, a rule on a project: when a build completes or is reviewed, if it matches your conditions (build conclusion, type, mode, name, or branch), then post in a Slack, Microsoft Teams, or Discord channel. Rules are per project, and you can send a test notification before saving. To send events to your own systems, add a webhook in your account settings. Argos posts a signed request to your endpoint when a build completes or is reviewed, or when a deployment is created or ready. See <a href="/docs/learn/review-workflow/automations">Automations</a>, <a href="/docs/learn/integrations/webhooks">webhooks</a>, and the <a href="/docs/api-reference/reference/integrations/webhooks">webhooks API reference</a>.',
   },
   {
     name: "Who can review a build?",
