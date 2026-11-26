@@ -152,6 +152,27 @@ const nextConfig: NextConfig = {
         destination: "/customers/mui",
         permanent: true,
       },
+      // GitBook nests the REST API reference under the tag groups of the
+      // OpenAPI spec (apps/backend/src/api/schema.ts in argos-ci/argos). Each
+      // tag had its own top-level page before the groups existed.
+      {
+        source:
+          "/docs/api-reference/reference/:tag(builds|reviews|tests|comments)",
+        destination: "/docs/api-reference/reference/visual-testing/:tag",
+        permanent: true,
+      },
+      {
+        source:
+          "/docs/api-reference/reference/:tag(projects|tokens|accounts|members|analytics)",
+        destination: "/docs/api-reference/reference/projects-and-teams/:tag",
+        permanent: true,
+      },
+      {
+        source:
+          "/docs/api-reference/reference/:tag(events|webhooks|automations)",
+        destination: "/docs/api-reference/reference/integrations/:tag",
+        permanent: true,
+      },
     ];
   },
   rewrites: async () => {
