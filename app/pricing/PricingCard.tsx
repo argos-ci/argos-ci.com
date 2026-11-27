@@ -167,9 +167,7 @@ export function PricingCards() {
               Popular
             </div>
           </div>
-          <Description>
-            Unlimited screenshots and team collaboration.
-          </Description>
+          <Description>Usage-based pricing and team collaboration.</Description>
           <Price
             price={ARGOS_PRO_FLAT_PRICE}
             recurring={true}
