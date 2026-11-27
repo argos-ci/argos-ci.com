@@ -32,9 +32,11 @@ curl -s https://api.openai.com/v1/images/edits \
   -F size=2592x1440 \
   -F quality=high \
   -F output_format=jpeg \
-  -F "prompt=$(cat /tmp/changelog-image-prompt.txt)" \
+  --form-string "prompt=$(cat /tmp/changelog-image-prompt.txt)" \
   | python3 -c "import json,sys,base64; open('/tmp/changelog-out.jpg','wb').write(base64.b64decode(json.load(sys.stdin)['data'][0]['b64_json']))"
 ```
+
+Send the prompt with `--form-string`, never `-F`: `-F` reads a `;` as the start of a field parameter and silently drops the rest of the prompt. The model then never sees the end of the concept, the composition or the no-text rule, and invents a scene of its own.
 
 3. Review it twice, and iterate on the prompt until both pass:
    - **The whole image**, downscaled (`sips -Z 1100 …`): background gradient preserved, the concept reads in two seconds, the story is right (each element in the state the prompt asked for), generous margins.
@@ -53,11 +55,11 @@ cp /tmp/changelog-out.jpg public/assets/changelogs/<slug>/<slug>.jpg
 
 Look at the images of the last four entries in `changelogs/` before writing the prompt: match their style, not their layout (see **Layout** below). Then fill this template — keep every paragraph, only the **Concept** and the layout in **Composition** change from one entry to the next:
 
-> Keep the soft pastel gradient background exactly as provided — do not change its colors, and do not add texture, noise or a vignette. On top of it, paint a premium, highly detailed product illustration in the established Argos changelog style, as crisp as a polished retina UI mockup from a top product design team.
+> Keep the soft pastel gradient background exactly as provided — do not change its colors, and do not add texture, noise or a vignette. On top of it, paint a premium product illustration in the established Argos changelog style, as crisp as a polished retina UI mockup from a top product design team.
 >
 > Style: clean vector UI with real depth. White and very light grey rounded-corner cards (generous corner radius) with thin light-grey 1px borders, a faint white highlight along their top edge, and layered, realistic soft shadows — a tight contact shadow plus a wide, diffuse ambient one. A restrained palette: white, cool greys, and Argos purple (#8b5cf6 to #7c3aed) as the main accent, with green (#22c55e) and pink (#ec4899) used only for status. Accents may carry a very subtle gradient and a soft glow.
 >
-> Detail: fill every card with believable UI structure — avatars as soft pastel circles, list rows, small status dots, toggles, chips and pills, icons drawn with a consistent rounded 2px stroke — and replace all text with rounded grey placeholder bars of varied lengths, darker for titles and lighter for body text.
+> Detail: keep the scene light and airy. Each card holds only the few elements listed below, with generous empty white space inside it. Icons are drawn with a consistent rounded 2px stroke, and all text is replaced with rounded grey placeholder bars of varied lengths, darker for titles and lighter for body text. No extra widgets: no toggles, avatars, steppers, tags, toolbars or panels that are not listed.
 >
 > Concept: [the feature-specific scene — see below].
 >
@@ -71,13 +73,13 @@ Concept guidance:
 - **Spell out the story element by element.** Name each card, how many rows it holds, and the state of every element that carries meaning (toggled on or off, a green plus badge, a row drifting away with a pink minus badge). A vague concept ("a directory syncing with a team") renders as tidy but empty cards that say nothing about the feature.
 - Screenshot-diff imagery = side-by-side cards with pink dashed highlighted regions; approvals = green check circles; terminals = dark or white window with a `>` prompt and grey bars.
 - **No readable text** in the image — model-drawn text is a garbling risk, and the house style uses placeholder bars anyway. Well-known logos are the only exception, and only when essential.
-- **Carry the story in the big elements.** The model fills any room the concept leaves with generic widgets (toggles, avatars, steppers, tags), and "draw only these elements" does not stop it. A banner, a list of thumbnails or a window behind survives; the contents of a secondary panel usually don't. Generate two or three layouts in parallel and pick the one that tells the story.
+- **Keep it light.** Two or three elements, each with only the parts that tell the story, and empty space inside the cards. The reader should get the feature in two seconds, and a crowded scene hides it: a build page full of panels reads as "a dashboard", not as the feature. Write the concept, then cut every element the story doesn't need.
 
 Layout: vary it from one entry to the next. Webhooks, stacked pull requests, SCIM provisioning and CLI docs search were all two cards joined left to right by a glowing connector, and on the changelog page they blur together. Pick a shape the last four images don't use:
 
-- a focal window in front of a larger one it overlaps;
-- one dominant window with a second peeking out from behind it (`external-deployments`);
-- one centered window with small cards or callouts floating around it;
+- a focal card in front of a larger window it overlaps (`external-deployments`);
+- one dominant window with a second peeking out from behind it;
+- one centered window with a small card pinned to its corner or floating beside it;
 - a radial arrangement around a focal card (`custom-domains`).
 
-A connector can live inside one of these, not be the whole composition. Avoid an isometric exploded stack: it renders as a design tool (layers panel, selection handles) whatever the prompt says.
+A connector can live inside one of these, not be the whole composition. Generate two or three layouts in parallel and pick the one that reads fastest.
