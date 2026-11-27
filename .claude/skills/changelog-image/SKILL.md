@@ -51,7 +51,7 @@ cp /tmp/changelog-out.jpg public/assets/changelogs/<slug>/<slug>.jpg
 
 ## Prompt style guide
 
-Look at 1–2 recent images in `public/assets/changelogs/` (e.g. `scim-provisioning`, `journeys`) before writing the prompt. Then fill this template — keep every paragraph, only the **Concept** changes from one entry to the next:
+Look at the images of the last four entries in `changelogs/` before writing the prompt: match their style, not their layout (see **Layout** below). Then fill this template — keep every paragraph, only the **Concept** and the layout in **Composition** change from one entry to the next:
 
 > Keep the soft pastel gradient background exactly as provided — do not change its colors, and do not add texture, noise or a vignette. On top of it, paint a premium, highly detailed product illustration in the established Argos changelog style, as crisp as a polished retina UI mockup from a top product design team.
 >
@@ -61,7 +61,7 @@ Look at 1–2 recent images in `public/assets/changelogs/` (e.g. `scim-provision
 >
 > Concept: [the feature-specific scene — see below].
 >
-> Composition: one clear focal point, depth from layers (secondary cards a little smaller and further back), balanced asymmetry, at least 12% margin on every side, nothing touching the edges.
+> Composition: [the layout — see below]. One clear focal point, depth from layers (secondary cards a little smaller and further back), balanced asymmetry. The whole group fits inside the central 72% of the width and the central 72% of the height, leaving wide empty background on every side.
 >
 > Rendering: sharp edges, smooth anti-aliasing, no blur except in shadows and glows, no photographic or 3D clay look, and absolutely no readable text, letters, numbers or logos anywhere.
 
@@ -70,5 +70,14 @@ Concept guidance:
 - Depict the feature as an abstract product scene: UI windows, terminals, cards, connecting lines — not metaphors like rockets or lightbulbs.
 - **Spell out the story element by element.** Name each card, how many rows it holds, and the state of every element that carries meaning (toggled on or off, a green plus badge, a row drifting away with a pink minus badge). A vague concept ("a directory syncing with a team") renders as tidy but empty cards that say nothing about the feature.
 - Screenshot-diff imagery = side-by-side cards with pink dashed highlighted regions; approvals = green check circles; terminals = dark or white window with a `>` prompt and grey bars.
-- Flows and integrations read well as a left-to-right composition with a glowing connector between two elements; put the focal card on the right, slightly larger and in front.
 - **No readable text** in the image — model-drawn text is a garbling risk, and the house style uses placeholder bars anyway. Well-known logos are the only exception, and only when essential.
+- **Carry the story in the big elements.** The model fills any room the concept leaves with generic widgets (toggles, avatars, steppers, tags), and "draw only these elements" does not stop it. A banner, a list of thumbnails or a window behind survives; the contents of a secondary panel usually don't. Generate two or three layouts in parallel and pick the one that tells the story.
+
+Layout: vary it from one entry to the next. Webhooks, stacked pull requests, SCIM provisioning and CLI docs search were all two cards joined left to right by a glowing connector, and on the changelog page they blur together. Pick a shape the last four images don't use:
+
+- a focal window in front of a larger one it overlaps;
+- one dominant window with a second peeking out from behind it (`external-deployments`);
+- one centered window with small cards or callouts floating around it;
+- a radial arrangement around a focal card (`custom-domains`).
+
+A connector can live inside one of these, not be the whole composition. Avoid an isometric exploded stack: it renders as a design tool (layers panel, selection handles) whatever the prompt says.
