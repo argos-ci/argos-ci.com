@@ -311,7 +311,7 @@ With Cache Components, wrap the link click or page load in `instant()` from `@ne
 
 ### Can I run visual tests on Vercel previews?
 
-Yes. Set Playwright's `baseURL` to the preview URL. If Deployment Protection is on, send the `x-vercel-protection-bypass` header with your automation secret, and send `x-vercel-skip-toolbar` to keep the Vercel Toolbar out of screenshots ([bypass docs](https://vercel.com/docs/deployment-protection/methods-to-bypass-deployment-protection/protection-bypass-automation), [toolbar docs](https://vercel.com/docs/vercel-toolbar/managing-toolbar), checked October 2026).
+Yes. Set Playwright's `baseURL` to the preview URL. If Deployment Protection is on, send the `x-vercel-protection-bypass` header with your automation secret, and send `x-vercel-skip-toolbar` to keep the Vercel Toolbar out of screenshots ([bypass docs](https://vercel.com/docs/deployment-protection/methods-to-bypass-deployment-protection/protection-bypass-automation), [toolbar docs](https://vercel.com/docs/vercel-toolbar/managing-toolbar), checked October 2026). Argos then detects the preview from your screenshots' URLs and links it to the build, so each screenshot opens on the same page of the preview ([docs](/docs/learn/deployments/report-external-deployments)).
 
 ### Does this work with the Pages Router?
 
