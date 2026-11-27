@@ -81,6 +81,12 @@ jobs:
 - `deploy` and `upload` are independent. Run both on the same commit and Argos
   posts a single pull request comment listing the deployment URLs and the
   visual build results.
+- Previews hosted elsewhere, on Vercel, Netlify, Cloudflare or any other host,
+  are linked to builds too. Argos detects the preview your tests ran against
+  from the URLs of their screenshots, or CI reports it with
+  `argos deploy --url <url>`. It shows on the build page, in the pull request
+  comment and in the Deployments tab, and each screenshot opens on the same
+  page of it.
 - Each deployment sets a commit status named `argos-deploy/<project>`: pending
   while the upload runs, success when the deployment is ready. It can be
   required in branch protection rules.
