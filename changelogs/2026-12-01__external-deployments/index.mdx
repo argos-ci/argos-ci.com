@@ -1,0 +1,32 @@
+---
+title: Deployments hosted elsewhere
+homeTitle: Link your Vercel, Netlify or Cloudflare previews to every build
+description: Argos now links each build to its preview on Vercel, Netlify, Cloudflare or any other host, and detects the one your tests ran against.
+slug: external-deployments
+date: 2026-12-01
+image: /assets/changelogs/external-deployments/external-deployments.jpg
+---
+
+![A screenshot of a build linked to a website preview hosted outside Argos](/assets/changelogs/external-deployments/external-deployments.jpg)
+
+Argos hosts Storybooks, but most apps get their previews from Vercel, Netlify or Cloudflare. Going from a screenshot to the running page meant setting `ARGOS_PREVIEW_BASE_URL` in every test run. Argos now links **deployments hosted elsewhere** to your builds, like the ones it hosts.
+
+- **Detected from your tests**: when your tests run against a preview, Argos reads the URLs your screenshots were taken on and links the preview to the build. There is nothing to set up.
+- **Or reported from CI**: when your tests run on a local server, report the preview with `argos deploy --url` once your host has deployed the commit, before or after the build.
+- **Every screenshot opens on it**: Argos keeps the path and query of the captured page and swaps the origin, so a screenshot of `http://localhost:3000/settings?tab=billing` opens that page on your preview.
+- **Wherever you review**: the deployment shows on the build page, in the pull request comment and in the Deployments tab, and on the project card once it's in production.
+
+```bash
+argos deploy --url https://my-app-git-feature-login.vercel.app
+```
+
+Detection needs one origin on at least 80% of a build's screenshots. It skips local URLs, tokenless builds, and the origin of your production deployment on other branches, so a fork's pull request can't put its URL in your pull request comment. A deployment you report always takes precedence. `ARGOS_PREVIEW_BASE_URL` and the SDK `previewUrl` option are deprecated in favor of reported deployments.
+
+Update `@argos-ci/cli` to the latest version to get `--url`. Learn more in the [deployments documentation](https://argos-ci.com/docs/learn/deployments/report-external-deployments).
+
+## Also new
+
+- **Faster deployments**: on a 10 Mbps connection, a Storybook hosted on Argos now loads in 1.3 s instead of 4.4 s. Files are compressed with Brotli and served over HTTP/3, custom domains included, and a new deploy reaches browsers right away instead of an old cached page. Read [how we made Argos deployments 3x faster](https://argos-ci.com/blog/faster-argos-deployments).
+- **Required sign-in method**: team owners can [require members to sign in](https://argos-ci.com/docs/learn/account-and-access/required-sign-in-method) with Google, GitHub or SAML SSO, using an account your company controls. Once someone leaves your Google Workspace, GitHub organization or identity provider, they can no longer reach the team.
+- **Browser upgrades flagged**: when a build's baseline was captured with another browser version, the build page lists the change, such as `Chromium 140.0.7339.16 → 141.0.7390.37`, so reviewers know some differences may come from the browser, not the code.
+- **Know who to ask**: a note that tells you to ask a team owner, or a billing member, now names them. Click it to see who they are.
