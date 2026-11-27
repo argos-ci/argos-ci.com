@@ -274,15 +274,24 @@ function absoluteUrl(href: string): string {
 
 /**
  * The FAQ text answers are written for FAQPage JSON-LD, where a few carry
- * `<a>` tags; render those as markdown links and drop any other tag.
+ * `<a>` tags; render those as markdown links and drop any other tag. Code
+ * spans are kept as written: `argos deploy --url <url>` is not a tag.
  */
 function htmlToMarkdown(html: string): string {
   return html
-    .replace(
-      /<a\s+href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/g,
-      (_match, href: string, text: string) => `[${text}](${absoluteUrl(href)})`,
+    .split(/(`[^`]*`)/)
+    .map((part) =>
+      part.startsWith("`")
+        ? part
+        : part
+            .replace(
+              /<a\s+href="([^"]+)"[^>]*>([\s\S]*?)<\/a>/g,
+              (_match, href: string, text: string) =>
+                `[${text}](${absoluteUrl(href)})`,
+            )
+            .replace(/<[^>]+>/g, ""),
     )
-    .replace(/<[^>]+>/g, "");
+    .join("");
 }
 
 function faqMarkdown(questions: FAQQuestion[]): string {
