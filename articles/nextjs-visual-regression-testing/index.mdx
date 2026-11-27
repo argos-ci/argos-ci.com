@@ -289,7 +289,7 @@ test("dashboard", async ({ page }) => {
 
 `argosScreenshot()` switches every image to `loading="eager"` and waits until each one is complete ([source](https://github.com/argos-ci/argos-javascript/blob/f75385541f6773071ff4be4d4cff9a7fcf67914f/packages/browser/src/global/stabilization/plugins/waitForImages.ts)): with the 3-second image delay, it waited 3.1 seconds and captured the real images. It also waits until no visible element has `aria-busy="true"` ([docs](/docs/learn/reliability-and-flakiness/flaky-tests/wait-for-loading)). It doesn't freeze time or mock data; keep `page.clock` and your stub. On GitHub Actions you can drop `ARGOS_TOKEN` for [OIDC or tokenless authentication](/docs/learn/integrations/github-actions-authentication).
 
-To test Vercel preview deployments instead of a CI build, point `baseURL` at the preview URL ([Argos guide](/docs/learn/how-to-guides/ci-pipelines/run-on-preview-deployments), [older walkthrough](/blog/run-argos-on-vercel-preview)).
+To test Vercel preview deployments instead of a CI build, point `baseURL` at the preview URL ([Argos guide](/docs/learn/how-to-guides/ci-pipelines/run-on-preview-deployments), [walkthrough](/blog/run-argos-on-vercel-preview)).
 
 ## When is Playwright's built-in comparison enough?
 
@@ -311,7 +311,7 @@ With Cache Components, wrap the link click or page load in `instant()` from `@ne
 
 ### Can I run visual tests on Vercel previews?
 
-Yes. Set Playwright's `baseURL` to the preview URL. If Deployment Protection is on, send the `x-vercel-protection-bypass` header with your automation secret, and send `x-vercel-skip-toolbar` to keep the Vercel Toolbar out of screenshots ([bypass docs](https://vercel.com/docs/deployment-protection/methods-to-bypass-deployment-protection/protection-bypass-automation), [toolbar docs](https://vercel.com/docs/vercel-toolbar/managing-toolbar), checked October 2026).
+Yes. Set Playwright's `baseURL` to the preview URL. If Deployment Protection is on, send the `x-vercel-protection-bypass` header with your automation secret, and send `x-vercel-skip-toolbar` to keep the Vercel Toolbar out of screenshots ([bypass docs](https://vercel.com/docs/deployment-protection/methods-to-bypass-deployment-protection/protection-bypass-automation), [toolbar docs](https://vercel.com/docs/vercel-toolbar/managing-toolbar), checked October 2026). Argos then detects the preview from your screenshots' URLs and links it to the build, so each screenshot opens on the same page of the preview ([docs](/docs/learn/deployments/report-external-deployments)).
 
 ### Does this work with the Pages Router?
 

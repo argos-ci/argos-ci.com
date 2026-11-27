@@ -19,6 +19,28 @@ export const DEPLOY_QUESTIONS: FAQQuestion[] = [
       "Any directory of static files. Storybook is the common case (storybook-static), and a Vite build, a Next.js export, a docs site, or plain HTML work the same way: `argos deploy ./dist` uploads the files and serves them on a unique URL. There is no server to configure and nothing to host on your side.",
   },
   {
+    name: "Can Argos link previews hosted on Vercel, Netlify or Cloudflare?",
+    answer: (
+      <p>
+        Yes. When your tests run against the preview, Argos detects it from the
+        URLs your screenshots were taken on and links it to the build. When they
+        run on a local server, report it from CI with{" "}
+        <Code className="whitespace-nowrap">
+          argos deploy --url &lt;url&gt;
+        </Code>
+        . The preview then shows on the build page, in the pull request comment
+        and in the Deployments tab, and each screenshot opens on the same page
+        of it. This works even if you host nothing on Argos. See{" "}
+        <Link href="/docs/learn/deployments/report-external-deployments">
+          Link a deployment hosted elsewhere
+        </Link>
+        .
+      </p>
+    ),
+    textAnswer:
+      'Yes. When your tests run against the preview, Argos detects it from the URLs your screenshots were taken on and links it to the build. When they run on a local server, report it from CI with `argos deploy --url <url>`. The preview then shows on the build page, in the pull request comment and in the Deployments tab, and each screenshot opens on the same page of it. This works even if you host nothing on Argos. See <a href="/docs/learn/deployments/report-external-deployments">Link a deployment hosted elsewhere</a>.',
+  },
+  {
     name: "Do preview deployments expire?",
     answer: (
       <p>

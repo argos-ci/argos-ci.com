@@ -69,14 +69,15 @@ export const REVIEW_QUESTIONS: FAQQuestion[] = [
           Argos also keeps one comment on the pull request, edited in place on
           every update: each build&apos;s status, an Inspect link, and a Details
           column such as <Code>4 changed, 3 ignored</Code>, plus your
-          deployments with their preview URLs when you deploy with Argos. You
-          can turn the comment off in the project settings. On GitLab, Argos
-          posts commit statuses on merge requests and no comment.
+          deployments with their preview URLs, whether Argos hosts them or
+          Vercel, Netlify or Cloudflare does. You can turn the comment off in
+          the project settings. On GitLab, Argos posts commit statuses on merge
+          requests and no comment.
         </p>
       </>
     ),
     textAnswer:
-      "On GitHub, a commit status per build, named `argos`, `argos/<build-name>` for a named build, and `argos/summary` when a commit carries several builds. Use those exact names as required status checks in branch protection. Argos also keeps one comment on the pull request, edited in place on every update: each build's status, an Inspect link, and a Details column such as `4 changed, 3 ignored`, plus your deployments with their preview URLs when you deploy with Argos. You can turn the comment off in the project settings. On GitLab, Argos posts commit statuses on merge requests and no comment.",
+      "On GitHub, a commit status per build, named `argos`, `argos/<build-name>` for a named build, and `argos/summary` when a commit carries several builds. Use those exact names as required status checks in branch protection. Argos also keeps one comment on the pull request, edited in place on every update: each build's status, an Inspect link, and a Details column such as `4 changed, 3 ignored`, plus your deployments with their preview URLs, whether Argos hosts them or Vercel, Netlify or Cloudflare does. You can turn the comment off in the project settings. On GitLab, Argos posts commit statuses on merge requests and no comment.",
   },
   {
     name: "Does Argos support stacked pull requests?",

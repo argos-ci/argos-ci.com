@@ -1,158 +1,188 @@
 ---
-title: "How to integrate Argos visual testing with Vercel Preview"
-description: "Guide to running Argos visual testing on Vercel Preview with GitHub Actions for reliable UI regression checks."
+title: "How to run Argos visual tests on Vercel preview deployments"
+description: "Run Playwright visual tests against every Vercel preview from GitHub Actions. Argos compares the screenshots and links the preview to the build."
 category: guides
 slug: run-argos-on-vercel-preview
 author: greg
 date: 2024-04-01
+updatedAt: 2026-11-27
 image: ./main.jpg
 imageAlt: "Abstract illustration of a deployment branching into a preview panel that feeds a visual comparison"
+related:
+  - playwright-visual-regression-testing-ci
+  - nextjs-visual-regression-testing
 ---
 
-Argos now offers a smooth integration with Vercel Preview for visual testing, enabling users to effectively identify visual regressions in an environment that closely simulates production. This guide provides a detailed walkthrough on configuring Argos on Vercel Preview through GitHub Actions, including shared source code for straightforward replication.
+Run your Playwright visual tests against the Vercel preview of each pull request, from GitHub Actions. Argos compares the screenshots with your baseline and links the preview to the build, so each screenshot opens on the same page of the preview.
 
 <MainImage />
 
-## The Benefits of Visual Testing with Vercel Preview
+## Why test the preview
 
-- **Cost Efficiency in CI**: Eliminate the need for duplicate application builds, saving time and resources.
+- **One build.** Vercel already built your app. CI only runs the tests, against the deployment your reviewers open.
+- **The real deployment.** Your tests see the app as Vercel serves it, with its preview environment variables and configuration, not a local server.
+- **The preview on the build.** Argos detects the preview your tests ran on and shows it on the build page and in the pull request comment.
 
-- **Enhanced Test Reliability**: Run visual tests in an environment that mirrors production, ensuring consistency and accuracy.
-
-**Important Note:** This strategy is most effective for idempotent tests that can be executed repeatedly without altering the environment. Tests involving significant modifications, like user deletions, might not be compatible.
+Keep these tests read-only. They run against a real deployment and its data, so a test that deletes a user or places an order changes what the next run sees.
 
 ## Prerequisites
 
-1. Setup [Playwright](https://playwright.dev/) on your project. For a Next.js application, follow [this guide](https://nextjs.org/docs/pages/building-your-application/testing/playwright).
-2. Deploy your project on [Vercel](https://vercel.com/).
+- A project deployed on [Vercel](https://vercel.com/), connected to its GitHub repository.
+- [Playwright](https://playwright.dev/) set up in the repository. For a Next.js app, follow the [Next.js Playwright guide](https://nextjs.org/docs/app/guides/testing/playwright).
 
-## Setup Argos in my project
+## 1. Create an Argos project
 
-### 1. Import your project in Argos
+[Sign up to Argos](https://app.argos-ci.com/signup), import your repository and copy its [project token](/docs/learn/account-and-access/project-tokens). Store it as the `ARGOS_TOKEN` secret of your GitHub repository.
 
-[Sign up to Argos](https://app.argos-ci.com/signup) and import your project. Save the `ARGOS_TOKEN` for later.
+Argos links the preview only to builds that authenticate with a project token or [GitHub Actions OIDC](/docs/learn/integrations/github-actions-authentication#oidc). Builds that use tokenless authentication skip it.
 
-![Argos Token displayed after importing a project](/assets/articles/run-argos-on-vercel-preview/argos-token.png)
-
-### 2. Install Argos Playwright SDK
+## 2. Install the Argos Playwright SDK
 
 ```sh
 npm install --save-dev @argos-ci/playwright
 ```
 
-### 3. Update your Playwright config
+## 3. Configure Playwright
 
-Argos integrates with Playwright using a custom reporter. To upload your screenshots to Argos when Playwright tests run, add `@argos-ci/playwright/reporter` in your `playwright.config.ts` file:
+Add the Argos reporter, which uploads the screenshots at the end of the run, and read the base URL from `BASE_URL`, which CI sets to the preview URL:
 
 ```ts
+// playwright.config.ts
 import { defineConfig } from "@playwright/test";
+import { createArgosReporterOptions } from "@argos-ci/playwright/reporter";
 
 export default defineConfig({
-  // ... other configuration
-
   reporter: [
     // Use "dot" reporter on CI, "list" otherwise (Playwright default).
     process.env.CI ? ["dot"] : ["list"],
-    // Add Argos reporter.
     [
       "@argos-ci/playwright/reporter",
-      {
-        // Upload to Argos on CI only.
-        uploadToArgos: !!process.env.CI,
-
-        // Set your Argos token.
-        token: "<YOUR-ARGOS-TOKEN>",
-      },
+      // Upload only on CI.
+      createArgosReporterOptions({ uploadToArgos: !!process.env.CI }),
     ],
   ],
-
   use: {
-    // On CI, we will set `BASE_URL` from Vercel preview URL
-    baseURL: process.env.CI ? process.env.BASE_URL : "http://localhost:3000",
-  },
-
-  extraHTTPHeaders: {
-    // Hide Vercel Toolbar in tests
-    "x-vercel-skip-toolbar": "0",
+    // The preview URL on CI, your local server otherwise.
+    baseURL: process.env.BASE_URL ?? "http://localhost:3000",
+    extraHTTPHeaders: {
+      // Keep the Vercel Toolbar out of screenshots.
+      "x-vercel-skip-toolbar": "1",
+    },
+    // Reduce text rendering differences between machines.
+    launchOptions: {
+      args: ["--disable-lcd-text", "--font-render-hinting=none"],
+    },
   },
 });
 ```
 
-### 4. Take screenshots of your app
+Vercel can add its toolbar to previews. The `x-vercel-skip-toolbar` header keeps it out of your screenshots ([Vercel docs](https://vercel.com/docs/vercel-toolbar/managing-toolbar)).
 
-The [Screenshot pages script](https://argos-ci.com/docs/learn/how-to-guides/visual-coverage/capture-screenshots-from-urls) from Argos's documentation was utilized for capturing the application's homepage, offering flexibility to include additional pages in the future.
+### If your previews use Deployment Protection
+
+A protected preview answers your tests with a sign-in page. Generate a secret under [Protection Bypass for Automation](https://vercel.com/docs/deployment-protection/methods-to-bypass-deployment-protection/protection-bypass-automation) in your Vercel project, store it as the `VERCEL_AUTOMATION_BYPASS_SECRET` secret of your repository, and send it with every request:
 
 ```ts
+extraHTTPHeaders: {
+  "x-vercel-skip-toolbar": "1",
+  ...(process.env.VERCEL_AUTOMATION_BYPASS_SECRET
+    ? {
+        "x-vercel-protection-bypass":
+          process.env.VERCEL_AUTOMATION_BYPASS_SECRET,
+        // Recommended by Vercel for in-browser tests.
+        "x-vercel-set-bypass-cookie": "true",
+      }
+    : {}),
+},
+```
+
+## 4. Take screenshots of your pages
+
+Loop over the pages to cover, one test each ([Capture screenshots from URLs](/docs/learn/how-to-guides/visual-coverage/capture-screenshots-from-urls)):
+
+```ts
+// tests/screenshot-pages.spec.ts
 import { argosScreenshot } from "@argos-ci/playwright";
 import { test } from "@playwright/test";
 
 const pages = [
   { name: "homepage", path: "/" },
-  // Add other pages if needed
+  { name: "pricing", path: "/pricing" },
 ];
 
 for (const { name, path } of pages) {
-  test(`run Argos on ${name} (${path})`, async ({ page }) => {
+  test(`Run Argos on ${name} (${path})`, async ({ page }) => {
     await page.goto(path);
     await argosScreenshot(page, name);
   });
 }
 ```
 
-## Run Argos on Vercel Preview
+`argosScreenshot` waits for fonts, images and loaders, and stops animations, before it captures the page.
 
-To initiate tests on Vercel Preview, the workflow will respond to the `deployment_status` event, triggering the test workflow upon a Vercel deployment notification.
+## 5. Run the tests when the preview is ready
 
-**Note:** Alternative approaches, such as the [Await for Vercel Deployment](https://github.com/marketplace/actions/await-for-vercel-deployment) action, can be utilized to retrieve the Vercel deployment URL for testing purposes.
-
-Below is an example of a workflow file designed to execute tests on a Vercel deployment:
+Vercel sends a `repository_dispatch` event to GitHub when a deployment succeeds, with its URL and the commit it deployed ([Vercel docs](https://vercel.com/docs/git/vercel-for-github#repository-dispatch-events)). Trigger the workflow on it:
 
 ```yml
-# .github/workflows/test-preview.yml
-name: Playwright + Argos Tests
+# .github/workflows/visual-tests.yml
+name: Visual tests
+
 on:
-  # Trigger on deployment event
-  deployment_status:
+  repository_dispatch:
+    types:
+      - "vercel.deployment.success"
+
+permissions:
+  contents: read
+  # Lets Argos find the pull request of the commit.
+  pull-requests: read
+
 jobs:
-  test:
-    # Run tests only if the deployment is successful
-    if: github.event_name == 'deployment_status' && github.event.deployment_status.state == 'success'
+  visual-tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+        with:
+          # Test the commit Vercel deployed, not the default branch.
+          ref: ${{ github.event.client_payload.git.sha }}
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci && npx playwright install --with-deps
 
       - name: Run Playwright tests
-        uses: docker://mcr.microsoft.com/playwright:v1.42.1-jammy
-        run: npm exec -- playwright test
+        run: npx playwright test
         env:
-          # Set the GITHUB_TOKEN, Argos will use it to retrieve
-          # informations about your deployment
-          # Read more about GITHUB_TOKEN here: https://docs.github.com/en/actions/security-guides/automatic-token-authentication
+          BASE_URL: ${{ github.event.client_payload.url }}
+          ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # Set `BASE_URL` with Vercel Preview URL
-          BASE_URL: ${{ github.event.deployment_status.environment_url }}
-          # If the test runs on the production deployment, use "main" as branch
-          # Here's "main" must be the reference branch set up in Argos
-          ARGOS_BRANCH: ${{ github.event.deployment_status.environment == 'Production' && 'main' || '' }}
+          # Only if your previews use Deployment Protection.
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
 ```
 
-For a comprehensive explanation of each step involved, refer to the [Argos Preview Deployment Guide](https://argos-ci.com/docs/learn/how-to-guides/ci-pipelines/run-on-preview-deployments).
+A few things to know about this event:
 
-Upon completion, you will receive status checks on GitHub:
+- **It runs from your default branch.** GitHub starts `repository_dispatch` workflows only when the file is on your default branch, so merge it before you expect a run. The `ref` input then checks out the commit Vercel deployed, so the tests come from the same commit as the preview.
+- **Argos reads the commit and branch from the event.** The Argos SDK takes them from the payload, and finds the pull request with `GITHUB_TOKEN`. Without it, the build is linked to its branch but not to the pull request.
+- **Production deployments run it too.** Their builds run on your production branch. Argos approves builds of `main` automatically by default, so each production deployment refreshes the baseline your previews are compared with.
 
-![GitHub pull request check statuses](/assets/articles/run-argos-on-vercel-preview/argos-checks.png)
+This guide used the `deployment_status` event before. Vercel now encourages workflows that depend on it to move to `repository_dispatch`.
 
-## Project Source Code
+## What you get on the pull request
 
-Explore the GitHub repository for the source code of this integration:
+Argos posts an `argos` commit status on the pull request, failing while changes wait for review, and the build page shows each change next to its baseline.
 
-- [GitHub Repository](https://github.com/jsfez/argos-vercel-preview)
-- [Example of pull request that runs tests against preview](https://github.com/jsfez/argos-vercel-preview/pull/2)
+Argos also detects the preview. Once the build is complete, it reads the URL of the page each screenshot captured, and records the origin most of them share, such as `https://my-app-git-feature-login-acme.vercel.app/`, as the deployment of that commit. The preview then shows:
 
-## Conclusion
+- **On the build page**, with its URL.
+- **On each screenshot.** It opens on the same page of the preview: Argos keeps the path and query your test captured and swaps the origin.
+- **In the pull request comment**, next to the build.
+- **In the Deployments tab** of your Argos project.
 
-Vercel Preview and Argos form a powerful duo in web development. Vercel Preview allows hands-on, manual verification of your web applications in real environments. Argos leverage automated visual regression testing, catching any discrepancies across devices and browsers. This combination, they make a great team, giving developers the peace of mind that their sites are both functionally robust and beautifully across all screens.
+There is nothing to configure. A test that leaves your app for a sign-in or payment page doesn't prevent it. If your tests run on a local server instead, report the preview from CI with `argos deploy --url <url>`. See [Link a deployment hosted elsewhere](/docs/learn/deployments/report-external-deployments).
+
+For the same setup with Netlify or Cloudflare, or triggered by `deployment_status`, see [Run on preview deployments](/docs/learn/how-to-guides/ci-pipelines/run-on-preview-deployments).

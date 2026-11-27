@@ -84,8 +84,8 @@ with the changes a build detected.
   (default), always, or never. It never replaces the individual statuses.
 - One pull request comment, edited in place on every update: each build's
   status, an Inspect link, and a **Details** column such as `2 added` or
-  `4 changed, 3 ignored`; deployments made with Argos are listed with their
-  preview URLs. The comment can be disabled in the project settings.
+  `4 changed, 3 ignored`; deployments are listed with their preview URLs,
+  whether Argos hosts them or Vercel, Netlify or Cloudflare does. The comment can be disabled in the project settings.
 - GitLab: commit statuses on merge requests through a bot user, with baseline
   selection from your commit history. No comment on GitLab.
 - Auto-approved branches (`main` by default, or any pattern you configure) are

@@ -66,7 +66,7 @@ Use the **`typefully-post`** skill: it owns the API access, the draft-creation c
 - **Image** — the entry's own illustration, already generated and reviewed at `public/assets/changelogs/<slug>/<slug>.jpg`. It goes on the hook post of both drafts (uploaded once per social set) so the posts and the page look like the same thing. Do not generate a second image for the same entry; a `code-card` on the post that shows commands is the one worthwhile addition.
 - **`plan_at`** — the entry's publication date at 09:00 Europe/Paris for `argos_ci` and 10:00 for `gregberge_`, e.g. `2026-08-10T09:00:00+02:00`. Omit it if the date is not settled.
 - **`draft_title`** — the changelog `title`, so the draft is findable next to the entry.
-- **Link** — `https://argos-ci.com/changelog/<slug>`, the same slug as the folder and the frontmatter.
+- **Link** — `https://argos-ci.com/changelog/<date>-<slug>`, the folder name with `-` in place of `__` (e.g. `/changelog/2026-11-25-stacked-pull-requests`). `/changelog/<slug>` alone is a 404: `lib/api/changelog.tsx` reads the date from the URL to find the folder.
 
 ## Checklist before finishing
 

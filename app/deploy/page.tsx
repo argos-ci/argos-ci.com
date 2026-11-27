@@ -303,7 +303,8 @@ export default function Page() {
                   Run <Code>deploy</Code> and <Code>upload</Code> on the same
                   commit and Argos posts a single pull request comment: the
                   deployment on top, the visual build results underneath. One
-                  place to open the preview and see what changed.
+                  place to open the preview and see what changed. Previews
+                  hosted on Vercel, Netlify or Cloudflare show up there too.
                 </>
               }
               href="/docs/learn/deployments/use-deployments-in-ci#combine-with-visual-testing"
